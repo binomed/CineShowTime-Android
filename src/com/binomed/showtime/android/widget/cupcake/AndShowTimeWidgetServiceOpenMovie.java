@@ -1,4 +1,4 @@
-package com.binomed.showtime.android.widget;
+package com.binomed.showtime.android.widget.cupcake;
 
 import java.util.Calendar;
 

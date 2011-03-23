@@ -44,5 +44,6 @@ public interface ParamIntent {
 	public static final String WIDGET_SCROLL_SENS = "and.binomed.showtime.widget.scrollSens"; //$NON-NLS-1$
 	public static final String WIDGET_ORIGIN = "and.binomed.showtime.widget.widgetOrigin"; //$NON-NLS-1$
 	public static final String WIDGET_REFRESH = "and.binomed.showtime.widget.widgetRefresh"; //$NON-NLS-1$
+	public static final String WIDGET_CUPCAKE = "and.binomed.showtime.widget.widgetCupcake"; //$NON-NLS-1$
 
 }

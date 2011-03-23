@@ -313,6 +313,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	}
 
 	protected void display() {
+		searchButton.findFocus();
 		if (controler.isServiceRunning()) {
 			openDialog();
 		} else {

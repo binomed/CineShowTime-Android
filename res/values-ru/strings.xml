@@ -29,22 +29,23 @@
 	<string name="msgNoDateMatch">Не найдено ни одного сеанса. Введите другую дату.</string>
 	<string name="msgNoUpComming">Эта информация пока недоступна. Попробуйте завтра.</string>
 	<string name="msgNoDFav">У вас нет ни одной закладки.</string>
-	<string name="msgVersionTitle">Версия AndShowTime : </string>
+	<string name="msgVersionTitle">Версия CineShowTime : </string>
 	<string name="msgVersionCode">Версия кода : </string>
 	<string name="msgVersionName">Название версии : </string>
 	<string name="msgTraductorName">Перевод : Stanislav Emelin</string>
-	<string name="msgDonation">Если вы хотите поддержать проект, посетите мой сайт : http://code.google.com/p/binomed-android-project/ </string>
+	<string name="msgDonation">Если вы хотите поддержать проект, посетите мой сайт : http://code.google.com/p/binomed-project/ </string>
 	<string name="msgSpeecCity">Распознавание голоса : запрашиваемый город</string>
 	<string name="msgSpeecMovie">Распознавание голоса : запрашиваемый фильм</string>
 	<string name="msgCalculating">Обрабатывается...</string>
 	<string name="btnClose">Закрыть</string>
 	<!--  Widget -->
-	<string name="widget_name_2x2">Android Show Time 2x2</string>
+	<string name="widget_name_2x2">CineShowTime 2x2</string>
+	<string name="widget_name_2x2_cupcake">CineShowTime 2x2 Cupcake</string>
 	<string name="msgNoResults">Фильмы не найдены</string>
 	<string name="msgLoading">Загрузка...</string>
 	<!--  Main acitivity -->
-	<string name="MainTitle">Добро пожаловать в Android Showtime Application</string>
-	<string name="app_name">Android Showtime</string>
+	<string name="MainTitle">Добро пожаловать в CineShowTime Application</string>
+	<string name="app_name">CineShowtime</string>
 	<string name="btnNear">Искать кинотеатр</string>
 	<string name="btnMovie">Искать фильм и расписание сеансов</string>
 	<string name="btnFav">Избранное</string>
@@ -104,8 +105,8 @@
 	<string name="menuAddEvent">Добавить в ежедневник</string>
 	<string name="menuRate">Оценить фильм</string>
 	<string name="msgRateSave">оценка сохранена</string>
-	<string name="smsContent">Я приглашаю тебя посмотреть вместе со мной фильм "{0}" {1} в {2} в кинотеатре "{3}" \n\n смс создано автоматически с помощью AndShowtime</string>
-	<string name="mailContent">Я приглашаю тебя посмотреть вместе со мной фильм <i>"{0}"</i> {1} в <b>{2}</b> в кинотеатре "{3}" \n\n письмо создано автоматически с помощью AndShowtime</string>
+	<string name="smsContent">Я приглашаю тебя посмотреть вместе со мной фильм "{0}" {1} в {2} в кинотеатре "{3}" \n\n смс создано автоматически с помощью CineShowTime</string>
+	<string name="mailContent">Я приглашаю тебя посмотреть вместе со мной фильм <i>"{0}"</i> {1} в <b>{2}</b> в кинотеатре "{3}" \n\n письмо создано автоматически с помощью CineShowTime</string>
 	<string name="mailSubject">Приглашение на фильм {0}</string>
 	<string name="chooseIntentSms">Отправить приглашение по смс</string>
 	<string name="chooseIntentMail">Отправить приглашение по почте</string>

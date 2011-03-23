@@ -29,23 +29,24 @@
 	<string name="msgNoDateMatch">Keine Vorstellungen gefunden. Geben Sie ein neues Datum ein.</string>
 	<string name="msgNoUpComming">Diese Informationen sind noch nicht verfügbar. Versuchen Sie es später wieder</string>
 	<string name="msgNoDFav">Sie haben keinen Favorit.</string>
-	<string name="msgVersionTitle">AndShowTime Version : </string>
+	<string name="msgVersionTitle">CineShowTime Version : </string>
 	<string name="msgVersionCode">Codeversion : </string>
 	<string name="msgVersionName">Name der Version : </string>
 	<string name="msgTraductorName">Übersetzung : Antoine Pros</string>
-	<string name="msgDonation">Eine kleine Spende? Besuchen Sie meine Website: http://code.google.com/p/binomed-android-project/ </string>
+	<string name="msgDonation">Eine kleine Spende? Besuchen Sie meine Website: http://code.google.com/p/binomed-project/ </string>
 	<string name="msgSpeecRecognition">Spracherkennung : </string>
 	<string name="msgSpeecCity">Spracherkennung : gesuchter Ortsname</string>
 	<string name="msgSpeecMovie">Spracherkennung : gesuchter Filmtitel</string>
 	<string name="msgCalculating">Daten werden geladen...</string>
 	<string name="btnClose">Schliessen</string>
 	<!--  Widget -->
-	<string name="widget_name_2x2">Android Show Time 2x2</string>
+	<string name="widget_name_2x2">CineShowTime 2x2</string>
+	<string name="widget_name_2x2_cupcake">CineShowTime 2x2 Cupcake</string>
 	<string name="msgNoResults">Kein Film gefunden</string>
 	<string name="msgLoading">Daten werden geladen...</string>
 	<!--  Main acitivity -->
-	<string name="MainTitle">Willkommen bei Android Showtime</string>
-	<string name="app_name">Android Showtime</string>
+	<string name="MainTitle">Willkommen bei CineShowTime</string>
+	<string name="app_name">CineShowTime</string>
 	<string name="btnNear">Kino suchen</string>
 	<string name="btnMovie">Film und Filmvorstellungen suchen</string>
 	<string name="btnFav">Favoriten</string>
@@ -105,8 +106,8 @@
 	<string name="menuAddEvent">Im Kalender eintragen</string>
 	<string name="menuRate">Film merken</string>
 	<string name="msgRateSave">Eintrag gespeichert</string>
-	<string name="smsContent">Wie wäre es mit Kino? Ich schlage vor, wir sehen uns den Film "{0}" {1} in der Vorstellung von {2} im Kino "{3}" \n\n Diese sms wurde automatisch von AndShowtime generiert</string>
-	<string name="mailContent">Wie wäre es mit Kino? Ich schlage vor, wir sehen uns den Film <i>"{0}"</i> {1} in der Vorstellung von <b>{2}</b> im Kino "{3}" \n\n Diese Email wurde automatisch von AndShowtime generiert</string>
+	<string name="smsContent">Wie wäre es mit Kino? Ich schlage vor, wir sehen uns den Film "{0}" {1} in der Vorstellung von {2} im Kino "{3}" \n\n Diese sms wurde automatisch von CineShowTime generiert</string>
+	<string name="mailContent">Wie wäre es mit Kino? Ich schlage vor, wir sehen uns den Film <i>"{0}"</i> {1} in der Vorstellung von <b>{2}</b> im Kino "{3}" \n\n Diese Email wurde automatisch von CineShowTime generiert</string>
 	<string name="mailSubject">Einladung zum Film {0}</string>
 	<string name="chooseIntentSms">Einladung per sms senden</string>
 	<string name="chooseIntentMail">Einladung per Email senden</string>

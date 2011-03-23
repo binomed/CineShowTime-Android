@@ -29,23 +29,24 @@
 	<string name="msgNoDateMatch"> No showtimes were found. Please select a different date.</string>
 	<string name="msgNoUpComming">Thoses information are not yet available. Please retry tomorow</string>
 	<string name="msgNoDFav">You don\'t have any bookmark.</string>
-	<string name="msgVersionTitle">AndShowTime version : </string>
+	<string name="msgVersionTitle">CineShowTime version : </string>
 	<string name="msgVersionCode">Code version : </string>
 	<string name="msgVersionName">Name version : </string>
 	<string name="msgTraductorName">Translate by : Hugo Chir</string>
-	<string name="msgDonation">Want to make a donation, please visit my website : http://code.google.com/p/binomed-android-project/ </string>
+	<string name="msgDonation">Want to make a donation, please visit my website : http://code.google.com/p/binomed-project/ </string>
 	<string name="msgSpeecRecognition">Speech recognition : </string>
 	<string name="msgSpeecCity">Speech recognition : name of city search</string>
 	<string name="msgSpeecMovie">Speech recognition : name of movie search</string>
 	<string name="msgCalculating">Calculating...</string>
 	<string name="btnClose">Close</string>
 	<!--  Widget -->
-	<string name="widget_name_2x2">Android Show Time 2x2</string>
+	<string name="widget_name_2x2">CineShowTime 2x2</string>
+	<string name="widget_name_2x2_cupcake">CineShowTime 2x2 Cupcake</string>
 	<string name="msgNoResults">No movie found</string>
 	<string name="msgLoading">Loading...</string>
 	<!--  Main acitivity -->
-	<string name="MainTitle">Bemvindo a Android Showtime Application</string>
-	<string name="app_name">Android Showtime</string>
+	<string name="MainTitle">Bemvindo a CineShowTime Application</string>
+	<string name="app_name">CineShowTime</string>
 	<string name="btnNear">Pesquisar sessões pertas da vossa casa</string>
 	<string name="btnMovie">Pesquisar um filme e as sessões pertos da vossa casa</string>
 	<string name="btnFav">Favoridos</string>
@@ -105,8 +106,8 @@
 	<string name="menuAddEvent">Add into Calendar</string>
 	<string name="menuRate">Rate movie</string>
 	<string name="msgRateSave">rate saved</string>
-	<string name="smsContent">Queres vir comigo ver o filme "{0}" {1} na sessão de {2} ao cinema "{3}" ?\n\n sms autotico fato por AndShowtime</string>
-	<string name="mailContent">Queres vir comigo ver o filme <i>"{0}"</i> {1} na sessão de <b>{2}</b> ao cinema "{3}" \n\n mail automatico fato por AndShowtime</string>
+	<string name="smsContent">Queres vir comigo ver o filme "{0}" {1} na sessão de {2} ao cinema "{3}" ?\n\n sms autotico fato por CineShowTime</string>
+	<string name="mailContent">Queres vir comigo ver o filme <i>"{0}"</i> {1} na sessão de <b>{2}</b> ao cinema "{3}" \n\n mail automatico fato por CineShowTime</string>
 	<string name="mailSubject">Convido para o filme {0}</string>
 	<string name="chooseIntentSms">Enviar convido sms</string>
 	<string name="chooseIntentMail">Enviar convido mail</string>

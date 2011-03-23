@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Commons -->
+	<string name="menuPreferences">Tercihler </string>
+	<string name="menuAbout">Hakkında </string>
+	<string name="menuHelp">Yardım </string>
+	<string name="openYoutubeMenuItem">Fragman Aramak</string>
+	<string name="openMapsMenuItem">Sinemayı bul</string>
+	<string name="openMapsDriveMenuItem">Sinemaya kadar giden yol</string>
+	<string name="search">Arama</string>
+	<string name="cityName">Şehir adı :</string>
+	<string name="movieName">Film adı :</string>
+	<string name="btnChkLocation">Şehir : </string>
+	<string name="spinnerToday">Bugün</string>
+	<string name="spinnerMonday">Pazartesi</string>
+	<string name="spinnerTuesday">Salı</string>
+	<string name="spinnerWenesday">Çarşamba</string>
+	<string name="spinnerThursday">Perşembe</string>
+	<string name="spinnerFriday">Cuma</string>
+	<string name="spinnerSaturday">Cumartesi</string>
+	<string name="spinnerSunday">Pazar</string>
+	<string name="spinnerChoseTitle">Gün seçiniz</string>
+	<string name="menuSort">Sonuçları sırala</string>
+	<string name="sortDialogTitle">Sıralama türünü seçiniz</string>
+	<string name="msgNoCityName">Aramayı başlatmadan önce bir şehir ismi seçiniz</string>
+	<string name="msgNoGps">Koordine bulunamadı... Lütfen yer değistirin veya az sonra tekrar deneyiniz</string>
+	<string name="msgNoMovieName">Aramayi başlatmadan önce bir film ismi seçiniz</string>
+	<string name="msgNoPlaceMatch">Hiçbir film bulunamadı.  Başka bir şehir ile tekrar deneyiniz.</string>
+	<string name="msgNoDateMatch">Hiçbir seans bulunamadı.  Başka bir tarih ile tekrar deneyiniz.</string>
+	<string name="msgNoUpComming">Bu bilgiler daha mevcut değildir.  Yarin tekrar deneyiniz.</string>
+	<string name="msgNoDFav">Favoriniz bulunmamaktadır.</string>
+	<string name="msgVersionTitle">AndShowTime versiyon : </string>
+	<string name="msgVersionCode">Kod versiyonu : </string>
+	<string name="msgVersionName">Versiyon ismi : </string>
+	<string name="msgTraductorName">Çeviri : Adem Altıntaş</string>
+	<string name="msgDonation">Bağiş yapmak isteyenler için internet sitem : http://code.google.com/p/binomed-android-project/ </string>
+	<string name="msgSpeecRecognition">Ses tanıma : </string>
+	<string name="msgSpeecCity">Ses tanıma : aradığınız şehirin adı</string>
+	<string name="msgSpeecMovie">Ses tanıma : aradığınız filmin adı</string>
+	<string name="msgCalculating">Hesaplanıyor...</string>
+	<string name="btnClose">Kapat</string>
+	<!--  Widget -->
+	<string name="widget_name_2x2">Android Show Time 2x2</string>
+	<string name="widget_name_2x2_cupcake">Android Show Time 2x2 Cupcake</string>
+	<string name="msgNoResults">Hiçbir film bulunamadı</string>
+	<string name="msgLoading">Yükleniyor...</string>
+	<!--  Main acitivity -->
+	<string name="MainTitle">Android Showtime Programına Hoşgeldiniz</string>
+	<string name="app_name">Android Showtime</string>
+	<string name="btnNear">Sinema ara</string>
+	<string name="btnMovie">Film ve seanslarını ara</string>
+	<string name="btnFav">Favorileriniz</string>
+	<string name="btnUpComming">Yakında</string>
+	<!-- GPS Messages -->
+	<string name="gpsInactiveTitle">GPS devre dışı ! </string>
+	<string name="gpsInactiveMsg">GPS\'inizi etkinleştirmek istermisiniz ? </string>
+	<string name="gpsInactiveBtnYes">Evet </string>
+	<string name="gpsInactiveBtnNo">Hayır </string>
+	<!-- Search Near Activity Message -->
+	<string name="hour">saat</string>
+	<string name="min">dk</string>
+	<string name="menuCall">Sinemayi ara</string>
+	<string name="menuFav">Favoriler</string>
+	<string name="menuLastShowtime">En son seanslar</string>
+	<string name="flagLastShowtime">en son seanslar</string>
+	<string name="addFav">Favorilere ekle </string>
+	<string name="searchNearProgressTitle">Film arama </string>
+	<string name="searchNearProgressMsg">Yükleniyor ... </string>
+	<string name="itemMoreTheaters">Daha fazla sinema </string>
+	<!-- Search Movie Activity Message -->
+	<string name="searchMovieProgressTitle">Seans arama </string>
+	<string name="searchMovieProgressMsg">Yükleniyor ... </string>
+	<string name="txtMovieFind">Film : </string>
+	<string name="txtMovieFindDuration">Süre : </string>
+	<string name="txtMovieFindValueNotFound">Hiçbir film bulunamadı</string>
+	<!-- Bookmarks Dialog Message -->
+	<string name="dialogBookmarkTitle">Favoriler </string>
+	<string name="menuRemoveBookmark">Favoriyi sil</string>
+	<!-- Last Showtime Dialog Message -->
+	<string name="dialogLastShowtimeTitle">En son Seanslar</string>
+	<string name="dialogLastShowtimeMsg">Haftanın en son seanslarını aramak istiyormusunuz ? \n Bu özellik istenilen sonuçları her zaman veremeyebilir..</string>
+	<string name="dialogLastShowtimeBtnYes">Evet</string>
+	<string name="dialogLastShowtimeBtnNon">Hayır</string>
+	<!-- Movie Activity Message -->
+	<string name="movieProgressTitle">Filmin afişini ara </string>
+	<string name="movieProgressMsg">Yükleniyor ... </string>
+	<string name="plot">Özet</string>
+	<string name="projectionList">Sinema saatlerı : </string>
+	<string name="projectionTime">Seans saatlerı : </string>
+	<string name="endHour">Bitiş saati (yaklaşık) : </string>
+	<string name="txtTitle">Isim : </string>
+	<string name="txtRate">Puan : </string>
+	<string name="txtUserRate">Puanınız: </string>
+	<string name="txtDuration">Süre : </string>
+	<string name="txtDirector">Yönetmen(ler) : </string>
+	<string name="txtActor">Oyuncu(lar) : </string>
+	<string name="txtGenre">Tür : </string>
+	<string name="tabSummary">Film afişi</string>
+	<string name="tabProjection">Projeksiyon listesi </string>
+	<string name="tabReviews">Yorumlar</string>
+	<string name="noSummary">Hiçbir konu bulunamadı... </string>
+	<string name="btnImdb">Imdb</string>
+	<string name="menuTranslate">Tercüme etmek </string>
+	<string name="menuSms">Kısa mesaj ile davet et</string>
+	<string name="menuMail">E-posta ile davet et</string>
+	<string name="menuAddEvent">Takvime ekle</string>
+	<string name="menuRate">Filme yorum yaz</string>
+	<string name="msgRateSave">yorum kaydedildi</string>
+	<string name="smsContent">Benimle "{0}" {1} filmininin {2} seansına "{3}" sinemasinda gelmeye davet ediyorum \n\n AndShowtime otomatik kısa mesajı</string>
+	<string name="mailContent">Benimle <i>"{0}"</i> {1} filmininin <b>{2}</b> seansina "{3}" sinemasinda gelmeye davet ediyorum \n\n AndShowtime otomatik e-posta mesajı</string>
+	<string name="mailSubject"> {0} isimli filme davetiye</string>
+	<string name="chooseIntentSms">Kısa mesaj davetiyesini gönder</string>
+	<string name="chooseIntentMail">E-posta davetiyesini gönder</string>
+	<string name="msgEventAdd">Seans takviminize eklenmiştir</string>
+	<!-- Rate Movie Dialog Message -->
+	<string name="dialogRateMovieTitle">Film\'e puan ver</string>
+	<string name="dialogRateMovieMsg">0 ile 10 arası puan veriniz</string>
+	<string name="dialogRateMovieValidate">Kabul</string>
+	<string name="dialogRateMovieCancel">Iptal</string>
+	<!-- Preferences Messages -->
+	<string name="preference_lang_cat">Dil seçimi </string>
+	<string name="preference_lang_key_auto_translate">check_preference</string>
+	<string name="preference_lang_auto_translate">Otomatik çeviri</string>
+	<string name="preference_lang_auto_translate_summary">Film özetini otomatikmen tercüme et</string>
+	<string name="preference_gen_cat">Genel tercihler</string>
+	<string name="preference_gen_key_auto_reload">auto_reload_preference</string>
+	<string name="preference_gen_auto_reload">Otomatik olarak yeniden yükle</string>
+	<string name="preference_gen_auto_reload_summary">Tarih değistiginde otomatik olarak yeniden yükle</string>
+	<string name="preference_gen_key_time_adds">time_adds_preference</string>
+	<string name="preference_gen_time_adds">Reklam süresi</string>
+	<string name="preference_gen_time_adds_summary">Seans saatiyle film saati arasindaki süre(reklam veya film özetleri)</string>
+	<string name="preference_gen_default_time_adds">20</string>
+	<string name="preference_loc_cat">Yer belirleme tercihleri</string>
+	<string name="preference_loc_key_measure">measure_preference</string>
+	<string name="preference_loc_default_measure">KM</string>
+	<string name="preference_loc_measure">Varsayılan birim</string>
+	<string name="preference_loc_measure_summary">Varsayılan biriminizi seçiniz</string>
+	<string name="preference_loc_key_time_direction">time_direction_preference</string>
+	<string name="preference_loc_time_direction">Yol süresi</string>
+	<string name="preference_loc_time_direction_summary">En yakin seansları gösterirken yol süresini her zaman dikkate al</string>
+	<string name="preference_loc_key_enable_localisation">enable_localisation_preference</string>
+	<string name="preference_loc_enable_localisation">Yer belirlemesine izin ver</string>
+	<string name="preference_loc_enable_localisation_summary">GPS veya GSM yer belirleme sistemini aktif haldeyse kullan</string>
+	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
+	<string name="preference_loc_localisation_provider">Yer belirleme modu</string>
+	<string name="preference_loc_localisation_provider_summary">Yer belirleme modunuzu seçiniz GSM veya GPS</string>
+	<string name="preference_loc_default_localisation_provider">GPS</string>
+	<string name="preference_sort_cat">Sıralama tercihleri</string>
+	<string name="preference_sort_key_sort_movie">sort_movie</string>
+	<string name="preference_sort_default_sort_movie">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_movie">Varsayılan film sıralama modu</string>
+	<string name="preference_sort_sort_movie_summary">Film araması için kullanılacak varsayılan sıralama modunu seçiniz</string>
+	<string name="preference_sort_key_sort_theater">sort_near</string>
+	<string name="preference_sort_default_sort_theater">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_theater">Varsayılan sinema sıralama modu</string>
+	<string name="preference_sort_sort_theater_summary">Yakınlık aramasi için kullanılacak varsayılan sıralama modunu seçiniz</string>
+	<string name="preference_user_cat">Kullanıcı tercihleri</string>
+	<string name="preference_user_agenda">Takvim seçimi</string>
+	<string name="preference_user_agenda_summary">Seansları aktarmak isteğiginiz takvimi seçimi</string>
+	<!-- Error messages -->
+	<string name="msgErrorNoDb">Veri tabanına bağlantı sağlanamadı. SD kartınızı kontrol ediniz.</string>
+	<string name="msgErrorNoNetwork">Bağlantı hatası oluştu, 3G veya kablosuz internet bağlantınızı kontrol ediniz</string>
+	<string name="msgErrorOnServer">Bağlantı sırasında hata oluştu.  Lütfen daha sonra tekrar deneyiniz.</string>
+</resources>

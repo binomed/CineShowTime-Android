@@ -22,6 +22,7 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,6 +94,7 @@ public class AndShowTimeMovieActivity extends Activity {
 	 */
 	private long minTime;
 	private boolean distanceTime;
+	private boolean homePress;
 
 	/*
 	 * (non-Javadoc)
@@ -108,7 +110,27 @@ public class AndShowTimeMovieActivity extends Activity {
 		model = controler.getModel();
 		listener = new ListenerMovieActivity(controler, model, this);
 
+		// Init star img
+		bitmapRateOff = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_off);
+		bitmapRateHalf = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_half);
+		bitmapRateOn = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_on);
+
+		createTabs();
+		initViews();
+		initlisteners();
+		initMenus();
+		controler.registerView(this);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		homePress = false;
+
 		String movieId = getIntent().getStringExtra(ParamIntent.MOVIE_ID);
+		Log.i(TAG, "Movie ID : " + movieId);
 		String theaterId = getIntent().getStringExtra(ParamIntent.THEATER_ID);
 		double latitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, 0);
 		double longitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, 0);
@@ -122,11 +144,6 @@ public class AndShowTimeMovieActivity extends Activity {
 			model.setGpsLocation(null);
 		}
 
-		// Init star img
-		bitmapRateOff = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_off);
-		bitmapRateHalf = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_half);
-		bitmapRateOn = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_on);
-
 		MovieBean movie = BeanManagerFactory.getMovieForId(movieId);
 		model.setMovie(movie);
 
@@ -134,12 +151,6 @@ public class AndShowTimeMovieActivity extends Activity {
 			TheaterBean theater = BeanManagerFactory.getTheaterForId(theaterId);
 			model.setTheater(theater);
 		}
-
-		createTabs();
-		initViews();
-		initlisteners();
-		initMenus();
-		controler.registerView(this);
 
 		try {
 			fillBasicInformations(movie);
@@ -156,18 +167,38 @@ public class AndShowTimeMovieActivity extends Activity {
 		} catch (Exception e) {
 			Log.e(TAG, "error on create", e); //$NON-NLS-1$
 		}
+	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.i(TAG, "onPause");
+		// if (homePress) {
+		finish();
+		// }
+	}
+
+	@Override
+	protected void onStop() {
+		Log.i(TAG, "onStop : ");
+		super.onStop();
 	}
 
 	// @Override
-	// protected void onResume() {
-	// super.onResume();
+	// public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+	// Log.i(TAG, "onKeyLongPress : " + (keyCode == KeyEvent.KEYCODE_HOME));
+	// if (homePress && (keyCode == KeyEvent.KEYCODE_HOME)) {
+	// homePress = false;
+	// }
+	// return super.onKeyLongPress(keyCode, event);
 	// }
 
-	// @Override
-	// protected void onPause() {
-	// super.onPause();
-	// }
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		Log.i(TAG, "onKeyDown : " + (keyCode == KeyEvent.KEYCODE_HOME));
+		homePress = (keyCode == KeyEvent.KEYCODE_HOME);
+		return super.onKeyDown(keyCode, event);
+	}
 
 	/**
 	 * 

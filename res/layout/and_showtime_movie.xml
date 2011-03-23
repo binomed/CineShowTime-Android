@@ -37,8 +37,8 @@
 							android:layout_height="wrap_content">
 							<ImageView 
 								android:id="@+id/moviePoster"
-								android:layout_width="100px" 
-								android:layout_height="140px"
+								android:layout_width="100dip" 
+								android:layout_height="140dip"
 								android:layout_marginRight="5dp"
 								>
 							</ImageView>
