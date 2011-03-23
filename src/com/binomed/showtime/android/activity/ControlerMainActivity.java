@@ -156,7 +156,15 @@ public class ControlerMainActivity {
 	 * @return
 	 */
 	public List<TheaterBean> getFavTheater() {
-		List<TheaterBean> theaterList = AndShowtimeDB2AndShowtimeBeans.extractFavTheaterList(mDbHelper);
+		openDB();
+		List<TheaterBean> theaterList = null;
+		try {
+			theaterList = AndShowtimeDB2AndShowtimeBeans.extractFavTheaterList(mDbHelper);
+		} catch (Exception e) {
+			Log.e(TAG, "Error during getting fav", e);
+		} finally {
+			closeDB();
+		}
 
 		return theaterList;
 	}
