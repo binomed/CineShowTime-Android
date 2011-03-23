@@ -50,7 +50,7 @@ public abstract class AndShowtimeRequestManage {
 		andShowtimeUriBuilder.setAdress(HttpParamsCst.BINOMED_APP_URL);
 		andShowtimeUriBuilder.completePath(HttpParamsCst.BINOMED_APP_PATH);
 		andShowtimeUriBuilder.completePath(HttpParamsCst.NEAR_GET_METHODE);
-		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LANG, Locale.getDefault().getCountry());
+		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LANG, Locale.getDefault().getLanguage());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_OUTPUT, HttpParamsCst.VALUE_XML);
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_ZIP, HttpParamsCst.VALUE_TRUE);
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_IE, AndShowTimeEncodingUtil.getEncoding());
@@ -223,7 +223,7 @@ public abstract class AndShowtimeRequestManage {
 		andShowtimeUriBuilder.setAdress(HttpParamsCst.BINOMED_APP_URL);
 		andShowtimeUriBuilder.completePath(HttpParamsCst.BINOMED_APP_PATH);
 		andShowtimeUriBuilder.completePath(HttpParamsCst.MOVIE_GET_METHODE);
-		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LANG, Locale.getDefault().getCountry());
+		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LANG, Locale.getDefault().getLanguage());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_OUTPUT, HttpParamsCst.VALUE_XML);
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_ZIP, HttpParamsCst.VALUE_TRUE);
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_IE, AndShowTimeEncodingUtil.getEncoding());
@@ -415,7 +415,7 @@ public abstract class AndShowtimeRequestManage {
 		andShowtimeUriBuilder.setProtocol(HttpParamsCst.BINOMED_APP_PROTOCOL);
 		andShowtimeUriBuilder.setAdress(HttpParamsCst.BINOMED_APP_URL);
 		andShowtimeUriBuilder.completePath(HttpParamsCst.IMDB_GET_METHODE);
-		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LANG, Locale.getDefault().getCountry());
+		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LANG, Locale.getDefault().getLanguage());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_OUTPUT, HttpParamsCst.VALUE_XML);
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_ZIP, HttpParamsCst.VALUE_TRUE);
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_IE, AndShowTimeEncodingUtil.getEncoding());

@@ -37,7 +37,7 @@
 	<string name="msgSpeecCity">Распознавание голоса : запрашиваемый город</string>
 	<string name="msgSpeecMovie">Распознавание голоса : запрашиваемый фильм</string>
 	<string name="msgCalculating">Обрабатывается...</string>
-	<string name="msgNoResultRetryLater">No showtimes where found for the moment, there maybe a problem on server. Please retry.</string>
+	<string name="msgNoResultRetryLater">Не найдено ни одного сеанса. Наверное, возникла проблема на сервере. Пожалуйста, попробуйте повторить поиск позже.</string>
 	<string name="btnClose">Закрыть</string>
 	<!--  Widget -->
 	<string name="widget_name_2x2">CineShowTime 2x2</string>
@@ -73,6 +73,8 @@
 	<string name="txtMovieFind">Фильм : </string>
 	<string name="txtMovieFindDuration">Длительность : </string>
 	<string name="txtMovieFindValueNotFound">Не найдено ни одного фильма по вашему запросу</string>
+	<!-- LastChange Dialog Message -->
+	<string name="dialogLastChangeTitle">Last Change</string>
 	<!-- Bookmarks Dialog Message -->
 	<string name="dialogBookmarkTitle">Избранное </string>
 	<string name="menuRemoveBookmark">Удалить закладку</string>

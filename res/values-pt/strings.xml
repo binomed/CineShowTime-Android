@@ -73,6 +73,8 @@
 	<string name="txtMovieFind">Filme : </string>
 	<string name="txtMovieFindDuration">duração : </string>
 	<string name="txtMovieFindValueNotFound">Nenhum filme corresponde a sua procura</string>
+	<!-- LastChange Dialog Message -->
+	<string name="dialogLastChangeTitle">Last Change</string>
 	<!-- Bookmarks Dialog Message -->
 	<string name="dialogBookmarkTitle">Favoritos </string>
 	<string name="menuRemoveBookmark">Remover Favoritos</string>

@@ -42,16 +42,16 @@
 		<item>40</item>
 	</string-array>
 	<string-array name="sort_theaters_values">
-		<item>by theater name</item>
-		<item>by theater distance</item>
-		<item>by show time</item>
+		<item>by cinema name</item>
+		<item>by cinema distance</item>
+		<item>by showing time</item>
 		<!-- <item>by movie title</item>-->
 		<!-- <item>by user preferences (slower)</item>-->
 	</string-array>
 	<string-array name="sort_movies_values">
 		<item>by theater name</item>
 		<item>by theater distance</item>
-		<item>by show time</item>
+		<item>by showing time</item>
 	</string-array>
 	<string-array name="sort_theaters_values_code">
 		<item>THEATER_NAME</item>

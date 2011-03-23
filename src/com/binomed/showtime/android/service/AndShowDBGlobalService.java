@@ -101,6 +101,12 @@ public class AndShowDBGlobalService extends Service {
 				};
 				break;
 			}
+			case AndShowtimeCst.DB_TYPE_LAST_CHANGE_WRITE: {
+				data = new int[] { //
+				intent.getIntExtra(ParamIntent.SERVICE_DB_VAL_VERSION_CODE, -1) //
+				};
+				break;
+			}
 			default:
 				break;
 			}
@@ -180,6 +186,10 @@ public class AndShowDBGlobalService extends Service {
 						}
 						case AndShowtimeCst.DB_TYPE_SKYHOOK_REGISTRATION: {
 							mDbHelper.createSkyHookRegistration();
+							break;
+						}
+						case AndShowtimeCst.DB_TYPE_LAST_CHANGE_WRITE: {
+							mDbHelper.createLastChange(((int[]) action.getData())[0]);
 							break;
 						}
 						default:

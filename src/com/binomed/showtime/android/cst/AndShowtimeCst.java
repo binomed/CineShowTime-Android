@@ -20,5 +20,6 @@ public final class AndShowtimeCst {
 	public static final int DB_TYPE_FAV_DELETE = 6;
 	public static final int DB_TYPE_CURENT_MOVIE_WRITE = 7;
 	public static final int DB_TYPE_SKYHOOK_REGISTRATION = 8;
+	public static final int DB_TYPE_LAST_CHANGE_WRITE = 9;
 
 }

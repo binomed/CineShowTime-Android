@@ -39,6 +39,7 @@ public interface ParamIntent {
 	public static final String SERVICE_DB_SAVE_MOVIE_ID = "and.binomed.showtime.db.service.movieId"; //$NON-NLS-1$
 	public static final String SERVICE_DB_VAL_SAVE_ALL = "and.binomed.showtime.db.service.saveAll"; //$NON-NLS-1$
 	public static final String SERVICE_DB_VAL_SAVE_MOVIE = "and.binomed.showtime.db.service.saveMovie"; //$NON-NLS-1$
+	public static final String SERVICE_DB_VAL_VERSION_CODE = "and.binomed.showtime.db.service.codeVersion"; //$NON-NLS-1$
 
 	public static final String WIDGET_START = "and.binomed.showtime.widget.start"; //$NON-NLS-1$
 	public static final String WIDGET_SCROLL_SENS = "and.binomed.showtime.widget.scrollSens"; //$NON-NLS-1$

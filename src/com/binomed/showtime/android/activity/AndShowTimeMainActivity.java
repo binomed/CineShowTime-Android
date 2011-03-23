@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.layout.dialogs.last.LastChangeDialog;
 import com.binomed.showtime.android.service.AndShowCleanFileService;
 import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
@@ -73,6 +74,8 @@ public class AndShowTimeMainActivity extends Activity {
 
 		controler.registerView(this);
 
+		display();
+
 	}
 
 	/*
@@ -113,6 +116,14 @@ public class AndShowTimeMainActivity extends Activity {
 		buttonSearchNear.setOnClickListener(listener);
 		buttonSearchMovie.setOnClickListener(listener);
 		buttonTheatersFav.setOnClickListener(listener);
+
+	}
+
+	private void display() {
+		if (this.controler.showLastChange()) {
+			LastChangeDialog dialog = new LastChangeDialog(this);
+			dialog.show();
+		}
 
 	}
 

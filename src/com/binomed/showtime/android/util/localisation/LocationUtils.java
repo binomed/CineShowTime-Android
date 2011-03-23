@@ -279,16 +279,32 @@ public final class LocationUtils {
 	public static ProviderEnum getProvider(SharedPreferences prefs, Context context) {
 		String provider = prefs.getString(context.getResources().getString(R.string.preference_loc_key_localisation_provider) //
 				, context.getResources().getString(R.string.preference_loc_default_localisation_provider));
-		ProviderEnum providerValue = ProviderEnum.GPS_PROVIDER;
-		if (ProviderEnum.GPS_PROVIDER.getAndroidProvider().equals(provider)) {
+
+		String[] entriesInitial = context.getResources().getStringArray(R.array.mode_localisation);
+		String[] entryValuesInitial = context.getResources().getStringArray(R.array.mode_localisation_code);
+
+		int i = 0;
+		for (String entrie : entriesInitial) {
+			if (entrie.equals(provider)) {
+				break;
+			}
+			i++;
+		}
+		if (i == entriesInitial.length) {
+			i = 0;
+		}
+		provider = entryValuesInitial[i];
+
+		ProviderEnum providerValue = ProviderEnum.GSM_PROVIDER;
+		if (ProviderEnum.GPS_PROVIDER.getPreferencesCode().equals(provider)) {
 			providerValue = ProviderEnum.GPS_PROVIDER;
-		} else if (ProviderEnum.GPS_PROVIDER.getAndroidProvider().equals(provider)) {
+		} else if (ProviderEnum.GSM_PROVIDER.getPreferencesCode().equals(provider)) {
 			providerValue = ProviderEnum.GSM_PROVIDER;
-		} else if (ProviderEnum.WIFI_PROVIDER.getAndroidProvider().equals(provider)) {
+		} else if (ProviderEnum.WIFI_PROVIDER.getPreferencesCode().equals(provider)) {
 			providerValue = ProviderEnum.WIFI_PROVIDER;
-		} else if (ProviderEnum.IP_PROVIDER.getAndroidProvider().equals(provider)) {
+		} else if (ProviderEnum.IP_PROVIDER.getPreferencesCode().equals(provider)) {
 			providerValue = ProviderEnum.IP_PROVIDER;
-		} else if (ProviderEnum.XPS_PROVIDER.getAndroidProvider().equals(provider)) {
+		} else if (ProviderEnum.XPS_PROVIDER.getPreferencesCode().equals(provider)) {
 			providerValue = ProviderEnum.XPS_PROVIDER;
 		}
 

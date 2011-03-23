@@ -3,6 +3,7 @@ package com.binomed.showtime.android.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -47,17 +48,17 @@ public class AndShowTimePreferencesActivity extends PreferenceActivity {
 		if (!entryList.isEmpty()) {
 			int i = 0;
 			int index = 0;
-			String[] entriesInitial = getResources().getStringArray(R.array.mode_localisation_code);
-			String[] entryValuesInitial = getResources().getStringArray(R.array.mode_localisation);
+			String[] entriesInitial = getResources().getStringArray(R.array.mode_localisation);
+			String[] entryValuesInitial = getResources().getStringArray(R.array.mode_localisation_code);
 			for (ProviderEnum providerTmp : entryList) {
 				index = 0;
-				for (String entrieTemp : entriesInitial) {
-					if (entrieTemp.equals(providerTmp.getPreferencesCode())) {
+				for (String entryValueTemp : entryValuesInitial) {
+					if (entryValueTemp.equals(providerTmp.getPreferencesCode())) {
 						break;
 					}
 					index++;
 				}
-				if (index < entriesInitial.length) {
+				if (index < entryValuesInitial.length) {
 					entries[i] = entriesInitial[index];
 					entryValues[i] = entryValuesInitial[index];
 				}
@@ -69,18 +70,25 @@ public class AndShowTimePreferencesActivity extends PreferenceActivity {
 				provider = entryList.get(0);
 			}
 			index = 0;
-			for (String entrieTemp : entriesInitial) {
-				if (entrieTemp.equals(provider.getPreferencesCode())) {
+			for (String entryValueTemp : entryValuesInitial) {
+				if (entryValueTemp.equals(provider.getPreferencesCode())) {
 					break;
 				}
 				index++;
 			}
-			if (index < entriesInitial.length) {
-				listProvider.setValue(entryValuesInitial[index]);
+			if (index < entryValuesInitial.length) {
+				listProvider.setValue(entriesInitial[index]);
 			}
 
+			// listProvider.setEntries(entries);
+			// listProvider.setEntryValues(entryValues);
 			listProvider.setEntries(entries);
-			listProvider.setEntryValues(entryValues);
+			listProvider.setEntryValues(entries);
+
 		}
+
+		Editor editor = getPreferenceManager().getSharedPreferences().edit();
+
+		editor.commit();
 	}
 }

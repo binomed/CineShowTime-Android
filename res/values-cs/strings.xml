@@ -74,6 +74,8 @@
 	<string name="txtMovieFind">Film : </string>
 	<string name="txtMovieFindDuration">Délka : </string>
 	<string name="txtMovieFindValueNotFound">Požadovaný film není dostupný</string>
+	<!-- LastChange Dialog Message -->
+	<string name="dialogLastChangeTitle">Last Change</string>
 	<!-- Bookmarks Dialog Message -->
 	<string name="dialogBookmarkTitle">Záložky</string>
 	<string name="menuRemoveBookmark">Odstranit záložku</string>

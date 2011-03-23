@@ -3,14 +3,18 @@ package com.binomed.showtime.android.activity;
 import java.util.List;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
+import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.searchmovieactivity.AndShowTimeSearchMovieActivity;
 import com.binomed.showtime.android.searchnearactivity.AndShowTimeSearchNearActivity;
+import com.binomed.showtime.android.service.AndShowDBGlobalService;
 import com.binomed.showtime.android.util.AndShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.TheaterBean;
@@ -37,7 +41,6 @@ public class ControlerMainActivity {
 
 	public void registerView(AndShowTimeMainActivity mainActivity) {
 		this.mainActivity = mainActivity;
-		openDB();
 	}
 
 	/*
@@ -104,6 +107,49 @@ public class ControlerMainActivity {
 		} catch (SQLException e) {
 			Log.e(TAG, "error during getting fetching informations", e); //$NON-NLS-1$
 		}
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean showLastChange() {
+		openDB();
+		boolean result = false;
+		Cursor cursorLastChange = mDbHelper.fetchLastChange();
+		int versionCode = -1;
+		try {
+			PackageInfo pi = mainActivity.getPackageManager().getPackageInfo(mainActivity.getPackageName(), 0);
+			versionCode = pi.versionCode;
+		} catch (Exception e) {
+			Log.e(TAG, "Error getting package for activity", e); //$NON-NLS-1$
+		}
+		if (cursorLastChange != null) {
+			try {
+				if (cursorLastChange.moveToFirst()) {
+					int columnIndex = cursorLastChange.getColumnIndex(AndShowtimeDbAdapter.KEY_LAST_CHANGE_VERSION);
+					int codeVersion = cursorLastChange.getInt(columnIndex);
+
+					result = codeVersion != versionCode;
+
+				} else {
+					result = true;
+				}
+			} finally {
+				cursorLastChange.close();
+				closeDB();
+			}
+		} else {
+			result = true;
+		}
+
+		if (result) {
+			Intent intentService = new Intent(mainActivity, AndShowDBGlobalService.class);
+			intentService.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_LAST_CHANGE_WRITE);
+			intentService.putExtra(ParamIntent.SERVICE_DB_VAL_VERSION_CODE, versionCode);
+			mainActivity.startService(intentService);
+		}
+
+		return result;
 	}
 
 	/**

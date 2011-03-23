@@ -74,6 +74,8 @@
 	<string name="txtMovieFind">Film : </string>
 	<string name="txtMovieFindDuration">Süre : </string>
 	<string name="txtMovieFindValueNotFound">Hiçbir film bulunamadı</string>
+	<!-- LastChange Dialog Message -->
+	<string name="dialogLastChangeTitle">Last Change</string>
 	<!-- Bookmarks Dialog Message -->
 	<string name="dialogBookmarkTitle">Favoriler </string>
 	<string name="menuRemoveBookmark">Favoriyi sil</string>

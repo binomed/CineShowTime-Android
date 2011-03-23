@@ -43,14 +43,14 @@
 	</string-array>
 	<string-array name="sort_theaters_values">
 		<item>par nom de cinéma</item>
-		<item>par distance de cinéma</item>
+		<item>par distance du cinéma</item>
 		<item>par heure de séance la plus proche</item>
 		<!-- <item>par nom de film</item>-->
 		<!-- <item>par préférence utilisateur (plus lent)</item>-->
 	</string-array>
 	<string-array name="sort_movies_values">
 		<item>par nom de cinéma</item>
-		<item>par distance de cinéma</item>
+		<item>par distance du cinéma</item>
 		<item>par heure de séance la plus proche</item>
 	</string-array>
 	<string-array name="sort_theaters_values_code">

@@ -60,6 +60,8 @@ public final class AndShowTimeEncodingUtil {
 			language = Language.THAI;
 		} else if (locale.getLanguage().equals("pt")) {
 			language = Language.PORTUGUESE;
+		} else if (locale.getLanguage().equals("cs")) {
+			language = Language.CZECH;
 		} else {
 			language = Language.ENGLISH;
 		}

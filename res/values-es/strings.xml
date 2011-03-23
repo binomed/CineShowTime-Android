@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Commons -->
+	<string name="menuPreferences">Opciones</string>
+	<string name="menuAbout">Acerca de...</string>
+	<string name="menuHelp">Ayuda</string>
+	<string name="openYoutubeMenuItem">Buscar trailer</string>
+	<string name="openMapsMenuItem">Ubicar cine</string>
+	<string name="openMapsDriveMenuItem">Ruta al cine</string>
+	<string name="search">Buscar</string>
+	<string name="cityName">Ciudad:</string>
+	<string name="movieName">Película:</string>
+	<string name="btnChkLocation">Por ciudad:</string>
+	<string name="spinnerToday">Hoy</string>
+	<string name="spinnerMonday">Lunes</string>
+	<string name="spinnerTuesday">Martes</string>
+	<string name="spinnerWenesday">Miércoles</string>
+	<string name="spinnerThursday">Jueves</string>
+	<string name="spinnerFriday">Viernes</string>
+	<string name="spinnerSaturday">Sábado</string>
+	<string name="spinnerSunday">Domingo</string>
+	<string name="spinnerChoseTitle">Seleccione un día</string>
+	<string name="menuSort">Ordenar los resultados</string>
+	<string name="sortDialogTitle">Modo de clasificación</string>
+	<string name="msgNoCityName">Tiene que introducir un nombre de ciudad antes de iniciar una búsqueda</string>
+	<string name="msgNoGps">No coordenadas encontradas... Por favor, muévese o intente más tarde</string>
+	<string name="msgNoMovieName">Tiene que introducir un título de película antes de iniciar una búsqueda</string>
+	<string name="msgNoPlaceMatch">No película encontrada. Intente con otra ciudad</string>
+	<string name="msgNoDateMatch">No sesión encontrada. Intente con otra fecha</string>
+	<string name="msgNoUpComming">Estos datos todavía no están disponibles. Intente mañana</string>
+	<string name="msgNoDFav">No tiene ningún favorito</string>
+	<string name="msgVersionTitle">CineShowTime versión:</string>
+	<string name="msgVersionCode">Versión del código:</string>
+	<string name="msgVersionName">Nombre de la versión:</string>
+	<string name="msgTraductorName">Tradujido por: Colin Maudry</string>
+	<string name="msgDonation">Si quiere hacer una donacion, por favor visite mi sitio Web: http://code.google.com/p/binomed-android-project/</string>
+	<string name="msgSpeecRecognition">Reconocimiento de voz:</string>
+	<string name="msgSpeecCity">Reconocimiento de voz: ciudad buscada</string>
+	<string name="msgSpeecMovie">Reconocimiento de voz: película buscada</string>
+	<string name="msgCalculating">Espere por favor...</string>
+	<string name="msgNoResultRetryLater">No sesión encontrada, puede haber un error con el servidor. Intente de nuevo más tarde</string>
+	<string name="btnClose">Cerrar</string>
+	<!--  Widget -->
+	<string name="widget_name_2x2">CineShowTime 2x2</string>
+	<string name="widget_name_2x2_cupcake">CineShowTime 2×2 Cupcake</string>
+	<string name="msgNoResults">No película encontrada</string>
+	<string name="msgLoading">Cargando...</string>
+	<!--  Main acitivity -->
+	<string name="MainTitle">Bienvenido en CineShowTime</string>
+	<string name="app_name">CineShowTime</string>
+	<string name="btnNear">Buscar cine</string>
+	<string name="btnMovie">Buscar sesiones para una peli</string>
+	<string name="btnFav">Favoritos</string>
+	<string name="btnUpComming">Próximamente</string>
+	<!-- GPS Messages -->
+	<string name="gpsInactiveTitle">¡GPS desactivado!</string>
+	<string name="gpsInactiveMsg">¿Quiere activar el GPS?</string>
+	<string name="gpsInactiveBtnYes">Sí</string>
+	<string name="gpsInactiveBtnNo">No</string>
+	<!-- Search Near Activity Message -->
+	<string name="hour">h</string>
+	<string name="min">min</string>
+	<string name="menuCall">Llamar cine</string>
+	<string name="menuFav">Favoritos</string>
+	<string name="menuLastShowtime">Ultimas sesiones</string>
+	<string name="flagLastShowtime">Ultimas sesiones</string>
+	<string name="addFav">Añadir a los favoritos</string>
+	<string name="searchNearProgressTitle">Búsqueda de películas</string>
+	<string name="searchNearProgressMsg">Cargando...</string>
+	<string name="itemMoreTheaters">Más cines</string>
+	<!-- Search Movie Activity Message -->
+	<string name="searchMovieProgressTitle">Búsqueda de sesiones</string>
+	<string name="searchMovieProgressMsg">Cargando...</string>
+	<string name="txtMovieFind">Película:</string>
+	<string name="txtMovieFindDuration">Duración:</string>
+	<string name="txtMovieFindValueNotFound">Ninguna película corresponde a su búsqueda</string>
+	<!-- LastChange Dialog Message -->
+	<string name="dialogLastChangeTitle">Last Change</string>
+	<!-- Bookmarks Dialog Message -->
+	<string name="dialogBookmarkTitle">Favoritos</string>
+	<string name="menuRemoveBookmark">Borrar favorito</string>
+	<!-- Last Showtime Dialog Message -->
+	<string name="dialogLastShowtimeTitle">Ultimas sesiones</string>
+	<string name="dialogLastShowtimeMsg">¿Quiere buscar las películas que pasan por la última vez esta semana?\nEsta funcionalidad es imprecisa y puede no funcionar.</string>
+	<string name="dialogLastShowtimeBtnYes">Sí</string>
+	<string name="dialogLastShowtimeBtnNon">No</string>
+	<!-- Movie Activity Message -->
+	<string name="movieProgressTitle">Ficha de la película</string>
+	<string name="movieProgressMsg">Cargando...</string>
+	<string name="plot">Guión</string>
+	<string name="projectionList">Horarios para el cine:</string>
+	<string name="projectionTime">Hora de la sesión: </string>
+	<string name="endHour">Hora aproximativa de fin: </string>
+	<string name="txtTitle">Título:</string>
+	<string name="txtRate">Nota:</string>
+	<string name="txtUserRate">Su nota:</string>
+	<string name="txtDuration">Duración:</string>
+	<string name="txtDirector">Director(es):</string>
+	<string name="txtActor">Actor(es):</string>
+	<string name="txtGenre">Estilo:</string>
+	<string name="tabSummary">Película</string>
+	<string name="tabProjection">Lista de las sesiones</string>
+	<string name="tabReviews">Críticas</string>
+	<string name="noSummary">Ningún guión encontrado...</string>
+	<string name="btnImdb">Imdb</string>
+	<string name="menuTranslate">Traducir</string>
+	<string name="menuSms">Invitar por mensaje</string>
+	<string name="menuMail">Invitar por email</string>
+	<string name="menuAddEvent">Agregar al agenda</string>
+	<string name="menuRate">Dar una nota</string>
+	<string name="msgRateSave">Nota guardada</string>
+	<string name="smsContent">Te propongo ir conmigo a ver "{0}" {1} a la sesión de las {2} al cine {3} \n\n Mensaje autogenerado por CineShowtime</string>
+	<string name="mailContent">Te propongo ir conmigo a ver <i>"{0}"</i> {1} a la sesión de las <b>{2}</b> al cine "{3}" \n\n Email autogenerado por CineShowtime</string>
+	<string name="mailSubject">Invitación a ver {0}</string>
+	<string name="chooseIntentSms">Mandar invitación por mensaje</string>
+	<string name="chooseIntentMail">Mandar invitación por email</string>
+	<string name="msgEventAdd">Sesión anadida al agenda</string>
+	<!-- Rate Movie Dialog Message -->
+	<string name="dialogRateMovieTitle">Dar una nota</string>
+	<string name="dialogRateMovieMsg">De una nota entre 0 y 10</string>
+	<string name="dialogRateMovieValidate">Validar</string>
+	<string name="dialogRateMovieCancel">Cancelar</string>
+	<!-- Preferences Messages -->
+	<string name="preference_lang_cat">Opciones de idioma</string>
+	<string name="preference_lang_key_auto_translate">check_preference</string>
+	<string name="preference_lang_auto_translate">Traducción automática</string>
+	<string name="preference_lang_auto_translate_summary">Traducir automáticamente los guiones</string>
+	<string name="preference_gen_cat">Opciones principales</string>
+	<string name="preference_gen_key_auto_reload">auto_reload_preference</string>
+	<string name="preference_gen_auto_reload">Actualizar búsquedad</string>
+	<string name="preference_gen_auto_reload_summary">Actualizar automáticamente la búsquedad si la fecha ha cambiado</string>
+	<string name="preference_gen_key_time_adds">time_adds_preference</string>
+	<string name="preference_gen_time_adds">Duración de anuncios</string>
+	<string name="preference_gen_time_adds_summary">Tiempo entre la hora de la sesión y el principio de la película</string>
+	<string name="preference_gen_default_time_adds">20</string>
+	<string name="preference_loc_cat">Opciones de localización</string>
+	<string name="preference_loc_key_measure">measure_preference</string>
+	<string name="preference_loc_default_measure">KM</string>
+	<string name="preference_loc_measure">Unidad por defecto</string>
+	<string name="preference_loc_measure_summary">Selccionar la unidad de medida por defecto.</string>
+	<string name="preference_loc_key_time_direction">time_direction_preference</string>
+	<string name="preference_loc_time_direction">Tiempo de trayecto</string>
+	<string name="preference_loc_time_direction_summary">Tomar en cuenta el tiempo de trayecto al mostrar las sesiones cercanas</string>
+	<string name="preference_loc_key_enable_localisation">enable_localisation_preference</string>
+	<string name="preference_loc_enable_localisation">Activar localización</string>
+	<string name="preference_loc_enable_localisation_summary">Usar la localización GPS o GSM si está activada.</string>
+	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
+	<string name="preference_loc_localisation_provider">Modo de localización</string>
+	<string name="preference_loc_localisation_provider_summary">Seleccionar el modo de localización (GPS, GSM,IP, XPS)</string>
+	<string name="preference_loc_default_localisation_provider">GPS</string>
+	<string name="preference_sort_cat">Opciones de clasificación</string>
+	<string name="preference_sort_key_sort_movie">sort_movie</string>
+	<string name="preference_sort_default_sort_movie">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_movie">Clasificación de pelis</string>
+	<string name="preference_sort_sort_movie_summary">Seleccionar el modo de clasificación para los resultados de búsqueda de pelis</string>
+	<string name="preference_sort_key_sort_theater">sort_near</string>
+	<string name="preference_sort_default_sort_theater">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_theater">Clasificación de cines</string>
+	<string name="preference_sort_sort_theater_summary">Seleccionar el modo de clasificación de las sesiones cercanas</string>
+	<string name="preference_user_cat">Opciones del usuario</string>
+	<string name="preference_user_agenda">Selección del agenda</string>
+	<string name="preference_user_agenda_summary">Agenda usado para el añadido de sesiones</string>
+	<!-- Error messages -->
+	<string name="msgErrorNoDb">Error durante la conexión a la base de datos. Verifique su tarjeta SD</string>
+	<string name="msgErrorNoNetwork">Error durante la conexión, verifique su conexión 3G o Wifi</string>
+	<string name="msgErrorOnServer">Error durante la conexión al servidor. Intente más tarde</string>
+</resources>

@@ -132,6 +132,8 @@ public class AndShowtimeDbAdapter {
 
 	public static final String KEY_SKYHOOK_REGISTRATION = "skyhook_registration"; //$NON-NLS-1$
 
+	public static final String KEY_LAST_CHANGE_VERSION = "version"; //$NON-NLS-1$
+
 	private static final String TAG = "AndShowtimeDbAdapter"; //$NON-NLS-1$
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDb;
@@ -149,7 +151,8 @@ public class AndShowtimeDbAdapter {
 	private static final String DATABASE_WIDGET_MOVIE_TABLE = "widget_movie"; //$NON-NLS-1$
 	private static final String DATABASE_CURENT_MOVIE_TABLE = "current_movie"; //$NON-NLS-1$
 	private static final String DATABASE_SKYHOOK_REGISTRATION_TABLE = "skyhook_registration"; //$NON-NLS-1$
-	private static final int DATABASE_VERSION = 21;
+	private static final String DATABASE_LAST_CHANGE_TABLE = "last_change"; //$NON-NLS-1$
+	private static final int DATABASE_VERSION = 23;
 	/**
 	 * Database creation sql statement
 	 */
@@ -188,7 +191,7 @@ public class AndShowtimeDbAdapter {
 			+ ", " + KEY_MOVIE_IMG_URL + " text" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_MOVIE_WIKIPEDIA_URL + " text" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_MOVIE_LANG + " text" //$NON-NLS-1$ //$NON-NLS-2$
-			+ ", " + KEY_MOVIE_STYLE + " style" //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_MOVIE_STYLE + " text" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_MOVIE_RATE + " double" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_MOVIE_TIME + " long" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_MOVIE_ACTORS + " text" //$NON-NLS-1$ //$NON-NLS-2$
@@ -271,6 +274,10 @@ public class AndShowtimeDbAdapter {
 			+ " (" + KEY_SKYHOOK_REGISTRATION + " text primary key" //$NON-NLS-1$//$NON-NLS-2$
 			+ ");"//$NON-NLS-1$
 	;
+	private static final String DATABASE_CREATE_LAST_CHANGE_TABLE = " create table " + DATABASE_LAST_CHANGE_TABLE//$NON-NLS-1$
+			+ " (" + KEY_LAST_CHANGE_VERSION + " integer primary key" //$NON-NLS-1$//$NON-NLS-2$
+			+ ");"//$NON-NLS-1$
+	;
 
 	private static final String DROP_THEATER_TABLE = "DROP TABLE IF EXISTS " + DATABASE_THEATERS_TABLE; //$NON-NLS-1$
 	private static final String DROP_FAV_THEATER_TABLE = "DROP TABLE IF EXISTS " + DATABASE_FAV_THEATER_TABLE; //$NON-NLS-1$
@@ -284,6 +291,7 @@ public class AndShowtimeDbAdapter {
 	private static final String DROP_WIDGET_MOVIE_TABLE = "DROP TABLE IF EXISTS " + DATABASE_WIDGET_MOVIE_TABLE; //$NON-NLS-1$
 	private static final String DROP_CURENT_MOVIE_TABLE = "DROP TABLE IF EXISTS " + DATABASE_CURENT_MOVIE_TABLE; //$NON-NLS-1$
 	private static final String DROP_SKYHOOK_REGISTRATION_TABLE = "DROP TABLE IF EXISTS " + DATABASE_SKYHOOK_REGISTRATION_TABLE; //$NON-NLS-1$
+	private static final String DROP_LAST_CHANGE_TABLE = "DROP TABLE IF EXISTS " + DATABASE_LAST_CHANGE_TABLE; //$NON-NLS-1$
 
 	private final Context mCtx;
 
@@ -308,6 +316,7 @@ public class AndShowtimeDbAdapter {
 			db.execSQL(DATABASE_CREATE_WIDGET_MOVIE_TABLE);
 			db.execSQL(DATABASE_CREATE_CURENT_MOVIE_TABLE);
 			db.execSQL(DATABASE_CREATE_SKYHOOK_REGISTRATION_TABLE);
+			db.execSQL(DATABASE_CREATE_LAST_CHANGE_TABLE);
 		}
 
 		@Override
@@ -338,6 +347,13 @@ public class AndShowtimeDbAdapter {
 			}
 			if (oldVersion < 21) {
 				db.execSQL(DATABASE_CREATE_SKYHOOK_REGISTRATION_TABLE);
+			}
+			if (oldVersion < 22) {
+				db.execSQL(DROP_MOVIE_TABLE);
+				db.execSQL(DATABASE_CREATE_MOVIE_TABLE);
+			}
+			if (oldVersion < 23) {
+				db.execSQL(DATABASE_CREATE_LAST_CHANGE_TABLE);
 			}
 
 		}
@@ -715,6 +731,24 @@ public class AndShowtimeDbAdapter {
 		initialValues.put(KEY_SKYHOOK_REGISTRATION, "OK"); //$NON-NLS-1$
 
 		long result = mDb.insert(DATABASE_SKYHOOK_REGISTRATION_TABLE, null, initialValues);
+		if (result == -1) {
+			Log.e(TAG, "Error inserting row"); //$NON-NLS-1$
+		}
+		return result;
+	}
+
+	public long createLastChange(int codeVersion) {
+		chekDbAvailable();
+		Log.d(TAG, new StringBuilder("Create lastChange: ").toString()); //$NON-NLS-1$
+
+		long result = mDb.delete(DATABASE_LAST_CHANGE_TABLE //
+				, null//
+				, null);
+
+		ContentValues initialValues = new ContentValues();
+		initialValues.put(KEY_LAST_CHANGE_VERSION, codeVersion);
+
+		result = mDb.insert(DATABASE_LAST_CHANGE_TABLE, null, initialValues);
 		if (result == -1) {
 			Log.e(TAG, "Error inserting row"); //$NON-NLS-1$
 		}
@@ -1290,6 +1324,19 @@ public class AndShowtimeDbAdapter {
 				);
 	}
 
+	public Cursor fetchLastChange() {
+		return mDb.query(//
+				DATABASE_LAST_CHANGE_TABLE//
+				, new String[] { KEY_LAST_CHANGE_VERSION //
+				}//
+				, null//
+				, null//
+				, null//
+				, null//
+				, null//
+				);
+	}
+
 	public void deleteTheatersShowtimeRequestAndLocation() {
 		chekDbAvailable();
 		int result = mDb.delete(DATABASE_THEATERS_TABLE //
@@ -1377,6 +1424,8 @@ public class AndShowtimeDbAdapter {
 		mDb.execSQL(DROP_WIDGET_TABLE);
 		mDb.execSQL(DROP_WIDGET_MOVIE_TABLE);
 		mDb.execSQL(DROP_CURENT_MOVIE_TABLE);
+		mDb.execSQL(DROP_SKYHOOK_REGISTRATION_TABLE);
+		mDb.execSQL(DROP_LAST_CHANGE_TABLE);
 		mDb.execSQL(DATABASE_CREATE_MOVIE_TABLE);
 		mDb.execSQL(DATABASE_CREATE_THEATER_TABLE);
 		mDb.execSQL(DATABASE_CREATE_FAV_THEATER_TABLE);
@@ -1387,6 +1436,8 @@ public class AndShowtimeDbAdapter {
 		mDb.execSQL(DATABASE_CREATE_MOVIE_REQUEST_TABLE);
 		mDb.execSQL(DATABASE_CREATE_WIDGET_TABLE);
 		mDb.execSQL(DATABASE_CREATE_CURENT_MOVIE_TABLE);
+		mDb.execSQL(DATABASE_CREATE_SKYHOOK_REGISTRATION_TABLE);
+		mDb.execSQL(DATABASE_CREATE_LAST_CHANGE_TABLE);
 	}
 
 	private void chekDbAvailable() {
