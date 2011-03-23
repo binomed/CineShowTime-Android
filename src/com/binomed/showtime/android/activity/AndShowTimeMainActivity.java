@@ -62,7 +62,7 @@ public class AndShowTimeMainActivity extends Activity {
 				switch (provider) {
 				case GPS_PROVIDER:
 				case GSM_PROVIDER:
-					LocationUtils.checkProviderLocation(AndShowTimeMainActivity.this, provider);
+					// LocationUtils.checkProviderLocation(AndShowTimeMainActivity.this, provider);
 					break;
 				default:
 					break;

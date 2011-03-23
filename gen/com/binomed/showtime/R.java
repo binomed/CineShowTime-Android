@@ -38,10 +38,6 @@ public final class R {
  <item>por preferencias del usuario (más lento)</item>
  <item>par nom de film</item>
  <item>par préférence utilisateur (plus lent)</item>
- <item>per nome di film</item>
- <item>per scelte del utente (piu lento)</item>
- <item>映画のタイトルから</item>
- <item>ユーザーの設定から(時間がかかります)</item>
  <item>por nome do filme</item>
  <item>por preferência usuário (mais lento)</item>
  <item>por nome do filme</item>
@@ -53,10 +49,6 @@ public final class R {
          */
         public static final int sort_theaters_values=0x7f070006;
         /** <item>MOVIE_NAME</item>
-<item>USER_PREFERENCE</item>
-<item>MOVIE_NAME</item>
-<item>USER_PREFERENCE</item>
-<item>MOVIE_NAME</item>
 <item>USER_PREFERENCE</item>
 <item>MOVIE_NAME</item>
 <item>USER_PREFERENCE</item>
@@ -307,8 +299,6 @@ public final class R {
   Main acitivity 
   Main acitivity 
   Main acitivity 
-  Main acitivity 
-  Main acitivity 
          */
         public static final int MainTitle=0x7f05002b;
         public static final int addFav=0x7f05003b;
@@ -338,13 +328,9 @@ public final class R {
  Bookmarks Dialog Message 
  Bookmarks Dialog Message 
  Bookmarks Dialog Message 
- Bookmarks Dialog Message 
- Bookmarks Dialog Message 
          */
         public static final int dialogBookmarkTitle=0x7f050045;
         /**  LastChange Dialog Message 
- LastChange Dialog Message 
- LastChange Dialog Message 
  LastChange Dialog Message 
  LastChange Dialog Message 
  LastChange Dialog Message 
@@ -379,8 +365,6 @@ public final class R {
  Last Showtime Dialog Message 
  Last Showtime Dialog Message 
  Last Showtime Dialog Message 
- Last Showtime Dialog Message 
- Last Showtime Dialog Message 
          */
         public static final int dialogLastShowtimeTitle=0x7f050047;
         public static final int dialogRateMovieCancel=0x7f05006c;
@@ -400,15 +384,11 @@ public final class R {
  Rate Movie Dialog Message 
  Rate Movie Dialog Message 
  Rate Movie Dialog Message 
- Rate Movie Dialog Message 
- Rate Movie Dialog Message 
          */
         public static final int dialogRateMovieTitle=0x7f050069;
         public static final int dialogRateMovieValidate=0x7f05006b;
         public static final int endHour=0x7f050050;
-        public static final int errorMsg=0x7f05009e;
         public static final int flagLastShowtime=0x7f05003a;
-        public static final int geolocalized=0x7f05009f;
         public static final int gpsInactiveBtnNo=0x7f050034;
         public static final int gpsInactiveBtnYes=0x7f050033;
         public static final int gpsInactiveMsg=0x7f050032;
@@ -427,13 +407,8 @@ public final class R {
  GPS Messages 
  GPS Messages 
  GPS Messages 
- GPS Messages 
- GPS Messages 
          */
         public static final int gpsInactiveTitle=0x7f050031;
-        public static final int gpsPrefDisable=0x7f0500a2;
-        public static final int gpsUnauthorizedMsg=0x7f0500a0;
-        public static final int gpsUnauthorizedMsgCineShowTime=0x7f0500a1;
         /**  Near Activity Message 
  Near Activity Message 
  Search Near Activity Message 
@@ -445,8 +420,6 @@ public final class R {
  Near Activity Message 
  Search Near Activity Message 
  Search Near Activity Message 
- Near Activity Message 
- Search Near Activity Message 
  Search Near Activity Message 
  Search Near Activity Message 
  Search Near Activity Message 
@@ -456,12 +429,6 @@ public final class R {
         public static final int itemMoreTheaters=0x7f05003e;
         public static final int mailContent=0x7f050064;
         public static final int mailSubject=0x7f050065;
-        /**  VALUES FOR PREFS 
-         */
-        public static final int measure_1=0x7f0500ab;
-        public static final int measure_2=0x7f0500ac;
-        public static final int measure_code_1=0x7f0500ad;
-        public static final int measure_code_2=0x7f0500ae;
         public static final int menuAbout=0x7f050001;
         public static final int menuAddEvent=0x7f050060;
         public static final int menuCall=0x7f050037;
@@ -484,8 +451,6 @@ public final class R {
  Commons 
  Commons 
  Commons 
- Commons 
- Commons 
          */
         public static final int menuPreferences=0x7f050000;
         public static final int menuRate=0x7f050061;
@@ -494,13 +459,6 @@ public final class R {
         public static final int menuSort=0x7f050013;
         public static final int menuTranslate=0x7f05005d;
         public static final int min=0x7f050036;
-        public static final int mode_localisation_1=0x7f0500af;
-        public static final int mode_localisation_2=0x7f0500b0;
-        public static final int mode_localisation_3=0x7f0500b1;
-        public static final int mode_localisation_code_1=0x7f0500b2;
-        public static final int mode_localisation_code_2=0x7f0500b3;
-        public static final int mode_localisation_code_3=0x7f0500b4;
-        public static final int movieLabel=0x7f05009b;
         public static final int movieName=0x7f050008;
         public static final int movieProgressMsg=0x7f05004c;
         /**  Movie Activity Message 
@@ -518,16 +476,11 @@ public final class R {
  Movie Activity Message 
  Movie Activity Message 
  Movie Activity Message 
- Movie Activity Message 
- Movie Activity Message 
          */
         public static final int movieProgressTitle=0x7f05004b;
         public static final int msgCalculating=0x7f050024;
-        public static final int msgDevelopped=0x7f0500a4;
         public static final int msgDonation=0x7f050020;
         /**  Error messages 
- Error messages 
- Error messages 
  Error messages 
  Error messages 
  Error messages 
@@ -546,7 +499,6 @@ public final class R {
         public static final int msgErrorNoDb=0x7f050094;
         public static final int msgErrorNoNetwork=0x7f050095;
         public static final int msgErrorOnServer=0x7f050096;
-        public static final int msgErrorTranslate=0x7f0500a3;
         public static final int msgEventAdd=0x7f050068;
         public static final int msgLoading=0x7f05002a;
         public static final int msgNoCityName=0x7f050015;
@@ -566,7 +518,6 @@ public final class R {
         public static final int msgVersionCode=0x7f05001d;
         public static final int msgVersionName=0x7f05001e;
         public static final int msgVersionTitle=0x7f05001c;
-        public static final int noReview=0x7f050097;
         public static final int noSummary=0x7f05005b;
         public static final int openMapsDriveMenuItem=0x7f050004;
         public static final int openMapsMenuItem=0x7f050003;
@@ -576,18 +527,13 @@ public final class R {
         public static final int preference_gen_auto_reload_summary=0x7f050074;
         public static final int preference_gen_cat=0x7f050071;
         public static final int preference_gen_default_time_adds=0x7f050078;
-        public static final int preference_gen_default_time_format=0x7f0500a7;
         public static final int preference_gen_key_auto_reload=0x7f050072;
         public static final int preference_gen_key_time_adds=0x7f050075;
-        public static final int preference_gen_key_time_format=0x7f0500a5;
         public static final int preference_gen_time_adds=0x7f050076;
         public static final int preference_gen_time_adds_summary=0x7f050077;
-        public static final int preference_gen_time_format=0x7f0500a6;
         public static final int preference_lang_auto_translate=0x7f05006f;
         public static final int preference_lang_auto_translate_summary=0x7f050070;
         /**  Preferences Messages 
- Preferences Messages 
- Preferences Messages 
  Preferences Messages 
  Preferences Messages 
  Preferences Messages 
@@ -634,13 +580,9 @@ public final class R {
         public static final int preference_user_cat=0x7f050091;
         public static final int projectionList=0x7f05004e;
         public static final int projectionTime=0x7f05004f;
-        public static final int rateLabel=0x7f05009d;
-        public static final int readMore=0x7f0500aa;
         public static final int search=0x7f050006;
         public static final int searchMovieProgressMsg=0x7f050040;
         /**  Search Movie Activity Message 
- Search Movie Activity Message 
- Search Movie Activity Message 
  Search Movie Activity Message 
  Search Movie Activity Message 
  Search Movie Activity Message 
@@ -659,19 +601,8 @@ public final class R {
         public static final int searchMovieProgressTitle=0x7f05003f;
         public static final int searchNearProgressMsg=0x7f05003d;
         public static final int searchNearProgressTitle=0x7f05003c;
-        public static final int showtimeLabel=0x7f05009c;
         public static final int smsContent=0x7f050063;
         public static final int sortDialogTitle=0x7f050014;
-        public static final int sort_theaters_values_1=0x7f0500b5;
-        public static final int sort_theaters_values_2=0x7f0500b6;
-        public static final int sort_theaters_values_3=0x7f0500b7;
-        public static final int sort_theaters_values_4=0x7f0500b8;
-        public static final int sort_theaters_values_5=0x7f0500b9;
-        public static final int sort_theaters_values_code_1=0x7f0500ba;
-        public static final int sort_theaters_values_code_2=0x7f0500bb;
-        public static final int sort_theaters_values_code_3=0x7f0500bc;
-        public static final int sort_theaters_values_code_4=0x7f0500bd;
-        public static final int sort_theaters_values_code_5=0x7f0500be;
         public static final int spinnerChoseTitle=0x7f050012;
         public static final int spinnerFriday=0x7f05000f;
         public static final int spinnerMonday=0x7f05000b;
@@ -679,7 +610,6 @@ public final class R {
         public static final int spinnerSunday=0x7f050011;
         public static final int spinnerThursday=0x7f05000e;
         public static final int spinnerToday=0x7f05000a;
-        public static final int spinnerTomorow=0x7f05009a;
         public static final int spinnerTuesday=0x7f05000c;
         public static final int spinnerWenesday=0x7f05000d;
         public static final int tabProjection=0x7f050059;
@@ -688,10 +618,6 @@ public final class R {
         public static final int txtActor=0x7f050056;
         public static final int txtDirector=0x7f050055;
         public static final int txtDuration=0x7f050054;
-        /**  ADDED STRINGS 
-         */
-        public static final int txtEnterCity=0x7f050098;
-        public static final int txtEnterMovie=0x7f050099;
         public static final int txtGenre=0x7f050057;
         public static final int txtMovieFind=0x7f050041;
         public static final int txtMovieFindDuration=0x7f050042;
@@ -699,11 +625,7 @@ public final class R {
         public static final int txtRate=0x7f050052;
         public static final int txtTitle=0x7f050051;
         public static final int txtUserRate=0x7f050053;
-        public static final int unknownSource=0x7f0500a8;
-        public static final int urlHelp=0x7f0500a9;
         /**   Widget 
-  Widget 
-  Widget 
   Widget 
   Widget 
   Widget 

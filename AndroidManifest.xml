@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.binomed.showtime" android:versionCode="21" android:versionName="1.10.0">
+      package="com.binomed.showtime" android:versionCode="22" android:versionName="1.10.1">
       
      <supports-screens
           android:largeScreens="true"
@@ -96,7 +96,7 @@
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_one" />
 		</receiver>-->
 	</application>
-    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="5"/>
+    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="8"/>
 	<!-- GPS Location -->
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
 	<!-- Access net -->

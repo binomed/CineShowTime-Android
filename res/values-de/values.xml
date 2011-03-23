@@ -45,8 +45,8 @@
 		<item>Nach Kinoname</item>
 		<item>Nach Entfernung</item>
 		<item>Nach nächste Vorstellung</item>
-		<!-- <item>par nom de film</item>-->
-		<!-- <item>par préférence utilisateur (plus lent)</item>-->
+		<!-- <item>nach Filmtitel</item>-->
+		<!-- <item>nach Benutzer-Präferenz (langsamer)</item>-->
 	</string-array>
 	<string-array name="sort_movies_values">
 		<item>Nach Kinoname</item>

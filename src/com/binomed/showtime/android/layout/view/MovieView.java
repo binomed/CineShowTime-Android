@@ -48,18 +48,23 @@ public class MovieView extends LinearLayout {
 		this.movieBean = movieBean;
 		this.theaterBean = theaterBean;
 
-		movieTitle.setText(new StringBuilder(movieBean.getMovieName()) //
-				.append(" : ").append(AndShowtimeDateNumberUtil.showMovieTimeLength(getContext(), movieBean))//
-				.toString()//
-				);
+		if (movieBean != null && theaterBean != null) {
+			movieTitle.setText(new StringBuilder(movieBean.getMovieName()) //
+					.append(" : ").append(AndShowtimeDateNumberUtil.showMovieTimeLength(getContext(), movieBean))//
+					.toString()//
+					);
 
-		List<ProjectionBean> projectionList = theaterBean.getMovieMap().get(movieBean.getId());
-		Long distanceTimeLong = null;
-		if (distanceTime && theaterBean != null && theaterBean.getPlace() != null) {
-			distanceTimeLong = theaterBean.getPlace().getDistanceTime();
+			List<ProjectionBean> projectionList = theaterBean.getMovieMap().get(movieBean.getId());
+			Long distanceTimeLong = null;
+			if (distanceTime && theaterBean != null && theaterBean.getPlace() != null) {
+				distanceTimeLong = theaterBean.getPlace().getDistanceTime();
+			}
+			Spanned movieListStr = AndShowtimeDateNumberUtil.getMovieViewStr(movieBean.getId(), theaterBean.getId(), projectionList, getContext(), distanceTimeLong);
+
+			movieList.setText(movieListStr);
+		} else {
+			movieTitle.setText("");
+			movieList.setText("");
 		}
-		Spanned movieListStr = AndShowtimeDateNumberUtil.getMovieViewStr(movieBean.getId(), theaterBean.getId(), projectionList, getContext(), distanceTimeLong);
-
-		movieList.setText(movieListStr);
 	}
 }

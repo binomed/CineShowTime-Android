@@ -75,7 +75,7 @@
 	<string name="txtMovieFindDuration">Filmlänge : </string>
 	<string name="txtMovieFindValueNotFound">Kein Film zu Ihrer Suche gefunden</string>
 	<!-- LastChange Dialog Message -->
-	<string name="dialogLastChangeTitle">Last Change</string>
+	<string name="dialogLastChangeTitle">Letzte Änderungen</string>
 	<!-- Bookmarks Dialog Message -->
 	<string name="dialogBookmarkTitle">Favoriten </string>
 	<string name="menuRemoveBookmark">Aus Favoriten löschen</string>

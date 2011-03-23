@@ -93,20 +93,29 @@ public class AndShowTimeSearchNearService extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 
-		latitude = Double.valueOf(intent.getExtras().getDouble(ParamIntent.SERVICE_NEAR_LATITUDE, 0));
-		longitude = Double.valueOf(intent.getExtras().getDouble(ParamIntent.SERVICE_NEAR_LONGITUDE, 0));
-		cityName = intent.getExtras().getString(ParamIntent.SERVICE_NEAR_CITY);
-		origin = intent.getExtras().getString(ParamIntent.SERVICE_NEAR_ORIGIN);
-		theaterId = intent.getExtras().getString(ParamIntent.SERVICE_NEAR_THEATER_ID);
-		day = intent.getExtras().getInt(ParamIntent.SERVICE_NEAR_DAY);
-		start = intent.getExtras().getInt(ParamIntent.SERVICE_NEAR_START);
-		this.intent = intent;
-		try {
-			serviceStarted = true;
-			Thread thread = new Thread(runnable);
-			thread.start();
-		} catch (Exception e) {
-			Log.e(TAG, "error searching theaters", e);
+		if (intent != null && intent.getExtras() != null) {
+			latitude = Double.valueOf(intent.getExtras().getDouble(ParamIntent.SERVICE_NEAR_LATITUDE, 0));
+			longitude = Double.valueOf(intent.getExtras().getDouble(ParamIntent.SERVICE_NEAR_LONGITUDE, 0));
+			cityName = intent.getExtras().getString(ParamIntent.SERVICE_NEAR_CITY);
+			origin = intent.getExtras().getString(ParamIntent.SERVICE_NEAR_ORIGIN);
+			theaterId = intent.getExtras().getString(ParamIntent.SERVICE_NEAR_THEATER_ID);
+			day = intent.getExtras().getInt(ParamIntent.SERVICE_NEAR_DAY);
+			start = intent.getExtras().getInt(ParamIntent.SERVICE_NEAR_START);
+			this.intent = intent;
+			try {
+				serviceStarted = true;
+				Thread thread = new Thread(runnable);
+				thread.start();
+			} catch (Exception e) {
+				Log.e(TAG, "error searching theaters", e);
+			}
+		} else {
+			try {
+				serviceStarted = false;
+				binder.finish();
+				stopSelf();
+			} catch (RemoteException e) {
+			}
 		}
 	}
 

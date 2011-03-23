@@ -121,7 +121,7 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 	public int getChildrenCount(int groupPosition) {
 		int result = 0;
 		if ((theatherList != null) && (groupPosition < theatherList.size())) {
-			result = theatherList.get(groupPosition).getMovieMap().size();
+			result = (theatherList.get(groupPosition) != null) ? theatherList.get(groupPosition).getMovieMap().size() : 0;
 		}
 		return result;
 	}

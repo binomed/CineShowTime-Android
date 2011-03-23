@@ -478,8 +478,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu,
-	 * android.view.View, android.view.ContextMenu.ContextMenuInfo)
+	 * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu, android.view.View, android.view.ContextMenu.ContextMenuInfo)
 	 */
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
@@ -490,7 +489,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		boolean isMovieView = (MovieView.class == targetView.getClass());
 		int groupId = Long.valueOf(info.id).intValue();
 		Object selectItem = resultList.getItemAtPosition(groupId);
-		if (!isMovieView) {
+		if (!isMovieView && selectItem.getClass() == TheaterBean.class) {
 			if (((TheaterBean) selectItem).getId().equals(String.valueOf(HttpParamsCst.ERROR_WRONG_DATE)) //
 					|| ((TheaterBean) selectItem).getId().equals(String.valueOf(HttpParamsCst.ERROR_WRONG_PLACE))) {
 				return;
@@ -593,8 +592,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see android.app.Activity#onActivityResult(int, int,
-	 * android.content.Intent)
+	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

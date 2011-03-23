@@ -29,7 +29,10 @@ public class LastChangeDialog extends Dialog {
 		setTitle(mainContext.getResources().getString(R.string.dialogLastChangeTitle));
 		TextView contentLastChange = (TextView) findViewById(R.id.lastChangetText);
 		Spanned spanned = Html.fromHtml( //
-				"<b>v1.10.0</b><br><br>" + //
+				"<b>v1.10.1</b><br><br>" + //
+						" * Minor fix corresponding to crash reports<br>" + //
+						" * Suppression of gps message when launching app<br>" + //
+						"<br><b>v1.10.0</b><br><br>" + //
 						" * Fix with favorites<br>" + //
 						" * Fix with distance<br>" + //
 						"<br><b>v1.9.2</b><br><br>" + //

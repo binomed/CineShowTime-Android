@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: /tools/projects/CineShowtimeAndroid_trunk/src/com/binomed/showtime/android/aidl/IServiceSearchNear.aidl
+ * Original file: F:\\tools\\projects\\Android\\AndShowtimeAndroid\\src\\com\\binomed\\showtime\\android\\aidl\\IServiceSearchNear.aidl
  */
 package com.binomed.showtime.android.aidl;
 public interface IServiceSearchNear extends android.os.IInterface

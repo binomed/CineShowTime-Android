@@ -47,10 +47,12 @@ public class IntentShowtime {
 			mapsUri.append(theater.getTheaterName()); //$NON-NLS-1$
 			mapsUri.append(")"); //$NON-NLS-1$
 		} catch (Exception e) {
-			mapsUri.append(AndShowtimeNumberFormat.getFormatGeoCoord().format(theater.getPlace().getLongitude()));
-			mapsUri.append(SpecialChars.COMMA);
-			mapsUri.append(AndShowtimeNumberFormat.getFormatGeoCoord().format(theater.getPlace().getLatitude()));
-			mapsUri.append("?z=22");
+			if (theater.getPlace().getLatitude() != null && theater.getPlace().getLongitude() != null) {
+				mapsUri.append(AndShowtimeNumberFormat.getFormatGeoCoord().format(theater.getPlace().getLongitude()));
+				mapsUri.append(SpecialChars.COMMA);
+				mapsUri.append(AndShowtimeNumberFormat.getFormatGeoCoord().format(theater.getPlace().getLatitude()));
+				mapsUri.append("?z=22");
+			}
 		}
 		Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(mapsUri.toString()));
 		return myIntent;
@@ -67,10 +69,12 @@ public class IntentShowtime {
 			mapsUri.append(theater.getTheaterName()); //$NON-NLS-1$
 			mapsUri.append(")"); //$NON-NLS-1$
 		} catch (Exception e) {
-			mapsUri.append(AndShowtimeNumberFormat.getFormatGeoCoord().format(theater.getPlace().getLongitude()));
-			mapsUri.append(SpecialChars.COMMA);
-			mapsUri.append(AndShowtimeNumberFormat.getFormatGeoCoord().format(theater.getPlace().getLatitude()));
-			mapsUri.append("?z=22");
+			if (theater.getPlace().getLatitude() != null && theater.getPlace().getLongitude() != null) {
+				mapsUri.append(AndShowtimeNumberFormat.getFormatGeoCoord().format(theater.getPlace().getLongitude()));
+				mapsUri.append(SpecialChars.COMMA);
+				mapsUri.append(AndShowtimeNumberFormat.getFormatGeoCoord().format(theater.getPlace().getLatitude()));
+				mapsUri.append("?z=22");
+			}
 		}
 		Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(mapsUri.toString()));
 		return myIntent;
