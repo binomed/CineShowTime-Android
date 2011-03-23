@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,7 @@ public class ProjectionListAdapter extends BaseAdapter {
 
 	private HashMap<Integer, Long> mapMovieTime;
 	private HashMap<Integer, StringBuilder> mapMovieStr;
+	private int minuteToAdd;
 
 	public ProjectionListAdapter(Context context, MovieBean movieBean, List<Long> projectionList, Long minTime) {
 		super();
@@ -41,6 +44,10 @@ public class ProjectionListAdapter extends BaseAdapter {
 		this.minTime = minTime;
 		mapMovieTime = new HashMap<Integer, Long>();
 		mapMovieStr = new HashMap<Integer, StringBuilder>();
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		this.minuteToAdd = Integer.valueOf(prefs.getString(context.getResources().getString(R.string.preference_gen_key_time_adds)//
+				, context.getResources().getString(R.string.preference_gen_default_time_adds)));
+
 	}
 
 	@Override
@@ -119,7 +126,7 @@ public class ProjectionListAdapter extends BaseAdapter {
 				movieTime.setTimeInMillis(movieBean.getMovieTime());
 
 				timeInMillis.add(Calendar.HOUR_OF_DAY, movieTime.get(Calendar.HOUR_OF_DAY));
-				timeInMillis.add(Calendar.MINUTE, movieTime.get(Calendar.MINUTE) + 10);
+				timeInMillis.add(Calendar.MINUTE, movieTime.get(Calendar.MINUTE) + minuteToAdd);
 
 				projectionBuilder.append("<br>")// //$NON-NLS-1$
 						.append(context.getResources().getString(R.string.endHour));//

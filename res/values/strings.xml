@@ -125,6 +125,10 @@
 	<string name="preference_gen_key_auto_reload">auto_reload_preference</string>
 	<string name="preference_gen_auto_reload">Auto reload</string>
 	<string name="preference_gen_auto_reload_summary">Auto reload if date has change</string>
+	<string name="preference_gen_key_time_adds">time_adds_preference</string>
+	<string name="preference_gen_time_adds">Adds Time</string>
+	<string name="preference_gen_time_adds_summary">Time between hour of showtime and start of movie (often adds and trailers)</string>
+	<string name="preference_gen_default_time_adds">20</string>
 	<string name="preference_loc_cat">Localisation preference </string>
 	<string name="preference_loc_key_measure">measure_preference</string>
 	<string name="preference_loc_default_measure">KM</string>

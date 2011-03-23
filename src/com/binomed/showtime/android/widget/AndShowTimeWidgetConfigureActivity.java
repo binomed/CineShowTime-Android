@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.util.Log;
-import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -28,6 +27,7 @@ import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.view.TheaterWidgetListAdapter;
 import com.binomed.showtime.android.handler.ServiceCallBackNear;
 import com.binomed.showtime.android.layout.dialogs.sort.ListDialog;
+import com.binomed.showtime.android.util.AndShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.BeanManagerFactory;
 import com.binomed.showtime.android.util.LocationUtils;
 import com.binomed.showtime.android.util.LocationUtils.ProviderEnum;
@@ -162,13 +162,9 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 		listResult = (ListView) findViewById(R.id.searchWidgetListResult);
 		gpsImgView = (ImageView) findViewById(R.id.searchWidgetImgGps);
 
-		// Manage speech button just if package present on device
-		PackageManager pm = getPackageManager();
-		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 		speechButton = (ImageButton) findViewById(R.id.searchWidgetBtnSpeech);
-		if (activities.size() == 0) {
-			speechButton.setVisibility(View.GONE);
-		}
+		// Manage speech button just if package present on device
+		AndShowTimeLayoutUtils.manageVisibiltyFieldSpeech(this, speechButton, txtCityName, R.id.searchWidgetTxtCityName, R.id.searchWidgetLocation, -1);
 
 	}
 

@@ -125,6 +125,10 @@
 	<string name="preference_gen_key_auto_reload"> auto_reload_präferenz</string>
 	<string name="preference_gen_auto_reload">automatisch Wiederaufladung</string>
 	<string name="preference_gen_auto_reload_summary"> automatischWiederaufladung, wenn der Termin sich	nich geändert hat</string>
+	<string name="preference_gen_key_time_adds">time_adds_preference</string>
+	<string name="preference_gen_time_adds">Werbung Zeit</string>
+	<string name="preference_gen_time_adds_summary">Zeit zwischen den Stunden der Sitzung und der Anfang des Films (souvant Werbung und Anhänger)</string>
+	<string name="preference_gen_default_time_adds">20</string>
 	<string name="preference_loc_cat">Lokalisierungspräferenz</string>
 	<string name="preference_loc_key_measure"> measure_präferenz</string>
 	<string name="preference_loc_default_measure">KM</string>

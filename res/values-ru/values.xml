@@ -1,7 +1,7 @@
 <resources>
 	<string-array name="measure">
-		<item>km</item>
-		<item>miles</item>
+		<item>км</item>
+		<item>мили</item>
 	</string-array>
 	<string-array name="measure_code">
 		<item>KM</item>
@@ -9,8 +9,8 @@
 	</string-array>
 	<string-array name="mode_localisation">
 		<item>GPS</item>
-		<item>Network</item>
-		<!--<item>Wifi</item>-->
+		<item>GSM</item>
+		<!-- <item>Wifi</item>-->
 	</string-array>
 	<string-array name="mode_localisation_code">
 		<item>GPS</item>
@@ -18,14 +18,14 @@
 		<!--<item>WIFI</item>-->
 	</string-array>
 	<string-array name="time_adds">
-		<item>5 min</item>
-		<item>10 min</item>
-		<item>15 min</item>
-		<item>20 min</item>
-		<item>25 min</item>
-		<item>30 min</item>
-		<item>35 min</item>
-		<item>40 min</item>
+		<item>5 мин</item>
+		<item>10 мин</item>
+		<item>15 мин</item>
+		<item>20 мин</item>
+		<item>25 мин</item>
+		<item>30 мин</item>
+		<item>35 мин</item>
+		<item>40 мин</item>
 	</string-array>
 	<string-array name="time_adds_code">
 		<item>5</item>
@@ -38,16 +38,16 @@
 		<item>40</item>
 	</string-array>
 	<string-array name="sort_theaters_values">
-		<item>by theater name</item>
-		<item>by theater distance</item>
-		<item>by nearest showtime hour</item>
-		<!-- <item>by movie name</item>-->
-		<!-- <item>by user prefereneces (slower)</item>-->
+		<item>по названию кинотеатра</item>
+		<item>по расстоянию до кинотеатра</item>
+		<item>по времени ближайшего сеанса</item>
+		<!-- <item>по названию фильма</item>-->
+		<!-- <item>по предпочтениям пользователя (медленнее)</item>-->
 	</string-array>
 	<string-array name="sort_movies_values">
-		<item>by theater name</item>
-		<item>by theater distance</item>
-		<item>by nearest showtime hour</item>
+		<item>по названию кинотеатра</item>
+		<item>по расстоянию до кинотеатра</item>
+		<item>по времени ближайшего сеанса</item>
 	</string-array>
 	<string-array name="sort_theaters_values_code">
 		<item>THEATER_NAME</item>

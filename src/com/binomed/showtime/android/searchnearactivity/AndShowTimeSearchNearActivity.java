@@ -43,6 +43,7 @@ import com.binomed.showtime.android.handler.ServiceCallBackNear;
 import com.binomed.showtime.android.layout.dialogs.fav.FavDialog;
 import com.binomed.showtime.android.layout.dialogs.sort.ListDialog;
 import com.binomed.showtime.android.layout.view.MovieView;
+import com.binomed.showtime.android.util.AndShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
@@ -228,16 +229,9 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		fieldCityName = (AutoCompleteTextView) findViewById(R.id.searchNearCityName);
 		spinnerChooseDay = (Spinner) findViewById(R.id.searchNearSpinner);
 
-		// Manage speech button just if package present on device
-		PackageManager pm = getPackageManager();
-		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 		speechButton = (ImageButton) findViewById(R.id.searchNearBtnSpeech);
-		if (activities.size() == 0) {
-			speechButton.setVisibility(View.GONE);
-			// fieldCityName.invalidate();
-			// speechButton.setEnabled(false);
-			// fieldCityName.refreshDrawableState();
-		}
+		// Manage speech button just if package present on device
+		AndShowTimeLayoutUtils.manageVisibiltyFieldSpeech(this, speechButton, fieldCityName, R.id.searchNearTxtCityName, R.id.searchNearLocation, -1);
 
 	}
 

@@ -125,6 +125,10 @@
 	<string name="preference_gen_key_auto_reload">auto_reload_preference</string>
 	<string name="preference_gen_auto_reload">Rechargement automatiquement</string>
 	<string name="preference_gen_auto_reload_summary">Rechargement automatiquement si la date a changée</string>
+	<string name="preference_gen_key_time_adds">time_adds_preference</string>
+	<string name="preference_gen_time_adds">Temps de publicité</string>
+	<string name="preference_gen_time_adds_summary">Temps entre l\'heure de la séance et le debut du film (souvant de la publicité et des bandes annonces)</string>
+	<string name="preference_gen_default_time_adds">20</string>
 	<string name="preference_loc_cat">Préférence de localisation</string>
 	<string name="preference_loc_key_measure">measure_preference</string>
 	<string name="preference_loc_default_measure">KM</string>

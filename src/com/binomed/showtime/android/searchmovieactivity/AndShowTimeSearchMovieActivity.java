@@ -41,6 +41,7 @@ import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.handler.ServiceCallBackNear;
 import com.binomed.showtime.android.layout.dialogs.sort.ListDialog;
 import com.binomed.showtime.android.layout.view.MovieView;
+import com.binomed.showtime.android.util.AndShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
@@ -209,15 +210,11 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 		movieFindDuration = (TextView) findViewById(R.id.searchMovieMovieFindDuration);
 		spinnerChooseDay = (Spinner) findViewById(R.id.searchMovieSpinner);
 
-		// Manage speech button just if package present on device
-		PackageManager pm = getPackageManager();
-		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 		speechButtonCity = (ImageButton) findViewById(R.id.searchMovieBtnSpeechCity);
 		speechButtonMovie = (ImageButton) findViewById(R.id.searchMovieBtnSpeechMovie);
-		if (activities.size() == 0) {
-			speechButtonCity.setVisibility(View.GONE);
-			speechButtonMovie.setVisibility(View.GONE);
-		}
+		// Manage speech button just if package present on device
+		AndShowTimeLayoutUtils.manageVisibiltyFieldSpeech(this, speechButtonCity, fieldNearName, R.id.searchMovieTxtCityName, R.id.searchMovieLocation, R.id.searchMovieMovieName);
+		AndShowTimeLayoutUtils.manageVisibiltyFieldSpeech(this, speechButtonMovie, null, -1, -1, -1);
 
 	}
 

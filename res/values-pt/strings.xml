@@ -125,6 +125,10 @@
 	<string name="preference_gen_key_auto_reload">auto_reload_preference</string>
 	<string name="preference_gen_auto_reload">Recargamento automatico</string>
 	<string name="preference_gen_auto_reload_summary">Recargamento automatico se a data mudou</string>
+	<string name="preference_gen_key_time_adds">time_adds_preference</string>
+	<string name="preference_gen_time_adds">Tempo Publicidade</string>
+	<string name="preference_gen_time_adds_summary">Tempo entre a hora da sessão e no início do filme (publicidade Souvant e reboques)</string>
+	<string name="preference_gen_default_time_adds">20</string>
 	<string name="preference_loc_cat">Preferênçias de localisação</string>
 	<string name="preference_loc_key_measure">measure_preference</string>
 	<string name="preference_loc_default_measure">KM</string>

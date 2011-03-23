@@ -7,6 +7,13 @@
                 android:summary="@string/preference_gen_auto_reload_summary" 
                 android:title="@string/preference_gen_auto_reload" 
                 android:defaultValue="true"/>
+	    <ListPreference 
+	    		android:key="@string/preference_gen_key_time_adds"
+	    		android:summary="@string/preference_gen_time_adds_summary" 
+                android:title="@string/preference_gen_time_adds"
+	    		android:entries="@array/time_adds" 
+	    		android:entryValues="@array/time_adds_code"  
+	    		android:defaultValue="@string/preference_gen_default_time_adds"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_lang_cat">
         <CheckBoxPreference
