@@ -11,13 +11,14 @@
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content" 
 		android:layout_marginBottom="5dip"  
-		android:background="@drawable/btn_and_showtime"
+		style="@style/Button.button"
 		/>
 	<Button android:text="@string/btnMovie" 
 		android:id="@+id/mainBtnSearchMovie" 
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content" 
-		android:background="@drawable/btn_and_showtime"/>
+		style="@style/Button.button"
+		/>
 		
 	
 	        

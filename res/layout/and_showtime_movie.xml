@@ -45,141 +45,35 @@
 							<RelativeLayout 
 								android:layout_width="fill_parent" 
 								android:layout_height="wrap_content">
-								<!--  
-								<TextView 
-									android:id="@+id/movieTxtTitle" 
-									android:text="@string/txtTitle"
-									android:layout_marginRight="10dip"
-									android:layout_width="wrap_content"
-									android:layout_height="wrap_content"
-									android:textStyle="bold" 
-									/>
-								<TextView 
-									android:id="@+id/movieTitle" 
-									android:layout_width="fill_parent"
-									android:layout_height="wrap_content"
-									android:layout_toRightOf="@id/movieTxtTitle" 
-									/>
-									-->
 								<TextView 
 									android:id="@+id/movieTitle" 
 									android:layout_width="fill_parent"
 									android:layout_height="wrap_content"
 									/>
-									<!-- 
-								<TextView 
-									android:id="@+id/movieTxtDuration" 
-									android:text="@string/txtDuration"
-									android:layout_marginRight="10dip"
-									android:layout_width="wrap_content"
-									android:layout_height="wrap_content" 
-									android:layout_below="@id/movieTitle"
-									android:textStyle="bold"
-									/>
-								<TextView 
-									android:id="@+id/movieDuration" 
-									android:layout_width="fill_parent"
-									android:layout_height="wrap_content" 
-									android:layout_alignTop="@id/movieTxtDuration"
-									android:layout_toRightOf="@id/movieTxtDuration"
-									/>
-									-->
 								<TextView 
 									android:id="@+id/movieDuration" 
 									android:layout_width="fill_parent"
 									android:layout_height="wrap_content" 
 									android:layout_below="@id/movieTitle"
 									/>
-									<!-- 
-								<TextView 
-									android:id="@+id/movieTxtDirector" 
-									android:text="@string/txtDirector"
-									android:layout_marginRight="10dip"
-									android:layout_width="wrap_content"
-									android:layout_height="wrap_content" 
-									android:layout_below="@id/movieDuration"
-									android:textStyle="bold"
-									/>
-								<TextView 
-									android:id="@+id/movieDirector" 
-									android:layout_width="fill_parent"
-									android:layout_height="wrap_content" 
-									android:layout_alignTop="@id/movieTxtDirector"
-									android:layout_toRightOf="@id/movieTxtDirector"
-									/>
-									-->
 								<TextView 
 									android:id="@+id/movieDirector" 
 									android:layout_width="fill_parent"
 									android:layout_height="wrap_content" 
 									android:layout_below="@id/movieDuration"
 									/>
-									<!-- 
-								<TextView 
-									android:id="@+id/movieTxtActor" 
-									android:text="@string/txtActor"
-									android:layout_marginRight="10dip"
-									android:layout_width="wrap_content"
-									android:layout_height="wrap_content" 
-									android:layout_below="@id/movieDirector"
-									android:textStyle="bold"
-									/>
-								<TextView 
-									android:id="@+id/movieActor" 
-									android:layout_width="fill_parent"
-									android:layout_height="wrap_content" 
-									android:layout_alignTop="@id/movieTxtActor"
-									android:layout_toRightOf="@id/movieTxtActor"
-									/>
-									-->
 								<TextView 
 									android:id="@+id/movieActor" 
 									android:layout_width="fill_parent"
 									android:layout_height="wrap_content" 
 									android:layout_below="@id/movieDirector"
 									/>
-									<!-- 
-								<TextView 
-									android:id="@+id/movieTxtGenre" 
-									android:text="@string/txtGenre"
-									android:layout_marginRight="10dip"
-									android:layout_width="wrap_content"
-									android:layout_height="wrap_content" 
-									android:layout_below="@id/movieActor"
-									android:textStyle="bold"
-									/>
-								<TextView 
-									android:id="@+id/movieGenre" 
-									android:layout_width="fill_parent"
-									android:layout_height="wrap_content" 
-									android:layout_alignTop="@id/movieTxtGenre"
-									android:layout_toRightOf="@id/movieTxtGenre"
-									/>
-									-->
 								<TextView 
 									android:id="@+id/movieGenre" 
 									android:layout_width="fill_parent"
 									android:layout_height="wrap_content" 
 									android:layout_below="@id/movieActor"
 									/>
-									<!-- 
-								<TextView 
-									android:id="@+id/movieTxtRate" 
-									android:text="@string/txtRate"
-									android:layout_marginRight="10dip"
-									android:layout_width="wrap_content"
-									android:layout_height="wrap_content" 
-									android:layout_below="@id/movieGenre"
-									android:textStyle="bold" 
-									/>
-								<TextView 
-									android:id="@+id/movieRate" 
-									android:layout_width="fill_parent"
-									android:layout_height="wrap_content" 
-									android:layout_alignTop="@id/movieTxtRate" 
-									android:layout_toRightOf="@id/movieTxtRate"
-									/> 
-									-->
 								<TextView 
 									android:id="@+id/movieRate" 
 									android:layout_width="fill_parent"
@@ -261,15 +155,6 @@
 									android:layout_height="wrap_content" 
 									android:layout_below="@id/movieImgRate1"
 									/>
-									<!-- 
-								<Button android:text="@string/btnImdb" 
-									android:id="@+id/movieBtnImdb" 
-									android:layout_below="@id/movieImgRate1"
-									android:layout_width="wrap_content" 
-									android:layout_height="wrap_content"
-									android:background="@drawable/btn_and_showtime"
-									/>
-									-->
 							</RelativeLayout>
 						</LinearLayout>
 						<TextView 

@@ -40,8 +40,8 @@
         android:drawSelectorOnTop="true"
         android:prompt="@string/spinnerChoseTitle"
 	    android:layout_below="@+id/searchNearCityName" 
-	    android:background="@drawable/btn_spinner_and_showtime"
-		android:layout_marginBottom="5dip"  
+		android:layout_marginBottom="5dip" 
+		style="@style/Button.spinner"
     />
 	<Button 
 		android:id="@+id/searchNearBtnSearch" 
@@ -50,7 +50,7 @@
 		android:text="@string/search" 
 		android:layout_centerHorizontal="true"
 	    android:layout_below="@id/searchNearSpinner" 
-	    android:background="@drawable/btn_and_showtime"
+	    style="@style/Button.button"
 		/>
 	<ExpandableListView
        android:id="@+id/searchNearListResult"

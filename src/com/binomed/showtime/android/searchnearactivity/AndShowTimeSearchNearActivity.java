@@ -198,7 +198,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		fillAutoField();
 
 		ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(this //
-				, android.R.layout.simple_spinner_item//
+				, R.layout.and_showtime_spinner_item//
 				, AndShowtimeDateNumberUtil.getSpinnerDaysValues(AndShowTimeSearchNearActivity.this)//
 		);
 		adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

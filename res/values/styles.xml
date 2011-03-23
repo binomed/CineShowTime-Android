@@ -21,6 +21,8 @@
     
     <style name="Widget">
     </style>
+    <style name="Button">
+    </style>
     
     
     <style name="Widget.TheaterTitle">
@@ -40,6 +42,14 @@
         <item name="android:textStyle">bold</item>
         <!--<item name="android:textColor">@android:color/black</item>-->
         <item name="android:textColor">#ff0300</item>
+    </style>
+        <style name="Button.button">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:background">@drawable/btn_and_showtime</item>
+    </style>
+    <style name="Button.spinner">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:background">@drawable/btn_spinner_and_showtime</item>
     </style>
         
 </resources>
