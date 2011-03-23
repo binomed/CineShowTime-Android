@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Commons -->
+	<string name="menuPreferences">Preferências </string>
+	<string name="openYoutubeMenuItem">Pesquisa reboque </string>
+	<string name="openMapsMenuItem">Achar Cinema </string>
+	<string name="search">Pesquisar </string>
+	<string name="cityName">Nome da cidade :</string>
+	<string name="movieName">Nome do filme :</string>
+	<string name="btnChkLocation">Pesquisa geo-localizada</string>
+	<string name="spinnerToday">Hoje</string>
+	<string name="spinnerMonday">Segunda-feira</string>
+	<string name="spinnerTuesday">Terça-feira</string>
+	<string name="spinnerWenesday">Quarta-feira</string>
+	<string name="spinnerThursday">Quinta-feira</string>
+	<string name="spinnerFriday">Sexta-feira</string>
+	<string name="spinnerSaturday">Sabado</string>
+	<string name="spinnerSunday">Domingo</string>
+	<string name="spinnerChoseTitle">Escolha o dia</string>
+	<string name="menuSort">Ordena os resultados</string>
+	<string name="sortDialogTitle">Escolha a ordem a utilizar</string>
+	<string name="msgNoCityName">E preciso indicar o nome de uma cidade antes de fazer a pesquisa</string>
+	<string name="msgNoGps">Nenhuma coordenada gps achada... Move-se o esperimente mais tarde</string>
+	<string name="msgNoMovieName">E preciso indicar o nome de um filme andts de fazer a pesquisa</string>
+	<!--  Main acitivity -->
+	<string name="MainTitle">Bemvindo a Android Showtime Application</string>
+	<string name="app_name">Android Showtime</string>
+	<string name="btnNear">Pesquisar sessões pertas da vossa casa</string>
+	<string name="btnMovie">Pesquisar um filme e as sessões pertos da vossa casa</string>
+	<!-- GPS Messages -->
+	<string name="gpsInactiveTitle">GPS desativado ! </string>
+	<string name="gpsInactiveMsg">Quere ativar o gps ? </string>
+	<string name="gpsInactiveBtnYes">Ok </string>
+	<string name="gpsInactiveBtnNo">Não </string>
+	<!-- Searcg Near Activity Message -->
+	<string name="hour">h</string>
+	<string name="min">min</string>
+	<string name="menuCall">Chamar Cinema </string>
+	<string name="menuFav">Favoridos</string>
+	<string name="addFav">Somar favoridos </string>
+	<string name="searchNearProgressTitle">Pesquisa de filmes </string>
+	<string name="searchNearProgressMsg">Cargamento atual ... </string>
+	<string name="itemMoreTheaters">Mais cinemas </string>
+	<!-- Search Movie Activity Message -->
+	<string name="searchMovieProgressTitle">Pesquisa de sessões </string>
+	<string name="searchMovieProgressMsg">Cargamento atual ... </string>
+	<string name="txtMovieFind">Filme : </string>
+	<string name="txtMovieFindDuration">Duração : </string>
+	<string name="txtMovieFindValueNotFound">Nenhum filme corresponde a sua pesquisa</string>
+	<!-- Bookmarks Dialog Message -->
+	<string name="dialogBookmarkTitle">Favoridos </string>
+	<string name="menuRemoveBookmark">Tirar favoridos</string>
+	<!-- Movie Activity Message -->
+	<string name="movieProgressTitle">Pesquisa da ficha técnica do filme </string>
+	<string name="movieProgressMsg">Cargamento atual ... </string>
+	<string name="plot">Resumo</string>
+	<string name="projectionList">Horarios do cinema : </string>
+	<string name="projectionTime">Horarios da sessão : </string>
+	<string name="endHour">Hora mais o menos de fim : </string>
+	<string name="txtTitle">Titulo : </string>
+	<string name="txtRate">Nota : </string>
+	<string name="txtDuration">Duração : </string>
+	<string name="txtGenre">Gênero : </string>
+	<string name="tabSummary">Ficha técnica do Filme </string>
+	<string name="tabProjection">Lista das exibicões </string>
+	<string name="noSummary">Nenhum resumo achado... </string>
+	<string name="btnImdb">Imdb</string>
+	<string name="menuTranslate">Traduzir </string>
+	<string name="menuSms">Convidar por sms</string>
+	<string name="menuMail">Convidar por mail</string>
+	<string name="smsContent">Queres vir comigo ver o filme ''{0}'' {1} na sessão de {2} ao cinema ''{3}'' ?\n\n sms autotico fato por AndShowtime</string>
+	<string name="mailContent">Queres vir comigo ver o filme <i>''{0}''</i> {1} na sessão de <b>{2}</b> ao cinema ''{3}'' \n\n mail automatico fato por AndShowtime</string>
+	<string name="mailSubject">Convido para o filme {0}</string>
+	<string name="chooseIntentSms">Enviar convido sms</string>
+	<string name="chooseIntentMail">Enviar convido mail</string>
+	<!-- Preferences Messages -->
+	<string name="preference_lang_cat">Preferênçias de lingua </string>
+	<string name="preference_lang_key_auto_translate">check_preference</string>
+	<string name="preference_lang_auto_translate">Tradução automatica</string>
+	<string name="preference_lang_auto_translate_summary">Traduzir automaticamento os résumos dos filmes</string>
+	<string name="preference_gen_cat">Preferênçias gerais</string>
+	<string name="preference_gen_key_auto_reload">auto_reload_preference</string>
+	<string name="preference_gen_auto_reload">Recargamento automatico</string>
+	<string name="preference_gen_auto_reload_summary">Recargamento automatico se a data mudou</string>
+	<string name="preference_loc_cat">Preferênçias de localisação</string>
+	<string name="preference_loc_key_measure">measure_preference</string>
+	<string name="preference_loc_default_measure">KM</string>
+	<string name="preference_loc_measure">Unidade por padrão</string>
+	<string name="preference_loc_measure_summary">Escolha a sua unidade por padrão</string>
+	<string name="preference_sort_cat">Preferências de ordem</string>
+	<string name="preference_sort_key_sort_movie">sort_movie</string>
+	<string name="preference_sort_default_sort_movie">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_movie">Ordena de filmes por padrão</string>
+	<string name="preference_sort_sort_movie_summary">Escolha a ordem a utilizar por padrão para os resultados da pesquisa de filmes</string>
+	<string name="preference_sort_key_sort_theater">sort_near</string>
+	<string name="preference_sort_default_sort_theater">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_theater">Ordena de cinemas por padrão</string>
+	<string name="preference_sort_sort_theater_summary">Escolha a ordem a utilizar por padrão para os resultados da pesquisa de proximidade</string>
+</resources>

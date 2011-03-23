@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Commons -->
+	<string name="menuPreferences">Préférences </string>
+	<string name="openYoutubeMenuItem">Chercher BA </string>
+	<string name="openMapsMenuItem">Localiser Cinéma </string>
+	<string name="search">Rechercher</string>
+	<string name="cityName">Nom de ville :</string>
+	<string name="movieName">Nom de film :</string>
+	<string name="btnChkLocation">Par ville : </string>
+	<string name="spinnerToday">Aujourd'hui</string>
+	<string name="spinnerMonday">Lundi</string>
+	<string name="spinnerTuesday">Mardi</string>
+	<string name="spinnerWenesday">Mercredi</string>
+	<string name="spinnerThursday">Jeudi</string>
+	<string name="spinnerFriday">Vendredi</string>
+	<string name="spinnerSaturday">Samedi</string>
+	<string name="spinnerSunday">Dimanche</string>
+	<string name="spinnerChoseTitle">Choisissez un jour</string>
+	<string name="menuSort">Trier les résultats</string>
+	<string name="sortDialogTitle">Choisissez le tri à faire</string>
+	<string name="msgNoCityName">Vous devez saisir un nom de ville avant de lancer la recherche</string>
+	<string name="msgNoGps">Aucune coordonnée gps trouvée... Veuillez vous déplacer ou retenter plus tard</string>
+	<string name="msgNoMovieName">Vous devez saisir un nom de film avant de lancer la recherche</string>
+	<!--  Main acitivity -->
+	<string name="MainTitle">Bienvenue à Android Showtime Application</string>
+	<string name="app_name">Android Showtime</string>
+	<string name="btnNear">Chercher des cinémas</string>
+	<string name="btnMovie">Chercher un film et ses séances</string>
+	<!-- GPS Messages -->
+	<string name="gpsInactiveTitle">GPS désactivé ! </string>
+	<string name="gpsInactiveMsg">Voulez vous activer votre gps ? </string>
+	<string name="gpsInactiveBtnYes">Ok </string>
+	<string name="gpsInactiveBtnNo">Non </string>
+	<!-- Searcg Near Activity Message -->
+	<string name="hour">h</string>
+	<string name="min">min</string>
+	<string name="menuCall">Appeler Cinéma </string>
+	<string name="menuFav">Favoris</string>
+	<string name="addFav">Ajouter aux favoris </string>
+	<string name="searchNearProgressTitle">Recherche de films </string>
+	<string name="searchNearProgressMsg">Chargement en cours ... </string>
+	<string name="itemMoreTheaters">Plus de cinémas </string>
+	<!-- Search Movie Activity Message -->
+	<string name="searchMovieProgressTitle">Recherche de séances </string>
+	<string name="searchMovieProgressMsg">Chargement en cours ... </string>
+	<string name="txtMovieFind">Film : </string>
+	<string name="txtMovieFindDuration">Durée : </string>
+	<string name="txtMovieFindValueNotFound">Aucun film ne correspond à la recherche</string>
+	<!-- Bookmarks Dialog Message -->
+	<string name="dialogBookmarkTitle">Favoris </string>
+	<string name="menuRemoveBookmark">Retirer favori</string>
+	<!-- Movie Activity Message -->
+	<string name="movieProgressTitle">Recherche Fiche film </string>
+	<string name="movieProgressMsg">Chargement en cours ... </string>
+	<string name="plot">Résumé</string>
+	<string name="projectionList">Horaires pour le cinéma : </string>
+	<string name="projectionTime">Horaire de la séance : </string>
+	<string name="endHour">Heure approximative de fin : </string>
+	<string name="txtTitle">Titre : </string>
+	<string name="txtRate">Note : </string>
+	<string name="txtDuration">Durée : </string>
+	<string name="txtDirector">Réalisateur(s) : </string>
+	<string name="txtActor">Acteur(s) : </string>
+	<string name="txtGenre">Genre : </string>
+	<string name="tabSummary">Fiche Film </string>
+	<string name="tabProjection">Liste Projections </string>
+	<string name="noSummary">Aucun résumé trouvé... </string>
+	<string name="btnImdb">Imdb</string>
+	<string name="menuTranslate">Traduire </string>
+	<string name="menuSms">Inviter par sms</string>
+	<string name="menuMail">Inviter par mail</string>
+	<string name="smsContent">Je te propose de venir avec moi voir le film ''{0}'' {1} à la séance de {2} au cinéma ''{3}'' \n\n sms auto-généré par AndShowtime</string>
+	<string name="mailContent">Je te propose de venir avec moi voir le film <i>''{0}''</i> {1} à la séance de <b>{2}</b> au cinéma ''{3}'' \n\n mail auto-généré par AndShowtime</string>
+	<string name="mailSubject">Invitation pour le film {0}</string>
+	<string name="chooseIntentSms">Envoyer invitation sms</string>
+	<string name="chooseIntentMail">Envoyer invitation mail</string>
+	<!-- Preferences Messages -->
+	<string name="preference_lang_cat">Préférences de langue </string>
+	<string name="preference_lang_key_auto_translate">check_preference</string>
+	<string name="preference_lang_auto_translate">Traduction automatique</string>
+	<string name="preference_lang_auto_translate_summary">Traduire automatiquement les résumés des films</string>
+	<string name="preference_gen_cat">Préférences générales</string>
+	<string name="preference_gen_key_auto_reload">auto_reload_preference</string>
+	<string name="preference_gen_auto_reload">Rechargement automatiquement</string>
+	<string name="preference_gen_auto_reload_summary">Rechargement automatiquement si la date a changée</string>
+	<string name="preference_loc_cat">Préférence de localisation</string>
+	<string name="preference_loc_key_measure">measure_preference</string>
+	<string name="preference_loc_default_measure">KM</string>
+	<string name="preference_loc_measure">Unité par défaut</string>
+	<string name="preference_loc_measure_summary">Choissiez votre unitée par défaut</string>
+	<string name="preference_sort_cat">Préférence de tri</string>
+	<string name="preference_sort_key_sort_movie">sort_movie</string>
+	<string name="preference_sort_default_sort_movie">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_movie">Tri de films par défaut</string>
+	<string name="preference_sort_sort_movie_summary">Choissisez le tri à utiliser par défaut pour le résultat des recherches de films</string>
+	<string name="preference_sort_key_sort_theater">sort_near</string>
+	<string name="preference_sort_default_sort_theater">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_theater">Tri de cinémas par défaut</string>
+	<string name="preference_sort_sort_theater_summary">Choissisez le tri à utiliser par défaut pour le résultat des recherches de proximités</string>
+</resources>

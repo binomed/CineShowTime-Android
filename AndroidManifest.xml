@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.binomed.showtime.android"
+      android:versionCode="1"
+      android:versionName="1.0">
+    <application android:label="@string/app_name" android:icon="@drawable/icon" android:debuggable="false">
+        <activity android:label="@string/app_name" android:name=".activity.AndShowTimeMainActivity" android:icon="@drawable/icon">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    <activity android:name=".searchnearactivity.AndShowTimeSearchNearActivity"></activity>
+<activity android:name=".movieactivity.AndShowTimeMovieActivity"></activity>
+<service android:name=".searchnearactivity.AndShowTimeSearchNearService"></service>
+<service android:name=".movieactivity.AndShowTimeMovieService"></service>
+<activity android:name=".activity.AndShowTimePreferencesActivity"></activity>
+<service android:name=".searchnearactivity.AndShowTimeSearchNearDBService"></service>
+<activity android:name=".searchmovieactivity.AndShowTimeSearchMovieActivity"></activity>
+<service android:name=".searchmovieactivity.AndShowTimeSearchMovieService"></service>
+<service android:name=".searchmovieactivity.AndShowTimeSearchMovieDBService"></service>
+<service android:name=".service.AndShowCleanFileService"></service>
+</application>
+    <uses-sdk android:minSdkVersion="3" />
+
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+<uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
+
+<uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
+
+
+</manifest> 

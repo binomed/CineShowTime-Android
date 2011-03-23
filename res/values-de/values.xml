@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+	<string-array name="measure">
+		<item>km</item>
+		<item>Meilen</item>
+	</string-array>
+	<string-array name="measure_code">
+		<item>KM</item>
+		<item>ML</item>
+	</string-array>
+	<string-array name="sort_theaters_values">
+		<item>durch Kinonamen</item>
+		<item>durch Kinoentfernung</item>
+		<item> pro nächsteVorstellungsuhrzeit </item>
+	</string-array>
+	<string-array name="sort_movies_values">
+		<item> durch Kinonamen</item>
+		<item> durch Kinoentfernung</item>
+		<item> pro nächsteVorstellungsuhrzeit</item>
+	</string-array>
+	<string-array name="sort_theaters_values_code">
+		<item>THEATER_NAME</item>
+		<item>THEATER_DISTANCE</item>
+		<item>SHOWTIME_HOUR</item>
+	</string-array>
+	<string-array name="sort_movies_values_code">
+		<item>THEATER_NAME</item>
+		<item>THEATER_DISTANCE</item>
+		<item>SHOWTIME_HOUR</item>
+	</string-array>
+</resources>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+	<string name="menuPreferences">Präferenzen</string>
+	<string name="openYoutubeMenuItem"> BA suchen</string>
+	<string name="openMapsMenuItem"> Kino lokalisieren</string>
+	<string name="search"> Suchen</string>
+	<string name="cityName"> Stadtname:</string>
+	<string name="movieName"> Filmname :</string>
+	<string name="btnChkLocation"> Mit Stadtname:</string>
+	<string name="spinnerToday">Heute</string>
+	<string name="spinnerMonday">Montag</string>
+	<string name="spinnerTuesday">Dienstag</string>
+	<string name="spinnerWenesday">Mittwoch</string>
+	<string name="spinnerThursday">Donnerstag</string>
+	<string name="spinnerFriday">Freitag</string>
+	<string name="spinnerSaturday">Samstag</string>
+	<string name="spinnerSunday">Sonntag</string>
+	<string name="spinnerChoseTitle"> Wählen Sie einen Tag</string>
+	<string name="menuSort"> Ergebnisse sortieren</string>
+	<string name="sortDialogTitle"> Wählen Sie das gewünschte Sortieren</string>
+	<string name="msgNoCityName"> Sie müssen einen Stadtnamen erfassen, bevor Sie
+		die Suche starten</string>
+	<string name="msgNoGps"> Keine GPS Koordinaten gefundet… Bewegen Sie sich
+		bitte oder versuchen Sie später</string>
+	<string name="msgNoMovieName"> Sie müssen einen Filmnamen erfassen, bevor Sie die
+		Suche starten </string>
+	<string name="MainTitle"> Willkommen bei Android Showtime Application
+	</string>
+	<string name="app_name">Android Showtime</string>
+	<string name="btnNear"> Vorstellungen in Ihrer Nähe suchen</string>
+	<string name="btnMovie"> Film und seine Vorstellungen in Ihrer Nähe suchen
+	</string>
+	<string name="gpsInactiveTitle">GPS deaktiviert!</string>
+	<string name="gpsInactiveMsg">Wollen Sie Ihr GPS aktivieren?</string>
+	<string name="gpsInactiveBtnYes">Ok</string>
+	<string name="gpsInactiveBtnNo">Nein</string>
+	<string name="hour">h</string>
+	<string name="min">min</string>
+	<string name="menuCall"> Kino anrufen</string>
+	<string name="menuFav">Bookmarks</string>
+	<string name="addFav"> Bookmarks hinfügen</string>
+	<string name="searchNearProgressTitle"> Filmsuche</string>
+	<string name="searchNearProgressMsg">Daten werden geladen ... </string>
+	<string name="itemMoreTheaters"> Mehr Kinos</string>
+	<string name="searchMovieProgressTitle"> Vorstellungssuche</string>
+	<string name="searchMovieProgressMsg">Daten werden geladen…</string>
+	<string name="txtMovieFind">Film :</string>
+	<string name="txtMovieFindDuration">Dauer:</string>
+	<string name="txtMovieFindValueNotFound"> Kein Film entspricht der Suche</string>
+	<string name="dialogBookmarkTitle">Bookmarks</string>
+	<string name="menuRemoveBookmark">Bookmarks löschen </string>
+	<string name="movieProgressTitle"> Filmkartesuche</string>
+	<string name="movieProgressMsg">Daten werden geladen</string>
+	<string name="plot"> Zusammenfassung</string>
+	<string name="projectionList">Kinozeitpläne:</string>
+	<string name="projectionTime">Vorstellungszeitplan:</string>
+	<string name="endHour">Ungefähre Endstunde:</string>
+	<string name="txtTitle">Titel:</string>
+	<string name="txtRate">Note: </string>
+	<string name="txtDuration">Dauer:</string>
+	<string name="txtDirector">Regisseur(s): </string>
+	<string name="txtActor">Schauspieler(s): </string>
+	<string name="txtGenre">Art:</string>
+	<string name="tabSummary"> Filmkarte</string>
+	<string name="tabProjection"> Filmschauliste</string>
+	<string name="noSummary">Keine Zusammenfassung gefundet…</string>
+	<string name="btnImdb">Imdb</string>
+	<string name="menuTranslate"> Übersetzen</string>
+	<string name="menuSms"> Durch sms einladen</string>
+	<string name="menuMail"> Durch E-mail einladen</string>
+	<string name="smsContent"> Ich schlage dich vor, mit mir den Film sehen zu
+		kommen ''{0}'' {1} an der Vorstellung {2} ins Kino ''{3}'' \n\n
+		Auto-generierte sms durch AndShowtime </string>
+	<string name="mailContent">
+		Ich schlage dich vor, mit mir den Film sehen zu kommen
+		<i>''{0}''</i>
+		{1} an der Vorstellung von
+		<b>{2}</b>
+		ins Kino ''{3}'' \n\n Auto-generierte E-mail durch AndShowtime
+	</string>
+	<string name="mailSubject"> Einladung für den Film {0}</string>
+	<string name="chooseIntentSms">sms Einladung schicken </string>
+	<string name="chooseIntentMail">E-mail Einladung schicken </string>
+	<string name="preference_lang_cat"> Sprachpräferenzen</string>
+	<string name="preference_lang_key_auto_translate"> check_präferenz</string>
+	<string name="preference_lang_auto_translate"> Automatische Übersetzung</string>
+	<string name="preference_lang_auto_translate_summary">Die Zusammenfassungen der Filme automatisch
+		übersetzen</string>
+	<string name="preference_gen_cat">Allgemeine Präferenzen</string>
+	<string name="preference_gen_key_auto_reload"> auto_reload_präferenz</string>
+	<string name="preference_gen_auto_reload">automatisch Wiederaufladung</string>
+	<string name="preference_gen_auto_reload_summary"> automatischWiederaufladung, wenn der Termin sich
+		nich geändert hat</string>
+	<string name="preference_loc_cat">Lokalisierungspräferenz
+	</string>
+	<string name="preference_loc_key_measure"> measure_präferenz</string>
+	<string name="preference_loc_default_measure">KM</string>
+	<string name="preference_loc_measure">Standartseinheit </string>
+	<string name="preference_loc_measure_summary">Wählen Sie Ihr Standartseinheit</string>
+	<string name="preference_sort_cat">Sortierpräferenz</string>
+	<string name="preference_sort_key_sort_movie">sort_movie</string>
+	<string name="preference_sort_default_sort_movie">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_movie"> Standartfilmsortieren </string>
+	<string name="preference_sort_sort_movie_summary"> Wählen Sie das Standartsortieren zu benutzen für
+		das Filmsuche</string>
+	<string name="preference_sort_key_sort_theater">sort_near</string>
+	<string name="preference_sort_default_sort_theater">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_theater"> Standartskinosortieren </string>
+	<string name="preference_sort_sort_theater_summary">Wählen Sie das Standartsortieren zu benutzen
+		für das Näherungssuche </string>
+</resources>
