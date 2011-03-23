@@ -184,6 +184,7 @@ public class AndShowTimeWidgetHelper {
 		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, 0);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, 0);
 		updateViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
 
 		Intent intentScrollLeft = new Intent(context, AndShowTimeWidgetServiceLeft.class);

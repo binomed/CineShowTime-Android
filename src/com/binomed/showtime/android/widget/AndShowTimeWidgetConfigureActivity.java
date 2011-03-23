@@ -196,6 +196,7 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 		} else {
 			NearResp nearResp = BeanManagerFactory.getNearRespFromWidget();
 			if (reinit) {
+				reinit = false;
 				nearResp = null;
 			}
 			if (nearResp != null) {

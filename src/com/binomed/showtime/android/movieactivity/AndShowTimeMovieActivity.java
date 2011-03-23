@@ -164,6 +164,11 @@ public class AndShowTimeMovieActivity extends Activity {
 		super.onResume();
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
+
 	/**
 	 * 
 	 */
@@ -177,7 +182,6 @@ public class AndShowTimeMovieActivity extends Activity {
 	}
 
 	private void initlisteners() {
-		// btnImdb.setOnClickListener(listener);
 	}
 
 	private void initMenus() {

@@ -84,7 +84,7 @@
 	<string name="movieProgressTitle">Filmbeschreibung suchen </string>
 	<string name="movieProgressMsg">Daten werden geladen ... </string>
 	<string name="plot">Inhaltsangabe</string>
-	<string name="projectionList">Kinoöffnungszeiten : </string>
+	<string name="projectionList">Vorstellungen :</string>
 	<string name="projectionTime">Anfangszeit der Vorstellung : </string>
 	<string name="endHour">Ungefähre Endzeit : </string>
 	<string name="txtTitle">Titel : </string>
