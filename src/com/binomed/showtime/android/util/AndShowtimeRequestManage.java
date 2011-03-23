@@ -126,9 +126,9 @@ public abstract class AndShowtimeRequestManage {
 						, AndShowtimeNumberFormat.getFormatGeoCoord().format(latitude));
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LONG//
 						, AndShowtimeNumberFormat.getFormatGeoCoord().format(longitude));
-				if (cityName != null) {
-					andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
-				}
+				// if (cityName != null) {
+				// andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
+				// }
 			}
 		} else {
 			if (cityName != null) {
