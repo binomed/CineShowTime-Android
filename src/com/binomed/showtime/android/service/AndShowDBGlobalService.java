@@ -178,6 +178,10 @@ public class AndShowDBGlobalService extends Service {
 									);
 							break;
 						}
+						case AndShowtimeCst.DB_TYPE_SKYHOOK_REGISTRATION: {
+							mDbHelper.createSkyHookRegistration();
+							break;
+						}
 						default:
 							break;
 						}

@@ -259,25 +259,30 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	public WPSContinuation handleError(WPSReturnCode error) {
 		switch (error) {
 		case WPS_ERROR_LOCATION_CANNOT_BE_DETERMINED: {
-
+			Log.e(TAG, error.toString());
 			break;
 		}
 		case WPS_ERROR_WIFI_NOT_AVAILABLE: {
+			Log.e(TAG, error.toString());
 			break;
 		}
 		case WPS_ERROR_SERVER_UNAVAILABLE: {
 
+			Log.e(TAG, error.toString());
 			break;
 		}
 		case WPS_ERROR_NO_WIFI_IN_RANGE: {
+			Log.e(TAG, error.toString());
 
 			break;
 		}
 		case WPS_ERROR: {
+			Log.e(TAG, error.name());
 
 			break;
 		}
 		default:
+			Log.e(TAG, error.name());
 			break;
 		}
 		// TODO gérer les cas d'erreur

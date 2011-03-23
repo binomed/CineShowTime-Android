@@ -130,6 +130,8 @@ public class AndShowtimeDbAdapter {
 	public static final String KEY_CURENT_MOVIE_MOVIE_ID = "movie_id"; //$NON-NLS-1$
 	public static final String KEY_CURENT_MOVIE_THEATER_ID = "theater_id"; //$NON-NLS-1$
 
+	public static final String KEY_SKYHOOK_REGISTRATION = "skyhook_registration"; //$NON-NLS-1$
+
 	private static final String TAG = "AndShowtimeDbAdapter"; //$NON-NLS-1$
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDb;
@@ -146,7 +148,8 @@ public class AndShowtimeDbAdapter {
 	private static final String DATABASE_WIDGET_TABLE = "widget"; //$NON-NLS-1$
 	private static final String DATABASE_WIDGET_MOVIE_TABLE = "widget_movie"; //$NON-NLS-1$
 	private static final String DATABASE_CURENT_MOVIE_TABLE = "current_movie"; //$NON-NLS-1$
-	private static final int DATABASE_VERSION = 20;
+	private static final String DATABASE_SKYHOOK_REGISTRATION_TABLE = "skyhook_registration"; //$NON-NLS-1$
+	private static final int DATABASE_VERSION = 21;
 	/**
 	 * Database creation sql statement
 	 */
@@ -264,6 +267,10 @@ public class AndShowtimeDbAdapter {
 			+ ", " + KEY_CURENT_MOVIE_THEATER_ID + " text not null" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ");"//$NON-NLS-1$
 	;
+	private static final String DATABASE_CREATE_SKYHOOK_REGISTRATION_TABLE = " create table " + DATABASE_SKYHOOK_REGISTRATION_TABLE//$NON-NLS-1$
+			+ " (" + KEY_SKYHOOK_REGISTRATION + " text primary key" //$NON-NLS-1$//$NON-NLS-2$
+			+ ");"//$NON-NLS-1$
+	;
 
 	private static final String DROP_THEATER_TABLE = "DROP TABLE IF EXISTS " + DATABASE_THEATERS_TABLE; //$NON-NLS-1$
 	private static final String DROP_FAV_THEATER_TABLE = "DROP TABLE IF EXISTS " + DATABASE_FAV_THEATER_TABLE; //$NON-NLS-1$
@@ -276,6 +283,7 @@ public class AndShowtimeDbAdapter {
 	private static final String DROP_WIDGET_TABLE = "DROP TABLE IF EXISTS " + DATABASE_WIDGET_TABLE; //$NON-NLS-1$
 	private static final String DROP_WIDGET_MOVIE_TABLE = "DROP TABLE IF EXISTS " + DATABASE_WIDGET_MOVIE_TABLE; //$NON-NLS-1$
 	private static final String DROP_CURENT_MOVIE_TABLE = "DROP TABLE IF EXISTS " + DATABASE_CURENT_MOVIE_TABLE; //$NON-NLS-1$
+	private static final String DROP_SKYHOOK_REGISTRATION_TABLE = "DROP TABLE IF EXISTS " + DATABASE_SKYHOOK_REGISTRATION_TABLE; //$NON-NLS-1$
 
 	private final Context mCtx;
 
@@ -299,6 +307,7 @@ public class AndShowtimeDbAdapter {
 			db.execSQL(DATABASE_CREATE_WIDGET_TABLE);
 			db.execSQL(DATABASE_CREATE_WIDGET_MOVIE_TABLE);
 			db.execSQL(DATABASE_CREATE_CURENT_MOVIE_TABLE);
+			db.execSQL(DATABASE_CREATE_SKYHOOK_REGISTRATION_TABLE);
 		}
 
 		@Override
@@ -326,6 +335,9 @@ public class AndShowtimeDbAdapter {
 			}
 			if (oldVersion < 20) {
 				db.execSQL(DATABASE_CREATE_FAV_SHOWTIME_TABLE);
+			}
+			if (oldVersion < 21) {
+				db.execSQL(DATABASE_CREATE_SKYHOOK_REGISTRATION_TABLE);
 			}
 
 		}
@@ -690,6 +702,19 @@ public class AndShowtimeDbAdapter {
 		}
 
 		result = mDb.insert(DATABASE_CREATE_CURENT_MOVIE_TABLE, null, initialValues);
+		if (result == -1) {
+			Log.e(TAG, "Error inserting row"); //$NON-NLS-1$
+		}
+		return result;
+	}
+
+	public long createSkyHookRegistration() {
+		chekDbAvailable();
+		Log.d(TAG, new StringBuilder("Create skyhook registration: ").toString()); //$NON-NLS-1$
+		ContentValues initialValues = new ContentValues();
+		initialValues.put(KEY_SKYHOOK_REGISTRATION, "OK"); //$NON-NLS-1$
+
+		long result = mDb.insert(DATABASE_SKYHOOK_REGISTRATION_TABLE, null, initialValues);
 		if (result == -1) {
 			Log.e(TAG, "Error inserting row"); //$NON-NLS-1$
 		}
@@ -1246,6 +1271,25 @@ public class AndShowtimeDbAdapter {
 				);
 	}
 
+	/**
+	 * Return a Cursor over the list of all notes in the database
+	 * 
+	 * @return Cursor over all notes
+	 */
+	public Cursor fetchSkyHookRegistration() {
+
+		return mDb.query(//
+				DATABASE_SKYHOOK_REGISTRATION_TABLE//
+				, new String[] { KEY_SKYHOOK_REGISTRATION //
+				}//
+				, null//
+				, null//
+				, null//
+				, null//
+				, null//
+				);
+	}
+
 	public void deleteTheatersShowtimeRequestAndLocation() {
 		chekDbAvailable();
 		int result = mDb.delete(DATABASE_THEATERS_TABLE //
@@ -1271,7 +1315,7 @@ public class AndShowtimeDbAdapter {
 				.toString() //
 				);
 		Log.d(TAG, " Fav Showtimes where remove from fav_showtime table"); //$NON-NLS-1$
-		dateEraseRequest.set(Calendar.DAY_OF_WEEK, dayOfWeek - 7);
+		dateEraseRequest.set(Calendar.DAY_OF_MONTH, dayOfWeek - 7);
 		result = mDb.delete(DATABASE_NEAR_REQUEST_TABLE //
 				, new StringBuilder(KEY_NEAR_REQUEST_TIME).append("<").append(dateEraseRequest.getTimeInMillis()).toString() // //$NON-NLS-1$
 				, null);

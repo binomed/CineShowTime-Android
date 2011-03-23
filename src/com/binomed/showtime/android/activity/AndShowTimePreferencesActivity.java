@@ -76,7 +76,7 @@ public class AndShowTimePreferencesActivity extends PreferenceActivity {
 				index++;
 			}
 			if (index < entriesInitial.length) {
-				listProvider.setValue(entriesInitial[index]);
+				listProvider.setValue(entryValuesInitial[index]);
 			}
 
 			listProvider.setEntries(entries);

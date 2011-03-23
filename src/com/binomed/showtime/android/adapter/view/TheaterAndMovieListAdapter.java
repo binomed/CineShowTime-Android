@@ -71,7 +71,7 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 					Long distanceTimeLong = null;
 					for (TheaterBean theater : theatherList) {
 						List<Entry<String, List<ProjectionBean>>> entries = projectionsMap.get(theater.getId());
-						if (entries == null) {
+						if (entries == null && (theater.getMovieMap() != null)) {
 							entries = new ArrayList<Entry<String, List<ProjectionBean>>>(theater.getMovieMap().entrySet());
 							Collections.sort(entries, AndShowtimeFactory.getTheaterShowtimeInnerListComparator());
 							projectionsMap.put(theater.getId(), entries);

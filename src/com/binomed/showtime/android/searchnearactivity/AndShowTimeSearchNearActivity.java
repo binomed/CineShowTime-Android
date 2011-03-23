@@ -15,6 +15,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
+import android.text.InputType;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -313,7 +314,6 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	}
 
 	protected void display() {
-		searchButton.findFocus();
 		if (controler.isServiceRunning()) {
 			openDialog();
 		} else {
@@ -324,6 +324,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 					TheaterBean errorTheater = theaterList.get(0);
 					if (errorTheater.getId().equals(String.valueOf(HttpParamsCst.ERROR_WRONG_DATE))//
 							|| errorTheater.getId().equals(String.valueOf(HttpParamsCst.ERROR_WRONG_PLACE)) //
+							|| errorTheater.getId().equals(String.valueOf(HttpParamsCst.ERROR_NO_DATA)) //
 					) {
 						switch (Integer.valueOf(errorTheater.getId())) {
 						case HttpParamsCst.ERROR_WRONG_DATE:
@@ -332,6 +333,9 @@ public class AndShowTimeSearchNearActivity extends Activity {
 						case HttpParamsCst.ERROR_WRONG_PLACE:
 							errorTheater.setTheaterName(getResources().getString(R.string.msgNoPlaceMatch));
 							break;
+						case HttpParamsCst.ERROR_NO_DATA:
+							errorTheater.setTheaterName(getResources().getString(R.string.msgNoResultRetryLater));
+							break;
 
 						default:
 							break;
@@ -339,6 +343,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 					}
 				} else if (theaterList == null || theaterList.size() == 0) {
 					TheaterBean theaterZeroResp = new TheaterBean();
+					theaterZeroResp.setId(String.valueOf(HttpParamsCst.ERROR_NO_DATA));
 					theaterZeroResp.setTheaterName(getResources().getString(R.string.msgNoResultRetryLater));
 					if (theaterList == null) {
 						theaterList = new ArrayList<TheaterBean>();
@@ -354,6 +359,11 @@ public class AndShowTimeSearchNearActivity extends Activity {
 				fieldCityName.setText(model.getCityName());
 			}
 		}
+
+		searchButton.setInputType(InputType.TYPE_NULL);
+		searchButton.setFocusable(true);
+		searchButton.requestFocus(View.FOCUS_DOWN);
+
 	}
 
 	protected void launchNearService() throws UnsupportedEncodingException {
