@@ -4,16 +4,16 @@ import java.util.List;
 
 import android.location.Location;
 
+import com.binomed.showtime.android.util.localisation.IModelLocalisation;
 import com.binomed.showtime.beans.TheaterBean;
 
-public class ModelAndShowTimeWidget {
+public class ModelAndShowTimeWidget implements IModelLocalisation {
 
 	private String cityName;
 	private List<String> voiceCityList;
 	private List<TheaterBean> theaterResultList;
 	private TheaterBean theater;
-	private Location gpsLocalisation;
-	private Location localisationSearch;
+	private Location localisation;
 	private int start;
 
 	public ModelAndShowTimeWidget() {
@@ -28,20 +28,12 @@ public class ModelAndShowTimeWidget {
 		this.cityName = cityName;
 	}
 
-	public Location getGpsLocalisation() {
-		return gpsLocalisation;
+	public Location getLocalisation() {
+		return localisation;
 	}
 
-	public void setGpsLocalisation(Location gpsLocalisation) {
-		this.gpsLocalisation = gpsLocalisation;
-	}
-
-	public Location getLocalisationSearch() {
-		return localisationSearch;
-	}
-
-	public void setLocalisationSearch(Location localisationSearch) {
-		this.localisationSearch = localisationSearch;
+	public void setLocalisation(Location gpsLocalisation) {
+		this.localisation = gpsLocalisation;
 	}
 
 	public TheaterBean getTheater() {

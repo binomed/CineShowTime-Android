@@ -16,6 +16,7 @@ import com.binomed.showtime.android.util.BeanManagerFactory;
 import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.MovieResp;
+import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.beans.TheaterBean;
 import com.binomed.showtime.cst.XmlGramarMovieResult;
 
@@ -93,7 +94,7 @@ public class ParserMovieResultXml implements ContentHandler {
 		} else if (XmlGramarMovieResult.NODE_THEATER.equals(localName)) {
 			inTheater = true;
 			curentTheater = new TheaterBean();
-			curentTheater.setMovieMap(new HashMap<String, List<Long>>());
+			curentTheater.setMovieMap(new HashMap<String, List<ProjectionBean>>());
 			curentTheater.setId(atts.getValue(XmlGramarMovieResult.ATTR_ID));
 			try {
 				if (atts.getValue(XmlGramarMovieResult.ATTR_THEATER_NAME) != null) {
@@ -159,15 +160,31 @@ public class ParserMovieResultXml implements ContentHandler {
 		} else if (inTheater && XmlGramarMovieResult.NODE_MOVIE.equals(localName)) {
 			curentMovieId = atts.getValue(XmlGramarMovieResult.ATTR_ID);
 		} else if (inTheater && XmlGramarMovieResult.NODE_PROJECTION.equals(localName)) {
-			List<Long> projectionList = curentTheater.getMovieMap().get(curentMovieId);
+			List<ProjectionBean> projectionList = curentTheater.getMovieMap().get(curentMovieId);
 			if (projectionList == null) {
-				projectionList = new ArrayList<Long>();
+				projectionList = new ArrayList<ProjectionBean>();
 				curentTheater.getMovieMap().put(curentMovieId, projectionList);
 			}
 			String time = atts.getValue(XmlGramarMovieResult.ATTR_TIME);
 			if (time != null) {
 				try {
-					projectionList.add(Long.valueOf(time));
+					ProjectionBean projection = new ProjectionBean();
+					projection.setShowtime(Long.valueOf(time));
+
+					String lang = atts.getValue(XmlGramarMovieResult.ATTR_LANG);
+					if (lang != null) {
+						try {
+							projection.setSubtitle(URLDecoder.decode(lang, AndShowTimeEncodingUtil.getEncoding()));
+						} catch (UnsupportedEncodingException e) {
+						}
+					}
+
+					String reservationLink = atts.getValue(XmlGramarMovieResult.ATTR_RESERVATION_URL);
+					if (reservationLink != null) {
+						projection.setReservationLink(reservationLink);
+					}
+
+					projectionList.add(projection);
 				} catch (NumberFormatException e) {
 				}
 			}

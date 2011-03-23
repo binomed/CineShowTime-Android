@@ -6,7 +6,9 @@ import java.util.Set;
 
 import android.location.Location;
 
-public class ModelSearchMovieActivity {
+import com.binomed.showtime.android.util.localisation.IModelLocalisation;
+
+public class ModelSearchMovieActivity implements IModelLocalisation {
 
 	private String cityName;
 	private String movieName;
@@ -19,8 +21,8 @@ public class ModelSearchMovieActivity {
 	private Set<String> requestNearList;
 	private Set<String> requestMovieList;
 
-	private Location gpsLocalisation;
-	private Location localisationSearch;
+	private Location localisation;
+	// private Location localisationSearch;
 
 	private int day;
 
@@ -38,21 +40,21 @@ public class ModelSearchMovieActivity {
 		this.cityName = cityName;
 	}
 
-	public Location getGpsLocalisation() {
-		return gpsLocalisation;
+	public Location getLocalisation() {
+		return localisation;
 	}
 
-	public void setGpsLocalisation(Location gpsLocalisation) {
-		this.gpsLocalisation = gpsLocalisation;
+	public void setLocalisation(Location gpsLocalisation) {
+		this.localisation = gpsLocalisation;
 	}
 
-	public Location getLocalisationSearch() {
-		return localisationSearch;
-	}
-
-	public void setLocalisationSearch(Location localisationSearch) {
-		this.localisationSearch = localisationSearch;
-	}
+	// public Location getLocalisationSearch() {
+	// return localisationSearch;
+	// }
+	//
+	// public void setLocalisationSearch(Location localisationSearch) {
+	// this.localisationSearch = localisationSearch;
+	// }
 
 	public String getFavTheaterId() {
 		return favTheaterId;

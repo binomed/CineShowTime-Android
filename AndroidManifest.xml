@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.binomed.showtime" android:versionCode="7" android:versionName="1.5">
+      package="com.binomed.showtime" android:versionCode="8" android:versionName="1.6">
     <application android:label="@string/app_name" android:icon="@drawable/icon" android:debuggable="false">
         <activity android:label="@string/app_name" android:name=".android.activity.AndShowTimeMainActivity" android:icon="@drawable/icon">
             <intent-filter>
@@ -13,11 +13,10 @@
 		<service android:name=".android.searchnearactivity.AndShowTimeSearchNearService"></service>
 		<service android:name=".android.movieactivity.AndShowTimeMovieService"></service>
 		<activity android:name=".android.activity.AndShowTimePreferencesActivity"></activity>
-		<service android:name=".android.searchnearactivity.AndShowTimeSearchNearDBService"></service>
 		<activity android:name=".android.searchmovieactivity.AndShowTimeSearchMovieActivity"></activity>
 		<service android:name=".android.searchmovieactivity.AndShowTimeSearchMovieService"></service>
-		<service android:name=".android.searchmovieactivity.AndShowTimeSearchMovieDBService"></service>
 		<service android:name=".android.service.AndShowCleanFileService"></service>
+		<service android:name=".android.service.AndShowDBGlobalService"></service>
 		
 		<service android:name=".android.widget.AndShowTimeWidgetService"/>
 		<service android:name=".android.widget.AndShowTimeWidgetServiceLeft"/>
@@ -40,16 +39,26 @@
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget" />
 		</receiver>
 	</application>
-    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="5" android:maxSdkVersion="6"/>
-
+    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="5"/>
+	<!-- GPS Location -->
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+	<!-- Access net -->
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
-	
+	<!-- Call theater -->
 	<uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
-	
-	
-
-
-<uses-permission android:name="android.permission.READ_CALENDAR"></uses-permission>
-<uses-permission android:name="android.permission.WRITE_CALENDAR"></uses-permission>
+	<!-- Check calendar for adding event -->
+	<uses-permission android:name="android.permission.READ_CALENDAR"></uses-permission>
+	<uses-permission android:name="android.permission.WRITE_CALENDAR"></uses-permission>
+	<!-- ShyHook needs -->
+	<!-- used to communicate with Skyhook's servers -->
+	<!-- <uses-permission android:name="android.permission.INTERNET" />-->
+	<!-- enables WiFi, if disabled, for the duration of a location request -->
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+	<!-- used to obtain information about the WiFi environment -->
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<!-- used to obtain cell tower ID -->
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<!-- used to access GPS location, for XPS functionality -->
+	<!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
 </manifest> 

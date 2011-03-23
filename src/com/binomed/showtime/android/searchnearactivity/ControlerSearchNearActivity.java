@@ -17,17 +17,21 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
 import com.binomed.showtime.android.aidl.ICallbackSearchNear;
 import com.binomed.showtime.android.aidl.IServiceSearchNear;
+import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.movieactivity.AndShowTimeMovieActivity;
+import com.binomed.showtime.android.service.AndShowDBGlobalService;
 import com.binomed.showtime.android.util.AndShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.AndShowtimeDB2AndShowtimeBeans;
+import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.BeanManagerFactory;
+import com.binomed.showtime.android.util.localisation.LocationUtils;
+import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.NearResp;
 import com.binomed.showtime.beans.TheaterBean;
@@ -79,14 +83,18 @@ public class ControlerSearchNearActivity {
 
 		intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movie.getId());
 		intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theater.getId());
-		intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (model.getGpsLocalisation() != null) ? model.getGpsLocalisation().getLatitude() : null);
-		intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (model.getGpsLocalisation() != null) ? model.getGpsLocalisation().getLongitude() : null);
+		intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (model.getLocalisation() != null) ? model.getLocalisation().getLatitude() : null);
+		intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (model.getLocalisation() != null) ? model.getLocalisation().getLongitude() : null);
 		StringBuilder place = new StringBuilder();
 		if (theater != null) {
 			if (theater.getPlace() != null) {
 				if (theater.getPlace().getCityName() != null //
 						&& theater.getPlace().getCityName().length() > 0) {
 					place.append(theater.getPlace().getCityName());
+				}
+				if (theater.getPlace().getPostalCityNumber() != null //
+						&& theater.getPlace().getPostalCityNumber().length() > 0) {
+					place.append(" ").append(theater.getPlace().getPostalCityNumber());
 				}
 				if (theater.getPlace().getCountryNameCode() != null //
 						&& theater.getPlace().getCountryNameCode().length() > 0 //
@@ -104,9 +112,8 @@ public class ControlerSearchNearActivity {
 	}
 
 	public void launchNearService() throws UnsupportedEncodingException {
-		// bindService();
 
-		Location gpsLocation = model.getLocalisationSearch();
+		Location gpsLocation = model.getLocalisation();
 		String cityName = model.getCityName();
 		String theaterId = model.getFavTheaterId();
 		int day = model.getDay();
@@ -124,6 +131,7 @@ public class ControlerSearchNearActivity {
 			nearActivity.fillAutoField();
 		}
 
+		AndShowtimeFactory.initGeocoder(nearActivity);
 		Intent intentNearService = new Intent(nearActivity, AndShowTimeSearchNearService.class);
 
 		intentNearService.putExtra(ParamIntent.SERVICE_NEAR_LATITUDE, (gpsLocation != null) ? gpsLocation.getLatitude() : null);
@@ -184,6 +192,22 @@ public class ControlerSearchNearActivity {
 						Calendar today = Calendar.getInstance();
 						long timeLastRequest = cursorLastResult.getLong(cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_TIME));
 						calendarLastRequest.setTimeInMillis(timeLastRequest);
+
+						// Init localisation from data base
+						Location location = new Location(SpecialChars.EMPTY);
+						int columnIndex = cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_LATITUDE);
+						location.setLatitude(cursorLastResult.getDouble(columnIndex));
+						columnIndex = cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_LONGITUDE);
+						location.setLongitude(cursorLastResult.getDouble(columnIndex));
+
+						if (model == null) {
+							getModelNearActivity();
+						}
+						model.setLocalisation(location);
+
+						columnIndex = cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_CITY_NAME);
+						model.setCityName(cursorLastResult.getString(columnIndex));
+
 						int yearToday = today.get(Calendar.YEAR);
 						int monthToday = today.get(Calendar.MONTH);
 						int dayToday = today.get(Calendar.DAY_OF_MONTH);
@@ -194,25 +218,10 @@ public class ControlerSearchNearActivity {
 								|| (monthToday != monthLast) //
 								|| (dayToday != dayLast) //
 						) {//
-							Location location = new Location(SpecialChars.EMPTY);
-							int columnIndex = cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_LATITUDE);
-							location.setLatitude(cursorLastResult.getDouble(columnIndex));
-							columnIndex = cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_LONGITUDE);
-							location.setLongitude(cursorLastResult.getDouble(columnIndex));
-
-							if (model == null) {
-								getModelNearActivity();
-							}
-							model.setLocalisationSearch(location);
-
-							columnIndex = cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_CITY_NAME);
-							model.setCityName(cursorLastResult.getString(columnIndex));
 
 							rerunService = true;
-
-							boolean checkboxPreferenceAutoReload;
 							SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(nearActivity.getBaseContext());
-							checkboxPreferenceAutoReload = prefs.getBoolean(nearActivity.getResources().getString(R.string.preference_gen_key_auto_reload), true);
+							boolean checkboxPreferenceAutoReload = prefs.getBoolean(nearActivity.getResources().getString(R.string.preference_gen_key_auto_reload), true);
 
 							rerunService = rerunService && checkboxPreferenceAutoReload;
 						}
@@ -261,11 +270,18 @@ public class ControlerSearchNearActivity {
 
 	public void addFavorite(TheaterBean theaterBean) {
 		try {
-			if (mDbHelper.isOpen()) {
-				mDbHelper.addTheaterToFavorites(theaterBean);
-			} else {
-				Toast.makeText(this.nearActivity, R.string.msgErrorNoDb, Toast.LENGTH_LONG);
+			if (LocationUtils.isEmptyLocation(theaterBean.getPlace())) {
+				LocalisationBean place = theaterBean.getPlace();
+				if (place == null) {
+					place = new LocalisationBean();
+					theaterBean.setPlace(place);
+				}
+				place.setCityName(model.getCityName());
 			}
+			BeanManagerFactory.setTheaterTemp(theaterBean);
+			Intent service = new Intent(nearActivity, AndShowDBGlobalService.class);
+			service.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_FAV_WRITE);
+			nearActivity.startService(service);
 		} catch (Exception e) {
 			Log.e(TAG, "error putting data into data base", e);
 		}
@@ -274,9 +290,10 @@ public class ControlerSearchNearActivity {
 
 	public void removeFavorite(TheaterBean theaterBean) {
 		try {
-			if (mDbHelper.isOpen()) {
-				mDbHelper.deleteFavorite(theaterBean.getId());
-			}
+			BeanManagerFactory.setTheaterTemp(theaterBean);
+			Intent service = new Intent(nearActivity, AndShowDBGlobalService.class);
+			service.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_FAV_DELETE);
+			nearActivity.startService(service);
 		} catch (Exception e) {
 			Log.e(TAG, "error removing theater from fav", e);
 		}
@@ -349,7 +366,9 @@ public class ControlerSearchNearActivity {
 
 		@Override
 		public void finish() throws RemoteException {
-			Intent intentNearFillDBService = new Intent(nearActivity, AndShowTimeSearchNearDBService.class);
+			// Intent intentNearFillDBService = new Intent(nearActivity, AndShowTimeSearchNearDBService.class);
+			Intent intentNearFillDBService = new Intent(nearActivity, AndShowDBGlobalService.class);
+			intentNearFillDBService.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_NEAR_RESP_WRITE);
 			nearActivity.startService(intentNearFillDBService);
 
 			nearActivity.m_callbackHandler.sendInputRecieved();

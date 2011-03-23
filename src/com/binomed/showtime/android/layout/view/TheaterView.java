@@ -2,7 +2,9 @@ package com.binomed.showtime.android.layout.view;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
+import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.beans.TheaterBean;
 
 public class TheaterView extends LinearLayout {
@@ -62,47 +65,60 @@ public class TheaterView extends LinearLayout {
 
 		boolean first = true;
 		Set<String> movieIdSet = theaterBean.getMovieMap().keySet();
-		List<Long> projectionList = theaterBean.getMovieMap().get(movieIdSet.toArray()[0]);
+		List<ProjectionBean> projectionList = theaterBean.getMovieMap().get(movieIdSet.toArray()[0]);
 		int passedShowtime;
 		Long distanceTimeLong = null;
 		if (distanceTime && theaterBean.getPlace() != null) {
 			distanceTimeLong = theaterBean.getPlace().getDistanceTime();
 		}
 		// long minTime = AndShowtimeDateNumberUtil.getMinTime(projectionList);
-		List<Long>[] orderTimeListArray = AndShowtimeDateNumberUtil.getTimeOrder(projectionList, Calendar.getInstance().getTimeInMillis(), distanceTimeLong);
-		for (long projectionTime : orderTimeListArray[0]) {
-			if (!first) {
-				movieListStr.append(" | ");
-			} else {
-				first = false;
+		// TODO gérer vf vo + lien + refactoring avec AndShowtimeDateNumberUtil.getMovieStr
+		Map<String, List<ProjectionBean>> splitProjectionBeanMap = AndShowtimeDateNumberUtil.splitProjectionList(projectionList);
+		List<ProjectionBean>[] orderTimeListArray = null;
+		for (Entry<String, List<ProjectionBean>> entryProjectionBeanList : splitProjectionBeanMap.entrySet()) {
+			orderTimeListArray = AndShowtimeDateNumberUtil.getTimeOrder(entryProjectionBeanList.getValue(), Calendar.getInstance().getTimeInMillis(), distanceTimeLong);
+
+			if (entryProjectionBeanList.getKey() != null) {
+				movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+						.append(entryProjectionBeanList.getKey()) //$NON-NLS-1$//$NON-NLS-2$
+						.append(" : </FONT>"); //$NON-NLS-1$
 			}
+			first = true;
 
-			movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_GREY).append("\">") //$NON-NLS-1$//$NON-NLS-2$
-					.append("<i>").append(AndShowtimeDateNumberUtil.showMovieTime(getContext(), projectionTime)).append("</i>") //$NON-NLS-1$ //$NON-NLS-2$
-					.append("</FONT>"); //$NON-NLS-1$
-		}
-		for (long projectionTime : orderTimeListArray[1]) {
-			if (!first) {
-				movieListStr.append(" | ");
-			} else {
-				first = false;
+			for (ProjectionBean projectionTime : orderTimeListArray[0]) {
+				if (!first) {
+					movieListStr.append(" | ");
+				} else {
+					first = false;
+				}
+
+				movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_GREY).append("\">") //$NON-NLS-1$//$NON-NLS-2$
+						.append("<i>").append(AndShowtimeDateNumberUtil.showMovieTime(getContext(), projectionTime.getShowtime())).append("</i>") //$NON-NLS-1$ //$NON-NLS-2$
+						.append("</FONT>"); //$NON-NLS-1$
 			}
+			for (ProjectionBean projectionTime : orderTimeListArray[1]) {
+				if (!first) {
+					movieListStr.append(" | ");
+				} else {
+					first = false;
+				}
 
-			movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
-					.append("<b>").append(AndShowtimeDateNumberUtil.showMovieTime(getContext(), projectionTime)).append("</b>") //$NON-NLS-1$//$NON-NLS-2$
-					.append("</FONT>"); //$NON-NLS-1$
-		}
-		for (long projectionTime : orderTimeListArray[2]) {
-			if (!first) {
-				movieListStr.append(" | ");
-			} else {
-				first = false;
+				movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+						.append("<b>").append(AndShowtimeDateNumberUtil.showMovieTime(getContext(), projectionTime.getShowtime())).append("</b>") //$NON-NLS-1$//$NON-NLS-2$
+						.append("</FONT>"); //$NON-NLS-1$
 			}
+			for (ProjectionBean projectionTime : orderTimeListArray[2]) {
+				if (!first) {
+					movieListStr.append(" | ");
+				} else {
+					first = false;
+				}
 
-			movieListStr.append(AndShowtimeDateNumberUtil.showMovieTime(getContext(), projectionTime));
+				movieListStr.append(AndShowtimeDateNumberUtil.showMovieTime(getContext(), projectionTime.getShowtime()));
 
+			}
+			movieListStr.append("<br>");
 		}
-		movieListStr.append("\n");
 
 		movieList.setText(Html.fromHtml(movieListStr.toString()));
 	}

@@ -1,9 +1,6 @@
 package com.binomed.showtime.android.searchmovieactivity;
 
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
-import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +18,12 @@ import com.binomed.showtime.android.util.BeanManagerFactory;
 import com.binomed.showtime.beans.MovieResp;
 import com.binomed.showtime.beans.TheaterBean;
 
-public class ListenerSearchMovieActivity implements OnClickListener, OnItemClickListener, LocationListener, OnItemSelectedListener, ListSelectionListener {
+public class ListenerSearchMovieActivity implements OnClickListener //
+		, OnItemClickListener //
+		// , LocationListener //
+		, OnItemSelectedListener //
+		, ListSelectionListener// 
+{
 
 	private AndShowTimeSearchMovieActivity movieActivity;
 	private ControlerSearchMovieActivity controler;
@@ -69,7 +71,7 @@ public class ListenerSearchMovieActivity implements OnClickListener, OnItemClick
 							.show();
 					canLaunch = false;
 				}
-				if (canLaunch && btnCheck && model.getGpsLocalisation() == null) {
+				if (canLaunch && btnCheck && model.getLocalisation() == null) {
 					Toast.makeText(movieActivity //
 							, R.string.msgNoGps //
 							, Toast.LENGTH_LONG) //
@@ -86,9 +88,9 @@ public class ListenerSearchMovieActivity implements OnClickListener, OnItemClick
 				if (canLaunch) {
 					if (btnCheck) {
 						model.setCityName(null);
-						model.setLocalisationSearch(model.getGpsLocalisation());
+						// model.setLocalisationSearch(model.getGpsLocalisation());
 					} else {
-						model.setLocalisationSearch(null);
+						model.setLocalisation(null);
 					}
 					movieActivity.launchMovieService();
 				}
@@ -110,67 +112,67 @@ public class ListenerSearchMovieActivity implements OnClickListener, OnItemClick
 			intent.putExtra(RecognizerIntent.EXTRA_PROMPT, movieActivity.getResources().getString(R.string.msgSpeecMovie));
 			movieActivity.startActivityForResult(intent, AndShowTimeSearchMovieActivity.VOICE_RECOGNITION_MOVIE_REQUEST_CODE);
 		}
-		case R.id.searchMovieLocation: {
-			movieActivity.fieldNearName.setEnabled(!movieActivity.checkLocationButton.isChecked());
-			if (!movieActivity.checkLocationButton.isChecked()) {
-				movieActivity.gpsImgView.setImageBitmap(movieActivity.bitmapGpsOff);
-				movieActivity.removeListenersLocation();
-			} else {
-				movieActivity.gpsImgView.setImageBitmap(movieActivity.bitmapGpsOn);
-				movieActivity.initListenersLocation();
-			}
-			break;
-		}
+			// case R.id.searchMovieLocation: {
+			// movieActivity.fieldNearName.setEnabled(!movieActivity.checkLocationButton.isChecked());
+			// if (!movieActivity.checkLocationButton.isChecked()) {
+			// movieActivity.gpsImgView.setImageBitmap(movieActivity.bitmapGpsOff);
+			// movieActivity.removeListenersLocation();
+			// } else {
+			// movieActivity.gpsImgView.setImageBitmap(movieActivity.bitmapGpsOn);
+			// movieActivity.initListenersLocation();
+			// }
+			// break;
+			// }
 		default:
 			break;
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.location.LocationListener#onLocationChanged(android.location.Location)
-	 */
-	@Override
-	public void onLocationChanged(Location arg0) {
-		Log.d(TAG, "Change location : lat : " + arg0.getLatitude() + " / lon : " + arg0.getLongitude());
-		model.setGpsLocalisation(arg0);
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
-	 */
-	@Override
-	public void onProviderDisabled(String arg0) {
-		movieActivity.checkLocationButton.setEnabled(false);
-		if (!movieActivity.checkLocationButton.isChecked()) {
-			movieActivity.checkLocationButton.setChecked(false);
-			movieActivity.fieldNearName.setEnabled(true);
-			movieActivity.gpsImgView.setImageBitmap(movieActivity.bitmapGpsOff);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
-	 */
-	@Override
-	public void onProviderEnabled(String arg0) {
-		movieActivity.checkLocationButton.setEnabled(true);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
-	 */
-	@Override
-	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
-	}
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.location.LocationListener#onLocationChanged(android.location.Location)
+	// */
+	// @Override
+	// public void onLocationChanged(Location arg0) {
+	// Log.d(TAG, "Change location : lat : " + arg0.getLatitude() + " / lon : " + arg0.getLongitude());
+	// model.setLocalisation(arg0);
+	//
+	// }
+	//
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
+	// */
+	// @Override
+	// public void onProviderDisabled(String arg0) {
+	// movieActivity.checkLocationButton.setEnabled(false);
+	// if (!movieActivity.checkLocationButton.isChecked()) {
+	// movieActivity.checkLocationButton.setChecked(false);
+	// movieActivity.fieldNearName.setEnabled(true);
+	// movieActivity.gpsImgView.setImageBitmap(movieActivity.bitmapGpsOff);
+	// }
+	// }
+	//
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
+	// */
+	// @Override
+	// public void onProviderEnabled(String arg0) {
+	// movieActivity.checkLocationButton.setEnabled(true);
+	// }
+	//
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
+	// */
+	// @Override
+	// public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+	// }
 
 	/*
 	 * (non-Javadoc)

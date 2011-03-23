@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import android.content.Context;
 import android.text.Html;
@@ -14,6 +16,7 @@ import android.text.format.DateUtils;
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.beans.MovieBean;
+import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.cst.SpecialChars;
 import com.binomed.showtime.util.AndShowtimeNumberFormat;
 
@@ -259,45 +262,48 @@ public abstract class AndShowtimeDateNumberUtil {
 		return result;
 	}
 
-	public static long getMinTime(List<Long> timeList, Long distanceTime) {
+	public static ProjectionBean getMinTime(List<ProjectionBean> timeList, Long distanceTime) {
 		long currentTime = Calendar.getInstance().getTimeInMillis() + ((distanceTime != null) ? distanceTime : 0);
 
 		long minDiff0 = -1;
 		long minDiffTemp = 0;
 		long minTime = -1;
 
+		ProjectionBean result = null;
+
 		// Calendar cal = Calendar.getInstance();
 		if (timeList != null) {
-			for (Long timeTmp : timeList) {
+			for (ProjectionBean timeTmp : timeList) {
 				// cal.setTimeInMillis(timeTmp);
-				minDiffTemp = (timeTmp - currentTime);
+				minDiffTemp = (timeTmp.getShowtime() - currentTime);
 				if ((minDiffTemp < (minDiff0) || (minDiff0 == -1)) && (minDiffTemp > 0)) {
 					minDiff0 = minDiffTemp;
-					minTime = timeTmp;
+					minTime = timeTmp.getShowtime();
+					result = timeTmp;
 				}
 			}
 		}
 
-		return minTime;
+		return result;
 	}
 
-	public static List<Long>[] getTimeOrder(List<Long> timeList, long currentTime, Long distanceTime) {
+	public static List<ProjectionBean>[] getTimeOrder(List<ProjectionBean> timeList, long currentTime, Long distanceTime) {
 
 		long curTime = currentTime + ((distanceTime != null) ? distanceTime : 0);
-		ArrayList<Long> beforeList = new ArrayList<Long>();
-		ArrayList<Long> minList = new ArrayList<Long>();
-		ArrayList<Long> afterList = new ArrayList<Long>();
-		ArrayList<Long>[] timeOrderArray = (ArrayList<Long>[]) new ArrayList[] { beforeList, minList, afterList };
+		ArrayList<ProjectionBean> beforeList = new ArrayList<ProjectionBean>();
+		ArrayList<ProjectionBean> minList = new ArrayList<ProjectionBean>();
+		ArrayList<ProjectionBean> afterList = new ArrayList<ProjectionBean>();
+		ArrayList<ProjectionBean>[] timeOrderArray = (ArrayList<ProjectionBean>[]) new ArrayList[] { beforeList, minList, afterList };
 
 		long minDiff0 = -1;
 		long minDiffTemp = 0;
-		long minTime = -1;
+		ProjectionBean minTime = null;
 
 		// Calendar cal = Calendar.getInstance();
 		if (timeList != null) {
-			for (Long timeTmp : timeList) {
+			for (ProjectionBean timeTmp : timeList) {
 				// cal.setTimeInMillis(timeTmp);
-				minDiffTemp = (timeTmp - curTime);
+				minDiffTemp = (timeTmp.getShowtime() - curTime);
 				if ((minDiffTemp < (minDiff0) || (minDiff0 == -1)) && (minDiffTemp > 0)) {
 					minDiff0 = minDiffTemp;
 					minTime = timeTmp;
@@ -317,7 +323,7 @@ public abstract class AndShowtimeDateNumberUtil {
 		return timeOrderArray;
 	}
 
-	public static Spanned getMovieViewStr(String movieId, String theaterId, List<Long> projectionList, Context context, Long distanceTime) {
+	public static Spanned getMovieViewStr(String movieId, String theaterId, List<ProjectionBean> projectionList, Context context, Long distanceTime) {
 		Spanned spanned = null;
 		Long curTime = Calendar.getInstance().getTimeInMillis();
 
@@ -335,37 +341,49 @@ public abstract class AndShowtimeDateNumberUtil {
 			StringBuilder movieListStr = null;
 			movieListStr = new StringBuilder();
 			boolean first = true;
-			List<Long>[] orderTimeListArray = AndShowtimeDateNumberUtil.getTimeOrder(projectionList, curTime, distanceTime);
+			// TODO Gérer les liens et le coup VO VF
+			Map<String, List<ProjectionBean>> splitProjectionBeanMap = AndShowtimeDateNumberUtil.splitProjectionList(projectionList);
+			List<ProjectionBean>[] orderTimeListArray = null;
+			for (Entry<String, List<ProjectionBean>> entryProjectionBeanList : splitProjectionBeanMap.entrySet()) {
+				orderTimeListArray = AndShowtimeDateNumberUtil.getTimeOrder(entryProjectionBeanList.getValue(), curTime, distanceTime);
 
-			for (long projectionTime : orderTimeListArray[0]) {
-				if (!first) {
-					movieListStr.append(" | ");
-				} else {
-					first = false;
+				if (entryProjectionBeanList.getKey() != null) {
+					movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+							.append(entryProjectionBeanList.getKey()) //$NON-NLS-1$//$NON-NLS-2$
+							.append(" : </FONT>"); //$NON-NLS-1$
 				}
-				movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_GREY).append("\">") //$NON-NLS-1$//$NON-NLS-2$
-						.append("<i>").append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime)).append("</i>") //$NON-NLS-1$ //$NON-NLS-2$
-						.append("</FONT>"); //$NON-NLS-1$
-			}
-			for (long projectionTime : orderTimeListArray[1]) {
-				if (!first) {
-					movieListStr.append(" | ");
-				} else {
-					first = false;
+				first = true;
+
+				for (ProjectionBean projectionTime : orderTimeListArray[0]) {
+					if (!first) {
+						movieListStr.append(" | ");
+					} else {
+						first = false;
+					}
+					movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_GREY).append("\">") //$NON-NLS-1$//$NON-NLS-2$
+							.append("<i>").append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime())).append("</i>") //$NON-NLS-1$ //$NON-NLS-2$
+							.append("</FONT>"); //$NON-NLS-1$
 				}
-				movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
-						.append("<b>").append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime)).append("</b>") //$NON-NLS-1$//$NON-NLS-2$
-						.append("</FONT>"); //$NON-NLS-1$
-			}
-			for (long projectionTime : orderTimeListArray[2]) {
-				if (!first) {
-					movieListStr.append(" | ");
-				} else {
-					first = false;
+				for (ProjectionBean projectionTime : orderTimeListArray[1]) {
+					if (!first) {
+						movieListStr.append(" | ");
+					} else {
+						first = false;
+					}
+					movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+							.append("<b>").append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime())).append("</b>") //$NON-NLS-1$//$NON-NLS-2$
+							.append("</FONT>"); //$NON-NLS-1$
 				}
-				movieListStr.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime));
+				for (ProjectionBean projectionTime : orderTimeListArray[2]) {
+					if (!first) {
+						movieListStr.append(" | ");
+					} else {
+						first = false;
+					}
+					movieListStr.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime()));
+				}
+				movieListStr.append("<BR>");
 			}
-			movieListStr.append("\n");
 			spanned = Html.fromHtml(movieListStr.toString());
 
 			synchronized (mapMovieStr) {
@@ -375,6 +393,20 @@ public abstract class AndShowtimeDateNumberUtil {
 		}
 
 		return spanned;
+	}
+
+	public static Map<String, List<ProjectionBean>> splitProjectionList(List<ProjectionBean> projectionList) {
+		Map<String, List<ProjectionBean>> splitProjectionMap = new HashMap<String, List<ProjectionBean>>();
+		List<ProjectionBean> listProjectionLangage = null;
+		for (ProjectionBean projectionBean : projectionList) {
+			listProjectionLangage = splitProjectionMap.get(projectionBean.getLang());
+			if (listProjectionLangage == null) {
+				listProjectionLangage = new ArrayList<ProjectionBean>();
+				splitProjectionMap.put(projectionBean.getLang(), listProjectionLangage);
+			}
+			listProjectionLangage.add(projectionBean);
+		}
+		return splitProjectionMap;
 	}
 
 	public static synchronized void clearMaps() {

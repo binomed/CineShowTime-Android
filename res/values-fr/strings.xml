@@ -23,7 +23,7 @@
 	<string name="menuSort">Trier les résultats</string>
 	<string name="sortDialogTitle">Choisissez le tri à faire</string>
 	<string name="msgNoCityName">Vous devez saisir un nom de ville avant de lancer la recherche</string>
-	<string name="msgNoGps">Aucune coordonnée gps trouvée... Veuillez vous déplacer ou retenter plus tard</string>
+	<string name="msgNoGps">Aucune coordonnée trouvée... Veuillez vous déplacer ou retenter plus tard</string>
 	<string name="msgNoMovieName">Vous devez saisir un nom de film avant de lancer la recherche</string>
 	<string name="msgNoPlaceMatch">Aucun film correspondant à votre recherche n\'a été trouvé. Essayer avec une ville différente</string>
 	<string name="msgNoDateMatch">Aucune séance n\'a été trouvée. Entrez une autre date.</string>

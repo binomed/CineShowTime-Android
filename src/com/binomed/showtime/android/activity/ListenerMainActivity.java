@@ -45,6 +45,7 @@ public class ListenerMainActivity implements OnClickListener, TheaterFavSelectio
 				dialog.show();
 			} else {
 				Toast.makeText(mainActivity, R.string.msgNoDFav, Toast.LENGTH_SHORT).show();
+
 			}
 			break;
 		}

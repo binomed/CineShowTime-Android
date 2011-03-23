@@ -23,6 +23,7 @@ public class AndShowTimeSearchNearService extends Service {
 	private String origin;
 	private int day;
 	private int start;
+	private Intent intent;
 
 	private boolean serviceStarted;
 	/**
@@ -95,6 +96,7 @@ public class AndShowTimeSearchNearService extends Service {
 		theaterId = intent.getExtras().getString(ParamIntent.SERVICE_NEAR_THEATER_ID);
 		day = intent.getExtras().getInt(ParamIntent.SERVICE_NEAR_DAY);
 		start = intent.getExtras().getInt(ParamIntent.SERVICE_NEAR_START);
+		this.intent = intent;
 		try {
 			serviceStarted = true;
 			Thread thread = new Thread(runnable);
@@ -110,7 +112,14 @@ public class AndShowTimeSearchNearService extends Service {
 		public void run() {
 			try {
 				NearResp resultBean = AndShowtimeRequestManage.searchTheaters( //
-						latitude, longitude, cityName, theaterId, day, start, origin);
+						latitude //
+						, longitude //
+						, cityName //
+						, theaterId //
+						, day //
+						, start //
+						, origin //
+						);
 				if (origin == null || AndShowTimeSearchNearActivity.class.getName().equals(origin)) {
 					BeanManagerFactory.setNearResp(resultBean);
 				} else {

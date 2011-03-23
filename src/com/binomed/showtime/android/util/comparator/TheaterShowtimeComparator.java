@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
+import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.beans.TheaterBean;
 
 public class TheaterShowtimeComparator implements Comparator<TheaterBean> {
@@ -20,12 +21,12 @@ public class TheaterShowtimeComparator implements Comparator<TheaterBean> {
 		long minDiff1 = -1;
 		long minDiffTemp = 0;
 		int result = 0;
-		List<Long> movieShowTimeList = null;
+		List<ProjectionBean> movieShowTimeList = null;
 		if (theater0 != null && theater1 != null) {
 			for (String movieId : theater0.getMovieMap().keySet()) {
 				movieShowTimeList = theater0.getMovieMap().get(movieId);
-				for (Long time : movieShowTimeList) {
-					minDiffTemp = (time - currentTime);
+				for (ProjectionBean time : movieShowTimeList) {
+					minDiffTemp = (time.getShowtime() - currentTime);
 					if ((minDiffTemp < (minDiff0) || (minDiff0 == -1)) && (minDiffTemp > 0)) {
 						minDiff0 = minDiffTemp;
 					}
@@ -33,8 +34,8 @@ public class TheaterShowtimeComparator implements Comparator<TheaterBean> {
 			}
 			for (String movieId : theater1.getMovieMap().keySet()) {
 				movieShowTimeList = theater1.getMovieMap().get(movieId);
-				for (Long time : movieShowTimeList) {
-					minDiffTemp = (time - currentTime);
+				for (ProjectionBean time : movieShowTimeList) {
+					minDiffTemp = (time.getShowtime() - currentTime);
 					if ((minDiffTemp < (minDiff1) || (minDiff1 == -1)) && (minDiffTemp > 0)) {
 						minDiff1 = minDiffTemp;
 					}

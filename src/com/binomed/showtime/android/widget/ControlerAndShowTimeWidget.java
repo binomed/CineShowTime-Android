@@ -8,28 +8,31 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.database.SQLException;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
-import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
 import com.binomed.showtime.android.aidl.ICallbackSearchNear;
 import com.binomed.showtime.android.aidl.IServiceSearchNear;
+import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.searchnearactivity.AndShowTimeSearchNearService;
+import com.binomed.showtime.android.service.AndShowDBGlobalService;
 import com.binomed.showtime.android.util.AndShowTimeEncodingUtil;
+import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.BeanManagerFactory;
+import com.binomed.showtime.android.util.localisation.LocationUtils;
+import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.NearResp;
+import com.binomed.showtime.beans.TheaterBean;
 
 public class ControlerAndShowTimeWidget {
 	private static final String TAG = "ControlerWidgetActivity"; //$NON-NLS-1$
 
 	private AndShowTimeWidgetConfigureActivity widgetActivity;
 	private ModelAndShowTimeWidget model;
-	private AndShowtimeDbAdapter mDbHelper;
 
 	private IServiceSearchNear serviceNear;
 
@@ -51,7 +54,6 @@ public class ControlerAndShowTimeWidget {
 	public void registerView(AndShowTimeWidgetConfigureActivity widgetActivity) {
 		this.widgetActivity = widgetActivity;
 		bindService();
-		initDB();
 		initWidgetId();
 	}
 
@@ -63,12 +65,12 @@ public class ControlerAndShowTimeWidget {
 	}
 
 	public void launchNearService() throws UnsupportedEncodingException {
-		// bindService();
 
-		Location gpsLocation = model.getLocalisationSearch();
+		Location gpsLocation = model.getLocalisation();
 		String cityName = model.getCityName();
 		int start = model.getStart();
 
+		AndShowtimeFactory.initGeocoder(widgetActivity);
 		Intent intentNearService = new Intent(widgetActivity, AndShowTimeSearchNearService.class);
 
 		intentNearService.putExtra(ParamIntent.SERVICE_NEAR_LATITUDE, (gpsLocation != null) ? gpsLocation.getLatitude() : null);
@@ -78,45 +80,6 @@ public class ControlerAndShowTimeWidget {
 		intentNearService.putExtra(ParamIntent.SERVICE_NEAR_START, start);
 
 		widgetActivity.startService(intentNearService);
-	}
-
-	/*
-	 * 
-	 * DB
-	 */
-
-	public void openDB() {
-
-		try {
-			Log.i(TAG, "openDB"); //$NON-NLS-1$
-			mDbHelper = new AndShowtimeDbAdapter(widgetActivity);
-			mDbHelper.open();
-		} catch (SQLException e) {
-			Log.e(TAG, "error during getting fetching informations", e); //$NON-NLS-1$
-		}
-	}
-
-	public void initDB() {
-
-		try {
-			openDB();
-
-			getModelWidgetActivity();
-
-		} catch (SQLException e) {
-			Log.e(TAG, "error during getting fetching informations", e); //$NON-NLS-1$
-		}
-	}
-
-	public void closeDB() {
-		try {
-			if (mDbHelper.isOpen()) {
-				Log.i(TAG, "Close DB"); //$NON-NLS-1$
-				mDbHelper.close();
-			}
-		} catch (Exception e) {
-			Log.e(TAG, "error onDestroy of movie Activity", e); //$NON-NLS-1$
-		}
 	}
 
 	/*
@@ -207,10 +170,24 @@ public class ControlerAndShowTimeWidget {
 	protected void finalizeWidget() {
 		final Context context = widgetActivity;
 
-		if (mDbHelper.isOpen()) {
-			mDbHelper.setWidgetTheater(model.getTheater());
+		// We fill db
+		Intent intentWidgetDb = new Intent(widgetActivity, AndShowDBGlobalService.class);
+		intentWidgetDb.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_WIDGET_WRITE);
+		TheaterBean theater = model.getTheater();
+		if (LocationUtils.isEmptyLocation(theater.getPlace())) {
+			LocalisationBean place = theater.getPlace();
+			if (theater.getPlace() == null) {
+				place = new LocalisationBean();
+				theater.setPlace(place);
+			}
+			place.setCityName(model.getCityName());
 		}
-		AndShowTimeWidgetHelper.updateWidget(context, null);
+		BeanManagerFactory.setTheaterTemp(theater);
+		widgetActivity.startService(intentWidgetDb);
+		// We force widget to refresh
+		Intent intentRefreshWidget = new Intent(widgetActivity, AndShowTimeWidgetHelper.class);
+		intentRefreshWidget.putExtra(ParamIntent.WIDGET_REFRESH, true);
+		AndShowTimeWidgetHelper.updateWidget(context, intentRefreshWidget, theater);
 
 		// Make sure we pass back the original appWidgetId
 		Intent resultValue = new Intent();
@@ -218,5 +195,4 @@ public class ControlerAndShowTimeWidget {
 		widgetActivity.setResult(widgetActivity.RESULT_OK, resultValue);
 		widgetActivity.finish();
 	}
-
 }

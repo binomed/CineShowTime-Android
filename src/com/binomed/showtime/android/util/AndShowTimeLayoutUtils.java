@@ -11,8 +11,14 @@ import android.speech.RecognizerIntent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.binomed.showtime.android.util.localisation.IListenerLocalisationUtilCallBack;
+import com.binomed.showtime.android.util.localisation.IModelLocalisation;
+import com.binomed.showtime.android.util.localisation.LocalisationManagement;
 
 public final class AndShowTimeLayoutUtils {
 
@@ -39,6 +45,17 @@ public final class AndShowTimeLayoutUtils {
 				text.setLayoutParams(params);
 			}
 		}
+	}
+
+	public static IListenerLocalisationUtilCallBack manageLocationManagement(Context context, ImageView imageGps, CheckBox chckBoxGps, AutoCompleteTextView textSearch, IModelLocalisation model) {
+		LocalisationManagement callBack = new LocalisationManagement(context, imageGps, chckBoxGps, textSearch, model);
+		// callBack.setContext(context);
+		// callBack.setImageGps(imageGps);
+		// callBack.setChckBoxGps(chckBoxGps);
+		// callBack.setTextSearch(textSearch);
+		// callBack.setModel(model);
+		// callBack.initLocalisationManager();
+		return callBack;
 
 	}
 

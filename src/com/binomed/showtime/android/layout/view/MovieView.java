@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.beans.MovieBean;
+import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.beans.TheaterBean;
 
 public class MovieView extends LinearLayout {
@@ -52,7 +53,7 @@ public class MovieView extends LinearLayout {
 				.toString()//
 				);
 
-		List<Long> projectionList = theaterBean.getMovieMap().get(movieBean.getId());
+		List<ProjectionBean> projectionList = theaterBean.getMovieMap().get(movieBean.getId());
 		Long distanceTimeLong = null;
 		if (distanceTime && theaterBean != null && theaterBean.getPlace() != null) {
 			distanceTimeLong = theaterBean.getPlace().getDistanceTime();

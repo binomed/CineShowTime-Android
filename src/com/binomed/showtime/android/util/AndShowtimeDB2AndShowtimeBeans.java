@@ -13,6 +13,7 @@ import android.util.Log;
 import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
 import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.MovieBean;
+import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.beans.TheaterBean;
 
 public abstract class AndShowtimeDB2AndShowtimeBeans {
@@ -30,19 +31,22 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 		Log.d(TAG, "Extract movies"); //$NON-NLS-1$
 		Map<String, MovieBean> movieMap = new HashMap<String, MovieBean>();
 		Cursor movieCursor = mDbHelper.fetchAllMovies();
-		MovieBean movieBean = null;
-		if (movieCursor.moveToFirst()) {
-			do {
-				movieBean = extractMovie(movieCursor);
-				movieMap.put(movieBean.getId(), movieBean);
-				BeanManagerFactory.putMovie(movieBean);
-			} while (movieCursor.moveToNext());
-			Log.d(TAG, movieMap.size() + " movies extract"); //$NON-NLS-1$
-		} else {
-			Log.d(TAG, "No movies found"); //$NON-NLS-1$
-		}
-		if (movieCursor != null) {
-			movieCursor.close();
+		try {
+			MovieBean movieBean = null;
+			if (movieCursor.moveToFirst()) {
+				do {
+					movieBean = extractMovie(movieCursor);
+					movieMap.put(movieBean.getId(), movieBean);
+					BeanManagerFactory.putMovie(movieBean);
+				} while (movieCursor.moveToNext());
+				Log.d(TAG, movieMap.size() + " movies extract"); //$NON-NLS-1$
+			} else {
+				Log.d(TAG, "No movies found"); //$NON-NLS-1$
+			}
+		} finally {
+			if (movieCursor != null) {
+				movieCursor.close();
+			}
 		}
 		return movieMap;
 	}
@@ -118,18 +122,21 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 		List<TheaterBean> theaterBeanList = new ArrayList<TheaterBean>();
 		Cursor theaterCursor = mDbHelper.fetchAllTheaters();
 		TheaterBean theaterBean = null;
-		if (theaterCursor.moveToFirst()) {
-			do {
-				theaterBean = extractTheaterBean(theaterCursor, mDbHelper);
-				BeanManagerFactory.putTheater(theaterBean);
-				theaterBeanList.add(theaterBean);
-			} while (theaterCursor.moveToNext());
-			Log.d(TAG, theaterBeanList.size() + " theaters where extract"); //$NON-NLS-1$
-		} else {
-			Log.d(TAG, "No theater where extract"); //$NON-NLS-1$
-		}
-		if (theaterCursor != null) {
-			theaterCursor.close();
+		try {
+			if (theaterCursor.moveToFirst()) {
+				do {
+					theaterBean = extractTheaterBean(theaterCursor, mDbHelper);
+					BeanManagerFactory.putTheater(theaterBean);
+					theaterBeanList.add(theaterBean);
+				} while (theaterCursor.moveToNext());
+				Log.d(TAG, theaterBeanList.size() + " theaters where extract"); //$NON-NLS-1$
+			} else {
+				Log.d(TAG, "No theater where extract"); //$NON-NLS-1$
+			}
+		} finally {
+			if (theaterCursor != null) {
+				theaterCursor.close();
+			}
 		}
 		return theaterBeanList;
 	}
@@ -148,43 +155,46 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 		TheaterBean theaterBean = null;
 		LocalisationBean location = null;
 		int columnIndex = 0;
-		if (theaterFavCursor.moveToFirst()) {
-			do {
-				theaterBean = new TheaterBean();
+		try {
+			if (theaterFavCursor.moveToFirst()) {
+				do {
+					theaterBean = new TheaterBean();
 
-				columnIndex = theaterFavCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_ID);
-				theaterBean.setId(theaterFavCursor.getString(columnIndex));
+					columnIndex = theaterFavCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_ID);
+					theaterBean.setId(theaterFavCursor.getString(columnIndex));
 
-				columnIndex = theaterFavCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_NAME);
-				theaterBean.setTheaterName(theaterFavCursor.getString(columnIndex));
+					columnIndex = theaterFavCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_NAME);
+					theaterBean.setTheaterName(theaterFavCursor.getString(columnIndex));
 
-				columnIndex = theaterFavCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_PLACE);
-				location = new LocalisationBean();
-				location.setCityName(theaterFavCursor.getString(columnIndex));
+					columnIndex = theaterFavCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_PLACE);
+					location = new LocalisationBean();
+					location.setCityName(theaterFavCursor.getString(columnIndex));
 
-				columnIndex = theaterFavCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_COUNRTY_CODE);
-				location.setCountryNameCode(theaterFavCursor.getString(columnIndex));
+					columnIndex = theaterFavCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_COUNRTY_CODE);
+					location.setCountryNameCode(theaterFavCursor.getString(columnIndex));
 
-				columnIndex = theaterFavCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_POSTAL_CODE);
-				location.setPostalCityNumber(theaterFavCursor.getString(columnIndex));
+					columnIndex = theaterFavCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_POSTAL_CODE);
+					location.setPostalCityNumber(theaterFavCursor.getString(columnIndex));
 
-				columnIndex = theaterFavCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_LAT);
-				location.setLatitude(theaterFavCursor.getDouble(columnIndex));
+					columnIndex = theaterFavCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_LAT);
+					location.setLatitude(theaterFavCursor.getDouble(columnIndex));
 
-				columnIndex = theaterFavCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_LONG);
-				location.setLongitude(theaterFavCursor.getDouble(columnIndex));
+					columnIndex = theaterFavCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_LONG);
+					location.setLongitude(theaterFavCursor.getDouble(columnIndex));
 
-				theaterBean.setPlace(location);
+					theaterBean.setPlace(location);
 
-				BeanManagerFactory.putTheater(theaterBean);
-				theaterBeanList.add(theaterBean);
-			} while (theaterFavCursor.moveToNext());
-			Log.d(TAG, theaterBeanList.size() + " theaters where extract"); //$NON-NLS-1$
-		} else {
-			Log.d(TAG, "No theater where extract"); //$NON-NLS-1$
-		}
-		if (theaterFavCursor != null) {
-			theaterFavCursor.close();
+					BeanManagerFactory.putTheater(theaterBean);
+					theaterBeanList.add(theaterBean);
+				} while (theaterFavCursor.moveToNext());
+				Log.d(TAG, theaterBeanList.size() + " theaters where extract"); //$NON-NLS-1$
+			} else {
+				Log.d(TAG, "No theater where extract"); //$NON-NLS-1$
+			}
+		} finally {
+			if (theaterFavCursor != null) {
+				theaterFavCursor.close();
+			}
 		}
 		return theaterBeanList;
 	}
@@ -202,48 +212,51 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 		LocalisationBean location = null;
 		Cursor theaterWidgetCursor = mDbHelper.fetchWidgetTheater();
 		int columnIndex = 0;
-		if (theaterWidgetCursor.moveToFirst()) {
+		try {
+			if (theaterWidgetCursor.moveToFirst()) {
 
-			theaterBean = new TheaterBean();
-			theaterBean.setMovieMap(new HashMap<String, List<Long>>());
+				theaterBean = new TheaterBean();
+				theaterBean.setMovieMap(new HashMap<String, List<ProjectionBean>>());
 
-			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_ID);
-			theaterBean.setId(theaterWidgetCursor.getString(columnIndex));
+				columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_ID);
+				theaterBean.setId(theaterWidgetCursor.getString(columnIndex));
 
-			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_NAME);
-			theaterBean.setTheaterName(theaterWidgetCursor.getString(columnIndex));
+				columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_NAME);
+				theaterBean.setTheaterName(theaterWidgetCursor.getString(columnIndex));
 
-			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_PLACE);
-			location = new LocalisationBean();
-			location.setCityName(theaterWidgetCursor.getString(columnIndex));
+				columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_PLACE);
+				location = new LocalisationBean();
+				location.setCityName(theaterWidgetCursor.getString(columnIndex));
 
-			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_COUNRTY_CODE);
-			location.setCountryNameCode(theaterWidgetCursor.getString(columnIndex));
+				columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_COUNRTY_CODE);
+				location.setCountryNameCode(theaterWidgetCursor.getString(columnIndex));
 
-			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_POSTAL_CODE);
-			location.setPostalCityNumber(theaterWidgetCursor.getString(columnIndex));
+				columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_POSTAL_CODE);
+				location.setPostalCityNumber(theaterWidgetCursor.getString(columnIndex));
 
-			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_LAT);
-			location.setLatitude(theaterWidgetCursor.getDouble(columnIndex));
+				columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_LAT);
+				location.setLatitude(theaterWidgetCursor.getDouble(columnIndex));
 
-			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_LONG);
-			location.setLongitude(theaterWidgetCursor.getDouble(columnIndex));
+				columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_LONG);
+				location.setLongitude(theaterWidgetCursor.getDouble(columnIndex));
 
-			theaterBean.setPlace(location);
+				theaterBean.setPlace(location);
 
-			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_DATE);
-			Long lastSearch = theaterWidgetCursor.getLong(columnIndex);
-			if (lastSearch != null && lastSearch > 0) {
-				dateSearch.setTimeInMillis(lastSearch);
+				columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_DATE);
+				Long lastSearch = theaterWidgetCursor.getLong(columnIndex);
+				if (lastSearch != null && lastSearch > 0) {
+					dateSearch.setTimeInMillis(lastSearch);
+				} else {
+					dateSearch.add(Calendar.DAY_OF_MONTH, -1);
+				}
+
 			} else {
-				dateSearch.add(Calendar.DAY_OF_MONTH, -1);
+				Log.d(TAG, "No theater where extract"); //$NON-NLS-1$
 			}
-
-		} else {
-			Log.d(TAG, "No theater where extract"); //$NON-NLS-1$
-		}
-		if (theaterWidgetCursor != null) {
-			theaterWidgetCursor.close();
+		} finally {
+			if (theaterWidgetCursor != null) {
+				theaterWidgetCursor.close();
+			}
 		}
 		return theaterBean;
 	}
@@ -255,58 +268,72 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static Map<MovieBean, List<Long>> extractWidgetShowtimes(AndShowtimeDbAdapter mDbHelper) throws SQLException {
+	public static Map<MovieBean, List<ProjectionBean>> extractWidgetShowtimes(AndShowtimeDbAdapter mDbHelper) throws SQLException {
 		Log.d(TAG, "Extract widget showtimes"); //$NON-NLS-1$
-		Map<MovieBean, List<Long>> movieShowTimeMap = new HashMap<MovieBean, List<Long>>();
+		Map<MovieBean, List<ProjectionBean>> movieShowTimeMap = new HashMap<MovieBean, List<ProjectionBean>>();
 		Map<String, MovieBean> movieMap = new HashMap<String, MovieBean>();
-		Map<String, List<Long>> showTimeMap = new HashMap<String, List<Long>>();
-		List<Long> showTimeList = null;
+		Map<String, List<ProjectionBean>> showTimeMap = new HashMap<String, List<ProjectionBean>>();
+		List<ProjectionBean> showTimeList = null;
 		MovieBean movieBean = null;
+		ProjectionBean projectionBean = null;
 		String movieId;
 		Cursor movieWidgetShowtimeCursor = mDbHelper.fetchAllWidgetShowtime();
 		int columnIndex = 0;
-		if (movieWidgetShowtimeCursor.moveToFirst()) {
-			do {
-				columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_MID);
-				movieId = movieWidgetShowtimeCursor.getString(columnIndex);
-				movieBean = movieMap.get(movieId);
-				if (movieBean == null) {
-					movieBean = new MovieBean();
-					movieMap.put(movieId, movieBean);
+		try {
+			if (movieWidgetShowtimeCursor.moveToFirst()) {
+				do {
+					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_MID);
+					movieId = movieWidgetShowtimeCursor.getString(columnIndex);
+					movieBean = movieMap.get(movieId);
+					if (movieBean == null) {
+						movieBean = new MovieBean();
+						movieMap.put(movieId, movieBean);
 
-					movieBean.setId(movieId);
+						movieBean.setId(movieId);
 
-					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_NAME);
-					movieBean.setMovieName(movieWidgetShowtimeCursor.getString(columnIndex));
+						columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_NAME);
+						movieBean.setMovieName(movieWidgetShowtimeCursor.getString(columnIndex));
 
-					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_EN_NAME);
-					movieBean.setEnglishMovieName(movieWidgetShowtimeCursor.getString(columnIndex));
+						columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_EN_NAME);
+						movieBean.setEnglishMovieName(movieWidgetShowtimeCursor.getString(columnIndex));
 
-					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_LENGTH);
-					movieBean.setMovieTime(movieWidgetShowtimeCursor.getLong(columnIndex));
+						columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_LENGTH);
+						movieBean.setMovieTime(movieWidgetShowtimeCursor.getLong(columnIndex));
 
+					}
+					showTimeList = showTimeMap.get(movieId);
+
+					if (showTimeList == null) {
+						showTimeList = new ArrayList<ProjectionBean>();
+
+						showTimeMap.put(movieId, showTimeList);
+					}
+
+					projectionBean = new ProjectionBean();
+
+					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_SHOWTIME);
+					projectionBean.setShowtime(movieWidgetShowtimeCursor.getLong(columnIndex));
+
+					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_SHOWTIME_LANG);
+					projectionBean.setSubtitle(movieWidgetShowtimeCursor.getString(columnIndex));
+
+					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_SHOWTIME_RESERVATION);
+					projectionBean.setReservationLink(movieWidgetShowtimeCursor.getString(columnIndex));
+
+					showTimeList.add(projectionBean);
+
+				} while (movieWidgetShowtimeCursor.moveToNext());
+
+				for (MovieBean movieTmp : movieMap.values()) {
+					movieShowTimeMap.put(movieTmp, showTimeMap.get(movieTmp.getId()));
 				}
-				showTimeList = showTimeMap.get(movieId);
-
-				if (showTimeList == null) {
-					showTimeList = new ArrayList<Long>();
-
-					showTimeMap.put(movieId, showTimeList);
-				}
-
-				columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_SHOWTIME);
-				showTimeList.add(movieWidgetShowtimeCursor.getLong(columnIndex));
-
-			} while (movieWidgetShowtimeCursor.moveToNext());
-
-			for (MovieBean movieTmp : movieMap.values()) {
-				movieShowTimeMap.put(movieTmp, showTimeMap.get(movieTmp.getId()));
+			} else {
+				Log.d(TAG, "No theater where extract"); //$NON-NLS-1$
 			}
-		} else {
-			Log.d(TAG, "No theater where extract"); //$NON-NLS-1$
-		}
-		if (movieWidgetShowtimeCursor != null) {
-			movieWidgetShowtimeCursor.close();
+		} finally {
+			if (movieWidgetShowtimeCursor != null) {
+				movieWidgetShowtimeCursor.close();
+			}
 		}
 		return movieShowTimeMap;
 	}
@@ -320,47 +347,60 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 	 */
 	public static MovieBean extractWidgetMovie(AndShowtimeDbAdapter mDbHelper, String movieId, TheaterBean theaterBean) throws SQLException {
 		Log.d(TAG, "Extract widget movie showtimes"); //$NON-NLS-1$
-		List<Long> showTimeList = null;
+		List<ProjectionBean> showTimeList = null;
 		MovieBean movieBean = null;
+		ProjectionBean projectionBean = null;
 		Cursor movieWidgetShowtimeCursor = mDbHelper.fetchWidgetMovie(movieId);
 		int columnIndex = 0;
-		if (movieWidgetShowtimeCursor.moveToFirst()) {
-			do {
-				columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_MID);
-				movieId = movieWidgetShowtimeCursor.getString(columnIndex);
-				if (movieBean == null) {
-					movieBean = new MovieBean();
+		try {
+			if (movieWidgetShowtimeCursor.moveToFirst()) {
+				do {
+					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_MID);
+					movieId = movieWidgetShowtimeCursor.getString(columnIndex);
+					if (movieBean == null) {
+						movieBean = new MovieBean();
 
-					movieBean.setId(movieId);
+						movieBean.setId(movieId);
 
-					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_NAME);
-					movieBean.setMovieName(movieWidgetShowtimeCursor.getString(columnIndex));
+						columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_NAME);
+						movieBean.setMovieName(movieWidgetShowtimeCursor.getString(columnIndex));
 
-					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_EN_NAME);
-					movieBean.setEnglishMovieName(movieWidgetShowtimeCursor.getString(columnIndex));
+						columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_EN_NAME);
+						movieBean.setEnglishMovieName(movieWidgetShowtimeCursor.getString(columnIndex));
 
-					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_LENGTH);
-					movieBean.setMovieTime(movieWidgetShowtimeCursor.getLong(columnIndex));
+						columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_LENGTH);
+						movieBean.setMovieTime(movieWidgetShowtimeCursor.getLong(columnIndex));
 
-				}
-				showTimeList = theaterBean.getMovieMap().get(movieId);
+					}
+					showTimeList = theaterBean.getMovieMap().get(movieId);
 
-				if (showTimeList == null) {
-					showTimeList = new ArrayList<Long>();
+					if (showTimeList == null) {
+						showTimeList = new ArrayList<ProjectionBean>();
 
-					theaterBean.getMovieMap().put(movieId, showTimeList);
-				}
+						theaterBean.getMovieMap().put(movieId, showTimeList);
+					}
 
-				columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_SHOWTIME);
-				showTimeList.add(movieWidgetShowtimeCursor.getLong(columnIndex));
+					projectionBean = new ProjectionBean();
+					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_SHOWTIME);
+					projectionBean.setShowtime(movieWidgetShowtimeCursor.getLong(columnIndex));
 
-			} while (movieWidgetShowtimeCursor.moveToNext());
+					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_SHOWTIME_LANG);
+					projectionBean.setSubtitle(movieWidgetShowtimeCursor.getString(columnIndex));
 
-		} else {
-			Log.d(TAG, "No theater where extract"); //$NON-NLS-1$
-		}
-		if (movieWidgetShowtimeCursor != null) {
-			movieWidgetShowtimeCursor.close();
+					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_SHOWTIME_RESERVATION);
+					projectionBean.setReservationLink(movieWidgetShowtimeCursor.getString(columnIndex));
+
+					showTimeList.add(projectionBean);
+
+				} while (movieWidgetShowtimeCursor.moveToNext());
+
+			} else {
+				Log.d(TAG, "No theater where extract"); //$NON-NLS-1$
+			}
+		} finally {
+			if (movieWidgetShowtimeCursor != null) {
+				movieWidgetShowtimeCursor.close();
+			}
 		}
 		return movieBean;
 	}
@@ -376,51 +416,64 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 	public static TheaterBean extractTheaterBean(Cursor theaterCursor, AndShowtimeDbAdapter mDbHelper) throws SQLException {
 		Log.d(TAG, "Extract a Theater"); //$NON-NLS-1$
 		TheaterBean theaterBean = new TheaterBean();
-		theaterBean.setMovieMap(new HashMap<String, List<Long>>());
+		theaterBean.setMovieMap(new HashMap<String, List<ProjectionBean>>());
 
-		theaterBean.setMovieMap(new HashMap<String, List<Long>>());
 		int columnIndex = theaterCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_THEATER_ID);
 		theaterBean.setId(theaterCursor.getString(columnIndex));
 
 		columnIndex = theaterCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_THEATER_NAME);
 		theaterBean.setTheaterName(theaterCursor.getString(columnIndex));
+		ProjectionBean projectionBean = null;
 
 		// Fetch showtimes link to theater
 		Cursor showtimeCursor = mDbHelper.fetchShowtime(theaterBean.getId());
-		Log.d(TAG, "Extract showtime from theater : " + theaterBean.getTheaterName()); //$NON-NLS-1$
-		if (showtimeCursor.moveToFirst()) {
-			List<Long> showtimeList = null;
-			do {
-				columnIndex = showtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_SHOWTIME_MOVIE_ID);
-				String movieId = showtimeCursor.getString(columnIndex);
+		try {
+			Log.d(TAG, "Extract showtime from theater : " + theaterBean.getTheaterName()); //$NON-NLS-1$
+			if (showtimeCursor.moveToFirst()) {
+				List<ProjectionBean> showtimeList = null;
+				do {
+					columnIndex = showtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_SHOWTIME_MOVIE_ID);
+					String movieId = showtimeCursor.getString(columnIndex);
 
-				showtimeList = theaterBean.getMovieMap().get(movieId);
-				if (showtimeList == null) {
-					showtimeList = new ArrayList<Long>();
-					theaterBean.getMovieMap().put(movieId, showtimeList);
-				}
+					showtimeList = theaterBean.getMovieMap().get(movieId);
+					if (showtimeList == null) {
+						showtimeList = new ArrayList<ProjectionBean>();
+						theaterBean.getMovieMap().put(movieId, showtimeList);
+					}
 
-				columnIndex = showtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_SHOWTIME_TIME);
-				showtimeList.add(showtimeCursor.getLong(columnIndex));
-			} while (showtimeCursor.moveToNext());
-			Log.d(TAG, showtimeList.size() + " Showtimes where extract for theater : " + theaterBean.getTheaterName()); //$NON-NLS-1$
-		} else {
-			Log.d(TAG, "No showtime where extract for theater : " + theaterBean.getTheaterName()); //$NON-NLS-1$
-		}
-		if (showtimeCursor != null) {
-			showtimeCursor.close();
+					projectionBean = new ProjectionBean();
+					columnIndex = showtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_SHOWTIME_TIME);
+					projectionBean.setShowtime(showtimeCursor.getLong(columnIndex));
+					columnIndex = showtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_SHOWTIME_LANG);
+					projectionBean.setSubtitle(showtimeCursor.getString(columnIndex));
+					columnIndex = showtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_SHOWTIME_RESERVATION_URL);
+					projectionBean.setReservationLink(showtimeCursor.getString(columnIndex));
+
+					showtimeList.add(projectionBean);
+				} while (showtimeCursor.moveToNext());
+				Log.d(TAG, showtimeList.size() + " Showtimes where extract for theater : " + theaterBean.getTheaterName()); //$NON-NLS-1$
+			} else {
+				Log.d(TAG, "No showtime where extract for theater : " + theaterBean.getTheaterName()); //$NON-NLS-1$
+			}
+		} finally {
+			if (showtimeCursor != null) {
+				showtimeCursor.close();
+			}
 		}
 
 		// Fetch location link to theater
 		Cursor locationCursor = mDbHelper.fetchLocation(theaterBean.getId());
-		Log.d(TAG, "Extract Localisation of theater : " + theaterBean.getTheaterName()); //$NON-NLS-1$
-		if (locationCursor.moveToFirst()) {
-			theaterBean.setPlace(extractLocalisationBean(locationCursor));
-		} else {
-			Log.d(TAG, "No localisation where extract"); //$NON-NLS-1$
-		}
-		if (locationCursor != null) {
-			locationCursor.close();
+		try {
+			Log.d(TAG, "Extract Localisation of theater : " + theaterBean.getTheaterName()); //$NON-NLS-1$
+			if (locationCursor.moveToFirst()) {
+				theaterBean.setPlace(extractLocalisationBean(locationCursor));
+			} else {
+				Log.d(TAG, "No localisation where extract"); //$NON-NLS-1$
+			}
+		} finally {
+			if (locationCursor != null) {
+				locationCursor.close();
+			}
 		}
 		return theaterBean;
 	}
@@ -465,6 +518,61 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 		localisationBean.setSearchQuery(locationCursor.getString(columnIndex));
 
 		return localisationBean;
+	}
+
+	/**
+	 * Extract curent movie information (showtime, desciption ...)
+	 * 
+	 * @param mDbHelper
+	 * @return an Object[] with Object[0]= TheaterBean and Object[1] = MovieBean
+	 * @throws SQLException
+	 */
+	public static Object[] extractCurrentMovie(AndShowtimeDbAdapter mDbHelper) throws SQLException {
+		Object[] result = new Object[2];
+
+		Cursor cursorCurerntMovie = mDbHelper.fetchCurentMovie();
+
+		// Fetch location link to theater
+		Log.d(TAG, "Extract curent movie"); //$NON-NLS-1$
+		try {
+			if (cursorCurerntMovie.moveToFirst()) {
+				int columnIndex = cursorCurerntMovie.getColumnIndex(AndShowtimeDbAdapter.KEY_CURENT_MOVIE_THEATER_ID);
+				String theaterId = cursorCurerntMovie.getString(columnIndex);
+
+				columnIndex = cursorCurerntMovie.getColumnIndex(AndShowtimeDbAdapter.KEY_CURENT_MOVIE_MOVIE_ID);
+				String movieId = cursorCurerntMovie.getString(columnIndex);
+
+				Cursor theaterCursor = mDbHelper.fetchTheater(theaterId);
+				try {
+					if (theaterCursor.moveToFirst()) {
+						result[0] = extractTheaterBean(theaterCursor, mDbHelper);
+
+					}
+				} finally {
+					if (theaterCursor != null) {
+						theaterCursor.close();
+					}
+				}
+				Cursor movieCursor = mDbHelper.fetchMovie(movieId);
+				try {
+					if (movieCursor.moveToFirst()) {
+						result[1] = extractMovie(movieCursor);
+					}
+				} finally {
+					if (movieCursor != null) {
+						movieCursor.close();
+					}
+				}
+			} else {
+				Log.d(TAG, "No curent movie"); //$NON-NLS-1$
+			}
+		} finally {
+			if (cursorCurerntMovie != null) {
+				cursorCurerntMovie.close();
+			}
+		}
+
+		return result;
 	}
 
 }

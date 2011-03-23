@@ -30,7 +30,7 @@ public class AndShowtimeWidget extends AppWidgetProvider {
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		AndShowtimeFactory.initGeocoder(context);
-		AndShowTimeWidgetHelper.updateWidget(context, null);
+		AndShowTimeWidgetHelper.updateWidget(context, null, null);
 	}
 
 }

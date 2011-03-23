@@ -6,13 +6,15 @@ import java.util.Set;
 
 import android.location.Location;
 
-public class ModelSearchNearActivity {
+import com.binomed.showtime.android.util.localisation.IModelLocalisation;
+
+public class ModelSearchNearActivity implements IModelLocalisation {
 
 	private String cityName;
 	private String favTheaterId;
 	private Set<String> requestList;
 	private List<String> voiceCityList;
-	private Location gpsLocalisation;
+	// private Location gpsLocalisation;
 	private Location localisationSearch;
 	private int day;
 	private int start;
@@ -31,19 +33,19 @@ public class ModelSearchNearActivity {
 		this.cityName = cityName;
 	}
 
-	public Location getGpsLocalisation() {
-		return gpsLocalisation;
-	}
+	// public Location getGPSLocalisation() {
+	// return gpsLocalisation;
+	// }
+	//
+	// public void setGPSLocalisation(Location gpsLocalisation) {
+	// this.gpsLocalisation = gpsLocalisation;
+	// }
 
-	public void setGpsLocalisation(Location gpsLocalisation) {
-		this.gpsLocalisation = gpsLocalisation;
-	}
-
-	public Location getLocalisationSearch() {
+	public Location getLocalisation() {
 		return localisationSearch;
 	}
 
-	public void setLocalisationSearch(Location localisationSearch) {
+	public void setLocalisation(Location localisationSearch) {
 		this.localisationSearch = localisationSearch;
 	}
 

@@ -11,6 +11,8 @@ public final class BeanManagerFactory {
 
 	private static BeanManagerFactory instance;
 
+	private TheaterBean theaterTemp;
+	private MovieBean movieDesc;
 	private NearResp nearResp;
 	private NearResp nearRespFromWidget;
 	private MovieResp movieResp;
@@ -71,6 +73,22 @@ public final class BeanManagerFactory {
 		this.firstOpenAsk = firstOpen;
 	}
 
+	private TheaterBean getPrivateTheaterTemp() {
+		return theaterTemp;
+	}
+
+	private void setPrivateTheaterTemp(TheaterBean theater) {
+		this.theaterTemp = theater;
+	}
+
+	private MovieBean getPrivateMovieDesc() {
+		return movieDesc;
+	}
+
+	private void setPrivateMovieDesc(MovieBean movie) {
+		this.movieDesc = movie;
+	}
+
 	public synchronized static void cleanCentralMovieMap() {
 		BeanManagerFactory.getInstance().getCentralMovieMap().clear();
 	}
@@ -125,6 +143,22 @@ public final class BeanManagerFactory {
 
 	public synchronized static boolean isFirstOpen() {
 		return BeanManagerFactory.getInstance().isPrivateFirstOpen();
+	}
+
+	public synchronized static void setTheaterTemp(TheaterBean theater) {
+		BeanManagerFactory.getInstance().setPrivateTheaterTemp(theater);
+	}
+
+	public synchronized static TheaterBean getTheaterTemp() {
+		return BeanManagerFactory.getInstance().getPrivateTheaterTemp();
+	}
+
+	public synchronized static void setMovieDesc(MovieBean movie) {
+		BeanManagerFactory.getInstance().setPrivateMovieDesc(movie);
+	}
+
+	public synchronized static MovieBean getMovieDesc() {
+		return BeanManagerFactory.getInstance().getPrivateMovieDesc();
 	}
 
 }

@@ -29,6 +29,7 @@ import android.util.Log;
 
 import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.MovieBean;
+import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.beans.TheaterBean;
 
 /**
@@ -75,6 +76,8 @@ public class AndShowtimeDbAdapter {
 	public static final String KEY_SHOWTIME_THEATER_ID = "theater_id"; //$NON-NLS-1$
 	public static final String KEY_SHOWTIME_MOVIE_ID = "movie_id"; //$NON-NLS-1$
 	public static final String KEY_SHOWTIME_TIME = "showtime"; //$NON-NLS-1$
+	public static final String KEY_SHOWTIME_LANG = "lang"; //$NON-NLS-1$
+	public static final String KEY_SHOWTIME_RESERVATION_URL = "reservation_url"; //$NON-NLS-1$
 
 	public static final String KEY_NEAR_REQUEST_ID = "_id"; //$NON-NLS-1$
 	public static final String KEY_NEAR_REQUEST_LATITUDE = "latitude"; //$NON-NLS-1$
@@ -114,6 +117,11 @@ public class AndShowtimeDbAdapter {
 	public static final String KEY_WIDGET_MOVIE_EN_NAME = "movie_en_name"; //$NON-NLS-1$
 	public static final String KEY_WIDGET_MOVIE_LENGTH = "movie_length"; //$NON-NLS-1$
 	public static final String KEY_WIDGET_MOVIE_SHOWTIME = "showtime"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_MOVIE_SHOWTIME_LANG = "lang"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_MOVIE_SHOWTIME_RESERVATION = "reservation_url"; //$NON-NLS-1$
+
+	public static final String KEY_CURENT_MOVIE_MOVIE_ID = "movie_id"; //$NON-NLS-1$
+	public static final String KEY_CURENT_MOVIE_THEATER_ID = "theater_id"; //$NON-NLS-1$
 
 	private static final String TAG = "AndShowtimeDbAdapter"; //$NON-NLS-1$
 	private DatabaseHelper mDbHelper;
@@ -129,7 +137,8 @@ public class AndShowtimeDbAdapter {
 	private static final String DATABASE_MOVIE_REQUEST_TABLE = "movie_request"; //$NON-NLS-1$
 	private static final String DATABASE_WIDGET_TABLE = "widget"; //$NON-NLS-1$
 	private static final String DATABASE_WIDGET_MOVIE_TABLE = "widget_movie"; //$NON-NLS-1$
-	private static final int DATABASE_VERSION = 18;
+	private static final String DATABASE_CURENT_MOVIE_TABLE = "current_movie"; //$NON-NLS-1$
+	private static final int DATABASE_VERSION = 19;
 	/**
 	 * Database creation sql statement
 	 */
@@ -170,6 +179,8 @@ public class AndShowtimeDbAdapter {
 			+ ", " + KEY_SHOWTIME_MOVIE_ID + " text not null" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_SHOWTIME_THEATER_ID + " text not null" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_SHOWTIME_TIME + " long not null" //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_SHOWTIME_LANG + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_SHOWTIME_RESERVATION_URL + " text " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ");"//$NON-NLS-1$
 	;
 	private static final String DATABASE_CREATE_LOCATION_TABLE = " create table " + DATABASE_LOCATION_TABLE //$NON-NLS-1$
@@ -226,6 +237,14 @@ public class AndShowtimeDbAdapter {
 			+ ", " + KEY_WIDGET_MOVIE_EN_NAME + " text " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_WIDGET_MOVIE_LENGTH + " long " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_WIDGET_MOVIE_SHOWTIME + " long " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_WIDGET_MOVIE_SHOWTIME_LANG + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_WIDGET_MOVIE_SHOWTIME_RESERVATION + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ");"//$NON-NLS-1$
+	;
+
+	private static final String DATABASE_CREATE_CURENT_MOVIE_TABLE = " create table " + DATABASE_CURENT_MOVIE_TABLE //$NON-NLS-1$
+			+ " (" + KEY_CURENT_MOVIE_MOVIE_ID + " text primary key" //$NON-NLS-1$//$NON-NLS-2$
+			+ ", " + KEY_CURENT_MOVIE_THEATER_ID + " text not null" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ");"//$NON-NLS-1$
 	;
 
@@ -238,6 +257,7 @@ public class AndShowtimeDbAdapter {
 	private static final String DROP_MOVIE_REQUEST_TABLE = "DROP TABLE IF EXISTS " + DATABASE_MOVIE_REQUEST_TABLE; //$NON-NLS-1$
 	private static final String DROP_WIDGET_TABLE = "DROP TABLE IF EXISTS " + DATABASE_WIDGET_TABLE; //$NON-NLS-1$
 	private static final String DROP_WIDGET_MOVIE_TABLE = "DROP TABLE IF EXISTS " + DATABASE_WIDGET_MOVIE_TABLE; //$NON-NLS-1$
+	private static final String DROP_CURENT_MOVIE_TABLE = "DROP TABLE IF EXISTS " + DATABASE_CURENT_MOVIE_TABLE; //$NON-NLS-1$
 
 	private final Context mCtx;
 
@@ -259,6 +279,7 @@ public class AndShowtimeDbAdapter {
 			db.execSQL(DATABASE_CREATE_MOVIE_REQUEST_TABLE);
 			db.execSQL(DATABASE_CREATE_WIDGET_TABLE);
 			db.execSQL(DATABASE_CREATE_WIDGET_MOVIE_TABLE);
+			db.execSQL(DATABASE_CREATE_CURENT_MOVIE_TABLE);
 		}
 
 		@Override
@@ -274,6 +295,15 @@ public class AndShowtimeDbAdapter {
 			if (oldVersion < 18) {
 				db.execSQL(DROP_LOCATION_TABLE);
 				db.execSQL(DATABASE_CREATE_LOCATION_TABLE);
+			}
+			if (oldVersion < 19) {
+				db.execSQL(DROP_SHOWTIME_TABLE);
+				db.execSQL(DROP_WIDGET_MOVIE_TABLE);
+				db.execSQL(DROP_FAV_THEATER_TABLE);
+				db.execSQL(DATABASE_CREATE_SHOWTIME_TABLE);
+				db.execSQL(DATABASE_CREATE_WIDGET_MOVIE_TABLE);
+				db.execSQL(DATABASE_CREATE_FAV_THEATER_TABLE);
+				db.execSQL(DATABASE_CREATE_CURENT_MOVIE_TABLE);
 			}
 
 		}
@@ -492,13 +522,15 @@ public class AndShowtimeDbAdapter {
 		return result;
 	}
 
-	public long createShowtime(String theatherId, String movieId, Long time) {
+	public long createShowtime(String theatherId, String movieId, ProjectionBean time) {
 		chekDbAvailable();
 		Log.d(TAG, new StringBuilder("Create showtime for theater: ").append(theatherId).append(" and movieId : ").append(movieId).append(" for time : ").append(time).toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_SHOWTIME_THEATER_ID, theatherId);
 		initialValues.put(KEY_SHOWTIME_MOVIE_ID, movieId);
-		initialValues.put(KEY_SHOWTIME_TIME, time);
+		initialValues.put(KEY_SHOWTIME_TIME, time.getShowtime());
+		initialValues.put(KEY_SHOWTIME_LANG, time.getLang());
+		initialValues.put(KEY_SHOWTIME_RESERVATION_URL, time.getReservationLink());
 
 		long result = mDb.insert(DATABASE_SHOWTIME_TABLE, null, initialValues);
 		if (result == -1) {
@@ -584,7 +616,7 @@ public class AndShowtimeDbAdapter {
 		return result;
 	}
 
-	public long createWidgetShowtime(MovieBean movie, Long showtime) {
+	public long createWidgetShowtime(MovieBean movie, ProjectionBean showtime) {
 		chekDbAvailable();
 		Log.d(TAG, new StringBuilder("Create Widget showtime").toString()); //$NON-NLS-1$
 
@@ -593,7 +625,9 @@ public class AndShowtimeDbAdapter {
 		initialValues.put(KEY_WIDGET_MOVIE_NAME, movie.getMovieName());
 		initialValues.put(KEY_WIDGET_MOVIE_EN_NAME, movie.getEnglishMovieName());
 		initialValues.put(KEY_WIDGET_MOVIE_LENGTH, movie.getMovieTime());
-		initialValues.put(KEY_WIDGET_MOVIE_SHOWTIME, showtime);
+		initialValues.put(KEY_WIDGET_MOVIE_SHOWTIME, showtime.getShowtime());
+		initialValues.put(KEY_WIDGET_MOVIE_SHOWTIME_LANG, showtime.getLang());
+		initialValues.put(KEY_WIDGET_MOVIE_SHOWTIME_RESERVATION, showtime.getReservationLink());
 
 		long result = mDb.insert(DATABASE_WIDGET_MOVIE_TABLE, null, initialValues);
 
@@ -601,6 +635,25 @@ public class AndShowtimeDbAdapter {
 			Log.e(TAG, "Error inserting or updating row"); //$NON-NLS-1$
 		}
 
+		return result;
+	}
+
+	public long createCurentMovie(String theatherId, String movieId) {
+		chekDbAvailable();
+		Log.d(TAG, new StringBuilder("Create curent movie for theater: ").append(theatherId).append(" and movieId : ").append(movieId).toString()); //$NON-NLS-1$ //$NON-NLS-2$ 
+		ContentValues initialValues = new ContentValues();
+		initialValues.put(KEY_CURENT_MOVIE_THEATER_ID, theatherId);
+		initialValues.put(KEY_CURENT_MOVIE_MOVIE_ID, movieId);
+
+		long result = mDb.delete(DATABASE_CREATE_CURENT_MOVIE_TABLE, null, null);
+		if (result == -1) {
+			Log.e(TAG, "Error deleting current movie"); //$NON-NLS-1$
+		}
+
+		result = mDb.insert(DATABASE_CREATE_CURENT_MOVIE_TABLE, null, initialValues);
+		if (result == -1) {
+			Log.e(TAG, "Error inserting row"); //$NON-NLS-1$
+		}
 		return result;
 	}
 
@@ -849,6 +902,8 @@ public class AndShowtimeDbAdapter {
 				, new String[] { KEY_SHOWTIME_THEATER_ID //
 						, KEY_SHOWTIME_MOVIE_ID //
 						, KEY_SHOWTIME_TIME //
+						, KEY_SHOWTIME_LANG //
+						, KEY_SHOWTIME_RESERVATION_URL //
 				} //
 				, new StringBuilder(KEY_MOVIE_ID).append("='").append(movieId) //$NON-NLS-1$
 						.append("' AND ").append(KEY_SHOWTIME_THEATER_ID) //$NON-NLS-1$
@@ -924,6 +979,8 @@ public class AndShowtimeDbAdapter {
 				, new String[] { KEY_SHOWTIME_THEATER_ID //
 						, KEY_SHOWTIME_MOVIE_ID //
 						, KEY_SHOWTIME_TIME //
+						, KEY_SHOWTIME_LANG //
+						, KEY_SHOWTIME_RESERVATION_URL //
 				} //
 				, new StringBuilder(KEY_SHOWTIME_THEATER_ID).append("='") //$NON-NLS-1$
 						.append(theaterId).append("'").toString()// //$NON-NLS-1$
@@ -959,6 +1016,8 @@ public class AndShowtimeDbAdapter {
 						, KEY_WIDGET_MOVIE_MID //
 						, KEY_WIDGET_MOVIE_LENGTH //
 						, KEY_WIDGET_MOVIE_SHOWTIME //
+						, KEY_WIDGET_MOVIE_SHOWTIME_LANG //
+						, KEY_WIDGET_MOVIE_SHOWTIME_RESERVATION //
 				} //
 				, null //
 				, null //
@@ -993,6 +1052,8 @@ public class AndShowtimeDbAdapter {
 						, KEY_WIDGET_MOVIE_MID //
 						, KEY_WIDGET_MOVIE_LENGTH //
 						, KEY_WIDGET_MOVIE_SHOWTIME //
+						, KEY_WIDGET_MOVIE_SHOWTIME_LANG //
+						, KEY_WIDGET_MOVIE_SHOWTIME_RESERVATION //
 				} //
 				, new StringBuilder(KEY_WIDGET_MOVIE_MID).append("='") //$NON-NLS-1$
 						.append(movieId).append("'").toString()// //$NON-NLS-1$
@@ -1028,6 +1089,26 @@ public class AndShowtimeDbAdapter {
 						, KEY_WIDGET_THEATER_DATE // 
 				}//
 				, null//
+				, null//
+				, null//
+				, null//
+				, null//
+				);
+	}
+
+	/**
+	 * Return a Cursor over the list of all notes in the database
+	 * 
+	 * @return Cursor over all notes
+	 */
+	public Cursor fetchCurentMovie() {
+
+		return mDb.query(//
+				DATABASE_CREATE_CURENT_MOVIE_TABLE//
+				, new String[] { KEY_CURENT_MOVIE_THEATER_ID//
+						, KEY_CURENT_MOVIE_MOVIE_ID // 
+				}//
+				, null //
 				, null//
 				, null//
 				, null//
@@ -1110,6 +1191,7 @@ public class AndShowtimeDbAdapter {
 		mDb.execSQL(DROP_MOVIE_REQUEST_TABLE);
 		mDb.execSQL(DROP_WIDGET_TABLE);
 		mDb.execSQL(DROP_WIDGET_MOVIE_TABLE);
+		mDb.execSQL(DROP_CURENT_MOVIE_TABLE);
 		mDb.execSQL(DATABASE_CREATE_MOVIE_TABLE);
 		mDb.execSQL(DATABASE_CREATE_THEATER_TABLE);
 		mDb.execSQL(DATABASE_CREATE_FAV_THEATER_TABLE);
@@ -1118,7 +1200,7 @@ public class AndShowtimeDbAdapter {
 		mDb.execSQL(DATABASE_CREATE_NEAR_REQUEST_TABLE);
 		mDb.execSQL(DATABASE_CREATE_MOVIE_REQUEST_TABLE);
 		mDb.execSQL(DATABASE_CREATE_WIDGET_TABLE);
-		mDb.execSQL(DATABASE_CREATE_WIDGET_MOVIE_TABLE);
+		mDb.execSQL(DATABASE_CREATE_CURENT_MOVIE_TABLE);
 	}
 
 	private void chekDbAvailable() {

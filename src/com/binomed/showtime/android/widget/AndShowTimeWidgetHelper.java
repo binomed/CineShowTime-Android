@@ -35,15 +35,19 @@ import android.widget.RemoteViews;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
+import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.searchnearactivity.AndShowTimeSearchNearActivity;
+import com.binomed.showtime.android.service.AndShowDBGlobalService;
 import com.binomed.showtime.android.util.AndShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.AndShowtimeRequestManage;
+import com.binomed.showtime.android.util.BeanManagerFactory;
 import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.NearResp;
+import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.beans.TheaterBean;
 
 /**
@@ -57,13 +61,13 @@ public class AndShowTimeWidgetHelper {
 	/**
 	 * Build a widget update to show the current Wiktionary "Word of the day." Will block until the online API returns.
 	 */
-	public static RemoteViews buildUpdate(Context context, Intent intent, TheaterBean theater, Map<MovieBean, Long> movieBeanShowtimes) {
+	public static RemoteViews buildUpdate(Context context, Intent intent, TheaterBean theater, Map<MovieBean, ProjectionBean> movieBeanShowtimes) {
 
 		RemoteViews updateViews = null;
 		updateViews = new RemoteViews(context.getPackageName(), R.layout.and_showtime_widget);
 		updateViews.setTextViewText(R.id.widget_theater_title, (theater != null) ? theater.getTheaterName() : ""); //$NON-NLS-1$
 
-		HashMap<String, Long> showTimeMap = new HashMap<String, Long>();
+		HashMap<String, ProjectionBean> showTimeMap = new HashMap<String, ProjectionBean>();
 		List<MovieBean> movieList = new ArrayList<MovieBean>();
 		MovieBean movieBean = null;
 		boolean refresh = (intent != null) ? intent.getBooleanExtra(ParamIntent.WIDGET_REFRESH, false) : false;
@@ -100,7 +104,7 @@ public class AndShowTimeWidgetHelper {
 			updateViews.setTextViewText(R.id.widget_movie_txt_3, ""); //$NON-NLS-1$
 			updateViews.setTextViewText(R.id.widget_movie_hour_3, ""); //$NON-NLS-1$
 		} else {
-			for (Entry<MovieBean, Long> movieShowTime : movieBeanShowtimes.entrySet()) {
+			for (Entry<MovieBean, ProjectionBean> movieShowTime : movieBeanShowtimes.entrySet()) {
 				movieBean = movieShowTime.getKey();
 				movieList.add(movieBean);
 				showTimeMap.put(movieBean.getId(), movieShowTime.getValue());
@@ -117,7 +121,8 @@ public class AndShowTimeWidgetHelper {
 			}
 			movieBean = movieList.get(start % size);
 			updateViews.setTextViewText(R.id.widget_movie_txt_1, movieBean.getMovieName());
-			updateViews.setTextViewText(R.id.widget_movie_hour_1, AndShowtimeDateNumberUtil.showMovieTime(context, showTimeMap.get(movieBean.getId())));
+			ProjectionBean projectionTime = showTimeMap.get(movieBean.getId());
+			updateViews.setTextViewText(R.id.widget_movie_hour_1, ((projectionTime.getLang() != null) ? projectionTime.getLang() + " " : "") + AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime()));
 
 			Intent openMovieIntent1 = new Intent(context, AndShowTimeWidgetServiceOpenMovie1.class);
 			openMovieIntent1.putExtra(ParamIntent.MOVIE_ID, movieBean.getId());
@@ -129,7 +134,8 @@ public class AndShowTimeWidgetHelper {
 			if (size >= 2) {
 				movieBean = movieList.get((start + 1) % size);
 				updateViews.setTextViewText(R.id.widget_movie_txt_2, movieBean.getMovieName());
-				updateViews.setTextViewText(R.id.widget_movie_hour_2, AndShowtimeDateNumberUtil.showMovieTime(context, showTimeMap.get(movieBean.getId())));
+				projectionTime = showTimeMap.get(movieBean.getId());
+				updateViews.setTextViewText(R.id.widget_movie_hour_2, ((projectionTime.getLang() != null) ? projectionTime.getLang() + " " : "") + AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime()));
 
 				Intent openMovieIntent2 = new Intent(context, AndShowTimeWidgetServiceOpenMovie2.class);
 				openMovieIntent2.putExtra(ParamIntent.MOVIE_ID, movieBean.getId());
@@ -146,7 +152,8 @@ public class AndShowTimeWidgetHelper {
 			if (size >= 3) {
 				movieBean = movieList.get((start + 2) % size);
 				updateViews.setTextViewText(R.id.widget_movie_txt_3, movieBean.getMovieName());
-				updateViews.setTextViewText(R.id.widget_movie_hour_3, AndShowtimeDateNumberUtil.showMovieTime(context, showTimeMap.get(movieBean.getId())));
+				projectionTime = showTimeMap.get(movieBean.getId());
+				updateViews.setTextViewText(R.id.widget_movie_hour_3, ((projectionTime.getLang() != null) ? projectionTime.getLang() + " " : "") + AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime()));
 
 				Intent openMovieIntent3 = new Intent(context, AndShowTimeWidgetServiceOpenMovie3.class);
 				openMovieIntent3.putExtra(ParamIntent.MOVIE_ID, movieBean.getId());
@@ -175,7 +182,8 @@ public class AndShowTimeWidgetHelper {
 			}
 		}
 		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, 0);
+		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, 0);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		updateViews.setOnClickPendingIntent(R.id.widget, pendingIntent);
 
 		Intent intentScrollLeft = new Intent(context, AndShowTimeWidgetServiceLeft.class);
@@ -198,8 +206,8 @@ public class AndShowTimeWidgetHelper {
 		return updateViews;
 	}
 
-	public static void updateWidget(Context context, Intent intent) {
-
+	public static void updateWidget(Context context, Intent intent, TheaterBean theater) {
+		Log.i(TAG, "Update Widget");
 		AndShowtimeDbAdapter mdbHelper = new AndShowtimeDbAdapter(context);
 		try {
 			try {
@@ -209,11 +217,10 @@ public class AndShowTimeWidgetHelper {
 			}
 			Calendar dateLastSearch = Calendar.getInstance();
 
-			TheaterBean theater = null;
-			if (mdbHelper.isOpen()) {
+			if (theater == null && mdbHelper.isOpen()) {
 				theater = AndShowtimeDB2AndShowtimeBeans.extractWidgetTheater(mdbHelper, dateLastSearch);
 			}
-			Map<MovieBean, Long> movieShowTimeMap = new HashMap<MovieBean, Long>();
+			Map<MovieBean, ProjectionBean> movieShowTimeMap = new HashMap<MovieBean, ProjectionBean>();
 			if (theater != null) {
 
 				Calendar dateToday = Calendar.getInstance();
@@ -229,34 +236,34 @@ public class AndShowTimeWidgetHelper {
 						manager.updateAppWidget(thisWidget, updateViews);
 
 						LocalisationBean localisationTheater = theater.getPlace();
+						AndShowtimeFactory.initGeocoder(context);
 						NearResp nearResp = AndShowtimeRequestManage.searchTheaters(localisationTheater.getLatitude(), localisationTheater.getLongitude(), localisationTheater.getCityName(), theater.getId(), 0, 0, AndShowTimeWidgetConfigureActivity.class.getName());
-						mdbHelper.deleteWidgetShowtime();
+						BeanManagerFactory.setNearRespFromWidget(nearResp);
 						if (nearResp != null && nearResp.getTheaterList() != null) {
 							movieBeanList = nearResp.getMapMovies();
 							MovieBean movieBean = null;
-							Long minTime = 0l;
-							for (Entry<String, List<Long>> showTime : nearResp.getTheaterList().get(0).getMovieMap().entrySet()) {
+							ProjectionBean minTime = null;
+							for (Entry<String, List<ProjectionBean>> showTime : nearResp.getTheaterList().get(0).getMovieMap().entrySet()) {
 								movieBean = movieBeanList.get(showTime.getKey());
 								minTime = AndShowtimeDateNumberUtil.getMinTime(showTime.getValue(), null);
-								if (minTime > 0) {
+								if (minTime != null) {
 									movieShowTimeMap.put(movieBean, minTime);
-									for (Long time : showTime.getValue()) {
-										mdbHelper.createWidgetShowtime(movieBean, time);
-									}
 								}
 							}
-							mdbHelper.updateWidgetTheater();
 						}
+						Intent intentFillWidget = new Intent(context, AndShowDBGlobalService.class);
+						intentFillWidget.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_WIDGET_WRITE_LIST);
+						context.startService(intentFillWidget);
 
 					} catch (Exception e) {
 						Log.e(TAG, "Error during service widget", e); //$NON-NLS-1$
 					}
 				} else {
-					Map<MovieBean, List<Long>> movieShowtimeMap = AndShowtimeDB2AndShowtimeBeans.extractWidgetShowtimes(mdbHelper);
-					Long minTime = 0l;
-					for (Entry<MovieBean, List<Long>> movieShowTime : movieShowtimeMap.entrySet()) {
+					Map<MovieBean, List<ProjectionBean>> movieShowtimeMap = AndShowtimeDB2AndShowtimeBeans.extractWidgetShowtimes(mdbHelper);
+					ProjectionBean minTime = null;
+					for (Entry<MovieBean, List<ProjectionBean>> movieShowTime : movieShowtimeMap.entrySet()) {
 						minTime = AndShowtimeDateNumberUtil.getMinTime(movieShowTime.getValue(), null);
-						if (minTime > 0) {
+						if (minTime != null) {
 							movieShowTimeMap.put(movieShowTime.getKey(), minTime);
 						}
 					}

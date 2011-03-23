@@ -33,7 +33,7 @@ public class AndShowTimeWidgetService extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 
-		AndShowTimeWidgetHelper.updateWidget(this, intent);
+		AndShowTimeWidgetHelper.updateWidget(this, intent, null);
 	}
 
 }

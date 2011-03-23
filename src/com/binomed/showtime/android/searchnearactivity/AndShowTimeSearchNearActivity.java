@@ -11,8 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -48,8 +46,7 @@ import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.BeanManagerFactory;
-import com.binomed.showtime.android.util.LocationUtils;
-import com.binomed.showtime.android.util.LocationUtils.ProviderEnum;
+import com.binomed.showtime.android.util.localisation.IListenerLocalisationUtilCallBack;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.NearResp;
 import com.binomed.showtime.beans.TheaterBean;
@@ -90,11 +87,8 @@ public class AndShowTimeSearchNearActivity extends Activity {
 
 	protected Comparator<TheaterBean> comparator;
 
-	protected Bitmap bitmapGpsOn;
-	protected Bitmap bitmapGpsOff;
+	private IListenerLocalisationUtilCallBack localisationCallBack;
 
-	private ProviderEnum provider;
-	private boolean checkboxPreference, locationListener;
 	private SharedPreferences prefs;
 
 	protected EditText getFieldName() {
@@ -121,7 +115,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		if (theaterId != null && theaterId.length() > 0) {
 			model.setForceResearch(true);
 			model.setFavTheaterId(theaterId);
-			model.setLocalisationSearch(null);
+			model.setLocalisation(null);
 			model.setCityName(null);
 			Double latitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_NEAR_LATITUDE, 0);
 			Double longitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_NEAR_LONGITUDE, 0);
@@ -130,7 +124,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 				Location locationTheater = new Location("GPS");
 				locationTheater.setLatitude(latitude);
 				locationTheater.setLongitude(longitude);
-				model.setLocalisationSearch(locationTheater);
+				model.setLocalisation(locationTheater);
 			} else {
 				if (cityName != null) {
 					model.setCityName(cityName);
@@ -167,21 +161,29 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
-		removeListenersLocation();
+		if (localisationCallBack != null) {
+			localisationCallBack.onPause();
+		}
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		Log.i(TAG, "onResume"); //$NON-NLS-1$
-		initProvider();
 		initListeners();
 		initViewsState();
 
-		model.setGpsLocalisation(checkboxPreference ? LocationUtils.getLastLocation(AndShowTimeSearchNearActivity.this, provider) : null);
-
+		if (localisationCallBack != null) {
+			localisationCallBack.onResume();
+		}
 		display();
 
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		Log.i(TAG, "onWindowFocusChanged:" + hasFocus); //$NON-NLS-1$
+		super.onWindowFocusChanged(hasFocus);
 	}
 
 	@Override
@@ -219,8 +221,8 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	 */
 	private void initViews() {
 
-		bitmapGpsOn = BitmapFactory.decodeResource(getResources(), R.drawable.gps_activ);
-		bitmapGpsOff = BitmapFactory.decodeResource(getResources(), R.drawable.gps_not_activ);
+		// bitmapGpsOn = BitmapFactory.decodeResource(getResources(), R.drawable.gps_activ);
+		// bitmapGpsOff = BitmapFactory.decodeResource(getResources(), R.drawable.gps_not_activ);
 
 		gpsImgView = (ImageView) findViewById(R.id.searchNearImgGps);
 		searchButton = (Button) findViewById(R.id.searchNearBtnSearch);
@@ -230,6 +232,10 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		spinnerChooseDay = (Spinner) findViewById(R.id.searchNearSpinner);
 
 		speechButton = (ImageButton) findViewById(R.id.searchNearBtnSpeech);
+
+		// manageCallBack
+		localisationCallBack = AndShowTimeLayoutUtils.manageLocationManagement(this, gpsImgView, checkButtonLocalisation, fieldCityName, model);
+
 		// Manage speech button just if package present on device
 		AndShowTimeLayoutUtils.manageVisibiltyFieldSpeech(this, speechButton, fieldCityName, R.id.searchNearTxtCityName, R.id.searchNearLocation, -1);
 
@@ -237,9 +243,9 @@ public class AndShowTimeSearchNearActivity extends Activity {
 
 	private void initViewsState() {
 
-		gpsImgView.setImageBitmap(bitmapGpsOff);
-		checkButtonLocalisation.setChecked(false);
-		checkButtonLocalisation.setEnabled(LocationUtils.isLocalisationEnabled(AndShowTimeSearchNearActivity.this, provider));
+		// gpsImgView.setImageBitmap(bitmapGpsOff);
+		// checkButtonLocalisation.setChecked(false);
+		// checkButtonLocalisation.setEnabled(LocationUtils.isLocalisationEnabled(AndShowTimeSearchNearActivity.this, provider));
 
 		// Check to see if a recognition activity is present
 		PackageManager pm = getPackageManager();
@@ -273,25 +279,25 @@ public class AndShowTimeSearchNearActivity extends Activity {
 
 	private void initListeners() {
 		searchButton.setOnClickListener(listener);
-		checkButtonLocalisation.setOnClickListener(listener);
+		// checkButtonLocalisation.setOnClickListener(listener);
 		resultList.setOnChildClickListener(listener);
 		resultList.setOnGroupClickListener(listener);
 		spinnerChooseDay.setOnItemSelectedListener(listener);
 
 	}
 
-	protected void initListenersLocation() {
-		if (checkboxPreference) {
-			locationListener = true;
-			LocationUtils.registerLocalisationListener(AndShowTimeSearchNearActivity.this, provider, listener);
-		}
-
-	}
-
-	protected void removeListenersLocation() {
-		locationListener = false;
-		LocationUtils.unRegisterListener(AndShowTimeSearchNearActivity.this, listener);
-	}
+	// protected void initListenersLocation() {
+	// if (checkboxPreference) {
+	// locationListener = true;
+	// LocationUtils.registerLocalisationListener(AndShowTimeSearchNearActivity.this, provider, listener);
+	// }
+	//
+	// }
+	//
+	// protected void removeListenersLocation() {
+	// locationListener = false;
+	// LocationUtils.unRegisterListener(AndShowTimeSearchNearActivity.this, listener);
+	// }
 
 	private void initMenus() {
 		registerForContextMenu(resultList);
@@ -325,11 +331,11 @@ public class AndShowTimeSearchNearActivity extends Activity {
 
 	}
 
-	private void initProvider() {
-		provider = LocationUtils.getProvider(prefs, this);
-		checkboxPreference = prefs.getBoolean(getResources().getString(R.string.preference_loc_key_enable_localisation), true);
-
-	}
+	// private void initProvider() {
+	// provider = LocationUtils.getProvider(prefs, this);
+	// checkboxPreference = prefs.getBoolean(getResources().getString(R.string.preference_loc_key_enable_localisation), true);
+	//
+	// }
 
 	protected void display() {
 
@@ -434,11 +440,14 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		Log.i(TAG, "onMenuItemSelected"); //$NON-NLS-1$
 		if (AndShowTimeMenuUtil.onMenuItemSelect(this, MENU_PREF, item.getItemId())) {
-			checkboxPreference = prefs.getBoolean(getResources().getString(R.string.preference_loc_key_enable_localisation), true);
-			if (checkboxPreference && checkButtonLocalisation.isChecked() && !locationListener) {
-				initListenersLocation();
-			} else {
-				removeListenersLocation();
+			// checkboxPreference = prefs.getBoolean(getResources().getString(R.string.preference_loc_key_enable_localisation), true);
+			// if (checkboxPreference && checkButtonLocalisation.isChecked() && !locationListener) {
+			// initListenersLocation();
+			// } else {
+			// removeListenersLocation();
+			// }
+			if (localisationCallBack != null) {
+				localisationCallBack.onPreferenceReturn();
 			}
 			return true;
 		}
@@ -505,7 +514,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 				menu.add(groupId, ADD_FAV, 1, R.string.addFav).setIcon(R.drawable.ic_menu_star);
 				if ((selectItem.getClass() == TheaterBean.class) // 
 						&& (((TheaterBean) selectItem) != null) //
-						&& (model.getGpsLocalisation() != null)) {
+						&& (model.getLocalisation() != null)) {
 					menu.add(groupId, OPEN_MAP_DIRECTION, 2, R.string.openMapsDriveMenuItem).setIcon(android.R.drawable.ic_menu_directions);
 				}
 			}
@@ -543,7 +552,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 			Object selectItem = resultList.getItemAtPosition(item.getGroupId());
 			if (selectItem.getClass() == TheaterBean.class) {
 				TheaterBean theater = (TheaterBean) selectItem;
-				Intent intentDirection = IntentShowtime.createMapsWithDrivingDirectionIntent(theater, model.getGpsLocalisation());
+				Intent intentDirection = IntentShowtime.createMapsWithDrivingDirectionIntent(theater, model.getLocalisation());
 				if (intentDirection != null) {
 					startActivity(intentDirection);
 				}
@@ -554,6 +563,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 			Object selectItem = resultList.getItemAtPosition(item.getGroupId());
 			if (selectItem.getClass() == TheaterBean.class) {
 				TheaterBean theater = (TheaterBean) selectItem;
+				// TODO faire quelque chose si pas de localisation (prendre le retour par défaut...? ou alors le request ?)
 				controler.addFavorite(theater);
 			}
 			return true;

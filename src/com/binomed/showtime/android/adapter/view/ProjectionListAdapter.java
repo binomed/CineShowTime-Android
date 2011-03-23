@@ -18,23 +18,24 @@ import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.beans.MovieBean;
+import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.cst.SpecialChars;
 
 public class ProjectionListAdapter extends BaseAdapter {
 
 	private MovieBean movieBean;
-	private List<Long> projectionList;
+	private List<ProjectionBean> projectionList;
 	private Context mainContext;
 
 	private Calendar timeInMillis;
 	private Calendar movieTime;
-	private long minTime;
+	private ProjectionBean minTime;
 
 	private HashMap<Integer, Long> mapMovieTime;
 	private HashMap<Integer, StringBuilder> mapMovieStr;
 	private int minuteToAdd;
 
-	public ProjectionListAdapter(Context context, MovieBean movieBean, List<Long> projectionList, Long minTime) {
+	public ProjectionListAdapter(Context context, MovieBean movieBean, List<ProjectionBean> projectionList, ProjectionBean minTime) {
 		super();
 		timeInMillis = Calendar.getInstance();
 		movieTime = Calendar.getInstance();
@@ -57,7 +58,7 @@ public class ProjectionListAdapter extends BaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
-		Long projectionTime = null;
+		ProjectionBean projectionTime = null;
 		if ((projectionList != null) && (projectionList.size() >= position)) {
 			projectionTime = projectionList.get(position);
 		}
@@ -95,9 +96,15 @@ public class ProjectionListAdapter extends BaseAdapter {
 
 		if (projectionBuilder == null) {
 			projectionBuilder = new StringBuilder(SpecialChars.EMPTY);
-			Long projectionTime = (Long) getItem(groupPosition);
+			ProjectionBean projectionTime = (ProjectionBean) getItem(groupPosition);
 			int passedShowtime;
-			passedShowtime = AndShowtimeDateNumberUtil.getPositionTime(projectionTime, minTime);
+			passedShowtime = AndShowtimeDateNumberUtil.getPositionTime(projectionTime.getShowtime(), (minTime != null) ? minTime.getShowtime() : -1l);
+
+			if (projectionTime.getLang() != null) {
+				projectionBuilder.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+						.append(projectionTime.getLang()) //$NON-NLS-1$//$NON-NLS-2$
+						.append(" : </FONT>"); //$NON-NLS-1$
+			}
 
 			Calendar timeInMillis = this.timeInMillis;
 			Calendar movieTime = this.movieTime;
@@ -119,9 +126,9 @@ public class ProjectionListAdapter extends BaseAdapter {
 				break;
 			}
 			projectionBuilder.append(context.getResources().getString(R.string.projectionTime));
-			projectionBuilder.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime));
+			projectionBuilder.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime()));
 
-			timeInMillis.setTimeInMillis(projectionTime);
+			timeInMillis.setTimeInMillis(projectionTime.getShowtime());
 			if (movieBean.getMovieTime() != null) {
 				movieTime.setTimeInMillis(movieBean.getMovieTime());
 

@@ -23,7 +23,7 @@
 	<string name="menuSort"> Ergebnisse sortieren</string>
 	<string name="sortDialogTitle"> Wählen Sie das gewünschte Sortieren</string>
 	<string name="msgNoCityName"> Sie müssen einen Stadtnamen erfassen, bevor Sie die Suche starten</string>
-	<string name="msgNoGps"> Keine GPS Koordinaten gefundet… Bewegen Sie sich bitte oder versuchen Sie später</string>
+	<string name="msgNoGps"> Keine Koordinaten gefundet… Bewegen Sie sich bitte oder versuchen Sie später</string>
 	<string name="msgNoMovieName"> Sie müssen einen Filmnamen erfassen, bevor Sie die Suche starten </string>
 	<string name="msgNoPlaceMatch">No movies matched your query. Please select a different place.</string>
 	<string name="msgNoDateMatch"> No showtimes were found. Please select a different date.</string>

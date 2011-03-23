@@ -4,8 +4,6 @@ import java.io.UnsupportedEncodingException;
 
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationListener;
-import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +26,14 @@ import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.TheaterBean;
 
-public class ListenerSearchNearActivity implements OnClickListener, OnChildClickListener, LocationListener, TheaterFavSelectionListener, OnItemSelectedListener, OnGroupClickListener, ListSelectionListener {
+public class ListenerSearchNearActivity implements OnClickListener //
+		, OnChildClickListener //
+		// , LocationListener //
+		, TheaterFavSelectionListener //
+		, OnItemSelectedListener //
+		, OnGroupClickListener //
+		, ListSelectionListener // 
+{
 
 	private AndShowTimeSearchNearActivity nearActivity;
 	private ControlerSearchNearActivity controler;
@@ -64,7 +69,7 @@ public class ListenerSearchNearActivity implements OnClickListener, OnChildClick
 
 				boolean canLaunch = true;
 				boolean btnCheck = nearActivity.checkButtonLocalisation.isChecked();
-				if (btnCheck && model.getGpsLocalisation() == null) {
+				if (btnCheck && model.getLocalisation() == null) {
 					Toast.makeText(nearActivity //
 							, R.string.msgNoGps //
 							, Toast.LENGTH_LONG) //
@@ -81,9 +86,9 @@ public class ListenerSearchNearActivity implements OnClickListener, OnChildClick
 				if (canLaunch) {
 					if (btnCheck) {
 						model.setCityName(null);
-						model.setLocalisationSearch(model.getGpsLocalisation());
+						// model.setLocalisation(model.getLocalisation());
 					} else {
-						model.setLocalisationSearch(null);
+						model.setLocalisation(null);
 					}
 					nearActivity.launchNearService();
 				}
@@ -100,15 +105,15 @@ public class ListenerSearchNearActivity implements OnClickListener, OnChildClick
 			nearActivity.startActivityForResult(intent, AndShowTimeSearchNearActivity.VOICE_RECOGNITION_REQUEST_CODE);
 		}
 		case R.id.searchNearLocation: {
-			nearActivity.fieldCityName.setEnabled(!nearActivity.checkButtonLocalisation.isChecked());
-			if (!nearActivity.checkButtonLocalisation.isChecked()) {
-				nearActivity.gpsImgView.setImageBitmap(nearActivity.bitmapGpsOff);
-				nearActivity.removeListenersLocation();
-			} else {
-				nearActivity.gpsImgView.setImageBitmap(nearActivity.bitmapGpsOn);
-				nearActivity.initListenersLocation();
-			}
-			break;
+			// nearActivity.fieldCityName.setEnabled(!nearActivity.checkButtonLocalisation.isChecked());
+			// if (!nearActivity.checkButtonLocalisation.isChecked()) {
+			// nearActivity.gpsImgView.setImageBitmap(nearActivity.bitmapGpsOff);
+			// nearActivity.removeListenersLocation();
+			// } else {
+			// nearActivity.gpsImgView.setImageBitmap(nearActivity.bitmapGpsOn);
+			// nearActivity.initListenersLocation();
+			// }
+			// break;
 		}
 		default:
 			break;
@@ -131,51 +136,51 @@ public class ListenerSearchNearActivity implements OnClickListener, OnChildClick
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.location.LocationListener#onLocationChanged(android.location.Location)
-	 */
-	@Override
-	public void onLocationChanged(Location arg0) {
-		Log.d(TAG, "Change location : lat : " + arg0.getLatitude() + " / lon : " + arg0.getLongitude());
-		model.setGpsLocalisation(arg0);
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
-	 */
-	@Override
-	public void onProviderDisabled(String arg0) {
-		nearActivity.checkButtonLocalisation.setEnabled(false);
-		if (nearActivity.checkButtonLocalisation.isChecked()) {
-			nearActivity.checkButtonLocalisation.setChecked(false);
-			nearActivity.fieldCityName.setEnabled(true);
-			nearActivity.gpsImgView.setImageBitmap(nearActivity.bitmapGpsOff);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
-	 */
-	@Override
-	public void onProviderEnabled(String arg0) {
-		nearActivity.checkButtonLocalisation.setEnabled(true);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
-	 */
-	@Override
-	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
-	}
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.location.LocationListener#onLocationChanged(android.location.Location)
+	// */
+	// @Override
+	// public void onLocationChanged(Location arg0) {
+	// Log.d(TAG, "Change location : lat : " + arg0.getLatitude() + " / lon : " + arg0.getLongitude());
+	// model.setGpsLocalisation(arg0);
+	//
+	// }
+	//
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
+	// */
+	// @Override
+	// public void onProviderDisabled(String arg0) {
+	// nearActivity.checkButtonLocalisation.setEnabled(false);
+	// if (nearActivity.checkButtonLocalisation.isChecked()) {
+	// nearActivity.checkButtonLocalisation.setChecked(false);
+	// nearActivity.fieldCityName.setEnabled(true);
+	// nearActivity.gpsImgView.setImageBitmap(nearActivity.bitmapGpsOff);
+	// }
+	// }
+	//
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
+	// */
+	// @Override
+	// public void onProviderEnabled(String arg0) {
+	// nearActivity.checkButtonLocalisation.setEnabled(true);
+	// }
+	//
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
+	// */
+	// @Override
+	// public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+	// }
 
 	/*
 	 * (non-Javadoc)
@@ -195,7 +200,7 @@ public class ListenerSearchNearActivity implements OnClickListener, OnChildClick
 	@Override
 	public void theaterSelected(TheaterBean theater) {
 		model.setFavTheaterId(theater.getId());
-		model.setLocalisationSearch(null);
+		model.setLocalisation(null);
 		model.setCityName(null);
 		if (theater.getPlace() != null) {
 			LocalisationBean localisation = theater.getPlace();
@@ -203,7 +208,7 @@ public class ListenerSearchNearActivity implements OnClickListener, OnChildClick
 				Location locationTheater = new Location("GPS");
 				locationTheater.setLatitude(localisation.getLatitude());
 				locationTheater.setLongitude(localisation.getLongitude());
-				model.setLocalisationSearch(locationTheater);
+				model.setLocalisation(locationTheater);
 			} else {
 				if (theater.getPlace().getCityName() != null //
 						&& theater.getPlace().getCityName().length() > 0) {

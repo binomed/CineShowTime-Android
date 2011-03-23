@@ -57,6 +57,7 @@ public class AndShowTimeWidgetServiceOpenMovie extends Service {
 			Intent intentStartMovieActivity = new Intent(this, AndShowTimeMovieActivity.class);
 			String movieId = intent.getStringExtra(ParamIntent.MOVIE_ID);
 			String theaterId = intent.getStringExtra(ParamIntent.THEATER_ID);
+			String near = intent.getStringExtra(ParamIntent.ACTIVITY_MOVIE_NEAR);
 
 			TheaterBean theaterBean = BeanManagerFactory.getTheaterForId(theaterId);
 			if (theaterBean == null && mDbHelper.isOpen()) {
@@ -73,6 +74,7 @@ public class AndShowTimeWidgetServiceOpenMovie extends Service {
 			}
 			intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movieId);
 			intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theaterId);
+			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, near);
 			intentStartMovieActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 			this.startActivity(intentStartMovieActivity);

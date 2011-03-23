@@ -23,6 +23,7 @@ import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.comparator.TheaterShowtimeComparator;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.NearResp;
+import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.beans.TheaterBean;
 
 public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
@@ -33,7 +34,7 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 	private Comparator<TheaterBean> comparator;
 	private boolean kmUnit;
 	private boolean distanceTime;
-	private HashMap<String, List<Entry<String, List<Long>>>> projectionsMap;
+	private HashMap<String, List<Entry<String, List<ProjectionBean>>>> projectionsMap;
 
 	public TheaterAndMovieListAdapter(Context context, NearResp nearRespBean, Comparator<TheaterBean> comparator) {
 		// super();
@@ -46,7 +47,7 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 		kmUnit = context.getResources().getString(R.string.preference_loc_default_measure).equals(measure);
 		this.nearRespBean = nearRespBean;
 		this.comparator = comparator;
-		this.projectionsMap = new HashMap<String, List<Entry<String, List<Long>>>>();
+		this.projectionsMap = new HashMap<String, List<Entry<String, List<ProjectionBean>>>>();
 		if (this.nearRespBean != null) {
 			this.theatherList = this.nearRespBean.getTheaterList();
 		}
@@ -56,13 +57,13 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 		if (theatherList != null) {
 			AndShowtimeDateNumberUtil.clearMaps();
 			for (TheaterBean theater : theatherList) {
-				List<Entry<String, List<Long>>> entries = projectionsMap.get(theater.getId());
+				List<Entry<String, List<ProjectionBean>>> entries = projectionsMap.get(theater.getId());
 				if (entries == null) {
-					entries = new ArrayList<Entry<String, List<Long>>>(theater.getMovieMap().entrySet());
+					entries = new ArrayList<Entry<String, List<ProjectionBean>>>(theater.getMovieMap().entrySet());
 					Collections.sort(entries, AndShowtimeFactory.getTheaterShowtimeInnerListComparator());
 					projectionsMap.put(theater.getId(), entries);
 
-					for (Entry<String, List<Long>> entryMovieIdListProjection : theater.getMovieMap().entrySet()) {
+					for (Entry<String, List<ProjectionBean>> entryMovieIdListProjection : theater.getMovieMap().entrySet()) {
 						Long distanceTimeLong = null;
 						if (distanceTime && theater != null && theater.getPlace() != null) {
 							distanceTimeLong = theater.getPlace().getDistanceTime();
@@ -81,9 +82,9 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 			if (theater.getMovieMap().size() >= childPosition) {
 				if ((comparator != null) && (comparator.getClass().equals(TheaterShowtimeComparator.class))) {
 
-					List<Entry<String, List<Long>>> entries = projectionsMap.get(theater.getId());
+					List<Entry<String, List<ProjectionBean>>> entries = projectionsMap.get(theater.getId());
 					if (entries == null) {
-						entries = new ArrayList<Entry<String, List<Long>>>(theater.getMovieMap().entrySet());
+						entries = new ArrayList<Entry<String, List<ProjectionBean>>>(theater.getMovieMap().entrySet());
 						Collections.sort(entries, AndShowtimeFactory.getTheaterShowtimeInnerListComparator());
 						projectionsMap.put(theater.getId(), entries);
 					}

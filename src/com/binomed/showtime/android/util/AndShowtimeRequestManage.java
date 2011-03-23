@@ -36,6 +36,7 @@ import com.binomed.showtime.beans.MovieResp;
 import com.binomed.showtime.beans.NearResp;
 import com.binomed.showtime.beans.TheaterBean;
 import com.binomed.showtime.cst.HttpParamsCst;
+import com.binomed.showtime.cst.SpecialChars;
 import com.binomed.showtime.util.AndShowtimeNumberFormat;
 
 public abstract class AndShowtimeRequestManage {
@@ -424,7 +425,7 @@ public abstract class AndShowtimeRequestManage {
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_MOVIE_ID, movie.getId());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_MOVIE_NAME, movie.getEnglishMovieName());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_MOVIE_CUR_LANG_NAME, movie.getMovieName());
-		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, URLEncoder.encode(near, AndShowTimeEncodingUtil.getEncoding()));
+		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, URLEncoder.encode((near != null) ? near : SpecialChars.EMPTY, AndShowTimeEncodingUtil.getEncoding()));
 
 		String uri = andShowtimeUriBuilder.toUri();
 		Log.i(TAG, "send request : " + uri); //$NON-NLS-1$

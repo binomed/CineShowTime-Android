@@ -23,7 +23,7 @@
 	<string name="menuSort">Сортировать результат</string>
 	<string name="sortDialogTitle">Выберите способ сортировки</string>
 	<string name="msgNoCityName">Вы должны ввести город, чтобы начать поиск</string>
-	<string name="msgNoGps">Не найдены координаты GPS... Смените положение или попробуйте позже</string>
+	<string name="msgNoGps">Не найдены координаты ... Смените положение или попробуйте позже</string>
 	<string name="msgNoMovieName">Вы должны ввести название фильма, чтобы начать поиск</string>
 	<string name="msgNoPlaceMatch">Не найдено ни одного фильма для вашего запроса. Попробуйте выбрать другой город.</string>
 	<string name="msgNoDateMatch">Не найдено ни одного сеанса. Введите другую дату.</string>

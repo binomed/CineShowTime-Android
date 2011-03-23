@@ -17,7 +17,7 @@ import com.binomed.showtime.android.service.AndShowCleanFileService;
 import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.BeanManagerFactory;
-import com.binomed.showtime.android.util.LocationUtils;
+import com.binomed.showtime.android.util.localisation.LocationUtils;
 
 public class AndShowTimeMainActivity extends Activity {
 

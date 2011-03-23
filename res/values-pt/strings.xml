@@ -23,7 +23,7 @@
 	<string name="menuSort">Ordena os resultados</string>
 	<string name="sortDialogTitle">Escolha a ordem a utilizar</string>
 	<string name="msgNoCityName">E preciso indicar o nome de uma cidade antes de fazer a pesquisa</string>
-	<string name="msgNoGps">Nenhuma coordenada gps achada... Move-se o esperimente mais tarde</string>
+	<string name="msgNoGps">Nenhuma coordenada achada... Move-se o esperimente mais tarde</string>
 	<string name="msgNoMovieName">E preciso indicar o nome de um filme andts de fazer a pesquisa</string>
 	<string name="msgNoPlaceMatch">No movies matched your query. Please select a different place.</string>
 	<string name="msgNoDateMatch"> No showtimes were found. Please select a different date.</string>

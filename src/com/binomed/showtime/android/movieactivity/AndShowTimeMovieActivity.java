@@ -43,6 +43,7 @@ import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.AndShowtimeRequestManage;
 import com.binomed.showtime.android.util.BeanManagerFactory;
 import com.binomed.showtime.beans.MovieBean;
+import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.beans.TheaterBean;
 import com.google.api.translate.Language;
 import com.google.api.translate.Translate;
@@ -107,8 +108,6 @@ public class AndShowTimeMovieActivity extends Activity {
 		model = controler.getModel();
 		listener = new ListenerMovieActivity(controler, model, this);
 
-		// controler.bindService();
-
 		String movieId = getIntent().getStringExtra(ParamIntent.MOVIE_ID);
 		String theaterId = getIntent().getStringExtra(ParamIntent.THEATER_ID);
 		double latitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, 0);
@@ -158,6 +157,11 @@ public class AndShowTimeMovieActivity extends Activity {
 			Log.e(TAG, "error on create", e); //$NON-NLS-1$
 		}
 
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
 	}
 
 	/**
@@ -269,7 +273,7 @@ public class AndShowTimeMovieActivity extends Activity {
 				.append(AndShowtimeDateNumberUtil.showMovieTimeLength(this, movie))//
 				.toString()));
 
-		List<Long> projectionList = null;
+		List<ProjectionBean> projectionList = null;
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		distanceTime = prefs.getBoolean(this.getResources().getString(R.string.preference_loc_key_time_direction)//
 				, false);
@@ -390,7 +394,7 @@ public class AndShowTimeMovieActivity extends Activity {
 			if (actorList != null && actorList.length() > 0) {
 				boolean first = true;
 				String[] actorArray = actorList.split("\\|");
-				for (int i = 0; i < 3; i++) {
+				for (int i = 0; i < Math.min(3, actorArray.length); i++) {
 					String actor = actorArray[i];
 					if (first) {
 						first = false;
@@ -399,7 +403,7 @@ public class AndShowTimeMovieActivity extends Activity {
 					}
 					actorBuffer.append(actor);
 				}
-				if (actorArray.length > 3) {
+				if (actorArray.length > Math.min(3, actorArray.length)) {
 					actorBuffer.append(", ...");
 				}
 				movieActor.setText(//
@@ -597,13 +601,13 @@ public class AndShowTimeMovieActivity extends Activity {
 
 				MovieBean movie = model.getMovie();
 				TheaterBean theater = model.getTheater();
-				long showtime = theater.getMovieMap().get(movie.getId()).get(item.getGroupId());
+				ProjectionBean showtime = theater.getMovieMap().get(movie.getId()).get(item.getGroupId());
 
 				Intent sendIntent = new Intent(Intent.ACTION_VIEW);
 				sendIntent.putExtra("sms_body", MessageFormat.format(getResources().getString(R.string.smsContent) // //$NON-NLS-1$
 						, movie.getMovieName() //
-						, AndShowtimeDateNumberUtil.getDayString(this, showtime) //
-						, AndShowtimeDateNumberUtil.showMovieTime(this, showtime) //
+						, AndShowtimeDateNumberUtil.getDayString(this, showtime.getShowtime()) //
+						, AndShowtimeDateNumberUtil.showMovieTime(this, showtime.getShowtime()) //
 						, theater.getTheaterName()));
 				sendIntent.setType("vnd.android-dir/mms-sms"); //$NON-NLS-1$
 				startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.chooseIntentSms)));
@@ -618,7 +622,7 @@ public class AndShowTimeMovieActivity extends Activity {
 
 				MovieBean movie = model.getMovie();
 				TheaterBean theater = model.getTheater();
-				long showtime = theater.getMovieMap().get(movie.getId()).get(item.getGroupId());
+				ProjectionBean showtime = theater.getMovieMap().get(movie.getId()).get(item.getGroupId());
 				// String[] mailto = { "jean.francois.garreay@gmail.com" };
 				// Create a new Intent to send messages
 				Intent sendIntent = new Intent(Intent.ACTION_SEND);
@@ -628,8 +632,8 @@ public class AndShowTimeMovieActivity extends Activity {
 				sendIntent.putExtra(Intent.EXTRA_TEXT,// 
 						MessageFormat.format(getResources().getString(R.string.mailContent) //
 								, movie.getMovieName() //
-								, AndShowtimeDateNumberUtil.getDayString(this, showtime) //
-								, AndShowtimeDateNumberUtil.showMovieTime(this, showtime) //
+								, AndShowtimeDateNumberUtil.getDayString(this, showtime.getShowtime()) //
+								, AndShowtimeDateNumberUtil.showMovieTime(this, showtime.getShowtime()) //
 								, theater.getTheaterName()));
 				startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.chooseIntentMail)));
 			} catch (Exception e) {
@@ -641,13 +645,13 @@ public class AndShowTimeMovieActivity extends Activity {
 			try {
 				MovieBean movie = model.getMovie();
 				TheaterBean theater = model.getTheater();
-				long showtime = theater.getMovieMap().get(movie.getId()).get(item.getGroupId());
+				ProjectionBean showtime = theater.getMovieMap().get(movie.getId()).get(item.getGroupId());
 
 				Uri uri = Uri.parse("content://calendar/events");
 				ContentResolver cr = getContentResolver();
 
 				Calendar timeAfter = Calendar.getInstance();
-				timeAfter.setTimeInMillis(showtime);
+				timeAfter.setTimeInMillis(showtime.getShowtime());
 				Calendar timeMovie = Calendar.getInstance();
 				timeMovie.setTimeInMillis(movie.getMovieTime());
 				timeAfter.add(Calendar.HOUR_OF_DAY, timeMovie.get(Calendar.HOUR_OF_DAY));
@@ -657,7 +661,7 @@ public class AndShowTimeMovieActivity extends Activity {
 				values.put("calendar_id", 1); // query content://calendar/calendars for more
 				values.put("title", movie.getMovieName());
 				values.put("allDay", 0);
-				values.put("dtstart", showtime); // long (start date in ms)
+				values.put("dtstart", showtime.getShowtime()); // long (start date in ms)
 				values.put("dtend", timeAfter.getTimeInMillis()); // long (end date in ms)
 				values.put("description", movie.getMovieName() + " at " + theater.getTheaterName());
 				values.put("eventLocation", (theater.getPlace() != null) ? theater.getPlace().getSearchQuery() : null);
@@ -702,8 +706,8 @@ public class AndShowTimeMovieActivity extends Activity {
 			AdapterContextMenuInfo contexMenuInfo = (AdapterContextMenuInfo) menuInfo;
 
 			TheaterBean theater = model.getTheater();
-			long showtime = theater.getMovieMap().get(movie.getId()).get(contexMenuInfo.position);
-			if (minTime != -1 && showtime >= minTime) {
+			ProjectionBean showtime = theater.getMovieMap().get(movie.getId()).get(contexMenuInfo.position);
+			if (minTime != -1 && showtime.getShowtime() >= minTime) {
 
 				menu.add(contexMenuInfo.position, ITEM_SEND_SMS, 0, R.string.menuSms);
 				menu.add(contexMenuInfo.position, ITEM_SEND_MAIL, 0, R.string.menuMail);

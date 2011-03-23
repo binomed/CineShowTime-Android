@@ -14,9 +14,12 @@ import android.util.Log;
 import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
 import com.binomed.showtime.android.aidl.ICallbackMovie;
 import com.binomed.showtime.android.aidl.IServiceMovie;
+import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.cst.ParamIntent;
+import com.binomed.showtime.android.service.AndShowDBGlobalService;
 import com.binomed.showtime.android.util.AndShowTimeEncodingUtil;
+import com.binomed.showtime.android.util.BeanManagerFactory;
 import com.binomed.showtime.beans.MovieBean;
 import com.google.api.translate.Language;
 import com.google.api.translate.Translate;
@@ -84,9 +87,13 @@ public class ControlerMovieActivity {
 	}
 
 	public void fillDB() {
-		initDB();
-		Thread threadFillDB = new Thread(fillDBRunnable);
-		threadFillDB.start();
+		Intent intentUpdateMovie = new Intent(movieActivity, AndShowDBGlobalService.class);
+		intentUpdateMovie.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_MOVIE_WRITE);
+		BeanManagerFactory.setMovieDesc(model.getMovie());
+		movieActivity.startService(intentUpdateMovie);
+		// initDB();
+		// Thread threadFillDB = new Thread(fillDBRunnable);
+		// threadFillDB.start();
 
 	}
 

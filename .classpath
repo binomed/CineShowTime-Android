@@ -5,5 +5,6 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="lib" path="andshowtime.beans.jar" sourcepath="/AndShowtimeBeans"/>
 	<classpathentry kind="lib" path="google-api-translate-java-0.6.jar"/>
+	<classpathentry kind="lib" path="wpsapi.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

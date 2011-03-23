@@ -10,12 +10,16 @@
 	<string-array name="mode_localisation">
 		<item>GPS</item>
 		<item>GSM</item>
-		<!-- <item>Wifi</item>-->
+		<item>Wifi</item>
+		<item>IP</item>
+		<item>XPS</item>
 	</string-array>
 	<string-array name="mode_localisation_code">
 		<item>GPS</item>
 		<item>GSM</item>
-		<!--<item>WIFI</item>-->
+		<item>WIFI</item>
+		<item>IP</item>
+		<item>XPS</item>
 	</string-array>
 	<string-array name="time_adds">
 		<item>5 мин</item>

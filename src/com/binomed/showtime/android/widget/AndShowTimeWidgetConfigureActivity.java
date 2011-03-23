@@ -10,8 +10,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
@@ -29,8 +27,7 @@ import com.binomed.showtime.android.handler.ServiceCallBackNear;
 import com.binomed.showtime.android.layout.dialogs.sort.ListDialog;
 import com.binomed.showtime.android.util.AndShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.BeanManagerFactory;
-import com.binomed.showtime.android.util.LocationUtils;
-import com.binomed.showtime.android.util.LocationUtils.ProviderEnum;
+import com.binomed.showtime.android.util.localisation.IListenerLocalisationUtilCallBack;
 import com.binomed.showtime.beans.NearResp;
 
 public class AndShowTimeWidgetConfigureActivity extends Activity {
@@ -53,12 +50,13 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 
 	protected static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
 
-	protected Bitmap bitmapGpsOn;
-	protected Bitmap bitmapGpsOff;
+	// protected Bitmap bitmapGpsOn;
+	// protected Bitmap bitmapGpsOff;
+	//
+	// private ProviderEnum provider;
 
-	private ProviderEnum provider;
-
-	private boolean checkboxPreference, locationListener;
+	private IListenerLocalisationUtilCallBack localisationCallBack;
+	// private boolean checkboxPreference, locationListener;
 	private SharedPreferences prefs;
 
 	/** Called when the activity is first created. */
@@ -95,7 +93,6 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 		super.onDestroy();
 		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
 		controler.unbindService();
-		controler.closeDB();
 	}
 
 	@Override
@@ -105,21 +102,30 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
-		removeListenersLocation();
+		if (localisationCallBack != null) {
+			localisationCallBack.onPause();
+		}
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		Log.i(TAG, "onResume"); //$NON-NLS-1$
-		initProvider();
+		// initProvider();
 		initListeners();
 		initViewsState();
 
-		model.setGpsLocalisation(checkboxPreference ? LocationUtils.getLastLocation(AndShowTimeWidgetConfigureActivity.this, provider) : null);
-
+		if (localisationCallBack != null) {
+			localisationCallBack.onResume();
+		}
 		display();
 
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		Log.i(TAG, "onWindowFocusChanged:" + hasFocus); //$NON-NLS-1$
+		super.onWindowFocusChanged(hasFocus);
 	}
 
 	@Override
@@ -153,8 +159,6 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 	}
 
 	private void initViews() {
-		bitmapGpsOn = BitmapFactory.decodeResource(getResources(), R.drawable.gps_activ);
-		bitmapGpsOff = BitmapFactory.decodeResource(getResources(), R.drawable.gps_not_activ);
 
 		txtCityName = (AutoCompleteTextView) findViewById(R.id.searchWidgetCityName);
 		btnSearch = (Button) findViewById(R.id.searchWidgetBtnSearch);
@@ -163,6 +167,10 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 		gpsImgView = (ImageView) findViewById(R.id.searchWidgetImgGps);
 
 		speechButton = (ImageButton) findViewById(R.id.searchWidgetBtnSpeech);
+
+		// manageCallBack
+		localisationCallBack = AndShowTimeLayoutUtils.manageLocationManagement(this, gpsImgView, chkGps, txtCityName, model);
+
 		// Manage speech button just if package present on device
 		AndShowTimeLayoutUtils.manageVisibiltyFieldSpeech(this, speechButton, txtCityName, R.id.searchWidgetTxtCityName, R.id.searchWidgetLocation, -1);
 
@@ -170,15 +178,10 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 
 	private void initViewsState() {
 
-		gpsImgView.setImageBitmap(bitmapGpsOff);
-		chkGps.setChecked(false);
-		chkGps.setEnabled(LocationUtils.isLocalisationEnabled(AndShowTimeWidgetConfigureActivity.this, provider));
-
 		// Check to see if a recognition activity is present
 		PackageManager pm = getPackageManager();
 		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 		if (activities.size() != 0) {
-			// speechButton.setBackgroundResource(android.R.drawable.ic_btn_speak_now);
 			speechButton.setOnClickListener(listener);
 		}
 	}
@@ -186,25 +189,6 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 	private void initListeners() {
 		btnSearch.setOnClickListener(listener);
 		listResult.setOnItemClickListener(listener);
-	}
-
-	protected void initListenersLocation() {
-		if (checkboxPreference) {
-			locationListener = true;
-			LocationUtils.registerLocalisationListener(AndShowTimeWidgetConfigureActivity.this, provider, listener);
-		}
-
-	}
-
-	protected void removeListenersLocation() {
-		locationListener = false;
-		LocationUtils.unRegisterListener(AndShowTimeWidgetConfigureActivity.this, listener);
-	}
-
-	private void initProvider() {
-		provider = LocationUtils.getProvider(prefs, this);
-		checkboxPreference = prefs.getBoolean(getResources().getString(R.string.preference_loc_key_enable_localisation), true);
-
 	}
 
 	protected void launchNearService() throws UnsupportedEncodingException {

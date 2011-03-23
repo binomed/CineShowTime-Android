@@ -2,8 +2,6 @@ package com.binomed.showtime.android.searchmovieactivity;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashSet;
-import java.util.Set;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -19,12 +17,13 @@ import android.util.Log;
 import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
 import com.binomed.showtime.android.aidl.ICallbackSearchMovie;
 import com.binomed.showtime.android.aidl.IServiceSearchMovie;
+import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.movieactivity.AndShowTimeMovieActivity;
+import com.binomed.showtime.android.service.AndShowDBGlobalService;
 import com.binomed.showtime.android.util.AndShowTimeEncodingUtil;
-import com.binomed.showtime.android.util.BeanManagerFactory;
+import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.beans.MovieBean;
-import com.binomed.showtime.beans.MovieResp;
 import com.binomed.showtime.beans.TheaterBean;
 
 public class ControlerSearchMovieActivity {
@@ -73,8 +72,8 @@ public class ControlerSearchMovieActivity {
 
 		intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movie.getId());
 		intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theater.getId());
-		intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (model.getGpsLocalisation() != null) ? model.getGpsLocalisation().getLatitude() : null);
-		intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (model.getGpsLocalisation() != null) ? model.getGpsLocalisation().getLongitude() : null);
+		intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (model.getLocalisation() != null) ? model.getLocalisation().getLatitude() : null);
+		intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (model.getLocalisation() != null) ? model.getLocalisation().getLongitude() : null);
 		StringBuilder place = new StringBuilder();
 		if (theater != null) {
 			if (theater.getPlace() != null) {
@@ -100,7 +99,7 @@ public class ControlerSearchMovieActivity {
 	public void launchMovieService() throws UnsupportedEncodingException {
 		// bindService();
 
-		Location gpsLocation = model.getLocalisationSearch();
+		Location gpsLocation = model.getLocalisation();
 		String cityName = model.getCityName();
 		String movieName = model.getMovieName();
 		String theaterId = model.getFavTheaterId();
@@ -124,6 +123,7 @@ public class ControlerSearchMovieActivity {
 
 		movieActivity.fillAutoFields();
 
+		AndShowtimeFactory.initGeocoder(movieActivity);
 		Intent intentNearService = new Intent(movieActivity, AndShowTimeSearchMovieService.class);
 
 		intentNearService.putExtra(ParamIntent.SERVICE_MOVIE_LATITUDE, (gpsLocation != null) ? gpsLocation.getLatitude() : null);
@@ -188,38 +188,6 @@ public class ControlerSearchMovieActivity {
 		}
 	}
 
-	private Runnable fillDBRunnable = new Runnable() {
-		public void run() {
-			try {
-				MovieResp movieResp = BeanManagerFactory.getMovieResp();
-				if (movieResp != null && mDbHelper.isOpen()) {
-
-					mDbHelper.deleteTheatersShowtimeRequestAndLocation();
-					for (TheaterBean theater : movieResp.getTheaterList()) {
-						mDbHelper.createTheater(theater);
-						if (theater.getPlace() != null) {
-							mDbHelper.createLocation(theater.getPlace(), theater.getId());
-						}
-						for (String movieId : theater.getMovieMap().keySet()) {
-							for (Long showTime : theater.getMovieMap().get(movieId)) {
-								mDbHelper.createShowtime(theater.getId(), movieId, showTime);
-							}
-						}
-					}
-					if (movieResp.getMovie() != null) {
-						mDbHelper.createOrUpdateMovie(movieResp.getMovie());
-						Set<String> ids = new HashSet<String>();
-						ids.add(movieResp.getMovie().getId());
-						mDbHelper.deleteMovies(ids);
-					}
-				}
-			} catch (Exception e) {
-				Log.e(TAG, "error putting data into data base", e);
-			}
-
-		}
-	};
-
 	/*
 	 * 
 	 * CALL BACK SERVICE
@@ -282,7 +250,9 @@ public class ControlerSearchMovieActivity {
 		public void finish() throws RemoteException {
 			// Thread threadFillDB = new Thread(fillDBRunnable);
 			// threadFillDB.start();
-			Intent intentMovieFillDBService = new Intent(movieActivity, AndShowTimeSearchMovieDBService.class);
+			// Intent intentMovieFillDBService = new Intent(movieActivity, AndShowTimeSearchMovieDBService.class);
+			Intent intentMovieFillDBService = new Intent(movieActivity, AndShowDBGlobalService.class);
+			intentMovieFillDBService.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_MOVIE_WRITE);
 			movieActivity.startService(intentMovieFillDBService);
 			movieActivity.m_callbackHandler.sendInputRecieved();
 
