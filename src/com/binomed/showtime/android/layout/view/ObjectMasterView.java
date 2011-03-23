@@ -9,9 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
-import com.binomed.showtime.beans.MovieBean;
-import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.TheaterBean;
+import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 import com.binomed.showtime.cst.HttpParamsCst;
 
 public class ObjectMasterView extends LinearLayout {
@@ -71,13 +71,13 @@ public class ObjectMasterView extends LinearLayout {
 		StringBuilder strTheater = new StringBuilder();
 		if ((theaterBean != null) && (theaterBean.getPlace() != null) && theaterBean.getPlace().getDistance() != null) {
 			strTheater.append(" (");
-			strTheater.append(AndShowtimeDateNumberUtil.showDistance(theaterBean.getPlace().getDistance(), !kmUnit));
+			strTheater.append(CineShowtimeDateNumberUtil.showDistance(theaterBean.getPlace().getDistance(), !kmUnit));
 			strTheater.append(")");
 		}
 		if (theaterBean != null) {
 			objectName.setText(theaterBean.getTheaterName());
 			if (!String.valueOf(HttpParamsCst.ERROR_NO_DATA).equals(theaterBean.getId()) //
-					&& !String.valueOf(HttpParamsCst.ERROR_WRONG_DATE).equals(theaterBean.getId())// 
+					&& !String.valueOf(HttpParamsCst.ERROR_WRONG_DATE).equals(theaterBean.getId())//
 					&& !String.valueOf(HttpParamsCst.ERROR_WRONG_PLACE).equals(theaterBean.getId()) //
 					&& !String.valueOf(HttpParamsCst.ERROR_CUSTOM_MESSAGE).equals(theaterBean.getId()) //
 			) {
@@ -95,8 +95,14 @@ public class ObjectMasterView extends LinearLayout {
 	public void setMovie(MovieBean movieBean, boolean isFav) {
 		this.movieBean = movieBean;
 
-		objectName.setText(movieBean.getMovieName());
-		objectSubContentName.setText(AndShowtimeDateNumberUtil.showMovieTimeLength(context, movieBean));
+		if (movieBean != null) {
+			objectName.setText(movieBean.getMovieName());
+			objectSubContentName.setText(CineShowtimeDateNumberUtil.showMovieTimeLength(context, movieBean));
+		} else {
+			objectName.setText("");
+			objectSubContentName.setText("");
+
+		}
 		expandFav.setImageDrawable(context.getResources().getDrawable(R.drawable.vide));
 	}
 

@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.beans.ReviewBean;
+import com.binomed.showtime.android.model.ReviewBean;
 
 public class ReviewView extends LinearLayout {
 

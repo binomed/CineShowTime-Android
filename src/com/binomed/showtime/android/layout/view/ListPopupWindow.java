@@ -15,15 +15,15 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.ProjectionBean;
+import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.objects.OptionEnum;
-import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
-import com.binomed.showtime.beans.MovieBean;
-import com.binomed.showtime.beans.ProjectionBean;
-import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 
 public class ListPopupWindow extends AbstractCustomPopupWindow {
 
@@ -32,15 +32,17 @@ public class ListPopupWindow extends AbstractCustomPopupWindow {
 	private TheaterBean theater;
 	private MovieBean movie;
 	private ListOptionProjectionView listView;
+	private boolean calendarInstalled;
 
 	private static final String TAG = "ListPopupWindow";
 
-	public ListPopupWindow(View anchor, Context ctx, TheaterBean theater, MovieBean movie, ProjectionBean projectionBean) {
+	public ListPopupWindow(View anchor, Context ctx, TheaterBean theater, MovieBean movie, ProjectionBean projectionBean, boolean calendarInstalled) {
 		super(anchor);
 		this.ctx = ctx;
 		this.projectionBean = projectionBean;
 		this.theater = theater;
 		this.movie = movie;
+		this.calendarInstalled = calendarInstalled;
 	}
 
 	@Override
@@ -50,7 +52,7 @@ public class ListPopupWindow extends AbstractCustomPopupWindow {
 			@Override
 			public void onItemClick(AdapterView<?> adpater, View view, int groupPosition, long id) {
 				if (view instanceof OptionProjectionView) {
-					boolean format24 = AndShowtimeDateNumberUtil.isFormat24(ctx);
+					boolean format24 = CineShowtimeDateNumberUtil.isFormat24(ctx);
 
 					switch (((OptionProjectionView) view).getOption()) {
 					case SMS: {
@@ -65,8 +67,8 @@ public class ListPopupWindow extends AbstractCustomPopupWindow {
 							Intent sendIntent = new Intent(Intent.ACTION_VIEW);
 							String msg = MessageFormat.format(ctx.getResources().getString(R.string.smsContent) // //$NON-NLS-1$
 									, movie.getMovieName() //
-									, AndShowtimeDateNumberUtil.getDayString(ctx, projectionBean.getShowtime()) //
-									, AndShowtimeDateNumberUtil.showMovieTime(ctx, projectionBean.getShowtime(), format24) //
+									, CineShowtimeDateNumberUtil.getDayString(ctx, projectionBean.getShowtime()) //
+									, CineShowtimeDateNumberUtil.showMovieTime(ctx, projectionBean.getShowtime(), format24) //
 									, theater.getTheaterName());
 							sendIntent.putExtra("sms_body", msg);
 							sendIntent.setType("vnd.android-dir/mms-sms"); //$NON-NLS-1$
@@ -87,8 +89,8 @@ public class ListPopupWindow extends AbstractCustomPopupWindow {
 							String subject = MessageFormat.format(ctx.getResources().getString(R.string.mailSubject), movie.getMovieName());
 							String msg = MessageFormat.format(ctx.getResources().getString(R.string.mailContent) //
 									, movie.getMovieName() //
-									, AndShowtimeDateNumberUtil.getDayString(ctx, projectionBean.getShowtime()) //
-									, AndShowtimeDateNumberUtil.showMovieTime(ctx, projectionBean.getShowtime(), format24) //
+									, CineShowtimeDateNumberUtil.getDayString(ctx, projectionBean.getShowtime()) //
+									, CineShowtimeDateNumberUtil.showMovieTime(ctx, projectionBean.getShowtime(), format24) //
 									, theater.getTheaterName());
 							sendIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
 							sendIntent.putExtra(Intent.EXTRA_TEXT,//
@@ -161,7 +163,7 @@ public class ListPopupWindow extends AbstractCustomPopupWindow {
 	}
 
 	public void loadView() {
-		listView.setProjectionBean(projectionBean);
+		listView.setProjectionBean(projectionBean, calendarInstalled);
 		this.setContentView(listView);
 
 	}

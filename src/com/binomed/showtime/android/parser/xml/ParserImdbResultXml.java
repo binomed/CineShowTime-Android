@@ -9,10 +9,10 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
-import com.binomed.showtime.android.util.AndShowTimeEncodingUtil;
-import com.binomed.showtime.beans.MovieBean;
-import com.binomed.showtime.beans.ReviewBean;
-import com.binomed.showtime.beans.YoutubeBean;
+import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.ReviewBean;
+import com.binomed.showtime.android.model.YoutubeBean;
+import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.cst.XmlGramarImdbResult;
 
 public class ParserImdbResultXml implements ContentHandler {
@@ -52,14 +52,14 @@ public class ParserImdbResultXml implements ContentHandler {
 			movieBean.setImdbId(atts.getValue(XmlGramarImdbResult.ATTR_IMDB_ID));
 			try {
 				if (atts.getValue(XmlGramarImdbResult.ATTR_MOVIE_NAME) != null) {
-					movieBean.setMovieName(URLDecoder.decode(atts.getValue(XmlGramarImdbResult.ATTR_MOVIE_NAME), AndShowTimeEncodingUtil.getEncoding()));
+					movieBean.setMovieName(URLDecoder.decode(atts.getValue(XmlGramarImdbResult.ATTR_MOVIE_NAME), CineShowTimeEncodingUtil.getEncoding()));
 				}
 			} catch (UnsupportedEncodingException e) {
 			}
 			movieBean.setUrlImg(atts.getValue(XmlGramarImdbResult.ATTR_URL_IMG));
 			try {
 				if (atts.getValue(XmlGramarImdbResult.ATTR_URL_WIKIPEDIA) != null) {
-					movieBean.setUrlWikipedia(URLDecoder.decode(atts.getValue(XmlGramarImdbResult.ATTR_URL_WIKIPEDIA), AndShowTimeEncodingUtil.getEncoding()));
+					movieBean.setUrlWikipedia(URLDecoder.decode(atts.getValue(XmlGramarImdbResult.ATTR_URL_WIKIPEDIA), CineShowTimeEncodingUtil.getEncoding()));
 				}
 			} catch (UnsupportedEncodingException e) {
 			}
@@ -76,7 +76,7 @@ public class ParserImdbResultXml implements ContentHandler {
 			String directors = atts.getValue(XmlGramarImdbResult.ATTR_DIRECTORS);
 			if (directors != null) {
 				try {
-					movieBean.setDirectorList(URLDecoder.decode(directors, AndShowTimeEncodingUtil.getEncoding()));
+					movieBean.setDirectorList(URLDecoder.decode(directors, CineShowTimeEncodingUtil.getEncoding()));
 				} catch (UnsupportedEncodingException e) {
 				}
 			}
@@ -84,7 +84,7 @@ public class ParserImdbResultXml implements ContentHandler {
 			String actors = atts.getValue(XmlGramarImdbResult.ATTR_ACTORS);
 			if (actors != null) {
 				try {
-					movieBean.setActorList(URLDecoder.decode(actors, AndShowTimeEncodingUtil.getEncoding()));
+					movieBean.setActorList(URLDecoder.decode(actors, CineShowTimeEncodingUtil.getEncoding()));
 				} catch (UnsupportedEncodingException e) {
 				}
 			}
@@ -112,7 +112,7 @@ public class ParserImdbResultXml implements ContentHandler {
 			String author = atts.getValue(XmlGramarImdbResult.ATTR_AUTHOR);
 			if (author != null) {
 				try {
-					reviewBean.setAuthor(URLDecoder.decode(author, AndShowTimeEncodingUtil.getEncoding()));
+					reviewBean.setAuthor(URLDecoder.decode(author, CineShowTimeEncodingUtil.getEncoding()));
 				} catch (UnsupportedEncodingException e) {
 				}
 			}
@@ -120,7 +120,7 @@ public class ParserImdbResultXml implements ContentHandler {
 			String urlSource = atts.getValue(XmlGramarImdbResult.ATTR_SOURCE);
 			if (urlSource != null) {
 				try {
-					reviewBean.setSource(URLDecoder.decode(urlSource, AndShowTimeEncodingUtil.getEncoding()));
+					reviewBean.setSource(URLDecoder.decode(urlSource, CineShowTimeEncodingUtil.getEncoding()));
 				} catch (UnsupportedEncodingException e) {
 				}
 			}
@@ -128,7 +128,7 @@ public class ParserImdbResultXml implements ContentHandler {
 			String urlReview = atts.getValue(XmlGramarImdbResult.ATTR_URL_REVIEW);
 			if (urlReview != null) {
 				try {
-					reviewBean.setUrlReview(URLDecoder.decode(urlReview, AndShowTimeEncodingUtil.getEncoding()));
+					reviewBean.setUrlReview(URLDecoder.decode(urlReview, CineShowTimeEncodingUtil.getEncoding()));
 				} catch (UnsupportedEncodingException e) {
 				}
 			}
@@ -151,7 +151,7 @@ public class ParserImdbResultXml implements ContentHandler {
 			String videoName = atts.getValue(XmlGramarImdbResult.ATTR_VIDEO_NAME);
 			if (videoName != null) {
 				try {
-					youtubeBean.setVideoName(URLDecoder.decode(videoName, AndShowTimeEncodingUtil.getEncoding()));
+					youtubeBean.setVideoName(URLDecoder.decode(videoName, CineShowTimeEncodingUtil.getEncoding()));
 				} catch (UnsupportedEncodingException e) {
 				}
 			}
@@ -173,7 +173,7 @@ public class ParserImdbResultXml implements ContentHandler {
 			inDescription = false;
 			try {
 				if (description != null) {
-					movieBean.setDescription(URLDecoder.decode(description.toString(), AndShowTimeEncodingUtil.getEncoding()));
+					movieBean.setDescription(URLDecoder.decode(description.toString(), CineShowTimeEncodingUtil.getEncoding()));
 				}
 			} catch (UnsupportedEncodingException e) {
 			}
@@ -181,7 +181,7 @@ public class ParserImdbResultXml implements ContentHandler {
 			inReview = false;
 			try {
 				if (description != null) {
-					reviewBean.setReview(URLDecoder.decode(description.toString(), AndShowTimeEncodingUtil.getEncoding()));
+					reviewBean.setReview(URLDecoder.decode(description.toString(), CineShowTimeEncodingUtil.getEncoding()));
 					movieBean.getReviews().add(reviewBean);
 				}
 			} catch (UnsupportedEncodingException e) {

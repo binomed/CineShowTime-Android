@@ -1,5 +1,8 @@
 package com.binomed.showtime.android.util.images;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,15 +19,19 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
+
+import com.binomed.showtime.R;
+import com.binomed.showtime.android.cst.CineShowtimeCst;
 
 public class ImageDownloader {
 
@@ -36,12 +43,12 @@ public class ImageDownloader {
 
 	private Mode mode = Mode.CORRECT;
 
-	public void download(String url, ImageView imageView) {
+	public void download(String url, ImageView imageView, Context context) {
 		resetPurgeTimer();
 		Bitmap bitmap = getBitmapFromCache(url);
 
 		if (bitmap == null) {
-			forceDownload(url, imageView);
+			forceDownload(url, imageView, context);
 		} else {
 			cancelPotentialDownload(url, imageView);
 			imageView.setImageBitmap(bitmap);
@@ -51,14 +58,17 @@ public class ImageDownloader {
 	/**
 	 * Same as download but the image is always downloaded and the cache is not used. Kept private at the moment as its interest is not clear.
 	 */
-	private void forceDownload(String url, ImageView imageView) {
+	private void forceDownload(String url, ImageView imageView, Context context) {
 		// State sanity: url is guaranteed to never be null in DownloadedDrawable and cache keys.
 		if (url == null) {
 			imageView.setImageDrawable(null);
 			return;
 		}
 
-		if (cancelPotentialDownload(url, imageView)) {
+		Bitmap image = getFileDrawable(url);
+		if (image != null) {
+			imageView.setImageBitmap(image);
+		} else if (cancelPotentialDownload(url, imageView)) {
 			switch (mode) {
 			case NO_ASYNC_TASK:
 				Bitmap bitmap = downloadBitmap(url);
@@ -74,13 +84,77 @@ public class ImageDownloader {
 
 			case CORRECT:
 				task = new BitmapDownloaderTask(imageView);
-				DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
+				DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task, context);
 				imageView.setImageDrawable(downloadedDrawable);
 				imageView.setMinimumHeight(156);
 				task.execute(url);
 				break;
 			}
 		}
+	}
+
+	private Bitmap getFileDrawable(String url) {
+		Bitmap image = null;
+		String finalFileName = url.substring(url.lastIndexOf("/"), url.length());
+		try {
+			File root = Environment.getExternalStorageDirectory();
+			if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+				File imageFile = new File(root, new StringBuilder(CineShowtimeCst.FOLDER_POSTER).append(getFileName(url)).toString());
+				Log.d(LOG_TAG, "Try getting file : " + imageFile.getAbsolutePath());
+				if (imageFile.exists()) {
+					image = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+				}
+			} else {
+				Log.d(LOG_TAG, "SD card unmounted : " + url);
+
+			}
+		} catch (Exception e) {
+			Log.e(LOG_TAG, "Error creating file", e);
+		}
+
+		if (image != null) {
+			addBitmapToCache(url, image);
+		}
+
+		return image;
+	}
+
+	private InputStream writeFile(String url, InputStream inputStream) {
+		InputStream returnInputStream = inputStream;
+		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+			try {
+				File root = Environment.getExternalStorageDirectory();
+				File imageFile = new File(root, new StringBuilder(CineShowtimeCst.FOLDER_POSTER).append(getFileName(url)).toString());
+				if (!imageFile.getParentFile().exists()) {
+					imageFile.mkdirs();
+				}
+				if (!imageFile.exists()) {
+					imageFile.createNewFile();
+					FileOutputStream fileOutPut = new FileOutputStream(imageFile);
+					byte[] tempon = new byte[10240];
+
+					while (true) {
+						int nRead = inputStream.read(tempon, 0, tempon.length);
+						if (nRead <= 0) {
+							break;
+						}
+						fileOutPut.write(tempon, 0, nRead);
+					}
+					fileOutPut.close();
+					returnInputStream = new FileInputStream(imageFile);
+				}
+			} catch (Exception e) {
+				Log.e(LOG_TAG, "Error creating file", e);
+			}
+		}
+		return returnInputStream;
+	}
+
+	private String getFileName(String url) {
+		String fileName = null;
+		fileName = url.replaceAll("/", "");
+		fileName = fileName.substring(6, fileName.length());
+		return fileName;
 	}
 
 	/**
@@ -137,6 +211,7 @@ public class ImageDownloader {
 				InputStream inputStream = null;
 				try {
 					inputStream = entity.getContent();
+					inputStream = writeFile(url, inputStream);
 					// return BitmapFactory.decodeStream(inputStream);
 					// Bug on slow connections, fixed in future release.
 					return BitmapFactory.decodeStream(new FlushedInputStream(inputStream));
@@ -241,31 +316,11 @@ public class ImageDownloader {
 	 * Contains a reference to the actual download task, so that a download task can be stopped if a new binding is required, and makes sure that only the last started download process can bind its result, independently of the download finish order.
 	 * </p>
 	 */
-	static class DownloadedDrawable extends ColorDrawable {
-		private final WeakReference<BitmapDownloaderTask> bitmapDownloaderTaskReference;
-
-		public DownloadedDrawable(BitmapDownloaderTask bitmapDownloaderTask) {
-			super(Color.DKGRAY);
-			bitmapDownloaderTaskReference = new WeakReference<BitmapDownloaderTask>(bitmapDownloaderTask);
-		}
-
-		public BitmapDownloaderTask getBitmapDownloaderTask() {
-			return bitmapDownloaderTaskReference.get();
-		}
-	}
-
-	// /**
-	// * A fake Drawable that will be attached to the imageView while the download is in progress.
-	// *
-	// * <p>
-	// * Contains a reference to the actual download task, so that a download task can be stopped if a new binding is required, and makes sure that only the last started download process can bind its result, independently of the download finish order.
-	// * </p>
-	// */
-	// static class DownloadedDrawable extends BitmapDrawable {
+	// static class DownloadedDrawable extends ColorDrawable {
 	// private final WeakReference<BitmapDownloaderTask> bitmapDownloaderTaskReference;
 	//
-	// public DownloadedDrawable(BitmapDownloaderTask bitmapDownloaderTask, Context context) {
-	// super(BitmapFactory.decodeResource(context.getResources(), R.drawable.loading_preview));
+	// public DownloadedDrawable(BitmapDownloaderTask bitmapDownloaderTask) {
+	// super(Color.DKGRAY);
 	// bitmapDownloaderTaskReference = new WeakReference<BitmapDownloaderTask>(bitmapDownloaderTask);
 	// }
 	//
@@ -273,6 +328,26 @@ public class ImageDownloader {
 	// return bitmapDownloaderTaskReference.get();
 	// }
 	// }
+
+	/**
+	 * A fake Drawable that will be attached to the imageView while the download is in progress.
+	 * 
+	 * <p>
+	 * Contains a reference to the actual download task, so that a download task can be stopped if a new binding is required, and makes sure that only the last started download process can bind its result, independently of the download finish order.
+	 * </p>
+	 */
+	static class DownloadedDrawable extends BitmapDrawable {
+		private final WeakReference<BitmapDownloaderTask> bitmapDownloaderTaskReference;
+
+		public DownloadedDrawable(BitmapDownloaderTask bitmapDownloaderTask, Context context) {
+			super(BitmapFactory.decodeResource(context.getResources(), R.drawable.loading_preview));
+			bitmapDownloaderTaskReference = new WeakReference<BitmapDownloaderTask>(bitmapDownloaderTask);
+		}
+
+		public BitmapDownloaderTask getBitmapDownloaderTask() {
+			return bitmapDownloaderTaskReference.get();
+		}
+	}
 
 	public void setMode(Mode mode) {
 		this.mode = mode;
@@ -307,6 +382,7 @@ public class ImageDownloader {
 	private final Handler purgeHandler = new Handler();
 
 	private final Runnable purger = new Runnable() {
+		@Override
 		public void run() {
 			clearCache();
 		}

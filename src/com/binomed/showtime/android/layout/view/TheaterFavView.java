@@ -7,8 +7,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.beans.LocalisationBean;
-import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.android.model.LocalisationBean;
+import com.binomed.showtime.android.model.TheaterBean;
 
 public class TheaterFavView extends RelativeLayout {
 
@@ -41,7 +41,7 @@ public class TheaterFavView extends RelativeLayout {
 			resourceDrawable = R.drawable.vide;
 		} else {
 			resourceDrawable = R.drawable.ic_delete;
-			LocalisationBean place = theaterBean.getPlace();
+			LocalisationBean place = (LocalisationBean) theaterBean.getPlace();
 			if (place != null && place.getCityName() != null) {
 				cityName = place.getCityName();
 			}

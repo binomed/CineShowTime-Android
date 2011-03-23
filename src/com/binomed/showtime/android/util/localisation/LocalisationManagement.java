@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -16,8 +17,9 @@ import android.widget.ImageView;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.handler.TextCallBackFromLocation;
-import com.binomed.showtime.android.util.AndShowtimeFactory;
+import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.android.util.localisation.LocationUtils.ProviderEnum;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.skyhookwireless.wps.IPLocation;
 import com.skyhookwireless.wps.IPLocationCallback;
 import com.skyhookwireless.wps.WPSContinuation;
@@ -29,7 +31,7 @@ import com.skyhookwireless.wps.XPS;
 
 public class LocalisationManagement implements IListenerLocalisationUtilCallBack //
 		, OnClickListener //
-		, LocationListener // 
+		, LocationListener //
 		, WPSPeriodicLocationCallback //
 		, WPSLocationCallback //
 		, IPLocationCallback //
@@ -39,7 +41,8 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	private SharedPreferences prefs;
 	private ProviderEnum provider;
 	private boolean checkboxPreference;
-	private Bitmap bitmapGpsOn;
+	// private Bitmap bitmapGpsOn;
+	private AnimationDrawable bitmapGpsOn;
 	private Bitmap bitmapGpsOff;
 	private Bitmap bitmapGpsDisabled;
 	private Context context;
@@ -48,6 +51,7 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	private IModelLocalisation model;
 	private boolean locationListener, checkedGps;
 	private TextCallBackFromLocation handlerTextSearch;
+	private GoogleAnalyticsTracker tracker;
 	private XPS xps;
 
 	protected XPS getXps() {
@@ -58,12 +62,13 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		this.xps = xps;
 	}
 
-	public LocalisationManagement(Context context, ImageView imageGps, AutoCompleteTextView textSearch, IModelLocalisation model) {
+	public LocalisationManagement(Context context, GoogleAnalyticsTracker tracker, ImageView imageGps, AutoCompleteTextView textSearch, IModelLocalisation model) {
 		super();
 		this.context = context;
 		this.imageGps = imageGps;
 		this.textSearch = textSearch;
 		this.model = model;
+		this.tracker = tracker;
 
 		// Init handler
 		handlerTextSearch = new TextCallBackFromLocation(this.textSearch);
@@ -76,12 +81,16 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 
 		// Init viewState
 		checkedGps = false;
-		bitmapGpsOn = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_activ);
+		// bitmapGpsOn = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_activ);
+
+		// bitmapGpsOn = AnimationUtils.loadAnimation(context, R.drawable.gps_anim);
 		bitmapGpsOff = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_not_activ);
 		bitmapGpsDisabled = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_disable);
 		if (LocationUtils.isLocalisationEnabled(context, provider)) {
+			imageGps.setBackgroundDrawable(null);
 			imageGps.setImageBitmap(bitmapGpsOff);
 		} else {
+			imageGps.setBackgroundDrawable(null);
 			imageGps.setImageBitmap(bitmapGpsDisabled);
 		}
 
@@ -139,8 +148,18 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	public void onPreferenceReturn() {
 		checkboxPreference = prefs.getBoolean(context.getResources().getString(R.string.preference_loc_key_enable_localisation), true);
 		if (LocationUtils.isLocalisationEnabled(context, provider)) {
+			if (bitmapGpsOn != null) {
+				bitmapGpsOn.stop();
+				bitmapGpsOn = null;
+			}
+			imageGps.setBackgroundDrawable(null);
 			imageGps.setImageBitmap(bitmapGpsOff);
 		} else {
+			if (bitmapGpsOn != null) {
+				bitmapGpsOn.stop();
+				bitmapGpsOn = null;
+			}
+			imageGps.setBackgroundDrawable(null);
 			imageGps.setImageBitmap(bitmapGpsDisabled);
 		}
 		if (checkboxPreference && checkedGps && !locationListener) {
@@ -185,14 +204,25 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	 */
 	@Override
 	public void onClick(View v) {
+		tracker.trackEvent("Action", "GPS", "Use of gps", 0);
 		checkedGps = !checkedGps;
 		textSearch.setEnabled(!checkedGps);
 		if (!checkedGps) {
+			if (bitmapGpsOn != null) {
+				bitmapGpsOn.stop();
+				bitmapGpsOn = null;
+			}
+			imageGps.setBackgroundDrawable(null);
 			imageGps.setImageBitmap(bitmapGpsOff);
 			removeListenersLocation();
 		} else {
 			textSearch.setText("");
-			imageGps.setImageBitmap(bitmapGpsOn);
+			// imageGps.setImageBitmap(bitmapGpsOn);
+			// imageGps.startAnimation(bitmapGpsOn);
+			imageGps.setImageBitmap(null);
+			imageGps.setBackgroundResource(R.drawable.gps_anim);
+			bitmapGpsOn = (AnimationDrawable) imageGps.getBackground();
+			bitmapGpsOn.start();
 			initListenersLocation();
 		}
 	}
@@ -209,10 +239,13 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	 */
 	@Override
 	public void onLocationChanged(Location arg0) {
-		Log.d(TAG, "Change location : lat : " + arg0.getLatitude() + " / lon : " + arg0.getLongitude());
+		tracker.trackEvent("Action", "GPS", "Gps return", 0);
+		if (Log.isLoggable(TAG, Log.DEBUG)) {
+			Log.d(TAG, "Change location : lat : " + arg0.getLatitude() + " / lon : " + arg0.getLongitude());
+		}
 		model.setLocalisation(arg0);
 		if (textSearch.getText().toString().length() == 0) {
-			AndShowtimeFactory.initGeocoder(context);
+			CineShowtimeFactory.initGeocoder(context);
 			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(arg0));
 		}
 
@@ -229,6 +262,11 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 			checkedGps = false;
 			textSearch.setEnabled(true);
 			// imageGps.setImageBitmap(bitmapGpsOff);
+			if (bitmapGpsOn != null) {
+				bitmapGpsOn.stop();
+				bitmapGpsOn = null;
+			}
+			imageGps.setBackgroundDrawable(null);
 			imageGps.setImageBitmap(bitmapGpsDisabled);
 		}
 	}
@@ -240,6 +278,11 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	 */
 	@Override
 	public void onProviderEnabled(String arg0) {
+		if (bitmapGpsOn != null) {
+			bitmapGpsOn.stop();
+			bitmapGpsOn = null;
+		}
+		imageGps.setBackgroundDrawable(null);
 		imageGps.setImageBitmap(bitmapGpsOff);
 	}
 
@@ -327,7 +370,7 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		location.setLatitude(wpsLocation.getLatitude());
 		location.setLongitude(wpsLocation.getLongitude());
 		if (textSearch.getText().toString().length() == 0) {
-			AndShowtimeFactory.initGeocoder(context);
+			CineShowtimeFactory.initGeocoder(context);
 			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
 		}
 		// In all case we'ill continue after getting location only user would stop
@@ -354,7 +397,7 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		location.setLatitude(wpsLocation.getLatitude());
 		location.setLongitude(wpsLocation.getLongitude());
 		if (textSearch.getText().toString().length() == 0) {
-			AndShowtimeFactory.initGeocoder(context);
+			CineShowtimeFactory.initGeocoder(context);
 			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
 		}
 	}
@@ -378,7 +421,7 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		location.setLongitude(ipLocation.getLongitude());
 		location.setLatitude(ipLocation.getLatitude());
 		if (textSearch.getText().toString().length() == 0) {
-			AndShowtimeFactory.initGeocoder(context);
+			CineShowtimeFactory.initGeocoder(context);
 			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
 		}
 

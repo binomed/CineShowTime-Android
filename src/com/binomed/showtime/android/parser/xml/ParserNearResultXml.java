@@ -11,13 +11,12 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
-import com.binomed.showtime.android.util.AndShowTimeEncodingUtil;
-import com.binomed.showtime.android.util.BeanManagerFactory;
-import com.binomed.showtime.beans.LocalisationBean;
-import com.binomed.showtime.beans.MovieBean;
-import com.binomed.showtime.beans.NearResp;
-import com.binomed.showtime.beans.ProjectionBean;
-import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.android.model.LocalisationBean;
+import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.NearResp;
+import com.binomed.showtime.android.model.ProjectionBean;
+import com.binomed.showtime.android.model.TheaterBean;
+import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.cst.XmlGramarNearResult;
 
 public class ParserNearResultXml implements ContentHandler {
@@ -62,7 +61,7 @@ public class ParserNearResultXml implements ContentHandler {
 		if (XmlGramarNearResult.NODE_NEAR_RESP.equals(localName)) {
 			if (atts.getValue(XmlGramarNearResult.ATTR_CITY_NAME) != null) {
 				try {
-					nearRespBean.setCityName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_CITY_NAME), AndShowTimeEncodingUtil.getEncoding()));
+					nearRespBean.setCityName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_CITY_NAME), CineShowTimeEncodingUtil.getEncoding()));
 				} catch (UnsupportedEncodingException e) {
 				}
 			}
@@ -77,13 +76,13 @@ public class ParserNearResultXml implements ContentHandler {
 			curentMovie.setId(atts.getValue(XmlGramarNearResult.ATTR_ID));
 			try {
 				if (atts.getValue(XmlGramarNearResult.ATTR_ENGLISH_MOVIE_NAME) != null) {
-					curentMovie.setEnglishMovieName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_ENGLISH_MOVIE_NAME), AndShowTimeEncodingUtil.getEncoding()));
+					curentMovie.setEnglishMovieName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_ENGLISH_MOVIE_NAME), CineShowTimeEncodingUtil.getEncoding()));
 				}
 			} catch (UnsupportedEncodingException e1) {
 			}
 			try {
 				if (atts.getValue(XmlGramarNearResult.ATTR_MOVIE_NAME) != null) {
-					curentMovie.setMovieName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_MOVIE_NAME), AndShowTimeEncodingUtil.getEncoding()));
+					curentMovie.setMovieName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_MOVIE_NAME), CineShowTimeEncodingUtil.getEncoding()));
 				}
 			} catch (UnsupportedEncodingException e1) {
 			}
@@ -95,7 +94,6 @@ public class ParserNearResultXml implements ContentHandler {
 				} catch (NumberFormatException e) {
 				}
 			}
-			BeanManagerFactory.putMovie(curentMovie);
 			nearRespBean.getMapMovies().put(curentMovie.getId(), curentMovie);
 		} else if (inMovie && XmlGramarNearResult.NODE_THEATER.equals(localName)) {
 			List<String> theaterListForMovie = curentMovie.getTheaterList();
@@ -113,30 +111,29 @@ public class ParserNearResultXml implements ContentHandler {
 			curentTheater.setId(atts.getValue(XmlGramarNearResult.ATTR_ID));
 			try {
 				if (atts.getValue(XmlGramarNearResult.ATTR_THEATER_NAME) != null) {
-					curentTheater.setTheaterName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_THEATER_NAME), AndShowTimeEncodingUtil.getEncoding()));
+					curentTheater.setTheaterName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_THEATER_NAME), CineShowTimeEncodingUtil.getEncoding()));
 				}
 			} catch (UnsupportedEncodingException e) {
 			}
 			curentTheater.setPhoneNumber(atts.getValue(XmlGramarNearResult.ATTR_PHONE_NUMBER));
-			BeanManagerFactory.putTheater(curentTheater);
 			nearRespBean.getTheaterList().add(curentTheater);
 		} else if (inTheater && XmlGramarNearResult.NODE_LOCALISATION.equals(localName)) {
 			LocalisationBean localisationBean = new LocalisationBean();
 			try {
 				if (atts.getValue(XmlGramarNearResult.ATTR_CITY_NAME) != null) {
-					localisationBean.setCityName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_CITY_NAME), AndShowTimeEncodingUtil.getEncoding()));
+					localisationBean.setCityName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_CITY_NAME), CineShowTimeEncodingUtil.getEncoding()));
 				}
 			} catch (UnsupportedEncodingException e) {
 			}
 			try {
 				if (atts.getValue(XmlGramarNearResult.ATTR_COUNTRY_NAME) != null) {
-					localisationBean.setCountryName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_COUNTRY_NAME), AndShowTimeEncodingUtil.getEncoding()));
+					localisationBean.setCountryName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_COUNTRY_NAME), CineShowTimeEncodingUtil.getEncoding()));
 				}
 			} catch (UnsupportedEncodingException e) {
 			}
 			try {
 				if (atts.getValue(XmlGramarNearResult.ATTR_SEARCH_QUERY) != null) {
-					localisationBean.setSearchQuery(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_SEARCH_QUERY), AndShowTimeEncodingUtil.getEncoding()));
+					localisationBean.setSearchQuery(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_SEARCH_QUERY), CineShowTimeEncodingUtil.getEncoding()));
 				}
 			} catch (UnsupportedEncodingException e) {
 			}
@@ -144,7 +141,7 @@ public class ParserNearResultXml implements ContentHandler {
 			localisationBean.setPostalCityNumber(atts.getValue(XmlGramarNearResult.ATTR_POSTAL_CODE));
 			try {
 				if (atts.getValue(XmlGramarNearResult.ATTR_COUNTRY_NAME) != null) {
-					localisationBean.setSearchQuery(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_SEARCH_QUERY), AndShowTimeEncodingUtil.getEncoding()));
+					localisationBean.setSearchQuery(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_SEARCH_QUERY), CineShowTimeEncodingUtil.getEncoding()));
 				}
 			} catch (UnsupportedEncodingException e) {
 			}
@@ -195,7 +192,7 @@ public class ParserNearResultXml implements ContentHandler {
 					String lang = atts.getValue(XmlGramarNearResult.ATTR_LANG);
 					if (lang != null) {
 						try {
-							projection.setSubtitle(URLDecoder.decode(lang, AndShowTimeEncodingUtil.getEncoding()));
+							projection.setSubtitle(URLDecoder.decode(lang, CineShowTimeEncodingUtil.getEncoding()));
 						} catch (UnsupportedEncodingException e) {
 						}
 					}

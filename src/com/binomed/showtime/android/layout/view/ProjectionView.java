@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.beans.ProjectionBean;
+import com.binomed.showtime.android.model.ProjectionBean;
 
 public class ProjectionView extends LinearLayout {
 

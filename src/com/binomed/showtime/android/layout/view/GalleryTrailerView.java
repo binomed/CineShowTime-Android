@@ -7,8 +7,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.model.YoutubeBean;
 import com.binomed.showtime.android.util.images.ImageDownloader;
-import com.binomed.showtime.beans.YoutubeBean;
 
 public class GalleryTrailerView extends LinearLayout {
 
@@ -41,7 +41,7 @@ public class GalleryTrailerView extends LinearLayout {
 
 	public void setYoutubeBean(YoutubeBean youtubeBean) {
 		this.youtubeBean = youtubeBean;
-		imageDownloader.download(youtubeBean.getUrlImg(), imgTrailer);
+		imageDownloader.download(youtubeBean.getUrlImg(), imgTrailer, context);
 		// drawableManager.fetchDrawableOnThread(youtubeBean.getUrlImg(), null, imgTrailer);
 		trailerTxt.setText(youtubeBean.getVideoName());
 

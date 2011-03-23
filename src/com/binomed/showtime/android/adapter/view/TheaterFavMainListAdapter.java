@@ -8,7 +8,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.binomed.showtime.android.layout.view.TheaterFavView;
-import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.android.model.TheaterBean;
 
 public class TheaterFavMainListAdapter extends AbstractTheaterListAdapter {
 

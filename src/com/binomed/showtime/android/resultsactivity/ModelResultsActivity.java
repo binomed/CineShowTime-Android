@@ -6,8 +6,9 @@ import java.util.Set;
 
 import android.location.Location;
 
+import com.binomed.showtime.android.model.NearResp;
+import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.util.localisation.IModelLocalisation;
-import com.binomed.showtime.beans.TheaterBean;
 
 public class ModelResultsActivity implements IModelLocalisation {
 
@@ -24,6 +25,7 @@ public class ModelResultsActivity implements IModelLocalisation {
 	private boolean forceResearch;
 	private boolean nullResult;
 	private boolean resetTheme;
+	private NearResp nearResp;
 
 	public ModelResultsActivity() {
 		super();
@@ -49,10 +51,12 @@ public class ModelResultsActivity implements IModelLocalisation {
 		this.movieName = movieName;
 	}
 
+	@Override
 	public Location getLocalisation() {
 		return localisationSearch;
 	}
 
+	@Override
 	public void setLocalisation(Location localisationSearch) {
 		this.localisationSearch = localisationSearch;
 	}
@@ -127,6 +131,14 @@ public class ModelResultsActivity implements IModelLocalisation {
 
 	public void setGroupExpanded(Set<Integer> groupExpanded) {
 		this.groupExpanded = groupExpanded;
+	}
+
+	public NearResp getNearResp() {
+		return nearResp;
+	}
+
+	public void setNearResp(NearResp nearResp) {
+		this.nearResp = nearResp;
 	}
 
 }

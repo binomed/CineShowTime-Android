@@ -1,5 +1,5 @@
 <resources>
-	<string-array name="Einheiten">
+	<string-array name="measure">
 		<item>km</item>
 		<item>miles</item>
 	</string-array>

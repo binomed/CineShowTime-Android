@@ -24,12 +24,12 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
-import com.binomed.showtime.android.cst.AndShowtimeCst;
+import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
+import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
-import com.binomed.showtime.android.service.AndShowDBGlobalService;
-import com.binomed.showtime.android.util.AndShowtimeFactory;
-import com.binomed.showtime.beans.LocalisationBean;
+import com.binomed.showtime.android.model.LocalisationBean;
+import com.binomed.showtime.android.service.CineShowDBGlobalService;
+import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.cst.GoogleKeys;
 import com.skyhookwireless.wps.RegistrationCallback;
 import com.skyhookwireless.wps.WPS;
@@ -94,7 +94,7 @@ public final class LocationUtils {
 			LocationManager locationManager = getLocationManager(context);
 			WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 			if ((locationManager != null) && (wm != null)) {
-				result = (locationManager.isProviderEnabled(ProviderEnum.GPS_PROVIDER.getAndroidProvider()) // 
+				result = (locationManager.isProviderEnabled(ProviderEnum.GPS_PROVIDER.getAndroidProvider()) //
 						|| locationManager.isProviderEnabled(ProviderEnum.GSM_PROVIDER.getAndroidProvider())) //
 						&& wm.isWifiEnabled();
 			}
@@ -120,7 +120,7 @@ public final class LocationUtils {
 	public static void checkProviderLocation(final Context context, ProviderEnum provider) {
 		if (!isLocalisationEnabled(context, provider)) {
 			new AlertDialog.Builder(context)
-			// 
+			//
 					.setTitle(R.string.gpsInactiveTitle)
 					//
 					.setMessage(R.string.gpsInactiveMsg)
@@ -143,7 +143,9 @@ public final class LocationUtils {
 			if (locationManager != null) {
 				locationManager.requestLocationUpdates(provider.getAndroidProvider(), 10000, 10, listener);
 			} else {
-				Log.d(TAG, "No listener Put"); //$NON-NLS-1$
+				if (Log.isLoggable(TAG, Log.DEBUG)) {
+					Log.d(TAG, "No listener Put"); //$NON-NLS-1$
+				}
 			}
 			break;
 		}
@@ -204,8 +206,8 @@ public final class LocationUtils {
 
 					@Override
 					public void handleSuccess() {
-						Intent intentNearFillDBService = new Intent(context, AndShowDBGlobalService.class);
-						intentNearFillDBService.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_SKYHOOK_REGISTRATION);
+						Intent intentNearFillDBService = new Intent(context, CineShowDBGlobalService.class);
+						intentNearFillDBService.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_SKYHOOK_REGISTRATION);
 						context.startService(intentNearFillDBService);
 					}
 				});
@@ -213,16 +215,16 @@ public final class LocationUtils {
 			switch (provider) {
 			case IP_PROVIDER: {
 				xps.getIPLocation(auth //
-						, WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP // 
+						, WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP //
 						, listener//
-						);
+				);
 				break;
 			}
 			case WIFI_PROVIDER: {
 				xps.getLocation(auth //
-						, WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP // 
+						, WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP //
 						, listener//
-						);
+				);
 				break;
 			}
 			case XPS_PROVIDER: {
@@ -231,7 +233,7 @@ public final class LocationUtils {
 						(int) (5000 / 1000) //
 						, 30 //
 						, listener//
-						);
+				);
 
 			}
 			default:
@@ -252,7 +254,9 @@ public final class LocationUtils {
 			if (locationManager != null) {
 				locationManager.requestLocationUpdates(provider.getAndroidProvider(), 10000, 10, listener);
 			} else {
-				Log.d(TAG, "No listener Put"); //$NON-NLS-1$
+				if (Log.isLoggable(TAG, Log.DEBUG)) {
+					Log.d(TAG, "No listener Put"); //$NON-NLS-1$
+				}
 			}
 			break;
 		}
@@ -313,8 +317,8 @@ public final class LocationUtils {
 
 					@Override
 					public void handleSuccess() {
-						Intent intentNearFillDBService = new Intent(context, AndShowDBGlobalService.class);
-						intentNearFillDBService.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_SKYHOOK_REGISTRATION);
+						Intent intentNearFillDBService = new Intent(context, CineShowDBGlobalService.class);
+						intentNearFillDBService.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_SKYHOOK_REGISTRATION);
 						context.startService(intentNearFillDBService);
 					}
 				});
@@ -322,16 +326,16 @@ public final class LocationUtils {
 			switch (provider) {
 			case IP_PROVIDER: {
 				xps.getIPLocation(auth //
-						, WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP // 
+						, WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP //
 						, listener//
-						);
+				);
 				break;
 			}
 			case WIFI_PROVIDER: {
 				xps.getLocation(auth //
-						, WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP // 
+						, WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP //
 						, listener//
-						);
+				);
 				break;
 			}
 			case XPS_PROVIDER: {
@@ -340,7 +344,7 @@ public final class LocationUtils {
 						(int) (5000 / 1000) //
 						, 30 //
 						, listener//
-						);
+				);
 
 			}
 			default:
@@ -361,7 +365,9 @@ public final class LocationUtils {
 			if (locationManager != null) {
 				locationManager.removeUpdates(listener);
 			} else {
-				Log.d(TAG, "No listener Put"); //$NON-NLS-1$
+				if (Log.isLoggable(TAG, Log.DEBUG)) {
+					Log.d(TAG, "No listener Put"); //$NON-NLS-1$
+				}
 			}
 			break;
 		}
@@ -386,7 +392,9 @@ public final class LocationUtils {
 			if (locationManager != null) {
 				locationManager.removeUpdates(listener);
 			} else {
-				Log.d(TAG, "No listener Put"); //$NON-NLS-1$
+				if (Log.isLoggable(TAG, Log.DEBUG)) {
+					Log.d(TAG, "No listener Put"); //$NON-NLS-1$
+				}
 			}
 			break;
 		}
@@ -456,7 +464,7 @@ public final class LocationUtils {
 	}
 
 	public static boolean isEmptyLocation(LocalisationBean localisation) {
-		return (localisation == null) // 
+		return (localisation == null) //
 				|| ((localisation.getCityName() == null || localisation.getCityName().length() == 0) //
 				&& ((localisation.getLatitude() == null || localisation.getLatitude() == 0)//
 				|| (localisation.getLongitude() == null || localisation.getLongitude() == 0))//
@@ -465,7 +473,7 @@ public final class LocationUtils {
 
 	public static String getLocationString(Location coordiante) {
 		String cityName = "";
-		Geocoder geocoder = AndShowtimeFactory.getGeocoder();
+		Geocoder geocoder = CineShowtimeFactory.getGeocoder();
 		Double latitude = coordiante != null ? coordiante.getLatitude() : 0;
 		Double longitude = coordiante != null ? coordiante.getLongitude() : 0;
 		if (geocoder != null) {
@@ -494,7 +502,7 @@ public final class LocationUtils {
 
 	private static boolean checkSkyHookRegistration(Context context) {
 		boolean result = false;
-		AndShowtimeDbAdapter mDbHelper = new AndShowtimeDbAdapter(context);
+		CineShowtimeDbAdapter mDbHelper = new CineShowtimeDbAdapter(context);
 		mDbHelper.open();
 		Cursor cursorRegistration = mDbHelper.fetchSkyHookRegistration();
 
@@ -522,9 +530,9 @@ public final class LocationUtils {
 		Log.i(TAG, "Send maps Query : " + uri);
 
 		try {
-			HttpGet getMethod = AndShowtimeFactory.getHttpGet();
+			HttpGet getMethod = CineShowtimeFactory.getHttpGet();
 			getMethod.setURI(new URI(uri));
-			HttpResponse res = AndShowtimeFactory.getHttpClient().execute(getMethod);
+			HttpResponse res = CineShowtimeFactory.getHttpClient().execute(getMethod);
 
 			JSONObject jsonObj = new JSONObject(EntityUtils.toString(res.getEntity()));
 

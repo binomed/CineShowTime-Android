@@ -17,7 +17,7 @@ import android.widget.ImageView;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.handler.TextCallBackFromLocation;
-import com.binomed.showtime.android.util.AndShowtimeFactory;
+import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.android.util.localisation.LocationUtils.ProviderEnum;
 import com.skyhookwireless.wps.IPLocation;
 import com.skyhookwireless.wps.IPLocationCallback;
@@ -30,7 +30,7 @@ import com.skyhookwireless.wps.XPS;
 
 public class LocalisationManagementOld implements IListenerLocalisationUtilCallBack //
 		, OnClickListener //
-		, LocationListener // 
+		, LocationListener //
 		, WPSPeriodicLocationCallback //
 		, WPSLocationCallback //
 		, IPLocationCallback //
@@ -131,7 +131,7 @@ public class LocalisationManagementOld implements IListenerLocalisationUtilCallB
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.binomed.showtime.android.util.localisation.IListenerLocalisationUtilCallBack#onPreferenceReturn()
+	 * @see com.binomed.showtime.android.util.localisation.IListe nerLocalisationUtilCallBack#onPreferenceReturn()
 	 */
 	@Override
 	public void onPreferenceReturn() {
@@ -192,10 +192,12 @@ public class LocalisationManagementOld implements IListenerLocalisationUtilCallB
 	 */
 	@Override
 	public void onLocationChanged(Location arg0) {
-		Log.d(TAG, "Change location : lat : " + arg0.getLatitude() + " / lon : " + arg0.getLongitude());
+		if (Log.isLoggable(TAG, Log.DEBUG)) {
+			Log.d(TAG, "Change location : lat : " + arg0.getLatitude() + " / lon : " + arg0.getLongitude());
+		}
 		model.setLocalisation(arg0);
 		if (textSearch.getText().toString().length() == 0) {
-			AndShowtimeFactory.initGeocoder(context);
+			CineShowtimeFactory.initGeocoder(context);
 			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(arg0));
 		}
 
@@ -310,7 +312,7 @@ public class LocalisationManagementOld implements IListenerLocalisationUtilCallB
 		location.setLatitude(wpsLocation.getLatitude());
 		location.setLongitude(wpsLocation.getLongitude());
 		if (textSearch.getText().toString().length() == 0) {
-			AndShowtimeFactory.initGeocoder(context);
+			CineShowtimeFactory.initGeocoder(context);
 			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
 		}
 		// In all case we'ill continue after getting location only user would stop
@@ -337,7 +339,7 @@ public class LocalisationManagementOld implements IListenerLocalisationUtilCallB
 		location.setLatitude(wpsLocation.getLatitude());
 		location.setLongitude(wpsLocation.getLongitude());
 		if (textSearch.getText().toString().length() == 0) {
-			AndShowtimeFactory.initGeocoder(context);
+			CineShowtimeFactory.initGeocoder(context);
 			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
 		}
 	}
@@ -361,7 +363,7 @@ public class LocalisationManagementOld implements IListenerLocalisationUtilCallB
 		location.setLongitude(ipLocation.getLongitude());
 		location.setLatitude(ipLocation.getLatitude());
 		if (textSearch.getText().toString().length() == 0) {
-			AndShowtimeFactory.initGeocoder(context);
+			CineShowtimeFactory.initGeocoder(context);
 			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
 		}
 

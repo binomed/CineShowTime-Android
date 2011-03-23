@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.android.model.TheaterBean;
 
 abstract class AbstractTheaterListAdapter extends BaseAdapter {
 

@@ -3,7 +3,7 @@ package com.binomed.showtime.android.activity;
 import java.util.Calendar;
 import java.util.List;
 
-import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.android.model.TheaterBean;
 
 public class ModelMainActivity {
 

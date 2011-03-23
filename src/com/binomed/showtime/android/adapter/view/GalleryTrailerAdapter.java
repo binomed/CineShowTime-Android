@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.binomed.showtime.android.layout.view.GalleryTrailerView;
+import com.binomed.showtime.android.model.YoutubeBean;
 import com.binomed.showtime.android.util.images.ImageDownloader;
-import com.binomed.showtime.beans.YoutubeBean;
 
 public class GalleryTrailerAdapter extends BaseAdapter {
 
@@ -27,18 +27,22 @@ public class GalleryTrailerAdapter extends BaseAdapter {
 		// this.drawableManager = drawableManager;
 	}
 
+	@Override
 	public int getCount() {
 		return (trailersList != null) ? trailersList.size() : 0;
 	}
 
+	@Override
 	public Object getItem(int position) {
 		return (trailersList != null && trailersList.size() > position && position >= 0) ? trailersList.get(position) : null;
 	}
 
+	@Override
 	public long getItemId(int position) {
 		return position;
 	}
 
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		GalleryTrailerView view = null;

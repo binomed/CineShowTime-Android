@@ -9,15 +9,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.layout.view.ObjectMasterView;
-import com.binomed.showtime.android.util.comparator.AndShowtimeComparator;
-import com.binomed.showtime.beans.NearResp;
-import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.android.model.NearResp;
+import com.binomed.showtime.android.model.TheaterBean;
+import com.binomed.showtime.android.util.comparator.CineShowtimeComparator;
 
 public class CineShowTimeNonExpandableListAdapter extends BaseAdapter {
 
@@ -48,11 +48,11 @@ public class CineShowTimeNonExpandableListAdapter extends BaseAdapter {
 		kmUnit = mainContext.getResources().getString(R.string.preference_loc_default_measure).equals(measure);
 	}
 
-	public void setTheaterList(NearResp nearRespBean, Map<String, TheaterBean> theaterFavList, AndShowtimeComparator<?> comparator) {
+	public void setTheaterList(NearResp nearRespBean, Map<String, TheaterBean> theaterFavList, CineShowtimeComparator<?> comparator) {
 		this.setNearRespList(nearRespBean, theaterFavList, comparator);
 	}
 
-	private void setNearRespList(NearResp nearRespBean, Map<String, TheaterBean> theaterFavList, AndShowtimeComparator<?> comparator) {
+	private void setNearRespList(NearResp nearRespBean, Map<String, TheaterBean> theaterFavList, CineShowtimeComparator<?> comparator) {
 		this.nearRespBean = nearRespBean;
 		this.theatherFavList = theaterFavList;
 		if (this.nearRespBean != null) {

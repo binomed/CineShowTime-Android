@@ -38,7 +38,8 @@ public class AboutView extends LinearLayout {
 
 		copyRightText.setText(Html.fromHtml(new StringBuilder() //
 				.append("© 2010 - Binomed ").append("<br>")//
-				.append("GNU General Public License v2").append("")//
+				.append("GNU General Public License v2").append("<br>")//
+				.append("Use of Google Analytics Service").append("")//
 				.toString()));
 
 		btnDonate.setOnClickListener(new View.OnClickListener() {

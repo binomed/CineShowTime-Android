@@ -29,7 +29,7 @@ public class URLBuilder {
 	public URLBuilder(String encoding) {
 		super();
 		if (encoding == null || encoding.length() == 0) {
-			this.encoding = AndShowTimeEncodingUtil.convertLocaleToEncoding();
+			this.encoding = CineShowTimeEncodingUtil.convertLocaleToEncoding();
 		} else {
 			this.encoding = encoding;
 		}

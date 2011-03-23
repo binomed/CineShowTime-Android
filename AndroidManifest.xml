@@ -1,43 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml 
+version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.binomed.showtime" android:versionCode="24" android:versionName="2.0.1">
+      package="com.binomed.showtime" 
+      android:installLocation="auto"
+      android:versionName="2.1.0" android:versionCode="27">
       
      <supports-screens
           android:largeScreens="true"
           android:normalScreens="true"
           android:smallScreens="true"
           android:anyDensity="true" />
-    <application android:label="@string/app_name" android:icon="@drawable/icon" android:debuggable="true">
-        <activity android:label="@string/app_name" android:name=".android.activity.AndShowTimeMainActivity" android:icon="@drawable/icon">
+    <application android:label="@string/app_name" android:icon="@drawable/icon" android:debuggable="false">
+        <activity android:label="@string/app_name" android:name=".android.activity.SplashScreen" android:icon="@drawable/icon">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    	<activity android:name=".android.searchactivity.AndShowTimeSearchActivity"></activity>
-    	<activity android:name=".android.resultsactivity.AndShowTimeResultsActivity"></activity>
-		<service android:name=".android.resultsactivity.AndShowTimeResultsService"></service>
-		<activity android:name=".android.movieactivity.AndShowTimeMovieActivity" android:launchMode="singleInstance"></activity>
+        <activity android:name=".android.activity.CineShowTimeMainActivity"></activity>
+    	<activity android:name=".android.searchactivity.CineShowTimeSearchActivity"></activity>
+    	<activity android:name=".android.resultsactivity.CineShowTimeResultsActivity"></activity>
+		<service android:name=".android.resultsactivity.CineShowTimeResultsService"></service>
+		<!--<activity android:name=".android.movieactivity.CineShowTimeMovieActivity" android:launchMode="singleInstance"></activity>-->
+		<activity android:name=".android.movieactivity.CineShowTimeMovieActivity" ></activity>
 		<activity android:name=".android.movieactivity.EmptyActivity"></activity>
-		<service android:name=".android.movieactivity.AndShowTimeMovieService"></service>
-		<activity android:name=".android.activity.AndShowTimePreferencesActivity"></activity>
-		<service android:name=".android.service.AndShowCleanFileService"></service>
-		<service android:name=".android.service.AndShowDBGlobalService"></service>
+		<service android:name=".android.movieactivity.CineShowTimeMovieService"></service>
+		<activity android:name=".android.activity.CineShowTimePreferencesActivity"></activity>
+		<service android:name=".android.service.CineShowCleanFileService"></service>
+		<service android:name=".android.service.CineShowDBGlobalService"></service>
 		
-		<service android:name=".android.widget.one.AndShowTimeWidgetService"/>
-		<service android:name=".android.widget.one.AndShowTimeWidgetServiceLeft"/>
-		<service android:name=".android.widget.one.AndShowTimeWidgetServiceRight"/>
-		<service android:name=".android.widget.one.AndShowTimeWidgetServiceRefresh"/>
-		<service android:name=".android.widget.one.AndShowTimeWidgetServiceOpenMovie"/>
-		<service android:name=".android.widget.one.AndShowTimeWidgetServiceOpenMovie1"/>
-		<activity android:name=".android.widget.one.AndShowTimeResultsWidgetActivity" />
-		<activity android:name=".android.widget.one.AndShowTimeWidgetConfigureActivity">
+		<service android:name=".android.widget.CineShowTimeWidgetService"/>
+		<service android:name=".android.widget.CineShowTimeWidgetServiceLeft"/>
+		<service android:name=".android.widget.CineShowTimeWidgetServiceRight"/>
+		<service android:name=".android.widget.CineShowTimeWidgetServiceRefresh"/>
+		<service android:name=".android.widget.CineShowTimeWidgetServiceOpenMovie"/>
+		<service android:name=".android.widget.CineShowTimeWidgetServiceOpenMovie1"/>
+		<activity android:name=".android.widget.results.CineShowTimeResultsWidgetActivity" />
+		<activity android:name=".android.widget.search.CineShowTimeWidgetConfigureActivity">
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_CONFIGURE">
 				</action>
 			</intent-filter>
 		</activity>
-		<receiver android:name=".android.widget.one.AndShowtimeWidget" android:label="@string/widget_name_2x2">
+		<receiver android:name=".android.widget.CineShowtimeWidget" android:label="@string/widget_name_2x2">
 			<intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -45,12 +50,13 @@
 		</receiver>
 	</application>
     <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="8"/>
+    <!-- Write image on sd -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 	<!-- GPS Location -->
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
 	<!-- Access net -->
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
-	<!-- Call theater -->
-	<uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<!-- Check calendar for adding event -->
 	<uses-permission android:name="android.permission.READ_CALENDAR"></uses-permission>
 	<uses-permission android:name="android.permission.WRITE_CALENDAR"></uses-permission>

@@ -3,7 +3,9 @@ package com.binomed.showtime.android.cst;
 public interface ParamIntent {
 
 	public static final String MOVIE_ID = "and.binomed.showtime.movie_id"; //$NON-NLS-1$
+	public static final String MOVIE = "and.binomed.showtime.movie"; //$NON-NLS-1$
 	public static final String THEATER_ID = "and.binomed.showtime.theater_id"; //$NON-NLS-1$
+	public static final String THEATER = "and.binomed.showtime.theater"; //$NON-NLS-1$
 
 	//	public static final String ACTIVITY_NEAR_THEATER_ID = "and.binomed.showtime.near.theaterId"; //$NON-NLS-1$
 	//	public static final String ACTIVITY_NEAR_LATITUDE = "and.binomed.showtime.near.latitude"; //$NON-NLS-1$
@@ -49,10 +51,12 @@ public interface ParamIntent {
 	public static final String SERVICE_MOVIE_DAY = "and.binomed.showtime.movie.service.day"; //$NON-NLS-1$
 
 	public static final String SERVICE_MOVIE_ID = "and.binomed.showtime.service.movieId"; //$NON-NLS-1$
+	public static final String SERVICE_MOVIE = "and.binomed.showtime.service.movie"; //$NON-NLS-1$
 	public static final String SERVICE_MOVIE_NEAR = "and.binomed.showtime.service.near"; //$NON-NLS-1$
 	public static final String SERVICE_MOVIE_TRANSLATE = "and.binomed.showtime.service.autoTranslate"; //$NON-NLS-1$
 
 	public static final String SERVICE_DB_TYPE = "and.binomed.showtime.db.service.typeDbAction"; //$NON-NLS-1$
+	public static final String SERVICE_DB_DATA = "and.binomed.showtime.db.service.data"; //$NON-NLS-1$
 
 	public static final String SERVICE_DB_TYPE_SAVE = "and.binomed.showtime.db.service.typeSave"; //$NON-NLS-1$
 	public static final String SERVICE_DB_SAVE_MOVIE_ID = "and.binomed.showtime.db.service.movieId"; //$NON-NLS-1$

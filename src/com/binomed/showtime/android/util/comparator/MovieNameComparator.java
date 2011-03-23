@@ -1,8 +1,8 @@
 package com.binomed.showtime.android.util.comparator;
 
-import com.binomed.showtime.beans.MovieBean;
+import com.binomed.showtime.android.model.MovieBean;
 
-public class MovieNameComparator implements AndShowtimeComparator<MovieBean> {
+public class MovieNameComparator implements CineShowtimeComparator<MovieBean> {
 
 	/*
 	 * (non-Javadoc)

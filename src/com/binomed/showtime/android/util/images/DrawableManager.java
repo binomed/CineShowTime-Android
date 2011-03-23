@@ -20,7 +20,7 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.binomed.showtime.android.cst.AndShowtimeCst;
+import com.binomed.showtime.android.cst.CineShowtimeCst;
 
 public class DrawableManager {
 	private final Map<String, Drawable> drawableMap;
@@ -41,13 +41,15 @@ public class DrawableManager {
 			return drawableMap.get(finalFileName);
 		}
 
-		Log.d(this.getClass().getSimpleName(), "image url:" + urlString);
+		if (Log.isLoggable(TAG, Log.DEBUG)) {
+			Log.d(this.getClass().getSimpleName(), "image url:" + urlString);
+		}
 		try {
 			File root = Environment.getExternalStorageDirectory();
 			InputStream is = null;
 			Drawable drawable = null;
 			if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-				File posterFile = new File(root, new StringBuilder(AndShowtimeCst.FOLDER_POSTER).append(finalFileName).toString());
+				File posterFile = new File(root, new StringBuilder(CineShowtimeCst.FOLDER_POSTER).append(finalFileName).toString());
 				posterFile.getParentFile().mkdirs();
 				if (posterFile.exists()) {
 					Log.i(TAG, "img existe");
@@ -74,7 +76,9 @@ public class DrawableManager {
 				drawableMap.put(urlString, drawable);
 
 			}
-			Log.d(TAG, "got a thumbnail drawable: " + drawable.getBounds() + ", " + drawable.getIntrinsicHeight() + "," + drawable.getIntrinsicWidth() + ", " + drawable.getMinimumHeight() + "," + drawable.getMinimumWidth());
+			if (Log.isLoggable(TAG, Log.DEBUG)) {
+				Log.d(TAG, "got a thumbnail drawable: " + drawable.getBounds() + ", " + drawable.getIntrinsicHeight() + "," + drawable.getIntrinsicWidth() + ", " + drawable.getMinimumHeight() + "," + drawable.getMinimumWidth());
+			}
 			return drawable;
 		} catch (MalformedURLException e) {
 			Log.e(this.getClass().getSimpleName(), "fetchDrawable failed", e);

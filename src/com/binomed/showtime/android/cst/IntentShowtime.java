@@ -14,11 +14,11 @@ import android.net.Uri.Builder;
 import android.util.Log;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.util.AndShowTimeEncodingUtil;
-import com.binomed.showtime.android.util.AndShowtimeFactory;
-import com.binomed.showtime.beans.MovieBean;
-import com.binomed.showtime.beans.TheaterBean;
-import com.binomed.showtime.beans.YoutubeBean;
+import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.TheaterBean;
+import com.binomed.showtime.android.model.YoutubeBean;
+import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
+import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.cst.SpecialChars;
 import com.binomed.showtime.util.AndShowtimeNumberFormat;
 
@@ -45,7 +45,7 @@ public class IntentShowtime {
 			//			mapsUri.append("?q=("); //$NON-NLS-1$
 			//			mapsUri.append(URLEncoder.encode(theater.getTheaterName(), AndShowTimeEncodingUtil.getEncoding())); //$NON-NLS-1$
 			//			mapsUri.append(")+"); //$NON-NLS-1$
-			mapsUri.append(URLEncoder.encode(theater.getPlace().getSearchQuery(), AndShowTimeEncodingUtil.getEncoding())); //$NON-NLS-1$
+			mapsUri.append(URLEncoder.encode(theater.getPlace().getSearchQuery(), CineShowTimeEncodingUtil.getEncoding())); //$NON-NLS-1$
 			mapsUri.append("+("); //$NON-NLS-1$
 			mapsUri.append(theater.getTheaterName()); //$NON-NLS-1$
 			mapsUri.append(")"); //$NON-NLS-1$
@@ -84,7 +84,7 @@ public class IntentShowtime {
 	}
 
 	public static Intent createMapsWithDrivingDirectionIntent(TheaterBean theater, Location source) {
-		Geocoder geocoder = AndShowtimeFactory.getGeocoder();
+		Geocoder geocoder = CineShowtimeFactory.getGeocoder();
 		if (geocoder != null) {
 			List<Address> addressList = null;
 			try {
@@ -98,7 +98,7 @@ public class IntentShowtime {
 					mapsUri.append(addressList.get(0).getAddressLine(0));
 
 					mapsUri.append("&daddr="); //$NON-NLS-1$
-					mapsUri.append(URLEncoder.encode(theater.getPlace().getSearchQuery(), AndShowTimeEncodingUtil.getEncoding()));
+					mapsUri.append(URLEncoder.encode(theater.getPlace().getSearchQuery(), CineShowTimeEncodingUtil.getEncoding()));
 					mapsUri.append("+("); //$NON-NLS-1$
 					mapsUri.append(theater.getTheaterName()); //$NON-NLS-1$
 					mapsUri.append(")"); //$NON-NLS-1$
@@ -116,7 +116,7 @@ public class IntentShowtime {
 	public static Intent createCallIntent(TheaterBean theater) {
 		StringBuilder callUri = new StringBuilder("tel:");
 		callUri.append(theater.getPhoneNumber());
-		Intent myIntent = new Intent(android.content.Intent.ACTION_CALL, Uri.parse(callUri.toString()));
+		Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(callUri.toString()));
 		return myIntent;
 	}
 

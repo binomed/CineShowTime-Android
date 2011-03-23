@@ -1,8 +1,8 @@
 package com.binomed.showtime.android.util.comparator;
 
-import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.android.model.TheaterBean;
 
-public class TheaterNameComparator implements AndShowtimeComparator<TheaterBean> {
+public class TheaterNameComparator implements CineShowtimeComparator<TheaterBean> {
 
 	/*
 	 * (non-Javadoc)
@@ -12,7 +12,10 @@ public class TheaterNameComparator implements AndShowtimeComparator<TheaterBean>
 	@Override
 	public int compare(TheaterBean theater0, TheaterBean theater1) {
 		int result = 0;
-		if (theater0 != null && theater1 != null) {
+		if (theater0 != null //
+				&& theater1 != null //
+				&& theater0.getTheaterName() != null //
+				&& theater1.getTheaterName() != null) {
 			result = theater0.getTheaterName().compareTo(theater1.getTheaterName());
 		} else if (theater0 != null) {
 			result = 1;

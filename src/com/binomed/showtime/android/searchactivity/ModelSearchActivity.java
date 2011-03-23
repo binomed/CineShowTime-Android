@@ -50,10 +50,12 @@ public class ModelSearchActivity implements IModelLocalisation {
 		this.movieName = movieName;
 	}
 
+	@Override
 	public Location getLocalisation() {
-		return localisationSearch;
+		return this.localisationSearch;
 	}
 
+	@Override
 	public void setLocalisation(Location localisationSearch) {
 		this.localisationSearch = localisationSearch;
 	}

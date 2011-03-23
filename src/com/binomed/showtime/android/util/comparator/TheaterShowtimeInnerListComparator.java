@@ -4,9 +4,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.binomed.showtime.beans.ProjectionBean;
+import com.binomed.showtime.android.model.ProjectionBean;
 
-public class TheaterShowtimeInnerListComparator implements AndShowtimeComparator<Entry<String, List<ProjectionBean>>> {
+public class TheaterShowtimeInnerListComparator implements CineShowtimeComparator<Entry<String, List<ProjectionBean>>> {
 
 	/*
 	 * (non-Javadoc)

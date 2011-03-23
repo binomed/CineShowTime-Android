@@ -9,16 +9,16 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.layout.view.ProjectionView;
-import com.binomed.showtime.android.util.AndShowTimeLayoutUtils;
-import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
-import com.binomed.showtime.beans.MovieBean;
-import com.binomed.showtime.beans.ProjectionBean;
+import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.ProjectionBean;
+import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
+import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 import com.binomed.showtime.cst.SpecialChars;
 
 public class ProjectionListAdapter extends BaseAdapter {
@@ -59,7 +59,7 @@ public class ProjectionListAdapter extends BaseAdapter {
 		minuteToAdd = Integer.valueOf(prefs.getString(mainContext.getResources().getString(R.string.preference_gen_key_time_adds)//
 				, mainContext.getResources().getString(R.string.preference_gen_default_time_adds)));
 		blackTheme = mainContext.getResources().getString(R.string.preference_gen_default_theme).equals(defaultTheme);
-		format24 = AndShowtimeDateNumberUtil.isFormat24(mainContext);
+		format24 = CineShowtimeDateNumberUtil.isFormat24(mainContext);
 	}
 
 	@Override
@@ -108,10 +108,10 @@ public class ProjectionListAdapter extends BaseAdapter {
 		if (projectionBuilder == null) {
 			projectionBuilder = new StringBuilder(SpecialChars.EMPTY);
 			int passedShowtime;
-			passedShowtime = AndShowtimeDateNumberUtil.getPositionTime(projectionBean.getShowtime(), (minTime != null) ? minTime.getShowtime() : -1l);
+			passedShowtime = CineShowtimeDateNumberUtil.getPositionTime(projectionBean.getShowtime(), (minTime != null) ? minTime.getShowtime() : -1l);
 
 			if (projectionBean.getLang() != null) {
-				projectionBuilder.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorLang(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+				projectionBuilder.append("<FONT COLOR=\"").append(CineShowTimeLayoutUtils.getColorLang(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
 						.append(projectionBean.getLang()) //$NON-NLS-1$//$NON-NLS-2$
 						.append(" : </FONT>"); //$NON-NLS-1$
 			}
@@ -123,21 +123,21 @@ public class ProjectionListAdapter extends BaseAdapter {
 
 			switch (passedShowtime) {
 			case 0:
-				projectionBuilder.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorNearestShowTime(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+				projectionBuilder.append("<FONT COLOR=\"").append(CineShowTimeLayoutUtils.getColorNearestShowTime(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
 						.append("<b>"); //$NON-NLS-1$
 				break;
 			case 1:
-				projectionBuilder.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorNextShowTime(blackTheme)).append("\">"); //$NON-NLS-1$ //$NON-NLS-2$
+				projectionBuilder.append("<FONT COLOR=\"").append(CineShowTimeLayoutUtils.getColorNextShowTime(blackTheme)).append("\">"); //$NON-NLS-1$ //$NON-NLS-2$
 				break;
 			case -1:
-				projectionBuilder.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorPassedShowTime(blackTheme)).append("\">") //$NON-NLS-1$//$NON-NLS-2$
+				projectionBuilder.append("<FONT COLOR=\"").append(CineShowTimeLayoutUtils.getColorPassedShowTime(blackTheme)).append("\">") //$NON-NLS-1$//$NON-NLS-2$
 						.append("<i>"); //$NON-NLS-1$
 				break;
 			default:
 				break;
 			}
 			// projectionBuilder.append(context.getResources().getString(R.string.projectionTime));
-			projectionBuilder.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionBean.getShowtime(), format24));
+			projectionBuilder.append(CineShowtimeDateNumberUtil.showMovieTime(context, projectionBean.getShowtime(), format24));
 
 			timeInMillis.setTimeInMillis(projectionBean.getShowtime());
 			if (movieBean.getMovieTime() != null) {
@@ -148,7 +148,7 @@ public class ProjectionListAdapter extends BaseAdapter {
 				projectionBuilder.append("<br>")// //$NON-NLS-1$
 						.append(context.getResources().getString(R.string.endHour));//
 
-				projectionBuilder.append(AndShowtimeDateNumberUtil.showMovieTime(context, timeInMillis.getTimeInMillis(), format24));
+				projectionBuilder.append(CineShowtimeDateNumberUtil.showMovieTime(context, timeInMillis.getTimeInMillis(), format24));
 			}
 
 			switch (passedShowtime) {

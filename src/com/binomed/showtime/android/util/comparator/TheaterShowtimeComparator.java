@@ -3,10 +3,10 @@ package com.binomed.showtime.android.util.comparator;
 import java.util.Calendar;
 import java.util.List;
 
-import com.binomed.showtime.beans.ProjectionBean;
-import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.android.model.ProjectionBean;
+import com.binomed.showtime.android.model.TheaterBean;
 
-public class TheaterShowtimeComparator implements AndShowtimeComparator<TheaterBean> {
+public class TheaterShowtimeComparator implements CineShowtimeComparator<TheaterBean> {
 
 	/*
 	 * (non-Javadoc)
@@ -21,7 +21,8 @@ public class TheaterShowtimeComparator implements AndShowtimeComparator<TheaterB
 		long minDiffTemp = 0;
 		int result = 0;
 		List<ProjectionBean> movieShowTimeList = null;
-		if (theater0 != null && theater1 != null) {
+		if (theater0 != null && theater1 != null //
+				&& theater0.getMovieMap() != null && theater1.getMovieMap() != null) {
 			for (String movieId : theater0.getMovieMap().keySet()) {
 				movieShowTimeList = theater0.getMovieMap().get(movieId);
 				for (ProjectionBean time : movieShowTimeList) {

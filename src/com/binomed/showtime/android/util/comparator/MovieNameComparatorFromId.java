@@ -1,9 +1,8 @@
 package com.binomed.showtime.android.util.comparator;
 
-import com.binomed.showtime.android.util.BeanManagerFactory;
-import com.binomed.showtime.beans.MovieBean;
+import com.binomed.showtime.android.model.MovieBean;
 
-public class MovieNameComparatorFromId implements AndShowtimeComparator<String> {
+public class MovieNameComparatorFromId implements CineShowtimeComparator<MovieBean> {
 
 	/*
 	 * (non-Javadoc)
@@ -11,10 +10,8 @@ public class MovieNameComparatorFromId implements AndShowtimeComparator<String> 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public int compare(String idMovie0, String idMovie1) {
+	public int compare(MovieBean movie0, MovieBean movie1) {
 		int result = 0;
-		MovieBean movie0 = BeanManagerFactory.getMovieForId(idMovie0);
-		MovieBean movie1 = BeanManagerFactory.getMovieForId(idMovie1);
 		if (movie0 != null && movie1 != null) {
 			result = movie0.getMovieName().compareTo(movie1.getMovieName());
 		} else if (movie0 != null) {

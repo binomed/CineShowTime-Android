@@ -2,20 +2,20 @@ package com.binomed.showtime.android.movieactivity;
 
 import android.location.Location;
 
-import com.binomed.showtime.beans.MovieBean;
-import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.TheaterBean;
 
 public class ModelMovieActivity {
 
 	private int lastTab = 0;
-
 	private boolean translate = false;
-
 	private MovieBean movie;
-
 	private TheaterBean theater;
-
 	private Location gpsLocation;
+	private boolean resetTheme = false;
+	private boolean mapInstalled;
+	private boolean dialerInstalled;
+	private boolean calendarInstalled;
 
 	public boolean isTranslate() {
 		return translate;
@@ -55,6 +55,38 @@ public class ModelMovieActivity {
 
 	public void setGpsLocation(Location gpsLocation) {
 		this.gpsLocation = gpsLocation;
+	}
+
+	public boolean isResetTheme() {
+		return resetTheme;
+	}
+
+	public void setResetTheme(boolean resetTheme) {
+		this.resetTheme = resetTheme;
+	}
+
+	public boolean isMapInstalled() {
+		return mapInstalled;
+	}
+
+	public void setMapInstalled(boolean mapInstalled) {
+		this.mapInstalled = mapInstalled;
+	}
+
+	public boolean isDialerInstalled() {
+		return dialerInstalled;
+	}
+
+	public void setDialerInstalled(boolean dialerInstalled) {
+		this.dialerInstalled = dialerInstalled;
+	}
+
+	public boolean isCalendarInstalled() {
+		return calendarInstalled;
+	}
+
+	public void setCalendarInstalled(boolean calendarInstalled) {
+		this.calendarInstalled = calendarInstalled;
 	}
 
 }

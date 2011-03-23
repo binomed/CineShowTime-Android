@@ -4,7 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 
-import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.android.model.TheaterBean;
 
 public class TheaterWidgetListAdapter extends AbstractTheaterListAdapter {
 

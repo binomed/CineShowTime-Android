@@ -6,15 +6,14 @@ import java.util.List;
 import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.view.ProjectionOptionListAdapter;
+import com.binomed.showtime.android.model.ProjectionBean;
 import com.binomed.showtime.android.objects.OptionEnum;
-import com.binomed.showtime.android.util.BeanManagerFactory;
-import com.binomed.showtime.beans.ProjectionBean;
 
 public class ListOptionProjectionView extends LinearLayout {
 
@@ -46,13 +45,13 @@ public class ListOptionProjectionView extends LinearLayout {
 		listOption.setOnItemClickListener(clickListener);
 	}
 
-	public void setProjectionBean(ProjectionBean projectionBean) {
+	public void setProjectionBean(ProjectionBean projectionBean, boolean isCalendarInstalled) {
 		this.projectionBean = projectionBean;
 		listOptions = new ArrayList<OptionEnum>();
 
 		listOptions.add(OptionEnum.SMS);
 		listOptions.add(OptionEnum.MAIL);
-		if (Integer.valueOf(Build.VERSION.SDK) <= 8 && BeanManagerFactory.isCalendarInstalled(context.getPackageManager())) {
+		if (Integer.valueOf(Build.VERSION.SDK) <= 8 && isCalendarInstalled) {
 			listOptions.add(OptionEnum.AGENDA);
 		}
 		if (this.projectionBean.getReservationLink() != null && this.projectionBean.getReservationLink().length() > 0) {

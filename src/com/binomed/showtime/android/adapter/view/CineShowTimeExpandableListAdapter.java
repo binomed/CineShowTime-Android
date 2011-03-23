@@ -20,15 +20,15 @@ import android.widget.BaseExpandableListAdapter;
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.layout.view.ObjectMasterView;
 import com.binomed.showtime.android.layout.view.ObjectSubView;
-import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
-import com.binomed.showtime.android.util.AndShowtimeFactory;
-import com.binomed.showtime.android.util.comparator.AndShowtimeComparator;
+import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.MovieResp;
+import com.binomed.showtime.android.model.NearResp;
+import com.binomed.showtime.android.model.ProjectionBean;
+import com.binomed.showtime.android.model.TheaterBean;
+import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
+import com.binomed.showtime.android.util.CineShowtimeFactory;
+import com.binomed.showtime.android.util.comparator.CineShowtimeComparator;
 import com.binomed.showtime.android.util.comparator.TheaterShowtimeComparator;
-import com.binomed.showtime.beans.MovieBean;
-import com.binomed.showtime.beans.MovieResp;
-import com.binomed.showtime.beans.NearResp;
-import com.binomed.showtime.beans.ProjectionBean;
-import com.binomed.showtime.beans.TheaterBean;
 
 public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -38,7 +38,7 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 	private List<TheaterBean> theatherList;
 	private List<MovieBean> movieList;
 	private Context mainContext;
-	private AndShowtimeComparator<?> comparator;
+	private CineShowtimeComparator<?> comparator;
 	private boolean kmUnit;
 	private boolean distanceTime;
 	private boolean movieView;
@@ -68,10 +68,10 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 				, false);
 		kmUnit = mainContext.getResources().getString(R.string.preference_loc_default_measure).equals(measure);
 		blackTheme = mainContext.getResources().getString(R.string.preference_gen_default_theme).equals(defaultTheme);
-		format24 = AndShowtimeDateNumberUtil.isFormat24(mainContext);
+		format24 = CineShowtimeDateNumberUtil.isFormat24(mainContext);
 	}
 
-	public void setMovieList(MovieResp movieRespBean, AndShowtimeComparator<?> comparator) {
+	public void setMovieList(MovieResp movieRespBean, CineShowtimeComparator<?> comparator) {
 		this.movieView = true;
 		NearResp transformNearResp = new NearResp();
 		transformNearResp.setTheaterList(new ArrayList<TheaterBean>());
@@ -86,25 +86,29 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 		this.setNearRespList(transformNearResp, null, comparator, true);
 	}
 
-	public void setTheaterList(NearResp nearRespBean, Map<String, TheaterBean> theaterFavList, AndShowtimeComparator<?> comparator) {
-		this.setNearRespList(nearRespBean, theaterFavList, comparator, comparator.getType() == comparator.COMPARATOR_MOVIE_NAME);
+	public void setTheaterList(NearResp nearRespBean, Map<String, TheaterBean> theaterFavList, CineShowtimeComparator<?> comparator) {
+		this.setNearRespList(nearRespBean, theaterFavList, comparator, comparator != null ? comparator.getType() == comparator.COMPARATOR_MOVIE_NAME : false);
 	}
 
-	public void changeSort(AndShowtimeComparator<?> comparator) {
+	public void changeSort(CineShowtimeComparator<?> comparator) {
 		this.movieView = comparator.getType() == comparator.COMPARATOR_MOVIE_NAME;
 		this.comparator = comparator;
 		switch (comparator.getType()) {
-		case AndShowtimeComparator.COMPARATOR_MOVIE_ID: {
+		case CineShowtimeComparator.COMPARATOR_MOVIE_ID: {
 			break;
 		}
-		case AndShowtimeComparator.COMPARATOR_MOVIE_NAME: {
-			Collections.sort(movieList, (Comparator<MovieBean>) comparator);
+		case CineShowtimeComparator.COMPARATOR_MOVIE_NAME: {
+			if (movieList != null) {
+				Collections.sort(movieList, (Comparator<MovieBean>) comparator);
+			}
 		}
 			break;
-		case AndShowtimeComparator.COMPARATOR_THEATER_NAME:
-		case AndShowtimeComparator.COMPARATOR_THEATER_DISTANCE:
-		case AndShowtimeComparator.COMPARATOR_THEATER_SHOWTIME: {
-			Collections.sort(theatherList, (Comparator<TheaterBean>) comparator);
+		case CineShowtimeComparator.COMPARATOR_THEATER_NAME:
+		case CineShowtimeComparator.COMPARATOR_THEATER_DISTANCE:
+		case CineShowtimeComparator.COMPARATOR_THEATER_SHOWTIME: {
+			if (theatherList != null) {
+				Collections.sort(theatherList, (Comparator<TheaterBean>) comparator);
+			}
 		}
 			break;
 		default:
@@ -112,7 +116,7 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 		}
 	}
 
-	private void setNearRespList(NearResp nearRespBean, Map<String, TheaterBean> theaterFavList, AndShowtimeComparator<?> comparator, boolean movieView) {
+	private void setNearRespList(NearResp nearRespBean, Map<String, TheaterBean> theaterFavList, CineShowtimeComparator<?> comparator, boolean movieView) {
 		this.movieView = movieView;
 		this.nearRespBean = nearRespBean;
 		this.theatherFavList = theaterFavList;
@@ -126,18 +130,18 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 		}
 		if (comparator != null) {
 			switch (comparator.getType()) {
-			case AndShowtimeComparator.COMPARATOR_MOVIE_ID: {
+			case CineShowtimeComparator.COMPARATOR_MOVIE_ID: {
 				break;
 			}
-			case AndShowtimeComparator.COMPARATOR_MOVIE_NAME: {
+			case CineShowtimeComparator.COMPARATOR_MOVIE_NAME: {
 				if (this.movieList != null) {
 					Collections.sort(movieList, (Comparator<MovieBean>) comparator);
 				}
 			}
 				break;
-			case AndShowtimeComparator.COMPARATOR_THEATER_NAME:
-			case AndShowtimeComparator.COMPARATOR_THEATER_DISTANCE:
-			case AndShowtimeComparator.COMPARATOR_THEATER_SHOWTIME: {
+			case CineShowtimeComparator.COMPARATOR_THEATER_NAME:
+			case CineShowtimeComparator.COMPARATOR_THEATER_DISTANCE:
+			case CineShowtimeComparator.COMPARATOR_THEATER_SHOWTIME: {
 				if (theatherList != null) {
 					Collections.sort(theatherList, (Comparator<TheaterBean>) comparator);
 				}
@@ -157,7 +161,7 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 
 				@Override
 				public void run() {
-					AndShowtimeDateNumberUtil.clearMaps();
+					CineShowtimeDateNumberUtil.clearMaps();
 					Long distanceTimeLong = null;
 					// En fonction du type d'affichage on
 					List<Entry<String, List<ProjectionBean>>> entries = null;
@@ -168,17 +172,17 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 						if (entries == null && theater.getMovieMap() != null) {
 
 							entries = new ArrayList<Entry<String, List<ProjectionBean>>>(theater.getMovieMap().entrySet());
-							Collections.sort(entries, AndShowtimeFactory.getTheaterShowtimeInnerListComparator());
+							Collections.sort(entries, CineShowtimeFactory.getTheaterShowtimeInnerListComparator());
 							projectionsThMap.put(theater.getId(), entries);
 
 							for (Entry<String, List<ProjectionBean>> entryMovieIdListProjection : theater.getMovieMap().entrySet()) {
 								if (distanceTime && theater != null && theater.getPlace() != null) {
 									distanceTimeLong = theater.getPlace().getDistanceTime();
 								}
-								AndShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, true, true);
-								AndShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, true, false);
-								AndShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, false, true);
-								AndShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, false, false);
+								CineShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, true, true);
+								CineShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, true, false);
+								CineShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, false, true);
+								CineShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, false, false);
 							}
 						}
 					}
@@ -206,6 +210,7 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 
 	}
 
+	@Override
 	public Object getChild(int groupPosition, int childPosition) {
 		Object result = null;
 		if (theatherList != null) {
@@ -217,7 +222,7 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 						List<Entry<String, List<ProjectionBean>>> entries = projectionsThMap.get(theater.getId());
 						if (entries == null) {
 							entries = new ArrayList<Entry<String, List<ProjectionBean>>>(theater.getMovieMap().entrySet());
-							Collections.sort(entries, AndShowtimeFactory.getTheaterShowtimeInnerListComparator());
+							Collections.sort(entries, CineShowtimeFactory.getTheaterShowtimeInnerListComparator());
 							projectionsThMap.put(theater.getId(), entries);
 						}
 						result = nearRespBean.getMapMovies().get(entries.get(childPosition).getKey());
@@ -237,10 +242,12 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 		return result;
 	}
 
+	@Override
 	public long getChildId(int groupPosition, int childPosition) {
 		return childPosition;
 	}
 
+	@Override
 	public int getChildrenCount(int groupPosition) {
 		int result = 0;
 		try {
@@ -260,6 +267,7 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 		return result;
 	}
 
+	@Override
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
 		ObjectSubView subView = null;
@@ -290,6 +298,7 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 		return subView;
 	}
 
+	@Override
 	public Object getGroup(int groupPosition) {
 		Object result = null;
 		if (!movieView) {
@@ -305,6 +314,7 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 		return result;
 	}
 
+	@Override
 	public int getGroupCount() {
 		int result = !movieView ? ((theatherList != null) ? theatherList.size() : 0) : ((movieList != null) ? movieList.size() : 0);
 		if ((nearRespBean != null) && nearRespBean.isHasMoreResults()) {
@@ -313,10 +323,12 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 		return result;
 	}
 
+	@Override
 	public long getGroupId(int groupPosition) {
 		return groupPosition;
 	}
 
+	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
 		ObjectMasterView objectMasterView = null;
@@ -340,10 +352,12 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 		return objectMasterView;
 	}
 
+	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 		return true;
 	}
 
+	@Override
 	public boolean hasStableIds() {
 		return true;
 	}

@@ -9,10 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
-import com.binomed.showtime.beans.MovieBean;
-import com.binomed.showtime.beans.ProjectionBean;
-import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.ProjectionBean;
+import com.binomed.showtime.android.model.TheaterBean;
+import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 
 public class ObjectSubView extends LinearLayout {
 
@@ -58,7 +58,7 @@ public class ObjectSubView extends LinearLayout {
 				// .append(" : ").append(AndShowtimeDateNumberUtil.showMovieTimeLength(getContext(), movieBean))//
 				// .toString()//
 				// );
-				movieTitle.setText(AndShowtimeDateNumberUtil.getMovieNameViewStr(movieBean, getContext(), blackTheme));
+				movieTitle.setText(CineShowtimeDateNumberUtil.getMovieNameViewStr(movieBean, getContext(), blackTheme));
 			} else {
 				// StringBuilder strTheater = new StringBuilder(theaterBean.getTheaterName()); //
 				// if ((theaterBean != null) && (theaterBean.getPlace() != null) && theaterBean.getPlace().getDistance() != null) {
@@ -66,7 +66,7 @@ public class ObjectSubView extends LinearLayout {
 				// }
 				// movieTitle.setText(strTheater.toString()//
 				// );
-				movieTitle.setText(AndShowtimeDateNumberUtil.getTheaterNameViewStr(theaterBean, kmUnit, blackTheme));
+				movieTitle.setText(CineShowtimeDateNumberUtil.getTheaterNameViewStr(theaterBean, kmUnit, blackTheme));
 
 			}
 
@@ -75,7 +75,7 @@ public class ObjectSubView extends LinearLayout {
 			if (distanceTime && theaterBean != null && theaterBean.getPlace() != null) {
 				distanceTimeLong = theaterBean.getPlace().getDistanceTime();
 			}
-			Spanned movieListStr = AndShowtimeDateNumberUtil.getMovieViewStr(movieBean.getId(), theaterBean.getId(), projectionList, getContext(), distanceTimeLong, blackTheme, format24);
+			Spanned movieListStr = CineShowtimeDateNumberUtil.getMovieViewStr(movieBean.getId(), theaterBean.getId(), projectionList, getContext(), distanceTimeLong, blackTheme, format24);
 
 			movieList.setText(movieListStr);
 		} else {
