@@ -126,11 +126,12 @@ public class AndShowTimeSearchNearActivity extends Activity {
 				locationTheater.setLatitude(latitude);
 				locationTheater.setLongitude(longitude);
 				model.setLocalisation(locationTheater);
-			} else {
-				if (cityName != null) {
-					model.setCityName(cityName);
-				}
 			}
+			// else {
+			if (cityName != null) {
+				model.setCityName(cityName);
+			}
+			// }
 		} else {
 			model.setForceResearch(false);
 		}
@@ -477,7 +478,8 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu, android.view.View, android.view.ContextMenu.ContextMenuInfo)
+	 * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu,
+	 * android.view.View, android.view.ContextMenu.ContextMenuInfo)
 	 */
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
@@ -591,12 +593,14 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+	 * @see android.app.Activity#onActivityResult(int, int,
+	 * android.content.Intent)
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
-			// Fill the list view with the strings the recognizer thought it could have heard
+			// Fill the list view with the strings the recognizer thought it
+			// could have heard
 			ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 			if (matches != null && matches.size() > 0) {
 				model.setVoiceCityList(matches);

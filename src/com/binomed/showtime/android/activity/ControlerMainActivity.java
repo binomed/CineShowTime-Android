@@ -61,20 +61,21 @@ public class ControlerMainActivity {
 					extras.putDouble(ParamIntent.ACTIVITY_NEAR_LONGITUDE, localisation.getLongitude());
 					intentStartNearActivity.putExtra(ParamIntent.ACTIVITY_NEAR_LATITUDE, localisation.getLatitude());
 					intentStartNearActivity.putExtra(ParamIntent.ACTIVITY_NEAR_LONGITUDE, localisation.getLongitude());
-				} else {
-					StringBuilder place = new StringBuilder();
-					if (theater.getPlace().getCityName() != null //
-							&& theater.getPlace().getCityName().length() > 0) {
-						place.append(theater.getPlace().getCityName());
-					}
-					if (theater.getPlace().getCountryNameCode() != null //
-							&& theater.getPlace().getCountryNameCode().length() > 0 //
-							&& place.length() > 0) {
-						place.append(", ").append(theater.getPlace().getCountryNameCode()); //$NON-NLS-1$
-					}
-					extras.putString(ParamIntent.ACTIVITY_NEAR_CITY_NAME, place.toString());
-					intentStartNearActivity.putExtra(ParamIntent.ACTIVITY_NEAR_CITY_NAME, place.toString());
 				}
+				// else {
+				StringBuilder place = new StringBuilder();
+				if (theater.getPlace().getCityName() != null //
+						&& theater.getPlace().getCityName().length() > 0) {
+					place.append(theater.getPlace().getCityName());
+				}
+				if (theater.getPlace().getCountryNameCode() != null //
+						&& theater.getPlace().getCountryNameCode().length() > 0 //
+						&& place.length() > 0) {
+					place.append(", ").append(theater.getPlace().getCountryNameCode()); //$NON-NLS-1$
+				}
+				extras.putString(ParamIntent.ACTIVITY_NEAR_CITY_NAME, place.toString());
+				intentStartNearActivity.putExtra(ParamIntent.ACTIVITY_NEAR_CITY_NAME, place.toString());
+				// }
 			}
 		} else {
 			extras.putString(ParamIntent.ACTIVITY_NEAR_THEATER_ID, null);

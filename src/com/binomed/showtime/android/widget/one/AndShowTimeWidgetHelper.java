@@ -51,15 +51,18 @@ import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.beans.TheaterBean;
 
 /**
- * Helper methods to simplify talking with and parsing responses from a lightweight Wiktionary API. Before making any requests, you should call {@link #prepareUserAgent(Context)} to generate a
- * User-Agent string based on your application package name and version.
+ * Helper methods to simplify talking with and parsing responses from a
+ * lightweight Wiktionary API. Before making any requests, you should call
+ * {@link #prepareUserAgent(Context)} to generate a User-Agent string based on
+ * your application package name and version.
  */
 public class AndShowTimeWidgetHelper {
 
 	private static final String TAG = "WidgetHelper"; //$NON-NLS-1$
 
 	/**
-	 * Build a widget update to show the current Wiktionary "Word of the day." Will block until the online API returns.
+	 * Build a widget update to show the current Wiktionary "Word of the day."
+	 * Will block until the online API returns.
 	 */
 	public static RemoteViews buildUpdate(Context context, Intent intent, TheaterBean theater, Map<MovieBean, ProjectionBean> movieBeanShowtimes) {
 		boolean cupcake = true;
@@ -124,8 +127,16 @@ public class AndShowTimeWidgetHelper {
 			openMovieIntent1.putExtra(ParamIntent.MOVIE_ID, movieBean.getId());
 			openMovieIntent1.putExtra(ParamIntent.THEATER_ID, theater.getId());
 			openMovieIntent1.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, place.toString());
-			PendingIntent pendingOpenMovieIntent1 = PendingIntent.getService(context, 0 /* no requestCode */, openMovieIntent1, PendingIntent.FLAG_UPDATE_CURRENT /* no flags */);
-			// PendingIntent pendingOpenMovieIntent1 = PendingIntent.getService(context, 0 /* no requestCode */, openMovieIntent1, 0 /* no flags */);
+			PendingIntent pendingOpenMovieIntent1 = PendingIntent.getService(context, 0 /*
+																						 * no
+																						 * requestCode
+																						 */, openMovieIntent1, PendingIntent.FLAG_UPDATE_CURRENT /*
+																																				 * no
+																																				 * flags
+																																				 */);
+			// PendingIntent pendingOpenMovieIntent1 =
+			// PendingIntent.getService(context, 0 /* no requestCode */,
+			// openMovieIntent1, 0 /* no flags */);
 			updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_one_group_movie_1 : R.id.widget_group_movie_1, pendingOpenMovieIntent1);
 
 			start = start % size;
@@ -137,34 +148,59 @@ public class AndShowTimeWidgetHelper {
 			if (localisation.getLatitude() != null && localisation.getLongitude() != null) {
 				defineIntent.putExtra(ParamIntent.ACTIVITY_NEAR_LATITUDE, localisation.getLatitude());
 				defineIntent.putExtra(ParamIntent.ACTIVITY_NEAR_LONGITUDE, localisation.getLongitude());
-			} else {
-				defineIntent.putExtra(ParamIntent.ACTIVITY_NEAR_CITY_NAME, place.toString());
 			}
+			// else {
+			defineIntent.putExtra(ParamIntent.ACTIVITY_NEAR_CITY_NAME, place.toString());
+			// }
 		}
-		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, 0);
-		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, 0);
+		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /*
+		// no requestCode */, defineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /*
+		// no requestCode */, defineIntent, 0);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /*
+																			 * no
+																			 * requestCode
+																			 */, defineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /*
+		// no requestCode */, defineIntent, 0);
 		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_top_one : R.id.widget, pendingIntent);
 
 		Intent intentScrollLeft = new Intent(context, AndShowTimeWidgetServiceLeft.class);
 		intentScrollLeft.putExtra(ParamIntent.WIDGET_SCROLL_SENS, -1);
 		intentScrollLeft.putExtra(ParamIntent.WIDGET_START, start);
 		intentScrollLeft.putExtra(ParamIntent.WIDGET_CUPCAKE, cupcake);
-		PendingIntent pendingIntentScrollLeft = PendingIntent.getService(context, 0 /* no requestCode */, intentScrollLeft, PendingIntent.FLAG_UPDATE_CURRENT /* no flags */);
+		PendingIntent pendingIntentScrollLeft = PendingIntent.getService(context, 0 /*
+																					 * no
+																					 * requestCode
+																					 */, intentScrollLeft, PendingIntent.FLAG_UPDATE_CURRENT /*
+																																			 * no
+																																			 * flags
+																																			 */);
 		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_one_button_scroll_left : R.id.widget_button_scroll_left, pendingIntentScrollLeft);
 
 		Intent intentScrollRight = new Intent(context, AndShowTimeWidgetServiceRight.class);
 		intentScrollRight.putExtra(ParamIntent.WIDGET_SCROLL_SENS, 1);
 		intentScrollRight.putExtra(ParamIntent.WIDGET_START, start);
 		intentScrollRight.putExtra(ParamIntent.WIDGET_CUPCAKE, cupcake);
-		PendingIntent pendingIntentScrollRight = PendingIntent.getService(context, 0 /* no requestCode */, intentScrollRight, PendingIntent.FLAG_UPDATE_CURRENT /* no flags */);
+		PendingIntent pendingIntentScrollRight = PendingIntent.getService(context, 0 /*
+																					 * no
+																					 * requestCode
+																					 */, intentScrollRight, PendingIntent.FLAG_UPDATE_CURRENT /*
+																																			 * no
+																																			 * flags
+																																			 */);
 		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_one_button_scroll_right : R.id.widget_button_scroll_right, pendingIntentScrollRight);
 
 		Intent intentScrollRefresh = new Intent(context, AndShowTimeWidgetServiceRefresh.class);
 		intentScrollRefresh.putExtra(ParamIntent.WIDGET_REFRESH, true);
 		intentScrollRefresh.putExtra(ParamIntent.WIDGET_CUPCAKE, cupcake);
-		PendingIntent pendingIntentScrollRefresh = PendingIntent.getService(context, 0 /* no requestCode */, intentScrollRefresh, PendingIntent.FLAG_UPDATE_CURRENT /* no flags */);
+		PendingIntent pendingIntentScrollRefresh = PendingIntent.getService(context, 0 /*
+																						 * no
+																						 * requestCode
+																						 */, intentScrollRefresh, PendingIntent.FLAG_UPDATE_CURRENT /*
+																																					 * no
+																																					 * flags
+																																					 */);
 		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_one_button_refresh : R.id.widget_button_refresh, pendingIntentScrollRefresh);
 
 		return updateViews;

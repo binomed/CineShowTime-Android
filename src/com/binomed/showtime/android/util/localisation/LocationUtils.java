@@ -1,6 +1,14 @@
 package com.binomed.showtime.android.util.localisation;
 
+import java.net.URI;
+import java.text.MessageFormat;
 import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -32,6 +40,8 @@ import com.skyhookwireless.wps.WPSStreetAddressLookup;
 import com.skyhookwireless.wps.XPS;
 
 public final class LocationUtils {
+
+	private static final String mapRequestDist = "http://maps.google.com/maps/nav?q=from:{0}%20to:{1}&ie=utf8&oe=utf8&sensor=false&key={2}"; //$NON-NLS-1$
 
 	public enum ProviderEnum {
 
@@ -368,4 +378,83 @@ public final class LocationUtils {
 		return result;
 	}
 
+	public static void completeLocalisationBean(String source, LocalisationBean localisationBean) {
+		String uri = MessageFormat.format(mapRequestDist //
+				, source.replaceAll(" ", "+") //
+				, localisationBean.getSearchQuery() //
+				, GoogleKeys.GOOGLE_MAPS_KEY //
+				);
+
+		Log.i(TAG, "Send maps Query : " + uri);
+
+		try {
+			HttpGet getMethod = AndShowtimeFactory.getHttpGet();
+			getMethod.setURI(new URI(uri));
+			HttpResponse res = AndShowtimeFactory.getHttpClient().execute(getMethod);
+
+			JSONObject jsonObj = new JSONObject(EntityUtils.toString(res.getEntity()));
+
+			JSONObject statusJSON = jsonObj.getJSONObject("Status");
+			if (statusJSON != null && statusJSON.has("code")) {
+				Object code = statusJSON.get("code");
+				if (code != null && "200".equals(code.toString())) {
+					if (jsonObj.has("Directions")) {
+						JSONObject directionJSON = jsonObj.getJSONObject("Directions");
+						if (directionJSON.has("Distance")) {
+							JSONObject distanceJSON = directionJSON.getJSONObject("Distance");
+							localisationBean.setDistance(Double.valueOf((distanceJSON.get("meters") != null) ? distanceJSON.getDouble("meters") : 0).floatValue() / 1000);
+						}
+						if (directionJSON.has("Duration")) {
+							JSONObject durationJSON = directionJSON.getJSONObject("Duration");
+							localisationBean.setDistanceTime((durationJSON.get("seconds") != null) ? Long.valueOf(durationJSON.getString("seconds") + "000") : -1l);
+						}
+					}
+					// get informations about destination :
+					if (jsonObj.has("Placemark") && jsonObj.getJSONArray("Placemark").length() == 2) {
+						JSONArray arrayDirections = jsonObj.getJSONArray("Placemark");
+						JSONObject objDest = arrayDirections.getJSONObject(1);
+						if (objDest.has("AddressDetails")) {
+							JSONObject jsonDetail = objDest.getJSONObject("AddressDetails");
+							if (jsonDetail.has("Country")) {
+								JSONObject jsonCountry = jsonDetail.getJSONObject("Country");
+								localisationBean.setCountryName(jsonCountry.getString("CountryName"));
+								localisationBean.setCountryNameCode(jsonCountry.getString("CountryNameCode"));
+
+								if (jsonCountry.has("AdministrativeArea")) {
+									JSONObject jsonAdminArea = jsonCountry.getJSONObject("AdministrativeArea");
+									if (jsonAdminArea.has("SubAdministrativeArea")) {
+										JSONObject jsonSubAdminArea = jsonAdminArea.getJSONObject("SubAdministrativeArea");
+										if (jsonSubAdminArea.has("Locality")) {
+											JSONObject jsonLocality = jsonSubAdminArea.getJSONObject("Locality");
+											localisationBean.setCityName(jsonLocality.getString("LocalityName"));
+
+											if (jsonLocality.has("PostalCode")) {
+												JSONObject jsonPostalCode = jsonLocality.getJSONObject("PostalCode");
+												localisationBean.setPostalCityNumber(jsonPostalCode.getString("PostalCodeNumber"));
+											}
+										}
+									}
+								}
+							}
+						}
+						if (objDest.has("Point")) {
+							JSONObject jsonPoint = objDest.getJSONObject("Point");
+							if (jsonPoint.has("coordinates")) {
+								JSONArray coordinatesArray = jsonPoint.getJSONArray("coordinates");
+								localisationBean.setLatitude(coordinatesArray.getDouble(0));
+								localisationBean.setLatitude(coordinatesArray.getDouble(1));
+							}
+						}
+					}
+				}
+
+			}
+
+			if (localisationBean.getCityName() == null || localisationBean.getCityName().length() == 0) {
+				localisationBean.setCityName(source);
+			}
+		} catch (Exception e) {
+			Log.e(TAG, "Error during getting direction from " + source + " to " + localisationBean.getSearchQuery(), e);
+		}
+	}
 }

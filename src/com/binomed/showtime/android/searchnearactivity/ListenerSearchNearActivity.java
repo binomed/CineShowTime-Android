@@ -123,7 +123,9 @@ public class ListenerSearchNearActivity implements OnClickListener //
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see android.widget.ExpandableListView.OnChildClickListener#onChildClick(android.widget.ExpandableListView, android.view.View, int, int, long)
+	 * @see
+	 * android.widget.ExpandableListView.OnChildClickListener#onChildClick(android
+	 * .widget.ExpandableListView, android.view.View, int, int, long)
 	 */
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -139,11 +141,13 @@ public class ListenerSearchNearActivity implements OnClickListener //
 	// /*
 	// * (non-Javadoc)
 	// *
-	// * @see android.location.LocationListener#onLocationChanged(android.location.Location)
+	// * @see
+	// android.location.LocationListener#onLocationChanged(android.location.Location)
 	// */
 	// @Override
 	// public void onLocationChanged(Location arg0) {
-	// Log.d(TAG, "Change location : lat : " + arg0.getLatitude() + " / lon : " + arg0.getLongitude());
+	// Log.d(TAG, "Change location : lat : " + arg0.getLatitude() + " / lon : "
+	// + arg0.getLongitude());
 	// model.setGpsLocalisation(arg0);
 	//
 	// }
@@ -151,7 +155,8 @@ public class ListenerSearchNearActivity implements OnClickListener //
 	// /*
 	// * (non-Javadoc)
 	// *
-	// * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
+	// * @see
+	// android.location.LocationListener#onProviderDisabled(java.lang.String)
 	// */
 	// @Override
 	// public void onProviderDisabled(String arg0) {
@@ -166,7 +171,8 @@ public class ListenerSearchNearActivity implements OnClickListener //
 	// /*
 	// * (non-Javadoc)
 	// *
-	// * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
+	// * @see
+	// android.location.LocationListener#onProviderEnabled(java.lang.String)
 	// */
 	// @Override
 	// public void onProviderEnabled(String arg0) {
@@ -176,7 +182,9 @@ public class ListenerSearchNearActivity implements OnClickListener //
 	// /*
 	// * (non-Javadoc)
 	// *
-	// * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
+	// * @see
+	// android.location.LocationListener#onStatusChanged(java.lang.String, int,
+	// android.os.Bundle)
 	// */
 	// @Override
 	// public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
@@ -185,7 +193,9 @@ public class ListenerSearchNearActivity implements OnClickListener //
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.binomed.showtime.android.nearactivity.view.TheaterFavSelectionListener#removeTheater(com.binomed.showtime.beans.TheaterBean)
+	 * @see
+	 * com.binomed.showtime.android.nearactivity.view.TheaterFavSelectionListener
+	 * #removeTheater(com.binomed.showtime.beans.TheaterBean)
 	 */
 	@Override
 	public void removeTheater(TheaterBean theater) {
@@ -195,7 +205,9 @@ public class ListenerSearchNearActivity implements OnClickListener //
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.binomed.showtime.android.nearactivity.view.TheaterFavSelectionListener#theaterSelected(com.binomed.showtime.beans.TheaterBean)
+	 * @see
+	 * com.binomed.showtime.android.nearactivity.view.TheaterFavSelectionListener
+	 * #theaterSelected(com.binomed.showtime.beans.TheaterBean)
 	 */
 	@Override
 	public void theaterSelected(TheaterBean theater) {
@@ -209,17 +221,18 @@ public class ListenerSearchNearActivity implements OnClickListener //
 				locationTheater.setLatitude(localisation.getLatitude());
 				locationTheater.setLongitude(localisation.getLongitude());
 				model.setLocalisation(locationTheater);
-			} else {
-				if (theater.getPlace().getCityName() != null //
-						&& theater.getPlace().getCityName().length() > 0) {
-					model.setCityName(theater.getPlace().getCityName());
-				}
-				if (theater.getPlace().getCountryNameCode() != null //
-						&& theater.getPlace().getCountryNameCode().length() > 0 //
-						&& model.getCityName() != null) {
-					model.setCityName(model.getCityName() + ", " + theater.getPlace().getCountryNameCode()); //$NON-NLS-1$
-				}
 			}
+			// else {
+			if (theater.getPlace().getCityName() != null //
+					&& theater.getPlace().getCityName().length() > 0) {
+				model.setCityName(theater.getPlace().getCityName());
+			}
+			if (theater.getPlace().getCountryNameCode() != null //
+					&& theater.getPlace().getCountryNameCode().length() > 0 //
+					&& model.getCityName() != null) {
+				model.setCityName(model.getCityName() + ", " + theater.getPlace().getCountryNameCode()); //$NON-NLS-1$
+			}
+			// }
 		}
 		try {
 			nearActivity.launchNearService();
@@ -232,7 +245,9 @@ public class ListenerSearchNearActivity implements OnClickListener //
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see android.widget.AdapterView.OnItemSelectedListener#onItemSelected(android.widget.AdapterView, android.view.View, int, long)
+	 * @see
+	 * android.widget.AdapterView.OnItemSelectedListener#onItemSelected(android
+	 * .widget.AdapterView, android.view.View, int, long)
 	 */
 	@Override
 	public void onItemSelected(AdapterView<?> adapter, View view, int groupPositon, long id) {
@@ -249,7 +264,9 @@ public class ListenerSearchNearActivity implements OnClickListener //
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see android.widget.AdapterView.OnItemSelectedListener#onNothingSelected(android.widget.AdapterView)
+	 * @see
+	 * android.widget.AdapterView.OnItemSelectedListener#onNothingSelected(android
+	 * .widget.AdapterView)
 	 */
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
@@ -259,7 +276,9 @@ public class ListenerSearchNearActivity implements OnClickListener //
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see android.widget.ExpandableListView.OnGroupClickListener#onGroupClick(android.widget.ExpandableListView, android.view.View, int, long)
+	 * @see
+	 * android.widget.ExpandableListView.OnGroupClickListener#onGroupClick(android
+	 * .widget.ExpandableListView, android.view.View, int, long)
 	 */
 	@Override
 	public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {

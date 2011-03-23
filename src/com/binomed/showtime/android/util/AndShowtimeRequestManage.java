@@ -30,6 +30,7 @@ import com.binomed.showtime.android.parser.xml.ParserImdbResultXml;
 import com.binomed.showtime.android.parser.xml.ParserMovieResultXml;
 import com.binomed.showtime.android.parser.xml.ParserNearResultXml;
 import com.binomed.showtime.android.searchnearactivity.AndShowTimeSearchNearActivity;
+import com.binomed.showtime.android.util.localisation.LocationUtils;
 import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.MovieResp;
@@ -71,6 +72,8 @@ public abstract class AndShowtimeRequestManage {
 					, String.valueOf(start));
 		}
 
+		String countryCode = Locale.getDefault().getCountry();
+
 		Geocoder geocoder = AndShowtimeFactory.getGeocoder();
 		Location originalPlace = null;
 		if (geocoder != null) {
@@ -86,9 +89,10 @@ public abstract class AndShowtimeRequestManage {
 					if (addressList.get(0).getLocality() != null) {
 						cityName = addressList.get(0).getLocality();
 					}
-					if (addressList.get(0).getLocality() != null && addressList.get(0).getPostalCode() != null) {
-						cityName += " " + addressList.get(0).getPostalCode();
-					}
+					// if (addressList.get(0).getLocality() != null &&
+					// addressList.get(0).getPostalCode() != null) {
+					// cityName += " " + addressList.get(0).getPostalCode();
+					// }
 					if (addressList.get(0).getLocality() != null && addressList.get(0).getCountryCode() != null) {
 						cityName += ", " + addressList.get(0).getCountryCode();
 					}
@@ -96,6 +100,8 @@ public abstract class AndShowtimeRequestManage {
 					originalPlace = new Location("GPS");
 					originalPlace.setLongitude(addressList.get(0).getLongitude());
 					originalPlace.setLatitude(addressList.get(0).getLatitude());
+
+					countryCode = addressList.get(0).getCountryCode();
 				}
 				if (cityName != null) {
 					andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
@@ -121,14 +127,16 @@ public abstract class AndShowtimeRequestManage {
 					originalPlace = new Location("GPS");
 					originalPlace.setLongitude(addressList.get(0).getLongitude());
 					originalPlace.setLatitude(addressList.get(0).getLatitude());
+
+					countryCode = addressList.get(0).getCountryCode();
 				}
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LAT //
 						, AndShowtimeNumberFormat.getFormatGeoCoord().format(latitude));
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LONG//
 						, AndShowtimeNumberFormat.getFormatGeoCoord().format(longitude));
-				// if (cityName != null) {
-				// andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
-				// }
+				if (cityName != null) {
+					andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
+				}
 			}
 		} else {
 			if (cityName != null) {
@@ -142,6 +150,7 @@ public abstract class AndShowtimeRequestManage {
 						, AndShowtimeNumberFormat.getFormatGeoCoord().format(longitude));
 			}
 		}
+		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_COUNTRY_CODE, countryCode);
 
 		String uri = andShowtimeUriBuilder.toUri();
 		Log.i(TAG, "send request : " + uri); //$NON-NLS-1$
@@ -182,17 +191,23 @@ public abstract class AndShowtimeRequestManage {
 
 		List<Address> addressList = null;
 		Address addressTheater = null;
-		if ((geocoder != null) && (originalPlace != null)) {
+		if ((geocoder != null)) {// && (originalPlace != null)) {
 			for (TheaterBean theater : resultBean.getTheaterList()) {
 				LocalisationBean localisation = theater.getPlace();
-				if (localisation != null && localisation.getLatitude() != null && localisation.getLongitude() != null) {
-					Location locaTheater = new Location("GPS");
-					locaTheater.setLatitude(localisation.getLatitude());
-					locaTheater.setLongitude(localisation.getLongitude());
-					theater.getPlace().setDistance(originalPlace.distanceTo(locaTheater) / 1000);
-				} else if (localisation != null && localisation.getSearchQuery() != null && localisation.getSearchQuery().length() > 0) {
+				// if (localisation != null && localisation.getLatitude() !=
+				// null && localisation.getLongitude() != null) {
+				// Location locaTheater = new Location("GPS");
+				// locaTheater.setLatitude(localisation.getLatitude());
+				// locaTheater.setLongitude(localisation.getLongitude());
+				// theater.getPlace().setDistance(originalPlace.distanceTo(locaTheater)
+				// / 1000);
+				// } else
+				if (localisation != null && localisation.getSearchQuery() != null && localisation.getSearchQuery().length() > 0) {
 					try {
-						addressList = geocoder.getFromLocationName(localisation.getSearchQuery(), 1);
+						LocationUtils.completeLocalisationBean(cityName, localisation);
+						// addressList =
+						// geocoder.getFromLocationName(localisation.getSearchQuery(),
+						// 1);
 					} catch (Exception e) {
 						Log.e(TAG, "error Searching cityName :" + localisation.getSearchQuery(), e);
 					}
@@ -239,9 +254,11 @@ public abstract class AndShowtimeRequestManage {
 			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_DAY //
 					, String.valueOf(day));
 		}
+		String countryCode = Locale.getDefault().getCountry();
 
 		Geocoder geocoder = AndShowtimeFactory.getGeocoder();
-		// Location originalPlace = manageLocation(geocoder, cityName, andShowtimeUriBuilder, latitude, longitude);
+		// Location originalPlace = manageLocation(geocoder, cityName,
+		// andShowtimeUriBuilder, latitude, longitude);
 		Location originalPlace = null;
 		if (geocoder != null) {
 			if (cityName != null) {
@@ -251,15 +268,18 @@ public abstract class AndShowtimeRequestManage {
 					if (addressList.get(0).getLocality() != null) {
 						cityName = addressList.get(0).getLocality();
 					}
-					if (addressList.get(0).getLocality() != null && addressList.get(0).getPostalCode() != null) {
-						cityName += " " + addressList.get(0).getPostalCode();
-					}
+					// if (addressList.get(0).getLocality() != null &&
+					// addressList.get(0).getPostalCode() != null) {
+					// cityName += " " + addressList.get(0).getPostalCode();
+					// }
 					if (addressList.get(0).getLocality() != null && addressList.get(0).getCountryCode() != null) {
 						cityName += ", " + addressList.get(0).getCountryCode();
 					}
 					originalPlace = new Location("GPS");
 					originalPlace.setLongitude(addressList.get(0).getLongitude());
 					originalPlace.setLatitude(addressList.get(0).getLatitude());
+
+					countryCode = addressList.get(0).getCountryCode();
 				}
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
 			}
@@ -269,9 +289,10 @@ public abstract class AndShowtimeRequestManage {
 					if (addressList.get(0).getLocality() != null) {
 						cityName = addressList.get(0).getLocality();
 					}
-					if (addressList.get(0).getLocality() != null && addressList.get(0).getPostalCode() != null) {
-						cityName += " " + addressList.get(0).getPostalCode();
-					}
+					// if (addressList.get(0).getLocality() != null &&
+					// addressList.get(0).getPostalCode() != null) {
+					// cityName += " " + addressList.get(0).getPostalCode();
+					// }
 					if (addressList.get(0).getLocality() != null && addressList.get(0).getCountryCode() != null) {
 						cityName += ", " + addressList.get(0).getCountryCode();
 					}
@@ -283,6 +304,7 @@ public abstract class AndShowtimeRequestManage {
 						, AndShowtimeNumberFormat.getFormatGeoCoord().format(latitude));
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LONG//
 						, AndShowtimeNumberFormat.getFormatGeoCoord().format(longitude));
+				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
 			}
 		} else {
 			if (cityName != null) {
@@ -300,6 +322,7 @@ public abstract class AndShowtimeRequestManage {
 			movieName = URLDecoder.decode(movieName, AndShowTimeEncodingUtil.getEncoding());
 			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_MOVIE_NAME, movieName);
 		}
+		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_COUNTRY_CODE, countryCode);
 
 		String uri = andShowtimeUriBuilder.toUri();
 		Log.i(TAG, "send request : " + uri); //$NON-NLS-1$
@@ -321,16 +344,22 @@ public abstract class AndShowtimeRequestManage {
 		MovieResp resultBean = parser.getMovieRespBean();
 		List<Address> addressList = null;
 		Address addressTheater = null;
-		if ((geocoder != null) && (originalPlace != null)) {
+		if ((geocoder != null)) {// && (originalPlace != null)) {
 			for (TheaterBean theater : resultBean.getTheaterList()) {
 				LocalisationBean localisation = theater.getPlace();
-				if (localisation != null && localisation.getLatitude() != null && localisation.getLongitude() != null) {
-					Location locaTheater = new Location("GPS");
-					locaTheater.setLatitude(localisation.getLatitude());
-					locaTheater.setLongitude(localisation.getLongitude());
-					theater.getPlace().setDistance(originalPlace.distanceTo(locaTheater) / 1000);
-				} else if (localisation != null && localisation.getSearchQuery() != null && localisation.getSearchQuery().length() > 0) {
-					addressList = geocoder.getFromLocationName(localisation.getSearchQuery(), 1);
+				// if (localisation != null && localisation.getLatitude() !=
+				// null && localisation.getLongitude() != null) {
+				// Location locaTheater = new Location("GPS");
+				// locaTheater.setLatitude(localisation.getLatitude());
+				// locaTheater.setLongitude(localisation.getLongitude());
+				// theater.getPlace().setDistance(originalPlace.distanceTo(locaTheater)
+				// / 1000);
+				// } else
+				if (localisation != null && localisation.getSearchQuery() != null && localisation.getSearchQuery().length() > 0) {
+					LocationUtils.completeLocalisationBean(cityName, localisation);
+					// addressList =
+					// geocoder.getFromLocationName(localisation.getSearchQuery(),
+					// 1);
 					if (addressList != null && addressList.size() > 0) {
 						addressTheater = addressList.get(0);
 						localisation.setCityName(addressTheater.getLocality());
