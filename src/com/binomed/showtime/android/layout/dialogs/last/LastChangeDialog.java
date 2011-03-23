@@ -29,15 +29,17 @@ public class LastChangeDialog extends Dialog {
 		setTitle(mainContext.getResources().getString(R.string.dialogLastChangeTitle));
 		TextView contentLastChange = (TextView) findViewById(R.id.lastChangetText);
 		Spanned spanned = Html.fromHtml( //
-				"<b>v1.9.1</b><br><br>" + //
+				"<b>v1.9.2</b><br><br>" + //
+						" * Fix for archos tablet<br>" + //
+						"<br><b>v1.9.1</b><br><br>" + //
 						" * Minor bug correction with favorites<br>" + // 
 						" * Change of icon<br>" + // 
 						" * <b>Please update your favorites cinemas (delete, recreate) if there is an error<b><br>" + // 
-						"<b>v1.9.0</b><br><br>" + //
+						"<br><b>v1.9.0</b><br><br>" + //
 						" * Support of japanese langage and italian<br>" + // 
 						" * Change of icon<br>" + // 
 						" * Change of widget : you have to reset your widget<br>" + // 
-						"<b>v1.8.1</b><br><br>" + //
+						"<br><b>v1.8.1</b><br><br>" + //
 						" * Minor fix for bookmark bug" + // 
 						"<br><br><b>v1.8.0</b><br><br>" + //
 						" * Location bugs correction<br>" + //

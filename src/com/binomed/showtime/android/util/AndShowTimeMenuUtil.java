@@ -1,14 +1,19 @@
 package com.binomed.showtime.android.util;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.text.Html;
 import android.view.Menu;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.activity.AndShowTimePreferencesActivity;
+import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.cst.IntentShowtime;
 
 public final class AndShowTimeMenuUtil {
@@ -60,6 +65,38 @@ public final class AndShowTimeMenuUtil {
 			return true;
 		}
 		return false;
+	}
+
+	public static boolean isMapsInstalled(PackageManager packageManager) {
+		boolean result = true;
+		Intent intent = new Intent(Intent.ACTION_MAIN, null);
+		intent.addCategory(Intent.CATEGORY_LAUNCHER);
+		List<ResolveInfo> infos = packageManager.queryIntentActivities(intent, 0);
+		for (ResolveInfo info : infos) {
+			result = AndShowtimeCst.MAPS_PACKAGE.equals(info.activityInfo.packageName) //
+					&& AndShowtimeCst.MAPS_NAME.equals(info.activityInfo.name);
+			if (result) {
+				break;
+			}
+		}
+
+		return result;
+	}
+
+	public static boolean isDialerInstalled(PackageManager packageManager) {
+		boolean result = true;
+		Intent intent = new Intent(Intent.ACTION_MAIN, null);
+		intent.addCategory(Intent.CATEGORY_LAUNCHER);
+		List<ResolveInfo> infos = packageManager.queryIntentActivities(intent, 0);
+		for (ResolveInfo info : infos) {
+			result = AndShowtimeCst.CONTACTS_PACKAGE.equals(info.activityInfo.packageName) //
+					&& AndShowtimeCst.CONTACTS_NAME.equals(info.activityInfo.name);
+			if (result) {
+				break;
+			}
+		}
+
+		return result;
 	}
 
 }

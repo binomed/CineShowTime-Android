@@ -496,13 +496,16 @@ public class AndShowTimeSearchNearActivity extends Activity {
 				if ((selectItem.getClass() == TheaterBean.class) // 
 						&& (((TheaterBean) selectItem).getPhoneNumber() != null) //  
 						&& (((TheaterBean) selectItem).getPhoneNumber().length() != 0) //  
+						&& BeanManagerFactory.isDialerInstalled(getPackageManager())//
 				) {
 					menu.add(groupId, CALL_THEATER, 1, R.string.menuCall).setIcon(android.R.drawable.ic_menu_call);
 				}
 				menu.add(groupId, ADD_FAV, 1, R.string.addFav).setIcon(R.drawable.ic_menu_star);
 				if ((selectItem.getClass() == TheaterBean.class) // 
 						&& (((TheaterBean) selectItem) != null) //
-						&& (model.getLocalisation() != null)) {
+						&& (model.getLocalisation() != null) //
+						&& BeanManagerFactory.isMapsInstalled(getPackageManager())//
+				) {
 					menu.add(groupId, OPEN_MAP_DIRECTION, 2, R.string.openMapsDriveMenuItem).setIcon(android.R.drawable.ic_menu_directions);
 				}
 			}
@@ -515,6 +518,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		&& (((TheaterBean) selectItem) != null) //
 				)
 				|| !isMovieView) {
+
 			menu.add(groupId, itemId, 0, menuStr).setIcon(icon);
 		}
 	}
@@ -532,7 +536,12 @@ public class AndShowTimeSearchNearActivity extends Activity {
 			Object selectItem = resultList.getItemAtPosition(item.getGroupId());
 			if (selectItem.getClass() == TheaterBean.class) {
 				TheaterBean theater = (TheaterBean) selectItem;
-				startActivity(IntentShowtime.createMapsIntent(theater));
+				if (BeanManagerFactory.isMapsInstalled(getPackageManager())) {
+					startActivity(IntentShowtime.createMapsIntent(theater));
+				} else {
+					startActivity(IntentShowtime.createMapsIntentBrowser(theater));
+
+				}
 			}
 			return true;
 		}

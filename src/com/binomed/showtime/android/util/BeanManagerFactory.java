@@ -2,6 +2,8 @@ package com.binomed.showtime.android.util;
 
 import java.util.HashMap;
 
+import android.content.pm.PackageManager;
+
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.MovieResp;
 import com.binomed.showtime.beans.NearResp;
@@ -18,6 +20,8 @@ public final class BeanManagerFactory {
 	private MovieResp movieResp;
 	private HashMap<String, MovieBean> centralMovieMap;
 	private HashMap<String, TheaterBean> centralTheaterMap;
+	private Boolean mapInstalled;
+	private Boolean dialerInstalled;
 
 	private boolean firstOpenAsk;
 
@@ -71,6 +75,22 @@ public final class BeanManagerFactory {
 
 	private void setPrivateFirstOpen(boolean firstOpen) {
 		this.firstOpenAsk = firstOpen;
+	}
+
+	private Boolean isPrivateMapsInstalled() {
+		return mapInstalled;
+	}
+
+	private void setPrivateMapsInstalled(boolean mapsInstalled) {
+		this.mapInstalled = mapsInstalled;
+	}
+
+	private Boolean isPrivateDialerInstalled() {
+		return dialerInstalled;
+	}
+
+	private void setPrivateDialerInstalled(boolean dialerInstalled) {
+		this.dialerInstalled = dialerInstalled;
 	}
 
 	private TheaterBean getPrivateTheaterTemp() {
@@ -159,6 +179,24 @@ public final class BeanManagerFactory {
 
 	public synchronized static MovieBean getMovieDesc() {
 		return BeanManagerFactory.getInstance().getPrivateMovieDesc();
+	}
+
+	public synchronized static boolean isMapsInstalled(PackageManager packageManager) {
+		Boolean result = BeanManagerFactory.getInstance().isPrivateMapsInstalled();
+		if (result == null) {
+			result = AndShowTimeMenuUtil.isMapsInstalled(packageManager);
+			BeanManagerFactory.getInstance().setPrivateMapsInstalled(result);
+		}
+		return result;
+	}
+
+	public synchronized static boolean isDialerInstalled(PackageManager packageManager) {
+		Boolean result = BeanManagerFactory.getInstance().isPrivateDialerInstalled();
+		if (result == null) {
+			result = AndShowTimeMenuUtil.isDialerInstalled(packageManager);
+			BeanManagerFactory.getInstance().setPrivateDialerInstalled(result);
+		}
+		return result;
 	}
 
 }

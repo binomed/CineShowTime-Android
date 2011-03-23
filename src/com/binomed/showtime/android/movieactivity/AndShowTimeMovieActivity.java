@@ -584,16 +584,20 @@ public class AndShowTimeMovieActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		if (model.getTheater() != null) {
+		if ((model.getTheater() != null) //
+		) {
 			menu.add(0, MENU_OPEN_MAPS, 0, R.string.openMapsMenuItem).setIcon(android.R.drawable.ic_menu_mapmode);
 		}
 		if (model.getTheater() != null //
 				&& model.getGpsLocation() != null //
+				&& BeanManagerFactory.isMapsInstalled(getPackageManager())//
 		) {
 			menu.add(0, MENU_OPEN_MAPS_DIRECTION, 1, R.string.openMapsDriveMenuItem).setIcon(android.R.drawable.ic_menu_directions);
 		}
 		menu.add(0, MENU_VIDEO, 2, R.string.openYoutubeMenuItem).setIcon(R.drawable.ic_menu_play_clip);
-		menu.add(0, MENU_CALL, 3, R.string.menuCall).setIcon(android.R.drawable.ic_menu_call);
+		if (BeanManagerFactory.isDialerInstalled(getPackageManager())) {
+			menu.add(0, MENU_CALL, 3, R.string.menuCall).setIcon(android.R.drawable.ic_menu_call);
+		}
 		AndShowTimeMenuUtil.createMenu(menu, MENU_PREF, 4);
 		return true;
 	}
@@ -605,7 +609,12 @@ public class AndShowTimeMovieActivity extends Activity {
 		}
 		switch (item.getItemId()) {
 		case MENU_OPEN_MAPS: {
-			startActivity(IntentShowtime.createMapsIntent(model.getTheater()));
+			if (BeanManagerFactory.isMapsInstalled(getPackageManager())) {
+				startActivity(IntentShowtime.createMapsIntent(model.getTheater()));
+			} else {
+				startActivity(IntentShowtime.createMapsIntentBrowser(model.getTheater()));
+
+			}
 			return true;
 		}
 		case MENU_OPEN_MAPS_DIRECTION: {

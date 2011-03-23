@@ -22,4 +22,9 @@ public final class AndShowtimeCst {
 	public static final int DB_TYPE_SKYHOOK_REGISTRATION = 8;
 	public static final int DB_TYPE_LAST_CHANGE_WRITE = 9;
 
+	public static final String CONTACTS_PACKAGE = "com.android.contacts"; //$NON-NLS-1$
+	public static final String CONTACTS_NAME = "com.android.contacts.DialtactsActivity"; //$NON-NLS-1$
+	public static final String MAPS_PACKAGE = "com.google.android.apps.maps"; //$NON-NLS-1$
+	public static final String MAPS_NAME = "com.google.android.maps.MapsActivity"; //$NON-NLS-1$
+
 }

@@ -56,6 +56,26 @@ public class IntentShowtime {
 		return myIntent;
 	}
 
+	public static Intent createMapsIntentBrowser(TheaterBean theater) {
+		StringBuilder mapsUri = new StringBuilder("http://maps.google.com/maps");
+
+		try {
+			mapsUri.append("?q="); //$NON-NLS-1$
+			//			mapsUri.append(URLEncoder.encode(theater.getPlace().getSearchQuery(), AndShowTimeEncodingUtil.getEncoding())); //$NON-NLS-1$
+			mapsUri.append(theater.getPlace().getSearchQuery()); //$NON-NLS-1$
+			mapsUri.append("+("); //$NON-NLS-1$
+			mapsUri.append(theater.getTheaterName()); //$NON-NLS-1$
+			mapsUri.append(")"); //$NON-NLS-1$
+		} catch (Exception e) {
+			mapsUri.append(AndShowtimeNumberFormat.getFormatGeoCoord().format(theater.getPlace().getLongitude()));
+			mapsUri.append(SpecialChars.COMMA);
+			mapsUri.append(AndShowtimeNumberFormat.getFormatGeoCoord().format(theater.getPlace().getLatitude()));
+			mapsUri.append("?z=22");
+		}
+		Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(mapsUri.toString()));
+		return myIntent;
+	}
+
 	public static Intent createMapsWithDrivingDirectionIntent(TheaterBean theater, Location source) {
 		Geocoder geocoder = AndShowtimeFactory.getGeocoder();
 		if (geocoder != null) {
