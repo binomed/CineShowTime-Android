@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<RelativeLayout 
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/main_widget_one" 
+	android:id="@+id/widget_one" 
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	>
@@ -12,123 +12,6 @@
 		android:background="@drawable/widget_bg_2_portrait_0_0"
 		android:layout_alignParentLeft="true"
 		/>
-	<RelativeLayout 
-		android:id="@+id/widget_one" 
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:layout_toRightOf="@+id/widget_left_one"
-		android:layout_toLeftOf="@+id/widget_right_one"
-		>
-		<LinearLayout
-	        android:id="@+id/widget_top_one"
-	        android:layout_width="fill_parent" 
-	        android:layout_height="32dip"
-			android:background="@drawable/widget_bg_2_portrait_1_0_0_0"
-		    android:paddingLeft="2dip"        
-		    android:paddingRight="2dip"        
-	        >
-			<TextView
-		        android:id="@+id/widget_theater_title_one"
-		        android:layout_width="wrap_content" 
-		        android:layout_height="wrap_content"
-		        android:paddingTop="2dip"        
-		        android:layout_marginBottom="5dp"
-		        android:includeFontPadding="false"
-		        android:ellipsize="end"
-		        android:maxLines="2"
-		        style="@style/Widget.TheaterTitle" />
-		</LinearLayout>
-		<ImageView
-			android:id="@+id/widget_center_top_one" 
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/widget_top_one"
-			android:background="@drawable/widget_bg_2_portrait_1_0_0_1"
-			/>
-		<LinearLayout    
-	  		android:id="@+id/widget_films_group_one"
-			android:orientation="vertical" 
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:layout_below="@+id/widget_center_top_one"
-			android:layout_above="@+id/widget_center_bottom_one"
-			android:background="@drawable/widget_bg_2_portrait_1_0_0_2"
-			>
-	    	<LinearLayout    
-		  		android:id="@+id/widget_group_movie_1_one"
-				android:orientation="vertical" 
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-			    android:paddingLeft="2dip"        
-			    android:paddingRight="2dip"        
-				>
-			    <TextView
-			        android:id="@+id/widget_movie_txt_1_one"
-			       	android:layout_width="fill_parent" 
-			        android:layout_height="wrap_content"
-			        android:includeFontPadding="false"
-			        android:lineSpacingMultiplier="0.9"
-			        android:fadingEdge="vertical"
-			        android:maxLines="2"
-			        style="@style/Widget.Movie"  
-			        />
-			    <TextView
-			        android:id="@+id/widget_movie_hour_1_one"
-			       	android:layout_width="fill_parent" 
-			        android:layout_height="wrap_content"
-			        android:includeFontPadding="false"
-			        android:fadingEdge="vertical"
-			        android:layout_gravity="right"
-			        style="@style/Widget.Hour" 
-			        />
-		    </LinearLayout>
-		    
-	    </LinearLayout>
-	    <ImageView
-			android:id="@+id/widget_center_bottom_one" 
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_above="@+id/widget_center_bottom_buttons_one"
-			android:background="@drawable/widget_bg_2_portrait_1_0_0_3"
-			/>
-	    <RelativeLayout 
-			android:id="@+id/widget_center_bottom_buttons_one" 
-			android:layout_width="fill_parent"
-			android:layout_height="50dip"
-			android:background="@drawable/widget_bg_2_portrait_1_0_0_4"
-		    android:layout_alignParentBottom="true"
-			>
-		    <ImageButton  
-		        android:id="@+id/widget_button_scroll_right_one"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_centerHorizontal="true"
-		        android:layout_alignParentBottom="true"
-		        android:layout_marginLeft="10dip"        
-		        android:layout_marginRight="10dip"        
-		        android:paddingBottom="10dip" 
-				android:layout_marginBottom="5dip" 
-		        android:background="@drawable/widget_btn_right"/>
-			<ImageButton  
-		        android:id="@+id/widget_button_scroll_left_one"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_alignParentBottom="true"
-		        android:layout_toLeftOf="@+id/widget_button_scroll_right_one"
-		        android:paddingBottom="10dip"        
-				android:layout_marginBottom="5dip" 
-		        android:background="@drawable/widget_btn_left" />
-			<ImageButton  
-				android:id="@+id/widget_button_refresh_one"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_toRightOf="@+id/widget_button_scroll_right_one"
-				android:layout_alignParentBottom="true"
-				android:paddingBottom="10dip"
-				android:layout_marginBottom="5dip" 
-				android:background="@drawable/widget_btn_refresh"/>
-		</RelativeLayout>
-	</RelativeLayout>
 	<ImageView
 		android:id="@+id/widget_right_one" 
 		android:layout_width="wrap_content"
@@ -136,4 +19,119 @@
 		android:background="@drawable/widget_bg_2_portrait_2_0"
 		android:layout_alignParentRight="true"
 		/>
+	<LinearLayout
+	        android:id="@+id/widget_top_one"
+	        android:layout_width="fill_parent" 
+	        android:layout_height="32dip"
+			android:layout_toRightOf="@+id/widget_left_one"
+			android:layout_toLeftOf="@+id/widget_right_one"
+			android:background="@drawable/widget_bg_2_portrait_1_0_0_0"
+			android:layout_alignParentTop="true"
+		    android:paddingLeft="2dip"        
+		    android:paddingRight="2dip"        
+	        >
+		<TextView
+	        android:id="@+id/widget_one_theater_title"
+	        android:layout_width="fill_parent" 
+	        android:layout_height="wrap_content"
+	        android:paddingTop="2dip"        
+	        android:layout_marginBottom="5dip"
+	        android:includeFontPadding="false"
+	        android:ellipsize="end"
+	        android:maxLines="2"
+	        style="@style/Widget.TheaterTitle" />
+        </LinearLayout>
+    <ImageView
+			android:id="@+id/widget_center_top_one" 
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/widget_top_one"
+			android:layout_toRightOf="@+id/widget_left_one"
+			android:layout_toLeftOf="@+id/widget_right_one"
+			android:background="@drawable/widget_bg_2_portrait_1_0_0_1"
+			/>
+	<RelativeLayout 
+			android:id="@+id/widget_center_bottom_buttons_one" 
+			android:layout_width="fill_parent"
+			android:layout_height="35dip"
+			android:layout_toRightOf="@+id/widget_left_one"
+			android:layout_toLeftOf="@+id/widget_right_one"
+			android:background="@drawable/widget_bg_2_portrait_1_0_0_4"
+		    android:layout_alignParentBottom="true"
+			>
+		<ImageButton  
+			android:id="@+id/widget_one_button_refresh"
+			android:layout_width="35dip"
+			android:layout_height="35dip"
+	        android:layout_centerHorizontal="true"
+			android:layout_alignParentBottom="true"
+			android:paddingBottom="5dip" 
+			android:background="@drawable/wait"/>
+		<ImageButton  
+	        android:id="@+id/widget_one_button_scroll_left"
+	        android:layout_width="45dip"
+	        android:layout_height="33dip"
+	        android:layout_centerVertical="true"
+	        android:layout_alignParentLeft="true"
+	        android:paddingBottom="5dip"        
+	        android:background="@drawable/left_arrow" />
+	    <ImageButton  
+	        android:id="@+id/widget_one_button_scroll_right"
+	        android:layout_width="45dip"
+	        android:layout_height="33dip"
+	        android:layout_centerVertical="true"
+	        android:layout_alignParentRight="true"   
+	        android:paddingBottom="5dip" 
+	        android:background="@drawable/right_arrow"/>
+		</RelativeLayout>
+	<ImageView
+			android:id="@+id/widget_center_bottom_one" 
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_toRightOf="@+id/widget_left_one"
+			android:layout_toLeftOf="@+id/widget_right_one"
+			android:layout_above="@+id/widget_center_bottom_buttons_one"
+			android:background="@drawable/widget_bg_2_portrait_1_0_0_3"
+			/>
+    <LinearLayout    
+  		android:id="@+id/widget_one_films_group"
+		android:orientation="vertical" 
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_below="@+id/widget_center_top_one"
+		android:layout_above="@+id/widget_center_bottom_one"
+		android:layout_toRightOf="@+id/widget_left_one"
+		android:layout_toLeftOf="@+id/widget_right_one"
+		android:paddingLeft="2dip"        
+		android:paddingRight="2dip" 
+		android:background="@drawable/widget_bg_2_portrait_1_0_0_2"
+		>
+    	<LinearLayout    
+	  		android:id="@+id/widget_one_group_movie_1"
+			android:orientation="vertical" 
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			>
+		    <TextView
+		        android:id="@+id/widget_one_movie_txt_1"
+		       	android:layout_width="fill_parent" 
+		        android:layout_height="wrap_content"
+		        android:includeFontPadding="false"
+		        android:lineSpacingMultiplier="1.1"
+		        android:fadingEdge="vertical"
+		        android:maxLines="3"
+		        style="@style/Widget.MovieOne"  
+		        />
+		    <TextView
+		        android:id="@+id/widget_one_movie_hour_1"
+		       	android:layout_width="fill_parent" 
+		        android:layout_height="wrap_content"
+		        android:includeFontPadding="false"
+		        android:fadingEdge="vertical"
+		        android:layout_gravity="right"
+		        style="@style/Widget.HourOne" 
+		        />
+	    </LinearLayout>
+    </LinearLayout>
+	
 </RelativeLayout>

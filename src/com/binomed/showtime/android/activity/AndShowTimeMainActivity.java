@@ -19,6 +19,7 @@ import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.BeanManagerFactory;
 import com.binomed.showtime.android.util.localisation.LocationUtils;
+import com.binomed.showtime.android.util.localisation.LocationUtils.ProviderEnum;
 
 public class AndShowTimeMainActivity extends Activity {
 
@@ -57,7 +58,15 @@ public class AndShowTimeMainActivity extends Activity {
 		if (checkboxPreference) {
 
 			if (!BeanManagerFactory.isFirstOpen()) {
-				LocationUtils.checkProviderLocation(AndShowTimeMainActivity.this, LocationUtils.getProvider(prefs, this));
+				ProviderEnum provider = LocationUtils.getProvider(prefs, this);
+				switch (provider) {
+				case GPS_PROVIDER:
+				case GSM_PROVIDER:
+					LocationUtils.checkProviderLocation(AndShowTimeMainActivity.this, provider);
+					break;
+				default:
+					break;
+				}
 
 				Intent intentCleanFileService = new Intent(AndShowTimeMainActivity.this, AndShowCleanFileService.class);
 				startService(intentCleanFileService);

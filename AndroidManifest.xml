@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.binomed.showtime" android:versionCode="17" android:versionName="1.8.1">
+      package="com.binomed.showtime" android:versionCode="18" android:versionName="1.9.0">
+      
+     <supports-screens
+          android:largeScreens="true"
+          android:normalScreens="true"
+          android:smallScreens="true"
+          android:anyDensity="true" />
     <application android:label="@string/app_name" android:icon="@drawable/icon" android:debuggable="false">
         <activity android:label="@string/app_name" android:name=".android.activity.AndShowTimeMainActivity" android:icon="@drawable/icon">
             <intent-filter>
@@ -34,7 +40,19 @@
 		<service android:name=".android.widget.cupcake.AndShowTimeWidgetServiceOpenMovie1"/>
 		<service android:name=".android.widget.cupcake.AndShowTimeWidgetServiceOpenMovie2" />
 		<service android:name=".android.widget.cupcake.AndShowTimeWidgetServiceOpenMovie3" />
-		<activity android:name=".android.widget.AndShowTimeWidgetConfigureActivity">
+		<service android:name=".android.widget.one.AndShowTimeWidgetService"/>
+		<service android:name=".android.widget.one.AndShowTimeWidgetServiceLeft"/>
+		<service android:name=".android.widget.one.AndShowTimeWidgetServiceRight"/>
+		<service android:name=".android.widget.one.AndShowTimeWidgetServiceRefresh"/>
+		<service android:name=".android.widget.one.AndShowTimeWidgetServiceOpenMovie"/>
+		<service android:name=".android.widget.one.AndShowTimeWidgetServiceOpenMovie1"/>
+		<activity android:name=".android.widget.one.AndShowTimeWidgetConfigureActivity">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_CONFIGURE">
+				</action>
+			</intent-filter>
+		</activity>
+		<!-- <activity android:name=".android.widget.AndShowTimeWidgetConfigureActivity">
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_CONFIGURE">
 				</action>
@@ -46,7 +64,20 @@
 				</action>
 			</intent-filter>
 		</activity>
-		<receiver android:name=".android.widget.AndShowtimeWidget" android:label="@string/widget_name_2x2">
+		<activity android:name=".android.widget.one.AndShowTimeWidgetConfigureActivity">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_CONFIGURE">
+				</action>
+			</intent-filter>
+		</activity>
+		-->
+		<receiver android:name=".android.widget.one.AndShowtimeWidget" android:label="@string/widget_name_2x2">
+			<intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_one" />
+		</receiver>
+	<!-- 	<receiver android:name=".android.widget.AndShowtimeWidget" android:label="@string/widget_name_2x2">
 			<intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -58,6 +89,12 @@
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_cupcake" />
 		</receiver>
+		<receiver android:name=".android.widget.one.AndShowtimeWidget" android:label="CineShowTime_test_one">
+			<intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_one" />
+		</receiver>-->
 	</application>
     <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="5"/>
 	<!-- GPS Location -->

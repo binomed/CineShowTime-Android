@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: C:\\tools\\projects\\Android\\AndShowtimeAndroid\\src\\com\\binomed\\showtime\\android\\aidl\\IServiceMovie.aidl
+ * Original file: F:\\tools\\projects\\Android\\AndShowtimeAndroid\\src\\com\\binomed\\showtime\\android\\aidl\\IServiceMovie.aidl
  */
 package com.binomed.showtime.android.aidl;
 public interface IServiceMovie extends android.os.IInterface

@@ -46,7 +46,7 @@ public class AndShowTimeSearchNearService extends Service {
 				try {
 					m_callbacks.getBroadcastItem(i).finish();
 				} catch (RemoteException e) {
-					e.printStackTrace();
+					Log.e(TAG, "Error during call back finsih", e);
 				}
 			}
 			m_callbacks.finishBroadcast();
@@ -55,13 +55,17 @@ public class AndShowTimeSearchNearService extends Service {
 		@Override
 		public void registerCallback(ICallbackSearchNear cb) throws RemoteException {
 			if (cb != null) {
-				m_callbacks.register(cb);
+				synchronized (m_callbacks) {
+					m_callbacks.register(cb);
+				}
 			}
 		}
 
 		@Override
 		public void unregisterCallback(ICallbackSearchNear cb) throws RemoteException {
-			m_callbacks.unregister(cb);
+			synchronized (m_callbacks) {
+				m_callbacks.unregister(cb);
+			}
 		}
 
 		@Override

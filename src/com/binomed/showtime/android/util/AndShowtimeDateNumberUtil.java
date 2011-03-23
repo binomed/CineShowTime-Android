@@ -410,8 +410,12 @@ public abstract class AndShowtimeDateNumberUtil {
 	}
 
 	public static synchronized void clearMaps() {
-		mapMovieStr.clear();
-		mapMovieTime.clear();
+		if (mapMovieStr != null) {
+			mapMovieStr.clear();
+		}
+		if (mapMovieTime != null) {
+			mapMovieTime.clear();
+		}
 	}
 
 }

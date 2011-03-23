@@ -29,9 +29,13 @@ public class LastChangeDialog extends Dialog {
 		setTitle(mainContext.getResources().getString(R.string.dialogLastChangeTitle));
 		TextView contentLastChange = (TextView) findViewById(R.id.lastChangetText);
 		Spanned spanned = Html.fromHtml( //
-				"<b>v1.8.1</b><br><br>" + //
+				"<b>v1.9.0</b><br><br>" + //
+						" * Support of japanese langage and italian" + // 
+						" * Change of icon" + // 
+						" * Change of widget : you have to reset your widget" + // 
+						"<b>v1.8.1</b><br><br>" + //
 						" * Minor fix for bookmark bug" + // 
-						"<br><br><b>v1.8</b><br><br>" + //
+						"<br><br><b>v1.8.0</b><br><br>" + //
 						" * Location bugs correction<br>" + //
 						" * crash bug correction<br>" + //
 						" * correction on server for movie descriptions<br>" + //
@@ -46,7 +50,7 @@ public class LastChangeDialog extends Dialog {
 						"<br><br><b>v1.7.1</b><br>" + //
 						"<br>" + //
 						" * Minor update for integrating message when no results come from server<br>" + //
-						"<br><br><b>v1.7</b><br>" + //
+						"<br><br><b>v1.7.0</b><br>" + //
 						"<br>" + //
 						" * Management of Turkish langage<br>" + //
 						" * Management of widget for multiScreen (Add of widget for cupcake)<br>" + //
@@ -57,18 +61,18 @@ public class LastChangeDialog extends Dialog {
 						"<br>" + //
 						" * Enhance UI<br>" + //
 						" * Management of deutch langage<br>" + //
-						"<br><br><b>v1.6</b><br>" + //
+						"<br><br><b>v1.6.0</b><br>" + //
 						"<br>" + //
 						" * Integration of SkyHook? framework => you can search near your wifi position, ip position<br>" + //
 						" * Correction of bugs with bookmarks theater.<br>" + //
 						" * Integration of projection langage.<br>" + //
 						" * Warning ! this version will reset your bookmark theater and the widget.<br>" + //
-						"<br><br><b>v1.5</b><br>" + //
+						"<br><br><b>v1.5.0</b><br>" + //
 						"<br>" + //
 						" * Management of time of adds before movies showtime in preferences<br>" + //
 						" * Correction of bug of gps localisation invisible buttons, for android 1.1 and 1.5<br>" + //
 						" * Support of ru langage (Thanks Stan)<br>" + //
-						"<br><br><b>v1.4</b><br>" + //
+						"<br><br><b>v1.4.0</b><br>" + //
 						"<br>" + //
 						" * Add of button Bookmarks on main screen<br>" + //
 						" * Click on widget now open directly on theater showtimes<br>" + //
@@ -80,25 +84,25 @@ public class LastChangeDialog extends Dialog {
 						"<br><br><b>v1.3.1</b><br>" + //
 						"<br>" + //
 						" * Correction for motorola blur (but many other phone could be concerned) for text of buttons invisible<br>" + //
-						"<br><br><b>v1.3</b><br>" + //
+						"<br><br><b>v1.3.0</b><br>" + //
 						"<br>" + //
 						" * Management of drive time to go to theater. You could have only showtime reachables.<br>" + //
 						" * You can add a showtime into calendar application.<br>" + //
 						" * You can localise you with network position.<br>" + //
 						" * Correction of issues 1,2,3 and 4.<br>" + //
 						" * Add of option in menu for management of localisation.<br>" + //
-						"<br><br><b>v1.2</b><br>" + //
+						"<br><br><b>v1.2.0</b><br>" + //
 						"<br>" + //
 						" * Add of about menu (version informations)<br>" + //
 						" * Add of help menu<br>" + //
 						" * Correction of bug with showtimes accross days and theaters<br>" + //
 						" * Improve UI fast<br>" + //
-						"<br><br><b>v1.1</b><br>" + //
+						"<br><br><b>v1.1.0</b><br>" + //
 						"<br>" + //
 						" * Widget management<br>" + //
 						" * Improve UI<br>" + //
 						" * Correction of some bugs<br>" + //
-						"<br><br><b>v1.0</b><br>" + //
+						"<br><br><b>v1.0.0</b><br>" + //
 						"<br>" + //
 						" * Search theaters according to position and show movie list and showtimes corresponding<br>" + //
 						" * You can call theaters<br>" + //

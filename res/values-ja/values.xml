@@ -1,0 +1,68 @@
+﻿<resources>
+	<string-array name="measure">
+		<item>km</item>
+		<item>マイル</item>
+	</string-array>
+	<string-array name="measure_code">
+		<item>Km</item>
+		<item>ml</item>
+	</string-array>
+	<string-array name="mode_localisation">
+		<item>GPS</item>
+		<item>GSM</item>
+		<item>Wifi</item>
+		<item>IP</item>
+		<item>XPS</item>
+	</string-array>
+	<string-array name="mode_localisation_code">
+		<item>GPS</item>
+		<item>GSM</item>
+		<item>WIFI</item>
+		<item>IP</item>
+		<item>XPS</item>
+	</string-array>
+	<string-array name="time_adds">
+		<item>5分</item>
+		<item>10分</item>
+		<item>15分</item>
+		<item>20分</item>
+		<item>25分</item>
+		<item>30分</item>
+		<item>35分</item>
+		<item>40分</item>
+	</string-array>
+	<string-array name="time_adds_code">
+		<item>5</item>
+		<item>10</item>
+		<item>15</item>
+		<item>20</item>
+		<item>25</item>
+		<item>30</item>
+		<item>35</item>
+		<item>40</item>
+	</string-array>
+	<string-array name="sort_theaters_values">
+		<item>映画館名から</item>
+		<item>映画館からの距離から</item>
+		<item>一番待ち時間が短い上映時間から</item>
+		<!-- <item>映画のタイトルから</item>-->
+		<!-- <item>ユーザーの設定から(時間がかかります)</item>-->
+	</string-array>
+	<string-array name="sort_movies_values">
+		<item>映画館の名前から</item>
+		<item>映画館からの距離から</item>
+		<item>一番待ち時間が短い上映時間から</item>
+	</string-array>
+	<string-array name="sort_theaters_values_code">
+		<item>THEATER_NAME</item>
+		<item>THEATER_DISTANCE</item>
+		<item>SHOWTIME_HOUR</item>
+		<!--<item>MOVIE_NAME</item>-->
+		<!--<item>USER_PREFERENCE</item>-->
+	</string-array>
+	<string-array name="sort_movies_values_code">
+		<item>THEATER_NAME</item>
+		<item>THEATER_DISTANCE</item>
+		<item>SHOWTIME_HOUR</item>
+	</string-array>
+</resources>

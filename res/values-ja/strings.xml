@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Commons -->
+	<string name="menuPreferences">設定 </string>
+	<string name="menuAbout">CineshowTimeについて </string>
+	<string name="menuHelp">ヘルプ </string>
+	<string name="openYoutubeMenuItem">映画予告を探す </string>
+	<string name="openMapsMenuItem">映画館の場所を地図で確認 </string>
+	<string name="openMapsDriveMenuItem">映画館へのルートガイド</string>
+	<string name="search">検索</string>
+	<string name="cityName">市・町名 :</string>
+	<string name="movieName">映画のタイトル :</string>
+	<string name="btnChkLocation">市・町名で絞り込む : </string>
+	<string name="spinnerToday">本日</string>
+	<string name="spinnerMonday">月曜日</string>
+	<string name="spinnerTuesday">火曜日</string>
+	<string name="spinnerWenesday">水曜日</string>
+	<string name="spinnerThursday">木曜日</string>
+	<string name="spinnerFriday">金曜日</string>
+	<string name="spinnerSaturday">土曜日</string>
+	<string name="spinnerSunday">日曜日</string>
+	<string name="spinnerChoseTitle">曜日を選択してください</string>
+	<string name="menuSort">検索結果の絞り込み</string>
+	<string name="sortDialogTitle">絞り込み条件を選択してください</string>
+	<string name="msgNoCityName">市・町名を入力してから、検索ボタンを押してください。</string>
+	<string name="msgNoGps">該当するデーターがみつかりませんでした。市・町名名を変更するか、しばらくしてから再度検索してください。</string>
+	<string name="msgNoMovieName">映画のタイトルを入力してから、検索ボタンを押しください。</string>
+	<string name="msgNoPlaceMatch">該当する映画は見つかりませんでした。違う市・町名で再検索してください。</string>
+	<string name="msgNoDateMatch">該当する映画は見つかりませんでした。違う曜日で再検索してください。</string>
+	<string name="msgNoUpComming">この情報はまだ公開されていません。 翌日、再アクセスしてください。</string>
+	<string name="msgNoDFav">お気に入りは登録されていません。</string>
+	<string name="msgVersionTitle">CineShowTime バージョン :　</string>
+	<string name="msgVersionCode">コードバージョン : </string>
+	<string name="msgVersionName">バージョン名: </string>
+	<string name="msgTraductorName">ジョン・フランソワ・ガロにより翻訳</string>
+	<string name="msgDonation">寄付のために、当サイト（http://code.google.com/p/binomed-project/）へのアクセスありがとうございます。</string>
+	<string name="msgSpeecRecognition">音声認識:</string>
+	<string name="msgSpeecCity">音声認識: 市・町検索</string>
+	<string name="msgSpeecMovie">音声認識: 映画検索</string>
+	<string name="msgCalculating">もうしばらくお待ちください...</string>
+	<string name="msgNoResultRetryLater">サーバーエラーのため、上映中の映画検索に失敗しました。もう一度検索し直してください。</string>
+	<string name="btnClose">閉じる</string>
+	<!--  Widget -->
+	<string name="widget_name_2x2">CineShowTime 2x2</string>
+	<string name="widget_name_2x2_cupcake">CineShowTime 2x2 Cupcake</string>
+	<string name="msgNoResults">該当する映画はみつかりませんでした。</string>
+	<string name="msgLoading">しばらくお待ちください...。</string>
+	<!--  Main acitivity -->
+	<string name="MainTitle">CineShowTimeアプリケーションにようこそ</string>
+	<string name="app_name">CineShowTime</string>
+	<string name="btnNear">映画館検索</string>
+	<string name="btnMovie">映画と上映情報を検索</string>
+	<string name="btnFav">お気に入り</string>
+	<string name="btnUpComming">次回上映映画</string>
+	<!-- GPS Messages -->
+	<string name="gpsInactiveTitle">GPS 機能が作動していません!</string>
+	<string name="gpsInactiveMsg">GPSを起動しますか。 </string>
+	<string name="gpsInactiveBtnYes">はい </string>
+	<string name="gpsInactiveBtnNo">いいえ </string>
+	<!-- Search Near Activity Message -->
+	<string name="hour">時</string>
+	<string name="min">分</string>
+	<string name="menuCall">映画館に電話する </string>
+	<string name="menuFav">お気に入り</string>
+	<string name="menuLastShowtime">最終上映</string>
+	<string name="flagLastShowtime">最終上映</string>
+	<string name="addFav">お気に入りに追加 </string>
+	<string name="searchNearProgressTitle">上映情報検索 </string>
+	<string name="searchNearProgressMsg">しばらくお待ちください... </string>
+	<string name="itemMoreTheaters">その他の映画館 </string>
+	<!-- Search Movie Activity Message -->
+	<string name="searchMovieProgressTitle">上映情報検索 </string>
+	<string name="searchMovieProgressMsg">しばらくお待ちください... </string>
+	<string name="txtMovieFind">映画 : </string>
+	<string name="txtMovieFindDuration">上映時間 : </string>
+	<string name="txtMovieFindValueNotFound">該当条件に該当する映画は見つかりませんでした。</string>
+	<!-- LastChange Dialog Message -->
+	<string name="dialogLastChangeTitle">最新変更</string>
+	<!-- Bookmarks Dialog Message -->
+	<string name="dialogBookmarkTitle">お気に入り </string>
+	<string name="menuRemoveBookmark">お気に入りを削除</string>
+	<!-- Last Showtime Dialog Message -->
+	<string name="dialogLastShowtimeTitle">最終上映映画</string>
+	<string name="dialogLastShowtimeMsg">来週公開の映画情報は検索できませんが、検索を続けますか。 \n この機能は開発中ですので、きちんと作動しないことがあります。</string>
+	<string name="dialogLastShowtimeBtnYes">はい</string>
+	<string name="dialogLastShowtimeBtnNon">いいえ</string>
+	<!-- Movie Activity Message -->
+	<string name="movieProgressTitle">映画情報検索 </string>
+	<string name="movieProgressMsg">しばらくお待ちください... </string>
+	<string name="plot">ストーリー</string>
+	<string name="projectionList">映画館での上映 : </string>
+	<string name="projectionTime">上映開始・終了時間 : </string>
+	<string name="endHour">おおよその終了時間 : </string>
+	<string name="txtTitle">タイトル : </string>
+	<string name="txtRate">ポイント : </string>
+	<string name="txtUserRate">あなたのポイント : </string>
+	<string name="txtDuration">上映時間 : </string>
+	<string name="txtDirector">監督 : </string>
+	<string name="txtActor">俳優 : </string>
+	<string name="txtGenre">ジャンル : </string>
+	<string name="tabSummary">映画情報 </string>
+	<string name="tabProjection">上映映画リスト </string>
+	<string name="tabReviews">評価</string>
+	<string name="noSummary">該当するストーリーは見つかりませんでした。 </string>
+	<string name="btnImdb">IMDb</string>
+	<string name="menuTranslate">翻訳 </string>
+	<string name="menuSms">SMSで誘う</string>
+	<string name="menuMail">E-メールで誘う</string>
+	<string name="menuAddEvent">スケジュール帳に追加</string>
+	<string name="menuRate">映画のポイントをつける</string>
+	<string name="msgRateSave">保存されたポイント</string>
+	<string name="smsContent">">{1}、映画館「{3}」で、 私と一緒に{2}からの映画「{0}」を観に行きませんか。\n\n このSMSはCineShowTimeによって自動生成されたものです。</string>
+	<string name="mailContent">{1}　、映画館　"{3}"　で、私と一緒に、上映時間　<b>{2}</b>　の映画　<i>「{0}」</i>　を観に行きませんか。\n\n このE－メールはCineShowTimeによって自動生成されたものです。</string>
+	<string name="mailSubject">映画 {0} の誘い</string>
+	<string name="chooseIntentSms">誘いSMSを送る</string>
+	<string name="chooseIntentMail">誘いメールを送る</string>
+	<string name="msgEventAdd">スケジュール帳に追加された上映中の映画</string>
+	<!-- Rate Movie Dialog Message -->
+	<string name="dialogRateMovieTitle">映画のポイントをつける</string>
+	<string name="dialogRateMovieMsg">0～10のポイントをつけてください。</string>
+	<string name="dialogRateMovieValidate">確定</string>
+	<string name="dialogRateMovieCancel">キャンセル</string>
+	<!-- Preferences Messages -->
+	<string name="preference_lang_cat">言語設定 </string>
+	<string name="preference_lang_key_auto_translate">check_preference</string>
+	<string name="preference_lang_auto_translate">自動翻訳</string>
+	<string name="preference_lang_auto_translate_summary">映画のあらすじ自動翻訳</string>
+	<string name="preference_gen_cat">一般設定</string>
+	<string name="preference_gen_key_auto_reload">auto_reload_preference</string>
+	<string name="preference_gen_auto_reload">自動再チャージ</string>
+	<string name="preference_gen_auto_reload_summary">日付変更後、自動再チャージ</string>
+	<string name="preference_gen_key_time_adds">time_adds_preference</string>
+	<string name="preference_gen_time_adds">宣伝時間</string>
+	<string name="preference_gen_time_adds_summary">映画が始まるまでの時間(宣伝と映画予告)</string>
+	<string name="preference_gen_default_time_adds">20</string>
+	<string name="preference_loc_cat">ローカライぜーションの設定</string>
+	<string name="preference_loc_key_measure">measure_preference</string>
+	<string name="preference_loc_default_measure">Km</string>
+	<string name="preference_loc_measure">単位初期設定</string>
+	<string name="preference_loc_measure_summary">初期設定時の単位を選択してください。</string>
+	<string name="preference_loc_key_time_direction">time_direction_preference</string>
+	<string name="preference_loc_time_direction">所要時間</string>
+	<string name="preference_loc_time_direction_summary">所要時間を考慮したうえで、次回上映時間を表示しています。</string>
+	<string name="preference_loc_key_enable_localisation">enable_localisation_preference</string>
+	<string name="preference_loc_enable_localisation">ローカライぜーション有効</string>
+	<string name="preference_loc_enable_localisation_summary">稼動中のGPSかGSMを使用</string>
+	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
+	<string name="preference_loc_localisation_provider">ローカライゼーションのシステム</string>
+	<string name="preference_loc_localisation_provider_summary">ローカライゼーション(GPS, GSM, IP, XPS)のシステムを選択してください。</string>
+	<string name="preference_loc_default_localisation_provider">GPS</string>
+	<string name="preference_sort_cat">絞込み条件の設定</string>
+	<string name="preference_sort_key_sort_movie">sort_movie</string>
+	<string name="preference_sort_default_sort_movie">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_movie">初期設定による映画絞込条件</string>
+	<string name="preference_sort_sort_movie_summary">初期設定における映画検索絞込み条件を選択してください。</string>
+	<string name="preference_sort_key_sort_theater">sort_near</string>
+	<string name="preference_sort_default_sort_theater">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_theater">映画館絞込み条件の初期設定</string>
+	<string name="preference_sort_sort_theater_summary">初期設定における近場検索絞込み条件を選択してください。</string>
+	<string name="preference_user_cat">ユーザーの設定</string>
+	<string name="preference_user_agenda">スケジュール帳の選択</string>
+	<string name="preference_user_agenda_summary">上映映画を追加するためのスケジュール帳選択</string>
+	<!-- Error messages -->
+	<string name="msgErrorNoDb">データベース接続に失敗しました。SDカードをご確認ください。</string>
+	<string name="msgErrorNoNetwork">サーバーエラー。 3G あるいはWifiの接続上状況をご確認ください。</string>
+	<string name="msgErrorOnServer">サーバー接続エラが起きました。しばらく待ってから、再度お試しください。</string>
+</resources>

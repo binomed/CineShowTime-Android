@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: C:\\tools\\projects\\Android\\AndShowtimeAndroid\\src\\com\\binomed\\showtime\\android\\aidl\\ICallbackMovie.aidl
+ * Original file: F:\\tools\\projects\\Android\\AndShowtimeAndroid\\src\\com\\binomed\\showtime\\android\\aidl\\ICallbackMovie.aidl
  */
 package com.binomed.showtime.android.aidl;
 public interface ICallbackMovie extends android.os.IInterface

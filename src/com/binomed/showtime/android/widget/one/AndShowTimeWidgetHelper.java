@@ -65,7 +65,7 @@ public class AndShowTimeWidgetHelper {
 		boolean cupcake = true;
 		RemoteViews updateViews = null;
 		updateViews = new RemoteViews(context.getPackageName(), cupcake ? R.layout.and_showtime_widget_one : R.layout.and_showtime_widget);
-		updateViews.setTextViewText(cupcake ? R.id.widget_theater_title_one : R.id.widget_theater_title, (theater != null) ? theater.getTheaterName() : ""); //$NON-NLS-1$
+		updateViews.setTextViewText(cupcake ? R.id.widget_one_theater_title : R.id.widget_theater_title, (theater != null) ? theater.getTheaterName() : ""); //$NON-NLS-1$
 
 		HashMap<String, ProjectionBean> showTimeMap = new HashMap<String, ProjectionBean>();
 		List<MovieBean> movieList = new ArrayList<MovieBean>();
@@ -97,8 +97,8 @@ public class AndShowTimeWidgetHelper {
 		}
 
 		if (movieBeanShowtimes.size() == 0) {
-			updateViews.setTextViewText(cupcake ? R.id.widget_movie_txt_1_one : R.id.widget_movie_txt_1, context.getResources().getString(((refresh) ? R.string.msgLoading : R.string.msgNoResults)));
-			updateViews.setTextViewText(cupcake ? R.id.widget_movie_hour_1_one : R.id.widget_movie_hour_1, ""); //$NON-NLS-1$
+			updateViews.setTextViewText(cupcake ? R.id.widget_one_movie_txt_1 : R.id.widget_movie_txt_1, context.getResources().getString(((refresh) ? R.string.msgLoading : R.string.msgNoResults)));
+			updateViews.setTextViewText(cupcake ? R.id.widget_one_movie_hour_1 : R.id.widget_movie_hour_1, ""); //$NON-NLS-1$
 		} else {
 			for (Entry<MovieBean, ProjectionBean> movieShowTime : movieBeanShowtimes.entrySet()) {
 				movieBean = movieShowTime.getKey();
@@ -116,9 +116,9 @@ public class AndShowTimeWidgetHelper {
 				start = size - 1;
 			}
 			movieBean = movieList.get(start % size);
-			updateViews.setTextViewText(cupcake ? R.id.widget_movie_txt_1_one : R.id.widget_movie_txt_1, movieBean.getMovieName());
+			updateViews.setTextViewText(cupcake ? R.id.widget_one_movie_txt_1 : R.id.widget_movie_txt_1, movieBean.getMovieName());
 			ProjectionBean projectionTime = showTimeMap.get(movieBean.getId());
-			updateViews.setTextViewText(cupcake ? R.id.widget_movie_hour_1_one : R.id.widget_movie_hour_1, ((projectionTime.getLang() != null) ? projectionTime.getLang() + " " : "") + AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime()));
+			updateViews.setTextViewText(cupcake ? R.id.widget_one_movie_hour_1 : R.id.widget_movie_hour_1, ((projectionTime.getLang() != null) ? projectionTime.getLang() + " " : "") + AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime()));
 
 			Intent openMovieIntent1 = new Intent(context, AndShowTimeWidgetServiceOpenMovie1.class);
 			openMovieIntent1.putExtra(ParamIntent.MOVIE_ID, movieBean.getId());
@@ -126,7 +126,7 @@ public class AndShowTimeWidgetHelper {
 			openMovieIntent1.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, place.toString());
 			PendingIntent pendingOpenMovieIntent1 = PendingIntent.getService(context, 0 /* no requestCode */, openMovieIntent1, PendingIntent.FLAG_UPDATE_CURRENT /* no flags */);
 			// PendingIntent pendingOpenMovieIntent1 = PendingIntent.getService(context, 0 /* no requestCode */, openMovieIntent1, 0 /* no flags */);
-			updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_group_movie_1_one : R.id.widget_group_movie_1, pendingOpenMovieIntent1);
+			updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_one_group_movie_1 : R.id.widget_group_movie_1, pendingOpenMovieIntent1);
 
 			start = start % size;
 		}
@@ -145,27 +145,27 @@ public class AndShowTimeWidgetHelper {
 		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, 0);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* no requestCode */, defineIntent, 0);
-		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_one : R.id.widget, pendingIntent);
+		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_top_one : R.id.widget, pendingIntent);
 
 		Intent intentScrollLeft = new Intent(context, AndShowTimeWidgetServiceLeft.class);
 		intentScrollLeft.putExtra(ParamIntent.WIDGET_SCROLL_SENS, -1);
 		intentScrollLeft.putExtra(ParamIntent.WIDGET_START, start);
 		intentScrollLeft.putExtra(ParamIntent.WIDGET_CUPCAKE, cupcake);
 		PendingIntent pendingIntentScrollLeft = PendingIntent.getService(context, 0 /* no requestCode */, intentScrollLeft, PendingIntent.FLAG_UPDATE_CURRENT /* no flags */);
-		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_button_scroll_left_one : R.id.widget_button_scroll_left, pendingIntentScrollLeft);
+		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_one_button_scroll_left : R.id.widget_button_scroll_left, pendingIntentScrollLeft);
 
 		Intent intentScrollRight = new Intent(context, AndShowTimeWidgetServiceRight.class);
 		intentScrollRight.putExtra(ParamIntent.WIDGET_SCROLL_SENS, 1);
 		intentScrollRight.putExtra(ParamIntent.WIDGET_START, start);
 		intentScrollRight.putExtra(ParamIntent.WIDGET_CUPCAKE, cupcake);
 		PendingIntent pendingIntentScrollRight = PendingIntent.getService(context, 0 /* no requestCode */, intentScrollRight, PendingIntent.FLAG_UPDATE_CURRENT /* no flags */);
-		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_button_scroll_right_one : R.id.widget_button_scroll_right, pendingIntentScrollRight);
+		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_one_button_scroll_right : R.id.widget_button_scroll_right, pendingIntentScrollRight);
 
 		Intent intentScrollRefresh = new Intent(context, AndShowTimeWidgetServiceRefresh.class);
 		intentScrollRefresh.putExtra(ParamIntent.WIDGET_REFRESH, true);
 		intentScrollRefresh.putExtra(ParamIntent.WIDGET_CUPCAKE, cupcake);
 		PendingIntent pendingIntentScrollRefresh = PendingIntent.getService(context, 0 /* no requestCode */, intentScrollRefresh, PendingIntent.FLAG_UPDATE_CURRENT /* no flags */);
-		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_button_refresh_one : R.id.widget_button_refresh, pendingIntentScrollRefresh);
+		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_one_button_refresh : R.id.widget_button_refresh, pendingIntentScrollRefresh);
 
 		return updateViews;
 	}
