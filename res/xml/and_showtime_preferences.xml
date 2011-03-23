@@ -23,6 +23,11 @@
 	    		android:entries="@array/measure" 
 	    		android:entryValues="@array/measure_code" 
 	    		android:defaultValue="@string/preference_loc_default_measure" />
+        <CheckBoxPreference
+                android:key="@string/preference_loc_key_time_direction"
+                android:summary="@string/preference_loc_time_direction_summary" 
+                android:title="@string/preference_loc_time_direction" 
+                android:defaultValue="false"/>
 	</PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_sort_cat">
 	    <ListPreference 

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.database.SQLException;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -52,8 +53,12 @@ public class AndShowTimeSearchNearDBService extends Service {
 			newThread = true;
 
 			if (!inThread) {
-				mDbHelper = new AndShowtimeDbAdapter(this);
-				mDbHelper.open();
+				try {
+					mDbHelper = new AndShowtimeDbAdapter(this);
+					mDbHelper.open();
+				} catch (SQLException e) {
+					Log.e(TAG, "Error opening database", e);
+				}
 				Thread fillDBThread = new Thread(fillDBRunnable);
 				fillDBThread.start();
 			}
@@ -69,37 +74,39 @@ public class AndShowTimeSearchNearDBService extends Service {
 	private Runnable fillDBRunnable = new Runnable() {
 		public void run() {
 			try {
-				inThread = true;
-				do {
-					newThread = false;
-					NearResp nearResp = BeanManagerFactory.getNearResp();
-					if (nearResp != null) {
-						ArrayList<TheaterBean> copyListTheater = new ArrayList<TheaterBean>(nearResp.getTheaterList());
-						HashMap<String, MovieBean> copyMovieMap = new HashMap<String, MovieBean>(nearResp.getMapMovies());
+				if (mDbHelper.isOpen()) {
+					inThread = true;
+					do {
+						newThread = false;
+						NearResp nearResp = BeanManagerFactory.getNearResp();
+						if (nearResp != null) {
+							ArrayList<TheaterBean> copyListTheater = new ArrayList<TheaterBean>(nearResp.getTheaterList());
+							HashMap<String, MovieBean> copyMovieMap = new HashMap<String, MovieBean>(nearResp.getMapMovies());
 
-						mDbHelper.deleteTheatersShowtimeRequestAndLocation();
-						for (TheaterBean theater : copyListTheater) {
-							mDbHelper.createTheater(theater);
-							if (theater.getPlace() != null) {
-								mDbHelper.createLocation(theater.getPlace(), theater.getId());
-							}
-							for (String movieId : theater.getMovieMap().keySet()) {
-								for (Long showTime : theater.getMovieMap().get(movieId)) {
-									try {
-										mDbHelper.createShowtime(theater.getId(), movieId, showTime);
-									} catch (Exception e) {
-										Log.e(TAG, "error inserting showtime : " + theater.getTheaterName() + " movie  : " + movieId);
+							mDbHelper.deleteTheatersShowtimeRequestAndLocation();
+							for (TheaterBean theater : copyListTheater) {
+								mDbHelper.createTheater(theater);
+								if (theater.getPlace() != null) {
+									mDbHelper.createLocation(theater.getPlace(), theater.getId());
+								}
+								for (String movieId : theater.getMovieMap().keySet()) {
+									for (Long showTime : theater.getMovieMap().get(movieId)) {
+										try {
+											mDbHelper.createShowtime(theater.getId(), movieId, showTime);
+										} catch (Exception e) {
+											Log.e(TAG, "error inserting showtime : " + theater.getTheaterName() + " movie  : " + movieId);
+										}
 									}
 								}
 							}
+							for (MovieBean movie : copyMovieMap.values()) {
+								mDbHelper.createOrUpdateMovie(movie);
+							}
+							mDbHelper.deleteMovies(copyMovieMap.keySet());
 						}
-						for (MovieBean movie : copyMovieMap.values()) {
-							mDbHelper.createOrUpdateMovie(movie);
-						}
-						mDbHelper.deleteMovies(copyMovieMap.keySet());
-					}
 
-				} while (newThread);
+					} while (newThread);
+				}
 			} catch (Exception e) {
 				Log.e(TAG, "error putting data into data base", e);
 			} finally {

@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,12 +29,12 @@ import android.widget.Spinner;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 import com.binomed.showtime.android.R;
-import com.binomed.showtime.android.activity.AndShowTimePreferencesActivity;
 import com.binomed.showtime.android.adapter.view.TheaterAndMovieListAdapter;
 import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.handler.ServiceCallBackNear;
 import com.binomed.showtime.android.layout.dialogs.SortDialog;
 import com.binomed.showtime.android.layout.view.MovieView;
+import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.BeanManagerFactory;
@@ -43,18 +42,18 @@ import com.binomed.showtime.android.util.LocationUtils;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.NearResp;
 import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.cst.HttpParamsCst;
 
 public class AndShowTimeSearchNearActivity extends Activity {
 
-	private static final int MENU_PREF = Menu.FIRST;
-	private static final int MENU_FAV = Menu.FIRST + 1;
-	private static final int MENU_SORT = Menu.FIRST + 2;
-	private static final int OPEN_MAP = Menu.FIRST + 3;
-	private static final int OPEN_YOUTUBE = Menu.FIRST + 4;
-	private static final int CALL_THEATER = Menu.FIRST + 5;
-	private static final int ADD_FAV = Menu.FIRST + 6;
+	private static final int MENU_FAV = Menu.FIRST;
+	private static final int MENU_SORT = Menu.FIRST + 1;
+	private static final int OPEN_MAP = Menu.FIRST + 2;
+	private static final int OPEN_YOUTUBE = Menu.FIRST + 3;
+	private static final int CALL_THEATER = Menu.FIRST + 4;
+	private static final int ADD_FAV = Menu.FIRST + 5;
+	private static final int MENU_PREF = Menu.FIRST + 6;
 
-	private static final Integer REQUEST_PREF = 1;
 	public static final Integer ACTIVITY_OPEN_MOVIE = 0;
 
 	private static final String TAG = "NearActivity"; //$NON-NLS-1$
@@ -216,7 +215,26 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		} else {
 			NearResp nearResp = BeanManagerFactory.getNearResp();
 			if (nearResp != null) {
-				adapter = new TheaterAndMovieListAdapter(AndShowTimeSearchNearActivity.this, BeanManagerFactory.getNearResp(), comparator);// TODO gérer tri par défaut
+				List<TheaterBean> theaterList = nearResp.getTheaterList();
+				if (theaterList != null && theaterList.size() == 1) {
+					TheaterBean errorTheater = theaterList.get(0);
+					if (errorTheater.getId().equals(String.valueOf(HttpParamsCst.ERROR_WRONG_DATE))//
+							|| errorTheater.getId().equals(String.valueOf(HttpParamsCst.ERROR_WRONG_PLACE)) //
+					) {
+						switch (Integer.valueOf(errorTheater.getId())) {
+						case HttpParamsCst.ERROR_WRONG_DATE:
+							errorTheater.setTheaterName(getResources().getString(R.string.msgNoDateMatch));
+							break;
+						case HttpParamsCst.ERROR_WRONG_PLACE:
+							errorTheater.setTheaterName(getResources().getString(R.string.msgNoPlaceMatch));
+							break;
+
+						default:
+							break;
+						}
+					}
+				}
+				adapter = new TheaterAndMovieListAdapter(AndShowTimeSearchNearActivity.this, nearResp, comparator);
 				resultList.setAdapter(adapter);
 				if ((nearResp != null) && (nearResp.getCityName() != null) && (nearResp.getCityName().length() > 0)) {
 					model.setCityName(nearResp.getCityName());
@@ -278,7 +296,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		Log.i(TAG, "onCreateOptionsMenu"); //$NON-NLS-1$
 		menu.add(0, MENU_FAV, 0, R.string.menuFav).setIcon(R.drawable.ic_menu_star);
 		menu.add(0, MENU_SORT, 0, R.string.menuSort).setIcon(android.R.drawable.ic_menu_sort_by_size);
-		menu.add(0, MENU_PREF, 0, R.string.menuPreferences).setIcon(android.R.drawable.ic_menu_preferences);
+		AndShowTimeMenuUtil.createMenu(menu, MENU_PREF);
 		return true;
 	}
 
@@ -290,14 +308,10 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		Log.i(TAG, "onMenuItemSelected"); //$NON-NLS-1$
-		switch (item.getItemId()) {
-		case MENU_PREF: {
-			Intent launchPreferencesIntent = new Intent().setClass(this, AndShowTimePreferencesActivity.class);
-
-			// Make it a subactivity so we know when it returns
-			startActivityForResult(launchPreferencesIntent, REQUEST_PREF);
+		if (AndShowTimeMenuUtil.onMenuItemSelect(this, MENU_PREF, item.getItemId())) {
 			return true;
 		}
+		switch (item.getItemId()) {
 		case MENU_FAV: {
 			List<TheaterBean> theaterList = controler.getFavTheater();
 			if (!theaterList.isEmpty()) {
@@ -340,21 +354,27 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		Log.i(TAG, "onCreateContextMenu"); //$NON-NLS-1$
 		ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
 		View targetView = info.targetView;
+		boolean isMovieView = (MovieView.class == targetView.getClass());
 		int groupId = Long.valueOf(info.id).intValue();
-		int itemId = (MovieView.class == targetView.getClass()) ? OPEN_YOUTUBE : OPEN_MAP;
-		int menuStr = (MovieView.class == targetView.getClass()) ? R.string.openYoutubeMenuItem : R.string.openMapsMenuItem;
-		int icon = (MovieView.class == targetView.getClass()) ? R.drawable.ic_menu_play_clip : android.R.drawable.ic_dialog_map;
-		menu.add(groupId, itemId, 0, menuStr).setIcon(icon);
-		if (OPEN_MAP == itemId) {
+		if (!isMovieView) {
 			Object selectItem = resultList.getItemAtPosition(groupId);
-			if ((selectItem.getClass() == TheaterBean.class) // 
-					&& (((TheaterBean) selectItem).getPhoneNumber() != null) //  
-					&& (((TheaterBean) selectItem).getPhoneNumber().length() != 0) //  
-			) {
-				menu.add(groupId, CALL_THEATER, 0, R.string.menuCall).setIcon(android.R.drawable.ic_menu_call);
+			if (((TheaterBean) selectItem).getId().equals(String.valueOf(HttpParamsCst.ERROR_WRONG_DATE)) //
+					|| ((TheaterBean) selectItem).getId().equals(String.valueOf(HttpParamsCst.ERROR_WRONG_PLACE))) {
+				return;
+			} else {
+				if ((selectItem.getClass() == TheaterBean.class) // 
+						&& (((TheaterBean) selectItem).getPhoneNumber() != null) //  
+						&& (((TheaterBean) selectItem).getPhoneNumber().length() != 0) //  
+				) {
+					menu.add(groupId, CALL_THEATER, 0, R.string.menuCall).setIcon(android.R.drawable.ic_menu_call);
+				}
+				menu.add(groupId, ADD_FAV, 0, R.string.addFav).setIcon(R.drawable.ic_menu_star);
 			}
-			menu.add(groupId, ADD_FAV, 0, R.string.addFav).setIcon(R.drawable.ic_menu_star);
 		}
+		int itemId = isMovieView ? OPEN_YOUTUBE : OPEN_MAP;
+		int menuStr = isMovieView ? R.string.openYoutubeMenuItem : R.string.openMapsMenuItem;
+		int icon = isMovieView ? R.drawable.ic_menu_play_clip : android.R.drawable.ic_dialog_map;
+		menu.add(groupId, itemId, 0, menuStr).setIcon(icon);
 	}
 
 	/*

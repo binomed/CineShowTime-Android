@@ -74,4 +74,10 @@ public class IntentShowtime {
 		return myIntent;
 	}
 
+	public static Intent createHelpAndShowTime() {
+		StringBuilder imdbUriStr = new StringBuilder("http://code.google.com/p/binomed-android-project/wiki/ScreenShotAndManual"); //$NON-NLS-1$
+		Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(imdbUriStr.toString()));
+		return myIntent;
+	}
+
 }

@@ -70,8 +70,8 @@
 	<string name="menuTranslate">Traduzir </string>
 	<string name="menuSms">Convidar por sms</string>
 	<string name="menuMail">Convidar por mail</string>
-	<string name="smsContent">Queres vir comigo ver o filme ''{0}'' {1} na sessão de {2} ao cinema ''{3}'' ?\n\n sms autotico fato por AndShowtime</string>
-	<string name="mailContent">Queres vir comigo ver o filme <i>''{0}''</i> {1} na sessão de <b>{2}</b> ao cinema ''{3}'' \n\n mail automatico fato por AndShowtime</string>
+	<string name="smsContent">Queres vir comigo ver o filme "{0}" {1} na sessão de {2} ao cinema "{3}" ?\n\n sms autotico fato por AndShowtime</string>
+	<string name="mailContent">Queres vir comigo ver o filme <i>"{0}"</i> {1} na sessão de <b>{2}</b> ao cinema "{3}" \n\n mail automatico fato por AndShowtime</string>
 	<string name="mailSubject">Convido para o filme {0}</string>
 	<string name="chooseIntentSms">Enviar convido sms</string>
 	<string name="chooseIntentMail">Enviar convido mail</string>

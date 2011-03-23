@@ -5,15 +5,9 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
-
 public class AndShowTimeWidgetService extends Service {
 
 	private static final String TAG = "ServiceWidget"; //$NON-NLS-1$
-
-	private boolean inThread;
-
-	private AndShowtimeDbAdapter mDbHelper;
 
 	@Override
 	public IBinder onBind(Intent arg0) {

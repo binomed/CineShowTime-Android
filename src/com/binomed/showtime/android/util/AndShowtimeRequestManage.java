@@ -24,6 +24,7 @@ import android.location.Location;
 import android.os.Environment;
 import android.util.Log;
 
+import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.parser.xml.ParserImdbResultXml;
 import com.binomed.showtime.android.parser.xml.ParserMovieResultXml;
 import com.binomed.showtime.android.parser.xml.ParserNearResultXml;
@@ -145,7 +146,7 @@ public abstract class AndShowtimeRequestManage {
 		getMethod.setURI(new URI(uri));
 		HttpResponse res = AndShowtimeFactory.getHttpClient().execute(getMethod);
 
-		// TODO à voir s'il faut pas mettre ça ailleurs
+		// TODO ï¿½ voir s'il faut pas mettre ï¿½a ailleurs
 		if (start == 0) {
 			BeanManagerFactory.cleanCentralMovieMap();
 			BeanManagerFactory.cleanCentralTheaterMap();
@@ -298,7 +299,7 @@ public abstract class AndShowtimeRequestManage {
 		getMethod.setURI(new URI(uri));
 		HttpResponse res = AndShowtimeFactory.getHttpClient().execute(getMethod);
 
-		// TODO à voir s'il faut pas mettre ça ailleurs
+		// TODO ï¿½ voir s'il faut pas mettre ï¿½a ailleurs
 		BeanManagerFactory.cleanCentralMovieMap();
 		BeanManagerFactory.cleanCentralTheaterMap();
 
@@ -391,7 +392,7 @@ public abstract class AndShowtimeRequestManage {
 		try {
 			File root = Environment.getExternalStorageDirectory();
 			if (root.canWrite()) {
-				File posterFile = new File(root, "dcim/andshowtime/" + movie.getId() + ".jpg");
+				File posterFile = new File(root, new StringBuilder(AndShowtimeCst.FOLDER_POSTER).append(movie.getId()).append(".jpg").toString());
 				posterFile.getParentFile().mkdirs();
 				if (posterFile.exists()) {
 					Log.i(TAG, "img existe");

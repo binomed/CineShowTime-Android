@@ -107,8 +107,10 @@ public class ControlerAndShowTimeWidget {
 
 	public void closeDB() {
 		try {
-			Log.i(TAG, "Close DB"); //$NON-NLS-1$
-			mDbHelper.close();
+			if (mDbHelper.isOpen()) {
+				Log.i(TAG, "Close DB"); //$NON-NLS-1$
+				mDbHelper.close();
+			}
 		} catch (Exception e) {
 			Log.e(TAG, "error onDestroy of movie Activity", e); //$NON-NLS-1$
 		}
@@ -202,13 +204,9 @@ public class ControlerAndShowTimeWidget {
 	protected void finalizeWidget() {
 		final Context context = widgetActivity;
 
-		mDbHelper.setWidgetTheater(model.getTheater());
-
-		// Push widget update to surface with newly set prefix
-		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-		//		
-		// Intent intentTest = new Intent();
-		// intentTest.putExtra("type", "Test");
+		if (mDbHelper.isOpen()) {
+			mDbHelper.setWidgetTheater(model.getTheater());
+		}
 		AndShowTimeWidgetHelper.updateWidget(context, null);
 
 		// Make sure we pass back the original appWidgetId

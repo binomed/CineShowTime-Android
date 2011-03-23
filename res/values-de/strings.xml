@@ -71,14 +71,14 @@
 	<string name="menuSms"> Durch sms einladen</string>
 	<string name="menuMail"> Durch E-mail einladen</string>
 	<string name="smsContent"> Ich schlage dich vor, mit mir den Film sehen zu
-		kommen ''{0}'' {1} an der Vorstellung {2} ins Kino ''{3}'' \n\n
+		kommen "{0}" {1} an der Vorstellung {2} ins Kino "{3}" \n\n
 		Auto-generierte sms durch AndShowtime </string>
 	<string name="mailContent">
 		Ich schlage dich vor, mit mir den Film sehen zu kommen
-		<i>''{0}''</i>
+		<i>"{0}"</i>
 		{1} an der Vorstellung von
 		<b>{2}</b>
-		ins Kino ''{3}'' \n\n Auto-generierte E-mail durch AndShowtime
+		ins Kino "{3}" \n\n Auto-generierte E-mail durch AndShowtime
 	</string>
 	<string name="mailSubject"> Einladung für den Film {0}</string>
 	<string name="chooseIntentSms">sms Einladung schicken </string>

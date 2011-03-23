@@ -33,6 +33,7 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 	private Context mainContext;
 	private Comparator<TheaterBean> comparator;
 	private boolean kmUnit;
+	private boolean distanceTime;
 	private HashMap<String, List<Entry<String, List<Long>>>> projectionsMap;
 
 	public TheaterAndMovieListAdapter(Context context, NearResp nearRespBean, Comparator<TheaterBean> comparator) {
@@ -41,6 +42,8 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		String measure = prefs.getString(context.getResources().getString(R.string.preference_loc_key_measure)//
 				, context.getResources().getString(R.string.preference_loc_default_measure));
+		distanceTime = prefs.getBoolean(context.getResources().getString(R.string.preference_loc_key_time_direction)//
+				, false);
 		kmUnit = context.getResources().getString(R.string.preference_loc_default_measure).equals(measure);
 		this.nearRespBean = nearRespBean;
 		this.comparator = comparator;
@@ -50,6 +53,25 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 		}
 		if (comparator != null) {
 			Collections.sort(theatherList, comparator);
+		}
+		if (theatherList != null) {
+			AndShowtimeDateNumberUtil.clearMaps();
+			for (TheaterBean theater : theatherList) {
+				List<Entry<String, List<Long>>> entries = projectionsMap.get(theater.getId());
+				if (entries == null) {
+					entries = new ArrayList<Entry<String, List<Long>>>(theater.getMovieMap().entrySet());
+					Collections.sort(entries, AndShowtimeFactory.getTheaterShowtimeInnerListComparator());
+					projectionsMap.put(theater.getId(), entries);
+
+					for (Entry<String, List<Long>> entryMovieIdListProjection : theater.getMovieMap().entrySet()) {
+						Long distanceTimeLong = null;
+						if (distanceTime && theater != null && theater.getPlace() != null) {
+							distanceTimeLong = theater.getPlace().getDistanceTime();
+						}
+						AndShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), context, distanceTimeLong);
+					}
+				}
+			}
 		}
 	}
 
@@ -110,6 +132,7 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 		}
 		movieView.setMovie((MovieBean) getChild(groupPosition, childPosition)//
 				, (TheaterBean) getGroup(groupPosition)//
+				, distanceTime//
 				);
 		return movieView;
 	}

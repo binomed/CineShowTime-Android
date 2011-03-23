@@ -1,15 +1,20 @@
 package com.binomed.showtime.android.movieactivity;
 
 import java.text.MessageFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -24,14 +29,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.binomed.showtime.android.R;
-import com.binomed.showtime.android.activity.AndShowTimePreferencesActivity;
 import com.binomed.showtime.android.adapter.view.ProjectionListAdapter;
 import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.handler.ServiceCallBackMovie;
+import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.AndShowtimeRequestManage;
 import com.binomed.showtime.android.util.BeanManagerFactory;
@@ -44,15 +50,14 @@ public class AndShowTimeMovieActivity extends Activity {
 
 	private static final String TAG = "MovieActivity"; //$NON-NLS-1$
 
-	private static final int MENU_PREF = Menu.FIRST;
-	private static final int MENU_OPEN_MAPS = Menu.FIRST + 1;
-	private static final int MENU_VIDEO = Menu.FIRST + 2;
-	private static final int MENU_CALL = Menu.FIRST + 3;
-	private static final int ITEM_TRANSLATE = Menu.FIRST + 4;
-	private static final int ITEM_SEND_SMS = Menu.FIRST + 5;
-	private static final int ITEM_SEND_MAIL = Menu.FIRST + 6;
-
-	private static final Integer REQUEST_PREF = 1;
+	private static final int MENU_OPEN_MAPS = Menu.FIRST;
+	private static final int MENU_VIDEO = Menu.FIRST + 1;
+	private static final int MENU_CALL = Menu.FIRST + 2;
+	private static final int ITEM_TRANSLATE = Menu.FIRST + 3;
+	private static final int ITEM_SEND_SMS = Menu.FIRST + 4;
+	private static final int ITEM_SEND_MAIL = Menu.FIRST + 5;
+	private static final int ITEM_ADD_EVENT = Menu.FIRST + 6;
+	private static final int MENU_PREF = Menu.FIRST + 7;
 
 	private TextView movieTitle;
 	private TextView movieRate;
@@ -65,7 +70,6 @@ public class AndShowTimeMovieActivity extends Activity {
 	private TextView moviePlot;
 	private TextView movieWebLinks;
 	private ListView movieProjectionTimeList;
-	// private Button btnImdb;
 
 	private ImageView sumRate1, sumRate2, sumRate3, sumRate4, sumRate5, sumRate6, sumRate7, sumRate8, sumRate9, sumRate10;
 
@@ -81,6 +85,17 @@ public class AndShowTimeMovieActivity extends Activity {
 	private ListenerMovieActivity listener;
 	private ModelMovieActivity model;
 
+	/*
+	 * attributes
+	 */
+	private long minTime;
+	private boolean distanceTime;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -142,22 +157,6 @@ public class AndShowTimeMovieActivity extends Activity {
 		moviePlot = (TextView) findViewById(R.id.moviePlot);
 		theaterTitle = (TextView) findViewById(R.id.movieTheaterTitle);
 		movieProjectionTimeList = (ListView) findViewById(R.id.movieListProjection);
-		// movieDirector = (TextView) findViewById(R.id.movieDirector);
-		// movieActor = (TextView) findViewById(R.id.movieActor);
-		// movieStyle = (TextView) findViewById(R.id.movieGenre);
-		// movieRate = (TextView) findViewById(R.id.movieRate);
-		// btnImdb = (Button) findViewById(R.id.movieBtnImdb);
-
-		// sumRate1 = (ImageView) findViewById(R.id.movieImgRate1);
-		// sumRate2 = (ImageView) findViewById(R.id.movieImgRate2);
-		// sumRate3 = (ImageView) findViewById(R.id.movieImgRate3);
-		// sumRate4 = (ImageView) findViewById(R.id.movieImgRate4);
-		// sumRate5 = (ImageView) findViewById(R.id.movieImgRate5);
-		// sumRate6 = (ImageView) findViewById(R.id.movieImgRate6);
-		// sumRate7 = (ImageView) findViewById(R.id.movieImgRate7);
-		// sumRate8 = (ImageView) findViewById(R.id.movieImgRate8);
-		// sumRate9 = (ImageView) findViewById(R.id.movieImgRate9);
-		// sumRate10 = (ImageView) findViewById(R.id.movieImgRate10);
 	}
 
 	private void initlisteners() {
@@ -259,12 +258,22 @@ public class AndShowTimeMovieActivity extends Activity {
 				.toString()));
 
 		List<Long> projectionList = null;
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		distanceTime = prefs.getBoolean(this.getResources().getString(R.string.preference_loc_key_time_direction)//
+				, false);
+		Long distanceTimeLong = null;
 		TheaterBean theater = model.getTheater();
 		if (theater != null) {
 			theaterTitle.setText(theater.getTheaterName());
 			projectionList = theater.getMovieMap().get(movie.getId());
+			if (distanceTime && theater.getPlace() != null) {
+				distanceTimeLong = theater.getPlace().getDistanceTime();
+			}
 		}
-		ProjectionListAdapter adapter = new ProjectionListAdapter(AndShowTimeMovieActivity.this, movie, projectionList);
+		ProjectionListAdapter adapter = new ProjectionListAdapter(AndShowTimeMovieActivity.this //
+				, movie //
+				, projectionList //
+				, AndShowtimeDateNumberUtil.getMinTime(projectionList, distanceTimeLong));
 		movieProjectionTimeList.setAdapter(adapter);
 	}
 
@@ -540,23 +549,19 @@ public class AndShowTimeMovieActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		menu.add(0, MENU_PREF, 0, R.string.menuPreferences).setIcon(android.R.drawable.ic_menu_preferences);
 		menu.add(0, MENU_OPEN_MAPS, 0, R.string.openMapsMenuItem).setIcon(android.R.drawable.ic_menu_mapmode);
 		menu.add(0, MENU_VIDEO, 0, R.string.openYoutubeMenuItem).setIcon(R.drawable.ic_menu_play_clip);
 		menu.add(0, MENU_CALL, 0, R.string.menuCall).setIcon(android.R.drawable.ic_menu_call);
+		AndShowTimeMenuUtil.createMenu(menu, MENU_PREF);
 		return true;
 	}
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		switch (item.getItemId()) {
-		case MENU_PREF: {
-			Intent launchPreferencesIntent = new Intent().setClass(this, AndShowTimePreferencesActivity.class);
-
-			// Make it a subactivity so we know when it returns
-			startActivityForResult(launchPreferencesIntent, REQUEST_PREF);
+		if (AndShowTimeMenuUtil.onMenuItemSelect(this, MENU_PREF, item.getItemId())) {
 			return true;
 		}
+		switch (item.getItemId()) {
 		case MENU_OPEN_MAPS: {
 			startActivity(IntentShowtime.createMapsIntent(model.getTheater()));
 			return true;
@@ -622,6 +627,43 @@ public class AndShowTimeMovieActivity extends Activity {
 			}
 			return true;
 		}
+		case ITEM_ADD_EVENT: {
+			try {
+				MovieBean movie = model.getMovie();
+				TheaterBean theater = model.getTheater();
+				long showtime = theater.getMovieMap().get(movie.getId()).get(item.getGroupId());
+
+				Uri uri = Uri.parse("content://calendar/events");
+				ContentResolver cr = getContentResolver();
+
+				Calendar timeAfter = Calendar.getInstance();
+				timeAfter.setTimeInMillis(showtime);
+				Calendar timeMovie = Calendar.getInstance();
+				timeMovie.setTimeInMillis(movie.getMovieTime());
+				timeAfter.add(Calendar.HOUR_OF_DAY, timeMovie.get(Calendar.HOUR_OF_DAY));
+				timeAfter.add(Calendar.MINUTE, timeMovie.get(Calendar.MINUTE));
+				ContentValues values = new ContentValues();
+				values.put("eventTimezone", TimeZone.getDefault().getID());
+				values.put("calendar_id", 1); // query content://calendar/calendars for more
+				values.put("title", movie.getMovieName());
+				values.put("allDay", 0);
+				values.put("dtstart", showtime); // long (start date in ms)
+				values.put("dtend", timeAfter.getTimeInMillis()); // long (end date in ms)
+				values.put("description", movie.getMovieName() + " at " + theater.getTheaterName());
+				values.put("eventLocation", (theater.getPlace() != null) ? theater.getPlace().getSearchQuery() : null);
+				values.put("transparency", 0);
+				values.put("visibility", 0);
+				values.put("hasAlarm", 0);
+
+				cr.insert(uri, values);
+
+				Toast.makeText(this, R.string.msgEventAdd, Toast.LENGTH_LONG);
+
+			} catch (Exception e) {
+				Log.e(TAG, "error while translating", e); //$NON-NLS-1$
+			}
+			return true;
+		}
 		default:
 			break;
 		}
@@ -651,11 +693,11 @@ public class AndShowTimeMovieActivity extends Activity {
 
 			TheaterBean theater = model.getTheater();
 			long showtime = theater.getMovieMap().get(movie.getId()).get(contexMenuInfo.position);
-			long minTime = AndShowtimeDateNumberUtil.getMinTime(theater.getMovieMap().get(movie.getId()));
 			if (minTime != -1 && showtime >= minTime) {
 
 				menu.add(contexMenuInfo.position, ITEM_SEND_SMS, 0, R.string.menuSms);
 				menu.add(contexMenuInfo.position, ITEM_SEND_MAIL, 0, R.string.menuMail);
+				menu.add(contexMenuInfo.position, ITEM_ADD_EVENT, 0, R.string.menuAddEvent);
 			}
 			break;
 

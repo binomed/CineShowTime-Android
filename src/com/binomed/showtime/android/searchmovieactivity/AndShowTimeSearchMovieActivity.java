@@ -6,7 +6,6 @@ import java.util.Comparator;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,12 +30,12 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 import com.binomed.showtime.android.R;
-import com.binomed.showtime.android.activity.AndShowTimePreferencesActivity;
 import com.binomed.showtime.android.adapter.view.MovieListAdapter;
 import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.handler.ServiceCallBackNear;
 import com.binomed.showtime.android.layout.dialogs.SortDialog;
 import com.binomed.showtime.android.layout.view.MovieView;
+import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.BeanManagerFactory;
@@ -48,15 +47,12 @@ import com.binomed.showtime.cst.SpecialChars;
 
 public class AndShowTimeSearchMovieActivity extends Activity {
 
-	private static final int MENU_PREF = Menu.FIRST;
-	private static final int MENU_FAV = Menu.FIRST + 1;
-	private static final int MENU_SORT = Menu.FIRST + 2;
-	private static final int OPEN_MAP = Menu.FIRST + 3;
-	private static final int OPEN_YOUTUBE = Menu.FIRST + 4;
-	private static final int CALL_THEATER = Menu.FIRST + 5;
-	private static final int ADD_FAV = Menu.FIRST + 6;
+	private static final int MENU_SORT = Menu.FIRST;
+	private static final int OPEN_MAP = Menu.FIRST + 1;
+	private static final int OPEN_YOUTUBE = Menu.FIRST + 2;
+	private static final int CALL_THEATER = Menu.FIRST + 3;
+	private static final int MENU_PREF = Menu.FIRST + 5;
 
-	private static final Integer REQUEST_PREF = 1;
 	public static final Integer ACTIVITY_OPEN_MOVIE = 0;
 
 	private static final String TAG = "SearchMovieActivity"; //$NON-NLS-1$
@@ -231,7 +227,7 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 			if (movieResp != null) {
 				MovieBean movie = movieResp.getMovie();
 				if (movie != null) {
-					adapter = new MovieListAdapter(AndShowTimeSearchMovieActivity.this, movieResp.getTheaterList(), comparator);// TODO gérer tri par défaut
+					adapter = new MovieListAdapter(AndShowTimeSearchMovieActivity.this, movieResp.getTheaterList(), comparator);
 					model.setCityName(movieResp.getCityName());
 					fieldNearName.setText(movieResp.getCityName());
 
@@ -241,7 +237,7 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 					movieFind.setText(movie.getMovieName());
 					movieFindDuration.setText(AndShowtimeDateNumberUtil.showMovieTimeLength(AndShowTimeSearchMovieActivity.this, movie));
 				} else {
-					adapter = new MovieListAdapter(AndShowTimeSearchMovieActivity.this, new ArrayList<TheaterBean>(), comparator);// TODO gérer tri par défaut
+					adapter = new MovieListAdapter(AndShowTimeSearchMovieActivity.this, new ArrayList<TheaterBean>(), comparator);
 					txtMovieFind.setText(AndShowTimeSearchMovieActivity.this.getResources().getString(R.string.txtMovieFindValueNotFound));
 					txtMovieFindDureation.setText(SpecialChars.EMPTY);
 					movieFind.setText(SpecialChars.EMPTY);
@@ -321,7 +317,6 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 		) {
 			menu.add(groupId, CALL_THEATER, 0, R.string.menuCall).setIcon(android.R.drawable.ic_menu_call);
 		}
-		menu.add(groupId, ADD_FAV, 0, R.string.addFav).setIcon(R.drawable.ic_menu_star);
 	}
 
 	/*
@@ -340,14 +335,6 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 				if (theater.getPlace() != null) {
 					startActivity(IntentShowtime.createMapsIntent(theater));
 				}
-			}
-			return true;
-		}
-		case ADD_FAV: {
-			Object selectItem = resultList.getItemAtPosition(item.getGroupId());
-			if (selectItem.getClass() == TheaterBean.class) {
-				TheaterBean theater = (TheaterBean) selectItem;
-				controler.addFavorite(theater);
 			}
 			return true;
 		}
@@ -373,21 +360,17 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		menu.add(0, MENU_PREF, 0, R.string.menuPreferences).setIcon(android.R.drawable.ic_menu_preferences);
 		menu.add(0, MENU_SORT, 0, R.string.menuSort).setIcon(android.R.drawable.ic_menu_sort_by_size);
+		AndShowTimeMenuUtil.createMenu(menu, MENU_PREF);
 		return true;
 	}
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		switch (item.getItemId()) {
-		case MENU_PREF: {
-			Intent launchPreferencesIntent = new Intent().setClass(this, AndShowTimePreferencesActivity.class);
-
-			// Make it a subactivity so we know when it returns
-			startActivityForResult(launchPreferencesIntent, REQUEST_PREF);
+		if (AndShowTimeMenuUtil.onMenuItemSelect(this, MENU_PREF, item.getItemId())) {
 			return true;
 		}
+		switch (item.getItemId()) {
 		case MENU_SORT: {
 			SortDialog dialog = new SortDialog(//
 					AndShowTimeSearchMovieActivity.this //

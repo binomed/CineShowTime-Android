@@ -8,11 +8,13 @@ import java.util.Map;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.database.SQLException;
 import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 
 import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
+import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.util.AndShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.beans.MovieBean;
 
@@ -51,8 +53,12 @@ public class AndShowCleanFileService extends Service {
 		try {
 
 			if (!inThread) {
-				mDbHelper = new AndShowtimeDbAdapter(this);
-				mDbHelper.open();
+				try {
+					mDbHelper = new AndShowtimeDbAdapter(this);
+					mDbHelper.open();
+				} catch (SQLException e) {
+					Log.e(TAG, "error opening database", e);
+				}
 				Thread fillDBThread = new Thread(fillDBRunnable);
 				fillDBThread.start();
 			}
@@ -73,10 +79,15 @@ public class AndShowCleanFileService extends Service {
 				File root = Environment.getExternalStorageDirectory();
 				Calendar lastWeek = Calendar.getInstance();
 				lastWeek.add(Calendar.WEEK_OF_MONTH, -1);
-				Map<String, MovieBean> mapMovie = new HashMap<String, MovieBean>(AndShowtimeDB2AndShowtimeBeans.extractMovies(mDbHelper));
+				Map<String, MovieBean> mapMovie = null;
+				if (mDbHelper.isOpen()) {
+					mapMovie = new HashMap<String, MovieBean>(AndShowtimeDB2AndShowtimeBeans.extractMovies(mDbHelper));
+				} else {
+					mapMovie = new HashMap<String, MovieBean>();
+				}
 				long lastWeekTimeInMillis = lastWeek.getTimeInMillis();
 				if (root.canWrite()) {
-					File posterDir = new File(root, "dcim/andshowtime/"); //$NON-NLS-1$
+					File posterDir = new File(root, AndShowtimeCst.FOLDER_POSTER);
 					// we skim throught all files in order to remove thoses who passed a week and which are not yet in data base
 					if (posterDir.exists()) {
 						String fileName = null;

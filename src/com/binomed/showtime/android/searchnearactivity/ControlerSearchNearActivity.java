@@ -17,6 +17,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.binomed.showtime.android.R;
 import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
@@ -90,12 +91,13 @@ public class ControlerSearchNearActivity {
 		int day = model.getDay();
 		int start = model.getStart();
 
-		mDbHelper.createNearRequest(cityName //
-				, (gpsLocation != null) ? gpsLocation.getLatitude() : null //
-				, (gpsLocation != null) ? gpsLocation.getLongitude() : null //
-				, theaterId//
-				);
-
+		if (mDbHelper.isOpen()) {
+			mDbHelper.createNearRequest(cityName //
+					, (gpsLocation != null) ? gpsLocation.getLatitude() : null //
+					, (gpsLocation != null) ? gpsLocation.getLongitude() : null //
+					, theaterId//
+					);
+		}
 		if ((cityName != null) && (cityName.length() > 0)) {
 			model.getRequestList().add(cityName);
 			nearActivity.fillAutoField();
@@ -136,59 +138,60 @@ public class ControlerSearchNearActivity {
 
 			getModelNearActivity();
 
-			Cursor cursorRequestHistory = mDbHelper.fetchAllNearRequest();
-			if (cursorRequestHistory.moveToFirst()) {
-				int columnIndex = 0;
-				model.getRequestList().clear();
-				do {
-					columnIndex = cursorRequestHistory.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_CITY_NAME);
-					model.getRequestList().add(cursorRequestHistory.getString(columnIndex));
-				} while (cursorRequestHistory.moveToNext());
-			}
-			cursorRequestHistory.close();
-
 			boolean rerunService = false;
-			Cursor cursorLastResult = mDbHelper.fetchLastNearRequest();
-			if (cursorLastResult.moveToFirst()) {
-				Calendar calendarLastRequest = Calendar.getInstance();
-				Calendar today = Calendar.getInstance();
-				long timeLastRequest = cursorLastResult.getLong(cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_TIME));
-				calendarLastRequest.setTimeInMillis(timeLastRequest);
-				int yearToday = today.get(Calendar.YEAR);
-				int monthToday = today.get(Calendar.MONTH);
-				int dayToday = today.get(Calendar.DAY_OF_MONTH);
-				int yearLast = calendarLastRequest.get(Calendar.YEAR);
-				int monthLast = calendarLastRequest.get(Calendar.MONTH);
-				int dayLast = calendarLastRequest.get(Calendar.DAY_OF_MONTH);
-				if ((yearToday != yearLast) //
-						|| (monthToday != monthLast) //
-						|| (dayToday != dayLast) //
-				) {//
-					Location location = new Location(SpecialChars.EMPTY);
-					int columnIndex = cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_LATITUDE);
-					location.setLatitude(cursorLastResult.getDouble(columnIndex));
-					columnIndex = cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_LONGITUDE);
-					location.setLongitude(cursorLastResult.getDouble(columnIndex));
-
-					if (model == null) {
-						getModelNearActivity();
-					}
-					model.setLocalisationSearch(location);
-
-					columnIndex = cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_CITY_NAME);
-					model.setCityName(cursorLastResult.getString(columnIndex));
-
-					rerunService = true;
-
-					boolean checkboxPreferenceAutoReload;
-					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(nearActivity.getBaseContext());
-					checkboxPreferenceAutoReload = prefs.getBoolean(nearActivity.getResources().getString(R.string.preference_gen_key_auto_reload), true);
-
-					rerunService = rerunService && checkboxPreferenceAutoReload;
+			if (mDbHelper.isOpen()) {
+				Cursor cursorRequestHistory = mDbHelper.fetchAllNearRequest();
+				if (cursorRequestHistory.moveToFirst()) {
+					int columnIndex = 0;
+					model.getRequestList().clear();
+					do {
+						columnIndex = cursorRequestHistory.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_CITY_NAME);
+						model.getRequestList().add(cursorRequestHistory.getString(columnIndex));
+					} while (cursorRequestHistory.moveToNext());
 				}
-			}
-			cursorLastResult.close();
+				cursorRequestHistory.close();
 
+				Cursor cursorLastResult = mDbHelper.fetchLastNearRequest();
+				if (cursorLastResult.moveToFirst()) {
+					Calendar calendarLastRequest = Calendar.getInstance();
+					Calendar today = Calendar.getInstance();
+					long timeLastRequest = cursorLastResult.getLong(cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_TIME));
+					calendarLastRequest.setTimeInMillis(timeLastRequest);
+					int yearToday = today.get(Calendar.YEAR);
+					int monthToday = today.get(Calendar.MONTH);
+					int dayToday = today.get(Calendar.DAY_OF_MONTH);
+					int yearLast = calendarLastRequest.get(Calendar.YEAR);
+					int monthLast = calendarLastRequest.get(Calendar.MONTH);
+					int dayLast = calendarLastRequest.get(Calendar.DAY_OF_MONTH);
+					if ((yearToday != yearLast) //
+							|| (monthToday != monthLast) //
+							|| (dayToday != dayLast) //
+					) {//
+						Location location = new Location(SpecialChars.EMPTY);
+						int columnIndex = cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_LATITUDE);
+						location.setLatitude(cursorLastResult.getDouble(columnIndex));
+						columnIndex = cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_LONGITUDE);
+						location.setLongitude(cursorLastResult.getDouble(columnIndex));
+
+						if (model == null) {
+							getModelNearActivity();
+						}
+						model.setLocalisationSearch(location);
+
+						columnIndex = cursorLastResult.getColumnIndex(AndShowtimeDbAdapter.KEY_NEAR_REQUEST_CITY_NAME);
+						model.setCityName(cursorLastResult.getString(columnIndex));
+
+						rerunService = true;
+
+						boolean checkboxPreferenceAutoReload;
+						SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(nearActivity.getBaseContext());
+						checkboxPreferenceAutoReload = prefs.getBoolean(nearActivity.getResources().getString(R.string.preference_gen_key_auto_reload), true);
+
+						rerunService = rerunService && checkboxPreferenceAutoReload;
+					}
+				}
+				cursorLastResult.close();
+			}
 			if (rerunService) {
 				try {
 					nearActivity.launchNearService();
@@ -200,13 +203,15 @@ public class ControlerSearchNearActivity {
 				NearResp nearResp = BeanManagerFactory.getNearResp();
 				if (nearResp == null) {
 					nearResp = new NearResp();
-					nearResp.setTheaterList(AndShowtimeDB2AndShowtimeBeans.extractTheaterList(mDbHelper));
-					if ((nearResp.getTheaterList() != null) && !nearResp.getTheaterList().isEmpty()) {
-						nearResp.setMapMovies(AndShowtimeDB2AndShowtimeBeans.extractMovies(mDbHelper));
-						BeanManagerFactory.setNearResp(nearResp);
-						Log.i(TAG, "Datas found"); //$NON-NLS-1$
-					} else {
-						Log.i(TAG, "No datas founds"); //$NON-NLS-1$
+					if (mDbHelper.isOpen()) {
+						nearResp.setTheaterList(AndShowtimeDB2AndShowtimeBeans.extractTheaterList(mDbHelper));
+						if ((nearResp.getTheaterList() != null) && !nearResp.getTheaterList().isEmpty()) {
+							nearResp.setMapMovies(AndShowtimeDB2AndShowtimeBeans.extractMovies(mDbHelper));
+							BeanManagerFactory.setNearResp(nearResp);
+							Log.i(TAG, "Datas found"); //$NON-NLS-1$
+						} else {
+							Log.i(TAG, "No datas founds"); //$NON-NLS-1$
+						}
 					}
 				}
 			}
@@ -217,8 +222,10 @@ public class ControlerSearchNearActivity {
 
 	public void closeDB() {
 		try {
-			Log.i(TAG, "Close DB"); //$NON-NLS-1$
-			mDbHelper.close();
+			if (mDbHelper.isOpen()) {
+				Log.i(TAG, "Close DB"); //$NON-NLS-1$
+				mDbHelper.close();
+			}
 		} catch (Exception e) {
 			Log.e(TAG, "error onDestroy of movie Activity", e); //$NON-NLS-1$
 		}
@@ -228,23 +235,24 @@ public class ControlerSearchNearActivity {
 		public void run() {
 			try {
 				NearResp nearResp = BeanManagerFactory.getNearResp();
-
-				mDbHelper.deleteTheatersShowtimeRequestAndLocation();
-				for (TheaterBean theater : nearResp.getTheaterList()) {
-					mDbHelper.createTheater(theater);
-					if (theater.getPlace() != null) {
-						mDbHelper.createLocation(theater.getPlace(), theater.getId());
-					}
-					for (String movieId : theater.getMovieMap().keySet()) {
-						for (Long showTime : theater.getMovieMap().get(movieId)) {
-							mDbHelper.createShowtime(theater.getId(), movieId, showTime);
+				if (mDbHelper.isOpen()) {
+					mDbHelper.deleteTheatersShowtimeRequestAndLocation();
+					for (TheaterBean theater : nearResp.getTheaterList()) {
+						mDbHelper.createTheater(theater);
+						if (theater.getPlace() != null) {
+							mDbHelper.createLocation(theater.getPlace(), theater.getId());
+						}
+						for (String movieId : theater.getMovieMap().keySet()) {
+							for (Long showTime : theater.getMovieMap().get(movieId)) {
+								mDbHelper.createShowtime(theater.getId(), movieId, showTime);
+							}
 						}
 					}
+					for (MovieBean movie : nearResp.getMapMovies().values()) {
+						mDbHelper.createOrUpdateMovie(movie);
+					}
+					mDbHelper.deleteMovies(nearResp.getMapMovies().keySet());
 				}
-				for (MovieBean movie : nearResp.getMapMovies().values()) {
-					mDbHelper.createOrUpdateMovie(movie);
-				}
-				mDbHelper.deleteMovies(nearResp.getMapMovies().keySet());
 			} catch (Exception e) {
 				Log.e(TAG, "error putting data into data base", e);
 			}
@@ -254,7 +262,11 @@ public class ControlerSearchNearActivity {
 
 	public void addFavorite(TheaterBean theaterBean) {
 		try {
-			mDbHelper.addTheaterToFavorites(theaterBean);
+			if (mDbHelper.isOpen()) {
+				mDbHelper.addTheaterToFavorites(theaterBean);
+			} else {
+				Toast.makeText(this.nearActivity, R.string.msgErrorNoDb, Toast.LENGTH_LONG);
+			}
 		} catch (Exception e) {
 			Log.e(TAG, "error putting data into data base", e);
 		}
@@ -263,7 +275,9 @@ public class ControlerSearchNearActivity {
 
 	public void removeFavorite(TheaterBean theaterBean) {
 		try {
-			mDbHelper.deleteFavorite(theaterBean.getId());
+			if (mDbHelper.isOpen()) {
+				mDbHelper.deleteFavorite(theaterBean.getId());
+			}
 		} catch (Exception e) {
 			Log.e(TAG, "error removing theater from fav", e);
 		}

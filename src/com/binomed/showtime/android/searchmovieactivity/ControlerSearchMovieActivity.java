@@ -3,7 +3,6 @@ package com.binomed.showtime.android.searchmovieactivity;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import android.content.ComponentName;
@@ -23,7 +22,6 @@ import com.binomed.showtime.android.aidl.IServiceSearchMovie;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.movieactivity.AndShowTimeMovieActivity;
 import com.binomed.showtime.android.util.AndShowTimeEncodingUtil;
-import com.binomed.showtime.android.util.AndShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.BeanManagerFactory;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.MovieResp;
@@ -87,12 +85,14 @@ public class ControlerSearchMovieActivity {
 		String theaterId = model.getFavTheaterId();
 		int day = model.getDay();
 
-		mDbHelper.createMovieRequest(cityName //
-				, movieName //
-				, (gpsLocation != null) ? gpsLocation.getLatitude() : null //
-				, (gpsLocation != null) ? gpsLocation.getLongitude() : null //
-				, theaterId//
-				);
+		if (mDbHelper.isOpen()) {
+			mDbHelper.createMovieRequest(cityName //
+					, movieName //
+					, (gpsLocation != null) ? gpsLocation.getLatitude() : null //
+					, (gpsLocation != null) ? gpsLocation.getLongitude() : null //
+					, theaterId//
+					);
+		}
 
 		if ((cityName != null) && (cityName.length() > 0)) {
 			model.getNearRequestList().add(cityName);
@@ -136,20 +136,21 @@ public class ControlerSearchMovieActivity {
 		try {
 			openDB();
 
-			Cursor cursorRequestHistory = mDbHelper.fetchAllMovieRequest();
-			if (cursorRequestHistory.moveToFirst()) {
-				int columnIndex = 0;
-				model.getNearRequestList().clear();
-				model.getRequestMovieList().clear();
-				do {
-					columnIndex = cursorRequestHistory.getColumnIndex(AndShowtimeDbAdapter.KEY_MOVIE_REQUEST_CITY_NAME);
-					model.getNearRequestList().add(cursorRequestHistory.getString(columnIndex));
-					columnIndex = cursorRequestHistory.getColumnIndex(AndShowtimeDbAdapter.KEY_MOVIE_REQUEST_MOVIE_NAME);
-					model.getRequestMovieList().add(cursorRequestHistory.getString(columnIndex));
-				} while (cursorRequestHistory.moveToNext());
+			if (mDbHelper.isOpen()) {
+				Cursor cursorRequestHistory = mDbHelper.fetchAllMovieRequest();
+				if (cursorRequestHistory.moveToFirst()) {
+					int columnIndex = 0;
+					model.getNearRequestList().clear();
+					model.getRequestMovieList().clear();
+					do {
+						columnIndex = cursorRequestHistory.getColumnIndex(AndShowtimeDbAdapter.KEY_MOVIE_REQUEST_CITY_NAME);
+						model.getNearRequestList().add(cursorRequestHistory.getString(columnIndex));
+						columnIndex = cursorRequestHistory.getColumnIndex(AndShowtimeDbAdapter.KEY_MOVIE_REQUEST_MOVIE_NAME);
+						model.getRequestMovieList().add(cursorRequestHistory.getString(columnIndex));
+					} while (cursorRequestHistory.moveToNext());
+				}
+				cursorRequestHistory.close();
 			}
-			cursorRequestHistory.close();
-
 		} catch (SQLException e) {
 			Log.e(TAG, "error during getting fetching informations", e); //$NON-NLS-1$
 		}
@@ -157,8 +158,10 @@ public class ControlerSearchMovieActivity {
 
 	public void closeDB() {
 		try {
-			Log.i(TAG, "Close DB"); //$NON-NLS-1$
-			mDbHelper.close();
+			if (mDbHelper.isOpen()) {
+				Log.i(TAG, "Close DB"); //$NON-NLS-1$
+				mDbHelper.close();
+			}
 		} catch (Exception e) {
 			Log.e(TAG, "error onDestroy of movie Activity", e); //$NON-NLS-1$
 		}
@@ -168,7 +171,7 @@ public class ControlerSearchMovieActivity {
 		public void run() {
 			try {
 				MovieResp movieResp = BeanManagerFactory.getMovieResp();
-				if (movieResp != null) {
+				if (movieResp != null && mDbHelper.isOpen()) {
 
 					mDbHelper.deleteTheatersShowtimeRequestAndLocation();
 					for (TheaterBean theater : movieResp.getTheaterList()) {
@@ -195,21 +198,6 @@ public class ControlerSearchMovieActivity {
 
 		}
 	};
-
-	public void addFavorite(TheaterBean theaterBean) {
-		try {
-			mDbHelper.addTheaterToFavorites(theaterBean);
-		} catch (Exception e) {
-			Log.e(TAG, "error putting data into data base", e);
-		}
-
-	}
-
-	public List<TheaterBean> getFavTheater() {
-		List<TheaterBean> theaterList = AndShowtimeDB2AndShowtimeBeans.extractFavTheaterList(mDbHelper);
-
-		return theaterList;
-	}
 
 	/*
 	 * 

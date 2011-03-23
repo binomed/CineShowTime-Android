@@ -69,13 +69,15 @@ public class ControlerMovieActivity {
 			mDbHelper.open();
 
 		} catch (SQLException e) {
-			Log.e(TAG, "error during getting fetching informations", e); //$NON-NLS-1$
+			Log.e(TAG, "error during opening data base", e); //$NON-NLS-1$
 		}
 	}
 
 	public void closeDB() {
 		try {
-			mDbHelper.close();
+			if (mDbHelper != null) {
+				mDbHelper.close();
+			}
 		} catch (Exception e) {
 			Log.e(TAG, "error onDestroy of movie Activity", e);
 		}
@@ -90,8 +92,10 @@ public class ControlerMovieActivity {
 
 	private Runnable fillDBRunnable = new Runnable() {
 		public void run() {
-			mDbHelper.createOrUpdateMovie(model.getMovie());
-			closeDB();
+			if (mDbHelper.isOpen()) {
+				mDbHelper.createOrUpdateMovie(model.getMovie());
+				closeDB();
+			}
 
 		}
 	};

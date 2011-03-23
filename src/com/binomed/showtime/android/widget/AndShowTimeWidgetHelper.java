@@ -29,6 +29,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.database.SQLException;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -65,10 +66,11 @@ public class AndShowTimeWidgetHelper {
 		HashMap<String, Long> showTimeMap = new HashMap<String, Long>();
 		List<MovieBean> movieList = new ArrayList<MovieBean>();
 		MovieBean movieBean = null;
+		boolean refresh = (intent != null) ? intent.getBooleanExtra(ParamIntent.WIDGET_REFRESH, false) : false;
 		int start = 0;
 		int sens = 0;
 		if (movieBeanShowtimes.size() == 0) {
-			updateViews.setTextViewText(R.id.widget_movie_txt_1, "loading..."); //$NON-NLS-1$
+			updateViews.setTextViewText(R.id.widget_movie_txt_1, context.getResources().getString(((refresh) ? R.string.msgLoading : R.string.msgNoResults)));
 			updateViews.setTextViewText(R.id.widget_movie_hour_1, ""); //$NON-NLS-1$
 			updateViews.setTextViewText(R.id.widget_movie_txt_2, ""); //$NON-NLS-1$
 			updateViews.setTextViewText(R.id.widget_movie_hour_2, ""); //$NON-NLS-1$
@@ -99,7 +101,6 @@ public class AndShowTimeWidgetHelper {
 			openMovieIntent1.putExtra(ParamIntent.THEATER_ID, theater.getId());
 			PendingIntent pendingOpenMovieIntent1 = PendingIntent.getService(context, 0 /* no requestCode */, openMovieIntent1, PendingIntent.FLAG_UPDATE_CURRENT /* no flags */);
 			updateViews.setOnClickPendingIntent(R.id.widget_group_movie_1, pendingOpenMovieIntent1);
-
 			if (size >= 2) {
 				movieBean = movieList.get((start + 1) % size);
 				updateViews.setTextViewText(R.id.widget_movie_txt_2, movieBean.getMovieName());
@@ -162,11 +163,17 @@ public class AndShowTimeWidgetHelper {
 
 		AndShowtimeDbAdapter mdbHelper = new AndShowtimeDbAdapter(context);
 		try {
-			mdbHelper.open();
-
+			try {
+				mdbHelper.open();
+			} catch (SQLException e) {
+				Log.e(TAG, "error opening database", e);
+			}
 			Calendar dateLastSearch = Calendar.getInstance();
 
-			TheaterBean theater = AndShowtimeDB2AndShowtimeBeans.extractWidgetTheater(mdbHelper, dateLastSearch);
+			TheaterBean theater = null;
+			if (mdbHelper.isOpen()) {
+				theater = AndShowtimeDB2AndShowtimeBeans.extractWidgetTheater(mdbHelper, dateLastSearch);
+			}
 			Map<MovieBean, Long> movieShowTimeMap = new HashMap<MovieBean, Long>();
 			if (theater != null) {
 
@@ -188,11 +195,15 @@ public class AndShowTimeWidgetHelper {
 						if (nearResp != null && nearResp.getTheaterList() != null) {
 							movieBeanList = nearResp.getMapMovies();
 							MovieBean movieBean = null;
+							Long minTime = 0l;
 							for (Entry<String, List<Long>> showTime : nearResp.getTheaterList().get(0).getMovieMap().entrySet()) {
 								movieBean = movieBeanList.get(showTime.getKey());
-								movieShowTimeMap.put(movieBean, AndShowtimeDateNumberUtil.getMinTime(showTime.getValue()));
-								for (Long time : showTime.getValue()) {
-									mdbHelper.createWidgetShowtime(movieBean, time);
+								minTime = AndShowtimeDateNumberUtil.getMinTime(showTime.getValue(), null);
+								if (minTime > 0) {
+									movieShowTimeMap.put(movieBean, minTime);
+									for (Long time : showTime.getValue()) {
+										mdbHelper.createWidgetShowtime(movieBean, time);
+									}
 								}
 							}
 							mdbHelper.updateWidgetTheater();
@@ -203,8 +214,12 @@ public class AndShowTimeWidgetHelper {
 					}
 				} else {
 					Map<MovieBean, List<Long>> movieShowtimeMap = AndShowtimeDB2AndShowtimeBeans.extractWidgetShowtimes(mdbHelper);
+					Long minTime = 0l;
 					for (Entry<MovieBean, List<Long>> movieShowTime : movieShowtimeMap.entrySet()) {
-						movieShowTimeMap.put(movieShowTime.getKey(), AndShowtimeDateNumberUtil.getMinTime(movieShowTime.getValue()));
+						minTime = AndShowtimeDateNumberUtil.getMinTime(movieShowTime.getValue(), null);
+						if (minTime > 0) {
+							movieShowTimeMap.put(movieShowTime.getKey(), minTime);
+						}
 					}
 				}
 			}
@@ -215,7 +230,9 @@ public class AndShowTimeWidgetHelper {
 			AppWidgetManager manager = AppWidgetManager.getInstance(context);
 			manager.updateAppWidget(thisWidget, updateViews);
 		} finally {
-			mdbHelper.close();
+			if (mdbHelper.isOpen()) {
+				mdbHelper.close();
+			}
 		}
 	}
 

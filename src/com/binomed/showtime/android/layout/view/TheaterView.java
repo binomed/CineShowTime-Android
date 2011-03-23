@@ -1,5 +1,6 @@
 package com.binomed.showtime.android.layout.view;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ public class TheaterView extends LinearLayout {
 	private TextView movieList;
 	private TheaterBean theaterBean;
 	private boolean kmUnit;
+	private boolean distanceTime;
 
 	public TheaterBean getTheaterBean() {
 		return theaterBean;
@@ -35,6 +37,8 @@ public class TheaterView extends LinearLayout {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		String measure = prefs.getString(context.getResources().getString(R.string.preference_loc_key_measure) //
 				, context.getResources().getString(R.string.preference_loc_default_measure));
+		distanceTime = prefs.getBoolean(context.getResources().getString(R.string.preference_loc_key_time_direction) //
+				, false);
 		kmUnit = context.getResources().getString(R.string.preference_loc_default_measure).equals(measure);
 
 		theaterName = new TextView(context);
@@ -60,32 +64,43 @@ public class TheaterView extends LinearLayout {
 		Set<String> movieIdSet = theaterBean.getMovieMap().keySet();
 		List<Long> projectionList = theaterBean.getMovieMap().get(movieIdSet.toArray()[0]);
 		int passedShowtime;
-		long minTime = AndShowtimeDateNumberUtil.getMinTime(projectionList);
-		for (long projectionTime : theaterBean.getMovieMap().get(movieIdSet.toArray()[0])) {
+		Long distanceTimeLong = null;
+		if (distanceTime && theaterBean.getPlace() != null) {
+			distanceTimeLong = theaterBean.getPlace().getDistanceTime();
+		}
+		// long minTime = AndShowtimeDateNumberUtil.getMinTime(projectionList);
+		List<Long>[] orderTimeListArray = AndShowtimeDateNumberUtil.getTimeOrder(projectionList, Calendar.getInstance().getTimeInMillis(), distanceTimeLong);
+		for (long projectionTime : orderTimeListArray[0]) {
 			if (!first) {
 				movieListStr.append(" | ");
 			} else {
 				first = false;
 			}
 
-			passedShowtime = AndShowtimeDateNumberUtil.getPositionTime(projectionTime, minTime);
-			switch (passedShowtime) {
-			case 0:
-				movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
-						.append("<b>").append(AndShowtimeDateNumberUtil.showMovieTime(getContext(), projectionTime)).append("</b>") //$NON-NLS-1$//$NON-NLS-2$
-						.append("</FONT>"); //$NON-NLS-1$
-				break;
-			case 1:
-				movieListStr.append(AndShowtimeDateNumberUtil.showMovieTime(getContext(), projectionTime));
-				break;
-			case -1:
-				movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_GREY).append("\">") //$NON-NLS-1$//$NON-NLS-2$
-						.append("<i>").append(AndShowtimeDateNumberUtil.showMovieTime(getContext(), projectionTime)).append("</i>") //$NON-NLS-1$ //$NON-NLS-2$
-						.append("</FONT>"); //$NON-NLS-1$
-				break;
-			default:
-				break;
+			movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_GREY).append("\">") //$NON-NLS-1$//$NON-NLS-2$
+					.append("<i>").append(AndShowtimeDateNumberUtil.showMovieTime(getContext(), projectionTime)).append("</i>") //$NON-NLS-1$ //$NON-NLS-2$
+					.append("</FONT>"); //$NON-NLS-1$
+		}
+		for (long projectionTime : orderTimeListArray[1]) {
+			if (!first) {
+				movieListStr.append(" | ");
+			} else {
+				first = false;
 			}
+
+			movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+					.append("<b>").append(AndShowtimeDateNumberUtil.showMovieTime(getContext(), projectionTime)).append("</b>") //$NON-NLS-1$//$NON-NLS-2$
+					.append("</FONT>"); //$NON-NLS-1$
+		}
+		for (long projectionTime : orderTimeListArray[2]) {
+			if (!first) {
+				movieListStr.append(" | ");
+			} else {
+				first = false;
+			}
+
+			movieListStr.append(AndShowtimeDateNumberUtil.showMovieTime(getContext(), projectionTime));
+
 		}
 		movieListStr.append("\n");
 

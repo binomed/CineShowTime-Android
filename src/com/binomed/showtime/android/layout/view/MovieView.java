@@ -43,7 +43,7 @@ public class MovieView extends LinearLayout {
 		addView(movieList, new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 	}
 
-	public void setMovie(MovieBean movieBean, TheaterBean theaterBean) {
+	public void setMovie(MovieBean movieBean, TheaterBean theaterBean, boolean distanceTime) {
 		this.movieBean = movieBean;
 		this.theaterBean = theaterBean;
 
@@ -53,7 +53,11 @@ public class MovieView extends LinearLayout {
 				);
 
 		List<Long> projectionList = theaterBean.getMovieMap().get(movieBean.getId());
-		Spanned movieListStr = AndShowtimeDateNumberUtil.getMovieViewStr(movieBean.getId(), projectionList, getContext());
+		Long distanceTimeLong = null;
+		if (distanceTime && theaterBean != null && theaterBean.getPlace() != null) {
+			distanceTimeLong = theaterBean.getPlace().getDistanceTime();
+		}
+		Spanned movieListStr = AndShowtimeDateNumberUtil.getMovieViewStr(movieBean.getId(), theaterBean.getId(), projectionList, getContext(), distanceTimeLong);
 
 		movieList.setText(movieListStr);
 	}

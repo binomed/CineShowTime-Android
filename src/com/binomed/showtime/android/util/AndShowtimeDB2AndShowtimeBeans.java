@@ -452,6 +452,9 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 		columnIndex = locationCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_LOCALISATION_DISTANCE);
 		localisationBean.setDistance(locationCursor.getFloat(columnIndex));
 
+		columnIndex = locationCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_LOCALISATION_DISTANCE_TIME);
+		localisationBean.setDistanceTime(locationCursor.getLong(columnIndex));
+
 		columnIndex = locationCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_LOCALISATION_LATITUDE);
 		localisationBean.setLatitude(locationCursor.getDouble(columnIndex));
 

@@ -238,17 +238,17 @@ public abstract class AndShowtimeDateNumberUtil {
 		return result;
 	}
 
-	public static long getMinTime(List<Long> timeList) {
-		long currentTime = Calendar.getInstance().getTimeInMillis();
+	public static long getMinTime(List<Long> timeList, Long distanceTime) {
+		long currentTime = Calendar.getInstance().getTimeInMillis() + ((distanceTime != null) ? distanceTime : 0);
 
 		long minDiff0 = -1;
 		long minDiffTemp = 0;
 		long minTime = -1;
 
-		Calendar cal = Calendar.getInstance();
+		// Calendar cal = Calendar.getInstance();
 		if (timeList != null) {
 			for (Long timeTmp : timeList) {
-				cal.setTimeInMillis(timeTmp);
+				// cal.setTimeInMillis(timeTmp);
 				minDiffTemp = (timeTmp - currentTime);
 				if ((minDiffTemp < (minDiff0) || (minDiff0 == -1)) && (minDiffTemp > 0)) {
 					minDiff0 = minDiffTemp;
@@ -260,15 +260,51 @@ public abstract class AndShowtimeDateNumberUtil {
 		return minTime;
 	}
 
-	public static Spanned getMovieViewStr(String movieId, List<Long> projectionList, Context context) {
+	public static List<Long>[] getTimeOrder(List<Long> timeList, long currentTime, Long distanceTime) {
+
+		long curTime = currentTime + ((distanceTime != null) ? distanceTime : 0);
+		ArrayList<Long> beforeList = new ArrayList<Long>();
+		ArrayList<Long> minList = new ArrayList<Long>();
+		ArrayList<Long> afterList = new ArrayList<Long>();
+		ArrayList<Long>[] timeOrderArray = (ArrayList<Long>[]) new ArrayList[] { beforeList, minList, afterList };
+
+		long minDiff0 = -1;
+		long minDiffTemp = 0;
+		long minTime = -1;
+
+		// Calendar cal = Calendar.getInstance();
+		if (timeList != null) {
+			for (Long timeTmp : timeList) {
+				// cal.setTimeInMillis(timeTmp);
+				minDiffTemp = (timeTmp - curTime);
+				if ((minDiffTemp < (minDiff0) || (minDiff0 == -1)) && (minDiffTemp > 0)) {
+					minDiff0 = minDiffTemp;
+					minTime = timeTmp;
+					if (minList.size() > 0) {
+						beforeList.add(minList.remove(0));
+					}
+					minList.add(minTime);
+				} else if (minDiffTemp < 0) {
+					beforeList.add(timeTmp);
+				} else if (minDiffTemp > 0) {
+					afterList.add(timeTmp);
+
+				}
+			}
+		}
+
+		return timeOrderArray;
+	}
+
+	public static Spanned getMovieViewStr(String movieId, String theaterId, List<Long> projectionList, Context context, Long distanceTime) {
 		Spanned spanned = null;
 		Long curTime = Calendar.getInstance().getTimeInMillis();
 
 		synchronized (mapMovieStr) {
-			spanned = mapMovieStr.get(movieId);
+			spanned = mapMovieStr.get(movieId + theaterId);
 			if (spanned != null) {
-				Long pastTime = mapMovieTime.get(movieId);
-				if ((curTime - pastTime) > 3600000) {
+				Long pastTime = mapMovieTime.get(movieId + theaterId);
+				if ((curTime - pastTime) > 600000) {
 					spanned = null;
 				}
 			}
@@ -278,43 +314,51 @@ public abstract class AndShowtimeDateNumberUtil {
 			StringBuilder movieListStr = null;
 			movieListStr = new StringBuilder();
 			boolean first = true;
-			int passedShowtime;
-			long minTime = AndShowtimeDateNumberUtil.getMinTime(projectionList);
-			for (long projectionTime : projectionList) {
+			List<Long>[] orderTimeListArray = AndShowtimeDateNumberUtil.getTimeOrder(projectionList, curTime, distanceTime);
+
+			for (long projectionTime : orderTimeListArray[0]) {
 				if (!first) {
 					movieListStr.append(" | ");
 				} else {
 					first = false;
 				}
-				passedShowtime = AndShowtimeDateNumberUtil.getPositionTime(projectionTime, minTime);
-				switch (passedShowtime) {
-				case 0:
-					movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
-							.append("<b>").append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime)).append("</b>") //$NON-NLS-1$//$NON-NLS-2$
-							.append("</FONT>"); //$NON-NLS-1$
-					break;
-				case 1:
-					movieListStr.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime));
-					break;
-				case -1:
-					movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_GREY).append("\">") //$NON-NLS-1$//$NON-NLS-2$
-							.append("<i>").append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime)).append("</i>") //$NON-NLS-1$ //$NON-NLS-2$
-							.append("</FONT>"); //$NON-NLS-1$
-					break;
-				default:
-					break;
+				movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_GREY).append("\">") //$NON-NLS-1$//$NON-NLS-2$
+						.append("<i>").append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime)).append("</i>") //$NON-NLS-1$ //$NON-NLS-2$
+						.append("</FONT>"); //$NON-NLS-1$
+			}
+			for (long projectionTime : orderTimeListArray[1]) {
+				if (!first) {
+					movieListStr.append(" | ");
+				} else {
+					first = false;
 				}
+				movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+						.append("<b>").append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime)).append("</b>") //$NON-NLS-1$//$NON-NLS-2$
+						.append("</FONT>"); //$NON-NLS-1$
+			}
+			for (long projectionTime : orderTimeListArray[2]) {
+				if (!first) {
+					movieListStr.append(" | ");
+				} else {
+					first = false;
+				}
+				movieListStr.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime));
 			}
 			movieListStr.append("\n");
 			spanned = Html.fromHtml(movieListStr.toString());
 
 			synchronized (mapMovieStr) {
-				mapMovieStr.put(movieId, spanned);
-				mapMovieTime.put(movieId, curTime);
+				mapMovieStr.put(movieId + theaterId, spanned);
+				mapMovieTime.put(movieId + theaterId, curTime);
 			}
 		}
 
 		return spanned;
+	}
+
+	public static synchronized void clearMaps() {
+		mapMovieStr.clear();
+		mapMovieTime.clear();
 	}
 
 }

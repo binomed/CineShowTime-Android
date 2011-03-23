@@ -143,6 +143,13 @@ public class ParserNearResultXml implements ContentHandler {
 				} catch (NumberFormatException e) {
 				}
 			}
+			String distanceTime = atts.getValue(XmlGramarNearResult.ATTR_DISTANCE_TIME);
+			if (distanceTime != null) {
+				try {
+					localisationBean.setDistanceTime(Long.valueOf(distanceTime));
+				} catch (NumberFormatException e) {
+				}
+			}
 			String latitude = atts.getValue(XmlGramarNearResult.ATTR_LATITUDE);
 			if (latitude != null) {
 				try {

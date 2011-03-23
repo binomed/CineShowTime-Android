@@ -133,6 +133,13 @@ public class ParserMovieResultXml implements ContentHandler {
 				} catch (NumberFormatException e) {
 				}
 			}
+			String distanceTime = atts.getValue(XmlGramarMovieResult.ATTR_DISTANCE_TIME);
+			if (distanceTime != null) {
+				try {
+					localisationBean.setDistanceTime(Long.valueOf(distanceTime));
+				} catch (NumberFormatException e) {
+				}
+			}
 			String latitude = atts.getValue(XmlGramarMovieResult.ATTR_LATITUDE);
 			if (latitude != null) {
 				try {

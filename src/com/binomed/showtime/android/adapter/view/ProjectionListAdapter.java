@@ -32,14 +32,14 @@ public class ProjectionListAdapter extends BaseAdapter {
 	private HashMap<Integer, Long> mapMovieTime;
 	private HashMap<Integer, StringBuilder> mapMovieStr;
 
-	public ProjectionListAdapter(Context context, MovieBean movieBean, List<Long> projectionList) {
+	public ProjectionListAdapter(Context context, MovieBean movieBean, List<Long> projectionList, Long minTime) {
 		super();
 		timeInMillis = Calendar.getInstance();
 		movieTime = Calendar.getInstance();
 		mainContext = context;
 		this.movieBean = movieBean;
 		this.projectionList = projectionList;
-		minTime = AndShowtimeDateNumberUtil.getMinTime(projectionList);
+		this.minTime = minTime;
 		mapMovieTime = new HashMap<Integer, Long>();
 		mapMovieStr = new HashMap<Integer, StringBuilder>();
 	}

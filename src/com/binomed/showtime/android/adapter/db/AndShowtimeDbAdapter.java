@@ -65,6 +65,7 @@ public class AndShowtimeDbAdapter {
 	public static final String KEY_LOCALISATION_COUNTRY_NAME = "country_name"; //$NON-NLS-1$
 	public static final String KEY_LOCALISATION_COUNTRY_CODE = "country_code"; //$NON-NLS-1$
 	public static final String KEY_LOCALISATION_DISTANCE = "distance"; //$NON-NLS-1$
+	public static final String KEY_LOCALISATION_DISTANCE_TIME = "distance_time"; //$NON-NLS-1$
 	public static final String KEY_LOCALISATION_LATITUDE = "latitude"; //$NON-NLS-1$
 	public static final String KEY_LOCALISATION_LONGITUDE = "longitude"; //$NON-NLS-1$
 	public static final String KEY_LOCALISATION_POSTAL_CODE = "postal_code"; //$NON-NLS-1$
@@ -128,7 +129,7 @@ public class AndShowtimeDbAdapter {
 	private static final String DATABASE_MOVIE_REQUEST_TABLE = "movie_request"; //$NON-NLS-1$
 	private static final String DATABASE_WIDGET_TABLE = "widget"; //$NON-NLS-1$
 	private static final String DATABASE_WIDGET_MOVIE_TABLE = "widget_movie"; //$NON-NLS-1$
-	private static final int DATABASE_VERSION = 17;
+	private static final int DATABASE_VERSION = 18;
 	/**
 	 * Database creation sql statement
 	 */
@@ -178,6 +179,7 @@ public class AndShowtimeDbAdapter {
 			+ ", " + KEY_LOCALISATION_COUNTRY_CODE + " text " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_LOCALISATION_POSTAL_CODE + " text " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_LOCALISATION_DISTANCE + " float " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_LOCALISATION_DISTANCE_TIME + " long " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_LOCALISATION_LATITUDE + " double " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_LOCALISATION_LONGITUDE + " double " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_LOCALISATION_SEARCH_QUERY + " text " //$NON-NLS-1$ //$NON-NLS-2$
@@ -268,6 +270,10 @@ public class AndShowtimeDbAdapter {
 				db.execSQL(DROP_WIDGET_MOVIE_TABLE);
 				db.execSQL(DATABASE_CREATE_WIDGET_TABLE);
 				db.execSQL(DATABASE_CREATE_WIDGET_MOVIE_TABLE);
+			}
+			if (oldVersion < 18) {
+				db.execSQL(DROP_LOCATION_TABLE);
+				db.execSQL(DATABASE_CREATE_LOCATION_TABLE);
 			}
 
 		}
@@ -494,6 +500,7 @@ public class AndShowtimeDbAdapter {
 		initialValues.put(KEY_LOCALISATION_COUNTRY_CODE, location.getCountryNameCode());
 		initialValues.put(KEY_LOCALISATION_POSTAL_CODE, location.getPostalCityNumber());
 		initialValues.put(KEY_LOCALISATION_DISTANCE, location.getDistance());
+		initialValues.put(KEY_LOCALISATION_DISTANCE_TIME, location.getDistanceTime());
 		initialValues.put(KEY_LOCALISATION_LATITUDE, location.getLatitude());
 		initialValues.put(KEY_LOCALISATION_LONGITUDE, location.getLongitude());
 		initialValues.put(KEY_LOCALISATION_SEARCH_QUERY, location.getSearchQuery());
@@ -859,6 +866,7 @@ public class AndShowtimeDbAdapter {
 						, KEY_LOCALISATION_COUNTRY_CODE //
 						, KEY_LOCALISATION_POSTAL_CODE //
 						, KEY_LOCALISATION_DISTANCE //
+						, KEY_LOCALISATION_DISTANCE_TIME //
 						, KEY_LOCALISATION_LATITUDE //
 						, KEY_LOCALISATION_LONGITUDE //
 						, KEY_LOCALISATION_SEARCH_QUERY //

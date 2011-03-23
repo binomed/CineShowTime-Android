@@ -17,6 +17,7 @@ import com.binomed.showtime.android.R;
 import com.binomed.showtime.android.searchmovieactivity.AndShowTimeSearchMovieActivity;
 import com.binomed.showtime.android.searchnearactivity.AndShowTimeSearchNearActivity;
 import com.binomed.showtime.android.service.AndShowCleanFileService;
+import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.BeanManagerFactory;
 import com.binomed.showtime.android.util.LocationUtils;
@@ -26,6 +27,8 @@ public class AndShowTimeMainActivity extends Activity {
 	private static final Integer ACTIVITY_NEAR = 0;
 	private static final Integer ACTIVITY_MOVIE = 1;
 	private static final int MENU_PREF = Menu.FIRST;
+	private static final int MENU_ABOUT = Menu.FIRST + 1;
+	private static final int MENU_HELP = Menu.FIRST + 2;
 
 	private static final Integer REQUEST_PREF = 1;
 
@@ -85,20 +88,14 @@ public class AndShowTimeMainActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		menu.add(0, MENU_PREF, 0, R.string.menuPreferences).setIcon(android.R.drawable.ic_menu_preferences);
+		AndShowTimeMenuUtil.createMenu(menu, MENU_PREF);
 		return true;
 	}
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		switch (item.getItemId()) {
-		case MENU_PREF: {
-			Intent launchPreferencesIntent = new Intent().setClass(this, AndShowTimePreferencesActivity.class);
-
-			// Make it a subactivity so we know when it returns
-			startActivityForResult(launchPreferencesIntent, REQUEST_PREF);
+		if (AndShowTimeMenuUtil.onMenuItemSelect(this, MENU_PREF, item.getItemId())) {
 			return true;
-		}
 		}
 
 		return super.onMenuItemSelected(featureId, item);

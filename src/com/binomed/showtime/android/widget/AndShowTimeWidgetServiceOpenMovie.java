@@ -5,6 +5,7 @@ import java.util.Calendar;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.database.SQLException;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -47,19 +48,29 @@ public class AndShowTimeWidgetServiceOpenMovie extends Service {
 		super.onStart(intent, startId);
 		mDbHelper = new AndShowtimeDbAdapter(this);
 		try {
-			mDbHelper.open();
+			try {
+
+				mDbHelper.open();
+			} catch (SQLException e) {
+				Log.e(TAG, "error opening database", e);
+			}
 			Intent intentStartMovieActivity = new Intent(this, AndShowTimeMovieActivity.class);
 			String movieId = intent.getStringExtra(ParamIntent.MOVIE_ID);
 			String theaterId = intent.getStringExtra(ParamIntent.THEATER_ID);
 
 			TheaterBean theaterBean = BeanManagerFactory.getTheaterForId(theaterId);
-			if (theaterBean == null) {
+			if (theaterBean == null && mDbHelper.isOpen()) {
 				theaterBean = AndShowtimeDB2AndShowtimeBeans.extractWidgetTheater(mDbHelper, Calendar.getInstance());
 			}
-			BeanManagerFactory.putTheater(theaterBean);
+			if (theaterBean != null) {
+				BeanManagerFactory.putTheater(theaterBean);
+			}
 
-			MovieBean movie = AndShowtimeDB2AndShowtimeBeans.extractWidgetMovie(mDbHelper, movieId, theaterBean);
-			BeanManagerFactory.putMovie(movie);
+			MovieBean movie = null;
+			if (mDbHelper.isOpen()) {
+				movie = AndShowtimeDB2AndShowtimeBeans.extractWidgetMovie(mDbHelper, movieId, theaterBean);
+				BeanManagerFactory.putMovie(movie);
+			}
 			intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movieId);
 			intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theaterId);
 			intentStartMovieActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -68,7 +79,7 @@ public class AndShowTimeWidgetServiceOpenMovie extends Service {
 		} catch (Exception e) {
 			Log.e(TAG, "error launching activity movie", e);
 		} finally {
-			if (mDbHelper != null) {
+			if (mDbHelper != null && mDbHelper.isOpen()) {
 				mDbHelper.close();
 			}
 		}
