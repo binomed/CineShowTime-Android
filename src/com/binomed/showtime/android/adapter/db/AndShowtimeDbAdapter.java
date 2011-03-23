@@ -98,6 +98,22 @@ public class AndShowtimeDbAdapter {
 	public static final String KEY_FAV_TH_THEATER_LAT = "theater_place_lat"; //$NON-NLS-1$
 	public static final String KEY_FAV_TH_THEATER_LONG = "theater_place_long"; //$NON-NLS-1$
 
+	public static final String KEY_WIDGET_THEATER_ID = "theater_id"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_THEATER_NAME = "theater_name"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_THEATER_PLACE = "theater_place_city_name"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_THEATER_COUNRTY_CODE = "theater_place_counry"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_THEATER_POSTAL_CODE = "theater_place_postal_code"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_THEATER_LAT = "theater_place_lat"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_THEATER_LONG = "theater_place_long"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_THEATER_DATE = "date"; //$NON-NLS-1$
+
+	public static final String KEY_WIDGET_MOVIE_ID = "id"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_MOVIE_MID = "movie_id"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_MOVIE_NAME = "movie_name"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_MOVIE_EN_NAME = "movie_en_name"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_MOVIE_LENGTH = "movie_length"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_MOVIE_SHOWTIME = "showtime"; //$NON-NLS-1$
+
 	private static final String TAG = "AndShowtimeDbAdapter"; //$NON-NLS-1$
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDb;
@@ -110,7 +126,9 @@ public class AndShowtimeDbAdapter {
 	private static final String DATABASE_FAV_THEATER_TABLE = "favTheaters"; //$NON-NLS-1$
 	private static final String DATABASE_NEAR_REQUEST_TABLE = "near_request"; //$NON-NLS-1$
 	private static final String DATABASE_MOVIE_REQUEST_TABLE = "movie_request"; //$NON-NLS-1$
-	private static final int DATABASE_VERSION = 16;
+	private static final String DATABASE_WIDGET_TABLE = "widget"; //$NON-NLS-1$
+	private static final String DATABASE_WIDGET_MOVIE_TABLE = "widget_movie"; //$NON-NLS-1$
+	private static final int DATABASE_VERSION = 17;
 	/**
 	 * Database creation sql statement
 	 */
@@ -187,6 +205,28 @@ public class AndShowtimeDbAdapter {
 			+ ");"//$NON-NLS-1$
 	;
 
+	private static final String DATABASE_CREATE_WIDGET_TABLE = " create table " + DATABASE_WIDGET_TABLE //$NON-NLS-1$
+			+ " (" + KEY_WIDGET_THEATER_ID + " text primary key" //$NON-NLS-1$//$NON-NLS-2$
+			+ ", " + KEY_WIDGET_THEATER_NAME + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_WIDGET_THEATER_PLACE + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_WIDGET_THEATER_COUNRTY_CODE + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_WIDGET_THEATER_POSTAL_CODE + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_WIDGET_THEATER_LAT + " double " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_WIDGET_THEATER_LONG + " double " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_WIDGET_THEATER_DATE + " long " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ");"//$NON-NLS-1$
+	;
+
+	private static final String DATABASE_CREATE_WIDGET_MOVIE_TABLE = " create table " + DATABASE_WIDGET_MOVIE_TABLE //$NON-NLS-1$
+			+ " (" + KEY_WIDGET_MOVIE_ID + " integer primary key autoincrement" //$NON-NLS-1$//$NON-NLS-2$
+			+ ", " + KEY_WIDGET_MOVIE_MID + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_WIDGET_MOVIE_NAME + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_WIDGET_MOVIE_EN_NAME + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_WIDGET_MOVIE_LENGTH + " long " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_WIDGET_MOVIE_SHOWTIME + " long " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ");"//$NON-NLS-1$
+	;
+
 	private static final String DROP_THEATER_TABLE = "DROP TABLE IF EXISTS " + DATABASE_THEATERS_TABLE; //$NON-NLS-1$
 	private static final String DROP_FAV_THEATER_TABLE = "DROP TABLE IF EXISTS " + DATABASE_FAV_THEATER_TABLE; //$NON-NLS-1$
 	private static final String DROP_MOVIE_TABLE = "DROP TABLE IF EXISTS " + DATABASE_MOVIE_TABLE; //$NON-NLS-1$
@@ -194,6 +234,8 @@ public class AndShowtimeDbAdapter {
 	private static final String DROP_LOCATION_TABLE = "DROP TABLE IF EXISTS " + DATABASE_LOCATION_TABLE; //$NON-NLS-1$
 	private static final String DROP_NEAR_REQUEST_TABLE = "DROP TABLE IF EXISTS " + DATABASE_NEAR_REQUEST_TABLE; //$NON-NLS-1$
 	private static final String DROP_MOVIE_REQUEST_TABLE = "DROP TABLE IF EXISTS " + DATABASE_MOVIE_REQUEST_TABLE; //$NON-NLS-1$
+	private static final String DROP_WIDGET_TABLE = "DROP TABLE IF EXISTS " + DATABASE_WIDGET_TABLE; //$NON-NLS-1$
+	private static final String DROP_WIDGET_MOVIE_TABLE = "DROP TABLE IF EXISTS " + DATABASE_WIDGET_MOVIE_TABLE; //$NON-NLS-1$
 
 	private final Context mCtx;
 
@@ -213,20 +255,21 @@ public class AndShowtimeDbAdapter {
 			db.execSQL(DATABASE_CREATE_LOCATION_TABLE);
 			db.execSQL(DATABASE_CREATE_NEAR_REQUEST_TABLE);
 			db.execSQL(DATABASE_CREATE_MOVIE_REQUEST_TABLE);
+			db.execSQL(DATABASE_CREATE_WIDGET_TABLE);
+			db.execSQL(DATABASE_CREATE_WIDGET_MOVIE_TABLE);
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			Log.w(TAG, "Upgrading database from version " + oldVersion + " to " //$NON-NLS-1$ //$NON-NLS-2$
 					+ newVersion + ", which will destroy all old data"); //$NON-NLS-1$
-			db.execSQL(DROP_THEATER_TABLE);
-			db.execSQL(DROP_FAV_THEATER_TABLE);
-			db.execSQL(DROP_MOVIE_TABLE);
-			db.execSQL(DROP_SHOWTIME_TABLE);
-			db.execSQL(DROP_LOCATION_TABLE);
-			db.execSQL(DROP_NEAR_REQUEST_TABLE);
-			db.execSQL(DROP_MOVIE_REQUEST_TABLE);
-			onCreate(db);
+			if (oldVersion < 17) {
+				db.execSQL(DROP_WIDGET_TABLE);
+				db.execSQL(DROP_WIDGET_MOVIE_TABLE);
+				db.execSQL(DATABASE_CREATE_WIDGET_TABLE);
+				db.execSQL(DATABASE_CREATE_WIDGET_MOVIE_TABLE);
+			}
+
 		}
 	}
 
@@ -462,6 +505,78 @@ public class AndShowtimeDbAdapter {
 		return result;
 	}
 
+	public long setWidgetTheater(TheaterBean theater) {
+		Log.d(TAG, new StringBuilder("Create Widget ").toString()); //$NON-NLS-1$
+
+		mDb.delete(DATABASE_WIDGET_TABLE, null, null);
+
+		ContentValues initialValues = new ContentValues();
+		initialValues.put(KEY_WIDGET_THEATER_ID, theater.getId());
+		initialValues.put(KEY_WIDGET_THEATER_NAME, theater.getTheaterName());
+		if (theater.getPlace() != null) {
+			if (theater.getPlace().getCityName() != null // 
+					&& theater.getPlace().getCityName().length() > 0) {
+				initialValues.put(KEY_WIDGET_THEATER_PLACE, theater.getPlace().getCityName());
+			}
+			if (theater.getPlace().getCountryNameCode() != null // 
+					&& theater.getPlace().getCountryNameCode().length() > 0) {
+				initialValues.put(KEY_WIDGET_THEATER_COUNRTY_CODE, theater.getPlace().getCountryNameCode());
+			}
+			if (theater.getPlace().getPostalCityNumber() != null // 
+					&& theater.getPlace().getPostalCityNumber().length() > 0) {
+				initialValues.put(KEY_WIDGET_THEATER_POSTAL_CODE, theater.getPlace().getPostalCityNumber());
+			}
+			if (theater.getPlace().getLatitude() != null) {
+				initialValues.put(KEY_WIDGET_THEATER_LAT, theater.getPlace().getLatitude());
+			}
+			if (theater.getPlace().getLongitude() != null) {
+				initialValues.put(KEY_WIDGET_THEATER_LONG, theater.getPlace().getLongitude());
+			}
+		}
+
+		long result = mDb.insert(DATABASE_WIDGET_TABLE, null, initialValues);
+
+		if (result == -1) {
+			Log.e(TAG, "Error inserting or updating row"); //$NON-NLS-1$
+		}
+
+		return result;
+	}
+
+	public long updateWidgetTheater() {
+		Log.d(TAG, new StringBuilder("Update date Widget ").toString()); //$NON-NLS-1$
+
+		ContentValues initialValues = new ContentValues();
+		initialValues.put(KEY_WIDGET_THEATER_DATE, Calendar.getInstance().getTimeInMillis());
+
+		long result = mDb.update(DATABASE_WIDGET_TABLE, initialValues, null, null);
+
+		if (result == -1) {
+			Log.e(TAG, "Error inserting or updating row"); //$NON-NLS-1$
+		}
+
+		return result;
+	}
+
+	public long createWidgetShowtime(MovieBean movie, Long showtime) {
+		Log.d(TAG, new StringBuilder("Create Widget showtime").toString()); //$NON-NLS-1$
+
+		ContentValues initialValues = new ContentValues();
+		initialValues.put(KEY_WIDGET_MOVIE_MID, movie.getId());
+		initialValues.put(KEY_WIDGET_MOVIE_NAME, movie.getMovieName());
+		initialValues.put(KEY_WIDGET_MOVIE_EN_NAME, movie.getEnglishMovieName());
+		initialValues.put(KEY_WIDGET_MOVIE_LENGTH, movie.getMovieTime());
+		initialValues.put(KEY_WIDGET_MOVIE_SHOWTIME, showtime);
+
+		long result = mDb.insert(DATABASE_WIDGET_MOVIE_TABLE, null, initialValues);
+
+		if (result == -1) {
+			Log.e(TAG, "Error inserting or updating row"); //$NON-NLS-1$
+		}
+
+		return result;
+	}
+
 	/**
 	 * Return a Cursor over the list of all notes in the database
 	 * 
@@ -556,17 +671,6 @@ public class AndShowtimeDbAdapter {
 	 * @return Cursor over all notes
 	 */
 	public Cursor fetchAllFavTheaters() {
-
-		// return mDb.rawQuery(new StringBuilder("SELECT ") //
-		// .append(DATABASE_THEATERS_TABLE).append(".").append(KEY_THEATER_ID) //
-		// .append(",").append(DATABASE_THEATERS_TABLE).append(".").append(KEY_THEATER_NAME)//
-		// .append(",").append(DATABASE_THEATERS_TABLE).append(".").append(KEY_THEATER_PHONE) //
-		// .append(" FROM ").append(DATABASE_THEATERS_TABLE).append(", ").append(DATABASE_FAV_THEATER_TABLE)//
-		// .append(" WHERE ") //
-		// .append(DATABASE_THEATERS_TABLE).append(".").append(KEY_THEATER_ID).append("=").append(DATABASE_FAV_THEATER_TABLE).append(".").append(KEY_FAV_TH_THEATER_ID) //
-		// .toString()//
-		// , null//
-		// );
 		return mDb.query(//
 				DATABASE_FAV_THEATER_TABLE//
 				, new String[] { KEY_FAV_TH_THEATER_ID//
@@ -808,6 +912,101 @@ public class AndShowtimeDbAdapter {
 
 	}
 
+	/**
+	 * Return a Cursor positioned at the note that matches the given rowId
+	 * 
+	 * @return Cursor positioned to matching note, if found
+	 * @throws SQLException
+	 *             if note could not be found/retrieved
+	 */
+	public Cursor fetchAllWidgetShowtime() throws SQLException {
+
+		Cursor mCursor =
+
+		mDb.query(true //
+				, DATABASE_WIDGET_MOVIE_TABLE //
+				, new String[] { KEY_WIDGET_MOVIE_ID //
+						, KEY_WIDGET_MOVIE_NAME //
+						, KEY_WIDGET_MOVIE_EN_NAME //
+						, KEY_WIDGET_MOVIE_MID //
+						, KEY_WIDGET_MOVIE_LENGTH //
+						, KEY_WIDGET_MOVIE_SHOWTIME //
+				} //
+				, null //
+				, null //
+				, null //
+				, null //
+				, null //
+				, null//
+				);
+		if (mCursor != null) {
+			mCursor.moveToFirst();
+		}
+		return mCursor;
+
+	}
+
+	/**
+	 * Return a Cursor positioned at the note that matches the given rowId
+	 * 
+	 * @return Cursor positioned to matching note, if found
+	 * @throws SQLException
+	 *             if note could not be found/retrieved
+	 */
+	public Cursor fetchWidgetMovie(String movieId) throws SQLException {
+
+		Cursor mCursor =
+
+		mDb.query(true //
+				, DATABASE_WIDGET_MOVIE_TABLE //
+				, new String[] { KEY_WIDGET_MOVIE_ID //
+						, KEY_WIDGET_MOVIE_NAME //
+						, KEY_WIDGET_MOVIE_EN_NAME //
+						, KEY_WIDGET_MOVIE_MID //
+						, KEY_WIDGET_MOVIE_LENGTH //
+						, KEY_WIDGET_MOVIE_SHOWTIME //
+				} //
+				, new StringBuilder(KEY_WIDGET_MOVIE_MID).append("='") //$NON-NLS-1$
+						.append(movieId).append("'").toString()// //$NON-NLS-1$
+				, null //
+				, null //
+				, null //
+				, null //
+				, null//
+				);
+		if (mCursor != null) {
+			mCursor.moveToFirst();
+		}
+		return mCursor;
+
+	}
+
+	/**
+	 * Return a Cursor over the list of all notes in the database
+	 * 
+	 * @return Cursor over all notes
+	 */
+	public Cursor fetchWidgetTheater() {
+
+		return mDb.query(//
+				DATABASE_WIDGET_TABLE//
+				, new String[] { KEY_WIDGET_THEATER_ID//
+						, KEY_WIDGET_THEATER_NAME // 
+						, KEY_WIDGET_THEATER_PLACE // 
+						, KEY_WIDGET_THEATER_COUNRTY_CODE // 
+						, KEY_WIDGET_THEATER_POSTAL_CODE // 
+						, KEY_WIDGET_THEATER_LAT // 
+						, KEY_WIDGET_THEATER_LONG // 
+						, KEY_WIDGET_THEATER_DATE // 
+				}//
+				, null//
+				, null//
+				, null//
+				, null//
+				, null//
+				);
+	}
+
 	public void deleteTheatersShowtimeRequestAndLocation() {
 		int result = mDb.delete(DATABASE_THEATERS_TABLE //
 				, null //
@@ -831,6 +1030,13 @@ public class AndShowtimeDbAdapter {
 				, new StringBuilder(KEY_MOVIE_REQUEST_TIME).append("<").append(dateEraseRequest.getTimeInMillis()).toString() // //$NON-NLS-1$
 				, null);
 		Log.d(TAG, result + " Request where remove from movie_request table"); //$NON-NLS-1$
+	}
+
+	public void deleteWidgetShowtime() {
+		int result = mDb.delete(DATABASE_WIDGET_MOVIE_TABLE//
+				, null //
+				, null);
+		Log.d(TAG, result + " Showtimes where remove from widget_movie table"); //$NON-NLS-1$
 	}
 
 	public void deleteFavorite(String theaterId) {
@@ -870,6 +1076,8 @@ public class AndShowtimeDbAdapter {
 		mDb.execSQL(DROP_LOCATION_TABLE);
 		mDb.execSQL(DROP_NEAR_REQUEST_TABLE);
 		mDb.execSQL(DROP_MOVIE_REQUEST_TABLE);
+		mDb.execSQL(DROP_WIDGET_TABLE);
+		mDb.execSQL(DROP_WIDGET_MOVIE_TABLE);
 		mDb.execSQL(DATABASE_CREATE_MOVIE_TABLE);
 		mDb.execSQL(DATABASE_CREATE_THEATER_TABLE);
 		mDb.execSQL(DATABASE_CREATE_FAV_THEATER_TABLE);
@@ -877,6 +1085,8 @@ public class AndShowtimeDbAdapter {
 		mDb.execSQL(DATABASE_CREATE_LOCATION_TABLE);
 		mDb.execSQL(DATABASE_CREATE_NEAR_REQUEST_TABLE);
 		mDb.execSQL(DATABASE_CREATE_MOVIE_REQUEST_TABLE);
+		mDb.execSQL(DATABASE_CREATE_WIDGET_TABLE);
+		mDb.execSQL(DATABASE_CREATE_WIDGET_MOVIE_TABLE);
 	}
 
 }

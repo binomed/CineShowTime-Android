@@ -22,6 +22,8 @@
 	<string name="msgNoCityName">City name is required</string>
 	<string name="msgNoGps">No gps coordinate found... Please move or try again</string>
 	<string name="msgNoMovieName">Movie name is required</string>
+	<!--  Widget -->
+	<string name="widget_name_2x2">Android Show Time 2x2</string>
 	<!--  Main acitivity -->
 	<string name="MainTitle">Welcome to Android Show Time Application</string>
 	<string name="app_name">Android Show Time</string>

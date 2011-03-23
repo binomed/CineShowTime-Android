@@ -47,7 +47,7 @@ public class ControlerMovieActivity {
 	public void registerView(AndShowTimeMovieActivity movieActivity) {
 		this.movieActivity = movieActivity;
 		bindService();
-		initDB();
+		// initDB();
 	}
 
 	public ModelMovieActivity getModel() {
@@ -82,6 +82,7 @@ public class ControlerMovieActivity {
 	}
 
 	public void fillDB() {
+		initDB();
 		Thread threadFillDB = new Thread(fillDBRunnable);
 		threadFillDB.start();
 
@@ -90,6 +91,7 @@ public class ControlerMovieActivity {
 	private Runnable fillDBRunnable = new Runnable() {
 		public void run() {
 			mDbHelper.createOrUpdateMovie(model.getMovie());
+			closeDB();
 
 		}
 	};

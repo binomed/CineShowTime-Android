@@ -44,7 +44,13 @@ public class TheaterFavListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int groupPosition, View convertView, ViewGroup parent) {
-		TextView theaterView = getGenericView();
+
+		TextView theaterView = null;
+		if (convertView == null) {
+			theaterView = getGenericView();
+		} else {
+			theaterView = (TextView) convertView;
+		}
 
 		TheaterBean theater = (TheaterBean) getItem(groupPosition);
 

@@ -1,6 +1,7 @@
 package com.binomed.showtime.android.adapter.view;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
@@ -28,6 +29,9 @@ public class ProjectionListAdapter extends BaseAdapter {
 	private Calendar movieTime;
 	private long minTime;
 
+	private HashMap<Integer, Long> mapMovieTime;
+	private HashMap<Integer, StringBuilder> mapMovieStr;
+
 	public ProjectionListAdapter(Context context, MovieBean movieBean, List<Long> projectionList) {
 		super();
 		timeInMillis = Calendar.getInstance();
@@ -36,6 +40,8 @@ public class ProjectionListAdapter extends BaseAdapter {
 		this.movieBean = movieBean;
 		this.projectionList = projectionList;
 		minTime = AndShowtimeDateNumberUtil.getMinTime(projectionList);
+		mapMovieTime = new HashMap<Integer, Long>();
+		mapMovieStr = new HashMap<Integer, StringBuilder>();
 	}
 
 	@Override
@@ -59,62 +65,87 @@ public class ProjectionListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int groupPosition, View convertView, ViewGroup parent) {
-		TextView projectionView = getGenericView();
+		TextView projectionView = null;
+		if (convertView == null) {
+			projectionView = getGenericView();
+		} else {
+			projectionView = (TextView) convertView;
+		}
 
 		Context context = mainContext;
-		Long projectionTime = (Long) getItem(groupPosition);
-		int passedShowtime;
-		passedShowtime = AndShowtimeDateNumberUtil.getPositionTime(projectionTime, minTime);
 
-		Calendar timeInMillis = this.timeInMillis;
-		Calendar movieTime = this.movieTime;
-
-		// StringBuilder projectionBuilder = new StringBuilder(context.getResources().getString(R.string.projectionTime));
-		StringBuilder projectionBuilder = new StringBuilder(SpecialChars.EMPTY);
-
-		switch (passedShowtime) {
-		case 0:
-			projectionBuilder.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
-					.append("<b>"); //$NON-NLS-1$
-			break;
-		case 1:
-			break;
-		case -1:
-			projectionBuilder.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_GREY).append("\">") //$NON-NLS-1$//$NON-NLS-2$
-					.append("<i>"); //$NON-NLS-1$
-			break;
-		default:
-			break;
-		}
-		projectionBuilder.append(context.getResources().getString(R.string.projectionTime));
-		projectionBuilder.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime));
-
-		timeInMillis.setTimeInMillis(projectionTime);
-		if (movieBean.getMovieTime() != null) {
-			movieTime.setTimeInMillis(movieBean.getMovieTime());
-
-			timeInMillis.add(Calendar.HOUR_OF_DAY, movieTime.get(Calendar.HOUR_OF_DAY));
-			timeInMillis.add(Calendar.MINUTE, movieTime.get(Calendar.MINUTE) + 10);
-
-			projectionBuilder.append("<br>")// //$NON-NLS-1$
-					.append(context.getResources().getString(R.string.endHour));//
-
-			projectionBuilder.append(AndShowtimeDateNumberUtil.showMovieTime(context, timeInMillis.getTimeInMillis()));
+		StringBuilder projectionBuilder = null;
+		Long curTime = Calendar.getInstance().getTimeInMillis();
+		synchronized (mapMovieStr) {
+			projectionBuilder = mapMovieStr.get(groupPosition);
+			if (projectionBuilder != null) {
+				Long pastTime = mapMovieTime.get(groupPosition);
+				if ((curTime - pastTime) > 3600000) {
+					projectionBuilder = null;
+				}
+			}
 		}
 
-		switch (passedShowtime) {
-		case 0:
-			projectionBuilder.append("</b>") //$NON-NLS-1$
-					.append("</FONT>"); //$NON-NLS-1$
-			break;
-		case 1:
-			break;
-		case -1:
-			projectionBuilder.append("</i>") //$NON-NLS-1$ 
-					.append("</FONT>"); //$NON-NLS-1$
-			break;
-		default:
-			break;
+		if (projectionBuilder == null) {
+			projectionBuilder = new StringBuilder(SpecialChars.EMPTY);
+			Long projectionTime = (Long) getItem(groupPosition);
+			int passedShowtime;
+			passedShowtime = AndShowtimeDateNumberUtil.getPositionTime(projectionTime, minTime);
+
+			Calendar timeInMillis = this.timeInMillis;
+			Calendar movieTime = this.movieTime;
+
+			// StringBuilder projectionBuilder = new StringBuilder(context.getResources().getString(R.string.projectionTime));
+
+			switch (passedShowtime) {
+			case 0:
+				projectionBuilder.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+						.append("<b>"); //$NON-NLS-1$
+				break;
+			case 1:
+				break;
+			case -1:
+				projectionBuilder.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_GREY).append("\">") //$NON-NLS-1$//$NON-NLS-2$
+						.append("<i>"); //$NON-NLS-1$
+				break;
+			default:
+				break;
+			}
+			projectionBuilder.append(context.getResources().getString(R.string.projectionTime));
+			projectionBuilder.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime));
+
+			timeInMillis.setTimeInMillis(projectionTime);
+			if (movieBean.getMovieTime() != null) {
+				movieTime.setTimeInMillis(movieBean.getMovieTime());
+
+				timeInMillis.add(Calendar.HOUR_OF_DAY, movieTime.get(Calendar.HOUR_OF_DAY));
+				timeInMillis.add(Calendar.MINUTE, movieTime.get(Calendar.MINUTE) + 10);
+
+				projectionBuilder.append("<br>")// //$NON-NLS-1$
+						.append(context.getResources().getString(R.string.endHour));//
+
+				projectionBuilder.append(AndShowtimeDateNumberUtil.showMovieTime(context, timeInMillis.getTimeInMillis()));
+			}
+
+			switch (passedShowtime) {
+			case 0:
+				projectionBuilder.append("</b>") //$NON-NLS-1$
+						.append("</FONT>"); //$NON-NLS-1$
+				break;
+			case 1:
+				break;
+			case -1:
+				projectionBuilder.append("</i>") //$NON-NLS-1$ 
+						.append("</FONT>"); //$NON-NLS-1$
+				break;
+			default:
+				break;
+			}
+
+			synchronized (mapMovieStr) {
+				mapMovieStr.put(groupPosition, projectionBuilder);
+				mapMovieTime.put(groupPosition, curTime);
+			}
 		}
 
 		projectionView.setText(Html.fromHtml(projectionBuilder.toString()));

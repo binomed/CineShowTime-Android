@@ -3,12 +3,16 @@ package com.binomed.showtime.android.util;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.format.DateUtils;
 
 import com.binomed.showtime.android.R;
+import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.cst.SpecialChars;
 import com.binomed.showtime.util.AndShowtimeNumberFormat;
@@ -20,6 +24,9 @@ public abstract class AndShowtimeDateNumberUtil {
 	private static final Float MILE_VALUE = new Float(0.621371192);
 
 	private static Calendar time = Calendar.getInstance();
+
+	private static HashMap<String, Long> mapMovieTime = new HashMap<String, Long>();
+	private static HashMap<String, Spanned> mapMovieStr = new HashMap<String, Spanned>();
 
 	public static String showMovieTimeLength(Context context, MovieBean movieBean) {
 		StringBuilder result = new StringBuilder("");
@@ -238,20 +245,76 @@ public abstract class AndShowtimeDateNumberUtil {
 		long minDiffTemp = 0;
 		long minTime = -1;
 
-		String str = null;
 		Calendar cal = Calendar.getInstance();
-		String curr = cal.get(Calendar.HOUR_OF_DAY) + "h" + cal.get(Calendar.MINUTE);
-		for (Long timeTmp : timeList) {
-			cal.setTimeInMillis(timeTmp);
-			str = cal.get(Calendar.HOUR_OF_DAY) + "h" + cal.get(Calendar.MINUTE);
-			minDiffTemp = (timeTmp - currentTime);
-			if ((minDiffTemp < (minDiff0) || (minDiff0 == -1)) && (minDiffTemp > 0)) {
-				minDiff0 = minDiffTemp;
-				minTime = timeTmp;
+		if (timeList != null) {
+			for (Long timeTmp : timeList) {
+				cal.setTimeInMillis(timeTmp);
+				minDiffTemp = (timeTmp - currentTime);
+				if ((minDiffTemp < (minDiff0) || (minDiff0 == -1)) && (minDiffTemp > 0)) {
+					minDiff0 = minDiffTemp;
+					minTime = timeTmp;
+				}
 			}
 		}
 
 		return minTime;
+	}
+
+	public static Spanned getMovieViewStr(String movieId, List<Long> projectionList, Context context) {
+		Spanned spanned = null;
+		Long curTime = Calendar.getInstance().getTimeInMillis();
+
+		synchronized (mapMovieStr) {
+			spanned = mapMovieStr.get(movieId);
+			if (spanned != null) {
+				Long pastTime = mapMovieTime.get(movieId);
+				if ((curTime - pastTime) > 3600000) {
+					spanned = null;
+				}
+			}
+		}
+
+		if (spanned == null) {
+			StringBuilder movieListStr = null;
+			movieListStr = new StringBuilder();
+			boolean first = true;
+			int passedShowtime;
+			long minTime = AndShowtimeDateNumberUtil.getMinTime(projectionList);
+			for (long projectionTime : projectionList) {
+				if (!first) {
+					movieListStr.append(" | ");
+				} else {
+					first = false;
+				}
+				passedShowtime = AndShowtimeDateNumberUtil.getPositionTime(projectionTime, minTime);
+				switch (passedShowtime) {
+				case 0:
+					movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+							.append("<b>").append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime)).append("</b>") //$NON-NLS-1$//$NON-NLS-2$
+							.append("</FONT>"); //$NON-NLS-1$
+					break;
+				case 1:
+					movieListStr.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime));
+					break;
+				case -1:
+					movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_GREY).append("\">") //$NON-NLS-1$//$NON-NLS-2$
+							.append("<i>").append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime)).append("</i>") //$NON-NLS-1$ //$NON-NLS-2$
+							.append("</FONT>"); //$NON-NLS-1$
+					break;
+				default:
+					break;
+				}
+			}
+			movieListStr.append("\n");
+			spanned = Html.fromHtml(movieListStr.toString());
+
+			synchronized (mapMovieStr) {
+				mapMovieStr.put(movieId, spanned);
+				mapMovieTime.put(movieId, curTime);
+			}
+		}
+
+		return spanned;
 	}
 
 }

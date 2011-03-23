@@ -5,12 +5,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import com.binomed.showtime.android.layout.view.TheaterView;
 import com.binomed.showtime.beans.TheaterBean;
@@ -51,7 +48,13 @@ public class MovieListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int groupPosition, View convertView, ViewGroup parent) {
 
-		TheaterView theaterView = new TheaterView(mainContext);
+		TheaterView theaterView = null;
+		if (convertView == null) {
+			theaterView = new TheaterView(mainContext);
+
+		} else {
+			theaterView = (TheaterView) convertView;
+		}
 
 		TheaterBean theater = (TheaterBean) getItem(groupPosition);
 
@@ -60,19 +63,6 @@ public class MovieListAdapter extends BaseAdapter {
 		}
 
 		return theaterView;
-	}
-
-	public TextView getGenericView() {
-		// Layout parameters for the ExpandableListView
-		AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, 64);
-
-		TextView textView = new TextView(mainContext);
-		textView.setLayoutParams(lp);
-		// Center the text vertically
-		textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-		// Set the text starting position
-		textView.setPadding(36, 0, 0, 0);
-		return textView;
 	}
 
 }

@@ -202,7 +202,7 @@ public class AndShowTimeMovieActivity extends Activity {
 			progressDialog.dismiss();
 		}
 		controler.unbindService();
-		controler.closeDB();
+		// controler.closeDB();
 	}
 
 	/**

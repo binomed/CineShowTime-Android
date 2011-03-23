@@ -27,4 +27,9 @@ public interface ParamIntent {
 	public static final String SERVICE_DB_VAL_SAVE_ALL = "saveAll"; //$NON-NLS-1$
 	public static final String SERVICE_DB_VAL_SAVE_MOVIE = "saveMovie"; //$NON-NLS-1$
 
+	public static final String WIDGET_START = "start"; //$NON-NLS-1$
+	public static final String WIDGET_SCROLL_SENS = "scrollSens"; //$NON-NLS-1$
+	public static final String WIDGET_ORIGIN = "widgetOrigin"; //$NON-NLS-1$
+	public static final String WIDGET_REFRESH = "widgetRefresh"; //$NON-NLS-1$
+
 }

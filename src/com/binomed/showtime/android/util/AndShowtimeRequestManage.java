@@ -54,33 +54,15 @@ public abstract class AndShowtimeRequestManage {
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_CURENT_TIME, String.valueOf(Calendar.getInstance().getTimeInMillis()));
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_TIME_ZONE, TimeZone.getDefault().getID());
 
-		// Builder androidUriBuilder = new Builder();
-		// androidUriBuilder.scheme(HttpParamsCst.BINOMED_APP_PROTOCOL);
-		// androidUriBuilder.authority(HttpParamsCst.BINOMED_APP_URL);
-		// androidUriBuilder.appendPath(HttpParamsCst.BINOMED_APP_PATH);
-		// androidUriBuilder.appendPath(HttpParamsCst.NEAR_GET_METHODE);
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_LANG, Locale.getDefault().getCountry());
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_OUTPUT, HttpParamsCst.VALUE_XML);
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_ZIP, HttpParamsCst.VALUE_TRUE);
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_IE, AndShowTimeEncodingUtil.getEncoding());
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_OE, AndShowTimeEncodingUtil.getEncoding());
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_CURENT_TIME, String.valueOf(Calendar.getInstance().getTimeInMillis()));
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_TIME_ZONE, TimeZone.getDefault().getID());
 		if (theaterId != null) {
-			// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_THEATER_ID //
-			// , theaterId);
 			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_THEATER_ID //
 					, theaterId);
 		}
 		if (day > 0) {
-			// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_DAY //
-			// , String.valueOf(day));
 			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_DAY //
 					, String.valueOf(day));
 		}
 		if (start > 0) {
-			// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_START //
-			// , String.valueOf(start));
 			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_START //
 					, String.valueOf(start));
 		}
@@ -90,7 +72,12 @@ public abstract class AndShowtimeRequestManage {
 		if (geocoder != null) {
 			if (cityName != null) {
 				cityName = URLDecoder.decode(cityName, AndShowTimeEncodingUtil.getEncoding());
-				List<Address> addressList = geocoder.getFromLocationName(cityName, 1);
+				List<Address> addressList = null;
+				try {
+					addressList = geocoder.getFromLocationName(cityName, 1);
+				} catch (Exception e) {
+					Log.e(TAG, "error Searching cityName :" + cityName, e);
+				}
 				if ((addressList != null) && !addressList.isEmpty()) {
 					if (addressList.get(0).getLocality() != null) {
 						cityName = addressList.get(0).getLocality();
@@ -107,12 +94,16 @@ public abstract class AndShowtimeRequestManage {
 					originalPlace.setLatitude(addressList.get(0).getLatitude());
 				}
 				if (cityName != null) {
-					// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
 					andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
 				}
 			}
 			if (latitude != null && longitude != null && (latitude != 0 && longitude != 0)) {
-				List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
+				List<Address> addressList = null;
+				try {
+					addressList = geocoder.getFromLocation(latitude, longitude, 1);
+				} catch (Exception e) {
+					Log.e(TAG, "error Searching latitude, longitude :" + latitude + "," + longitude, e);
+				}
 				if ((addressList != null) && !addressList.isEmpty()) {
 					if (addressList.get(0).getLocality() != null) {
 						cityName = addressList.get(0).getLocality();
@@ -127,30 +118,20 @@ public abstract class AndShowtimeRequestManage {
 					originalPlace.setLongitude(addressList.get(0).getLongitude());
 					originalPlace.setLatitude(addressList.get(0).getLatitude());
 				}
-				// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_LAT //
-				// , AndShowtimeNumberFormat.getFormatGeoCoord().format(latitude));
-				// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_LONG//
-				// , AndShowtimeNumberFormat.getFormatGeoCoord().format(longitude));
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LAT //
 						, AndShowtimeNumberFormat.getFormatGeoCoord().format(latitude));
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LONG//
 						, AndShowtimeNumberFormat.getFormatGeoCoord().format(longitude));
 				if (cityName != null) {
-					// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
 					andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
 				}
 			}
 		} else {
 			if (cityName != null) {
 				cityName = URLDecoder.decode(cityName, AndShowTimeEncodingUtil.getEncoding());
-				// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
 			}
 			if (latitude != null && longitude != null && (latitude != 0 && longitude != 0)) {
-				// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_LAT //
-				// , AndShowtimeNumberFormat.getFormatGeoCoord().format(latitude));
-				// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_LONG//
-				// , AndShowtimeNumberFormat.getFormatGeoCoord().format(longitude));
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LAT //
 						, AndShowtimeNumberFormat.getFormatGeoCoord().format(latitude));
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LONG//
@@ -158,7 +139,6 @@ public abstract class AndShowtimeRequestManage {
 			}
 		}
 
-		// String uri = androidUriBuilder.toString();
 		String uri = andShowtimeUriBuilder.toUri();
 		Log.i(TAG, "send request : " + uri); //$NON-NLS-1$
 		HttpGet getMethod = AndShowtimeFactory.getHttpGet();
@@ -203,7 +183,11 @@ public abstract class AndShowtimeRequestManage {
 					locaTheater.setLongitude(localisation.getLongitude());
 					theater.getPlace().setDistance(originalPlace.distanceTo(locaTheater) / 1000);
 				} else if (localisation != null && localisation.getSearchQuery() != null && localisation.getSearchQuery().length() > 0) {
-					addressList = geocoder.getFromLocationName(localisation.getSearchQuery(), 1);
+					try {
+						addressList = geocoder.getFromLocationName(localisation.getSearchQuery(), 1);
+					} catch (Exception e) {
+						Log.e(TAG, "error Searching cityName :" + localisation.getSearchQuery(), e);
+					}
 					if (addressList != null && addressList.size() > 0) {
 						addressTheater = addressList.get(0);
 						localisation.setCityName(addressTheater.getLocality());
@@ -239,27 +223,11 @@ public abstract class AndShowtimeRequestManage {
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_CURENT_TIME, String.valueOf(Calendar.getInstance().getTimeInMillis()));
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_TIME_ZONE, TimeZone.getDefault().getID());
 
-		// Builder androidUriBuilder = new Builder();
-		// androidUriBuilder.scheme(HttpParamsCst.BINOMED_APP_PROTOCOL);
-		// androidUriBuilder.authority(HttpParamsCst.BINOMED_APP_URL);
-		// androidUriBuilder.appendPath(HttpParamsCst.BINOMED_APP_PATH);
-		// androidUriBuilder.appendPath(HttpParamsCst.MOVIE_GET_METHODE);
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_LANG, Locale.getDefault().getCountry());
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_OUTPUT, HttpParamsCst.VALUE_XML);
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_ZIP, HttpParamsCst.VALUE_TRUE);
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_IE, AndShowTimeEncodingUtil.getEncoding());
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_OE, AndShowTimeEncodingUtil.getEncoding());
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_CURENT_TIME, String.valueOf(Calendar.getInstance().getTimeInMillis()));
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_TIME_ZONE, TimeZone.getDefault().getID());
 		if (theaterId != null) {
-			// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_THEATER_ID //
-			// , theaterId);
 			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_THEATER_ID //
 					, theaterId);
 		}
 		if (day > 0) {
-			// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_DAY //
-			// , String.valueOf(day));
 			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_DAY //
 					, String.valueOf(day));
 		}
@@ -284,7 +252,6 @@ public abstract class AndShowtimeRequestManage {
 					originalPlace.setLongitude(addressList.get(0).getLongitude());
 					originalPlace.setLatitude(addressList.get(0).getLatitude());
 				}
-				// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
 			}
 			if (latitude != null && longitude != null && (latitude != 0 && longitude != 0)) {
@@ -303,10 +270,6 @@ public abstract class AndShowtimeRequestManage {
 					originalPlace.setLongitude(addressList.get(0).getLongitude());
 					originalPlace.setLatitude(addressList.get(0).getLatitude());
 				}
-				// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_LAT //
-				// , AndShowtimeNumberFormat.getFormatGeoCoord().format(latitude));
-				// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_LONG//
-				// , AndShowtimeNumberFormat.getFormatGeoCoord().format(longitude));
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LAT //
 						, AndShowtimeNumberFormat.getFormatGeoCoord().format(latitude));
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LONG//
@@ -315,14 +278,9 @@ public abstract class AndShowtimeRequestManage {
 		} else {
 			if (cityName != null) {
 				cityName = URLDecoder.decode(cityName, AndShowTimeEncodingUtil.getEncoding());
-				// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
 			}
 			if (latitude != null && longitude != null && (latitude != 0 && longitude != 0)) {
-				// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_LAT //
-				// , AndShowtimeNumberFormat.getFormatGeoCoord().format(latitude));
-				// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_LONG//
-				// , AndShowtimeNumberFormat.getFormatGeoCoord().format(longitude));
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LAT //
 						, AndShowtimeNumberFormat.getFormatGeoCoord().format(latitude));
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LONG//
@@ -331,11 +289,9 @@ public abstract class AndShowtimeRequestManage {
 		}
 		if (movieName != null) {
 			movieName = URLDecoder.decode(movieName, AndShowTimeEncodingUtil.getEncoding());
-			// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_MOVIE_NAME, movieName);
 			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_MOVIE_NAME, movieName);
 		}
 
-		// String uri = androidUriBuilder.toString();
 		String uri = andShowtimeUriBuilder.toUri();
 		Log.i(TAG, "send request : " + uri); //$NON-NLS-1$
 		HttpGet getMethod = AndShowtimeFactory.getHttpGet();
@@ -401,20 +357,6 @@ public abstract class AndShowtimeRequestManage {
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_MOVIE_NAME, movie.getEnglishMovieName());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_MOVIE_CUR_LANG_NAME, movie.getMovieName());
 
-		// Builder androidUriBuilder = new Builder();
-		// androidUriBuilder.scheme(HttpParamsCst.BINOMED_APP_PROTOCOL);
-		// androidUriBuilder.authority(HttpParamsCst.BINOMED_APP_URL);
-		// androidUriBuilder.appendPath(HttpParamsCst.IMDB_GET_METHODE);
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_LANG, Locale.getDefault().getCountry());
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_OUTPUT, HttpParamsCst.VALUE_XML);
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_ZIP, HttpParamsCst.VALUE_TRUE);
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_IE, AndShowTimeEncodingUtil.getEncoding());
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_OE, AndShowTimeEncodingUtil.getEncoding());
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_MOVIE_ID, movie.getId());
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_MOVIE_NAME, movie.getEnglishMovieName());
-		// androidUriBuilder.appendQueryParameter(HttpParamsCst.PARAM_MOVIE_CUR_LANG_NAME, movie.getMovieName());
-
-		// String uri = androidUriBuilder.toString();
 		String uri = andShowtimeUriBuilder.toUri();
 		Log.i(TAG, "send request : " + uri); //$NON-NLS-1$
 		HttpGet getMethod = AndShowtimeFactory.getHttpGet();

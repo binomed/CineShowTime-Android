@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
 	<TextView
-			android:id="@+id/searchNearTxtCityName"
+			android:id="@+id/searchWidgetTxtCityName"
 			android:gravity="center_vertical"  
 			android:layout_marginRight="10dip"  
 		    android:layout_width="wrap_content" 
@@ -13,49 +14,39 @@
 		    android:text="@string/cityName"
 	    />
     <ImageView 
-		android:id="@+id/searchNearImgGps"
+		android:id="@+id/searchWidgetImgGps"
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content" 
 		android:layout_marginTop="10dip"  
 		android:layout_alignParentRight="true"
 		/>
 	<CheckBox 
-		android:id="@+id/searchNearLocation"
+		android:id="@+id/searchWidgetLocation"
 		android:layout_marginLeft="10dip"  
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_toLeftOf="@+id/searchNearImgGps" 
+	    android:layout_toLeftOf="@id/searchWidgetImgGps" 
 	    />
 	<AutoCompleteTextView 
-	    android:id="@+id/searchNearCityName"
+	    android:id="@+id/searchWidgetCityName"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_toRightOf="@+id/searchNearTxtCityName" 
-	    android:layout_toLeftOf="@+id/searchNearLocation" 
-	    />
-    <Spinner 
-        android:id="@+id/searchNearSpinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:drawSelectorOnTop="true"
-        android:prompt="@string/spinnerChoseTitle"
-	    android:layout_below="@+id/searchNearCityName" 
-	    android:background="@drawable/btn_spinner_and_showtime"
-		android:layout_marginBottom="5dip"  
-    />
+	    android:layout_toRightOf="@id/searchWidgetTxtCityName" 
+	    android:layout_toLeftOf="@id/searchWidgetLocation" 
+	    />    
 	<Button 
-		android:id="@+id/searchNearBtnSearch" 
+		android:id="@+id/searchWidgetBtnSearch" 
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content" 
 		android:text="@string/search" 
 		android:layout_centerHorizontal="true"
-	    android:layout_below="@id/searchNearSpinner" 
+	    android:layout_below="@id/searchWidgetCityName" 
 	    android:background="@drawable/btn_and_showtime"
 		/>
-	<ExpandableListView
-       android:id="@+id/searchNearListResult"
+	<ListView
+       android:id="@+id/searchWidgetListResult"
        android:layout_width="fill_parent"
        android:layout_height="fill_parent" 
-	    android:layout_below="@id/searchNearBtnSearch" 
+	    android:layout_below="@id/searchWidgetBtnSearch" 
        />
 </RelativeLayout>

@@ -19,6 +19,7 @@ import com.binomed.showtime.android.parser.xml.ParserImdbResultXml;
 import com.binomed.showtime.android.parser.xml.ParserMovieResultXml;
 import com.binomed.showtime.android.parser.xml.ParserNearResultXml;
 import com.binomed.showtime.android.util.comparator.MovieNameComparator;
+import com.binomed.showtime.android.util.comparator.MovieNameComparatorFromId;
 import com.binomed.showtime.android.util.comparator.TheaterDistanceComparator;
 import com.binomed.showtime.android.util.comparator.TheaterNameComparator;
 import com.binomed.showtime.android.util.comparator.TheaterShowtimeComparator;
@@ -33,6 +34,7 @@ public final class AndShowtimeFactory {
 	private ParserImdbResultXml parserImdbResultXml;
 
 	private MovieNameComparator movieNameComparator;
+	private MovieNameComparatorFromId movieNameComparatorFromId;
 	private TheaterDistanceComparator theaterDistanceComparator;
 	private TheaterNameComparator theaterNameComparator;
 	private TheaterShowtimeComparator theaterShowtimeComparator;
@@ -86,6 +88,13 @@ public final class AndShowtimeFactory {
 			movieNameComparator = new MovieNameComparator();
 		}
 		return movieNameComparator;
+	}
+
+	private MovieNameComparatorFromId getPrivateMovieNameComparatorFromId() {
+		if (movieNameComparatorFromId == null) {
+			movieNameComparatorFromId = new MovieNameComparatorFromId();
+		}
+		return movieNameComparatorFromId;
 	}
 
 	private TheaterNameComparator getPrivateTheaterNameComparator() {
@@ -185,6 +194,10 @@ public final class AndShowtimeFactory {
 
 	public static MovieNameComparator getMovieNameComparator() {
 		return AndShowtimeFactory.getInstance().getPrivateMovieNameComparator();
+	}
+
+	public static MovieNameComparatorFromId getMovieNameComparatorFromId() {
+		return AndShowtimeFactory.getInstance().getPrivateMovieNameComparatorFromId();
 	}
 
 	public static TheaterNameComparator getTheaterNameComparator() {

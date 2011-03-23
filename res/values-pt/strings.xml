@@ -22,6 +22,8 @@
 	<string name="msgNoCityName">E preciso indicar o nome de uma cidade antes de fazer a pesquisa</string>
 	<string name="msgNoGps">Nenhuma coordenada gps achada... Move-se o esperimente mais tarde</string>
 	<string name="msgNoMovieName">E preciso indicar o nome de um filme andts de fazer a pesquisa</string>
+	<!--  Widget -->
+	<string name="widget_name_2x2">Android Show Time 2x2</string>
 	<!--  Main acitivity -->
 	<string name="MainTitle">Bemvindo a Android Showtime Application</string>
 	<string name="app_name">Android Showtime</string>

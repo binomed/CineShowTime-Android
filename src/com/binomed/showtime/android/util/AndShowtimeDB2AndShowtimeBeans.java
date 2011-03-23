@@ -1,6 +1,7 @@
 package com.binomed.showtime.android.util;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -186,6 +187,182 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 			theaterFavCursor.close();
 		}
 		return theaterBeanList;
+	}
+
+	/**
+	 * Extract theater of widget
+	 * 
+	 * @param mDbHelper
+	 * @return
+	 * @throws SQLException
+	 */
+	public static TheaterBean extractWidgetTheater(AndShowtimeDbAdapter mDbHelper, Calendar dateSearch) throws SQLException {
+		Log.d(TAG, "Extract widget theater"); //$NON-NLS-1$
+		TheaterBean theaterBean = null;
+		LocalisationBean location = null;
+		Cursor theaterWidgetCursor = mDbHelper.fetchWidgetTheater();
+		int columnIndex = 0;
+		if (theaterWidgetCursor.moveToFirst()) {
+
+			theaterBean = new TheaterBean();
+			theaterBean.setMovieMap(new HashMap<String, List<Long>>());
+
+			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_ID);
+			theaterBean.setId(theaterWidgetCursor.getString(columnIndex));
+
+			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_NAME);
+			theaterBean.setTheaterName(theaterWidgetCursor.getString(columnIndex));
+
+			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_PLACE);
+			location = new LocalisationBean();
+			location.setCityName(theaterWidgetCursor.getString(columnIndex));
+
+			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_COUNRTY_CODE);
+			location.setCountryNameCode(theaterWidgetCursor.getString(columnIndex));
+
+			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_POSTAL_CODE);
+			location.setPostalCityNumber(theaterWidgetCursor.getString(columnIndex));
+
+			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_LAT);
+			location.setLatitude(theaterWidgetCursor.getDouble(columnIndex));
+
+			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_LONG);
+			location.setLongitude(theaterWidgetCursor.getDouble(columnIndex));
+
+			theaterBean.setPlace(location);
+
+			columnIndex = theaterWidgetCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_THEATER_DATE);
+			Long lastSearch = theaterWidgetCursor.getLong(columnIndex);
+			if (lastSearch != null && lastSearch > 0) {
+				dateSearch.setTimeInMillis(lastSearch);
+			} else {
+				dateSearch.add(Calendar.DAY_OF_MONTH, -1);
+			}
+
+		} else {
+			Log.d(TAG, "No theater where extract"); //$NON-NLS-1$
+		}
+		if (theaterWidgetCursor != null) {
+			theaterWidgetCursor.close();
+		}
+		return theaterBean;
+	}
+
+	/**
+	 * Extract theater of widget
+	 * 
+	 * @param mDbHelper
+	 * @return
+	 * @throws SQLException
+	 */
+	public static Map<MovieBean, List<Long>> extractWidgetShowtimes(AndShowtimeDbAdapter mDbHelper) throws SQLException {
+		Log.d(TAG, "Extract widget showtimes"); //$NON-NLS-1$
+		Map<MovieBean, List<Long>> movieShowTimeMap = new HashMap<MovieBean, List<Long>>();
+		Map<String, MovieBean> movieMap = new HashMap<String, MovieBean>();
+		Map<String, List<Long>> showTimeMap = new HashMap<String, List<Long>>();
+		List<Long> showTimeList = null;
+		MovieBean movieBean = null;
+		String movieId;
+		Cursor movieWidgetShowtimeCursor = mDbHelper.fetchAllWidgetShowtime();
+		int columnIndex = 0;
+		if (movieWidgetShowtimeCursor.moveToFirst()) {
+			do {
+				columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_MID);
+				movieId = movieWidgetShowtimeCursor.getString(columnIndex);
+				movieBean = movieMap.get(movieId);
+				if (movieBean == null) {
+					movieBean = new MovieBean();
+					movieMap.put(movieId, movieBean);
+
+					movieBean.setId(movieId);
+
+					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_NAME);
+					movieBean.setMovieName(movieWidgetShowtimeCursor.getString(columnIndex));
+
+					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_EN_NAME);
+					movieBean.setEnglishMovieName(movieWidgetShowtimeCursor.getString(columnIndex));
+
+					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_LENGTH);
+					movieBean.setMovieTime(movieWidgetShowtimeCursor.getLong(columnIndex));
+
+				}
+				showTimeList = showTimeMap.get(movieId);
+
+				if (showTimeList == null) {
+					showTimeList = new ArrayList<Long>();
+
+					showTimeMap.put(movieId, showTimeList);
+				}
+
+				columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_SHOWTIME);
+				showTimeList.add(movieWidgetShowtimeCursor.getLong(columnIndex));
+
+			} while (movieWidgetShowtimeCursor.moveToNext());
+
+			for (MovieBean movieTmp : movieMap.values()) {
+				movieShowTimeMap.put(movieTmp, showTimeMap.get(movieTmp.getId()));
+			}
+		} else {
+			Log.d(TAG, "No theater where extract"); //$NON-NLS-1$
+		}
+		if (movieWidgetShowtimeCursor != null) {
+			movieWidgetShowtimeCursor.close();
+		}
+		return movieShowTimeMap;
+	}
+
+	/**
+	 * Extract theater of widget
+	 * 
+	 * @param mDbHelper
+	 * @return
+	 * @throws SQLException
+	 */
+	public static MovieBean extractWidgetMovie(AndShowtimeDbAdapter mDbHelper, String movieId, TheaterBean theaterBean) throws SQLException {
+		Log.d(TAG, "Extract widget movie showtimes"); //$NON-NLS-1$
+		List<Long> showTimeList = null;
+		MovieBean movieBean = null;
+		Cursor movieWidgetShowtimeCursor = mDbHelper.fetchWidgetMovie(movieId);
+		int columnIndex = 0;
+		if (movieWidgetShowtimeCursor.moveToFirst()) {
+			do {
+				columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_MID);
+				movieId = movieWidgetShowtimeCursor.getString(columnIndex);
+				if (movieBean == null) {
+					movieBean = new MovieBean();
+
+					movieBean.setId(movieId);
+
+					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_NAME);
+					movieBean.setMovieName(movieWidgetShowtimeCursor.getString(columnIndex));
+
+					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_EN_NAME);
+					movieBean.setEnglishMovieName(movieWidgetShowtimeCursor.getString(columnIndex));
+
+					columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_LENGTH);
+					movieBean.setMovieTime(movieWidgetShowtimeCursor.getLong(columnIndex));
+
+				}
+				showTimeList = theaterBean.getMovieMap().get(movieId);
+
+				if (showTimeList == null) {
+					showTimeList = new ArrayList<Long>();
+
+					theaterBean.getMovieMap().put(movieId, showTimeList);
+				}
+
+				columnIndex = movieWidgetShowtimeCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_WIDGET_MOVIE_SHOWTIME);
+				showTimeList.add(movieWidgetShowtimeCursor.getLong(columnIndex));
+
+			} while (movieWidgetShowtimeCursor.moveToNext());
+
+		} else {
+			Log.d(TAG, "No theater where extract"); //$NON-NLS-1$
+		}
+		if (movieWidgetShowtimeCursor != null) {
+			movieWidgetShowtimeCursor.close();
+		}
+		return movieBean;
 	}
 
 	/**
