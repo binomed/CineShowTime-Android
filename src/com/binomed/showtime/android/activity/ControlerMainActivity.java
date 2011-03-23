@@ -125,9 +125,15 @@ public class ControlerMainActivity {
 					forceRequest = true;
 				} else {
 					Cursor cursorInResults = null;
-					if (mDbHelper.isOpen()) {
-						cursorInResults = mDbHelper.fetchInResults(theaterBean);
-						forceRequest = !cursorInResults.moveToFirst();
+					try {
+						if (mDbHelper.isOpen()) {
+							cursorInResults = mDbHelper.fetchInResults(theaterBean);
+							forceRequest = !cursorInResults.moveToFirst();
+						}
+					} finally {
+						if (cursorInResults != null) {
+							cursorInResults.close();
+						}
 					}
 				}
 			} else {

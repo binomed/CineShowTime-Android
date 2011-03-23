@@ -233,9 +233,11 @@ public class ControlerResultsActivity {
 							List<String> theaterIdListTmp = new ArrayList<String>();
 							theaterIdListTmp.add(theaterFavId);
 							for (Entry<String, MovieBean> entryMovieTmp : nearResp.getMapMovies().entrySet()) {
-								if (entryMovieTmp.getValue().getTheaterList().contains(theaterFavId)) {
-									entryMovieTmp.getValue().setTheaterList(theaterIdListTmp);
-									mapMovieFiltered.put(entryMovieTmp.getKey(), entryMovieTmp.getValue());
+								if (entryMovieTmp.getValue().getTheaterList() != null) {
+									if (entryMovieTmp.getValue().getTheaterList().contains(theaterFavId)) {
+										entryMovieTmp.getValue().setTheaterList(theaterIdListTmp);
+										mapMovieFiltered.put(entryMovieTmp.getKey(), entryMovieTmp.getValue());
+									}
 								}
 							}
 

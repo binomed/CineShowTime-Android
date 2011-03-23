@@ -13,8 +13,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 
 import com.binomed.showtime.R;
@@ -161,7 +161,8 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 					Long distanceTimeLong = null;
 					// En fonction du type d'affichage on
 					List<Entry<String, List<ProjectionBean>>> entries = null;
-					for (TheaterBean theater : theatherList) {
+					List<TheaterBean> tempTheaterList = new ArrayList<TheaterBean>(theatherList);
+					for (TheaterBean theater : tempTheaterList) {
 						entries = projectionsThMap.get(theater.getId());
 
 						if (entries == null && theater.getMovieMap() != null) {
@@ -285,7 +286,7 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 				, movieView //
 				, blackTheme//
 				, format24//
-				);
+		);
 		return subView;
 	}
 

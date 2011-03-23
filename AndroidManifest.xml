@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.binomed.showtime" android:versionCode="23" android:versionName="2.0.0">
+      package="com.binomed.showtime" android:versionCode="24" android:versionName="2.0.1">
       
      <supports-screens
           android:largeScreens="true"

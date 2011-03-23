@@ -95,23 +95,36 @@ public class AndShowTimeResultsService extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 
-		Bundle extras = intent.getExtras();
-		latitude = Double.valueOf(extras.getDouble(ParamIntent.SERVICE_SEARCH_LATITUDE, 0));
-		longitude = Double.valueOf(extras.getDouble(ParamIntent.SERVICE_SEARCH_LONGITUDE, 0));
-		cityName = extras.getString(ParamIntent.SERVICE_SEARCH_CITY);
-		movieName = extras.getString(ParamIntent.SERVICE_SEARCH_MOVIE_NAME);
-		origin = extras.getString(ParamIntent.SERVICE_SEARCH_ORIGIN);
-		theaterId = extras.getString(ParamIntent.SERVICE_SEARCH_THEATER_ID);
-		day = extras.getInt(ParamIntent.SERVICE_SEARCH_DAY);
-		start = extras.getInt(ParamIntent.SERVICE_SEARCH_START);
+		if (intent != null) {
 
-		this.intent = intent;
-		try {
-			serviceStarted = true;
-			Thread thread = new Thread(runnable);
-			thread.start();
-		} catch (Exception e) {
-			Log.e(TAG, "error searching theaters", e);
+			Bundle extras = intent.getExtras();
+			latitude = Double.valueOf(extras.getDouble(ParamIntent.SERVICE_SEARCH_LATITUDE, 0));
+			longitude = Double.valueOf(extras.getDouble(ParamIntent.SERVICE_SEARCH_LONGITUDE, 0));
+			cityName = extras.getString(ParamIntent.SERVICE_SEARCH_CITY);
+			movieName = extras.getString(ParamIntent.SERVICE_SEARCH_MOVIE_NAME);
+			origin = extras.getString(ParamIntent.SERVICE_SEARCH_ORIGIN);
+			theaterId = extras.getString(ParamIntent.SERVICE_SEARCH_THEATER_ID);
+			day = extras.getInt(ParamIntent.SERVICE_SEARCH_DAY);
+			start = extras.getInt(ParamIntent.SERVICE_SEARCH_START);
+
+			this.intent = intent;
+			try {
+				serviceStarted = true;
+				Thread thread = new Thread(runnable);
+				thread.start();
+			} catch (Exception e) {
+				Log.e(TAG, "error searching theaters", e);
+			}
+		} else {
+			BeanManagerFactory.setNearResp(null);
+			try {
+				serviceStarted = false;
+				binder.finish();
+				stopSelf();
+			} catch (RemoteException e) {
+				//
+			}
+
 		}
 	}
 
