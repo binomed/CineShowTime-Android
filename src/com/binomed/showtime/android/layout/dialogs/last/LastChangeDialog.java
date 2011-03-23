@@ -24,12 +24,18 @@ public class LastChangeDialog extends Dialog {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.last_dialog);
+		setContentView(R.layout.dialog_last);
 
 		setTitle(mainContext.getResources().getString(R.string.dialogLastChangeTitle));
 		TextView contentLastChange = (TextView) findViewById(R.id.lastChangetText);
 		Spanned spanned = Html.fromHtml( //
-				"<b>v1.10.1</b><br><br>" + //
+				"<b>v2.0.0</b><br><br>" + //
+						" * New UI<br>" + //
+						" * Add Themes management<br>" + //
+						" * Add tab review in movie screen<br>" + //
+						" * Add trailers directly in movie screen<br>" + //
+						" * Possibility to reserve if infomation is available<br>" + //
+						"<br><b>v1.10.1</b><br><br>" + //
 						" * Minor fix corresponding to crash reports<br>" + //
 						" * Suppression of gps message when launching app<br>" + //
 						"<br><b>v1.10.0</b><br><br>" + //
@@ -38,15 +44,15 @@ public class LastChangeDialog extends Dialog {
 						"<br><b>v1.9.2</b><br><br>" + //
 						" * Fix for archos tablet<br>" + //
 						"<br><b>v1.9.1</b><br><br>" + //
-						" * Minor bug correction with favorites<br>" + // 
-						" * Change of icon<br>" + // 
-						" * <b>Please update your favorites cinemas (delete, recreate) if there is an error<b><br>" + // 
+						" * Minor bug correction with favorites<br>" + //
+						" * Change of icon<br>" + //
+						" * <b>Please update your favorites cinemas (delete, recreate) if there is an error<b><br>" + //
 						"<br><b>v1.9.0</b><br><br>" + //
-						" * Support of japanese langage and italian<br>" + // 
-						" * Change of icon<br>" + // 
-						" * Change of widget : you have to reset your widget<br>" + // 
+						" * Support of japanese langage and italian<br>" + //
+						" * Change of icon<br>" + //
+						" * Change of widget : you have to reset your widget<br>" + //
 						"<br><b>v1.8.1</b><br><br>" + //
-						" * Minor fix for bookmark bug" + // 
+						" * Minor fix for bookmark bug" + //
 						"<br><br><b>v1.8.0</b><br><br>" + //
 						" * Location bugs correction<br>" + //
 						" * crash bug correction<br>" + //

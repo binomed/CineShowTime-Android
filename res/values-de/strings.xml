@@ -49,7 +49,7 @@
 	<string name="MainTitle">Willkommen bei CineShowTime</string>
 	<string name="app_name">CineShowTime</string>
 	<string name="btnNear">Kino suchen</string>
-	<string name="btnMovie">Film und Filmvorstellungen suchen</string>
+	<string name="btnMovie">Vorstellung suchen</string>
 	<string name="btnFav">Favoriten</string>
 	<string name="btnUpComming">Demnächst</string>
 	<!-- GPS Messages -->
@@ -58,7 +58,7 @@
 	<string name="gpsInactiveBtnYes">Ja </string>
 	<string name="gpsInactiveBtnNo">Nein </string>
 	<!-- Search Near Activity Message -->
-	<string name="hour">Std</string>
+	<string name="hour">Std </string>
 	<string name="min">Min</string>
 	<string name="menuCall">Kino anrufen </string>
 	<string name="menuFav">Favoriten</string>
@@ -88,9 +88,10 @@
 	<string name="movieProgressTitle">Filmbeschreibung suchen </string>
 	<string name="movieProgressMsg">Daten werden geladen ... </string>
 	<string name="plot">Inhaltsangabe</string>
+	<string name="trailer">Anhänger</string>
 	<string name="projectionList">Vorstellungen :</string>
 	<string name="projectionTime">Anfangszeit der Vorstellung : </string>
-	<string name="endHour">Ungefähre Endzeit : </string>
+	<string name="endHour">Endzeit : </string>
 	<string name="txtTitle">Titel : </string>
 	<string name="txtRate">Bewertung : </string>
 	<string name="txtUserRate">Ihre Bewertung : </string>
@@ -120,6 +121,32 @@
 	<string name="dialogRateMovieMsg">Geben Sie eine Note zwischen 0 und 10.</string>
 	<string name="dialogRateMovieValidate">Bestätigen</string>
 	<string name="dialogRateMovieCancel">Abbrechen</string>
+	<!-- Error messages -->
+	<string name="msgErrorNoDb">Keine Verbindung zur Datenbank. Überprüfen Sie die SD-Karte.</string>
+	<string name="msgErrorNoNetwork">Verbindungsfehler. Prüfen Sie Ihre 3G bzw. WLAN Verbindung.</string>
+	<string name="msgErrorOnServer">Verbindung zum Server fehlgeschlagen ! Versuchen Sie es später nochmal.</string>
+	<!--ADDED STRINGS-->
+	<string name="txtEnterCity">Name der Stadt...</string>
+	<string name="txtEnterMovie">Filmtitel...</string>
+	<string name="spinnerTomorow">Morgen</string>
+	<string name="movieLabel">Film</string>
+	<string name="showtimeLabel">Vorstellung</string>
+	<string name="rateLabel">Bewertung</string>
+	<string name="errorMsg">Fehler</string>
+	<string name="geolocalized">Suche über Standort</string>
+	<string name="gpsUnauthorizedMsg">Sie müssen die Standortbestimmung durch Google aktivieren.</string>
+	<string name="gpsUnauthorizedMsgCineShowTime">Sie müssen die Standortbestimmung durch GPS in den Einstellungen erlauben.</string>
+	<string name="gpsPrefDisable">Sie müssen die Standortbestimmung durch GPS in den Einstellungen erlauben.</string>
+	<string name="msgErrorTranslate">Ein Fehler ist während der Übersetzung entstanden.</string>
+	<string name="msgDevelopped">Entwickler: </string>
+	<string name="noReview">Kein Bewertung</string>
+	<string name="unknownSource">Unbekannt</string>
+	<string name="urlHelp">http://m.blog.binomed.fr/en/help-cineshowtime-android-en</string>
+	<string name="readMore">mehr</string>
+	<string name="menuReservation">Reservierung</string>
+	<!--THEMES-->
+	<string name="theme_dark">Dark knight</string>
+	<string name="theme_light">Shine a light</string>
 	<!-- Preferences Messages -->
 	<string name="preference_lang_cat">Bevorzugte Sprache </string>
 	<string name="preference_lang_key_auto_translate">check_preference</string>
@@ -133,6 +160,12 @@
 	<string name="preference_gen_time_adds">Werbezeit</string>
 	<string name="preference_gen_time_adds_summary">Zeit zwischen Vorstellungsanfang und Filmanfang (meistens Werbung und Neuvorstellungen)</string>
 	<string name="preference_gen_default_time_adds">20</string>
+	<string name="preference_gen_key_time_format">time_format_preference</string>
+	<string name="preference_gen_time_format">Zeitformat</string>
+	<string name="preference_gen_default_time_format">24</string>
+	<string name="preference_gen_theme">Thema</string>
+	<string name="preference_gen_key_theme">theme_preference</string>
+	<string name="preference_gen_default_theme">DARK</string>
 	<string name="preference_loc_cat">Einstellungen zur Ortssuche</string>
 	<string name="preference_loc_key_measure">measure_preference</string>
 	<string name="preference_loc_default_measure">KM</string>
@@ -146,7 +179,7 @@
 	<string name="preference_loc_enable_localisation_summary">Position berücksichtigen wenn GPS oder GSM aktiviert ist</string>
 	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
 	<string name="preference_loc_localisation_provider">Einstellung der Positionsuche</string>
-	<string name="preference_loc_localisation_provider_summary">Eigene Position ermitteln über : GSM, GPS, WLAN, IP oder XPS (WLAN, GSM, GPS)</string>
+	<string name="preference_loc_localisation_provider_summary">Eigene Position ermitteln über : GSM, GPS, WLAN</string>
 	<string name="preference_loc_default_localisation_provider">GPS</string>
 	<string name="preference_sort_cat">Sortierreihenfolgen</string>
 	<string name="preference_sort_key_sort_movie">sort_movie</string>
@@ -160,8 +193,4 @@
 	<string name="preference_user_cat">Benutzer Einstellungen</string>
 	<string name="preference_user_agenda">Kalenderauswahl</string>
 	<string name="preference_user_agenda_summary">Kalenderauswahl für Filmvorstellungen</string>
-	<!-- Error messages -->
-	<string name="msgErrorNoDb">Keine Verbindung zur Datenbank. Überprüfen Sie die SD-Karte.</string>
-	<string name="msgErrorNoNetwork">Verbindungsfehler. Prüfen Sie Ihre 3G bzw. WLAN Verbindung.</string>
-	<string name="msgErrorOnServer">Verbindung zum Server fehlgeschlagen ! Versuchen Sie es später nochmal.</string>
 </resources>

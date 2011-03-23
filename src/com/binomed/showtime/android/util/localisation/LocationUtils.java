@@ -135,6 +135,115 @@ public final class LocationUtils {
 		}
 	}
 
+	public static void registerLocalisationListenerOld(final Context context, ProviderEnum provider, LocalisationManagementOld listener) {
+		switch (provider) {
+		case GPS_PROVIDER:
+		case GSM_PROVIDER: {
+			LocationManager locationManager = getLocationManager(context);
+			if (locationManager != null) {
+				locationManager.requestLocationUpdates(provider.getAndroidProvider(), 10000, 10, listener);
+			} else {
+				Log.d(TAG, "No listener Put"); //$NON-NLS-1$
+			}
+			break;
+		}
+		case IP_PROVIDER:
+		case WIFI_PROVIDER:
+		case XPS_PROVIDER: {
+			XPS xps = listener.getXps();
+			if (xps == null) {
+				xps = new XPS(context);
+				listener.setXps(xps);
+			}
+
+			WPSAuthentication auth = new WPSAuthentication(GoogleKeys.SKYHOOK_USER_NAME, GoogleKeys.SKYHOOK_REALM);
+			if (!checkSkyHookRegistration(context)) {
+				WPSAuthentication authRegister = new WPSAuthentication(GoogleKeys.SKYHOOK_USER_NAME_REGISTER, GoogleKeys.SKYHOOK_REALM);
+				WPS wps = new WPS(context);
+				wps.registerUser(authRegister, auth, new RegistrationCallback() {
+
+					@Override
+					public WPSContinuation handleError(WPSReturnCode error) {
+						switch (error) {
+						case WPS_ERROR_LOCATION_CANNOT_BE_DETERMINED: {
+							Log.e(TAG, error.toString());
+							break;
+						}
+						case WPS_ERROR_WIFI_NOT_AVAILABLE: {
+							Log.e(TAG, error.toString());
+							break;
+						}
+						case WPS_ERROR_SERVER_UNAVAILABLE: {
+							Log.e(TAG, error.toString());
+							break;
+						}
+						case WPS_ERROR_NO_WIFI_IN_RANGE: {
+							Log.e(TAG, error.toString());
+
+							break;
+						}
+						case WPS_ERROR: {
+							Log.e(TAG, error.name());
+
+							break;
+						}
+						default:
+							Log.e(TAG, error.name());
+							break;
+						}
+						// TODO gérer les cas d'erreur
+						// in all case, we'll stop
+						return WPSContinuation.WPS_STOP;
+					}
+
+					@Override
+					public void done() {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void handleSuccess() {
+						Intent intentNearFillDBService = new Intent(context, AndShowDBGlobalService.class);
+						intentNearFillDBService.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_SKYHOOK_REGISTRATION);
+						context.startService(intentNearFillDBService);
+					}
+				});
+			}
+			switch (provider) {
+			case IP_PROVIDER: {
+				xps.getIPLocation(auth //
+						, WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP // 
+						, listener//
+						);
+				break;
+			}
+			case WIFI_PROVIDER: {
+				xps.getLocation(auth //
+						, WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP // 
+						, listener//
+						);
+				break;
+			}
+			case XPS_PROVIDER: {
+				xps.getXPSLocation(auth,
+				// note we convert _period to seconds
+						(int) (5000 / 1000) //
+						, 30 //
+						, listener//
+						);
+
+			}
+			default:
+				break;
+			}
+			break;
+		}
+		default:
+			break;
+		}
+	}
+
 	public static void registerLocalisationListener(final Context context, ProviderEnum provider, LocalisationManagement listener) {
 		switch (provider) {
 		case GPS_PROVIDER:
@@ -236,6 +345,31 @@ public final class LocationUtils {
 			}
 			default:
 				break;
+			}
+			break;
+		}
+		default:
+			break;
+		}
+	}
+
+	public static void unRegisterListenerOld(Context context, ProviderEnum provider, LocalisationManagementOld listener) {
+		switch (provider) {
+		case GPS_PROVIDER:
+		case GSM_PROVIDER: {
+			LocationManager locationManager = getLocationManager(context);
+			if (locationManager != null) {
+				locationManager.removeUpdates(listener);
+			} else {
+				Log.d(TAG, "No listener Put"); //$NON-NLS-1$
+			}
+			break;
+		}
+		case WIFI_PROVIDER:
+		case XPS_PROVIDER: {
+			XPS xps = listener.getXps();
+			if (xps != null) {
+				xps.abort();
 			}
 			break;
 		}
@@ -457,4 +591,5 @@ public final class LocationUtils {
 			Log.e(TAG, "Error during getting direction from " + source + " to " + localisationBean.getSearchQuery(), e);
 		}
 	}
+
 }

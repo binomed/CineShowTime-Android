@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/favItemId"
+>
+<ImageView 
+    android:id="@+id/favItemDelete"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/ic_delete"
+    android:layout_alignParentRight="true"
+/>
+<TextView 
+    android:id="@+id/favItemTheater"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:layout_toLeftOf="@+id/favItemDelete"
+/>
+<TextView 
+    android:id="@+id/favItemCity"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="36dip"
+    android:gravity="center_vertical"
+    android:layout_toLeftOf="@+id/favItemDelete"
+    android:layout_below="@+id/favItemTheater"
+/>
+</RelativeLayout>

@@ -22,6 +22,7 @@ public final class BeanManagerFactory {
 	private HashMap<String, TheaterBean> centralTheaterMap;
 	private Boolean mapInstalled;
 	private Boolean dialerInstalled;
+	private Boolean calendarInstalled;
 
 	private boolean firstOpenAsk;
 
@@ -91,6 +92,14 @@ public final class BeanManagerFactory {
 
 	private void setPrivateDialerInstalled(boolean dialerInstalled) {
 		this.dialerInstalled = dialerInstalled;
+	}
+
+	private Boolean isPrivateCalendarInstalled() {
+		return calendarInstalled;
+	}
+
+	private void setPrivateCalendarInstalled(boolean calendarInstalled) {
+		this.calendarInstalled = calendarInstalled;
 	}
 
 	private TheaterBean getPrivateTheaterTemp() {
@@ -195,6 +204,15 @@ public final class BeanManagerFactory {
 		if (result == null) {
 			result = AndShowTimeMenuUtil.isDialerInstalled(packageManager);
 			BeanManagerFactory.getInstance().setPrivateDialerInstalled(result);
+		}
+		return result;
+	}
+
+	public synchronized static boolean isCalendarInstalled(PackageManager packageManager) {
+		Boolean result = BeanManagerFactory.getInstance().isPrivateCalendarInstalled();
+		if (result == null) {
+			result = AndShowTimeMenuUtil.isCalendarInstalled(packageManager);
+			BeanManagerFactory.getInstance().setPrivateCalendarInstalled(result);
 		}
 		return result;
 	}

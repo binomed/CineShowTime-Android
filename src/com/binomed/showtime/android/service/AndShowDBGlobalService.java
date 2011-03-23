@@ -26,7 +26,9 @@ import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.MovieResp;
 import com.binomed.showtime.beans.NearResp;
 import com.binomed.showtime.beans.ProjectionBean;
+import com.binomed.showtime.beans.ReviewBean;
 import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.beans.YoutubeBean;
 
 public class AndShowDBGlobalService extends Service {
 
@@ -159,7 +161,18 @@ public class AndShowDBGlobalService extends Service {
 							break;
 						}
 						case AndShowtimeCst.DB_TYPE_MOVIE_WRITE: {
-							mDbHelper.createOrUpdateMovie((MovieBean) action.getData());
+							MovieBean movie = (MovieBean) action.getData();
+							mDbHelper.createOrUpdateMovie(movie);
+							if (movie.getReviews() != null) {
+								for (ReviewBean review : movie.getReviews()) {
+									mDbHelper.createReview(review, movie.getId());
+								}
+							}
+							if (movie.getYoutubeVideos() != null) {
+								for (YoutubeBean video : movie.getYoutubeVideos()) {
+									mDbHelper.createVideo(video, movie.getId());
+								}
+							}
 							break;
 						}
 						case AndShowtimeCst.DB_TYPE_FAV_WRITE: {
@@ -237,17 +250,21 @@ public class AndShowDBGlobalService extends Service {
 				MovieBean copyMovie = movieResp.getMovie();
 
 				mDbHelper.deleteTheatersShowtimeRequestAndLocation();
+				mDbHelper.createTheaterList(copyListTheater);
+				Map<String, Map<String, List<ProjectionBean>>> mapThMap = new HashMap<String, Map<String, List<ProjectionBean>>>();
 				for (TheaterBean theater : copyListTheater) {
-					mDbHelper.createTheater(theater);
+					// mDbHelper.createTheater(theater);
 					if (theater.getPlace() != null) {
 						mDbHelper.createLocation(theater.getPlace(), theater.getId());
 					}
-					for (String movieId : theater.getMovieMap().keySet()) {
-						for (ProjectionBean showTime : theater.getMovieMap().get(movieId)) {
-							mDbHelper.createShowtime(theater.getId(), movieId, showTime);
-						}
-					}
+					mapThMap.put(theater.getId(), theater.getMovieMap());
+					// for (String movieId : theater.getMovieMap().keySet()) {
+					// for (ProjectionBean showTime : theater.getMovieMap().get(movieId)) {
+					// // mDbHelper.createShowtime(theater.getId(), movieId, showTime);
+					// }
+					// }
 				}
+				mDbHelper.createShowtimeList(mapThMap);
 				if (copyMovie != null) {
 					mDbHelper.createOrUpdateMovie(copyMovie);
 					Set<String> ids = new HashSet<String>();
@@ -288,15 +305,18 @@ public class AndShowDBGlobalService extends Service {
 				} finally {
 					cursorFav.close();
 				}
+				mDbHelper.createTheaterList(copyListTheater);
+				Map<String, Map<String, List<ProjectionBean>>> mapThMap = new HashMap<String, Map<String, List<ProjectionBean>>>();
 				for (TheaterBean theater : copyListTheater) {
-					mDbHelper.createTheater(theater);
+					// mDbHelper.createTheater(theater);
 					if (theater.getPlace() != null) {
 						mDbHelper.createLocation(theater.getPlace(), theater.getId());
 					}
+					mapThMap.put(theater.getId(), theater.getMovieMap());
 					for (String movieId : theater.getMovieMap().keySet()) {
 						for (ProjectionBean showTime : theater.getMovieMap().get(movieId)) {
 							try {
-								mDbHelper.createShowtime(theater.getId(), movieId, showTime);
+								// mDbHelper.createShowtime(theater.getId(), movieId, showTime);
 								if (theaterIdFavList.contains(theater.getId())) {
 									mDbHelper.createFavShowtime(theater.getId(), movieId, showTime);
 								}
@@ -306,6 +326,7 @@ public class AndShowDBGlobalService extends Service {
 						}
 					}
 				}
+				mDbHelper.createShowtimeList(mapThMap);
 				for (MovieBean movie : copyMovieMap.values()) {
 					mDbHelper.createOrUpdateMovie(movie);
 				}

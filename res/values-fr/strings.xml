@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- Commons -->
+	<!--COMMONS -->
 	<string name="menuPreferences">Préférences </string>
 	<string name="menuAbout">À propos </string>
 	<string name="menuHelp">Aide </string>
@@ -8,8 +8,8 @@
 	<string name="openMapsMenuItem">Localiser cinéma </string>
 	<string name="openMapsDriveMenuItem">Itinéraire jusqu\'au cinéma</string>
 	<string name="search">Rechercher</string>
-	<string name="cityName">Nom de ville :</string>
-	<string name="movieName">Nom de film :</string>
+	<string name="cityName">Ville </string>
+	<string name="movieName">Film </string>
 	<string name="btnChkLocation">Par ville : </string>
 	<string name="spinnerToday">Aujourd\'hui</string>
 	<string name="spinnerMonday">Lundi</string>
@@ -19,7 +19,7 @@
 	<string name="spinnerFriday">Vendredi</string>
 	<string name="spinnerSaturday">Samedi</string>
 	<string name="spinnerSunday">Dimanche</string>
-	<string name="spinnerChoseTitle">Choisissez un jour</string>
+	<string name="spinnerChoseTitle">Jour </string>
 	<string name="menuSort">Trier les résultats</string>
 	<string name="sortDialogTitle">Choisissez le mode de tri</string>
 	<string name="msgNoCityName">Vous devez saisir un nom de ville avant de lancer la recherche.</string>
@@ -40,24 +40,24 @@
 	<string name="msgCalculating">Veuillez patienter...</string>
 	<string name="msgNoResultRetryLater">Aucune séance n\'a été trouvée pour le moment, il y a sûrement un problème sur le serveur. Merci de relancer la recherche.</string>
 	<string name="btnClose">Fermer</string>
-	<!--  Widget -->
+	<!-- Widget -->
 	<string name="widget_name_2x2">CineShowTime 2x2</string>
 	<string name="widget_name_2x2_cupcake">CineShowTime 2x2 Cupcake</string>
 	<string name="msgNoResults">Aucun film trouvé</string>
 	<string name="msgLoading">Veuillez patienter...</string>
-	<!--  Main acitivity -->
+	<!--Main Activity -->
 	<string name="MainTitle">Bienvenue sur CineShowTime Application</string>
 	<string name="app_name">CineShowTime</string>
 	<string name="btnNear">Chercher des cinémas</string>
-	<string name="btnMovie">Chercher un film et ses séances</string>
+	<string name="btnMovie">Recherche de séances</string>
 	<string name="btnFav">Favoris</string>
 	<string name="btnUpComming">Prochainement</string>
-	<!-- GPS Messages -->
+	<!--GPS messages-->
 	<string name="gpsInactiveTitle">GPS désactivé ! </string>
 	<string name="gpsInactiveMsg">Voulez vous activer votre GPS ? </string>
 	<string name="gpsInactiveBtnYes">Oui </string>
 	<string name="gpsInactiveBtnNo">Non </string>
-	<!-- Search Near Activity Message -->
+	<!--Search Near Message-->
 	<string name="hour">h</string>
 	<string name="min">min</string>
 	<string name="menuCall">Appeler cinéma </string>
@@ -68,29 +68,28 @@
 	<string name="searchNearProgressTitle">Recherche de séances </string>
 	<string name="searchNearProgressMsg">Veuillez patienter... </string>
 	<string name="itemMoreTheaters">Plus de cinémas </string>
-	<!-- Search Movie Activity Message -->
+	<!--Serach Movie message-->
 	<string name="searchMovieProgressTitle">Recherche de séances </string>
 	<string name="searchMovieProgressMsg">Veuillez patienter... </string>
 	<string name="txtMovieFind">Film : </string>
 	<string name="txtMovieFindDuration">Durée : </string>
 	<string name="txtMovieFindValueNotFound">Aucun film ne correspond à la recherche</string>
-	<!-- LastChange Dialog Message -->
-	<string name="dialogLastChangeTitle">Derniers Changements</string>
-	<!-- Bookmarks Dialog Message -->
+	<!--Bookmarks dialog-->
 	<string name="dialogBookmarkTitle">Favoris </string>
 	<string name="menuRemoveBookmark">Supprimer favori</string>
-	<!-- Last Showtime Dialog Message -->
+	<!--Last ShowTime dialog message-->
 	<string name="dialogLastShowtimeTitle">Dernières séances d\'un film</string>
 	<string name="dialogLastShowtimeMsg">Voulez-vous lancer la recherche des films ne se donnant plus la semaine prochaine ? \n Cette fonctionnalité est en développement et peut ne pas toujours fonctionner.</string>
 	<string name="dialogLastShowtimeBtnYes">Oui</string>
 	<string name="dialogLastShowtimeBtnNon">Non</string>
-	<!-- Movie Activity Message -->
+	<!--Movie activity message-->
 	<string name="movieProgressTitle">Recherche fiche film </string>
 	<string name="movieProgressMsg">Veuillez patienter... </string>
 	<string name="plot">Résumé</string>
+	<string name="trailer">Bandes-annonces</string>
 	<string name="projectionList">Projections dans le cinéma : </string>
 	<string name="projectionTime">Heure de la séance : </string>
-	<string name="endHour">Heure approximative de fin : </string>
+	<string name="endHour">Heure de fin : </string>
 	<string name="txtTitle">Titre : </string>
 	<string name="txtRate">Note : </string>
 	<string name="txtUserRate">Votre note : </string>
@@ -109,18 +108,46 @@
 	<string name="menuAddEvent">Ajouter dans l\'agenda</string>
 	<string name="menuRate">Noter le film</string>
 	<string name="msgRateSave">note sauvegardée</string>
-	<string name="smsContent">Je te propose de venir avec moi voir le film "{0}" {1} à la séance de {2} au cinéma "{3}" \n\n sms auto-généré par CineShowTime</string>
-	<string name="mailContent">Je te propose de venir avec moi voir le film <i>"{0}"</i> {1} à la séance de <b>{2}</b> au cinéma "{3}" \n\n mail auto-généré par CineShowTime</string>
+	<string name="smsContent">Je te propose de venir avec moi voir le film "{0}"{1} à la séance de {2} au cinéma "{3}" \n\n sms auto-généré par CineShowTime</string>
+	<string name="mailContent">Je te propose de venir avec moi voir le film <i>"{0}"</i> {1} à la séance de <b>{2}</b> au cinéma "{3}" \n\n mail auto-généré par CineShowTime </string>
 	<string name="mailSubject">Invitation pour le film {0}</string>
 	<string name="chooseIntentSms">Envoyer invitation sms</string>
 	<string name="chooseIntentMail">Envoyer invitation mail</string>
 	<string name="msgEventAdd">Séance ajoutée dans l\'agenda</string>
-	<!-- Rate Movie Dialog Message -->
+	<!--Rate movie dialog message-->
 	<string name="dialogRateMovieTitle">Noter le film</string>
 	<string name="dialogRateMovieMsg">Veuillez donner une note entre 0 et 10.</string>
 	<string name="dialogRateMovieValidate">Valider</string>
 	<string name="dialogRateMovieCancel">Annuler</string>
-	<!-- Preferences Messages -->
+	<!--Error messages-->
+	<string name="msgErrorNoDb">La connexion à la base de données a échoué. Vérifiez votre carte SD.</string>
+	<string name="msgErrorNoNetwork">Erreur de connexion. Vérifiez votre connexion 3G ou Wifi.</string>
+	<string name="msgErrorOnServer">Une erreur est survenue lors de la connexion au serveur. Veuillez réessayer plus tard.</string>
+	<!--ADDED STRINGS-->
+	<string name="txtEnterCity">Entrez une ville...</string>
+	<string name="txtEnterMovie">Entrez un film...</string>
+	<string name="spinnerTomorow">Demain</string>
+	<string name="movieLabel">Film</string>
+	<string name="showtimeLabel">Séances</string>
+	<string name="rateLabel">Critiques</string>
+	<string name="errorMsg">Erreur</string>
+	<string name="geolocalized">Recherche géolocalisée</string>
+	<string name="gpsUnauthorizedMsg">Vous devez activer la permission de localisation par Google. </string>
+	<string name="gpsUnauthorizedMsgCineShowTime">Vous devez activer la permission de localisation pour CineShowTime. </string>
+	<string name="gpsPrefDisable">Vous devez autoriser la localisation gps dans les préférences. </string>
+	<string name="msgErrorTranslate">Une erreur s\'est produite pendant la traduction.</string>
+	<string name="msgDevelopped">Développé par</string>
+	<string name="noReview">Pas de critiques pour ce film.</string>
+	<string name="unknownSource">Inconnu</string>
+	<string name="urlHelp">http://m.blog.binomed.fr/help-cineshowtime-android-fr</string>
+	<string name="readMore">lire la suite</string>
+	<string name="menuReservation">Réservation</string>
+	<!-- LastChange Dialog Message -->
+	<string name="dialogLastChangeTitle">Derniers Changements</string>
+	<!--THEMES-->
+	<string name="theme_dark">Dark knight</string>
+	<string name="theme_light">Shine a light</string>
+	<!--Preferences messages-->
 	<string name="preference_lang_cat">Préférences de langue </string>
 	<string name="preference_lang_key_auto_translate">check_preference</string>
 	<string name="preference_lang_auto_translate">Traduction automatique</string>
@@ -133,6 +160,12 @@
 	<string name="preference_gen_time_adds">Temps de publicité</string>
 	<string name="preference_gen_time_adds_summary">Temps entre l\'heure de la séance et le début du film (publicité et bandes annonces)</string>
 	<string name="preference_gen_default_time_adds">20</string>
+	<string name="preference_gen_key_time_format">time_format_preference</string>
+	<string name="preference_gen_time_format">Format d\'heure</string>
+	<string name="preference_gen_default_time_format">24</string>
+	<string name="preference_gen_theme">Thème d\'affichage</string>
+	<string name="preference_gen_key_theme">theme_preference</string>
+	<string name="preference_gen_default_theme">DARK</string>
 	<string name="preference_loc_cat">Préférences de localisation</string>
 	<string name="preference_loc_key_measure">measure_preference</string>
 	<string name="preference_loc_default_measure">KM</string>
@@ -146,7 +179,7 @@
 	<string name="preference_loc_enable_localisation_summary">Utiliser la localisation GPS ou GSM si elle est activée.</string>
 	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
 	<string name="preference_loc_localisation_provider">Méthode de localisation</string>
-	<string name="preference_loc_localisation_provider_summary">Choisissez une méthode de localisation (GPS, GSM, IP, XPS).</string>
+	<string name="preference_loc_localisation_provider_summary">Choisissez une méthode de localisation (GPS, GSM, Wifi).</string>
 	<string name="preference_loc_default_localisation_provider">GPS</string>
 	<string name="preference_sort_cat">Préférences de tri</string>
 	<string name="preference_sort_key_sort_movie">sort_movie</string>
@@ -159,9 +192,4 @@
 	<string name="preference_sort_sort_theater_summary">Choisissez le tri à utiliser par défaut pour le résultat des recherches de proximité</string>
 	<string name="preference_user_cat">Préférences de l\'utilisateur</string>
 	<string name="preference_user_agenda">Choix de l\'agenda</string>
-	<string name="preference_user_agenda_summary">Choix de l\'agenda à utiliser pour ajouter les séances</string>
-	<!-- Error messages -->
-	<string name="msgErrorNoDb">La connexion à la base de données a échoué. Vérifiez votre carte SD.</string>
-	<string name="msgErrorNoNetwork">Erreur de connexion. Vérifiez votre connexion 3G ou Wifi.</string>
-	<string name="msgErrorOnServer">Une erreur est survenue lors de la connexion au serveur. Veuillez réessayer plus tard.</string>
 </resources>

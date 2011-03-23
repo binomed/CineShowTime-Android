@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="logoImg" format="reference"/>
+    <attr name="imgBackground" format="reference"/>
+    <attr name="cstTabBackground" format="reference"/>
+    <attr name="cstTextTab" format="reference"/>
+    <attr name="cstTextMovieInfo" format="reference"/>
+    <attr name="cstTextMovieInfoBelow" format="reference"/>
+    <attr name="cstTextMovieInfoRate" format="reference"/>
+    <attr name="cstEditText" format="reference"/>
+    <attr name="cstSearchLabel" format="reference"/>
+    <attr name="cstMovieLabel" format="reference"/>
+    <attr name="cstMovieLabelBelow" format="reference"/>
+    <attr name="cstObjectMasterMainInfo" format="reference"/>
+    <attr name="cstObjectMasterSubInfo" format="reference"/>
+    <attr name="cstObjectSubMainInfo" format="reference"/>
+    <attr name="cstObjectSubMainInfoSub" format="reference"/>
+    <attr name="cstTextTrailer" format="reference"/>
+</resources>

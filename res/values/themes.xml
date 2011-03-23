@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+
+    <!-- Base application theme is the default theme. -->
+	  <style name="Theme" parent="android:Theme">
+	  </style>
+
+	  <!-- Variation on our application theme that has a translucent
+	 background. -->
+	  <style name="Theme.Dark_Night">
+	    <item name="android:windowNoTitle">false</item>
+        <item name="logoImg">@style/LogoDark</item>
+        <item name="imgBackground">@style/ImgDark</item>
+        <item name="cstTabBackground">@style/TabBackGround.Dark</item>
+        <item name="cstTextTab">@style/TextTabDark</item>
+        <item name="cstTextMovieInfo">@style/TextInfo.Dark</item>
+        <item name="cstTextMovieInfoBelow">@style/TextInfoBelow.Dark</item>
+        <item name="cstTextMovieInfoRate">@style/TextInfoRate.Dark</item>
+        <item name="cstEditText">@style/EditText.Dark</item>
+        <item name="cstSearchLabel">@style/TextLabel.SearchLabel.Dark</item>
+        <item name="cstMovieLabel">@style/TextLabel.MovieLabel.Dark</item>
+        <item name="cstMovieLabelBelow">@style/TextLabel.MovieLabel.Below.Dark</item>
+        <item name="cstObjectMasterMainInfo">@style/TextObjectMasterMainInfo.Dark</item>
+        <item name="cstObjectMasterSubInfo">@style/TextObjectMasterSubInfo.Dark</item>
+        <item name="cstObjectSubMainInfo">@style/TextObjectSubMainInfo.Dark</item>
+        <item name="cstObjectSubMainInfoSub">@style/TextObjectSubMainInfoSub.Dark</item>
+        <item name="cstTextTrailer">@style/TextTrailer.Dark</item>
+	  </style>
+	
+	  <!-- Variation on our application theme that has a transparent
+	background; this example completely removes the background,
+	allowing the activity to decide how to composite. -->
+	  <style name="Theme.Shine_the_lite" parent="android:Theme.Light">
+	    <item name="android:windowNoTitle">false</item>
+        <item name="logoImg">@style/LogoLight</item>
+        <item name="imgBackground">@style/ImgLight</item>
+        <item name="cstTabBackground">@style/TabBackGround.Light</item>
+        <item name="cstTextTab">@style/TextTabLight</item>
+        <item name="cstTextMovieInfo">@style/TextInfo.Light</item>
+        <item name="cstTextMovieInfoBelow">@style/TextInfoBelow.Light</item>
+        <item name="cstTextMovieInfoRate">@style/TextInfoRate.Light</item>
+        <item name="cstEditText">@style/EditText.Light</item>
+        <item name="cstSearchLabel">@style/TextLabel.SearchLabel.Light</item>
+        <item name="cstMovieLabel">@style/TextLabel.MovieLabel.Light</item>
+        <item name="cstMovieLabelBelow">@style/TextLabel.MovieLabel.Below.Light</item>
+        <item name="cstObjectMasterMainInfo">@style/TextObjectMasterMainInfo.Light</item>
+        <item name="cstObjectMasterSubInfo">@style/TextObjectMasterSubInfo.Light</item>
+        <item name="cstObjectSubMainInfo">@style/TextObjectSubMainInfo.Light</item>
+        <item name="cstObjectSubMainInfoSub">@style/TextObjectSubMainInfoSub.Light</item>
+        <item name="cstTextTrailer">@style/TextTrailer.Light</item>
+	  </style>
+
+	  
+	  
+	  
+    
+</resources>

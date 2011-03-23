@@ -45,7 +45,7 @@
 		<item>par nom de cinéma</item>
 		<item>par distance du cinéma</item>
 		<item>par heure de séance la plus proche</item>
-		<!-- <item>par nom de film</item>-->
+		<item>par nom de film</item>
 		<!-- <item>par préférence utilisateur (plus lent)</item>-->
 	</string-array>
 	<string-array name="sort_movies_values">
@@ -57,12 +57,30 @@
 		<item>THEATER_NAME</item>
 		<item>THEATER_DISTANCE</item>
 		<item>SHOWTIME_HOUR</item>
-		<!--<item>MOVIE_NAME</item>-->
+		<item>MOVIE_NAME</item>
 		<!--<item>USER_PREFERENCE</item>-->
 	</string-array>
 	<string-array name="sort_movies_values_code">
 		<item>THEATER_NAME</item>
 		<item>THEATER_DISTANCE</item>
 		<item>SHOWTIME_HOUR</item>
+	</string-array>
+	<string-array name="themes_code">
+		<item>DARK</item>
+		<item>LIGHT</item>
+	</string-array>
+	<string-array name="themes_values">
+		<item>Dark knight</item>
+		<item>Shine a light</item>
+	</string-array>
+		<string-array name="time_format_code">
+		<item>12</item>
+		<item>24</item>
+		<item>DEFAULT</item>
+	</string-array>
+	<string-array name="time_format_values">
+		<item>12</item>
+		<item>24</item>
+		<item>Par défaut</item>
 	</string-array>
 </resources>

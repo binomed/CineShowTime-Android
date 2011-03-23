@@ -17,7 +17,10 @@
 package com.binomed.showtime.android.adapter.db;
 
 import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -25,18 +28,20 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.ProjectionBean;
+import com.binomed.showtime.beans.ReviewBean;
 import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.beans.YoutubeBean;
 
 /**
  * Simple notes database access helper class. Defines the basic CRUD operations for the notepad example, and gives the ability to list all notes as well as retrieve or modify a specific note.
  * 
- * This has been improved from the first version of this tutorial through the addition of better error handling and also using returning a Cursor instead of using a collection of inner classes (which
- * is less scalable and not recommended).
+ * This has been improved from the first version of this tutorial through the addition of better error handling and also using returning a Cursor instead of using a collection of inner classes (which is less scalable and not recommended).
  */
 public class AndShowtimeDbAdapter {
 
@@ -93,6 +98,7 @@ public class AndShowtimeDbAdapter {
 	public static final String KEY_MOVIE_REQUEST_MOVIE_NAME = "movie_name"; //$NON-NLS-1$
 	public static final String KEY_MOVIE_REQUEST_TIME = "time"; //$NON-NLS-1$
 	public static final String KEY_MOVIE_REQUEST_THEATER_ID = "theater_id"; //$NON-NLS-1$
+	public static final String KEY_MOVIE_REQUEST_NULL_RESULT = "nullResult"; //$NON-NLS-1$
 
 	public static final String KEY_FAV_TH_THEATER_ID = "theater_id"; //$NON-NLS-1$
 	public static final String KEY_FAV_TH_THEATER_NAME = "theater_name"; //$NON-NLS-1$
@@ -127,6 +133,20 @@ public class AndShowtimeDbAdapter {
 	public static final String KEY_WIDGET_MOVIE_SHOWTIME_LANG = "lang"; //$NON-NLS-1$
 	public static final String KEY_WIDGET_MOVIE_SHOWTIME_RESERVATION = "reservation_url"; //$NON-NLS-1$
 
+	public static final String KEY_REVIEW_ID = "id"; //$NON-NLS-1$
+	public static final String KEY_REVIEW_MOVIE_MID = "movie_id"; //$NON-NLS-1$
+	public static final String KEY_REVIEW_RATE = "rate"; //$NON-NLS-1$
+	public static final String KEY_REVIEW_SOURCE = "source"; //$NON-NLS-1$
+	public static final String KEY_REVIEW_URL_REVIEW = "url_review"; //$NON-NLS-1$
+	public static final String KEY_REVIEW_AUTHOR = "author"; //$NON-NLS-1$
+	public static final String KEY_REVIEW_CONTENT = "review"; //$NON-NLS-1$
+
+	public static final String KEY_VIDEO_ID = "id"; //$NON-NLS-1$
+	public static final String KEY_VIDEO_MOVIE_MID = "movie_id"; //$NON-NLS-1$
+	public static final String KEY_VIDEO_URL_IMG = "url_img"; //$NON-NLS-1$
+	public static final String KEY_VIDEO_URL_VIDEO = "url_video"; //$NON-NLS-1$
+	public static final String KEY_VIDEO_NAME = "video_name"; //$NON-NLS-1$
+
 	public static final String KEY_CURENT_MOVIE_MOVIE_ID = "movie_id"; //$NON-NLS-1$
 	public static final String KEY_CURENT_MOVIE_THEATER_ID = "theater_id"; //$NON-NLS-1$
 
@@ -152,7 +172,9 @@ public class AndShowtimeDbAdapter {
 	private static final String DATABASE_CURENT_MOVIE_TABLE = "current_movie"; //$NON-NLS-1$
 	private static final String DATABASE_SKYHOOK_REGISTRATION_TABLE = "skyhook_registration"; //$NON-NLS-1$
 	private static final String DATABASE_LAST_CHANGE_TABLE = "last_change"; //$NON-NLS-1$
-	private static final int DATABASE_VERSION = 23;
+	private static final String DATABASE_REVIEW_TABLE = "reviews"; //$NON-NLS-1$
+	private static final String DATABASE_VIDEO_TABLE = "videos"; //$NON-NLS-1$
+	private static final int DATABASE_VERSION = 25;
 	/**
 	 * Database creation sql statement
 	 */
@@ -238,6 +260,7 @@ public class AndShowtimeDbAdapter {
 			+ ", " + KEY_MOVIE_REQUEST_LATITUDE + " double " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_MOVIE_REQUEST_LONGITUDE + " double " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_MOVIE_REQUEST_TIME + " long " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_MOVIE_REQUEST_NULL_RESULT + " short " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ");"//$NON-NLS-1$
 	;
 
@@ -262,6 +285,26 @@ public class AndShowtimeDbAdapter {
 			+ ", " + KEY_WIDGET_MOVIE_SHOWTIME + " long " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_WIDGET_MOVIE_SHOWTIME_LANG + " text " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_WIDGET_MOVIE_SHOWTIME_RESERVATION + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ");"//$NON-NLS-1$
+	;
+
+	private static final String DATABASE_CREATE_REVIEW_TABLE = " create table " + DATABASE_REVIEW_TABLE //$NON-NLS-1$
+			+ " (" + KEY_REVIEW_ID + " integer primary key autoincrement" //$NON-NLS-1$//$NON-NLS-2$
+			+ ", " + KEY_REVIEW_MOVIE_MID + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_REVIEW_RATE + " double " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_REVIEW_URL_REVIEW + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_REVIEW_AUTHOR + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_REVIEW_SOURCE + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_REVIEW_CONTENT + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ");"//$NON-NLS-1$
+	;
+
+	private static final String DATABASE_CREATE_VIDEO_TABLE = " create table " + DATABASE_VIDEO_TABLE //$NON-NLS-1$
+			+ " (" + KEY_VIDEO_ID + " integer primary key autoincrement" //$NON-NLS-1$//$NON-NLS-2$
+			+ ", " + KEY_VIDEO_MOVIE_MID + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_VIDEO_NAME + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_VIDEO_URL_IMG + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_VIDEO_URL_VIDEO + " text " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ");"//$NON-NLS-1$
 	;
 
@@ -292,8 +335,20 @@ public class AndShowtimeDbAdapter {
 	private static final String DROP_CURENT_MOVIE_TABLE = "DROP TABLE IF EXISTS " + DATABASE_CURENT_MOVIE_TABLE; //$NON-NLS-1$
 	private static final String DROP_SKYHOOK_REGISTRATION_TABLE = "DROP TABLE IF EXISTS " + DATABASE_SKYHOOK_REGISTRATION_TABLE; //$NON-NLS-1$
 	private static final String DROP_LAST_CHANGE_TABLE = "DROP TABLE IF EXISTS " + DATABASE_LAST_CHANGE_TABLE; //$NON-NLS-1$
+	private static final String DROP_REVIEW_TABLE = "DROP TABLE IF EXISTS " + DATABASE_REVIEW_TABLE; //$NON-NLS-1$
+	private static final String DROP_VIDEO_TABLE = "DROP TABLE IF EXISTS " + DATABASE_VIDEO_TABLE; //$NON-NLS-1$
+
+	private static final String INSERT_THEATER = "INSERT INTO " + DATABASE_THEATERS_TABLE // 
+			+ " (" + KEY_THEATER_ID + ", " + KEY_THEATER_NAME + ", " + KEY_THEATER_PHONE + ") " //
+			+ " VALUES (?,?,?)";
+	private static final String INSERT_SHOWTIMES = "INSERT INTO " + DATABASE_SHOWTIME_TABLE // 
+			+ " (" + KEY_SHOWTIME_THEATER_ID + ", " + KEY_SHOWTIME_MOVIE_ID + ", " + KEY_SHOWTIME_TIME + ", " + KEY_SHOWTIME_LANG + ", " + KEY_SHOWTIME_RESERVATION_URL + ") " //
+			+ " VALUES (?,?,?,?,?)";
 
 	private final Context mCtx;
+
+	private SQLiteStatement statmentTheater = null;
+	private SQLiteStatement statmentShowtime = null;
 
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -317,6 +372,8 @@ public class AndShowtimeDbAdapter {
 			db.execSQL(DATABASE_CREATE_CURENT_MOVIE_TABLE);
 			db.execSQL(DATABASE_CREATE_SKYHOOK_REGISTRATION_TABLE);
 			db.execSQL(DATABASE_CREATE_LAST_CHANGE_TABLE);
+			db.execSQL(DATABASE_CREATE_REVIEW_TABLE);
+			db.execSQL(DATABASE_CREATE_VIDEO_TABLE);
 		}
 
 		@Override
@@ -355,6 +412,14 @@ public class AndShowtimeDbAdapter {
 			if (oldVersion < 23) {
 				db.execSQL(DATABASE_CREATE_LAST_CHANGE_TABLE);
 			}
+			if (oldVersion < 24) {
+				db.execSQL(DATABASE_CREATE_REVIEW_TABLE);
+				db.execSQL(DATABASE_CREATE_VIDEO_TABLE);
+			}
+			if (oldVersion < 25) {
+				db.execSQL(DROP_MOVIE_REQUEST_TABLE);
+				db.execSQL(DATABASE_CREATE_MOVIE_REQUEST_TABLE);
+			}
 
 		}
 	}
@@ -380,6 +445,8 @@ public class AndShowtimeDbAdapter {
 		mDbHelper = new DatabaseHelper(mCtx);
 		mDb = mDbHelper.getWritableDatabase();
 		mDb.setLockingEnabled(true);
+		statmentTheater = mDb.compileStatement(INSERT_THEATER);
+		statmentShowtime = mDb.compileStatement(INSERT_SHOWTIMES);
 		return this;
 	}
 
@@ -474,7 +541,7 @@ public class AndShowtimeDbAdapter {
 		return result;
 	}
 
-	public long createMovieRequest(String cityName, String movieName, Double latitude, Double longitude, String theaterId) {
+	public long createMovieRequest(String cityName, String movieName, Double latitude, Double longitude, String theaterId, boolean nullResult) {
 		chekDbAvailable();
 		Log.d(TAG, new StringBuilder("Create movie Request").toString()); //$NON-NLS-1$ 
 		ContentValues initialValues = new ContentValues();
@@ -484,6 +551,7 @@ public class AndShowtimeDbAdapter {
 		initialValues.put(KEY_MOVIE_REQUEST_LATITUDE, latitude);
 		initialValues.put(KEY_MOVIE_REQUEST_LONGITUDE, longitude);
 		initialValues.put(KEY_MOVIE_REQUEST_TIME, Calendar.getInstance().getTimeInMillis());
+		initialValues.put(KEY_MOVIE_REQUEST_NULL_RESULT, nullResult ? 1 : 0);
 
 		long result = mDb.insert(DATABASE_MOVIE_REQUEST_TABLE, null, initialValues);
 
@@ -503,15 +571,56 @@ public class AndShowtimeDbAdapter {
 	 *            the body of the note
 	 * @return rowId or -1 if failed
 	 */
-	public long createTheater(TheaterBean theater) {
+	public long createTheaterList(List<TheaterBean> theaterList) {
 		chekDbAvailable();
-		Log.d(TAG, new StringBuilder("Create Theater: ").append(theater.getId()).toString()); //$NON-NLS-1$ 
-		ContentValues initialValues = new ContentValues();
-		initialValues.put(KEY_THEATER_ID, theater.getId());
-		initialValues.put(KEY_THEATER_NAME, theater.getTheaterName());
-		initialValues.put(KEY_THEATER_PHONE, theater.getPhoneNumber());
+		SQLiteStatement statementTheater = mDb.compileStatement(INSERT_THEATER);
+		long result = 0;
+		for (TheaterBean theater : theaterList) {
+			statmentTheater.bindString(1, theater.getId());
+			statmentTheater.bindString(2, theater.getTheaterName());
+			statmentTheater.bindString(3, theater.getPhoneNumber() != null ? theater.getPhoneNumber() : "");
+			Log.d(TAG, new StringBuilder("Create Theater: ").append(theater.getId()).toString()); //$NON-NLS-1$ 
+			result = statmentTheater.executeInsert();
+		}
+		statmentTheater.close();
+		// ContentValues initialValues = new ContentValues();
+		// initialValues.put(KEY_THEATER_ID, theater.getId());
+		// initialValues.put(KEY_THEATER_NAME, theater.getTheaterName());
+		// initialValues.put(KEY_THEATER_PHONE, theater.getPhoneNumber());
 
-		long result = mDb.insert(DATABASE_THEATERS_TABLE, null, initialValues);
+		// long result = mDb.insert(DATABASE_THEATERS_TABLE, null, initialValues);
+
+		if (result == -1) {
+			Log.e(TAG, "Error inserting or updating row"); //$NON-NLS-1$
+		}
+
+		return result;
+	}
+
+	/**
+	 * Create a new note using the title and body provided. If the note is successfully created return the new rowId for that note, otherwise return a -1 to indicate failure.
+	 * 
+	 * @param title
+	 *            the title of the note
+	 * @param body
+	 *            the body of the note
+	 * @return rowId or -1 if failed
+	 */
+	private long createTheater(TheaterBean theater) {
+		chekDbAvailable();
+		SQLiteStatement statementTheater = mDb.compileStatement(INSERT_THEATER);
+		statmentTheater.bindString(1, theater.getId());
+		statmentTheater.bindString(2, theater.getTheaterName());
+		statmentTheater.bindString(3, theater.getPhoneNumber() != null ? theater.getPhoneNumber() : "");
+		long result = statmentTheater.executeInsert();
+		statmentTheater.close();
+		Log.d(TAG, new StringBuilder("Create Theater: ").append(theater.getId()).toString()); //$NON-NLS-1$ 
+		// ContentValues initialValues = new ContentValues();
+		// initialValues.put(KEY_THEATER_ID, theater.getId());
+		// initialValues.put(KEY_THEATER_NAME, theater.getTheaterName());
+		// initialValues.put(KEY_THEATER_PHONE, theater.getPhoneNumber());
+
+		// long result = mDb.insert(DATABASE_THEATERS_TABLE, null, initialValues);
 
 		if (result == -1) {
 			Log.e(TAG, "Error inserting or updating row"); //$NON-NLS-1$
@@ -572,17 +681,62 @@ public class AndShowtimeDbAdapter {
 		return result;
 	}
 
-	public long createShowtime(String theatherId, String movieId, ProjectionBean time) {
+	public long createShowtimeList(Map<String, Map<String, List<ProjectionBean>>> datas) {
 		chekDbAvailable();
-		Log.d(TAG, new StringBuilder("Create showtime for theater: ").append(theatherId).append(" and movieId : ").append(movieId).append(" for time : ").append(time).toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		ContentValues initialValues = new ContentValues();
-		initialValues.put(KEY_SHOWTIME_THEATER_ID, theatherId);
-		initialValues.put(KEY_SHOWTIME_MOVIE_ID, movieId);
-		initialValues.put(KEY_SHOWTIME_TIME, time.getShowtime());
-		initialValues.put(KEY_SHOWTIME_LANG, time.getLang());
-		initialValues.put(KEY_SHOWTIME_RESERVATION_URL, time.getReservationLink());
 
-		long result = mDb.insert(DATABASE_SHOWTIME_TABLE, null, initialValues);
+		SQLiteStatement statmentShowtime = mDb.compileStatement(INSERT_SHOWTIMES);
+		long result = 0;
+		for (Entry<String, Map<String, List<ProjectionBean>>> entryThMap : datas.entrySet()) {
+			for (Entry<String, List<ProjectionBean>> entryMovList : entryThMap.getValue().entrySet()) {
+				for (ProjectionBean projection : entryMovList.getValue()) {
+					statmentShowtime.bindString(1, entryThMap.getKey());
+					statmentShowtime.bindString(2, entryMovList.getKey());
+					statmentShowtime.bindLong(3, projection.getShowtime());
+					statmentShowtime.bindString(4, projection.getLang() != null ? projection.getLang() : "");
+					statmentShowtime.bindString(5, projection.getReservationLink() != null ? projection.getReservationLink() : "");
+					Log.d(TAG, new StringBuilder("Create showtime for theater: ").append(entryThMap.getKey()).append(" and movieId : ").append(entryMovList.getKey()).append(" for time : ").append(projection.getShowtime()).toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					result = statmentShowtime.executeInsert();
+
+				}
+			}
+		}
+		statmentShowtime.close();
+
+		// ContentValues initialValues = new ContentValues();
+		// initialValues.put(KEY_SHOWTIME_THEATER_ID, theatherId);
+		// initialValues.put(KEY_SHOWTIME_MOVIE_ID, movieId);
+		// initialValues.put(KEY_SHOWTIME_TIME, time.getShowtime());
+		// initialValues.put(KEY_SHOWTIME_LANG, time.getLang());
+		// initialValues.put(KEY_SHOWTIME_RESERVATION_URL, time.getReservationLink());
+		//
+		// long result = mDb.insert(DATABASE_SHOWTIME_TABLE, null, initialValues);
+		if (result == -1) {
+			Log.e(TAG, "Error inserting row"); //$NON-NLS-1$
+		}
+		return result;
+	}
+
+	private long createShowtime(String theatherId, String movieId, ProjectionBean time) {
+		chekDbAvailable();
+
+		SQLiteStatement statmentShowtime = mDb.compileStatement(INSERT_SHOWTIMES);
+		statmentShowtime.bindString(1, theatherId);
+		statmentShowtime.bindString(2, movieId);
+		statmentShowtime.bindLong(3, time.getShowtime());
+		statmentShowtime.bindString(4, time.getLang() != null ? time.getLang() : "");
+		statmentShowtime.bindString(5, time.getReservationLink() != null ? time.getReservationLink() : "");
+		long result = statmentShowtime.executeInsert();
+		statmentShowtime.close();
+
+		Log.d(TAG, new StringBuilder("Create showtime for theater: ").append(theatherId).append(" and movieId : ").append(movieId).append(" for time : ").append(time).toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		// ContentValues initialValues = new ContentValues();
+		// initialValues.put(KEY_SHOWTIME_THEATER_ID, theatherId);
+		// initialValues.put(KEY_SHOWTIME_MOVIE_ID, movieId);
+		// initialValues.put(KEY_SHOWTIME_TIME, time.getShowtime());
+		// initialValues.put(KEY_SHOWTIME_LANG, time.getLang());
+		// initialValues.put(KEY_SHOWTIME_RESERVATION_URL, time.getReservationLink());
+		//
+		// long result = mDb.insert(DATABASE_SHOWTIME_TABLE, null, initialValues);
 		if (result == -1) {
 			Log.e(TAG, "Error inserting row"); //$NON-NLS-1$
 		}
@@ -667,6 +821,40 @@ public class AndShowtimeDbAdapter {
 		return result;
 	}
 
+	public long createReview(ReviewBean review, String movieId) {
+		chekDbAvailable();
+		Log.d(TAG, new StringBuilder("Create review for movie: ").append(movieId).toString()); //$NON-NLS-1$
+		ContentValues initialValues = new ContentValues();
+		initialValues.put(KEY_REVIEW_MOVIE_MID, movieId);
+		initialValues.put(KEY_REVIEW_AUTHOR, review.getAuthor());
+		initialValues.put(KEY_REVIEW_URL_REVIEW, review.getUrlReview());
+		initialValues.put(KEY_REVIEW_SOURCE, review.getSource());
+		initialValues.put(KEY_REVIEW_RATE, review.getRate());
+		initialValues.put(KEY_REVIEW_CONTENT, review.getReview());
+
+		long result = mDb.insert(DATABASE_REVIEW_TABLE, null, initialValues);
+		if (result == -1) {
+			Log.e(TAG, "Error inserting row"); //$NON-NLS-1$
+		}
+		return result;
+	}
+
+	public long createVideo(YoutubeBean video, String movieId) {
+		chekDbAvailable();
+		Log.d(TAG, new StringBuilder("Create video for movie: ").append(movieId).toString()); //$NON-NLS-1$
+		ContentValues initialValues = new ContentValues();
+		initialValues.put(KEY_VIDEO_MOVIE_MID, movieId);
+		initialValues.put(KEY_VIDEO_NAME, video.getVideoName());
+		initialValues.put(KEY_VIDEO_URL_IMG, video.getUrlImg());
+		initialValues.put(KEY_VIDEO_URL_VIDEO, video.getUrlVideo());
+
+		long result = mDb.insert(DATABASE_VIDEO_TABLE, null, initialValues);
+		if (result == -1) {
+			Log.e(TAG, "Error inserting row"); //$NON-NLS-1$
+		}
+		return result;
+	}
+
 	public long updateWidgetTheater() {
 		chekDbAvailable();
 		Log.d(TAG, new StringBuilder("Update date Widget ").toString()); //$NON-NLS-1$
@@ -712,12 +900,12 @@ public class AndShowtimeDbAdapter {
 		initialValues.put(KEY_CURENT_MOVIE_THEATER_ID, theatherId);
 		initialValues.put(KEY_CURENT_MOVIE_MOVIE_ID, movieId);
 
-		long result = mDb.delete(DATABASE_CREATE_CURENT_MOVIE_TABLE, null, null);
+		long result = mDb.delete(DATABASE_CURENT_MOVIE_TABLE, null, null);
 		if (result == -1) {
 			Log.e(TAG, "Error deleting current movie"); //$NON-NLS-1$
 		}
 
-		result = mDb.insert(DATABASE_CREATE_CURENT_MOVIE_TABLE, null, initialValues);
+		result = mDb.insert(DATABASE_CURENT_MOVIE_TABLE, null, initialValues);
 		if (result == -1) {
 			Log.e(TAG, "Error inserting row"); //$NON-NLS-1$
 		}
@@ -1275,7 +1463,7 @@ public class AndShowtimeDbAdapter {
 	public Cursor fetchCurentMovie() {
 
 		return mDb.query(//
-				DATABASE_CREATE_CURENT_MOVIE_TABLE//
+				DATABASE_CURENT_MOVIE_TABLE//
 				, new String[] { KEY_CURENT_MOVIE_THEATER_ID//
 						, KEY_CURENT_MOVIE_MOVIE_ID // 
 				}//
@@ -1324,6 +1512,25 @@ public class AndShowtimeDbAdapter {
 				);
 	}
 
+	/**
+	 * Return a Cursor over the list of all notes in the database
+	 * 
+	 * @return Cursor over all notes
+	 */
+	public Cursor fetchInResults(TheaterBean theater) {
+
+		return mDb.query(//
+				DATABASE_THEATERS_TABLE//
+				, new String[] { KEY_THEATER_ID //
+				}//
+				, KEY_THEATER_ID + "= ? "//
+				, new String[] { theater.getId() }//
+				, null//
+				, null//
+				, null//
+				);
+	}
+
 	public Cursor fetchLastChange() {
 		return mDb.query(//
 				DATABASE_LAST_CHANGE_TABLE//
@@ -1335,6 +1542,74 @@ public class AndShowtimeDbAdapter {
 				, null//
 				, null//
 				);
+	}
+
+	/**
+	 * 
+	 * @param movieId
+	 *            id of note to retrieve
+	 * @return Cursor positioned to matching note, if found
+	 * @throws SQLException
+	 *             if note could not be found/retrieved
+	 */
+	public Cursor fetchReviews(String movieId) throws SQLException {
+
+		Cursor mCursor =
+
+		mDb.query(true //
+				, DATABASE_REVIEW_TABLE //
+				, new String[] { KEY_REVIEW_AUTHOR //
+						, KEY_REVIEW_CONTENT //
+						, KEY_REVIEW_RATE //
+						, KEY_REVIEW_SOURCE //
+						, KEY_REVIEW_URL_REVIEW //
+				} //
+				, new StringBuilder(KEY_REVIEW_MOVIE_MID).append("='") //$NON-NLS-1$
+						.append(movieId).append("'").toString() // //$NON-NLS-1$
+				, null //
+				, null //
+				, null //
+				, null //
+				, null//
+				);
+		if (mCursor != null) {
+			mCursor.moveToFirst();
+		}
+		return mCursor;
+
+	}
+
+	/**
+	 * 
+	 * @param movieId
+	 *            id of note to retrieve
+	 * @return Cursor positioned to matching note, if found
+	 * @throws SQLException
+	 *             if note could not be found/retrieved
+	 */
+	public Cursor fetchVideos(String movieId) throws SQLException {
+
+		Cursor mCursor =
+
+		mDb.query(true //
+				, DATABASE_VIDEO_TABLE //
+				, new String[] { KEY_VIDEO_NAME //
+						, KEY_VIDEO_URL_IMG //
+						, KEY_VIDEO_URL_VIDEO //
+				} //
+				, new StringBuilder(KEY_VIDEO_MOVIE_MID).append("='") //$NON-NLS-1$
+						.append(movieId).append("'").toString() // //$NON-NLS-1$
+				, null //
+				, null //
+				, null //
+				, null //
+				, null//
+				);
+		if (mCursor != null) {
+			mCursor.moveToFirst();
+		}
+		return mCursor;
+
 	}
 
 	public void deleteTheatersShowtimeRequestAndLocation() {
@@ -1395,20 +1670,36 @@ public class AndShowtimeDbAdapter {
 	public void deleteMovies(Set<String> movieIdList) {
 		chekDbAvailable();
 		StringBuilder querySelect = new StringBuilder(KEY_MOVIE_ID).append(" NOT IN ('"); //$NON-NLS-1$
+		StringBuilder queryReviewSelect = new StringBuilder(KEY_REVIEW_MOVIE_MID).append(" NOT IN ('"); //$NON-NLS-1$
+		StringBuilder queryVideoSelect = new StringBuilder(KEY_VIDEO_MOVIE_MID).append(" NOT IN ('"); //$NON-NLS-1$
 		boolean first = true;
 		for (String movieId : movieIdList) {
 			if (!first) {
 				querySelect.append("','"); //$NON-NLS-1$
+				queryReviewSelect.append("','"); //$NON-NLS-1$
+				queryVideoSelect.append("','"); //$NON-NLS-1$
 			} else {
 				first = false;
 			}
 			querySelect.append(movieId);
+			queryReviewSelect.append(movieId);
+			queryReviewSelect.append(movieId);
 		}
 		querySelect.append("')"); //$NON-NLS-1$
+		queryReviewSelect.append("')"); //$NON-NLS-1$
+		queryVideoSelect.append("')"); //$NON-NLS-1$
 		int result = mDb.delete(DATABASE_MOVIE_TABLE //
 				, querySelect.toString()//
 				, null);
 		Log.d(TAG, result + " Movies where remove from movie table"); //$NON-NLS-1$
+		result = mDb.delete(DATABASE_REVIEW_TABLE //
+				, queryReviewSelect.toString()//
+				, null);
+		Log.d(TAG, result + " Reviews where remove from reviews table"); //$NON-NLS-1$
+		result = mDb.delete(DATABASE_VIDEO_TABLE //
+				, queryVideoSelect.toString()//
+				, null);
+		Log.d(TAG, result + " Videos where remove from video table"); //$NON-NLS-1$
 	}
 
 	public void clean() throws SQLException {
@@ -1424,6 +1715,8 @@ public class AndShowtimeDbAdapter {
 		mDb.execSQL(DROP_WIDGET_TABLE);
 		mDb.execSQL(DROP_WIDGET_MOVIE_TABLE);
 		mDb.execSQL(DROP_CURENT_MOVIE_TABLE);
+		mDb.execSQL(DROP_REVIEW_TABLE);
+		mDb.execSQL(DROP_VIDEO_TABLE);
 		mDb.execSQL(DROP_SKYHOOK_REGISTRATION_TABLE);
 		mDb.execSQL(DROP_LAST_CHANGE_TABLE);
 		mDb.execSQL(DATABASE_CREATE_MOVIE_TABLE);
@@ -1438,6 +1731,8 @@ public class AndShowtimeDbAdapter {
 		mDb.execSQL(DATABASE_CREATE_CURENT_MOVIE_TABLE);
 		mDb.execSQL(DATABASE_CREATE_SKYHOOK_REGISTRATION_TABLE);
 		mDb.execSQL(DATABASE_CREATE_LAST_CHANGE_TABLE);
+		mDb.execSQL(DATABASE_REVIEW_TABLE);
+		mDb.execSQL(DATABASE_VIDEO_TABLE);
 	}
 
 	private void chekDbAvailable() {

@@ -49,7 +49,7 @@
 	<string name="MainTitle">CineShowTimeアプリケーションにようこそ</string>
 	<string name="app_name">CineShowTime</string>
 	<string name="btnNear">映画館検索</string>
-	<string name="btnMovie">映画と上映情報を検索</string>
+	<string name="btnMovie">検索セッション</string>
 	<string name="btnFav">お気に入り</string>
 	<string name="btnUpComming">次回上映映画</string>
 	<!-- GPS Messages -->
@@ -88,6 +88,7 @@
 	<string name="movieProgressTitle">映画情報検索 </string>
 	<string name="movieProgressMsg">しばらくお待ちください... </string>
 	<string name="plot">ストーリー</string>
+	<string name="trailer">トレーラー</string>
 	<string name="projectionList">映画館での上映 : </string>
 	<string name="projectionTime">上映開始・終了時間 : </string>
 	<string name="endHour">おおよその終了時間 : </string>
@@ -109,8 +110,8 @@
 	<string name="menuAddEvent">スケジュール帳に追加</string>
 	<string name="menuRate">映画のポイントをつける</string>
 	<string name="msgRateSave">保存されたポイント</string>
-	<string name="smsContent">">{1}、映画館「{3}」で、 私と一緒に{2}からの映画「{0}」を観に行きませんか。\n\n このSMSはCineShowTimeによって自動生成されたものです。</string>
-	<string name="mailContent">{1}　、映画館　"{3}"　で、私と一緒に、上映時間　<b>{2}</b>　の映画　<i>「{0}」</i>　を観に行きませんか。\n\n このE－メールはCineShowTimeによって自動生成されたものです。</string>
+	<string name="smsContent">{1}、映画館「{3}」で、 私と一緒に{2}からの映画「{0}」を観に行きませんか。\n\n このSMSはCineShowTimeによって自動生成されたものです。</string>
+	<string name="mailContent">\'{1}\'　、映画館　"{3}"　で、私と一緒に、上映時間　<b>{2}</b>　の映画　<i>「{0}」</i>　を観に行きませんか。\n\n このE－メールはCineShowTimeによって自動生成されたものです。</string>
 	<string name="mailSubject">映画 {0} の誘い</string>
 	<string name="chooseIntentSms">誘いSMSを送る</string>
 	<string name="chooseIntentMail">誘いメールを送る</string>
@@ -120,6 +121,32 @@
 	<string name="dialogRateMovieMsg">0～10のポイントをつけてください。</string>
 	<string name="dialogRateMovieValidate">確定</string>
 	<string name="dialogRateMovieCancel">キャンセル</string>
+	<!-- Error messages -->
+	<string name="msgErrorNoDb">データベース接続に失敗しました。SDカードをご確認ください。</string>
+	<string name="msgErrorNoNetwork">サーバーエラー。 3G あるいはWifiの接続上状況をご確認ください。</string>
+	<string name="msgErrorOnServer">サーバー接続エラが起きました。しばらく待ってから、再度お試しください。</string>
+	<!--ADDED STRINGS-->
+	<string name="txtEnterCity">シティ...</string>
+	<string name="txtEnterMovie">映画...</string>
+	<string name="spinnerTomorow">明日</string>
+	<string name="movieLabel">映画</string>
+	<string name="showtimeLabel">会議</string>
+	<string name="rateLabel">ノート</string>
+	<string name="errorMsg">エラー</string>
+	<string name="geolocalized">位置情報通知検索</string>
+	<string name="gpsUnauthorizedMsg">Googleの現在地情報を有効にしてください。</string>
+	<string name="gpsUnauthorizedMsgCineShowTime">CineShowTimeの現在地情報を有効にしてください。</string>
+	<string name="gpsPrefDisable">設定の中のGPSの現在地情報を有効にしてください。 </string>
+	<string name="msgErrorTranslate">翻訳中にエラーが発生しました。</string>
+	<string name="msgDevelopped">開発者</string>
+	<string name="noReview">評価なし</string>
+	<string name="unknownSource">不明</string>
+	<string name="urlHelp">http://m.blog.binomed.fr/en/help-cineshowtime-android-en</string>
+	<string name="readMore">more</string>
+	<string name="menuReservation">予約</string>
+	<!--THEMES-->
+	<string name="theme_dark">Dark knight</string>
+	<string name="theme_light">Shine a light</string>
 	<!-- Preferences Messages -->
 	<string name="preference_lang_cat">言語設定 </string>
 	<string name="preference_lang_key_auto_translate">check_preference</string>
@@ -133,6 +160,12 @@
 	<string name="preference_gen_time_adds">宣伝時間</string>
 	<string name="preference_gen_time_adds_summary">映画が始まるまでの時間(宣伝と映画予告)</string>
 	<string name="preference_gen_default_time_adds">20</string>
+	<string name="preference_gen_key_time_format">time_format_preference</string>
+	<string name="preference_gen_time_format">時刻の形式</string>
+	<string name="preference_gen_default_time_format">24</string>
+	<string name="preference_gen_theme">テーマ</string>
+	<string name="preference_gen_key_theme">theme_preference</string>
+	<string name="preference_gen_default_theme">DARK</string>
 	<string name="preference_loc_cat">ローカライぜーションの設定</string>
 	<string name="preference_loc_key_measure">measure_preference</string>
 	<string name="preference_loc_default_measure">Km</string>
@@ -160,8 +193,4 @@
 	<string name="preference_user_cat">ユーザーの設定</string>
 	<string name="preference_user_agenda">スケジュール帳の選択</string>
 	<string name="preference_user_agenda_summary">上映映画を追加するためのスケジュール帳選択</string>
-	<!-- Error messages -->
-	<string name="msgErrorNoDb">データベース接続に失敗しました。SDカードをご確認ください。</string>
-	<string name="msgErrorNoNetwork">サーバーエラー。 3G あるいはWifiの接続上状況をご確認ください。</string>
-	<string name="msgErrorOnServer">サーバー接続エラが起きました。しばらく待ってから、再度お試しください。</string>
 </resources>

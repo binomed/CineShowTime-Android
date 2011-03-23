@@ -3,8 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="andshowtime.beans.jar" sourcepath="/AndShowtimeBeans"/>
-	<classpathentry kind="lib" path="google-api-translate-java-0.6.jar"/>
-	<classpathentry kind="lib" path="wpsapi.jar"/>
+	<classpathentry kind="lib" path="libs/andshowtime.beans.jar"/>
+	<classpathentry kind="lib" path="libs/google-api-translate-java-0.6.jar"/>
+	<classpathentry kind="lib" path="libs/wpsapi.jar"/>
+	<classpathentry kind="lib" path="libs/imageloader.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

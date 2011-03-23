@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="measure">
+		<item>km</item>
+		<item>mil</item>
+	</string-array>
+	<string-array name="measure_code">
+		<item>KM</item>
+		<item>ML</item>
+	</string-array>
+	<string-array name="mode_localisation">
+		<item>GPS</item>
+		<item>Network</item>
+		<item>Wifi</item>
+		<item>IP</item>
+		<item>XPS</item>
+	</string-array>
+	<string-array name="mode_localisation_code">
+		<item>GPS</item>
+		<item>GSM</item>
+		<item>WIFI</item>
+		<item>IP</item>
+		<item>XPS</item>
+	</string-array>
+	<string-array name="time_adds">
+		<item>5 min</item>
+		<item>10 min</item>
+		<item>15 min</item>
+		<item>20 min</item>
+		<item>25 min</item>
+		<item>30 min</item>
+		<item>35 min</item>
+		<item>40 min</item>
+	</string-array>
+	<string-array name="time_adds_code">
+		<item>5</item>
+		<item>10</item>
+		<item>15</item>
+		<item>20</item>
+		<item>25</item>
+		<item>30</item>
+		<item>35</item>
+		<item>40</item>
+	</string-array>
+	<string-array name="sort_theaters_values">
+		<item>efter biografnavn</item>
+		<item>efter afstand til biograf</item>
+		<item>efter spilletid</item>
+		<item>efter filmtitel</item>
+		<!-- <item>efter brugerens indstillinger (langsom)</item>-->
+	</string-array>
+	<string-array name="sort_movies_values">
+		<item>efter biografnavn</item>
+		<item>efter afstand til biograf</item>
+		<item>efter spilletid</item>
+	</string-array>
+	<string-array name="sort_theaters_values_code">
+		<item>THEATER_NAME</item>
+		<item>THEATER_DISTANCE</item>
+		<item>SHOWTIME_HOUR</item>
+		<item>MOVIE_NAME</item>
+		<!--<item>USER_PREFERENCE</item>-->
+	</string-array>
+	<string-array name="sort_movies_values_code">
+		<item>THEATER_NAME</item>
+		<item>THEATER_DISTANCE</item>
+		<item>SHOWTIME_HOUR</item>
+	</string-array>
+	<string-array name="themes_code">
+		<item>DARK</item>
+		<item>LIGHT</item>
+	</string-array>
+	<string-array name="themes_values">
+		<item>Dark knight</item>
+		<item>Shine a light</item>
+	</string-array>
+	<string-array name="time_format_code">
+		<item>12</item>
+		<item>24</item>
+		<item>DEFAULT</item>
+	</string-array>
+	<string-array name="time_format_values">
+		<item>12</item>
+		<item>24</item>
+		<item>som standard</item>
+	</string-array>
+</resources>

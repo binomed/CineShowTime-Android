@@ -18,6 +18,6 @@
     android:minWidth="146dip"
     android:minHeight="146dip"
     android:updatePeriodMillis="600000"
-    android:initialLayout="@layout/and_showtime_widget_one"
+    android:initialLayout="@layout/widget_one"
     android:configure="com.binomed.showtime.android.widget.one.AndShowTimeWidgetConfigureActivity"
     />

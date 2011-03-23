@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- Commons -->
+	<!--Commons -->
 	<string name="menuPreferences">Opciones</string>
 	<string name="menuAbout">Acerca de...</string>
 	<string name="menuHelp">Ayuda</string>
@@ -40,24 +40,24 @@
 	<string name="msgCalculating">Espere por favor...</string>
 	<string name="msgNoResultRetryLater">No sesión encontrada, puede haber un error con el servidor. Intente de nuevo más tarde</string>
 	<string name="btnClose">Cerrar</string>
-	<!--  Widget -->
+	<!-- Widget -->
 	<string name="widget_name_2x2">CineShowTime 2x2</string>
 	<string name="widget_name_2x2_cupcake">CineShowTime 2×2 Cupcake</string>
 	<string name="msgNoResults">No película encontrada</string>
 	<string name="msgLoading">Cargando...</string>
-	<!--  Main acitivity -->
+	<!-- Main acitivity -->
 	<string name="MainTitle">Bienvenido en CineShowTime</string>
 	<string name="app_name">CineShowTime</string>
 	<string name="btnNear">Buscar cine</string>
-	<string name="btnMovie">Buscar sesiones para una peli</string>
+	<string name="btnMovie">Buscar sesiones</string>
 	<string name="btnFav">Favoritos</string>
 	<string name="btnUpComming">Próximamente</string>
-	<!-- GPS Messages -->
+	<!--GPS Messages -->
 	<string name="gpsInactiveTitle">¡GPS desactivado!</string>
 	<string name="gpsInactiveMsg">¿Quiere activar el GPS?</string>
 	<string name="gpsInactiveBtnYes">Sí</string>
 	<string name="gpsInactiveBtnNo">No</string>
-	<!-- Search Near Activity Message -->
+	<!--Search Near Activity Message -->
 	<string name="hour">h</string>
 	<string name="min">min</string>
 	<string name="menuCall">Llamar cine</string>
@@ -68,29 +68,30 @@
 	<string name="searchNearProgressTitle">Búsqueda de películas</string>
 	<string name="searchNearProgressMsg">Cargando...</string>
 	<string name="itemMoreTheaters">Más cines</string>
-	<!-- Search Movie Activity Message -->
+	<!--Search Movie Activity Message -->
 	<string name="searchMovieProgressTitle">Búsqueda de sesiones</string>
 	<string name="searchMovieProgressMsg">Cargando...</string>
 	<string name="txtMovieFind">Película:</string>
 	<string name="txtMovieFindDuration">Duración:</string>
 	<string name="txtMovieFindValueNotFound">Ninguna película corresponde a su búsqueda</string>
-	<!-- LastChange Dialog Message -->
+	<!--LastChange Dialog Message -->
 	<string name="dialogLastChangeTitle">Últimos cambios</string>
-	<!-- Bookmarks Dialog Message -->
+	<!--Bookmarks Dialog Message -->
 	<string name="dialogBookmarkTitle">Favoritos</string>
 	<string name="menuRemoveBookmark">Borrar favorito</string>
-	<!-- Last Showtime Dialog Message -->
+	<!--Last Showtime Dialog Message -->
 	<string name="dialogLastShowtimeTitle">Ultimas sesiones</string>
 	<string name="dialogLastShowtimeMsg">¿Quiere buscar las películas que pasan por la última vez esta semana?\nEsta funcionalidad es imprecisa y puede no funcionar.</string>
 	<string name="dialogLastShowtimeBtnYes">Sí</string>
 	<string name="dialogLastShowtimeBtnNon">No</string>
-	<!-- Movie Activity Message -->
+	<!--Movie Activity Message -->
 	<string name="movieProgressTitle">Ficha de la película</string>
 	<string name="movieProgressMsg">Cargando...</string>
 	<string name="plot">Guión</string>
+	<string name="trailer">Remolques</string>
 	<string name="projectionList">Horarios para el cine:</string>
 	<string name="projectionTime">Hora de la sesión: </string>
-	<string name="endHour">Hora aproximativa de fin: </string>
+	<string name="endHour">Hora de fin: </string>
 	<string name="txtTitle">Título:</string>
 	<string name="txtRate">Nota:</string>
 	<string name="txtUserRate">Su nota:</string>
@@ -109,18 +110,44 @@
 	<string name="menuAddEvent">Agregar al agenda</string>
 	<string name="menuRate">Dar una nota</string>
 	<string name="msgRateSave">Nota guardada</string>
-	<string name="smsContent">Te propongo ir conmigo a ver "{0}" {1} a la sesión de las {2} al cine {3} \n\n Mensaje autogenerado por CineShowtime</string>
+	<string name="smsContent">Te propongo ir conmigo a ver "{0}" {1} a la sesión de las {2} al cine "{3}" \n\n Mensaje autogenerado por CineShowtime</string>
 	<string name="mailContent">Te propongo ir conmigo a ver <i>"{0}"</i> {1} a la sesión de las <b>{2}</b> al cine "{3}" \n\n Email autogenerado por CineShowtime</string>
 	<string name="mailSubject">Invitación a ver {0}</string>
 	<string name="chooseIntentSms">Mandar invitación por mensaje</string>
 	<string name="chooseIntentMail">Mandar invitación por email</string>
 	<string name="msgEventAdd">Sesión anadida al agenda</string>
-	<!-- Rate Movie Dialog Message -->
+	<!--Rate Movie Dialog Message -->
 	<string name="dialogRateMovieTitle">Dar una nota</string>
 	<string name="dialogRateMovieMsg">De una nota entre 0 y 10</string>
 	<string name="dialogRateMovieValidate">Validar</string>
 	<string name="dialogRateMovieCancel">Cancelar</string>
-	<!-- Preferences Messages -->
+	<!--Error messages -->
+	<string name="msgErrorNoDb">Error durante la conexión a la base de datos. Verifique su tarjeta SD</string>
+	<string name="msgErrorNoNetwork">Error durante la conexión, verifique su conexión 3G o Wifi</string>
+	<string name="msgErrorOnServer">Error durante la conexión al servidor. Intente más tarde</string>
+	<!--ADDED STRINGS-->
+	<string name="txtEnterCity">Nombre de la ciudad...</string>
+	<string name="txtEnterMovie">Nombre de la película...</string>
+	<string name="spinnerTomorow">Mañana</string>
+	<string name="movieLabel">Película</string>
+	<string name="showtimeLabel">sesiones</string>
+	<string name="rateLabel">Nota</string>
+	<string name="errorMsg">Falta</string>
+	<string name="geolocalized">Búsqueda geolocalizada</string>
+	<string name="gpsUnauthorizedMsg">Tiene que activar el permiso de geolocalización por Google. </string>
+	<string name="gpsUnauthorizedMsgCineShowTime">Tiene que activar el permiso de geolocalización por CineShowTime. </string>
+	<string name="gpsPrefDisable">Tiene que autorizar la geolocalización GPS en las opciones. </string>
+	<string name="msgErrorTranslate">Un error ocurrió durante la traducción.</string>
+	<string name="msgDevelopped">Desarollada por</string>
+	<string name="noReview">No críticas</string>
+	<string name="unknownSource">Desconocido</string>
+	<string name="urlHelp">http://m.blog.binomed.fr/en/help-cineshowtime-android-en</string>
+	<string name="readMore">más</string>
+	<string name="menuReservation">Reserva</string>
+	<!--THEMES-->
+	<string name="theme_dark">Dark knight</string>
+	<string name="theme_light">Shine a light</string>
+	<!--Preferences Messages -->
 	<string name="preference_lang_cat">Opciones de idioma</string>
 	<string name="preference_lang_key_auto_translate">check_preference</string>
 	<string name="preference_lang_auto_translate">Traducción automática</string>
@@ -133,6 +160,12 @@
 	<string name="preference_gen_time_adds">Duración de anuncios</string>
 	<string name="preference_gen_time_adds_summary">Tiempo entre la hora de la sesión y el principio de la película</string>
 	<string name="preference_gen_default_time_adds">20</string>
+	<string name="preference_gen_key_time_format">time_format_preference</string>
+	<string name="preference_gen_time_format">Formato de hora</string>
+	<string name="preference_gen_default_time_format">24</string>
+	<string name="preference_gen_theme">Tema</string>
+	<string name="preference_gen_key_theme">theme_preference</string>
+	<string name="preference_gen_default_theme">DARK</string>
 	<string name="preference_loc_cat">Opciones de localización</string>
 	<string name="preference_loc_key_measure">measure_preference</string>
 	<string name="preference_loc_default_measure">KM</string>
@@ -146,7 +179,7 @@
 	<string name="preference_loc_enable_localisation_summary">Usar la localización GPS o GSM si está activada.</string>
 	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
 	<string name="preference_loc_localisation_provider">Modo de localización</string>
-	<string name="preference_loc_localisation_provider_summary">Seleccionar el modo de localización (GPS, GSM,IP, XPS)</string>
+	<string name="preference_loc_localisation_provider_summary">Seleccionar el modo de localización (GPS, GSM, Wifi)</string>
 	<string name="preference_loc_default_localisation_provider">GPS</string>
 	<string name="preference_sort_cat">Opciones de clasificación</string>
 	<string name="preference_sort_key_sort_movie">sort_movie</string>
@@ -160,8 +193,4 @@
 	<string name="preference_user_cat">Opciones del usuario</string>
 	<string name="preference_user_agenda">Selección del agenda</string>
 	<string name="preference_user_agenda_summary">Agenda usado para el añadido de sesiones</string>
-	<!-- Error messages -->
-	<string name="msgErrorNoDb">Error durante la conexión a la base de datos. Verifique su tarjeta SD</string>
-	<string name="msgErrorNoNetwork">Error durante la conexión, verifique su conexión 3G o Wifi</string>
-	<string name="msgErrorOnServer">Error durante la conexión al servidor. Intente más tarde</string>
 </resources>

@@ -81,7 +81,7 @@ public class AndShowCleanFileService extends Service {
 				lastWeek.add(Calendar.WEEK_OF_MONTH, -1);
 				Map<String, MovieBean> mapMovie = null;
 				if (mDbHelper.isOpen()) {
-					mapMovie = new HashMap<String, MovieBean>(AndShowtimeDB2AndShowtimeBeans.extractMovies(mDbHelper));
+					mapMovie = new HashMap<String, MovieBean>(AndShowtimeDB2AndShowtimeBeans.extractMovies(mDbHelper, null));
 				} else {
 					mapMovie = new HashMap<String, MovieBean>();
 				}

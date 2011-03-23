@@ -2,6 +2,7 @@ package com.binomed.showtime.android.parser.xml;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -10,15 +11,18 @@ import org.xml.sax.SAXException;
 
 import com.binomed.showtime.android.util.AndShowTimeEncodingUtil;
 import com.binomed.showtime.beans.MovieBean;
+import com.binomed.showtime.beans.ReviewBean;
+import com.binomed.showtime.beans.YoutubeBean;
 import com.binomed.showtime.cst.XmlGramarImdbResult;
 
 public class ParserImdbResultXml implements ContentHandler {
 
 	private MovieBean movieBean = null;
+	private ReviewBean reviewBean = null;
 
 	private StringBuilder description;
 
-	private boolean inDescription;
+	private boolean inDescription, inReview;
 
 	public MovieBean getMovieBean() {
 		return movieBean;
@@ -90,6 +94,70 @@ public class ParserImdbResultXml implements ContentHandler {
 			String imdbDesc = atts.getValue(XmlGramarImdbResult.ATTR_IMDB_DESC);
 			movieBean.setImdbDesrciption(imdbDesc != null ? Boolean.valueOf(imdbDesc) : false);
 			description = new StringBuilder();
+		} else if (XmlGramarImdbResult.NODE_REVIEWS.equals(localName)) {
+			movieBean.setReviews(new ArrayList<ReviewBean>());
+		} else if (XmlGramarImdbResult.NODE_REVIEW.equals(localName)) {
+			inReview = true;
+			description.delete(0, description.length());
+			reviewBean = new ReviewBean();
+
+			String rate = atts.getValue(XmlGramarImdbResult.ATTR_RATE);
+			if (rate != null) {
+				try {
+					reviewBean.setRate(Float.valueOf(rate));
+				} catch (NumberFormatException e) {
+				}
+			}
+
+			String author = atts.getValue(XmlGramarImdbResult.ATTR_AUTHOR);
+			if (author != null) {
+				try {
+					reviewBean.setAuthor(URLDecoder.decode(author, AndShowTimeEncodingUtil.getEncoding()));
+				} catch (UnsupportedEncodingException e) {
+				}
+			}
+
+			String urlSource = atts.getValue(XmlGramarImdbResult.ATTR_SOURCE);
+			if (urlSource != null) {
+				try {
+					reviewBean.setSource(URLDecoder.decode(urlSource, AndShowTimeEncodingUtil.getEncoding()));
+				} catch (UnsupportedEncodingException e) {
+				}
+			}
+
+			String urlReview = atts.getValue(XmlGramarImdbResult.ATTR_URL_REVIEW);
+			if (urlReview != null) {
+				try {
+					reviewBean.setUrlReview(URLDecoder.decode(urlReview, AndShowTimeEncodingUtil.getEncoding()));
+				} catch (UnsupportedEncodingException e) {
+				}
+			}
+
+		} else if (XmlGramarImdbResult.NODE_VIDEOS.equals(localName)) {
+			movieBean.setYoutubeVideos(new ArrayList<YoutubeBean>());
+		} else if (XmlGramarImdbResult.NODE_VIDEO.equals(localName)) {
+			YoutubeBean youtubeBean = new YoutubeBean();
+
+			String urlImg = atts.getValue(XmlGramarImdbResult.ATTR_URL_IMG);
+			if (urlImg != null) {
+				youtubeBean.setUrlImg(urlImg);
+			}
+
+			String urlVideo = atts.getValue(XmlGramarImdbResult.ATTR_URL_VIDEO);
+			if (urlVideo != null) {
+				youtubeBean.setUrlVideo(urlVideo);
+			}
+
+			String videoName = atts.getValue(XmlGramarImdbResult.ATTR_VIDEO_NAME);
+			if (videoName != null) {
+				try {
+					youtubeBean.setVideoName(URLDecoder.decode(videoName, AndShowTimeEncodingUtil.getEncoding()));
+				} catch (UnsupportedEncodingException e) {
+				}
+			}
+
+			movieBean.getYoutubeVideos().add(youtubeBean);
+
 		}
 
 	}
@@ -109,6 +177,15 @@ public class ParserImdbResultXml implements ContentHandler {
 				}
 			} catch (UnsupportedEncodingException e) {
 			}
+		} else if (inReview && XmlGramarImdbResult.NODE_REVIEW.equals(localName)) {
+			inReview = false;
+			try {
+				if (description != null) {
+					reviewBean.setReview(URLDecoder.decode(description.toString(), AndShowTimeEncodingUtil.getEncoding()));
+					movieBean.getReviews().add(reviewBean);
+				}
+			} catch (UnsupportedEncodingException e) {
+			}
 		}
 	}
 
@@ -119,7 +196,7 @@ public class ParserImdbResultXml implements ContentHandler {
 	 */
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
-		if (inDescription && description != null) {
+		if ((inDescription || inReview) && description != null) {
 			description.append(new String(ch, start, length));
 		}
 	}

@@ -14,7 +14,9 @@ import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
 import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.ProjectionBean;
+import com.binomed.showtime.beans.ReviewBean;
 import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.beans.YoutubeBean;
 
 public abstract class AndShowtimeDB2AndShowtimeBeans {
 
@@ -27,15 +29,61 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static Map<String, MovieBean> extractMovies(AndShowtimeDbAdapter mDbHelper) throws SQLException {
+	public static Map<String, MovieBean> extractMovies(AndShowtimeDbAdapter mDbHelper, List<TheaterBean> theaterList) throws SQLException {
 		Log.d(TAG, "Extract movies"); //$NON-NLS-1$
 		Map<String, MovieBean> movieMap = new HashMap<String, MovieBean>();
 		Cursor movieCursor = mDbHelper.fetchAllMovies();
+		Cursor reviewsCursor = null;
+		Cursor videosCursor = null;
+
+		Map<String, List<String>> mapMovieIdThList = new HashMap<String, List<String>>();
+
+		if (theaterList != null) {
+			List<String> thIdList = null;
+			for (TheaterBean thTmp : theaterList) {
+				for (String movieId : thTmp.getMovieMap().keySet()) {
+					thIdList = mapMovieIdThList.get(movieId);
+					if (thIdList == null) {
+						thIdList = new ArrayList<String>();
+						mapMovieIdThList.put(movieId, thIdList);
+					}
+					thIdList.add(thTmp.getId());
+				}
+			}
+		}
+
 		try {
 			MovieBean movieBean = null;
 			if (movieCursor.moveToFirst()) {
 				do {
 					movieBean = extractMovie(movieCursor);
+					movieBean.setTheaterList(mapMovieIdThList.get(movieBean.getId()));
+					reviewsCursor = mDbHelper.fetchReviews(movieBean.getId());
+					try {
+						if (reviewsCursor.moveToFirst()) {
+							movieBean.setReviews(new ArrayList<ReviewBean>());
+							do {
+								movieBean.getReviews().add(extractReview(reviewsCursor));
+							} while (reviewsCursor.moveToNext());
+						}
+					} finally {
+						if (reviewsCursor != null) {
+							reviewsCursor.close();
+						}
+					}
+					videosCursor = mDbHelper.fetchVideos(movieBean.getId());
+					try {
+						if (videosCursor.moveToFirst()) {
+							movieBean.setYoutubeVideos(new ArrayList<YoutubeBean>());
+							do {
+								movieBean.getYoutubeVideos().add(extractVideo(videosCursor));
+							} while (videosCursor.moveToNext());
+						}
+					} finally {
+						if (videosCursor != null) {
+							videosCursor.close();
+						}
+					}
 					movieMap.put(movieBean.getId(), movieBean);
 					BeanManagerFactory.putMovie(movieBean);
 				} while (movieCursor.moveToNext());
@@ -108,6 +156,58 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 		movieBean.setDirectorList(movieCursor.getString(columnIndex));
 
 		return movieBean;
+	}
+
+	/**
+	 * Extract a Review
+	 * 
+	 * @param reviewCursor
+	 * @return
+	 * @throws SQLException
+	 */
+	public static ReviewBean extractReview(Cursor reviewCursor) throws SQLException {
+		Log.d(TAG, "Extract a review"); //$NON-NLS-1$
+		ReviewBean reviewBean = new ReviewBean();
+
+		int columnIndex = reviewCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_REVIEW_RATE);
+		reviewBean.setRate(reviewCursor.getFloat(columnIndex));
+
+		columnIndex = reviewCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_REVIEW_AUTHOR);
+		reviewBean.setAuthor(reviewCursor.getString(columnIndex));
+
+		columnIndex = reviewCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_REVIEW_CONTENT);
+		reviewBean.setReview(reviewCursor.getString(columnIndex));
+
+		columnIndex = reviewCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_REVIEW_SOURCE);
+		reviewBean.setSource(reviewCursor.getString(columnIndex));
+
+		columnIndex = reviewCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_REVIEW_URL_REVIEW);
+		reviewBean.setUrlReview(reviewCursor.getString(columnIndex));
+
+		return reviewBean;
+	}
+
+	/**
+	 * Extract a Video
+	 * 
+	 * @param videoCursor
+	 * @return
+	 * @throws SQLException
+	 */
+	public static YoutubeBean extractVideo(Cursor videoCursor) throws SQLException {
+		Log.d(TAG, "Extract a video"); //$NON-NLS-1$
+		YoutubeBean videoBean = new YoutubeBean();
+
+		int columnIndex = videoCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_VIDEO_NAME);
+		videoBean.setVideoName(videoCursor.getString(columnIndex));
+
+		columnIndex = videoCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_VIDEO_URL_IMG);
+		videoBean.setUrlImg(videoCursor.getString(columnIndex));
+
+		columnIndex = videoCursor.getColumnIndex(AndShowtimeDbAdapter.KEY_VIDEO_URL_VIDEO);
+		videoBean.setUrlVideo(videoCursor.getString(columnIndex));
+
+		return videoBean;
 	}
 
 	/**
@@ -533,7 +633,6 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 		Cursor cursorCurerntMovie = mDbHelper.fetchCurentMovie();
 
 		// Fetch location link to theater
-		Log.d(TAG, "Extract curent movie"); //$NON-NLS-1$
 		try {
 			if (cursorCurerntMovie.moveToFirst()) {
 				int columnIndex = cursorCurerntMovie.getColumnIndex(AndShowtimeDbAdapter.KEY_CURENT_MOVIE_THEATER_ID);
@@ -542,10 +641,14 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 				columnIndex = cursorCurerntMovie.getColumnIndex(AndShowtimeDbAdapter.KEY_CURENT_MOVIE_MOVIE_ID);
 				String movieId = cursorCurerntMovie.getString(columnIndex);
 
+				Log.d(TAG, "Extract curent movie : movieId : " + movieId + ", theaterId : " + theaterId); //$NON-NLS-1$
 				Cursor theaterCursor = mDbHelper.fetchTheater(theaterId);
 				try {
 					if (theaterCursor.moveToFirst()) {
 						result[0] = extractTheaterBean(theaterCursor, mDbHelper);
+
+					} else {
+						Log.d(TAG, "No theater"); //$NON-NLS-1$
 
 					}
 				} finally {
@@ -561,8 +664,47 @@ public abstract class AndShowtimeDB2AndShowtimeBeans {
 				} finally {
 					if (movieCursor != null) {
 						movieCursor.close();
+					} else {
+						Log.d(TAG, "No movie"); //$NON-NLS-1$
 					}
 				}
+			} else {
+				Log.d(TAG, "No curent movie"); //$NON-NLS-1$
+			}
+		} finally {
+			if (cursorCurerntMovie != null) {
+				cursorCurerntMovie.close();
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Extract curent movie information (showtime, desciption ...)
+	 * 
+	 * @param mDbHelper
+	 * @return an Object[] with Object[0]= TheaterBean and Object[1] = MovieBean
+	 * @throws SQLException
+	 */
+	public static Object[] extractCurrentWidgetMovie(AndShowtimeDbAdapter mDbHelper) throws SQLException {
+		Object[] result = new Object[2];
+
+		Cursor cursorCurerntMovie = mDbHelper.fetchCurentMovie();
+
+		// Fetch location link to theater
+		try {
+			if (cursorCurerntMovie.moveToFirst()) {
+				int columnIndex = cursorCurerntMovie.getColumnIndex(AndShowtimeDbAdapter.KEY_CURENT_MOVIE_THEATER_ID);
+				String theaterId = cursorCurerntMovie.getString(columnIndex);
+
+				columnIndex = cursorCurerntMovie.getColumnIndex(AndShowtimeDbAdapter.KEY_CURENT_MOVIE_MOVIE_ID);
+				String movieId = cursorCurerntMovie.getString(columnIndex);
+
+				Log.d(TAG, "Extract curent movie : movieId : " + movieId + ", theaterId : " + theaterId); //$NON-NLS-1$
+				result[0] = extractWidgetTheater(mDbHelper, Calendar.getInstance());
+				result[1] = extractWidgetMovie(mDbHelper, movieId, (TheaterBean) result[0]);
+
 			} else {
 				Log.d(TAG, "No curent movie"); //$NON-NLS-1$
 			}

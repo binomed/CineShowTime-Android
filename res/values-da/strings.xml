@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Commons -->
+	<string name="menuPreferences">Indstillinger</string>
+	<string name="menuAbout">Om</string>
+	<string name="menuHelp">Hjælp</string>
+	<string name="openMapsMenuItem">Find biograf</string>
+	<string name="openMapsDriveMenuItem">Navigér til biograf</string>
+	<string name="openYoutubeMenuItem">Søg efter trailer</string>
+	<string name="search">Søg</string>
+	<string name="cityName">By:</string>
+	<string name="movieName">Film:</string>
+	<string name="btnChkLocation">Efter by:</string>
+	<string name="spinnerToday">I dag</string>
+	<string name="spinnerMonday">Mandag</string>
+	<string name="spinnerTuesday">Tirsdag</string>
+	<string name="spinnerWenesday">Onsdag</string>
+	<string name="spinnerThursday">Torsdag</string>
+	<string name="spinnerFriday">Fredag</string>
+	<string name="spinnerSaturday">Lørdag</string>
+	<string name="spinnerSunday">Søndag</string>
+	<string name="spinnerChoseTitle">Vælg en dag</string>
+	<string name="menuSort">Sortér resultater</string>
+	<string name="sortDialogTitle">Vælg sortering</string>
+	<string name="msgNoCityName">By navn skal indtastes</string>
+	<string name="msgNoGps">Kunne ikke finde placering...prøv at bevæge dig et andet sted hen og prøv igen</string>
+	<string name="msgNoMovieName">Filmtitel skal indtastes</string>
+	<string name="msgNoPlaceMatch">Fandt ingen passende resultater. Vælg venligst en anden by.</string>
+	<string name="msgNoDateMatch"> Fandt ingen passende resultater. Vælg venligst en anden dato.</string>
+	<string name="msgNoUpComming">Denne information er ikke tilgængelig endnu. Prøv igen i morgen.</string>
+	<string name="msgNoDFav">Ingen biografer i Mine biografer</string>
+	<string name="msgVersionTitle">CineShowTime version:</string>
+	<string name="msgVersionCode">Kode version:</string>
+	<string name="msgVersionName">Navne version:</string>
+	<string name="msgTraductorName">Oversættelse: Tommy Dejbjerg Pedersen</string>
+	<string name="msgDonation">Hvis du vil donere, så besøg min hjemmeside: http://code.google.com/p/binomed-project/</string>
+	<string name="msgSpeecRecognition">Tale genkendelse:</string>
+	<string name="msgSpeecCity">Tale genkendelse: søg efter by</string>
+	<string name="msgSpeecMovie">Tale genkendelse: søg efter film</string>
+	<string name="msgCalculating">Behandler...</string>
+	<string name="msgNoResultRetryLater">Kunne ikke finde spilletider, men der kan være problemer på serveren. Prøv igen.</string>
+	<string name="btnClose">Luk</string>
+	<!--  Widget -->
+	<string name="widget_name_2x2">CineShowTime 2x2</string>
+	<string name="widget_name_2x2_cupcake">CineShowTime 2x2 Cupcake</string>
+	<string name="msgNoResults">Ingen film fundet</string>
+	<string name="msgLoading">Indlæser...</string>
+	<!--  Main acitivity -->
+	<string name="MainTitle">Velkommen til CineShowTime</string>
+	<string name="app_name">CineShowTime</string>
+	<string name="btnNear">Søg efter biograf</string>
+	<string name="btnMovie">Søg efter spilletider</string>
+	<string name="btnFav">Mine Biografer</string>
+	<string name="btnUpComming">Kommer snart</string>
+	<!-- GPS Messages -->
+	<string name="gpsInactiveTitle">GPS er slået fra!</string>
+	<string name="gpsInactiveMsg">Vil du slå GPS\'en til?</string>
+	<string name="gpsInactiveBtnYes">Ja</string>
+	<string name="gpsInactiveBtnNo">Nej</string>
+	<!-- Near Activity Message -->
+	<string name="hour">t</string>
+	<string name="min">m</string>
+	<string name="menuCall">Ring til biograf</string>
+	<string name="menuFav">Mine Biografer</string>
+	<string name="menuLastShowtime">sidste spilletid</string>
+	<string name="flagLastShowtime">sidste spilletid</string>
+	<string name="addFav">Gem i Mine Biografer</string>
+	<string name="searchNearProgressTitle">Søger i spilletider</string>
+	<string name="searchNearProgressMsg">Indlæser...</string>
+	<string name="itemMoreTheaters">Flere biografer</string>
+	<!-- Search Movie Activity Message -->
+	<string name="searchMovieProgressTitle">Søger i spilletider</string>
+	<string name="searchMovieProgressMsg">Indlæser...</string>
+	<string name="txtMovieFind">Film:</string>
+	<string name="txtMovieFindDuration">Længde:</string>
+	<string name="txtMovieFindValueNotFound">Den film du valgte kan ikke findes</string>
+	<!-- LastChange Dialog Message -->
+	<string name="dialogLastChangeTitle">Sidste Ændring</string>
+	<!-- Bookmarks Dialog Message -->
+	<string name="dialogBookmarkTitle">Mine Biografer</string>
+	<string name="menuRemoveBookmark">Fjern fra Mine Biografer</string>
+	<!-- Last Showtime Dialog Message -->
+	<string name="dialogLastShowtimeTitle">Sidste spilletider</string>
+	<string name="dialogLastShowtimeMsg">Vil du søge efter film som ikke spiller i næste uge ? \n Denne funktion er under udvikling og virker måske ikke.</string>
+	<string name="dialogLastShowtimeBtnYes">Ja</string>
+	<string name="dialogLastShowtimeBtnNon">Nej</string>
+	<!-- Movie Activity Message -->
+	<string name="movieProgressTitle">Søger efter information om filmen</string>
+	<string name="movieProgressMsg">Indlæser...</string>
+	<string name="plot">Handling</string>
+	<string name="trailer">Trailers</string>
+	<string name="projectionList">Spilletider i biografen:</string>
+	<string name="projectionTime">Spilletid:</string>
+	<string name="endHour">Slut:</string>
+	<string name="txtTitle">Titel:</string>
+	<string name="txtRate">Bedømmelse:</string>
+	<string name="txtUserRate">Din bedømmelse:</string>
+	<string name="txtDuration">Længde:</string>
+	<string name="txtDirector">Instruktør(er):</string>
+	<string name="txtActor">Skuespiller(e):</string>
+	<string name="txtGenre">Genre:</string>
+	<string name="tabSummary">Film information</string>
+	<string name="tabProjection">Spilletider</string>
+	<string name="tabReviews">Anmeldelser</string>
+	<string name="noSummary">Kunne ikke finde beskrivelse af handling...</string>
+	<string name="btnImdb">Imdb</string>
+	<string name="menuTranslate">Oversæt</string>
+	<string name="menuSms">SMS invitation</string>
+	<string name="menuMail">Email invitation</string>
+	<string name="menuAddEvent">Føj til kalender</string>
+	<string name="menuRate">Bedøm filmen</string>
+	<string name="msgRateSave">Bedømmelse gemt</string>
+	<string name="smsContent">Jeg vil gerne invitere dig med til at se filmen "{0}" {1} kl. {2} i biografen "{3}" \n\n Beskeden er dannet af CineShowTime</string>
+	<string name="mailContent">Jeg vil gerne invitere dig med til at se filmen <i>"{0}"</i> {1} kl. <b>{2}</b> i biografen "{3}" \n\n Emailen er dannet af CineShowTime</string>
+	<string name="mailSubject">Invitation til at se {0}</string>
+	<string name="chooseIntentSms">SMS invitation</string>
+	<string name="chooseIntentMail">Email invitation</string>
+	<string name="msgEventAdd">Spilletid tilføjet til kalenderen</string>
+	<!-- Rate Movie Dialog Message -->
+	<string name="dialogRateMovieTitle">Bedøm film</string>
+	<string name="dialogRateMovieMsg">Give en bedømmelse mellem 0 og 10</string>
+	<string name="dialogRateMovieValidate">Bedøm</string>
+	<string name="dialogRateMovieCancel">Fortryd</string>	
+	<!-- Error messages -->
+	<string name="msgErrorNoDb">Fejl ved forbindelse til databasen. Check venligst dit SD kort.</string>
+	<string name="msgErrorNoNetwork">Forbindelsesfejl. Check venligst din netværksforbindelse.</string>
+	<string name="msgErrorOnServer">Der opstod en fejl på serveren. Prøv igen senere.</string>
+	<!--ADDED STRINGS-->
+	<string name="txtEnterCity">Bynavn...</string>
+	<string name="txtEnterMovie">Filmnavn...</string>
+	<string name="spinnerTomorow">I morgen</string>
+	<string name="movieLabel">Film</string>
+	<string name="showtimeLabel">Spilletid</string>
+	<string name="rateLabel">Bedømmelse</string>
+	<string name="errorMsg">Fejl</string>
+	<string name="geolocalized">Søgning baseret på placering</string>
+	<string name="gpsUnauthorizedMsg">Du skal aktivere Googles lokaliseringsindstilling. </string>
+	<string name="gpsUnauthorizedMsgCineShowTime">Du skal aktivere CineShowTime lokaliseringsindstilling. </string>
+	<string name="gpsPrefDisable">Du skal aktivere GPS lokalisering under programmets indstillinger. </string>
+	<string name="msgErrorTranslate">Der opstod en fejl under oversættelsen.</string>
+	<string name="msgDevelopped">Udviklet af</string>
+	<string name="noReview">Ingen bedømmelse</string>
+	<string name="unknownSource">Ukendt</string>
+	<string name="urlHelp">http://m.blog.binomed.fr/en/help-cineshowtime-android-en</string>
+	<string name="readMore">læs mere</string>
+	<string name="menuReservation">Reservér</string>
+	<!-- THEMES -->
+	<string name="theme_dark">Dark knight</string>
+	<string name="theme_light">Shine a light"</string>
+	<!-- Preferences Messages -->
+	<string name="preference_lang_cat">Sprog indstillinger</string>
+	<string name="preference_lang_key_auto_translate">check_preference</string>
+	<string name="preference_lang_auto_translate">Oversæt automatisk</string>
+	<string name="preference_lang_auto_translate_summary">Oversæt film beskrivelser</string>
+	<string name="preference_gen_cat">Generelle indstillinger</string>
+	<string name="preference_gen_key_auto_reload">auto_reload_preference</string>
+	<string name="preference_gen_auto_reload">Auto reload</string>
+	<string name="preference_gen_auto_reload_summary">Automatisk reload hvis datoen er ændret</string>
+	<string name="preference_gen_key_time_adds">time_adds_preference</string>
+	<string name="preference_gen_time_adds">Reklame og trailer tid</string>
+	<string name="preference_gen_time_adds_summary">Tiden mellem spilletid og filmstart (reklamer og trailers)</string>
+	<string name="preference_gen_default_time_adds">20</string>
+	<string name="preference_gen_key_time_format">time_format_preference</string>
+	<string name="preference_gen_time_format">Time format</string>
+	<string name="preference_gen_default_time_format">24</string>
+	<string name="preference_gen_theme">Tema</string>
+	<string name="preference_gen_key_theme">theme_preference</string>
+	<string name="preference_gen_default_theme">DARK</string>
+	<string name="preference_loc_cat">Indstillinger for lokation</string>
+	<string name="preference_loc_key_measure">measure_preference</string>
+	<string name="preference_loc_default_measure">mil</string>
+	<string name="preference_loc_measure">Standard enhed</string>
+	<string name="preference_loc_measure_summary">Vælg standard måleenhed</string>
+	<string name="preference_loc_key_time_direction">time_direction_preference</string>
+	<string name="preference_loc_time_direction">Afstand til biograf</string>
+	<string name="preference_loc_time_direction_summary">Tag højde for afstanden til biografen ved visning af spilletider</string>
+	<string name="preference_loc_key_enable_localisation">enable_localisation_preference</string>
+	<string name="preference_loc_enable_localisation">Brug lokation</string>
+	<string name="preference_loc_enable_localisation_summary">Brug GPS eller netværkslokation hvis det er slået til på telefonen</string>
+	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
+	<string name="preference_loc_localisation_provider">Lokationsmetode</string>
+	<string name="preference_loc_localisation_provider_summary">Vælg hvordan din lokation skal bestemmes (GPS, Network, Wifi)</string>
+	<string name="preference_loc_default_localisation_provider">GPS</string>
+	<string name="preference_sort_cat">Sorterings indstillinger</string>
+	<string name="preference_sort_key_sort_movie">sort_movie</string>
+	<string name="preference_sort_default_sort_movie">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_movie">Film sortering</string>
+	<string name="preference_sort_sort_movie_summary">Vælg hvordan film skal sorteres</string>
+	<string name="preference_sort_key_sort_theater">sort_theater</string>
+	<string name="preference_sort_default_sort_theater">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_theater">Biograf sortering</string>
+	<string name="preference_sort_sort_theater_summary">Vælg hvordan biografer skal sorteres</string>
+	<string name="preference_user_cat">Bruger indstillinger</string>
+	<string name="preference_user_agenda">Kalender</string>
+	<string name="preference_user_agenda_summary">Vælg hvilken kalender programmet skal benytte</string>
+</resources>

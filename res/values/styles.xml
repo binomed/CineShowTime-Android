@@ -1,66 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
-
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-
-          http://www.apache.org/licenses/LICENSE-2.0
-
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
-
 <resources>
 
-   
-    
-    
-    <style name="Widget">
+    <style name="Layouts">
+    </style>
+    <style name="Text">
     </style>
     <style name="Button">
     </style>
     
     
-    <style name="Widget.TheaterTitle">
+    <style name="Layouts.background">
+        <item name="android:background">@drawable/androidshowtime_background</item>
+    </style>
+    <style name="Text.FavMain">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@android:color/black</item>
-    </style>
-    
-    <style name="Widget.Movie">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textStyle">italic</item>
-        <item name="android:textColor">@android:color/black</item>
-    </style>
-    <style name="Widget.MovieOne">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">italic</item>
-        <item name="android:textColor">@android:color/black</item>
-    </style>
-    
-    <style name="Widget.Hour">
-        <item name="android:textSize">10sp</item>
-        <item name="android:textStyle">bold</item>
-        <!--<item name="android:textColor">@android:color/black</item>-->
-        <item name="android:textColor">#ff0300</item>
-    </style>
-    <style name="Widget.HourOne">
-        <item name="android:textSize">13sp</item>
-        <item name="android:textStyle">bold</item>
-        <!--<item name="android:textColor">@android:color/black</item>-->
-        <item name="android:textColor">#ff0300</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
         
     <style name="Button.button">
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">#535353</item>
         <item name="android:background">@drawable/btn_and_showtime</item>
     </style>
     <style name="Button.spinner">
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">#535353</item>
         <item name="android:background">@drawable/btn_spinner_and_showtime</item>
     </style>
+    
+     <style name="TabBackGround">
+	  	<item name="android:layout_marginRight">5dip</item>
+	  </style>
+	  <style name="TabBackGround.Light">
+        <item name="android:textColor">@android:color/white</item>
+	    <item name="android:background">@drawable/logo_light</item>
+	  </style>
+	  <style name="TabBackGround.Dark">
+	    <item name="android:background">@drawable/logo</item>
+	  </style>
+	  
+	  <style name="LogoLight">
+	    <item name="android:background">@drawable/logo_light</item>
+	  </style>
+	  <style name="LogoDark">
+	    <item name="android:background">@drawable/logo</item>
+	  </style>
+	  
+	  <style name="ImgLight">
+	    <item name="android:background">@drawable/cineshowtime_fond_light</item>
+	  </style>
+	  <style name="ImgDark">
+	    <item name="android:background">@drawable/androidshowtime_background</item>
+	  </style>
+	  
+		<!-- TextStyle -->
+		
+	  <style name="TextTabLight">
+	    <item name="android:textColor">@android:color/white</item>
+	  </style>
+	  <style name="TextTabDark">
+	  </style>
+	  
+	  <style name="TextInfo">
+	  	<item name="android:layout_marginRight">5dip</item>
+	  </style>
+	  <style name="TextInfo.Light">
+        <item name="android:textColor">@android:color/black</item>
+	  </style>
+	  <style name="TextInfo.Dark">
+        <item name="android:textColor">@android:color/white</item>
+	  </style>
+
+	  <style name="TextInfoBelow">
+	  	<item name="android:layout_marginLeft">-5dip</item>
+	  </style>
+	  <style name="TextInfoBelow.Light">
+        <item name="android:textColor">@android:color/black</item>
+	  </style>
+	  <style name="TextInfoBelow.Dark">
+        <item name="android:textColor">@android:color/white</item>
+	  </style>
+
+	  <style name="TextInfoRate">
+	  	 <item name="android:layout_marginRight">5dip</item>
+        <item name="android:layout_marginLeft">10dip</item>
+	  </style>
+	  <style name="TextInfoRate.Light">
+        <item name="android:textColor">@android:color/black</item>
+	  </style>
+	  <style name="TextInfoRate.Dark">
+        <item name="android:textColor">@android:color/white</item>
+	  </style>
+	  
+	  <style name="EditText">
+	  </style>
+	  <style name="EditText.Light">
+        <item name="android:textColor">@android:color/black</item>
+	  </style>
+	  <style name="EditText.Dark">
+	  </style>
+	  
+	 <style name="TextLabel">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginLeft">10dip</item>
+    </style>
+	 <style name="TextLabel.SearchLabel">
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginRight">5dip</item>
+    </style>
+	 <style name="TextLabel.SearchLabel.Light">
+        <item name="android:textColor">#990000</item>
+    </style>
+	 <style name="TextLabel.SearchLabel.Dark">
+        <item name="android:textColor">#ff0000</item>
+    </style>
+    
+    <style name="TextLabel.MovieLabel">
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginRight">5dip</item>
+    </style>
+    <style name="TextLabel.MovieLabel.Light">
+        <item name="android:textColor">#990000</item>
+    </style>
+    <style name="TextLabel.MovieLabel.Dark">
+        <item name="android:textColor">#ff0000</item>
+    </style>
+    <style name="TextLabel.MovieLabel.Below">
+        <item name="android:layout_marginRight">0dip</item>
+        <item name="android:gravity">right</item>
+    </style>
+    <style name="TextLabel.MovieLabel.Below.Light">
+        <item name="android:textColor">#990000</item>
+    </style>
+    <style name="TextLabel.MovieLabel.Below.Dark">
+        <item name="android:textColor">#ff0000</item>
+    </style>
+    
+    <style name="TextObjectMasterMainInfo">
+    </style>
+    <style name="TextObjectMasterMainInfo.Light">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    <style name="TextObjectMasterMainInfo.Dark">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    
+    <style name="TextObjectMasterSubInfo">
+    </style>
+    <style name="TextObjectMasterSubInfo.Light">
+        <item name="android:textColor">#3C3C3C</item>
+    </style>
+    <style name="TextObjectMasterSubInfo.Dark">
+        <item name="android:textColor">#696969</item>
+    </style>
+    
+    <style name="TextObjectSubMainInfo">
+    </style>
+    <style name="TextObjectSubMainInfo.Light">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    <style name="TextObjectSubMainInfo.Dark">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    
+    <style name="TextObjectSubMainInfoSub">
+    </style>
+    <style name="TextObjectSubMainInfoSub.Light">
+        <item name="android:textColor">#3C3C3C</item>
+    </style>
+    <style name="TextObjectSubMainInfoSub.Dark">
+        <item name="android:textColor">#aaaaaa</item>
+    </style>
+    
+    <style name="TextTrailer">
+    </style>
+    <style name="TextTrailer.Light">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    <style name="TextTrailer.Dark">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    
+    
 </resources>

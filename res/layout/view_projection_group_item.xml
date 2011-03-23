@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/item_projection_item" 
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	>
+	<ImageButton  
+	    android:id="@+id/item_projection_button"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:src="@drawable/palm_popup_fade_arrow_down_dark"
+	    android:background="@android:drawable/btn_default_small"
+	    />
+	<TextView  
+	    android:id="@+id/item_projection_name"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:lineSpacingMultiplier="1.2"
+	    android:layout_toLeftOf="@id/item_projection_button"
+	    />
+</RelativeLayout>

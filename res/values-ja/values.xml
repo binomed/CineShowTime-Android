@@ -45,7 +45,7 @@
 		<item>映画館名から</item>
 		<item>映画館からの距離から</item>
 		<item>一番待ち時間が短い上映時間から</item>
-		<!-- <item>映画のタイトルから</item>-->
+		<item>映画のタイトルから</item>
 		<!-- <item>ユーザーの設定から(時間がかかります)</item>-->
 	</string-array>
 	<string-array name="sort_movies_values">
@@ -57,12 +57,30 @@
 		<item>THEATER_NAME</item>
 		<item>THEATER_DISTANCE</item>
 		<item>SHOWTIME_HOUR</item>
-		<!--<item>MOVIE_NAME</item>-->
+		<item>MOVIE_NAME</item>
 		<!--<item>USER_PREFERENCE</item>-->
 	</string-array>
 	<string-array name="sort_movies_values_code">
 		<item>THEATER_NAME</item>
 		<item>THEATER_DISTANCE</item>
 		<item>SHOWTIME_HOUR</item>
+	</string-array>
+	<string-array name="themes_code">
+		<item>DARK</item>
+		<item>LIGHT</item>
+	</string-array>
+	<string-array name="themes_values">
+		<item>Dark knight</item>
+		<item>Shine a light</item>
+	</string-array>
+	<string-array name="time_format_code">
+		<item>12</item>
+		<item>24</item>
+		<item>DEFAULT</item>
+	</string-array>
+	<string-array name="time_format_values">
+		<item>12</item>
+		<item>24</item>
+		<item>デフォルト</item>
 	</string-array>
 </resources>

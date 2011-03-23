@@ -14,8 +14,8 @@ import com.binomed.showtime.beans.TheaterBean;
 
 abstract class AbstractTheaterListAdapter extends BaseAdapter {
 
-	private List<TheaterBean> theaterList;
-	private Context mainContext;
+	protected List<TheaterBean> theaterList;
+	protected Context mainContext;
 	private boolean hasMoreTheater;
 
 	public AbstractTheaterListAdapter(Context context, List<TheaterBean> theaterList, boolean hasMoreTheater) {
@@ -54,7 +54,7 @@ abstract class AbstractTheaterListAdapter extends BaseAdapter {
 		TextView theaterView = null;
 		if (convertView == null) {
 			LayoutInflater inflator = (LayoutInflater) mainContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			theaterView = (TextView) inflator.inflate(R.layout.and_showtime_expandable_group_item, null);
+			theaterView = (TextView) inflator.inflate(R.layout.view_text_group_item, null);
 		} else {
 			theaterView = (TextView) convertView;
 		}

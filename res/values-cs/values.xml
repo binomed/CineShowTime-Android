@@ -45,7 +45,7 @@
 		<item>dle názvu kina</item>
 		<item>dle vzdálenosti kina</item>
 		<item>dle nejbližšího promítání</item>
-		<!-- <item>by movie name</item>-->
+		<item>by movie name</item>
 		<!-- <item>by user prefereneces (slower)</item>-->
 	</string-array>
 	<string-array name="sort_movies_values">
@@ -54,15 +54,33 @@
 		<item>dle nejbližšího promítání</item>
 	</string-array>
 	<string-array name="sort_theaters_values_code">
-		<item>NÁZEV_KINA</item>
-		<item>VZDÁLENOST_KINA</item>
-		<item>ZAČÁTEK_PROMÍTÁNÍ</item>
-		<!--<item>MOVIE_NAME</item>-->
+		<item>THEATER_NAME</item>
+		<item>THEATER_DISTANCE</item>
+		<item>SHOWTIME_HOUR</item>
+		<item>MOVIE_NAME</item>
 		<!--<item>USER_PREFERENCE</item>-->
 	</string-array>
 	<string-array name="sort_movies_values_code">
-		<item>NÁZEV_KINA</item>
-		<item>VZDÁLENOST_KINA</item>
-		<item>ZAČÁTEK_PROMÍTÁNÍ</item>
+		<item>THEATER_NAME</item>
+		<item>THEATER_DISTANCE</item>
+		<item>SHOWTIME_HOUR</item>
+	</string-array>
+	<string-array name="themes_code">
+		<item>DARK</item>
+		<item>LIGHT</item>
+	</string-array>
+	<string-array name="themes_values">
+		<item>Dark knight</item>
+		<item>Shine a light</item>
+	</string-array>
+	<string-array name="time_format_code">
+		<item>12</item>
+		<item>24</item>
+		<item>DEFAULT</item>
+	</string-array>
+	<string-array name="time_format_values">
+		<item>12</item>
+		<item>24</item>
+		<item>prodlení</item>
 	</string-array>
 </resources>

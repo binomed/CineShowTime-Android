@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!-- Commons -->
-	<string name="menuPreferences">Scelte</string>
-	<string name="menuAbout">A proposito</string>
-	<string name="menuHelp">Aiuto</string>
-	<string name="openYoutubeMenuItem">Cercare filmino presentazione</string>
-	<string name="openMapsMenuItem">Localizare il cinema</string>
+	<string name="menuPreferences">Scelte </string>
+	<string name="menuAbout">A proposito </string>
+	<string name="menuHelp">Aiuto </string>
+	<string name="openYoutubeMenuItem">Cercare filmino presentazione </string>
+	<string name="openMapsMenuItem">Localizare il cinema </string>
 	<string name="openMapsDriveMenuItem">Itinerario fino al cinema</string>
 	<string name="search">Cercare</string>
 	<string name="cityName">Città :</string>
 	<string name="movieName">Film :</string>
-	<string name="btnChkLocation">Per Città :</string>
+	<string name="btnChkLocation">Per Città : </string>
 	<string name="spinnerToday">Oggi</string>
 	<string name="spinnerMonday">Lunedi</string>
 	<string name="spinnerTuesday">Martedi</string>
@@ -29,12 +29,12 @@
 	<string name="msgNoDateMatch">Non trovato . Provate con una data diferente.</string>
 	<string name="msgNoUpComming">Queste informazioni non son ancora disponibile , provate domani.</string>
 	<string name="msgNoDFav">Non avete nessuno favorito.</string>
-	<string name="msgVersionTitle">CineShowTime versione :</string>
-	<string name="msgVersionCode">Versione del codice :</string>
-	<string name="msgVersionName">Nome della versione :</string>
+	<string name="msgVersionTitle">CineShowTime versione : </string>
+	<string name="msgVersionCode">Versione del codice : </string>
+	<string name="msgVersionName">Nome della versione : </string>
 	<string name="msgTraductorName">Tradotto da : Hugo Tulli</string>
-	<string name="msgDonation">Voglia di fare un dono, grazie di visitare il nostro sito : http://code.google.com/p/binomed-project/</string>
-	<string name="msgSpeecRecognition">Riconuzione vocale :</string>
+	<string name="msgDonation">Voglia di fare un dono, grazie di visitare il nostro sito : http://code.google.com/p/binomed-project/ </string>
+	<string name="msgSpeecRecognition">Riconuzione vocale : </string>
 	<string name="msgSpeecCity"> Riconuzione vocale : Citta cercata</string>
 	<string name="msgSpeecMovie"> Riconuzione vocale : film cercato</string>
 	<string name="msgCalculating">Presso un po di patienza...</string>
@@ -46,63 +46,64 @@
 	<string name="msgNoResults">Nessuno film trovato</string>
 	<string name="msgLoading">Si prego un po di pazienza...</string>
 	<!--  Main acitivity -->
-	<string name="MainTitle">Benvenuti sur CineShowTime</string>
+	<string name="MainTitle">Benvenuti sur CineShowTime </string>
 	<string name="app_name">CineShowTime</string>
 	<string name="btnNear">Cercare dei cinema</string>
 	<string name="btnMovie">Cercare dei film</string>
 	<string name="btnFav">Preferiti</string>
 	<string name="btnUpComming">Prossimamente</string>
 	<!-- GPS Messages -->
-	<string name="gpsInactiveTitle">GPS disativato !</string>
-	<string name="gpsInactiveMsg">Attivare il vostro GPS ?</string>
-	<string name="gpsInactiveBtnYes">Si</string>
-	<string name="gpsInactiveBtnNo">No</string>
+	<string name="gpsInactiveTitle">GPS disativato ! </string>
+	<string name="gpsInactiveMsg">Attivare il vostro GPS ? </string>
+	<string name="gpsInactiveBtnYes">Si </string>
+	<string name="gpsInactiveBtnNo">No </string>
 	<!-- Near Activity Message -->
 	<string name="hour">h</string>
 	<string name="min">min</string>
-	<string name="menuCall">Chiamare il cinema</string>
+	<string name="menuCall">Chiamare il cinema </string>
 	<string name="menuFav">Preferiti</string>
 	<string name="menuLastShowtime">Ultimi passagi</string>
 	<string name="flagLastShowtime">Ultime diffuzione</string>
-	<string name="addFav">Agiugere ai preferiti</string>
-	<string name="searchNearProgressTitle">Cercare le sessione</string>
-	<string name="searchNearProgressMsg">Un po di pazienza...</string>
-	<string name="itemMoreTheaters">Piu di sale cinema</string>
-	<!-- Search Movie Activity Message -->
-	<string name="searchMovieProgressTitle">Cercare le diffuzioni</string>
-	<string name="searchMovieProgressMsg">Un po di pazienza...</string>
-	<string name="txtMovieFind">Film :</string>
-	<string name="txtMovieFindDuration">Durata :</string>
+	<string name="addFav">Agiugere ai preferiti </string>
+	<string name="searchNearProgressTitle">Cercare le sessione </string>
+	<string name="searchNearProgressMsg">Un po di pazienza... </string>
+	<string name="itemMoreTheaters">Piu di sale cinema </string>
+	<!-- Search Movie Activity Message -->	
+	<string name="searchMovieProgressTitle">Cercare le diffuzioni </string>
+	<string name="searchMovieProgressMsg">Un po di pazienza... </string>
+	<string name="txtMovieFind">Film : </string>
+	<string name="txtMovieFindDuration">Durata : </string>
 	<string name="txtMovieFindValueNotFound">Nessuno film corrisponde alla ricerca</string>
-	<!-- LastChange Dialog Message -->
-	<string name="dialogLastChangeTitle">Preferiti</string>
+	<!-- LastChange Dialog Message -->	
+	<string name="dialogLastChangeTitle">Preferiti </string>
 	<!-- Bookmarks Dialog Message -->
 	<string name="dialogBookmarkTitle">Preferiti</string>
 	<string name="menuRemoveBookmark">Cancelare i preferiti</string>
 	<!-- Last Showtime Dialog Message -->
 	<string name="dialogLastShowtimeTitle">Ultimi passagi di un film</string>
 	<string name="dialogLastShowtimeMsg">Volete ricercare i passagi dei film della settima prossima ? /Questa fonzionalita e in provo grazie !</string>
-	<string name="dialogLastShowtimeBtnYes">Si</string>
-	<string name="dialogLastShowtimeBtnNon">No</string>
+	<string name="dialogLastShowtimeBtnYes">Si </string>
+	<string name="dialogLastShowtimeBtnNon">No </string>
 	<!-- Movie Activity Message -->
-	<string name="movieProgressTitle">Cerca signaletica di un film</string>
-	<string name="movieProgressMsg">Un po di pazienza...</string>
+	<string name="movieProgressTitle">Cerca signaletica di un film </string>
+	<string name="movieProgressMsg">Un po di pazienza... </string>
 	<string name="plot">Riasunto</string>
-	<string name="projectionList">Passagi in cinema :</string>
-	<string name="projectionTime">Ora di passagio :</string>
-	<string name="endHour">Ora di fine film :</string>
-	<string name="txtTitle">Titolo :</string>
-	<string name="txtRate">Nota :</string>
-	<string name="txtUserRate">Sua nota :</string>
-	<string name="txtDuration">Durata :</string>
-	<string name="txtDirector">Realisatore (i) :</string>
-	<string name="txtActor">Attori(s) :</string>
-	<string name="txtGenre">Genere :</string>
-	<string name="tabSummary">Aviso del film</string>
-	<string name="tabProjection">Lista dei passagi</string>
-	<string name="tabReviews">Critico</string>
+	<string name="trailer">Rimorchi</string>
+	<string name="projectionList">Passagi in cinema : </string>
+	<string name="projectionTime">Ora di passagio : </string>
+	<string name="endHour">Ora di fine film : </string>
+	<string name="txtTitle">Titolo : </string>
+	<string name="txtRate">Nota : </string>
+	<string name="txtUserRate">Sua nota : </string>
+	<string name="txtDuration">Durata : </string>
+	<string name="txtDirector">Realisatore (i) : </string>
+	<string name="txtActor">Attori(s) : </string>
+	<string name="txtGenre">Genere : </string>
+	<string name="tabSummary">Aviso del film </string>
+	<string name="tabProjection">Lista dei passagi </string>
+	<string name="tabReviews">Critico</string>	
 	<string name="noReview">Senza critiche per questo film.</string>
-	<string name="noSummary">Nessuno riasunto trovato...</string>
+	<string name="noSummary">Nessuno riasunto trovato... </string>
 	<string name="menuTranslate">Traduzione</string>
 	<string name="menuSms">Invito per sms</string>
 	<string name="menuMail">Invito per mail</string>
@@ -110,7 +111,7 @@
 	<string name="menuRate">Noti per il film</string>
 	<string name="msgRateSave">Rimarchi salvati</string>
 	<string name="smsContent">Ti proponno di venire a vedere questo film con me "{0}"{1} al passagio di {2} al cinema "{3}" \n\n sms auto-generato da CineShowTime</string>
-	<string name="mailContent">Ti proponno di venire a vedere questo film con me <i>"#{0}"</i> #{1} al passagio di <b>#{2}</b> al cinema "#{3}" <br /> <br />mail auto-généré par CineShowTime</string>
+	<string name="mailContent"> Ti proponno di venire a vedere questo film con me <i>"{0}"</i> {1} al passagio di <b>{2}</b> al cinema "{3}" <br /><br /> mail auto-généré par CineShowTime</string>
 	<string name="mailSubject">Invito per il film {0}</string>
 	<string name="chooseIntentSms">Inviare un invito per sms</string>
 	<string name="chooseIntentMail">Inviare un invito per mail</string>
@@ -120,8 +121,33 @@
 	<string name="dialogRateMovieMsg">Date un voto entro 0 e 10.</string>
 	<string name="dialogRateMovieValidate">Impostare</string>
 	<string name="dialogRateMovieCancel">Annulare</string>
+	<!-- Error messages -->
+	<string name="msgErrorNoDb">a base dei dati non e collegata , verificate la cartina SD.</string>
+	<string name="msgErrorNoNetwork">Errore di collegamento verifficate il WIFI ol 3G.</string>
+	<string name="msgErrorOnServer">Un errore nel collegamento alla base , riprovate piu tardi .</string>
+	<!--ADDED STRINGS-->
+	<string name="txtEnterCity">Imposta Citta...</string>
+	<string name="txtEnterMovie">Imposta un Film...</string>
+	<string name="spinnerTomorow">Domani</string>
+	<string name="movieLabel">Film</string>
+	<string name="showtimeLabel">Passagi</string>
+	<string name="rateLabel">Recenzioni</string>
+	<string name="errorMsg">Errore</string>
+	<string name="geolocalized">Ricerca geolocalizata</string>
+	<string name="gpsUnauthorizedMsg">Dovete attivare la localizazione da Google. </string>
+	<string name="gpsUnauthorizedMsgCineShowTime">Dovete attivare la localizazione da CineShowTime. </string>
+	<string name="gpsPrefDisable">Dovete autorizare la localizazione nei imposti. </string>
+	<string name="msgErrorTranslate">Un errore si e prodotta nelle traduzione.</string>
+	<string name="msgDevelopped">Sviluppato da</string>
+	<string name="unknownSource">sconosciuto</string>
+	<string name="urlHelp">http://m.blog.binomed.fr/en/help-cineshowtime-android-en</string>
+	<string name="readMore">altro</string>
+	<string name="menuReservation">Prenotazione</string>
+	<!--THEMES-->
+	<string name="theme_dark">Dark knight</string>
+	<string name="theme_light">Shine a light</string>
 	<!-- Preferences Messages -->
-	<string name="preference_lang_cat">Scelta della lingua</string>
+	<string name="preference_lang_cat">Scelta della lingua </string>
 	<string name="preference_lang_key_auto_translate">check_preference</string>
 	<string name="preference_lang_auto_translate">Traduzione automatica</string>
 	<string name="preference_lang_auto_translate_summary">Tradure automaticamente i riassunti dei films</string>
@@ -133,18 +159,24 @@
 	<string name="preference_gen_time_adds">Temp di publicita</string>
 	<string name="preference_gen_time_adds_summary">Tempo entro il principio della e il film (publicita e annuzie)</string>
 	<string name="preference_gen_default_time_adds">20</string>
+	<string name="preference_gen_key_time_format">time_format_preference</string>
+	<string name="preference_gen_time_format">Formato ora</string>
+	<string name="preference_gen_default_time_format">24</string>	
+	<string name="preference_gen_theme">Tema</string>
+	<string name="preference_gen_key_theme">theme_preference</string>
+	<string name="preference_gen_default_theme">DARK</string>
 	<string name="preference_loc_cat">Scelta di localizazione</string>
 	<string name="preference_loc_key_measure">measure_preference</string>
 	<string name="preference_loc_default_measure">KM</string>
 	<string name="preference_loc_measure">Unita per prima</string>
 	<string name="preference_loc_measure_summary">Imposta l’unita prefferita</string>
-	<string name="preference_loc_key_time_direction">time_direction_preference</string>
+	<string name="preference_loc_key_time_direction">time_direction_preference</string>	
 	<string name="preference_loc_time_direction">Tempo di strada</string>
 	<string name="preference_loc_time_direction_summary">Sempre tenire conto della durata di viaggio nel l’ora di principio del film</string>
-	<string name="preference_loc_key_enable_localisation">enable_localisation_preference</string>
+	<string name="preference_loc_key_enable_localisation">enable_localisation_preference</string>	
 	<string name="preference_loc_enable_localisation">Acettare la localizazione</string>
-	<string name="preference_loc_enable_localisation_summary">Usare la localizazione GPS o GSM se e attiva.</string>
-	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
+	<string name="preference_loc_enable_localisation_summary">Usare la localizazione  GPS o GSM se e attiva.</string>
+	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>	
 	<string name="preference_loc_localisation_provider">Metodo di localizazione</string>
 	<string name="preference_loc_localisation_provider_summary">Sceliere un metodo di localizazionen (GPS, GSM, Wifi, IP XPS (GPS, GSM, Wfi)).</string>
 	<string name="preference_loc_default_localisation_provider">GPS</string>
@@ -160,49 +192,4 @@
 	<string name="preference_user_cat">Scelte del utente</string>
 	<string name="preference_user_agenda">Imposto diario</string>
 	<string name="preference_user_agenda_summary">Scegliere il diario a utilizare per i passagi film</string>
-	<!-- Error messages -->
-	<string name="msgErrorNoDb">a base dei dati non e collegata , verificate la cartina SD.</string>
-	<string name="msgErrorNoNetwork">Errore di collegamento verifficate il WIFI ol 3G.</string>
-	<string name="msgErrorOnServer">Un errore nel collegamento alla base , riprovate piu tardi .</string>
-	<!-- ADDED STRINGS -->
-	<string name="txtEnterCity">Imposta Citta...</string>
-	<string name="txtEnterMovie">Imposta un Film...</string>
-	<string name="spinnerTomorow">Domani</string>
-	<string name="movieLabel">Film</string>
-	<string name="showtimeLabel">Passagi</string>
-	<string name="rateLabel">Recenzioni</string>
-	<string name="errorMsg">Errore</string>
-	<string name="geolocalized">Ricerca geolocalizata</string>
-	<string name="gpsUnauthorizedMsg">Dovete attivare la localizazione da Google.</string>
-	<string name="gpsUnauthorizedMsgCineShowTime">Dovete attivare la localizazione da CineShowTime.</string>
-	<string name="gpsPrefDisable">Dovete autorizare la localizazione nei imposti.</string>
-	<string name="msgErrorTranslate">Un errore si e prodotta nelle traduzione.</string>
-	<string name="msgDevelopped">Sviluppato da</string>
-	<string name="preference_gen_key_time_format">time_format_preference</string>
-	<string name="preference_gen_time_format">Formato ora</string>
-	<string name="preference_gen_default_time_format">24</string>
-	<string name="unknownSource">sconosciuto</string>
-	<string name="urlHelp">http://m.blog.binomed.fr/help-cineshowtime-palm-en</string>
-	<string name="readMore">altro</string>
-	<!-- VALUES FOR PREFS -->
-	<string name="measure_1">km</string>
-	<string name="measure_2">miles</string>
-	<string name="measure_code_1">KM</string>
-	<string name="measure_code_2">ML</string>
-	<string name="mode_localisation_1">GPS</string>
-	<string name="mode_localisation_2">GSM</string>
-	<string name="mode_localisation_3">Wifi</string>
-	<string name="mode_localisation_code_1">GPS</string>
-	<string name="mode_localisation_code_2">GSM</string>
-	<string name="mode_localisation_code_3">Wifi</string>
-	<string name="sort_theaters_values_1">per none dei cinema</string>
-	<string name="sort_theaters_values_2">per distanza dei cinéma</string>
-	<string name="sort_theaters_values_3">per l’ora di principio piu vicino</string>
-	<string name="sort_theaters_values_4">per nome di film</string>
-	<string name="sort_theaters_values_5">per scelte del utente (piu lento)</string>
-	<string name="sort_theaters_values_code_1">THEATER_NAME</string>
-	<string name="sort_theaters_values_code_2">THEATER_DISTANCE</string>
-	<string name="sort_theaters_values_code_3">SHOWTIME_HOUR</string>
-	<string name="sort_theaters_values_code_4">MOVIE_NAME</string>
-	<string name="sort_theaters_values_code_5">USER_PREFERENCE</string>
 </resources>

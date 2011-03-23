@@ -2,11 +2,12 @@
 <PreferenceScreen
         xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/preference_gen_cat">
-        <CheckBoxPreference
-                android:key="@string/preference_gen_key_auto_reload"
-                android:summary="@string/preference_gen_auto_reload_summary" 
-                android:title="@string/preference_gen_auto_reload" 
-                android:defaultValue="true"/>
+        <ListPreference
+                android:key="@string/preference_gen_key_time_format"
+                android:title="@string/preference_gen_time_format" 
+	    		android:entries="@array/time_format_values" 
+	    		android:entryValues="@array/time_format_code"  
+                android:defaultValue="@string/preference_gen_default_time_format"/>
 	    <ListPreference 
 	    		android:key="@string/preference_gen_key_time_adds"
 	    		android:summary="@string/preference_gen_time_adds_summary" 
@@ -14,6 +15,12 @@
 	    		android:entries="@array/time_adds" 
 	    		android:entryValues="@array/time_adds_code"  
 	    		android:defaultValue="@string/preference_gen_default_time_adds"/>
+	    <ListPreference 
+	    		android:key="@string/preference_gen_key_theme"
+                android:title="@string/preference_gen_theme"
+	    		android:entries="@array/themes_values" 
+	    		android:entryValues="@array/themes_code"  
+	    		android:defaultValue="@string/preference_gen_default_theme"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_lang_cat">
         <CheckBoxPreference
@@ -49,13 +56,6 @@
 	    		android:dependency="enable_localisation_preference" android:defaultValue="@string/preference_loc_default_localisation_provider"/>
 	</PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_sort_cat">
-	    <ListPreference 
-	    		android:key="@string/preference_sort_key_sort_movie"
-	    		android:summary="@string/preference_sort_sort_movie_summary" 
-                android:title="@string/preference_sort_sort_movie"
-	    		android:entries="@array/sort_movies_values" 
-	    		android:entryValues="@array/sort_movies_values_code" 
-	    		android:defaultValue="@string/preference_sort_default_sort_movie" />
 	    <ListPreference 
 	    		android:key="@string/preference_sort_key_sort_theater"
 	    		android:summary="@string/preference_sort_sort_theater_summary" 

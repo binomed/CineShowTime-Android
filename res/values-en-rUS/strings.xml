@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- Commons -->
+	<!--Commons -->
 	<string name="menuPreferences">Options</string>
 	<string name="menuAbout">About</string>
 	<string name="menuHelp">Help</string>
@@ -40,24 +40,24 @@
 	<string name="msgCalculating">Processing...</string>
 	<string name="msgNoResultRetryLater">No showing was found, but there may be a problem on the server. Please retry.</string>
 	<string name="btnClose">Close</string>
-	<!--  Widget -->
+	<!--Widget -->
 	<string name="widget_name_2x2">CineShowTime 2x2</string>
 	<string name="widget_name_2x2_cupcake">CineShowTime 2x2 Cupcake</string>
 	<string name="msgNoResults">No movie found</string>
 	<string name="msgLoading">Loading...</string>
-	<!--  Main acitivity -->
+	<!--Main acitivity -->
 	<string name="MainTitle">Welcome on CineShowTime Application</string>
 	<string name="app_name">CineShowTime</string>
 	<string name="btnNear">Search theater</string>
-	<string name="btnMovie">Search movie</string>
+	<string name="btnMovie">Search showtimes</string>
 	<string name="btnFav">My Theaters</string>
 	<string name="btnUpComming">Coming soon</string>
-	<!-- GPS Messages -->
+	<!--GPS Messages -->
 	<string name="gpsInactiveTitle">GPS off!</string>
 	<string name="gpsInactiveMsg">Do you want to turn GPS on?</string>
 	<string name="gpsInactiveBtnYes">Yes</string>
 	<string name="gpsInactiveBtnNo">No</string>
-	<!-- Near Activity Message -->
+	<!--Near Activity Message -->
 	<string name="hour">h</string>
 	<string name="min">m</string>
 	<string name="menuCall">Call theater</string>
@@ -68,29 +68,30 @@
 	<string name="searchNearProgressTitle">Searching showings</string>
 	<string name="searchNearProgressMsg">Loading...</string>
 	<string name="itemMoreTheaters">More theaters</string>
-	<!-- Search Movie Activity Message -->
+	<!--Search Movie Activity Message -->
 	<string name="searchMovieProgressTitle">Searching showings</string>
 	<string name="searchMovieProgressMsg">Loading...</string>
 	<string name="txtMovieFind">Movie:</string>
 	<string name="txtMovieFindDuration">Duration:</string>
 	<string name="txtMovieFindValueNotFound">The movie you requested is not available</string>
-	<!-- LastChange Dialog Message -->
+	<!--LastChange Dialog Message -->
 	<string name="dialogLastChangeTitle">Last Change</string>
-	<!-- Bookmarks Dialog Message -->
+	<!--Bookmarks Dialog Message -->
 	<string name="dialogBookmarkTitle">My Theaters</string>
 	<string name="menuRemoveBookmark">Remove from My Theaters</string>
-	<!-- Last Showtime Dialog Message -->
+	<!--Last Showtime Dialog Message -->
 	<string name="dialogLastShowtimeTitle">Last showings</string>
-	<string name="dialogLastShowtimeMsg">Do you want to search for movies that are not shown anymore next week? \nThis feature is in development and may not work.</string>
+	<string name="dialogLastShowtimeMsg">Do you want to search for movies that are not shown anymore next week? \n This feature is in development and may not work.</string>
 	<string name="dialogLastShowtimeBtnYes">Yes</string>
 	<string name="dialogLastShowtimeBtnNon">No</string>
 	<!-- Movie Activity Message -->
 	<string name="movieProgressTitle">Search movie information</string>
 	<string name="movieProgressMsg">Loading...</string>
 	<string name="plot">Plot</string>
+	<string name="trailer">Trailers</string>
 	<string name="projectionList">Showings in the theater:</string>
 	<string name="projectionTime">Showing time:</string>
-	<string name="endHour">Approx. end time:</string>
+	<string name="endHour">End time:</string>
 	<string name="txtTitle">Title:</string>
 	<string name="txtRate">Rate:</string>
 	<string name="txtUserRate">Your rate:</string>
@@ -114,12 +115,38 @@
 	<string name="mailSubject">Invitation to see {0}</string>
 	<string name="chooseIntentSms">Text invitation</string>
 	<string name="chooseIntentMail">Email invitation</string>
-	<string name="msgEventAdd">Showing added to Calendar</string>
-	<!-- Rate Movie Dialog Message -->
+	<string name="msgEventAdd">Showing added to calendar</string>
+	<!--Rate Movie Dialog Message -->
 	<string name="dialogRateMovieTitle">Rate movie</string>
-	<string name="dialogRateMovieMsg">Please give a mark between 0 and 10.</string>
+	<string name="dialogRateMovieMsg">Please give a mark between 0 and 10</string>
 	<string name="dialogRateMovieValidate">Rate</string>
 	<string name="dialogRateMovieCancel">Cancel</string>
+	<!-- Error messages -->
+	<string name="msgErrorNoDb">Error while connecting to database. Please check your SD card.</string>
+	<string name="msgErrorNoNetwork">Connection error. Please check your network connection.</string>
+	<string name="msgErrorOnServer">The server encountered an error. Please retry later.</string>
+	<!-- ADDED STRINGS-->
+	<string name="txtEnterCity">City name...</string>
+	<string name="txtEnterMovie">Movie name...</string>
+	<string name="spinnerTomorow">Tomorrow</string>
+	<string name="movieLabel">Movie</string>
+	<string name="showtimeLabel">Showing</string>
+	<string name="rateLabel">Rating</string>
+	<string name="errorMsg">Error</string>
+	<string name="geolocalized">Geolocalized search</string>
+	<string name="gpsUnauthorizedMsg">You have to active google localization permission. </string>
+	<string name="gpsUnauthorizedMsgCineShowTime">You have to active CineShowTime localization permission. </string>
+	<string name="gpsPrefDisable">You have to enable gps localization in preferences. </string>
+	<string name="msgErrorTranslate">An error occured during translation.</string>
+	<string name="msgDevelopped">Developed by</string>
+	<string name="noReview">No rating</string>
+	<string name="unknownSource">Unknown</string>
+	<string name="urlHelp">http://m.blog.binomed.fr/en/help-cineshowtime-android-en</string>
+	<string name="readMore">read more</string>
+	<string name="menuReservation">Reservation</string>
+	<!-- THEMES -->
+	<string name="theme_dark">Dark knight</string>
+	<string name="theme_light">Shine a light</string>
 	<!-- Preferences Messages -->
 	<string name="preference_lang_cat">Language options</string>
 	<string name="preference_lang_key_auto_translate">check_preference</string>
@@ -133,6 +160,12 @@
 	<string name="preference_gen_time_adds">Ads and trailers time</string>
 	<string name="preference_gen_time_adds_summary">Time between showing time and actual movie (ads and trailers)</string>
 	<string name="preference_gen_default_time_adds">20</string>
+	<string name="preference_gen_key_time_format">time_format_preference</string>
+	<string name="preference_gen_time_format">Time format</string>
+	<string name="preference_gen_default_time_format">24</string>
+	<string name="preference_gen_theme">Display theme</string>
+	<string name="preference_gen_key_theme">theme_preference</string>
+	<string name="preference_gen_default_theme">DARK</string>
 	<string name="preference_loc_cat">Localization options</string>
 	<string name="preference_loc_key_measure">measure_preference</string>
 	<string name="preference_loc_default_measure">ML</string>
@@ -146,7 +179,7 @@
 	<string name="preference_loc_enable_localisation_summary">Use GPS or network localization if enabled on your phone</string>
 	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
 	<string name="preference_loc_localisation_provider">Localization mode</string>
-	<string name="preference_loc_localisation_provider_summary">Select your localization method (GPS, Network, IP, XPS).</string>
+	<string name="preference_loc_localisation_provider_summary">Select your localization mode (GPS, Network, Wifi)</string>
 	<string name="preference_loc_default_localisation_provider">GPS</string>
 	<string name="preference_sort_cat">Sort options</string>
 	<string name="preference_sort_key_sort_movie">sort_movie</string>
@@ -160,8 +193,4 @@
 	<string name="preference_user_cat">User options</string>
 	<string name="preference_user_agenda">Calendar</string>
 	<string name="preference_user_agenda_summary">Select the calendar to use with CineShowTime</string>
-	<!-- Error messages -->
-	<string name="msgErrorNoDb">Error while connecting to database. Please check your SD card.</string>
-	<string name="msgErrorNoNetwork">Connection error. Please check your network connection.</string>
-	<string name="msgErrorOnServer">The server encountered an error. Please retry later.</string>
 </resources>

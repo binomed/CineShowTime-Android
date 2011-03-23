@@ -8,4 +8,5 @@ public interface IListenerLocalisationUtilCallBack {
 
 	void onPreferenceReturn();
 
+	boolean isGPSCheck();
 }

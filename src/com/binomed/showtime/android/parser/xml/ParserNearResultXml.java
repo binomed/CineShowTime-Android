@@ -24,9 +24,10 @@ public class ParserNearResultXml implements ContentHandler {
 
 	private NearResp nearRespBean = null;
 
-	private boolean inTheater, inMovieList;
+	private boolean inTheater, inMovieList, inMovie;
 
 	private TheaterBean curentTheater;
+	private MovieBean curentMovie;
 
 	private String curentMovieId;
 
@@ -71,31 +72,41 @@ public class ParserNearResultXml implements ContentHandler {
 		} else if (XmlGramarNearResult.NODE_MOVIE_LIST.equals(localName)) {
 			inMovieList = true;
 		} else if (inMovieList && XmlGramarNearResult.NODE_MOVIE.equals(localName)) {
-			MovieBean movie = new MovieBean();
-			movie.setId(atts.getValue(XmlGramarNearResult.ATTR_ID));
+			inMovie = true;
+			curentMovie = new MovieBean();
+			curentMovie.setId(atts.getValue(XmlGramarNearResult.ATTR_ID));
 			try {
 				if (atts.getValue(XmlGramarNearResult.ATTR_ENGLISH_MOVIE_NAME) != null) {
-					movie.setEnglishMovieName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_ENGLISH_MOVIE_NAME), AndShowTimeEncodingUtil.getEncoding()));
+					curentMovie.setEnglishMovieName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_ENGLISH_MOVIE_NAME), AndShowTimeEncodingUtil.getEncoding()));
 				}
 			} catch (UnsupportedEncodingException e1) {
 			}
 			try {
 				if (atts.getValue(XmlGramarNearResult.ATTR_MOVIE_NAME) != null) {
-					movie.setMovieName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_MOVIE_NAME), AndShowTimeEncodingUtil.getEncoding()));
+					curentMovie.setMovieName(URLDecoder.decode(atts.getValue(XmlGramarNearResult.ATTR_MOVIE_NAME), AndShowTimeEncodingUtil.getEncoding()));
 				}
 			} catch (UnsupportedEncodingException e1) {
 			}
-			movie.setLang(atts.getValue(XmlGramarNearResult.ATTR_LANG));
+			curentMovie.setLang(atts.getValue(XmlGramarNearResult.ATTR_LANG));
 			String time = atts.getValue(XmlGramarNearResult.ATTR_TIME);
 			if (time != null) {
 				try {
-					movie.setMovieTime(Long.valueOf(time));
+					curentMovie.setMovieTime(Long.valueOf(time));
 				} catch (NumberFormatException e) {
 				}
 			}
-			BeanManagerFactory.putMovie(movie);
-			nearRespBean.getMapMovies().put(movie.getId(), movie);
-		} else if (XmlGramarNearResult.NODE_THEATER.equals(localName)) {
+			BeanManagerFactory.putMovie(curentMovie);
+			nearRespBean.getMapMovies().put(curentMovie.getId(), curentMovie);
+		} else if (inMovie && XmlGramarNearResult.NODE_THEATER.equals(localName)) {
+			List<String> theaterListForMovie = curentMovie.getTheaterList();
+			if (theaterListForMovie == null) {
+				theaterListForMovie = new ArrayList<String>();
+				curentMovie.setTheaterList(theaterListForMovie);
+			}
+			if (atts.getValue(XmlGramarNearResult.ATTR_ID) != null) {
+				theaterListForMovie.add(atts.getValue(XmlGramarNearResult.ATTR_ID));
+			}
+		} else if (!inMovie && XmlGramarNearResult.NODE_THEATER.equals(localName)) {
 			inTheater = true;
 			curentTheater = new TheaterBean();
 			curentTheater.setMovieMap(new HashMap<String, List<ProjectionBean>>());
@@ -213,6 +224,8 @@ public class ParserNearResultXml implements ContentHandler {
 			inMovieList = false;
 		} else if (inTheater && XmlGramarNearResult.NODE_THEATER.equals(localName)) {
 			inTheater = false;
+		} else if (inMovie && XmlGramarNearResult.NODE_MOVIE.equals(localName)) {
+			inMovie = false;
 		}
 	}
 

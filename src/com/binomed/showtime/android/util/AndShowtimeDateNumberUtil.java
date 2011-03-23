@@ -9,14 +9,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.ProjectionBean;
+import com.binomed.showtime.beans.TheaterBean;
 import com.binomed.showtime.cst.SpecialChars;
 import com.binomed.showtime.util.AndShowtimeNumberFormat;
 
@@ -30,6 +34,8 @@ public abstract class AndShowtimeDateNumberUtil {
 
 	private static HashMap<String, Long> mapMovieTime = new HashMap<String, Long>();
 	private static HashMap<String, Spanned> mapMovieStr = new HashMap<String, Spanned>();
+	private static HashMap<String, Spanned> mapMovieNameStr = new HashMap<String, Spanned>();
+	private static HashMap<String, Spanned> mapTheaterNameStr = new HashMap<String, Spanned>();
 
 	public static String showMovieTimeLength(Context context, MovieBean movieBean) {
 		StringBuilder result = new StringBuilder("");
@@ -43,8 +49,8 @@ public abstract class AndShowtimeDateNumberUtil {
 		return result.toString();
 	}
 
-	public static String showMovieTime(Context context, Long time) {
-		return DateUtils.formatDateTime(context, time, DateUtils.FORMAT_SHOW_TIME);
+	public static String showMovieTime(Context context, Long time, boolean format24) {
+		return DateUtils.formatDateTime(context, time, (format24 ? DateUtils.FORMAT_24HOUR : DateUtils.FORMAT_12HOUR) | DateUtils.FORMAT_SHOW_TIME);
 	}
 
 	public static String showDistance(Float distance, boolean mileDst) {
@@ -323,14 +329,14 @@ public abstract class AndShowtimeDateNumberUtil {
 		return timeOrderArray;
 	}
 
-	public static Spanned getMovieViewStr(String movieId, String theaterId, List<ProjectionBean> projectionList, Context context, Long distanceTime) {
+	public static Spanned getMovieViewStr(String movieId, String theaterId, List<ProjectionBean> projectionList, Context context, Long distanceTime, boolean blackTheme, boolean format24) {
 		Spanned spanned = null;
 		Long curTime = Calendar.getInstance().getTimeInMillis();
 
 		synchronized (mapMovieStr) {
-			spanned = mapMovieStr.get(movieId + theaterId);
+			spanned = mapMovieStr.get(movieId + theaterId + blackTheme + format24);
 			if (spanned != null) {
-				Long pastTime = mapMovieTime.get(movieId + theaterId);
+				Long pastTime = mapMovieTime.get(movieId + theaterId + blackTheme + format24);
 				if ((curTime - pastTime) > 600000) {
 					spanned = null;
 				}
@@ -348,7 +354,7 @@ public abstract class AndShowtimeDateNumberUtil {
 				orderTimeListArray = AndShowtimeDateNumberUtil.getTimeOrder(entryProjectionBeanList.getValue(), curTime, distanceTime);
 
 				if (entryProjectionBeanList.getKey() != null) {
-					movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+					movieListStr.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorLang(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
 							.append(entryProjectionBeanList.getKey()) //$NON-NLS-1$//$NON-NLS-2$
 							.append(" : </FONT>"); //$NON-NLS-1$
 				}
@@ -360,8 +366,8 @@ public abstract class AndShowtimeDateNumberUtil {
 					} else {
 						first = false;
 					}
-					movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_GREY).append("\">") //$NON-NLS-1$//$NON-NLS-2$
-							.append("<i>").append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime())).append("</i>") //$NON-NLS-1$ //$NON-NLS-2$
+					movieListStr.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorPassedShowTime(blackTheme)).append("\">") //$NON-NLS-1$//$NON-NLS-2$
+							.append("<i>").append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime(), format24)).append("</i>") //$NON-NLS-1$ //$NON-NLS-2$
 							.append("</FONT>"); //$NON-NLS-1$
 				}
 				for (ProjectionBean projectionTime : orderTimeListArray[1]) {
@@ -370,8 +376,8 @@ public abstract class AndShowtimeDateNumberUtil {
 					} else {
 						first = false;
 					}
-					movieListStr.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
-							.append("<b>").append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime())).append("</b>") //$NON-NLS-1$//$NON-NLS-2$
+					movieListStr.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorNearestShowTime(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+							.append("<b>").append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime(), format24)).append("</b>") //$NON-NLS-1$//$NON-NLS-2$
 							.append("</FONT>"); //$NON-NLS-1$
 				}
 				for (ProjectionBean projectionTime : orderTimeListArray[2]) {
@@ -380,19 +386,101 @@ public abstract class AndShowtimeDateNumberUtil {
 					} else {
 						first = false;
 					}
-					movieListStr.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime()));
+					movieListStr.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorNextShowTime(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+							.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime(), format24)) //$NON-NLS-1$//$NON-NLS-2$
+							.append("</FONT>"); //$NON-NLS-1$
+					// movieListStr.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime()));
 				}
 				movieListStr.append("<BR>");
 			}
 			spanned = Html.fromHtml(movieListStr.toString());
 
 			synchronized (mapMovieStr) {
-				mapMovieStr.put(movieId + theaterId, spanned);
-				mapMovieTime.put(movieId + theaterId, curTime);
+				mapMovieStr.put(movieId + theaterId + blackTheme + format24, spanned);
+				mapMovieTime.put(movieId + theaterId + blackTheme + format24, curTime);
 			}
 		}
 
 		return spanned;
+	}
+
+	public static Spanned getMovieNameViewStr(MovieBean movieBean, Context context, boolean blackTheme) {
+		Spanned spanned = null;
+
+		synchronized (mapMovieNameStr) {
+			spanned = mapMovieNameStr.get(movieBean.getId() + blackTheme);
+		}
+
+		if (spanned == null) {
+			StringBuilder movieNameStr = null;
+			movieNameStr = new StringBuilder();
+			movieNameStr.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorSubMainInfo(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+					.append(movieBean.getMovieName()) //$NON-NLS-1$//$NON-NLS-2$
+					.append(" : </FONT>"); //$NON-NLS-1$
+			movieNameStr.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorTimeOrDistance(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+					.append(AndShowtimeDateNumberUtil.showMovieTimeLength(context, movieBean)) //$NON-NLS-1$//$NON-NLS-2$
+					.append(" </FONT>"); //$NON-NLS-1$
+			movieNameStr.append("<BR>");
+			spanned = Html.fromHtml(movieNameStr.toString());
+
+			synchronized (mapMovieStr) {
+				mapMovieNameStr.put(movieBean.getId() + blackTheme, spanned);
+			}
+		}
+
+		return spanned;
+	}
+
+	public static Spanned getTheaterNameViewStr(TheaterBean theaterBean, boolean kmUnit, boolean blackTheme) {
+		Spanned spanned = null;
+
+		synchronized (mapTheaterNameStr) {
+			spanned = mapTheaterNameStr.get(theaterBean.getId() + blackTheme);
+		}
+
+		if (spanned == null) {
+			StringBuilder movieNameStr = null;
+			movieNameStr = new StringBuilder();
+			movieNameStr.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorSubMainInfo(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+					.append(theaterBean.getTheaterName()) //$NON-NLS-1$//$NON-NLS-2$
+					.append("</FONT>"); //$NON-NLS-1$
+			if ((theaterBean != null) && (theaterBean.getPlace() != null) && theaterBean.getPlace().getDistance() != null) {
+				movieNameStr.append(" : <FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorTimeOrDistance(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+						.append(AndShowtimeDateNumberUtil.showDistance(theaterBean.getPlace().getDistance(), !kmUnit)) //$NON-NLS-1$//$NON-NLS-2$
+						.append(" </FONT>"); //$NON-NLS-1$
+			}
+			movieNameStr.append("<BR>");
+			spanned = Html.fromHtml(movieNameStr.toString());
+
+			synchronized (mapMovieStr) {
+				mapTheaterNameStr.put(theaterBean.getId() + blackTheme, spanned);
+			}
+		}
+
+		return spanned;
+	}
+
+	public static boolean isFormat24(Context context) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		String defaultTimeFormat = context.getResources().getString(R.string.preference_gen_default_time_format);//
+		try {
+			defaultTimeFormat = prefs.getString(context.getResources().getString(R.string.preference_gen_key_time_format)//
+					, context.getResources().getString(R.string.preference_gen_default_time_format));
+		} catch (ClassCastException e) {
+			// We manage evolution of preference with version 23 of CineShowTime
+			Editor editor = prefs.edit().putString(context.getResources().getString(R.string.preference_gen_key_time_format)//
+					, context.getResources().getString(R.string.preference_gen_default_time_format));
+			editor.commit();
+
+		}
+		boolean format24 = false;
+		if (defaultTimeFormat.matches("\\d+")) {
+			format24 = Integer.valueOf(defaultTimeFormat) == 24;
+		} else {
+			format24 = DateFormat.is24HourFormat(context);
+		}
+
+		return format24;
 	}
 
 	public static Map<String, List<ProjectionBean>> splitProjectionList(List<ProjectionBean> projectionList) {

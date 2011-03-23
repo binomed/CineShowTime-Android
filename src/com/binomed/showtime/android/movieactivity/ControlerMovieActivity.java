@@ -19,6 +19,7 @@ import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.service.AndShowDBGlobalService;
 import com.binomed.showtime.android.util.AndShowTimeEncodingUtil;
+import com.binomed.showtime.android.util.AndShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.BeanManagerFactory;
 import com.binomed.showtime.beans.MovieBean;
 import com.google.api.translate.Language;
@@ -91,19 +92,15 @@ public class ControlerMovieActivity {
 		intentUpdateMovie.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_MOVIE_WRITE);
 		BeanManagerFactory.setMovieDesc(model.getMovie());
 		movieActivity.startService(intentUpdateMovie);
-		// initDB();
-		// Thread threadFillDB = new Thread(fillDBRunnable);
-		// threadFillDB.start();
 
 	}
 
-	private Runnable fillDBRunnable = new Runnable() {
-		public void run() {
-			mDbHelper.createOrUpdateMovie(model.getMovie());
-			closeDB();
-
-		}
-	};
+	public Object[] extractCurrentMovie() {
+		initDB();
+		Object[] result = AndShowtimeDB2AndShowtimeBeans.extractCurrentWidgetMovie(mDbHelper);
+		closeDB();
+		return result;
+	}
 
 	/*
 	 * SERVICE

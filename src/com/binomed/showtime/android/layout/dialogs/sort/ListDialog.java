@@ -47,7 +47,7 @@ public class ListDialog extends Dialog {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.sort_dialog);
+		setContentView(R.layout.dialog_sort);
 
 		listSort = (ListView) findViewById(R.id.sortListSortDialog);
 		listSort.setOnItemClickListener(listener);

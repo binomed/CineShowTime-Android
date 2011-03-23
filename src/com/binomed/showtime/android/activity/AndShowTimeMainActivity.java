@@ -1,5 +1,8 @@
 package com.binomed.showtime.android.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,48 +14,50 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.adapter.view.TheaterFavMainListAdapter;
+import com.binomed.showtime.android.cst.AndShowtimeCst;
+import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.layout.dialogs.last.LastChangeDialog;
 import com.binomed.showtime.android.service.AndShowCleanFileService;
+import com.binomed.showtime.android.util.AndShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.BeanManagerFactory;
 import com.binomed.showtime.android.util.localisation.LocationUtils;
 import com.binomed.showtime.android.util.localisation.LocationUtils.ProviderEnum;
+import com.binomed.showtime.beans.TheaterBean;
 
 public class AndShowTimeMainActivity extends Activity {
 
 	private static final String TAG = "AndShowTimeMainActivity"; //$NON-NLS-1$
 
-	protected static final Integer ACTIVITY_NEAR = 0;
-	protected static final Integer ACTIVITY_MOVIE = 1;
 	private static final int MENU_PREF = Menu.FIRST;
-	private static final int MENU_ABOUT = Menu.FIRST + 1;
-	private static final int MENU_HELP = Menu.FIRST + 2;
-
-	private static final Integer REQUEST_PREF = 1;
 
 	private Context mainContext;
 	private ControlerMainActivity controler;
+	protected ModelMainActivity model;
 	private ListenerMainActivity listener;
-	private boolean checkboxPreference;
+	private boolean checkboxPreference, shineALightTheme;
 	private ImageView logoImg;
 	private Button buttonSearchNear;
-	private Button buttonSearchMovie;
-	private Button buttonTheatersFav;
+	private ListView theaterFavList;
+	protected TheaterFavMainListAdapter adapter;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.and_showtime);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		AndShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
+		setContentView(R.layout.activity_main);
 
 		mainContext = this;
 
 		AndShowtimeFactory.initGeocoder(this);
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		checkboxPreference = prefs.getBoolean(getResources().getString(R.string.preference_loc_key_enable_localisation), true);
 
 		if (checkboxPreference) {
@@ -82,9 +87,11 @@ public class AndShowTimeMainActivity extends Activity {
 		initListeners();
 
 		controler.registerView(this);
+		this.model = controler.getModel();
 
 		display();
 
+		initResults();
 	}
 
 	/*
@@ -104,28 +111,60 @@ public class AndShowTimeMainActivity extends Activity {
 	 * Init Views
 	 */
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onResume()
+	 */
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		List<TheaterBean> favList = controler.getFavTheater();
+
+		if ((favList == null) || (favList.size() == 0)) {
+			favList = new ArrayList<TheaterBean>();
+			TheaterBean thTmp = new TheaterBean();
+			thTmp.setId("0");
+			thTmp.setTheaterName(getResources().getString(R.string.msgNoDFav));
+
+			favList.add(thTmp);
+		}
+
+		model.setFavList(favList);
+
+		adapter = new TheaterFavMainListAdapter(mainContext, favList, listener);
+
+		this.theaterFavList.setAdapter(adapter);
+	}
+
+	private void initResults() {
+		Intent intentResult = new Intent();
+		intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
+		intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, model.isNullResult());
+		setResult(AndShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
+	}
+
 	/**
 	 * Init views objects
 	 */
 	private void initViews() {
 
 		logoImg = (ImageView) findViewById(R.id.logoImg);
-		logoImg.setImageResource(R.drawable.logo);
+		// logoImg.setImageResource(R.drawable.logo);
 
 		// Watch for button clicks.
 		buttonSearchNear = (Button) findViewById(R.id.mainBtnSearchNear);
-		buttonSearchMovie = (Button) findViewById(R.id.mainBtnSearchMovie);
-		buttonTheatersFav = (Button) findViewById(R.id.mainBtnTheaterFav);
+		theaterFavList = (ListView) findViewById(R.id.mainFavList);
 	}
 
 	/**
 	 * Init listener
 	 */
+
 	private void initListeners() {
 		buttonSearchNear.setOnClickListener(listener);
-		buttonSearchMovie.setOnClickListener(listener);
-		buttonTheatersFav.setOnClickListener(listener);
-
+		theaterFavList.setOnItemClickListener(listener);
 	}
 
 	private void display() {
@@ -165,6 +204,25 @@ public class AndShowTimeMainActivity extends Activity {
 		}
 
 		return super.onMenuItemSelected(featureId, item);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (data != null) {
+			model.setNullResult(data.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, false));
+			model.setResetTheme(data.getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false));
+		} else {
+			model.setResetTheme(false);
+			model.setNullResult(false);
+		}
+
+		initResults();
+
+		if (model.isResetTheme()) {
+			AndShowTimeLayoutUtils.changeToTheme(this, getIntent());
+		}
 	}
 
 }

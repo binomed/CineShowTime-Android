@@ -49,7 +49,7 @@
 	<string name="MainTitle">Android Showtime Programına Hoşgeldiniz</string>
 	<string name="app_name">Android Showtime</string>
 	<string name="btnNear">Sinema ara</string>
-	<string name="btnMovie">Film ve seanslarını ara</string>
+	<string name="btnMovie">Seans ara</string>
 	<string name="btnFav">Favorileriniz</string>
 	<string name="btnUpComming">Yakında</string>
 	<!-- GPS Messages -->
@@ -75,7 +75,7 @@
 	<string name="txtMovieFindDuration">Süre : </string>
 	<string name="txtMovieFindValueNotFound">Hiçbir film bulunamadı</string>
 	<!-- LastChange Dialog Message -->
-	<string name="dialogLastChangeTitle">Last Change</string>
+	<string name="dialogLastChangeTitle">Son değişiklikler</string>
 	<!-- Bookmarks Dialog Message -->
 	<string name="dialogBookmarkTitle">Favoriler </string>
 	<string name="menuRemoveBookmark">Favoriyi sil</string>
@@ -88,9 +88,10 @@
 	<string name="movieProgressTitle">Filmin afişini ara </string>
 	<string name="movieProgressMsg">Yükleniyor ... </string>
 	<string name="plot">Özet</string>
+	<string name="trailer">Römorklar</string>
 	<string name="projectionList">Sinema saatlerı : </string>
 	<string name="projectionTime">Seans saatlerı : </string>
-	<string name="endHour">Bitiş saati (yaklaşık) : </string>
+	<string name="endHour">Bitiş saati : </string>
 	<string name="txtTitle">Isim : </string>
 	<string name="txtRate">Puan : </string>
 	<string name="txtUserRate">Puanınız: </string>
@@ -120,6 +121,32 @@
 	<string name="dialogRateMovieMsg">0 ile 10 arası puan veriniz</string>
 	<string name="dialogRateMovieValidate">Kabul</string>
 	<string name="dialogRateMovieCancel">Iptal</string>
+	<!-- Error messages -->
+	<string name="msgErrorNoDb">Veri tabanına bağlantı sağlanamadı. SD kartınızı kontrol ediniz.</string>
+	<string name="msgErrorNoNetwork">Bağlantı hatası oluştu, 3G veya kablosuz internet bağlantınızı kontrol ediniz</string>
+	<string name="msgErrorOnServer">Bağlantı sırasında hata oluştu.  Lütfen daha sonra tekrar deneyiniz.</string>
+	<!--ADDED STRINGS-->
+	<string name="txtEnterCity">Şehir adı...</string>
+	<string name="txtEnterMovie">Film adı...</string>
+	<string name="spinnerTomorow">Yarın</string>
+	<string name="movieLabel">Film</string>
+	<string name="showtimeLabel">Seans</string>
+	<string name="rateLabel">Puan</string>
+	<string name="errorMsg">Hata</string>
+	<string name="geolocalized">Konuma göre arama</string>
+	<string name="gpsUnauthorizedMsg">Google tarafından yer belirleme iznini aktif hale getirmeniz gerekiyor. </string>
+	<string name="gpsUnauthorizedMsgCineShowTime">CineShowTime tarafından yer belirleme iznini aktif hale getirmeniz gerekiyor. </string>
+	<string name="gpsPrefDisable">Tercihlerde GPS yer belirleme sistemine izin vermelisiniz. </string>
+	<string name="msgErrorTranslate">Çeviri sırasında bir hata oluştu.</string>
+	<string name="msgDevelopped">Çeviri</string>	
+	<string name="noReview">No rating</string>
+	<string name="unknownSource">Bilinmeyen</string>
+	<string name="urlHelp">http://m.blog.binomed.fr/en/help-cineshowtime-android-en</string>
+	<string name="readMore">daha fazla</string>
+	<string name="menuReservation">Rezervasyon</string>
+	<!--THEMES-->
+	<string name="theme_dark">Dark knight</string>
+	<string name="theme_light">Shine a light</string>
 	<!-- Preferences Messages -->
 	<string name="preference_lang_cat">Dil seçimi </string>
 	<string name="preference_lang_key_auto_translate">check_preference</string>
@@ -133,6 +160,12 @@
 	<string name="preference_gen_time_adds">Reklam süresi</string>
 	<string name="preference_gen_time_adds_summary">Seans saatiyle film saati arasindaki süre(reklam veya film özetleri)</string>
 	<string name="preference_gen_default_time_adds">20</string>
+	<string name="preference_gen_key_time_format">time_format_preference</string>
+	<string name="preference_gen_time_format">saat biçimini</string>
+	<string name="preference_gen_default_time_format">24</string>
+	<string name="preference_gen_theme">Tema</string>
+	<string name="preference_gen_key_theme">theme_preference</string>
+	<string name="preference_gen_default_theme">DARK</string>
 	<string name="preference_loc_cat">Yer belirleme tercihleri</string>
 	<string name="preference_loc_key_measure">measure_preference</string>
 	<string name="preference_loc_default_measure">KM</string>
@@ -160,8 +193,4 @@
 	<string name="preference_user_cat">Kullanıcı tercihleri</string>
 	<string name="preference_user_agenda">Takvim seçimi</string>
 	<string name="preference_user_agenda_summary">Seansları aktarmak isteğiginiz takvimi seçimi</string>
-	<!-- Error messages -->
-	<string name="msgErrorNoDb">Veri tabanına bağlantı sağlanamadı. SD kartınızı kontrol ediniz.</string>
-	<string name="msgErrorNoNetwork">Bağlantı hatası oluştu, 3G veya kablosuz internet bağlantınızı kontrol ediniz</string>
-	<string name="msgErrorOnServer">Bağlantı sırasında hata oluştu.  Lütfen daha sonra tekrar deneyiniz.</string>
 </resources>

@@ -1,7 +1,5 @@
 package com.binomed.showtime.android.widget.one;
 
-import java.util.Calendar;
-
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -58,25 +56,43 @@ public class AndShowTimeWidgetServiceOpenMovie extends Service {
 			String movieId = intent.getStringExtra(ParamIntent.MOVIE_ID);
 			String theaterId = intent.getStringExtra(ParamIntent.THEATER_ID);
 			String near = intent.getStringExtra(ParamIntent.ACTIVITY_MOVIE_NEAR);
-			Log.i(TAG, "Service with id : " + movieId);
+			// Log.i(TAG, "Service with id : " + movieId);
 
-			TheaterBean theaterBean = BeanManagerFactory.getTheaterForId(theaterId);
-			if (theaterBean == null && mDbHelper.isOpen()) {
-				theaterBean = AndShowtimeDB2AndShowtimeBeans.extractWidgetTheater(mDbHelper, Calendar.getInstance());
-			}
+			// TheaterBean theaterBean = BeanManagerFactory.getTheaterForId(theaterId);
+			// if (theaterBean == null && mDbHelper.isOpen()) {
+			// theaterBean = AndShowtimeDB2AndShowtimeBeans.extractWidgetTheater(mDbHelper, Calendar.getInstance());
+			// }
+			// if (theaterBean != null) {
+			// BeanManagerFactory.putTheater(theaterBean);
+			// }
+			//
+			// MovieBean movie = null;
+			// if (mDbHelper.isOpen()) {
+			// movie = AndShowtimeDB2AndShowtimeBeans.extractWidgetMovie(mDbHelper, movieId, theaterBean);
+			// BeanManagerFactory.putMovie(movie);
+			// }
+			// intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movieId);
+			// intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theaterId);
+			// intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, near);
+			// intentStartMovieActivity.replaceExtras(intent);
+			// intentStartMovieActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			Object[] currentMovie = AndShowtimeDB2AndShowtimeBeans.extractCurrentWidgetMovie(mDbHelper);
+			TheaterBean theaterBean = (TheaterBean) currentMovie[0];
 			if (theaterBean != null) {
 				BeanManagerFactory.putTheater(theaterBean);
 			}
 
-			MovieBean movie = null;
-			if (mDbHelper.isOpen()) {
-				movie = AndShowtimeDB2AndShowtimeBeans.extractWidgetMovie(mDbHelper, movieId, theaterBean);
+			MovieBean movie = (MovieBean) currentMovie[1];
+			if (movie != null) {
+				// movie = AndShowtimeDB2AndShowtimeBeans.extractWidgetMovie(mDbHelper, movieId, theaterBean);
 				BeanManagerFactory.putMovie(movie);
 			}
-			intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movieId);
-			intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theaterId);
+			Log.i(TAG, "Service with id : " + movie.getId());
+			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_FROM_WIDGET, true);
+			intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movie.getId());
+			intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theaterBean.getId());
 			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, near);
-			intentStartMovieActivity.replaceExtras(intent);
+			// intentStartMovieActivity.replaceExtras(intent);
 			intentStartMovieActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 			this.startActivity(intentStartMovieActivity);

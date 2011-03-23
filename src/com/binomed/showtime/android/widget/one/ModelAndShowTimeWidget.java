@@ -10,11 +10,9 @@ import com.binomed.showtime.beans.TheaterBean;
 public class ModelAndShowTimeWidget implements IModelLocalisation {
 
 	private String cityName;
-	private List<String> voiceCityList;
-	private List<TheaterBean> theaterResultList;
 	private TheaterBean theater;
 	private Location localisation;
-	private int start;
+	private List<TheaterBean> favList;
 
 	public ModelAndShowTimeWidget() {
 		super();
@@ -44,28 +42,12 @@ public class ModelAndShowTimeWidget implements IModelLocalisation {
 		this.theater = theater;
 	}
 
-	public List<TheaterBean> getTheaterResultList() {
-		return theaterResultList;
+	public List<TheaterBean> getFavList() {
+		return favList;
 	}
 
-	public void setTheaterResultList(List<TheaterBean> theaterResultList) {
-		this.theaterResultList = theaterResultList;
-	}
-
-	public int getStart() {
-		return start;
-	}
-
-	public void setStart(int start) {
-		this.start = start;
-	}
-
-	public List<String> getVoiceCityList() {
-		return voiceCityList;
-	}
-
-	public void setVoiceCityList(List<String> voiceCityList) {
-		this.voiceCityList = voiceCityList;
+	public void setFavList(List<TheaterBean> favList) {
+		this.favList = favList;
 	}
 
 }

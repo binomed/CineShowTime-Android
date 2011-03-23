@@ -15,10 +15,10 @@ import com.binomed.showtime.R;
 import com.binomed.showtime.android.activity.AndShowTimePreferencesActivity;
 import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.cst.IntentShowtime;
+import com.binomed.showtime.android.cst.ParamIntent;
+import com.binomed.showtime.android.layout.view.AboutView;
 
 public final class AndShowTimeMenuUtil {
-
-	private static final Integer REQUEST_PREF = 1;
 
 	public static void createMenu(Menu menu, int idItemPref, int order) {
 		menu.addSubMenu(0, idItemPref, order, R.string.menuPreferences).setIcon(android.R.drawable.ic_menu_preferences);
@@ -35,30 +35,29 @@ public final class AndShowTimeMenuUtil {
 			Intent launchPreferencesIntent = new Intent().setClass(activity, AndShowTimePreferencesActivity.class);
 
 			// Make it a subactivity so we know when it returns
-			activity.startActivityForResult(launchPreferencesIntent, REQUEST_PREF);
+			activity.startActivityForResult(launchPreferencesIntent, AndShowtimeCst.ACTIVITY_RESULT_PREFERENCES);
 			return true;
 		} else if (idItemSelected == MENU_ABOUT) {
 			AlertDialog.Builder aboutDialog = new AlertDialog.Builder(activity);
 			try {
 				PackageInfo pi = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0);
-				aboutDialog.setMessage(Html.fromHtml(new StringBuilder() //
-						.append(activity.getResources().getString(R.string.msgVersionCode)).append(" ").append(pi.versionCode).append("<br>") // //$NON-NLS-1$ //$NON-NLS-2$
-						.append(activity.getResources().getString(R.string.msgVersionName)).append(" ").append(pi.versionName).append("<br>") // //$NON-NLS-1$ //$NON-NLS-2$
-						.append(activity.getResources().getString(R.string.msgTraductorName)).append("<br><br>") // //$NON-NLS-1$ //$NON-NLS-2$
-						.append(activity.getResources().getString(R.string.msgDonation)) //
+				aboutDialog.setTitle(Html.fromHtml(new StringBuilder() //
+						.append("CineShowTime ").append(pi.versionName).append("<br>") // //$NON-NLS-1$ //$NON-NLS-2$
 						.toString()));
 			} catch (Exception e) {
 			}
 			aboutDialog.setCancelable(false);
-			aboutDialog.setIcon(android.R.drawable.ic_menu_info_details);
-			aboutDialog.setTitle(R.string.msgVersionTitle);
+			aboutDialog.setIcon(R.drawable.icon);
 			aboutDialog.setNeutralButton(R.string.btnClose, null);
+
+			AboutView aboutView = new AboutView(activity);
+			aboutDialog.setView(aboutView);
 
 			// aboutDialog.create();
 			aboutDialog.show();
 			return true;
 		} else if (idItemSelected == MENU_HELP) {
-			Intent launchPreferencesIntent = IntentShowtime.createHelpAndShowTime();
+			Intent launchPreferencesIntent = IntentShowtime.createHelpAndShowTime(activity);
 
 			// Make it a subactivity so we know when it returns
 			activity.startActivityForResult(launchPreferencesIntent, 0);
@@ -97,6 +96,43 @@ public final class AndShowTimeMenuUtil {
 		}
 
 		return result;
+	}
+
+	public static boolean isCalendarInstalled(PackageManager packageManager) {
+		boolean result = true;
+		Intent intent = new Intent(Intent.ACTION_MAIN, null);
+		intent.addCategory(Intent.CATEGORY_LAUNCHER);
+		List<ResolveInfo> infos = packageManager.queryIntentActivities(intent, 0);
+		for (ResolveInfo info : infos) {
+			result = (AndShowtimeCst.CALENDAR_PACKAGE.equals(info.activityInfo.packageName) //
+					&& AndShowtimeCst.CALENDAR_NAME.equals(info.activityInfo.name)) //
+					|| (AndShowtimeCst.CALENDAR_PACKAGE_OLD.equals(info.activityInfo.packageName) //
+					&& AndShowtimeCst.CALENDAR_NAME_OLD.equals(info.activityInfo.name)) //
+			;
+			if (result) {
+				break;
+			}
+		}
+
+		return result;
+	}
+
+	public static boolean manageResult(Activity activity, int requestCode, int resultCode, Intent intent) {
+		boolean resultCatch = false;
+		if (requestCode == AndShowtimeCst.ACTIVITY_RESULT_PREFERENCES) {
+			switch (resultCode) {
+			case AndShowtimeCst.RESULT_PREF_WITH_NEW_THEME:
+				resultCatch = true;
+				Intent originalIntent = activity.getIntent();
+				originalIntent.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, true);
+				AndShowTimeLayoutUtils.changeToTheme(activity, originalIntent);
+
+				break;
+			default:
+				break;
+			}
+		}
+		return resultCatch;
 	}
 
 }

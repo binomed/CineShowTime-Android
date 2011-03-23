@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.binomed.showtime.R;
@@ -42,12 +41,12 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	private boolean checkboxPreference;
 	private Bitmap bitmapGpsOn;
 	private Bitmap bitmapGpsOff;
+	private Bitmap bitmapGpsDisabled;
 	private Context context;
 	private ImageView imageGps;
-	private CheckBox chckBoxGps;
 	private AutoCompleteTextView textSearch;
 	private IModelLocalisation model;
-	private boolean locationListener;
+	private boolean locationListener, checkedGps;
 	private TextCallBackFromLocation handlerTextSearch;
 	private XPS xps;
 
@@ -59,11 +58,10 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		this.xps = xps;
 	}
 
-	public LocalisationManagement(Context context, ImageView imageGps, CheckBox chckBoxGps, AutoCompleteTextView textSearch, IModelLocalisation model) {
+	public LocalisationManagement(Context context, ImageView imageGps, AutoCompleteTextView textSearch, IModelLocalisation model) {
 		super();
 		this.context = context;
 		this.imageGps = imageGps;
-		this.chckBoxGps = chckBoxGps;
 		this.textSearch = textSearch;
 		this.model = model;
 
@@ -77,14 +75,18 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		initProvider();
 
 		// Init viewState
+		checkedGps = false;
 		bitmapGpsOn = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_activ);
 		bitmapGpsOff = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_not_activ);
-		imageGps.setImageBitmap(bitmapGpsOff);
-		chckBoxGps.setChecked(false);
-		chckBoxGps.setEnabled(LocationUtils.isLocalisationEnabled(context, provider));
+		bitmapGpsDisabled = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_disable);
+		if (LocationUtils.isLocalisationEnabled(context, provider)) {
+			imageGps.setImageBitmap(bitmapGpsOff);
+		} else {
+			imageGps.setImageBitmap(bitmapGpsDisabled);
+		}
 
 		// Init Listeners
-		chckBoxGps.setOnClickListener(this);
+		imageGps.setOnClickListener(this);
 
 		// Init Localisation
 		if (model.getLocalisation() == null) {
@@ -136,8 +138,12 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	@Override
 	public void onPreferenceReturn() {
 		checkboxPreference = prefs.getBoolean(context.getResources().getString(R.string.preference_loc_key_enable_localisation), true);
-		chckBoxGps.setEnabled(LocationUtils.isLocalisationEnabled(context, provider));
-		if (checkboxPreference && chckBoxGps.isChecked() && !locationListener) {
+		if (LocationUtils.isLocalisationEnabled(context, provider)) {
+			imageGps.setImageBitmap(bitmapGpsOff);
+		} else {
+			imageGps.setImageBitmap(bitmapGpsDisabled);
+		}
+		if (checkboxPreference && checkedGps && !locationListener) {
 			initListenersLocation();
 		} else {
 			removeListenersLocation();
@@ -158,6 +164,16 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	}
 
 	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.binomed.showtime.android.util.localisation.IListenerLocalisationUtilCallBack#isGPSCheck()
+	 */
+	@Override
+	public boolean isGPSCheck() {
+		return checkedGps;
+	}
+
+	/*
 	 * 
 	 * OnClickListener
 	 */
@@ -169,8 +185,9 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	 */
 	@Override
 	public void onClick(View v) {
-		textSearch.setEnabled(!chckBoxGps.isChecked());
-		if (!chckBoxGps.isChecked()) {
+		checkedGps = !checkedGps;
+		textSearch.setEnabled(!checkedGps);
+		if (!checkedGps) {
 			imageGps.setImageBitmap(bitmapGpsOff);
 			removeListenersLocation();
 		} else {
@@ -208,11 +225,11 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	 */
 	@Override
 	public void onProviderDisabled(String arg0) {
-		chckBoxGps.setEnabled(false);
-		if (chckBoxGps.isChecked()) {
-			chckBoxGps.setChecked(false);
+		if (checkedGps) {
+			checkedGps = false;
 			textSearch.setEnabled(true);
-			imageGps.setImageBitmap(bitmapGpsOff);
+			// imageGps.setImageBitmap(bitmapGpsOff);
+			imageGps.setImageBitmap(bitmapGpsDisabled);
 		}
 	}
 
@@ -223,7 +240,7 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	 */
 	@Override
 	public void onProviderEnabled(String arg0) {
-		chckBoxGps.setEnabled(true);
+		imageGps.setImageBitmap(bitmapGpsOff);
 	}
 
 	/*

@@ -8,14 +8,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.Html;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.cst.AndShowtimeCst;
+import com.binomed.showtime.android.layout.view.ProjectionView;
+import com.binomed.showtime.android.util.AndShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.ProjectionBean;
@@ -34,8 +34,11 @@ public class ProjectionListAdapter extends BaseAdapter {
 	private HashMap<Integer, Long> mapMovieTime;
 	private HashMap<Integer, StringBuilder> mapMovieStr;
 	private int minuteToAdd;
+	private boolean blackTheme;
+	private boolean format24;
+	private OnClickListener clickListener;
 
-	public ProjectionListAdapter(Context context, MovieBean movieBean, List<ProjectionBean> projectionList, ProjectionBean minTime) {
+	public ProjectionListAdapter(Context context, MovieBean movieBean, List<ProjectionBean> projectionList, ProjectionBean minTime, OnClickListener clickListener) {
 		super();
 		timeInMillis = Calendar.getInstance();
 		movieTime = Calendar.getInstance();
@@ -43,12 +46,20 @@ public class ProjectionListAdapter extends BaseAdapter {
 		this.movieBean = movieBean;
 		this.projectionList = projectionList;
 		this.minTime = minTime;
+		this.clickListener = clickListener;
 		mapMovieTime = new HashMap<Integer, Long>();
 		mapMovieStr = new HashMap<Integer, StringBuilder>();
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		this.minuteToAdd = Integer.valueOf(prefs.getString(context.getResources().getString(R.string.preference_gen_key_time_adds)//
-				, context.getResources().getString(R.string.preference_gen_default_time_adds)));
+		changePreferences();
+	}
 
+	public void changePreferences() {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainContext);
+		String defaultTheme = prefs.getString(mainContext.getResources().getString(R.string.preference_gen_key_theme)//
+				, mainContext.getResources().getString(R.string.preference_gen_default_theme));
+		minuteToAdd = Integer.valueOf(prefs.getString(mainContext.getResources().getString(R.string.preference_gen_key_time_adds)//
+				, mainContext.getResources().getString(R.string.preference_gen_default_time_adds)));
+		blackTheme = mainContext.getResources().getString(R.string.preference_gen_default_theme).equals(defaultTheme);
+		format24 = AndShowtimeDateNumberUtil.isFormat24(mainContext);
 	}
 
 	@Override
@@ -72,12 +83,11 @@ public class ProjectionListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int groupPosition, View convertView, ViewGroup parent) {
-		TextView projectionView = null;
+		ProjectionView projectionView = null;
 		if (convertView == null) {
-			LayoutInflater inflator = (LayoutInflater) mainContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			projectionView = (TextView) inflator.inflate(R.layout.and_showtime_expandable_group_item, null);
+			projectionView = new ProjectionView(mainContext, clickListener);
 		} else {
-			projectionView = (TextView) convertView;
+			projectionView = (ProjectionView) convertView;
 		}
 
 		Context context = mainContext;
@@ -94,15 +104,15 @@ public class ProjectionListAdapter extends BaseAdapter {
 			}
 		}
 
+		ProjectionBean projectionBean = (ProjectionBean) getItem(groupPosition);
 		if (projectionBuilder == null) {
 			projectionBuilder = new StringBuilder(SpecialChars.EMPTY);
-			ProjectionBean projectionTime = (ProjectionBean) getItem(groupPosition);
 			int passedShowtime;
-			passedShowtime = AndShowtimeDateNumberUtil.getPositionTime(projectionTime.getShowtime(), (minTime != null) ? minTime.getShowtime() : -1l);
+			passedShowtime = AndShowtimeDateNumberUtil.getPositionTime(projectionBean.getShowtime(), (minTime != null) ? minTime.getShowtime() : -1l);
 
-			if (projectionTime.getLang() != null) {
-				projectionBuilder.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
-						.append(projectionTime.getLang()) //$NON-NLS-1$//$NON-NLS-2$
+			if (projectionBean.getLang() != null) {
+				projectionBuilder.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorLang(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+						.append(projectionBean.getLang()) //$NON-NLS-1$//$NON-NLS-2$
 						.append(" : </FONT>"); //$NON-NLS-1$
 			}
 
@@ -113,32 +123,32 @@ public class ProjectionListAdapter extends BaseAdapter {
 
 			switch (passedShowtime) {
 			case 0:
-				projectionBuilder.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_WHITE).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+				projectionBuilder.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorNearestShowTime(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
 						.append("<b>"); //$NON-NLS-1$
 				break;
 			case 1:
+				projectionBuilder.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorNextShowTime(blackTheme)).append("\">"); //$NON-NLS-1$ //$NON-NLS-2$
 				break;
 			case -1:
-				projectionBuilder.append("<FONT COLOR=\"").append(AndShowtimeCst.COLOR_GREY).append("\">") //$NON-NLS-1$//$NON-NLS-2$
+				projectionBuilder.append("<FONT COLOR=\"").append(AndShowTimeLayoutUtils.getColorPassedShowTime(blackTheme)).append("\">") //$NON-NLS-1$//$NON-NLS-2$
 						.append("<i>"); //$NON-NLS-1$
 				break;
 			default:
 				break;
 			}
-			projectionBuilder.append(context.getResources().getString(R.string.projectionTime));
-			projectionBuilder.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime()));
+			// projectionBuilder.append(context.getResources().getString(R.string.projectionTime));
+			projectionBuilder.append(AndShowtimeDateNumberUtil.showMovieTime(context, projectionBean.getShowtime(), format24));
 
-			timeInMillis.setTimeInMillis(projectionTime.getShowtime());
+			timeInMillis.setTimeInMillis(projectionBean.getShowtime());
 			if (movieBean.getMovieTime() != null) {
 				movieTime.setTimeInMillis(movieBean.getMovieTime());
 
 				timeInMillis.add(Calendar.HOUR_OF_DAY, movieTime.get(Calendar.HOUR_OF_DAY));
 				timeInMillis.add(Calendar.MINUTE, movieTime.get(Calendar.MINUTE) + minuteToAdd);
-
 				projectionBuilder.append("<br>")// //$NON-NLS-1$
 						.append(context.getResources().getString(R.string.endHour));//
 
-				projectionBuilder.append(AndShowtimeDateNumberUtil.showMovieTime(context, timeInMillis.getTimeInMillis()));
+				projectionBuilder.append(AndShowtimeDateNumberUtil.showMovieTime(context, timeInMillis.getTimeInMillis(), format24));
 			}
 
 			switch (passedShowtime) {
@@ -147,6 +157,7 @@ public class ProjectionListAdapter extends BaseAdapter {
 						.append("</FONT>"); //$NON-NLS-1$
 				break;
 			case 1:
+				projectionBuilder.append("</FONT>"); //$NON-NLS-1$
 				break;
 			case -1:
 				projectionBuilder.append("</i>") //$NON-NLS-1$ 
@@ -162,7 +173,7 @@ public class ProjectionListAdapter extends BaseAdapter {
 			}
 		}
 
-		projectionView.setText(Html.fromHtml(projectionBuilder.toString()));
+		projectionView.setProjectionBean(projectionBean, Html.fromHtml(projectionBuilder.toString()));
 
 		return projectionView;
 	}

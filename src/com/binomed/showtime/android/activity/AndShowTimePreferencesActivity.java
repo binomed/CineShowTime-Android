@@ -3,17 +3,23 @@ package com.binomed.showtime.android.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.Preference.OnPreferenceChangeListener;
+import android.util.Log;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.cst.AndShowtimeCst;
+import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.util.localisation.LocationUtils;
 import com.binomed.showtime.android.util.localisation.LocationUtils.ProviderEnum;
 
-public class AndShowTimePreferencesActivity extends PreferenceActivity {
+public class AndShowTimePreferencesActivity extends PreferenceActivity implements OnPreferenceChangeListener {
 
 	private static final String TAG = "AndShowTimePreferencesActivity"; //$NON-NLS-1$
 
@@ -21,11 +27,20 @@ public class AndShowTimePreferencesActivity extends PreferenceActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		addPreferencesFromResource(R.xml.and_showtime_preferences);
+		try {
+			addPreferencesFromResource(R.xml.and_showtime_preferences);
+		} catch (ClassCastException e) {
+			// We manage change in code version 23
+			Log.e(TAG, "Controled error : ", e);
+			Editor editor = getPreferenceManager().getSharedPreferences().edit();
+			editor.putString(getResources().getString(R.string.preference_gen_key_time_format), getResources().getString(R.string.preference_gen_default_time_format));
+			editor.commit();
+			addPreferencesFromResource(R.xml.and_showtime_preferences);
+		}
 
 		// We get the actual preferences in order to manage default value
 		ListPreference listProvider = (ListPreference) findPreference(getResources().getString(R.string.preference_loc_key_localisation_provider));
+		ListPreference listThemes = (ListPreference) findPreference(getResources().getString(R.string.preference_gen_key_theme));
 		CheckBoxPreference checkProvider = (CheckBoxPreference) findPreference(getResources().getString(R.string.preference_loc_key_enable_localisation));
 
 		ProviderEnum provider = LocationUtils.getProvider(getPreferenceManager().getSharedPreferences(), this);
@@ -90,5 +105,29 @@ public class AndShowTimePreferencesActivity extends PreferenceActivity {
 		Editor editor = getPreferenceManager().getSharedPreferences().edit();
 
 		editor.commit();
+
+		listThemes.setOnPreferenceChangeListener(this);
+	}
+
+	@Override
+	public boolean onPreferenceChange(Preference preference, Object newValue) {
+
+		String value = (String) newValue;
+		String darkValue = getResources().getString(R.string.preference_gen_default_theme);
+		int theme = R.style.Theme_Dark_Night;
+		if (!darkValue.equals(value)) {
+			theme = R.style.Theme_Shine_the_lite;
+			// getApplication().setTheme(R.style.Theme_Dark_Night);
+
+		} else {
+			// getApplication().setTheme(R.style.Theme_Shine_the_lite);
+		}
+		Intent data = new Intent();
+		data.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, true);
+		setResult(AndShowtimeCst.RESULT_PREF_WITH_NEW_THEME, data);
+
+		// AndShowTimePreferencesActivity.super.onCreate(savedInstanceState);
+
+		return true;
 	}
 }

@@ -24,12 +24,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -37,13 +39,14 @@ import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
 import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
-import com.binomed.showtime.android.searchnearactivity.AndShowTimeSearchNearActivity;
+import com.binomed.showtime.android.resultsactivity.AndShowTimeResultsActivity;
 import com.binomed.showtime.android.service.AndShowDBGlobalService;
 import com.binomed.showtime.android.util.AndShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.AndShowtimeRequestManage;
 import com.binomed.showtime.android.util.BeanManagerFactory;
+import com.binomed.showtime.android.util.localisation.LocationUtils;
 import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.NearResp;
@@ -51,24 +54,21 @@ import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.beans.TheaterBean;
 
 /**
- * Helper methods to simplify talking with and parsing responses from a
- * lightweight Wiktionary API. Before making any requests, you should call
- * {@link #prepareUserAgent(Context)} to generate a User-Agent string based on
- * your application package name and version.
+ * Helper methods to simplify talking with and parsing responses from a lightweight Wiktionary API. Before making any requests, you should call {@link #prepareUserAgent(Context)} to generate a User-Agent string based on your application package name and version.
  */
 public class AndShowTimeWidgetHelper {
 
 	private static final String TAG = "WidgetHelper"; //$NON-NLS-1$
 
+	private static int mAppWidgetId;
+
 	/**
-	 * Build a widget update to show the current Wiktionary "Word of the day."
-	 * Will block until the online API returns.
+	 * Build a widget update to show the current Wiktionary "Word of the day." Will block until the online API returns.
 	 */
 	public static RemoteViews buildUpdate(Context context, Intent intent, TheaterBean theater, Map<MovieBean, ProjectionBean> movieBeanShowtimes) {
-		boolean cupcake = true;
 		RemoteViews updateViews = null;
-		updateViews = new RemoteViews(context.getPackageName(), cupcake ? R.layout.and_showtime_widget_one : R.layout.and_showtime_widget);
-		updateViews.setTextViewText(cupcake ? R.id.widget_one_theater_title : R.id.widget_theater_title, (theater != null) ? theater.getTheaterName() : ""); //$NON-NLS-1$
+		updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_one);
+		updateViews.setTextViewText(R.id.widget_one_theater_title, (theater != null) ? theater.getTheaterName() : ""); //$NON-NLS-1$
 
 		HashMap<String, ProjectionBean> showTimeMap = new HashMap<String, ProjectionBean>();
 		List<MovieBean> movieList = new ArrayList<MovieBean>();
@@ -100,8 +100,8 @@ public class AndShowTimeWidgetHelper {
 		}
 
 		if (movieBeanShowtimes.size() == 0) {
-			updateViews.setTextViewText(cupcake ? R.id.widget_one_movie_txt_1 : R.id.widget_movie_txt_1, context.getResources().getString(((refresh) ? R.string.msgLoading : R.string.msgNoResults)));
-			updateViews.setTextViewText(cupcake ? R.id.widget_one_movie_hour_1 : R.id.widget_movie_hour_1, ""); //$NON-NLS-1$
+			updateViews.setTextViewText(R.id.widget_one_movie_txt_1, context.getResources().getString(((refresh) ? R.string.msgLoading : R.string.msgNoResults)));
+			updateViews.setTextViewText(R.id.widget_one_movie_hour_1, ""); //$NON-NLS-1$
 		} else {
 			for (Entry<MovieBean, ProjectionBean> movieShowTime : movieBeanShowtimes.entrySet()) {
 				movieBean = movieShowTime.getKey();
@@ -119,38 +119,43 @@ public class AndShowTimeWidgetHelper {
 				start = size - 1;
 			}
 			movieBean = movieList.get(start % size);
-			updateViews.setTextViewText(cupcake ? R.id.widget_one_movie_txt_1 : R.id.widget_movie_txt_1, movieBean.getMovieName());
+			updateViews.setTextViewText(R.id.widget_one_movie_txt_1, movieBean.getMovieName());
 			ProjectionBean projectionTime = showTimeMap.get(movieBean.getId());
-			updateViews.setTextViewText(cupcake ? R.id.widget_one_movie_hour_1 : R.id.widget_movie_hour_1, ((projectionTime.getLang() != null) ? projectionTime.getLang() + " " : "") + AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime()));
+			updateViews.setTextViewText(R.id.widget_one_movie_hour_1, ((projectionTime.getLang() != null) ? projectionTime.getLang() + " " : "") + AndShowtimeDateNumberUtil.showMovieTime(context, projectionTime.getShowtime(), AndShowtimeDateNumberUtil.isFormat24(context)));
 
 			Intent openMovieIntent1 = new Intent(context, AndShowTimeWidgetServiceOpenMovie1.class);
 			openMovieIntent1.putExtra(ParamIntent.MOVIE_ID, movieBean.getId());
 			openMovieIntent1.putExtra(ParamIntent.THEATER_ID, theater.getId());
 			openMovieIntent1.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, place.toString());
 			PendingIntent pendingOpenMovieIntent1 = PendingIntent.getService(context, 0 /*
-																						 * no
-																						 * requestCode
+																						 * no requestCode
 																						 */, openMovieIntent1, PendingIntent.FLAG_UPDATE_CURRENT /*
-																																				 * no
-																																				 * flags
+																																				 * no flags
 																																				 */);
 			// PendingIntent pendingOpenMovieIntent1 =
 			// PendingIntent.getService(context, 0 /* no requestCode */,
 			// openMovieIntent1, 0 /* no flags */);
-			updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_one_group_movie_1 : R.id.widget_group_movie_1, pendingOpenMovieIntent1);
+			updateViews.setOnClickPendingIntent(R.id.widget_one_group_movie_1, pendingOpenMovieIntent1);
 
 			start = start % size;
+
+			Intent intentCurrentMovie = new Intent(context, AndShowDBGlobalService.class);
+			intentCurrentMovie.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_CURENT_MOVIE_WRITE);
+			intentCurrentMovie.putExtra(ParamIntent.THEATER_ID, theater.getId());
+			intentCurrentMovie.putExtra(ParamIntent.MOVIE_ID, movieBean.getId());
+
+			context.startService(intentCurrentMovie);
 		}
 
-		Intent defineIntent = new Intent(context, AndShowTimeSearchNearActivity.class);
+		Intent defineIntent = new Intent(context, AndShowTimeResultsActivity.class);
 		if (theater != null) {
-			defineIntent.putExtra(ParamIntent.ACTIVITY_NEAR_THEATER_ID, theater.getId());
+			defineIntent.putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, theater.getId());
 			if (localisation.getLatitude() != null && localisation.getLongitude() != null) {
-				defineIntent.putExtra(ParamIntent.ACTIVITY_NEAR_LATITUDE, localisation.getLatitude());
-				defineIntent.putExtra(ParamIntent.ACTIVITY_NEAR_LONGITUDE, localisation.getLongitude());
+				defineIntent.putExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, localisation.getLatitude());
+				defineIntent.putExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, localisation.getLongitude());
 			}
 			// else {
-			defineIntent.putExtra(ParamIntent.ACTIVITY_NEAR_CITY_NAME, place.toString());
+			defineIntent.putExtra(ParamIntent.ACTIVITY_SEARCH_CITY, place.toString());
 			// }
 		}
 		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /*
@@ -158,50 +163,40 @@ public class AndShowTimeWidgetHelper {
 		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /*
 		// no requestCode */, defineIntent, 0);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /*
-																			 * no
-																			 * requestCode
+																			 * no requestCode
 																			 */, defineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /*
 		// no requestCode */, defineIntent, 0);
-		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_top_one : R.id.widget, pendingIntent);
+		updateViews.setOnClickPendingIntent(R.id.widget_top_one, pendingIntent);
 
 		Intent intentScrollLeft = new Intent(context, AndShowTimeWidgetServiceLeft.class);
 		intentScrollLeft.putExtra(ParamIntent.WIDGET_SCROLL_SENS, -1);
 		intentScrollLeft.putExtra(ParamIntent.WIDGET_START, start);
-		intentScrollLeft.putExtra(ParamIntent.WIDGET_CUPCAKE, cupcake);
 		PendingIntent pendingIntentScrollLeft = PendingIntent.getService(context, 0 /*
-																					 * no
-																					 * requestCode
+																					 * no requestCode
 																					 */, intentScrollLeft, PendingIntent.FLAG_UPDATE_CURRENT /*
-																																			 * no
-																																			 * flags
+																																			 * no flags
 																																			 */);
-		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_one_button_scroll_left : R.id.widget_button_scroll_left, pendingIntentScrollLeft);
+		updateViews.setOnClickPendingIntent(R.id.widget_one_button_scroll_left, pendingIntentScrollLeft);
 
 		Intent intentScrollRight = new Intent(context, AndShowTimeWidgetServiceRight.class);
 		intentScrollRight.putExtra(ParamIntent.WIDGET_SCROLL_SENS, 1);
 		intentScrollRight.putExtra(ParamIntent.WIDGET_START, start);
-		intentScrollRight.putExtra(ParamIntent.WIDGET_CUPCAKE, cupcake);
 		PendingIntent pendingIntentScrollRight = PendingIntent.getService(context, 0 /*
-																					 * no
-																					 * requestCode
+																					 * no requestCode
 																					 */, intentScrollRight, PendingIntent.FLAG_UPDATE_CURRENT /*
-																																			 * no
-																																			 * flags
+																																			 * no flags
 																																			 */);
-		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_one_button_scroll_right : R.id.widget_button_scroll_right, pendingIntentScrollRight);
+		updateViews.setOnClickPendingIntent(R.id.widget_one_button_scroll_right, pendingIntentScrollRight);
 
 		Intent intentScrollRefresh = new Intent(context, AndShowTimeWidgetServiceRefresh.class);
 		intentScrollRefresh.putExtra(ParamIntent.WIDGET_REFRESH, true);
-		intentScrollRefresh.putExtra(ParamIntent.WIDGET_CUPCAKE, cupcake);
 		PendingIntent pendingIntentScrollRefresh = PendingIntent.getService(context, 0 /*
-																						 * no
-																						 * requestCode
+																						 * no requestCode
 																						 */, intentScrollRefresh, PendingIntent.FLAG_UPDATE_CURRENT /*
-																																					 * no
-																																					 * flags
+																																					 * no flags
 																																					 */);
-		updateViews.setOnClickPendingIntent(cupcake ? R.id.widget_one_button_refresh : R.id.widget_button_refresh, pendingIntentScrollRefresh);
+		updateViews.setOnClickPendingIntent(R.id.widget_one_button_refresh, pendingIntentScrollRefresh);
 
 		return updateViews;
 	}
@@ -237,7 +232,7 @@ public class AndShowTimeWidgetHelper {
 
 						LocalisationBean localisationTheater = theater.getPlace();
 						AndShowtimeFactory.initGeocoder(context);
-						NearResp nearResp = AndShowtimeRequestManage.searchTheaters(localisationTheater.getLatitude(), localisationTheater.getLongitude(), localisationTheater.getCityName(), theater.getId(), 0, 0, AndShowTimeWidgetConfigureActivity.class.getName());
+						NearResp nearResp = AndShowtimeRequestManage.searchTheatersOrMovies(localisationTheater.getLatitude(), localisationTheater.getLongitude(), localisationTheater.getCityName(), null, theater.getId(), 0, 0, AndShowTimeWidgetConfigureActivity.class.getName());
 						BeanManagerFactory.setNearRespFromWidget(nearResp);
 						if (nearResp != null && nearResp.getTheaterList() != null) {
 							movieBeanList = nearResp.getMapMovies();
@@ -280,6 +275,53 @@ public class AndShowTimeWidgetHelper {
 				mdbHelper.close();
 			}
 		}
+	}
+
+	/*
+	 * 
+	 * Widget
+	 */
+
+	protected static void initWidgetId(Activity activity) {
+		Intent intent = activity.getIntent();
+		// Find the widget id from the intent.
+		Bundle extras = intent.getExtras();
+		if (extras != null) {
+			mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+		}
+
+		// If they gave us an intent without the widget id, just bail.
+		if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+			activity.finish();
+		}
+	}
+
+	protected static void finalizeWidget(Activity activity, TheaterBean theater, String cityName) {
+		final Context context = activity;
+
+		// We fill db
+		Intent intentWidgetDb = new Intent(activity, AndShowDBGlobalService.class);
+		intentWidgetDb.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_WIDGET_WRITE);
+		if (LocationUtils.isEmptyLocation(theater.getPlace())) {
+			LocalisationBean place = theater.getPlace();
+			if (theater.getPlace() == null) {
+				place = new LocalisationBean();
+				theater.setPlace(place);
+			}
+			place.setCityName(cityName);
+		}
+		BeanManagerFactory.setTheaterTemp(theater);
+		activity.startService(intentWidgetDb);
+		// We force widget to refresh
+		Intent intentRefreshWidget = new Intent(activity, AndShowTimeWidgetHelper.class);
+		intentRefreshWidget.putExtra(ParamIntent.WIDGET_REFRESH, true);
+		AndShowTimeWidgetHelper.updateWidget(context, intentRefreshWidget, theater);
+
+		// Make sure we pass back the original appWidgetId
+		Intent resultValue = new Intent();
+		resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+		activity.setResult(activity.RESULT_OK, resultValue);
+		activity.finish();
 	}
 
 }

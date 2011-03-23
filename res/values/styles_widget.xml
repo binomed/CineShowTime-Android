@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+   <style name="Widget">
+    </style>
+    
+    <style name="Widget.TheaterTitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    
+    <style name="Widget.Movie">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    <style name="Widget.MovieOne">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    
+    <style name="Widget.Hour">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textStyle">bold</item>
+        <!--<item name="android:textColor">@android:color/black</item>-->
+        <item name="android:textColor">#ff0300</item>
+    </style>
+    <style name="Widget.HourOne">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+        <!--<item name="android:textColor">@android:color/black</item>-->
+        <item name="android:textColor">#ff0300</item>
+    </style>
+</resources>

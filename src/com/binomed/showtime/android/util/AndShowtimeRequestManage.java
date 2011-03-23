@@ -12,7 +12,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.zip.GZIPInputStream;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -27,13 +26,11 @@ import android.util.Log;
 
 import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.parser.xml.ParserImdbResultXml;
-import com.binomed.showtime.android.parser.xml.ParserMovieResultXml;
 import com.binomed.showtime.android.parser.xml.ParserNearResultXml;
-import com.binomed.showtime.android.searchnearactivity.AndShowTimeSearchNearActivity;
+import com.binomed.showtime.android.resultsactivity.AndShowTimeResultsActivity;
 import com.binomed.showtime.android.util.localisation.LocationUtils;
 import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.MovieBean;
-import com.binomed.showtime.beans.MovieResp;
 import com.binomed.showtime.beans.NearResp;
 import com.binomed.showtime.beans.TheaterBean;
 import com.binomed.showtime.cst.HttpParamsCst;
@@ -44,16 +41,16 @@ public abstract class AndShowtimeRequestManage {
 
 	public static final String TAG = "RequestManager"; //$NON-NLS-1$
 
-	public static NearResp searchTheaters(Double latitude, Double longitude, String cityName, String theaterId, int day, int start, String origin) throws Exception {
+	public static NearResp searchTheatersOrMovies(Double latitude, Double longitude, String cityName, String movieName, String theaterId, int day, int start, String origin) throws Exception {
 
 		URLBuilder andShowtimeUriBuilder = new URLBuilder(AndShowTimeEncodingUtil.convertLocaleToEncoding());
 		andShowtimeUriBuilder.setProtocol(HttpParamsCst.BINOMED_APP_PROTOCOL);
 		andShowtimeUriBuilder.setAdress(HttpParamsCst.BINOMED_APP_URL);
 		andShowtimeUriBuilder.completePath(HttpParamsCst.BINOMED_APP_PATH);
-		andShowtimeUriBuilder.completePath(HttpParamsCst.NEAR_GET_METHODE);
+		andShowtimeUriBuilder.completePath((movieName != null && movieName.length() > 0) ? HttpParamsCst.MOVIE_GET_METHODE : HttpParamsCst.NEAR_GET_METHODE);
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LANG, Locale.getDefault().getLanguage());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_OUTPUT, HttpParamsCst.VALUE_XML);
-		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_ZIP, HttpParamsCst.VALUE_TRUE);
+		// andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_ZIP, HttpParamsCst.VALUE_TRUE);
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_IE, AndShowTimeEncodingUtil.getEncoding());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_OE, AndShowTimeEncodingUtil.getEncoding());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_CURENT_TIME, String.valueOf(Calendar.getInstance().getTimeInMillis()));
@@ -71,7 +68,6 @@ public abstract class AndShowtimeRequestManage {
 			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_START //
 					, String.valueOf(start));
 		}
-
 		String countryCode = Locale.getDefault().getCountry();
 
 		Geocoder geocoder = AndShowtimeFactory.getGeocoder();
@@ -152,6 +148,11 @@ public abstract class AndShowtimeRequestManage {
 		}
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_COUNTRY_CODE, countryCode);
 
+		if (movieName != null) {
+			movieName = URLDecoder.decode(movieName, AndShowTimeEncodingUtil.getEncoding());
+			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_MOVIE_NAME, movieName);
+		}
+
 		String uri = andShowtimeUriBuilder.toUri();
 		Log.i(TAG, "send request : " + uri); //$NON-NLS-1$
 		HttpGet getMethod = AndShowtimeFactory.getHttpGet();
@@ -166,7 +167,8 @@ public abstract class AndShowtimeRequestManage {
 		ParserNearResultXml parser = AndShowtimeFactory.getParserNearResultXml();
 		reader.setContentHandler(parser);
 		InputSource inputSource = AndShowtimeFactory.getInputSource();
-		inputSource.setByteStream(new GZIPInputStream(res.getEntity().getContent()));
+		// inputSource.setByteStream(new GZIPInputStream(res.getEntity().getContent()));
+		inputSource.setByteStream(res.getEntity().getContent());
 
 		reader.parse(inputSource);
 
@@ -174,7 +176,7 @@ public abstract class AndShowtimeRequestManage {
 		if (start > 0) {
 			// We have to complete the result with previous entries
 			NearResp lastNearResp = null;
-			if (origin == null || AndShowTimeSearchNearActivity.class.getName().equals(origin)) {
+			if (origin == null || AndShowTimeResultsActivity.class.getName().equals(origin)) {
 				lastNearResp = BeanManagerFactory.getNearResp();
 			} else {
 				lastNearResp = BeanManagerFactory.getNearRespFromWidget();
@@ -211,155 +213,6 @@ public abstract class AndShowtimeRequestManage {
 					} catch (Exception e) {
 						Log.e(TAG, "error Searching cityName :" + localisation.getSearchQuery(), e);
 					}
-					if (addressList != null && addressList.size() > 0) {
-						addressTheater = addressList.get(0);
-						localisation.setCityName(addressTheater.getLocality());
-						localisation.setCountryName(addressTheater.getCountryName());
-						localisation.setCountryNameCode(addressTheater.getCountryCode());
-						localisation.setPostalCityNumber(addressTheater.getPostalCode());
-						localisation.setLatitude(addressTheater.getLatitude());
-						localisation.setLongitude(addressTheater.getLongitude());
-						Location locaTheater = new Location("GPS");
-						locaTheater.setLatitude(localisation.getLatitude());
-						locaTheater.setLongitude(localisation.getLongitude());
-						theater.getPlace().setDistance(originalPlace.distanceTo(locaTheater) / 1000);
-					}
-				}
-			}
-		}
-
-		return resultBean;
-	}
-
-	public static MovieResp searchMovies(Double latitude, Double longitude, String cityName, String movieName, String theaterId, int day) throws Exception {
-
-		URLBuilder andShowtimeUriBuilder = new URLBuilder(AndShowTimeEncodingUtil.convertLocaleToEncoding());
-		andShowtimeUriBuilder.setProtocol(HttpParamsCst.BINOMED_APP_PROTOCOL);
-		andShowtimeUriBuilder.setAdress(HttpParamsCst.BINOMED_APP_URL);
-		andShowtimeUriBuilder.completePath(HttpParamsCst.BINOMED_APP_PATH);
-		andShowtimeUriBuilder.completePath(HttpParamsCst.MOVIE_GET_METHODE);
-		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LANG, Locale.getDefault().getLanguage());
-		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_OUTPUT, HttpParamsCst.VALUE_XML);
-		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_ZIP, HttpParamsCst.VALUE_TRUE);
-		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_IE, AndShowTimeEncodingUtil.getEncoding());
-		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_OE, AndShowTimeEncodingUtil.getEncoding());
-		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_CURENT_TIME, String.valueOf(Calendar.getInstance().getTimeInMillis()));
-		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_TIME_ZONE, TimeZone.getDefault().getID());
-
-		if (theaterId != null) {
-			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_THEATER_ID //
-					, theaterId);
-		}
-		if (day > 0) {
-			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_DAY //
-					, String.valueOf(day));
-		}
-		String countryCode = Locale.getDefault().getCountry();
-
-		Geocoder geocoder = AndShowtimeFactory.getGeocoder();
-		// Location originalPlace = manageLocation(geocoder, cityName,
-		// andShowtimeUriBuilder, latitude, longitude);
-		Location originalPlace = null;
-		if (geocoder != null) {
-			if (cityName != null) {
-				cityName = URLDecoder.decode(cityName, AndShowTimeEncodingUtil.getEncoding());
-				List<Address> addressList = geocoder.getFromLocationName(cityName, 1);
-				if ((addressList != null) && !addressList.isEmpty()) {
-					if (addressList.get(0).getLocality() != null) {
-						cityName = addressList.get(0).getLocality();
-					}
-					// if (addressList.get(0).getLocality() != null &&
-					// addressList.get(0).getPostalCode() != null) {
-					// cityName += " " + addressList.get(0).getPostalCode();
-					// }
-					if (addressList.get(0).getLocality() != null && addressList.get(0).getCountryCode() != null) {
-						cityName += ", " + addressList.get(0).getCountryCode();
-					}
-					originalPlace = new Location("GPS");
-					originalPlace.setLongitude(addressList.get(0).getLongitude());
-					originalPlace.setLatitude(addressList.get(0).getLatitude());
-
-					countryCode = addressList.get(0).getCountryCode();
-				}
-				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
-			}
-			if (latitude != null && longitude != null && (latitude != 0 && longitude != 0)) {
-				List<Address> addressList = geocoder.getFromLocation(longitude, latitude, 1);
-				if ((addressList != null) && !addressList.isEmpty()) {
-					if (addressList.get(0).getLocality() != null) {
-						cityName = addressList.get(0).getLocality();
-					}
-					// if (addressList.get(0).getLocality() != null &&
-					// addressList.get(0).getPostalCode() != null) {
-					// cityName += " " + addressList.get(0).getPostalCode();
-					// }
-					if (addressList.get(0).getLocality() != null && addressList.get(0).getCountryCode() != null) {
-						cityName += ", " + addressList.get(0).getCountryCode();
-					}
-					originalPlace = new Location("GPS");
-					originalPlace.setLongitude(addressList.get(0).getLongitude());
-					originalPlace.setLatitude(addressList.get(0).getLatitude());
-				}
-				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LAT //
-						, AndShowtimeNumberFormat.getFormatGeoCoord().format(latitude));
-				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LONG//
-						, AndShowtimeNumberFormat.getFormatGeoCoord().format(longitude));
-				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
-			}
-		} else {
-			if (cityName != null) {
-				cityName = URLDecoder.decode(cityName, AndShowTimeEncodingUtil.getEncoding());
-				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
-			}
-			if (latitude != null && longitude != null && (latitude != 0 && longitude != 0)) {
-				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LAT //
-						, AndShowtimeNumberFormat.getFormatGeoCoord().format(latitude));
-				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LONG//
-						, AndShowtimeNumberFormat.getFormatGeoCoord().format(longitude));
-			}
-		}
-		if (movieName != null) {
-			movieName = URLDecoder.decode(movieName, AndShowTimeEncodingUtil.getEncoding());
-			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_MOVIE_NAME, movieName);
-		}
-		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_COUNTRY_CODE, countryCode);
-
-		String uri = andShowtimeUriBuilder.toUri();
-		Log.i(TAG, "send request : " + uri); //$NON-NLS-1$
-		HttpGet getMethod = AndShowtimeFactory.getHttpGet();
-		getMethod.setURI(new URI(uri));
-		HttpResponse res = AndShowtimeFactory.getHttpClient().execute(getMethod);
-
-		BeanManagerFactory.cleanCentralMovieMap();
-		BeanManagerFactory.cleanCentralTheaterMap();
-
-		XMLReader reader = AndShowtimeFactory.getXmlReader();
-		ParserMovieResultXml parser = AndShowtimeFactory.getParserMovieResultXml();
-		reader.setContentHandler(parser);
-		InputSource inputSource = AndShowtimeFactory.getInputSource();
-		inputSource.setByteStream(new GZIPInputStream(res.getEntity().getContent()));
-
-		reader.parse(inputSource);
-
-		MovieResp resultBean = parser.getMovieRespBean();
-		List<Address> addressList = null;
-		Address addressTheater = null;
-		if ((geocoder != null)) {// && (originalPlace != null)) {
-			for (TheaterBean theater : resultBean.getTheaterList()) {
-				LocalisationBean localisation = theater.getPlace();
-				// if (localisation != null && localisation.getLatitude() !=
-				// null && localisation.getLongitude() != null) {
-				// Location locaTheater = new Location("GPS");
-				// locaTheater.setLatitude(localisation.getLatitude());
-				// locaTheater.setLongitude(localisation.getLongitude());
-				// theater.getPlace().setDistance(originalPlace.distanceTo(locaTheater)
-				// / 1000);
-				// } else
-				if (localisation != null && localisation.getSearchQuery() != null && localisation.getSearchQuery().length() > 0) {
-					LocationUtils.completeLocalisationBean(cityName, localisation);
-					// addressList =
-					// geocoder.getFromLocationName(localisation.getSearchQuery(),
-					// 1);
 					if (addressList != null && addressList.size() > 0) {
 						addressTheater = addressList.get(0);
 						localisation.setCityName(addressTheater.getLocality());
@@ -446,10 +299,11 @@ public abstract class AndShowtimeRequestManage {
 		andShowtimeUriBuilder.completePath(HttpParamsCst.IMDB_GET_METHODE);
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LANG, Locale.getDefault().getLanguage());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_OUTPUT, HttpParamsCst.VALUE_XML);
-		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_ZIP, HttpParamsCst.VALUE_TRUE);
+		// andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_ZIP, HttpParamsCst.VALUE_TRUE);
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_IE, AndShowTimeEncodingUtil.getEncoding());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_OE, AndShowTimeEncodingUtil.getEncoding());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_MOVIE_ID, movie.getId());
+		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_TRAILER, String.valueOf(true));
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_MOVIE_NAME, movie.getEnglishMovieName());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_MOVIE_CUR_LANG_NAME, movie.getMovieName());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, URLEncoder.encode((near != null) ? near : SpecialChars.EMPTY, AndShowTimeEncodingUtil.getEncoding()));
@@ -465,7 +319,8 @@ public abstract class AndShowtimeRequestManage {
 
 		reader.setContentHandler(parser);
 		InputSource inputSource = AndShowtimeFactory.getInputSource();
-		inputSource.setByteStream(new GZIPInputStream(res.getEntity().getContent()));
+		// inputSource.setByteStream(new GZIPInputStream(res.getEntity().getContent()));
+		inputSource.setByteStream(res.getEntity().getContent());
 
 		reader.parse(inputSource);
 
@@ -480,6 +335,8 @@ public abstract class AndShowtimeRequestManage {
 		movie.setStyle(movieResult.getStyle());
 		movie.setDirectorList(movieResult.getDirectorList());
 		movie.setActorList(movieResult.getActorList());
+		movie.setReviews(movieResult.getReviews());
+		movie.setYoutubeVideos(movieResult.getYoutubeVideos());
 
 	}
 

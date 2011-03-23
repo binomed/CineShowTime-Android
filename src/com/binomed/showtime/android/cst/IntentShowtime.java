@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -12,10 +13,12 @@ import android.net.Uri;
 import android.net.Uri.Builder;
 import android.util.Log;
 
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.util.AndShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.TheaterBean;
+import com.binomed.showtime.beans.YoutubeBean;
 import com.binomed.showtime.cst.SpecialChars;
 import com.binomed.showtime.util.AndShowtimeNumberFormat;
 
@@ -130,6 +133,11 @@ public class IntentShowtime {
 		return myIntent;
 	}
 
+	public static Intent createTrailerIntent(YoutubeBean trailer) {
+		Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(trailer.getUrlVideo()));
+		return myIntent;
+	}
+
 	public static Intent createImdbBrowserIntent(MovieBean movie) {
 		StringBuilder imdbUriStr = new StringBuilder("http://www.imdb.com/title/tt"); //$NON-NLS-1$
 		imdbUriStr.append(movie.getImdbId()).append("/"); //$NON-NLS-1$
@@ -137,9 +145,8 @@ public class IntentShowtime {
 		return myIntent;
 	}
 
-	public static Intent createHelpAndShowTime() {
-		StringBuilder imdbUriStr = new StringBuilder("http://code.google.com/p/binomed-android-project/wiki/ScreenShotAndManual"); //$NON-NLS-1$
-		Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(imdbUriStr.toString()));
+	public static Intent createHelpAndShowTime(Context context) {
+		Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.urlHelp)));
 		return myIntent;
 	}
 

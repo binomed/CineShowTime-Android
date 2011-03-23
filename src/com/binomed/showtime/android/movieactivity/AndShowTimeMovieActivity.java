@@ -1,21 +1,15 @@
 package com.binomed.showtime.android.movieactivity;
 
-import java.text.MessageFormat;
-import java.util.Calendar;
+import java.net.URLDecoder;
 import java.util.List;
-import java.util.TimeZone;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
-import android.content.ContentValues;
+import android.app.TabActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -25,55 +19,69 @@ import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Gallery;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ViewFlipper;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.adapter.view.GalleryTrailerAdapter;
 import com.binomed.showtime.android.adapter.view.ProjectionListAdapter;
-import com.binomed.showtime.android.cst.IntentShowtime;
+import com.binomed.showtime.android.adapter.view.ReviewListAdapter;
+import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
+import com.binomed.showtime.android.handler.MovieCallBackMovie;
 import com.binomed.showtime.android.handler.ServiceCallBackMovie;
+import com.binomed.showtime.android.util.AndShowTimeEncodingUtil;
+import com.binomed.showtime.android.util.AndShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.AndShowtimeRequestManage;
 import com.binomed.showtime.android.util.BeanManagerFactory;
+import com.binomed.showtime.android.util.images.ImageDownloader;
+import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.beans.TheaterBean;
 import com.google.api.translate.Language;
 import com.google.api.translate.Translate;
 
-public class AndShowTimeMovieActivity extends Activity {
+//public class AndShowTimeMovieActivity extends Activity {
+public class AndShowTimeMovieActivity extends TabActivity {
 
 	private static final String TAG = "MovieActivity"; //$NON-NLS-1$
 
-	private static final int MENU_OPEN_MAPS = Menu.FIRST;
-	private static final int MENU_OPEN_MAPS_DIRECTION = Menu.FIRST + 1;
-	private static final int MENU_VIDEO = Menu.FIRST + 2;
-	private static final int MENU_CALL = Menu.FIRST + 3;
-	private static final int ITEM_TRANSLATE = Menu.FIRST + 4;
-	private static final int ITEM_SEND_SMS = Menu.FIRST + 5;
-	private static final int ITEM_SEND_MAIL = Menu.FIRST + 6;
-	private static final int ITEM_ADD_EVENT = Menu.FIRST + 7;
-	private static final int MENU_PREF = Menu.FIRST + 8;
+	private static final int ITEM_TRANSLATE = Menu.FIRST + 2;
 
-	private TextView movieTitle;
-	private TextView movieRate;
-	private TextView movieDuration;
-	private TextView movieDirector;
-	private TextView movieActor;
-	private TextView movieStyle;
-	private TextView theaterTitle;
+	private TabHost tabHost;
+	private TextView movieTitle, txtMovieTitle;
+	private TextView movieRate, txtMovieRate;
+	private TextView movieDuration, txtMovieDuration;
+	private TextView movieDirector, txtMovieDirector;
+	private TextView movieActor, txtMovieActor;
+	private TextView movieStyle, txtMovieStyle;
+	private TextView theaterTitle, theaterAddress;
 	private ImageView summaryMoviePoster;
 	private TextView moviePlot;
 	private TextView movieWebLinks;
 	private ListView movieProjectionTimeList;
+	private ListView movieReviewsList;
+	private Gallery movieGalleryTrailer;
+	protected ViewFlipper movieFlipper;
+	private ScrollView movieTabInfoScrollView;
+	protected RelativeLayout tabShowtimes;
+	private ImageButton movieBtnMap, movieBtnDirection, movieBtnCall;
+
+	protected GalleryTrailerAdapter trailerAdapter;
+	protected ProjectionListAdapter projectionAdapter;
 
 	private ImageView sumRate1, sumRate2, sumRate3, sumRate4, sumRate5, sumRate6, sumRate7, sumRate8, sumRate9, sumRate10;
 
@@ -96,6 +104,29 @@ public class AndShowTimeMovieActivity extends Activity {
 	private boolean distanceTime;
 	private boolean homePress;
 
+	private float oldTouchValue;
+	protected boolean desactivListener = false;
+	protected int lastTab = 0;
+
+	// private DrawableManager drawableManager;
+	private ImageDownloader imageDownloader;
+
+	class RunnableWithTab implements Runnable {
+
+		private int tabIndex;
+
+		private RunnableWithTab(int tabIndex) {
+			super();
+			this.tabIndex = tabIndex;
+		}
+
+		@Override
+		public void run() {
+			innerCallBack.handleInputRecived(tabIndex);
+		}
+
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -104,12 +135,13 @@ public class AndShowTimeMovieActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.and_showtime_movie);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		AndShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
+		setContentView(R.layout.activity_movie);
 
 		controler = ControlerMovieActivity.getInstance();
 		model = controler.getModel();
 		listener = new ListenerMovieActivity(controler, model, this);
-
 		// Init star img
 		bitmapRateOff = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_off);
 		bitmapRateHalf = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_half);
@@ -129,20 +161,37 @@ public class AndShowTimeMovieActivity extends Activity {
 
 		homePress = false;
 
-		String movieId = getIntent().getStringExtra(ParamIntent.MOVIE_ID);
-		Log.i(TAG, "Movie ID : " + movieId);
-		String theaterId = getIntent().getStringExtra(ParamIntent.THEATER_ID);
-		double latitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, 0);
-		double longitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, 0);
+		String movieId = null;
+		String theaterId = null;
+		boolean fromWidget = getIntent().getBooleanExtra(ParamIntent.ACTIVITY_MOVIE_FROM_WIDGET, false);
 		String near = getIntent().getStringExtra(ParamIntent.ACTIVITY_MOVIE_NEAR);
-		if (latitude != 0 && longitude != 0) {
-			Location gpsLocation = new Location("GPS"); //$NON-NLS-1$
-			gpsLocation.setLatitude(latitude);
-			gpsLocation.setLongitude(longitude);
-			model.setGpsLocation(gpsLocation);
+		Log.i(TAG, "From Widget : " + fromWidget);
+		if (fromWidget) {
+
+			Object[] currentMovie = controler.extractCurrentMovie();
+			if (currentMovie != null) {
+				TheaterBean theaterTmp = (TheaterBean) currentMovie[0];
+				MovieBean movieTmp = (MovieBean) currentMovie[1];
+
+				theaterId = (theaterTmp != null) ? theaterTmp.getId() : null;
+				movieId = (movieTmp != null) ? movieTmp.getId() : null;
+			}
 		} else {
-			model.setGpsLocation(null);
+			movieId = getIntent().getStringExtra(ParamIntent.MOVIE_ID);
+
+			theaterId = getIntent().getStringExtra(ParamIntent.THEATER_ID);
+			double latitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, 0);
+			double longitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, 0);
+			if (latitude != 0 && longitude != 0) {
+				Location gpsLocation = new Location("GPS"); //$NON-NLS-1$
+				gpsLocation.setLatitude(latitude);
+				gpsLocation.setLongitude(longitude);
+				model.setGpsLocation(gpsLocation);
+			} else {
+				model.setGpsLocation(null);
+			}
 		}
+		Log.i(TAG, "Movie ID : " + movieId);
 
 		MovieBean movie = BeanManagerFactory.getMovieForId(movieId);
 		model.setMovie(movie);
@@ -151,6 +200,8 @@ public class AndShowTimeMovieActivity extends Activity {
 			TheaterBean theater = BeanManagerFactory.getTheaterForId(theaterId);
 			model.setTheater(theater);
 		}
+
+		manageViewVisibility();
 
 		try {
 			fillBasicInformations(movie);
@@ -162,10 +213,25 @@ public class AndShowTimeMovieActivity extends Activity {
 			if (movie.getImdbId() == null) {
 				controler.searchMovieDetail(movie, near);
 			} else {
-				fillViews(movie);
+				fillViews(movie, false);
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "error on create", e); //$NON-NLS-1$
+		}
+	}
+
+	private void manageViewVisibility() {
+		if ((model.getTheater() == null) //
+		) {
+			movieBtnMap.setEnabled(false);
+		}
+		if ((model.getGpsLocation() == null) //
+				|| !BeanManagerFactory.isMapsInstalled(getPackageManager())//
+		) {
+			movieBtnDirection.setEnabled(false);
+		}
+		if (!BeanManagerFactory.isDialerInstalled(getPackageManager())) {
+			movieBtnCall.setEnabled(false);
 		}
 	}
 
@@ -174,8 +240,22 @@ public class AndShowTimeMovieActivity extends Activity {
 		super.onPause();
 		Log.i(TAG, "onPause");
 		// if (homePress) {
-		finish();
+		// finish();
 		// }
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onDestroy()
+	 */
+	@Override
+	public void finish() {
+		boolean resetTheme = getIntent() != null ? getIntent().getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false) : false;
+		if (resetTheme) {
+			setResult(AndShowtimeCst.RESULT_PREF_WITH_NEW_THEME);
+		}
+		super.finish();
 	}
 
 	@Override
@@ -184,15 +264,6 @@ public class AndShowTimeMovieActivity extends Activity {
 		super.onStop();
 	}
 
-	// @Override
-	// public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-	// Log.i(TAG, "onKeyLongPress : " + (keyCode == KeyEvent.KEYCODE_HOME));
-	// if (homePress && (keyCode == KeyEvent.KEYCODE_HOME)) {
-	// homePress = false;
-	// }
-	// return super.onKeyLongPress(keyCode, event);
-	// }
-
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		Log.i(TAG, "onKeyDown : " + (keyCode == KeyEvent.KEYCODE_HOME));
@@ -200,19 +271,97 @@ public class AndShowTimeMovieActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 
+	@Override
+	public boolean onTouchEvent(MotionEvent touchEvent) {
+		manageMotionEvent(touchEvent);
+		return false;
+	}
+
+	protected void manageMotionEvent(MotionEvent touchEvent) {
+		final float x = touchEvent.getX();
+		switch (touchEvent.getAction()) {
+		case MotionEvent.ACTION_DOWN: {
+			Log.i(TAG, "onTouchEventDown");
+			oldTouchValue = x;
+			break;
+		}
+		case MotionEvent.ACTION_UP: {
+			Log.i(TAG, "onTouchEventUp");
+			float currentX = touchEvent.getX();
+			float diff = Math.abs(currentX - oldTouchValue);
+			if (diff > (getTabWidget().getWidth() / 2)) {
+				Log.i("MainActivity4", "oldTouch: " + oldTouchValue + "; currentX : " + currentX + "; tabHos : " + tabHost.getCurrentTab());
+				try {
+					if (oldTouchValue > currentX && tabHost.getCurrentTab() <= 1) {
+						// fillViews(model.getMovie(), false);
+						movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
+						movieFlipper.setOutAnimation(AnimationHelper.outToLeftAnimation());
+						movieFlipper.showNext();
+						desactivListener = true;
+						tabHost.setCurrentTab(tabHost.getCurrentTab() + 1);
+						lastTab = tabHost.getCurrentTab();
+						desactivListener = false;
+					} else if (oldTouchValue < currentX && tabHost.getCurrentTab() >= 1) {
+						// fillViews(model.getMovie(), false);
+						movieFlipper.setInAnimation(AnimationHelper.inFromLeftAnimation());
+						movieFlipper.setOutAnimation(AnimationHelper.outToRightAnimation());
+						movieFlipper.showPrevious();
+						desactivListener = true;
+						tabHost.setCurrentTab(tabHost.getCurrentTab() - 1);
+						lastTab = tabHost.getCurrentTab();
+						desactivListener = false;
+					}
+				} catch (Exception e) {
+					Log.e(TAG, "error during managing ActionUp", e);
+				}
+			}
+			break;
+		}
+		}
+	}
+
 	/**
 	 * 
 	 */
 	private void initViews() {
+
+		movieFlipper = (ViewFlipper) findViewById(R.id.movieFlipper);
+
 		summaryMoviePoster = (ImageView) findViewById(R.id.moviePoster);
+		// txtMovieTitle = (TextView) findViewById(R.id.txtMovieTitle);
 		movieTitle = (TextView) findViewById(R.id.movieTitle);
+		txtMovieDuration = (TextView) findViewById(R.id.txtMovieDuration);
 		movieDuration = (TextView) findViewById(R.id.movieDuration);
 		moviePlot = (TextView) findViewById(R.id.moviePlot);
 		theaterTitle = (TextView) findViewById(R.id.movieTheaterTitle);
+		theaterAddress = (TextView) findViewById(R.id.movieTheaterAddress);
 		movieProjectionTimeList = (ListView) findViewById(R.id.movieListProjection);
+		movieReviewsList = (ListView) findViewById(R.id.movieListReview);
+		movieGalleryTrailer = (Gallery) findViewById(R.id.gallery_trailer);
+
+		movieTabInfoScrollView = (ScrollView) findViewById(R.id.movieTab_summary);
+
+		tabShowtimes = (RelativeLayout) findViewById(R.id.Projection);
+
+		movieBtnMap = (ImageButton) findViewById(R.id.movieBtnMap);
+		movieBtnDirection = (ImageButton) findViewById(R.id.movieBtnDirection);
+		movieBtnCall = (ImageButton) findViewById(R.id.movieBtnCall);
+
+		// drawableManager = new DrawableManager();
+		imageDownloader = new ImageDownloader();
 	}
 
 	private void initlisteners() {
+		movieGalleryTrailer.setOnItemClickListener(listener);
+		tabHost.setOnTabChangedListener(listener);
+
+		movieTabInfoScrollView.setOnTouchListener(listener);
+		movieProjectionTimeList.setOnTouchListener(listener);
+		movieReviewsList.setOnTouchListener(listener);
+
+		movieBtnMap.setOnClickListener(listener);
+		movieBtnDirection.setOnClickListener(listener);
+		movieBtnCall.setOnClickListener(listener);
 	}
 
 	private void initMenus() {
@@ -222,20 +371,34 @@ public class AndShowTimeMovieActivity extends Activity {
 
 	private void createTabs() {
 		try {
-			TabHost tabs = (TabHost) this.findViewById(R.id.movieTabhost);
-			tabs.setup();
+			// tabHost = (TabHost) this.findViewById(R.id.movieTabhost);
+			tabHost = getTabHost();
+			// tabHost.setup();
 
-			TabHost.TabSpec tabSummary = tabs.newTabSpec("Summary");
-			tabSummary.setContent(R.id.movieTab_summary);
-			tabSummary.setIndicator(getResources().getString(R.string.tabSummary), getResources().getDrawable(android.R.drawable.ic_dialog_info));
+			Intent intentEmptyActivity = new Intent(AndShowTimeMovieActivity.this, EmptyActivity.class);
 
-			TabHost.TabSpec tabProjection = tabs.newTabSpec("Projection");
-			tabProjection.setContent(R.id.movieTab_projections);
-			tabProjection.setIndicator(getResources().getString(R.string.tabProjection), getResources().getDrawable(R.drawable.ic_dialog_time));
+			TabHost.TabSpec tabSummary = tabHost.newTabSpec("Summary");
+			// tabSummary.setContent(R.id.movieTab_summary);
+			tabSummary.setContent(intentEmptyActivity);
+			// tabSummary.setIndicator(new TabInfoView(this, getResources().getString(R.string.movieLabel).toUpperCase(), getResources().getDrawable(R.drawable.tab_info)));
+			tabSummary.setIndicator(getResources().getString(R.string.movieLabel).toUpperCase(), getResources().getDrawable(R.drawable.tab_info));
 
-			tabs.addTab(tabSummary);
-			tabs.addTab(tabProjection);
-			tabs.setCurrentTab(model.getLastTab());
+			TabHost.TabSpec tabProjection = tabHost.newTabSpec("Projection");
+			// tabProjection.setContent(R.id.movieTab_projections);
+			tabProjection.setContent(intentEmptyActivity);
+			// tabSummary.setIndicator(new TabInfoView(this, getResources().getString(R.string.showtimeLabel).toUpperCase(), getResources().getDrawable(R.drawable.tab_showtimes)));
+			tabProjection.setIndicator(getResources().getString(R.string.showtimeLabel).toUpperCase(), getResources().getDrawable(R.drawable.tab_showtimes));
+
+			TabHost.TabSpec tabReviews = tabHost.newTabSpec("Review");
+			// tabReviews.setContent(R.id.movieTab_reviews);
+			tabReviews.setContent(intentEmptyActivity);
+			// tabSummary.setIndicator(new TabInfoView(this, getResources().getString(R.string.rateLabel).toUpperCase(), getResources().getDrawable(R.drawable.tab_review)));
+			tabReviews.setIndicator(getResources().getString(R.string.rateLabel).toUpperCase(), getResources().getDrawable(R.drawable.tab_review));
+
+			tabHost.addTab(tabSummary);
+			tabHost.addTab(tabProjection);
+			tabHost.addTab(tabReviews);
+			tabHost.setCurrentTab(model.getLastTab());
 		} catch (Exception e1) {
 			Log.e(TAG, "error while init Movie acitivty", e1); //$NON-NLS-1$
 		}
@@ -273,13 +436,26 @@ public class AndShowTimeMovieActivity extends Activity {
 			controler.fillDB();
 
 			try {
-				fillViews(movie);
+				fillViews(movie, false);
 			} catch (Exception e) {
 				Log.e(TAG, "exception ", e);
 			}
 
 		}
 
+	};
+
+	public MovieCallBackMovie innerCallBack = new MovieCallBackMovie() {
+
+		@Override
+		public void handleInputRecived(int tabIndex) {
+			try {
+				fillViews(model.getMovie(), true);
+			} catch (Exception e) {
+				Log.e(TAG, "error during filling", e);
+			}
+
+		}
 	};
 
 	public void openDialog() {
@@ -295,49 +471,25 @@ public class AndShowTimeMovieActivity extends Activity {
 	 */
 	private void fillBasicInformations(MovieBean movie) {
 
-		movieTitle.setText(Html.fromHtml( //
-				new StringBuilder("<b>") //$NON-NLS-1$
-						.append(getResources().getString(R.string.txtTitle)).append(" ") //$NON-NLS-1$
-						.append("</b>") //$NON-NLS-1$
-						.append(movie.getMovieName())//
-						.toString()));
+		movieTitle.setText(movie.getMovieName());
 
-		movieDuration.setText(Html.fromHtml(new StringBuilder("<b>") //$NON-NLS-1$
-				.append(getResources().getString(R.string.txtDuration)).append(" ") //$NON-NLS-1$
-				.append("</b>") //$NON-NLS-1$
-				.append(AndShowtimeDateNumberUtil.showMovieTimeLength(this, movie))//
-				.toString()));
+		txtMovieDuration.setText(getResources().getString(R.string.txtDuration));
+		movieDuration.setText(AndShowtimeDateNumberUtil.showMovieTimeLength(this, movie));
 
-		List<ProjectionBean> projectionList = null;
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		distanceTime = prefs.getBoolean(this.getResources().getString(R.string.preference_loc_key_time_direction)//
-				, false);
-		Long distanceTimeLong = null;
-		TheaterBean theater = model.getTheater();
-		if (theater != null) {
-			theaterTitle.setText(theater.getTheaterName());
-			projectionList = theater.getMovieMap().get(movie.getId());
-			if (distanceTime && theater.getPlace() != null) {
-				distanceTimeLong = theater.getPlace().getDistanceTime();
-			}
-		}
-		ProjectionListAdapter adapter = new ProjectionListAdapter(AndShowTimeMovieActivity.this //
-				, movie //
-				, projectionList //
-				, AndShowtimeDateNumberUtil.getMinTime(projectionList, distanceTimeLong));
-		movieProjectionTimeList.setAdapter(adapter);
 	}
 
 	/**
 	 * @param movie
 	 * @throws Exception
 	 */
-	private void fillViews(MovieBean movie) throws Exception {
+	protected void fillViews(MovieBean movie, boolean withAdapter) throws Exception {
+
+		Log.i(TAG, "FillViews : " + withAdapter);
 		if ((movie.getUrlImg() != null)) {
 			AndShowtimeRequestManage.completeMovieDetailStream(movie);
 		}
 
-		if (movieWebLinks == null // 
+		if (movieWebLinks == null //
 				&& ((movie.getImdbId() != null) && (movie.getImdbId().length() != 0)) //
 				|| ((movie.getUrlWikipedia() != null) && (movie.getUrlWikipedia().length() != 0)) //
 		) {
@@ -360,6 +512,7 @@ public class AndShowTimeMovieActivity extends Activity {
 		}
 
 		if (movieRate == null && movie.getRate() != null) {
+			txtMovieRate = (TextView) findViewById(R.id.txtMovieRate);
 			movieRate = (TextView) findViewById(R.id.movieRate);
 		}
 		if (movieRate != null) {
@@ -369,11 +522,8 @@ public class AndShowTimeMovieActivity extends Activity {
 			} else {
 				rate = "-" + rate;
 			}
-			movieRate.setText(Html.fromHtml(new StringBuilder("<b>") //$NON-NLS-1$
-					.append(getResources().getString(R.string.txtRate)).append(" ") //$NON-NLS-1$
-					.append("</b>") //$NON-NLS-1$
-					.append(rate)//
-					.toString()));
+			txtMovieRate.setText(getResources().getString(R.string.txtRate));
+			movieRate.setText(rate);
 
 			sumRate1 = (ImageView) findViewById(R.id.movieImgRate1);
 			sumRate2 = (ImageView) findViewById(R.id.movieImgRate2);
@@ -390,38 +540,31 @@ public class AndShowTimeMovieActivity extends Activity {
 
 		String style = movie.getStyle();
 		if (movieStyle == null && style != null && style.length() != 0) {
+			txtMovieStyle = (TextView) findViewById(R.id.txtMovieGenre);
 			movieStyle = (TextView) findViewById(R.id.movieGenre);
 		}
 		if (movieStyle != null) {
 			if (style != null && style.length() != 0) {
-				movieStyle.setText(//
-						Html.fromHtml(new StringBuilder("<b>") //$NON-NLS-1$
-								.append(getResources().getString(R.string.txtGenre)).append(" ") //$NON-NLS-1$
-								.append("</b>") //$NON-NLS-1$
-								.append(style.replaceAll("\\|", ", "))//
-								.toString())//
-						);
+				txtMovieStyle.setText(getResources().getString(R.string.txtGenre));
+				movieStyle.setText(style.replaceAll("\\|", ", "));
 			}
 		}
 
 		String directorList = movie.getDirectorList();
 		if (movieDirector == null && directorList != null && directorList.length() > 0) {
+			txtMovieDirector = (TextView) findViewById(R.id.txtMovieDirector);
 			movieDirector = (TextView) findViewById(R.id.movieDirector);
 		}
 		if (movieDirector != null) {
 			if (directorList != null && directorList.length() > 0) {
-				movieDirector.setText(//
-						Html.fromHtml(new StringBuilder("<b>") //$NON-NLS-1$
-								.append(getResources().getString(R.string.txtDirector)).append(" ") //$NON-NLS-1$
-								.append("</b>") //$NON-NLS-1$
-								.append(directorList.replaceAll("\\|", ", "))//
-								.toString())//
-						);
+				txtMovieDirector.setText(getResources().getString(R.string.txtDirector));
+				movieDirector.setText(directorList.replaceAll("\\|", ", "));
 			}
 		}
 
 		String actorList = movie.getActorList();
 		if (movieActor == null && actorList != null && actorList.length() > 0) {
+			txtMovieActor = (TextView) findViewById(R.id.txtMovieActor);
 			movieActor = (TextView) findViewById(R.id.movieActor);
 		}
 		if (movieActor != null) {
@@ -441,13 +584,8 @@ public class AndShowTimeMovieActivity extends Activity {
 				if (actorArray.length > Math.min(3, actorArray.length)) {
 					actorBuffer.append(", ...");
 				}
-				movieActor.setText(//
-						Html.fromHtml(new StringBuilder("<b>") //$NON-NLS-1$
-								.append(getResources().getString(R.string.txtActor)).append(" ") //$NON-NLS-1$
-								.append("</b>") //$NON-NLS-1$
-								.append(actorBuffer.toString())//
-								.toString())//
-						);
+				txtMovieActor.setText(getResources().getString(R.string.txtActor));
+				movieActor.setText(actorBuffer.toString());
 			}
 		}
 
@@ -469,12 +607,48 @@ public class AndShowTimeMovieActivity extends Activity {
 		} else {
 			moviePlot.setText(getResources().getString(R.string.noSummary));
 		}
-		if (movie.getImgStream() != null) {
-			Drawable drawablePoster = Drawable.createFromStream(movie.getImgStream(), "src");
-			summaryMoviePoster.setImageDrawable(drawablePoster);
+		if (movie.getUrlImg() != null) {
+			imageDownloader.download(movie.getUrlImg(), summaryMoviePoster);
 		} else {
 			summaryMoviePoster.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.no_poster));
 		}
+
+		TheaterBean theater = model.getTheater();
+		if (theater != null) {
+			theaterTitle.setText(theater.getTheaterName());
+
+			LocalisationBean place = theater.getPlace();
+			if (place != null) {
+				try {
+					theaterAddress.setText(URLDecoder.decode(place.getSearchQuery(), AndShowTimeEncodingUtil.getEncoding()));
+				} catch (Exception e) {
+					Log.e(TAG, "error decoding address", e);
+				}
+			}
+		}
+
+		if (movie.getYoutubeVideos() != null && !movie.getYoutubeVideos().isEmpty()) {
+			this.movieGalleryTrailer.setAdapter(new GalleryTrailerAdapter(this, movie.getYoutubeVideos(), imageDownloader));
+		}
+		List<ProjectionBean> projectionList = null;
+		distanceTime = prefs.getBoolean(this.getResources().getString(R.string.preference_loc_key_time_direction)//
+				, false);
+		Long distanceTimeLong = null;
+		if (theater != null) {
+			projectionList = theater.getMovieMap().get(movie.getId());
+			if (distanceTime && theater.getPlace() != null) {
+				distanceTimeLong = theater.getPlace().getDistanceTime();
+			}
+		}
+
+		projectionAdapter = new ProjectionListAdapter(AndShowTimeMovieActivity.this //
+				, movie //
+				, projectionList //
+				, AndShowtimeDateNumberUtil.getMinTime(projectionList, distanceTimeLong) //
+				, listener//
+		);
+		movieProjectionTimeList.setAdapter(projectionAdapter);
+		this.movieReviewsList.setAdapter(new ReviewListAdapter(this, movie.getReviews()));
 	}
 
 	/**
@@ -584,147 +758,35 @@ public class AndShowTimeMovieActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		if ((model.getTheater() != null) //
-		) {
-			menu.add(0, MENU_OPEN_MAPS, 0, R.string.openMapsMenuItem).setIcon(android.R.drawable.ic_menu_mapmode);
-		}
-		if (model.getTheater() != null //
-				&& model.getGpsLocation() != null //
-				&& BeanManagerFactory.isMapsInstalled(getPackageManager())//
-		) {
-			menu.add(0, MENU_OPEN_MAPS_DIRECTION, 1, R.string.openMapsDriveMenuItem).setIcon(android.R.drawable.ic_menu_directions);
-		}
-		menu.add(0, MENU_VIDEO, 2, R.string.openYoutubeMenuItem).setIcon(R.drawable.ic_menu_play_clip);
-		if (BeanManagerFactory.isDialerInstalled(getPackageManager())) {
-			menu.add(0, MENU_CALL, 3, R.string.menuCall).setIcon(android.R.drawable.ic_menu_call);
-		}
-		AndShowTimeMenuUtil.createMenu(menu, MENU_PREF, 4);
+		Log.i(TAG, "onCreateOptionMenu : ");
+		// menu.add(0, MENU_VIDEO, 2, R.string.openYoutubeMenuItem).setIcon(R.drawable.ic_menu_play_clip);
+		// AndShowTimeMenuUtil.createMenu(menu, MENU_PREF, 3);
 		return true;
 	}
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		if (AndShowTimeMenuUtil.onMenuItemSelect(this, MENU_PREF, item.getItemId())) {
-			return true;
-		}
-		switch (item.getItemId()) {
-		case MENU_OPEN_MAPS: {
-			if (BeanManagerFactory.isMapsInstalled(getPackageManager())) {
-				startActivity(IntentShowtime.createMapsIntent(model.getTheater()));
-			} else {
-				startActivity(IntentShowtime.createMapsIntentBrowser(model.getTheater()));
-
-			}
-			return true;
-		}
-		case MENU_OPEN_MAPS_DIRECTION: {
-			Intent intentDirection = IntentShowtime.createMapsWithDrivingDirectionIntent(model.getTheater(), model.getGpsLocation());
-			if (intentDirection != null) {
-				startActivity(intentDirection);
-			}
-			return true;
-		}
-		case MENU_CALL: {
-			startActivity(IntentShowtime.createCallIntent(model.getTheater()));
-			return true;
-		}
-		case MENU_VIDEO: {
-			startActivity(IntentShowtime.createYoutubeIntent(model.getMovie()));
-			return true;
-		}
-		case ITEM_TRANSLATE: {
-			try {
-				moviePlot.setText(controler.translateDesc());
-			} catch (Exception e) {
-				Log.e(TAG, "error while translating", e); //$NON-NLS-1$
-			}
-			return true;
-		}
-		case ITEM_SEND_SMS: {
-			try {
-
-				MovieBean movie = model.getMovie();
-				TheaterBean theater = model.getTheater();
-				ProjectionBean showtime = theater.getMovieMap().get(movie.getId()).get(item.getGroupId());
-
-				Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-				sendIntent.putExtra("sms_body", MessageFormat.format(getResources().getString(R.string.smsContent) // //$NON-NLS-1$
-						, movie.getMovieName() //
-						, AndShowtimeDateNumberUtil.getDayString(this, showtime.getShowtime()) //
-						, AndShowtimeDateNumberUtil.showMovieTime(this, showtime.getShowtime()) //
-						, theater.getTheaterName()));
-				sendIntent.setType("vnd.android-dir/mms-sms"); //$NON-NLS-1$
-				startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.chooseIntentSms)));
-
-			} catch (Exception e) {
-				Log.e(TAG, "error while translating", e); //$NON-NLS-1$
-			}
-			return true;
-		}
-		case ITEM_SEND_MAIL: {
-			try {
-
-				MovieBean movie = model.getMovie();
-				TheaterBean theater = model.getTheater();
-				ProjectionBean showtime = theater.getMovieMap().get(movie.getId()).get(item.getGroupId());
-				// String[] mailto = { "jean.francois.garreay@gmail.com" };
-				// Create a new Intent to send messages
-				Intent sendIntent = new Intent(Intent.ACTION_SEND);
-				sendIntent.setType("text/html"); //$NON-NLS-1$
-				// sendIntent.putExtra(Intent.EXTRA_EMAIL, mailto);
-				sendIntent.putExtra(Intent.EXTRA_SUBJECT, MessageFormat.format(getResources().getString(R.string.mailSubject), movie.getMovieName()));
-				sendIntent.putExtra(Intent.EXTRA_TEXT,// 
-						MessageFormat.format(getResources().getString(R.string.mailContent) //
-								, movie.getMovieName() //
-								, AndShowtimeDateNumberUtil.getDayString(this, showtime.getShowtime()) //
-								, AndShowtimeDateNumberUtil.showMovieTime(this, showtime.getShowtime()) //
-								, theater.getTheaterName()));
-				startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.chooseIntentMail)));
-			} catch (Exception e) {
-				Log.e(TAG, "error while translating", e); //$NON-NLS-1$
-			}
-			return true;
-		}
-		case ITEM_ADD_EVENT: {
-			try {
-				MovieBean movie = model.getMovie();
-				TheaterBean theater = model.getTheater();
-				ProjectionBean showtime = theater.getMovieMap().get(movie.getId()).get(item.getGroupId());
-
-				Uri uri = Uri.parse("content://calendar/events");
-				ContentResolver cr = getContentResolver();
-
-				Calendar timeAfter = Calendar.getInstance();
-				timeAfter.setTimeInMillis(showtime.getShowtime());
-				Calendar timeMovie = Calendar.getInstance();
-				timeMovie.setTimeInMillis(movie.getMovieTime());
-				timeAfter.add(Calendar.HOUR_OF_DAY, timeMovie.get(Calendar.HOUR_OF_DAY));
-				timeAfter.add(Calendar.MINUTE, timeMovie.get(Calendar.MINUTE));
-				ContentValues values = new ContentValues();
-				values.put("eventTimezone", TimeZone.getDefault().getID());
-				values.put("calendar_id", 1); // query content://calendar/calendars for more
-				values.put("title", movie.getMovieName());
-				values.put("allDay", 0);
-				values.put("dtstart", showtime.getShowtime()); // long (start date in ms)
-				values.put("dtend", timeAfter.getTimeInMillis()); // long (end date in ms)
-				values.put("description", movie.getMovieName() + " at " + theater.getTheaterName());
-				values.put("eventLocation", (theater.getPlace() != null) ? theater.getPlace().getSearchQuery() : null);
-				values.put("transparency", 0);
-				values.put("visibility", 0);
-				values.put("hasAlarm", 0);
-
-				cr.insert(uri, values);
-
-				Toast.makeText(this, R.string.msgEventAdd, Toast.LENGTH_LONG).show();
-
-			} catch (Exception e) {
-				Log.e(TAG, "error while translating", e); //$NON-NLS-1$
-			}
-			return true;
-		}
-		default:
-			break;
-		}
+		Log.i(TAG, "onMenuItemSelect : " + item.getItemId());
+		// if (AndShowTimeMenuUtil.onMenuItemSelect(this, MENU_PREF, item.getItemId())) {
+		// projectionAdapter.changePreferences();
+		// return true;
+		// }
+		// switch (item.getItemId()) {
+		// case MENU_VIDEO: {
+		// startActivity(IntentShowtime.createYoutubeIntent(model.getMovie()));
+		// return true;
+		// }
+		// case ITEM_TRANSLATE: {
+		// try {
+		// moviePlot.setText(controler.translateDesc());
+		// } catch (Exception e) {
+		//				Log.e(TAG, "error while translating", e); //$NON-NLS-1$
+		// }
+		// return true;
+		// }
+		// default:
+		// break;
+		// }
 
 		return super.onMenuItemSelected(featureId, item);
 	}
@@ -746,22 +808,23 @@ public class AndShowTimeMovieActivity extends Activity {
 			}
 
 			break;
-		case R.id.movieListProjection:
-			AdapterContextMenuInfo contexMenuInfo = (AdapterContextMenuInfo) menuInfo;
-
-			TheaterBean theater = model.getTheater();
-			ProjectionBean showtime = theater.getMovieMap().get(movie.getId()).get(contexMenuInfo.position);
-			if (minTime != -1 && showtime.getShowtime() >= minTime) {
-
-				menu.add(contexMenuInfo.position, ITEM_SEND_SMS, 0, R.string.menuSms);
-				menu.add(contexMenuInfo.position, ITEM_SEND_MAIL, 0, R.string.menuMail);
-				menu.add(contexMenuInfo.position, ITEM_ADD_EVENT, 0, R.string.menuAddEvent);
-			}
-			break;
 
 		default:
 			break;
 		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == AndShowtimeCst.ACTIVITY_RESULT_PREFERENCES) {
+			projectionAdapter.changePreferences();
+			if (AndShowTimeMenuUtil.manageResult(this, requestCode, resultCode, data)) {
+				return;
+			}
+		}
+
 	}
 
 }

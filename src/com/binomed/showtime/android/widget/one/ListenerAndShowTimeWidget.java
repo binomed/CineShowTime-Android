@@ -1,9 +1,5 @@
 package com.binomed.showtime.android.widget.one;
 
-import java.io.UnsupportedEncodingException;
-
-import android.content.Intent;
-import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,12 +8,11 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.layout.dialogs.sort.ListSelectionListener;
+import com.binomed.showtime.beans.TheaterBean;
 
 public class ListenerAndShowTimeWidget implements OnClickListener //
 		// , LocationListener //
 		, OnItemClickListener //
-		, ListSelectionListener// 
 {
 
 	private AndShowTimeWidgetConfigureActivity widgetActivity;
@@ -43,15 +38,15 @@ public class ListenerAndShowTimeWidget implements OnClickListener //
 		switch (v.getId()) {
 		case R.id.searchWidgetBtnSearch: {
 			String cityName = null;
-			if (widgetActivity.txtCityName.getText().toString().length() > 0) {
-				cityName = widgetActivity.txtCityName.getText().toString();
+			if (widgetActivity.fieldCityName.getText().toString().length() > 0) {
+				cityName = widgetActivity.fieldCityName.getText().toString();
 			}
 			model.setCityName(cityName);
 
 			try {
 
 				boolean canLaunch = true;
-				boolean btnCheck = widgetActivity.chkGps.isChecked();
+				boolean btnCheck = widgetActivity.localisationCallBack.isGPSCheck();
 				if (btnCheck && model.getLocalisation() == null) {
 					Toast.makeText(widgetActivity //
 							, R.string.msgNoGps //
@@ -69,12 +64,11 @@ public class ListenerAndShowTimeWidget implements OnClickListener //
 				if (canLaunch) {
 					if (btnCheck) {
 						model.setCityName(null);
-						// model.setLocalisationSearch(model.getLocalisation());
+						// model.setLocalisation(model.getLocalisation());
 					} else {
 						model.setLocalisation(null);
 					}
-					model.setStart(0);
-					widgetActivity.launchNearService();
+					controler.openResultActivity();
 				}
 
 			} catch (Exception e) {
@@ -82,73 +76,10 @@ public class ListenerAndShowTimeWidget implements OnClickListener //
 			}
 			break;
 		}
-		case R.id.searchWidgetBtnSpeech: {
-			Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-			intent.putExtra(RecognizerIntent.EXTRA_PROMPT, widgetActivity.getResources().getString(R.string.msgSpeecCity));
-			widgetActivity.startActivityForResult(intent, AndShowTimeWidgetConfigureActivity.VOICE_RECOGNITION_REQUEST_CODE);
-		}
-			// case R.id.searchWidgetLocation: {
-			// widgetActivity.txtCityName.setEnabled(!widgetActivity.chkGps.isChecked());
-			// if (!widgetActivity.chkGps.isChecked()) {
-			// widgetActivity.gpsImgView.setImageBitmap(widgetActivity.bitmapGpsOff);
-			// widgetActivity.removeListenersLocation();
-			// } else {
-			// widgetActivity.gpsImgView.setImageBitmap(widgetActivity.bitmapGpsOn);
-			// widgetActivity.initListenersLocation();
-			// }
-			// break;
-			// }
 		default:
 			break;
 		}
 	}
-
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see android.location.LocationListener#onLocationChanged(android.location.Location)
-	// */
-	// @Override
-	// public void onLocationChanged(Location arg0) {
-	// Log.d(TAG, "Change location : lat : " + arg0.getLatitude() + " / lon : " + arg0.getLongitude());
-	// model.setLocalisation(arg0);
-	//
-	// }
-	//
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see android.location.LocationListener#onProviderDisabled(java.lang.String)
-	// */
-	// @Override
-	// public void onProviderDisabled(String arg0) {
-	// widgetActivity.chkGps.setEnabled(false);
-	// if (widgetActivity.chkGps.isChecked()) {
-	// widgetActivity.chkGps.setChecked(false);
-	// widgetActivity.txtCityName.setEnabled(true);
-	// widgetActivity.gpsImgView.setImageBitmap(widgetActivity.bitmapGpsOff);
-	// }
-	// }
-	//
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see android.location.LocationListener#onProviderEnabled(java.lang.String)
-	// */
-	// @Override
-	// public void onProviderEnabled(String arg0) {
-	// widgetActivity.chkGps.setEnabled(true);
-	// }
-	//
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see android.location.LocationListener#onStatusChanged(java.lang.String, int, android.os.Bundle)
-	// */
-	// @Override
-	// public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
-	// }
 
 	/*
 	 * (non-Javadoc)
@@ -157,34 +88,9 @@ public class ListenerAndShowTimeWidget implements OnClickListener //
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> adpater, View view, int groupPosition, long id) {
-		int theaterListSize = model.getTheaterResultList().size();
-		if (theaterListSize == groupPosition) {
-			model.setStart(model.getStart() + 10);
-			try {
-				widgetActivity.launchNearService();
-			} catch (UnsupportedEncodingException e) {
-			}
-		} else {
-			model.setTheater(model.getTheaterResultList().get(groupPosition));
-			controler.finalizeWidget();
-		}
-	}
-
-	/**
-	 * @param viewId
-	 * @param selectKey
-	 */
-	@Override
-	public void sortSelected(int viewId, int selectKey) {
-		switch (viewId) {
-		case AndShowTimeWidgetConfigureActivity.ID_VOICE: {
-			widgetActivity.txtCityName.setText(model.getVoiceCityList().get(0));
-			break;
-		}
-		default:
-			break;
-		}
-
+		TheaterBean theater = model.getFavList().get(groupPosition);
+		model.setTheater(theater);
+		AndShowTimeWidgetHelper.finalizeWidget(widgetActivity, theater, model.getCityName());
 	}
 
 }

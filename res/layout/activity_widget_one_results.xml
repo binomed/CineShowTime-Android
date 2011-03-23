@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    style="?attr/imgBackground"
+    >
+    <!--     style="@style/Layouts.background"-->
+    <RelativeLayout
+		android:id="@+id/resultHeader"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_marginBottom="10dip"
+    	android:background="@drawable/header"
+    	>
+    	 <ImageView 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_centerHorizontal="true" 
+			android:background="@drawable/logo_header"
+			/>
+    </RelativeLayout>
+	<ListView
+       android:id="@+id/resultWidgetListResult"
+       android:layout_width="fill_parent"
+       android:layout_height="fill_parent" 
+       android:layout_below="@+id/resultHeader" 
+       />
+</RelativeLayout>

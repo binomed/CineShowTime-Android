@@ -48,7 +48,7 @@
 	<string name="MainTitle">Добро пожаловать в CineShowTime Application</string>
 	<string name="app_name">CineShowtime</string>
 	<string name="btnNear">Искать кинотеатр</string>
-	<string name="btnMovie">Искать фильм и расписание сеансов</string>
+	<string name="btnMovie">Искать сессий</string>
 	<string name="btnFav">Избранное</string>
 	<string name="btnUpComming">Скоро</string>
 	<!-- GPS Messages -->
@@ -74,7 +74,7 @@
 	<string name="txtMovieFindDuration">Длительность : </string>
 	<string name="txtMovieFindValueNotFound">Не найдено ни одного фильма по вашему запросу</string>
 	<!-- LastChange Dialog Message -->
-	<string name="dialogLastChangeTitle">Last Change</string>
+	<string name="dialogLastChangeTitle">Последние изменения</string>
 	<!-- Bookmarks Dialog Message -->
 	<string name="dialogBookmarkTitle">Избранное </string>
 	<string name="menuRemoveBookmark">Удалить закладку</string>
@@ -87,9 +87,10 @@
 	<string name="movieProgressTitle">Поиск описания фильма </string>
 	<string name="movieProgressMsg">Обрабатывается ... </string>
 	<string name="plot">Обзор</string>
+	<string name="trailer">Трейлеры</string>
 	<string name="projectionList">Расписание сеансов : </string>
 	<string name="projectionTime">Время сеанса : </string>
-	<string name="endHour">Примерное время окончания : </string>
+	<string name="endHour">время окончания : </string>
 	<string name="txtTitle">Название : </string>
 	<string name="txtRate">Оценка : </string>
 	<string name="txtUserRate">Ваша оценка : </string>
@@ -119,6 +120,32 @@
 	<string name="dialogRateMovieMsg">Поставьте оценку между 0 и 10.</string>
 	<string name="dialogRateMovieValidate">Подтвердить</string>
 	<string name="dialogRateMovieCancel">Отменить</string>
+	<!-- Error messages -->
+	<string name="msgErrorNoDb">Не удалось подключиться к базе данных. Проверьте вашу карту SD.</string>
+	<string name="msgErrorNoNetwork">Не удалось подключиться к интернету. Проверьте ваше соединение 3G или Wifi</string>
+	<string name="msgErrorOnServer">Ошибка подключения к серверу. Попробуйте позже.</string>
+	<!--ADDED STRINGS-->
+	<string name="txtEnterCity">название города...</string>
+	<string name="txtEnterMovie">Название фильма...</string>
+	<string name="spinnerTomorow">завтра</string>
+	<string name="movieLabel">Кино</string>
+	<string name="showtimeLabel">сеанса</string>
+	<string name="rateLabel">Оценка</string>
+	<string name="errorMsg">ошибка</string>
+	<string name="geolocalized">Геопоиск</string>
+	<string name="gpsUnauthorizedMsg">Вы должны активировать разрешение локализации через Google. </string>
+	<string name="gpsUnauthorizedMsgCineShowTime">Вы должны активировать разрешение локализации через CineShowTime. </string>
+	<string name="gpsPrefDisable">Вы должны разрешить локализацию через GPS в настройках. </string>
+	<string name="msgErrorTranslate">Произошла ошибка во время перевода.</string>
+	<string name="msgDevelopped">Разработано</string>	
+	<string name="noReview">Нет оценки</string>
+	<string name="unknownSource">Неизвестный</string>
+	<string name="urlHelp">http://m.blog.binomed.fr/en/help-cineshowtime-android-en</string>
+	<string name="readMore">еще</string>
+	<string name="menuReservation">Бронирование</string>
+	<!--THEMES-->
+	<string name="theme_dark">Dark knight</string>
+	<string name="theme_light">Shine a light</string>
 	<!-- Preferences Messages -->
 	<string name="preference_lang_cat">Настройки языка </string>
 	<string name="preference_lang_key_auto_translate">check_preference</string>
@@ -132,6 +159,12 @@
 	<string name="preference_gen_time_adds">Рекламного времени</string>
 	<string name="preference_gen_time_adds_summary">Время между часами работы сессии и в начале фильма (Souvant рекламе и прицепов)</string>
 	<string name="preference_gen_default_time_adds">20</string>
+	<string name="preference_gen_key_time_format">time_format_preference</string>
+	<string name="preference_gen_time_format">формат времени</string>
+	<string name="preference_gen_default_time_format">24</string>
+	<string name="preference_gen_theme">Тема</string>
+	<string name="preference_gen_key_theme">theme_preference</string>
+	<string name="preference_gen_default_theme">DARK</string>
 	<string name="preference_loc_cat">Настройки местоположения</string>
 	<string name="preference_loc_key_measure">measure_preference</string>
 	<string name="preference_loc_default_measure">KM</string>
@@ -159,8 +192,4 @@
 	<string name="preference_user_cat">Настройки пользователя</string>
 	<string name="preference_user_agenda">Выбор ежедневника</string>
 	<string name="preference_user_agenda_summary">Выбор ежедневника, в который добавлять рассписания сеансов</string>
-	<!-- Error messages -->
-	<string name="msgErrorNoDb">Не удалось подключиться к базе данных. Проверьте вашу карту SD.</string>
-	<string name="msgErrorNoNetwork">Не удалось подключиться к интернету. Проверьте ваше соединение 3G или Wifi</string>
-	<string name="msgErrorOnServer">Ошибка подключения к серверу. Попробуйте позже.</string>
 </resources>

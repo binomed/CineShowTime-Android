@@ -48,7 +48,7 @@
 	<string name="MainTitle">Bem vinso ao Android Showtime Application</string>
 	<string name="app_name">Android Showtime</string>
 	<string name="btnNear">Procurar cinemas</string>
-	<string name="btnMovie">Procurar filmes e seções</string>
+	<string name="btnMovie">Procurar seções</string>
 	<string name="btnFav">Favoritos</string>
 	<string name="btnUpComming">Em breve</string>
 	<!-- GPS Messages -->
@@ -74,7 +74,7 @@
 	<string name="txtMovieFindDuration">duração : </string>
 	<string name="txtMovieFindValueNotFound">Nenhum filme corresponde a sua procura</string>
 	<!-- LastChange Dialog Message -->
-	<string name="dialogLastChangeTitle">Last Change</string>
+	<string name="dialogLastChangeTitle">Mudanças Recentes ou Ultimas Mudanças</string>
 	<!-- Bookmarks Dialog Message -->
 	<string name="dialogBookmarkTitle">Favoritos </string>
 	<string name="menuRemoveBookmark">Remover Favoritos</string>
@@ -87,9 +87,10 @@
 	<string name="movieProgressTitle">Pesquisar ficha do filme </string>
 	<string name="movieProgressMsg">Carregando ... </string>
 	<string name="plot">Resumo</string>
+	<string name="trailer">Reboques</string>
 	<string name="projectionList">Horários para o cinema : </string>
 	<string name="projectionTime">Horários da seção : </string>
-	<string name="endHour">Hora aproximada do fim : </string>
+	<string name="endHour">Hora do fim : </string>
 	<string name="txtTitle">Titulo : </string>
 	<string name="txtRate">Nota : </string>
 	<string name="txtUserRate">Sua Nota : </string>
@@ -119,6 +120,32 @@
 	<string name="dialogRateMovieMsg">Por favor, dê uma pontuação entre 0 e 10.</string>
 	<string name="dialogRateMovieValidate">Validar</string>
 	<string name="dialogRateMovieCancel">Cancelar</string>
+	<!-- Error messages -->
+	<string name="msgErrorNoDb">A conexão com a base do banco de dados não foi capaz de verificar o seu cartão sd</string>
+	<string name="msgErrorNoNetwork">Erro de conexão, verifique a sua conexão 3G ou wireless</string>
+	<string name="msgErrorOnServer">Ocorreu um erro ao conectar ao servidor. Por favor, tente novamente mais tarde.</string>
+	<!--ADDED STRINGS-->
+	<string name="txtEnterCity">Nome da cidade...</string>
+	<string name="txtEnterMovie">Nome do Filme...</string>
+	<string name="spinnerTomorow">Amanhã</string>
+	<string name="movieLabel">Filme</string>
+	<string name="showtimeLabel">Seção</string>
+	<string name="rateLabel">Nota</string>
+	<string name="errorMsg">Engano</string>
+	<string name="geolocalized">Busca baseada em localização</string>
+	<string name="gpsUnauthorizedMsg">Você deve ativar a permissão de localização pelo Google.</string>
+	<string name="gpsUnauthorizedMsgCineShowTime">Você deve ativar a permissão de localização pelo CineShowTime. </string>
+	<string name="gpsPrefDisable">Você deve permitir ou autorizar a localização por GPS nas preferências. </string>
+	<string name="msgErrorTranslate">Ocorreu um erro durante a tradução.</string>
+	<string name="msgDevelopped">Desenvolvido por</string>
+	<string name="noReview">Sem avaliação</string>
+	<string name="unknownSource">Desconhecido</string>
+	<string name="urlHelp">http://m.blog.binomed.fr/en/help-cineshowtime-android-en</string>
+	<string name="readMore">mais</string>
+	<string name="menuReservation">Reserva</string>
+	<!--THEMES-->
+	<string name="theme_dark">Dark knight</string>
+	<string name="theme_light">Shine a light</string>
 	<!-- Preferences Messages -->
 	<string name="preference_lang_cat">Preferências de línguas </string>
 	<string name="preference_lang_key_auto_translate">check_preference</string>
@@ -132,6 +159,12 @@
 	<string name="preference_gen_time_adds">empo de Publicidade</string>
 	<string name="preference_gen_time_adds_summary">Tempo entre tempo da sessão e no início do filme (publicidade, muitas vezes e anuncios)</string>
 	<string name="preference_gen_default_time_adds">20</string>
+	<string name="preference_gen_key_time_format">time_format_preference</string>
+	<string name="preference_gen_time_format">Formato da hora</string>
+	<string name="preference_gen_default_time_format">24</string>
+	<string name="preference_gen_theme">Tema</string>
+	<string name="preference_gen_key_theme">theme_preference</string>
+	<string name="preference_gen_default_theme">DARK</string>
 	<string name="preference_loc_cat">Preferências de localização</string>
 	<string name="preference_loc_key_measure">measure_preference</string>
 	<string name="preference_loc_default_measure">KM</string>
@@ -159,8 +192,4 @@
 	<string name="preference_user_cat">Preferências do usuário</string>
 	<string name="preference_user_agenda">Escolha da agenda</string>
 	<string name="preference_user_agenda_summary">Lista de agenda ou calendário de usar para adicionar sessões</string>
-	<!-- Error messages -->
-	<string name="msgErrorNoDb">A conexão com a base do banco de dados não foi capaz de verificar o seu cartão sd</string>
-	<string name="msgErrorNoNetwork">Erro de conexão, verifique a sua conexão 3G ou wireless</string>
-	<string name="msgErrorOnServer">Ocorreu um erro ao conectar ao servidor. Por favor, tente novamente mais tarde.</string>
 </resources>
