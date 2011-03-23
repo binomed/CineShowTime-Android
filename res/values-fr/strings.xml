@@ -6,7 +6,7 @@
 	<string name="menuHelp">Aide </string>
 	<string name="openYoutubeMenuItem">Chercher BA </string>
 	<string name="openMapsMenuItem">Localiser Cinéma </string>
-	<string name="openMapsDriveMenuItem">Intinéraire jusqu\'au cinéma</string>
+	<string name="openMapsDriveMenuItem">Itinéraire jusqu\'au cinéma</string>
 	<string name="search">Rechercher</string>
 	<string name="cityName">Nom de ville :</string>
 	<string name="movieName">Nom de film :</string>
@@ -25,15 +25,15 @@
 	<string name="msgNoCityName">Vous devez saisir un nom de ville avant de lancer la recherche</string>
 	<string name="msgNoGps">Aucune coordonnée trouvée... Veuillez vous déplacer ou retenter plus tard</string>
 	<string name="msgNoMovieName">Vous devez saisir un nom de film avant de lancer la recherche</string>
-	<string name="msgNoPlaceMatch">Aucun film correspondant à votre recherche n\'a été trouvé. Essayer avec une ville différente</string>
+	<string name="msgNoPlaceMatch">Aucune séance correspondante à votre recherche n\'a été trouvé. Essayer avec une ville différente</string>
 	<string name="msgNoDateMatch">Aucune séance n\'a été trouvée. Entrez une autre date.</string>
-	<string name="msgNoUpComming">Ces informations ne sont pas encore disponible. Réessayez demain</string>
+	<string name="msgNoUpComming">Ces informations ne sont pas encore disponibles. Réessayez demain</string>
 	<string name="msgNoDFav">Vous n\'avez aucun favori.</string>
 	<string name="msgVersionTitle">AndShowTime version : </string>
 	<string name="msgVersionCode">Version du code: </string>
 	<string name="msgVersionName">Nom de la version : </string>
 	<string name="msgTraductorName">Traduit par : Jean-François Garreau</string>
-	<string name="msgDonation">Envie de faire une donnation, merci de visiter mon site : http://code.google.com/p/binomed-android-project/ </string>
+	<string name="msgDonation">Envie de faire un don, merci de visiter mon site : http://code.google.com/p/binomed-android-project/ </string>
 	<string name="msgSpeecRecognition">Reconnaissance vocale : </string>
 	<string name="msgSpeecCity">Reconnaissance vocale : nom de la ville cherchée</string>
 	<string name="msgSpeecMovie">Reconnaissance vocale : nom du film cherché</string>
@@ -44,7 +44,7 @@
 	<string name="msgNoResults">Aucun film trouvé</string>
 	<string name="msgLoading">Chargement...</string>
 	<!--  Main acitivity -->
-	<string name="MainTitle">Bienvenue à Android Showtime Application</string>
+	<string name="MainTitle">Bienvenue sur Android Showtime Application</string>
 	<string name="app_name">Android Showtime</string>
 	<string name="btnNear">Chercher des cinémas</string>
 	<string name="btnMovie">Chercher un film et ses séances</string>
@@ -52,8 +52,8 @@
 	<string name="btnUpComming">Prochainement</string>
 	<!-- GPS Messages -->
 	<string name="gpsInactiveTitle">GPS désactivé ! </string>
-	<string name="gpsInactiveMsg">Voulez vous activer votre gps ? </string>
-	<string name="gpsInactiveBtnYes">Ok </string>
+	<string name="gpsInactiveMsg">Voulez vous activer votre GPS ? </string>
+	<string name="gpsInactiveBtnYes">Oui </string>
 	<string name="gpsInactiveBtnNo">Non </string>
 	<!-- Search Near Activity Message -->
 	<string name="hour">h</string>
@@ -123,37 +123,37 @@
 	<string name="preference_lang_auto_translate_summary">Traduire automatiquement les résumés des films</string>
 	<string name="preference_gen_cat">Préférences générales</string>
 	<string name="preference_gen_key_auto_reload">auto_reload_preference</string>
-	<string name="preference_gen_auto_reload">Rechargement automatiquement</string>
-	<string name="preference_gen_auto_reload_summary">Rechargement automatiquement si la date a changée</string>
+	<string name="preference_gen_auto_reload">Rechargement automatique</string>
+	<string name="preference_gen_auto_reload_summary">Rechargement automatique si la date a changé</string>
 	<string name="preference_gen_key_time_adds">time_adds_preference</string>
 	<string name="preference_gen_time_adds">Temps de publicité</string>
-	<string name="preference_gen_time_adds_summary">Temps entre l\'heure de la séance et le debut du film (souvant de la publicité et des bandes annonces)</string>
+	<string name="preference_gen_time_adds_summary">Temps entre l\'heure de la séance et le debut du film (souvent de la publicité et des bandes annonces)</string>
 	<string name="preference_gen_default_time_adds">20</string>
-	<string name="preference_loc_cat">Préférence de localisation</string>
+	<string name="preference_loc_cat">Préférences de localisation</string>
 	<string name="preference_loc_key_measure">measure_preference</string>
 	<string name="preference_loc_default_measure">KM</string>
 	<string name="preference_loc_measure">Unité par défaut</string>
-	<string name="preference_loc_measure_summary">Choissiez votre unitée par défaut</string>
+	<string name="preference_loc_measure_summary">Choissiez votre unité par défaut</string>
 	<string name="preference_loc_key_time_direction">time_direction_preference</string>
 	<string name="preference_loc_time_direction">Temps de trajet</string>
-	<string name="preference_loc_time_direction_summary">Toujours prendre en compte le temps de trajet dans l\'affichage des séance proches</string>
+	<string name="preference_loc_time_direction_summary">Toujours prendre en compte le temps de trajet dans l\'affichage des séances proches</string>
 	<string name="preference_loc_key_enable_localisation">enable_localisation_preference</string>
 	<string name="preference_loc_enable_localisation">Autoriser localisation</string>
-	<string name="preference_loc_enable_localisation_summary">Prendre en compte la localisation GPS ou GSM si elle est activée sur dans l\'appareil</string>
+	<string name="preference_loc_enable_localisation_summary">Prendre en compte la localisation GPS ou GSM si elle est activée</string>
 	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
 	<string name="preference_loc_localisation_provider">Mode de localisation</string>
-	<string name="preference_loc_localisation_provider_summary">Choississez votre mode de localisation GSM ou GPS</string>
+	<string name="preference_loc_localisation_provider_summary">Choisissez votre mode de localisation : GSM, GPS, WIFI, IP ou XPS (WIFI, GSM, GPS)</string>
 	<string name="preference_loc_default_localisation_provider">GPS</string>
-	<string name="preference_sort_cat">Préférence de tri</string>
+	<string name="preference_sort_cat">Préférences de tri</string>
 	<string name="preference_sort_key_sort_movie">sort_movie</string>
 	<string name="preference_sort_default_sort_movie">THEATER_DISTANCE</string>
 	<string name="preference_sort_sort_movie">Tri de films par défaut</string>
-	<string name="preference_sort_sort_movie_summary">Choissisez le tri à utiliser par défaut pour le résultat des recherches de films</string>
+	<string name="preference_sort_sort_movie_summary">Choisisez le tri à utiliser par défaut pour le résultat des recherches de films</string>
 	<string name="preference_sort_key_sort_theater">sort_near</string>
 	<string name="preference_sort_default_sort_theater">THEATER_DISTANCE</string>
 	<string name="preference_sort_sort_theater">Tri de cinémas par défaut</string>
-	<string name="preference_sort_sort_theater_summary">Choissisez le tri à utiliser par défaut pour le résultat des recherches de proximités</string>
-	<string name="preference_user_cat">Préférence de l\'utilisateur</string>
+	<string name="preference_sort_sort_theater_summary">Choisisez le tri à utiliser par défaut pour le résultat des recherches de proximités</string>
+	<string name="preference_user_cat">Préférences de l\'utilisateur</string>
 	<string name="preference_user_agenda">Choix de l\'agenda</string>
 	<string name="preference_user_agenda_summary">Choix de l\'agenda à utiliser pour ajouter les séances</string>
 	<!-- Error messages -->

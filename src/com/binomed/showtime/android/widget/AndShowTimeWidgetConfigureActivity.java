@@ -7,11 +7,9 @@ import java.util.List;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.widget.AutoCompleteTextView;
@@ -46,18 +44,13 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 	protected ImageView gpsImgView = null;
 	protected ProgressDialog progressDialog;
 
+	private boolean reinit = true;
+
 	protected static final int ID_VOICE = 1;
 
 	protected static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
 
-	// protected Bitmap bitmapGpsOn;
-	// protected Bitmap bitmapGpsOff;
-	//
-	// private ProviderEnum provider;
-
 	private IListenerLocalisationUtilCallBack localisationCallBack;
-	// private boolean checkboxPreference, locationListener;
-	private SharedPreferences prefs;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -69,8 +62,6 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 		setResult(RESULT_CANCELED);
 
 		setContentView(R.layout.and_showtime_widget_activity);
-
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		controler = ControlerAndShowTimeWidget.getInstance();
 		model = controler.getModelWidgetActivity();
@@ -110,8 +101,9 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		reinit = true;
 		Log.i(TAG, "onResume"); //$NON-NLS-1$
-		// initProvider();
 		initListeners();
 		initViewsState();
 
@@ -203,6 +195,9 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 			openDialog();
 		} else {
 			NearResp nearResp = BeanManagerFactory.getNearRespFromWidget();
+			if (reinit) {
+				nearResp = null;
+			}
 			if (nearResp != null) {
 				listResult.setAdapter(new TheaterWidgetListAdapter(AndShowTimeWidgetConfigureActivity.this, nearResp.getTheaterList(), nearResp.isHasMoreResults()));
 				if ((nearResp != null) && (nearResp.getCityName() != null) && (nearResp.getCityName().length() > 0)) {

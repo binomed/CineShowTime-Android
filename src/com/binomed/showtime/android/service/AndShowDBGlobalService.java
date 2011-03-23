@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.os.IBinder;
 import android.util.Log;
@@ -247,8 +248,32 @@ public class AndShowDBGlobalService extends Service {
 			if (nearResp != null) {
 				ArrayList<TheaterBean> copyListTheater = new ArrayList<TheaterBean>(nearResp.getTheaterList());
 				HashMap<String, MovieBean> copyMovieMap = new HashMap<String, MovieBean>(nearResp.getMapMovies());
-
+				List<String> theaterIdFavList = new ArrayList<String>();
+				Set<String> movieIdFavSet = new HashSet<String>();
+				int columnIndex = 0;
 				mDbHelper.deleteTheatersShowtimeRequestAndLocation();
+				Cursor cursorFav = mDbHelper.fetchAllFavTheaters();
+				try {
+					if (cursorFav.moveToFirst()) {
+						do {
+							columnIndex = cursorFav.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_TH_THEATER_ID);
+							theaterIdFavList.add(cursorFav.getString(columnIndex));
+						} while (cursorFav.moveToNext());
+					}
+				} finally {
+					cursorFav.close();
+				}
+				cursorFav = mDbHelper.fetchAllMovieFavShowtime();
+				try {
+					if (cursorFav.moveToFirst()) {
+						do {
+							columnIndex = cursorFav.getColumnIndex(AndShowtimeDbAdapter.KEY_FAV_SHOWTIME_MOVIE_ID);
+							movieIdFavSet.add(cursorFav.getString(columnIndex));
+						} while (cursorFav.moveToNext());
+					}
+				} finally {
+					cursorFav.close();
+				}
 				for (TheaterBean theater : copyListTheater) {
 					mDbHelper.createTheater(theater);
 					if (theater.getPlace() != null) {
@@ -258,6 +283,9 @@ public class AndShowDBGlobalService extends Service {
 						for (ProjectionBean showTime : theater.getMovieMap().get(movieId)) {
 							try {
 								mDbHelper.createShowtime(theater.getId(), movieId, showTime);
+								if (theaterIdFavList.contains(theater.getId())) {
+									mDbHelper.createFavShowtime(theater.getId(), movieId, showTime);
+								}
 							} catch (Exception e) {
 								Log.e(TAG, "error inserting showtime : " + theater.getTheaterName() + " movie  : " + movieId);
 							}
@@ -267,7 +295,8 @@ public class AndShowDBGlobalService extends Service {
 				for (MovieBean movie : copyMovieMap.values()) {
 					mDbHelper.createOrUpdateMovie(movie);
 				}
-				mDbHelper.deleteMovies(copyMovieMap.keySet());
+				movieIdFavSet.addAll(copyMovieMap.keySet());
+				mDbHelper.deleteMovies(movieIdFavSet);
 			}
 
 		}

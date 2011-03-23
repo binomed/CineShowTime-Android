@@ -71,8 +71,6 @@ public abstract class AndShowtimeRequestManage {
 					, String.valueOf(start));
 		}
 
-		// Geocoder geocoder = AndShowtimeFactory.getGeocoder();
-		// Location originalPlace = manageLocation(geocoder, cityName, andShowtimeUriBuilder, latitude, longitude);
 		Geocoder geocoder = AndShowtimeFactory.getGeocoder();
 		Location originalPlace = null;
 		if (geocoder != null) {

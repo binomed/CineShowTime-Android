@@ -1,13 +1,12 @@
 package com.binomed.showtime.android.util.comparator;
 
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.List;
 
 import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.beans.TheaterBean;
 
-public class TheaterShowtimeComparator implements Comparator<TheaterBean> {
+public class TheaterShowtimeComparator implements AndShowtimeComparator<TheaterBean> {
 
 	/*
 	 * (non-Javadoc)
@@ -58,6 +57,16 @@ public class TheaterShowtimeComparator implements Comparator<TheaterBean> {
 			result = -1;
 		}
 		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.binomed.showtime.android.util.comparator.AndShowtimeComparator#getType()
+	 */
+	@Override
+	public int getType() {
+		return COMPARATOR_THEATER_SHOWTIME;
 	}
 
 }

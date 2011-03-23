@@ -25,7 +25,7 @@
 	<string name="msgNoCityName">City name is required</string>
 	<string name="msgNoGps">No coordinate found... Please move or try again</string>
 	<string name="msgNoMovieName">Movie name is required</string>
-	<string name="msgNoPlaceMatch">No movies matched your query. Please select a different place.</string>
+	<string name="msgNoPlaceMatch">No showtimes matched your query. Please select a different place.</string>
 	<string name="msgNoDateMatch"> No showtimes were found. Please select a different date.</string>
 	<string name="msgNoUpComming">Thoses information are not yet available. Please retry tomorow</string>
 	<string name="msgNoDFav">You don\'t have any bookmark.</string>
@@ -44,7 +44,7 @@
 	<string name="msgNoResults">No movie found</string>
 	<string name="msgLoading">Loading...</string>
 	<!--  Main acitivity -->
-	<string name="MainTitle">Welcome to Android Show Time Application</string>
+	<string name="MainTitle">Welcome on Android Show Time Application</string>
 	<string name="app_name">Android Show Time</string>
 	<string name="btnNear">Search theaters</string>
 	<string name="btnMovie">Search movie </string>
@@ -53,7 +53,7 @@
 	<!-- GPS Messages -->
 	<string name="gpsInactiveTitle">GPS inactive ! </string>
 	<string name="gpsInactiveMsg">Do you want to activate your gps ? </string>
-	<string name="gpsInactiveBtnYes">Ok </string>
+	<string name="gpsInactiveBtnYes">Yes </string>
 	<string name="gpsInactiveBtnNo">No </string>
 	<!-- Near Activity Message -->
 	<string name="hour">h</string>
@@ -117,11 +117,11 @@
 	<string name="dialogRateMovieValidate">Validate</string>
 	<string name="dialogRateMovieCancel">Cancel</string>
 	<!-- Preferences Messages -->
-	<string name="preference_lang_cat">Language preference </string>
+	<string name="preference_lang_cat">Language preferences </string>
 	<string name="preference_lang_key_auto_translate">check_preference</string>
 	<string name="preference_lang_auto_translate">Auto translate </string>
 	<string name="preference_lang_auto_translate_summary">Translate movies plots</string>
-	<string name="preference_gen_cat">General preference</string>
+	<string name="preference_gen_cat">General preferences</string>
 	<string name="preference_gen_key_auto_reload">auto_reload_preference</string>
 	<string name="preference_gen_auto_reload">Auto reload</string>
 	<string name="preference_gen_auto_reload_summary">Auto reload if date has change</string>
@@ -129,7 +129,7 @@
 	<string name="preference_gen_time_adds">Adds Time</string>
 	<string name="preference_gen_time_adds_summary">Time between hour of showtime and start of movie (often adds and trailers)</string>
 	<string name="preference_gen_default_time_adds">20</string>
-	<string name="preference_loc_cat">Localisation preference </string>
+	<string name="preference_loc_cat">Localisation preferences </string>
 	<string name="preference_loc_key_measure">measure_preference</string>
 	<string name="preference_loc_default_measure">KM</string>
 	<string name="preference_loc_measure">Default unit</string>
@@ -142,9 +142,9 @@
 	<string name="preference_loc_enable_localisation_summary">Take care of GPS or network localisation if defined as active in device</string>
 	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
 	<string name="preference_loc_localisation_provider">Localisation mode</string>
-	<string name="preference_loc_localisation_provider_summary">Choose your localisation mode : GPS or network</string>
+	<string name="preference_loc_localisation_provider_summary">Choose your localisation mode : GPS, network, WIFI, IP or XPS(WIFI, network, GPS)</string>
 	<string name="preference_loc_default_localisation_provider">GPS</string>
-	<string name="preference_sort_cat">Sort preference </string>
+	<string name="preference_sort_cat">Sort preferences </string>
 	<string name="preference_sort_key_sort_movie">sort_movie</string>
 	<string name="preference_sort_default_sort_movie">THEATER_DISTANCE</string>
 	<string name="preference_sort_sort_movie">Default movie sort</string>

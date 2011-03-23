@@ -1,10 +1,8 @@
 package com.binomed.showtime.android.util.comparator;
 
-import java.util.Comparator;
-
 import com.binomed.showtime.beans.MovieBean;
 
-public class MovieNameComparator implements Comparator<MovieBean> {
+public class MovieNameComparator implements AndShowtimeComparator<MovieBean> {
 
 	/*
 	 * (non-Javadoc)
@@ -22,6 +20,16 @@ public class MovieNameComparator implements Comparator<MovieBean> {
 			result = -1;
 		}
 		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.binomed.showtime.android.util.comparator.AndShowtimeComparator#getType()
+	 */
+	@Override
+	public int getType() {
+		return COMPARATOR_MOVIE_NAME;
 	}
 
 }

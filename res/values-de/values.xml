@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
-	<string-array name="measure">
+	<string-array name="Einheiten">
 		<item>km</item>
-		<item>Meilen</item>
+		<item>miles</item>
 	</string-array>
 	<string-array name="measure_code">
 		<item>KM</item>
@@ -10,7 +9,7 @@
 	</string-array>
 	<string-array name="mode_localisation">
 		<item>GPS</item>
-		<item>Network</item>
+		<item>GSM</item>
 		<item>Wifi</item>
 		<item>IP</item>
 		<item>XPS</item>
@@ -43,16 +42,16 @@
 		<item>40</item>
 	</string-array>
 	<string-array name="sort_theaters_values">
-		<item>durch Kinonamen</item>
-		<item>durch Kinoentfernung</item>
-		<item> pro nächsteVorstellungsuhrzeit </item>
-		<!-- <item>by movie name</item>-->
-		<!-- <item>by user prefereneces (slower)</item>-->
+		<item>Nach Kinoname</item>
+		<item>Nach Entfernung</item>
+		<item>Nach nächste Vorstellung</item>
+		<!-- <item>par nom de film</item>-->
+		<!-- <item>par préférence utilisateur (plus lent)</item>-->
 	</string-array>
 	<string-array name="sort_movies_values">
-		<item> durch Kinonamen</item>
-		<item> durch Kinoentfernung</item>
-		<item> pro nächsteVorstellungsuhrzeit</item>
+		<item>Nach Kinoname</item>
+		<item>Nach Entfernung</item>
+		<item>Nach nächste Vorstellung</item>
 	</string-array>
 	<string-array name="sort_theaters_values_code">
 		<item>THEATER_NAME</item>

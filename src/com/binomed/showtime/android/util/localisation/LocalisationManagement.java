@@ -17,6 +17,7 @@ import android.widget.ImageView;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.handler.TextCallBackFromLocation;
+import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.localisation.LocationUtils.ProviderEnum;
 import com.skyhookwireless.wps.IPLocation;
 import com.skyhookwireless.wps.IPLocationCallback;
@@ -194,8 +195,8 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		Log.d(TAG, "Change location : lat : " + arg0.getLatitude() + " / lon : " + arg0.getLongitude());
 		model.setLocalisation(arg0);
 		if (textSearch.getText().toString().length() == 0) {
+			AndShowtimeFactory.initGeocoder(context);
 			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(arg0));
-			// textSearch.setText(LocationUtils.getLocationString(arg0));
 		}
 
 	}
@@ -304,8 +305,8 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		location.setLatitude(wpsLocation.getLatitude());
 		location.setLongitude(wpsLocation.getLongitude());
 		if (textSearch.getText().toString().length() == 0) {
+			AndShowtimeFactory.initGeocoder(context);
 			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
-			// textSearch.setText(LocationUtils.getLocationString(location));
 		}
 		// In all case we'ill continue after getting location only user would stop
 		return WPSContinuation.WPS_CONTINUE;
@@ -331,8 +332,8 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		location.setLatitude(wpsLocation.getLatitude());
 		location.setLongitude(wpsLocation.getLongitude());
 		if (textSearch.getText().toString().length() == 0) {
+			AndShowtimeFactory.initGeocoder(context);
 			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
-			// textSearch.setText(LocationUtils.getLocationString(location));
 		}
 	}
 
@@ -355,8 +356,8 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		location.setLongitude(ipLocation.getLongitude());
 		location.setLatitude(ipLocation.getLatitude());
 		if (textSearch.getText().toString().length() == 0) {
+			AndShowtimeFactory.initGeocoder(context);
 			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
-			// textSearch.setText(LocationUtils.getLocationString(location));
 		}
 
 	}

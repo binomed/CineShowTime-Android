@@ -1,13 +1,12 @@
 package com.binomed.showtime.android.util.comparator;
 
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
 
 import com.binomed.showtime.beans.ProjectionBean;
 
-public class TheaterShowtimeInnerListComparator implements Comparator<Entry<String, List<ProjectionBean>>> {
+public class TheaterShowtimeInnerListComparator implements AndShowtimeComparator<Entry<String, List<ProjectionBean>>> {
 
 	/*
 	 * (non-Javadoc)
@@ -46,6 +45,16 @@ public class TheaterShowtimeInnerListComparator implements Comparator<Entry<Stri
 		}
 
 		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.binomed.showtime.android.util.comparator.AndShowtimeComparator#getType()
+	 */
+	@Override
+	public int getType() {
+		return COMPARATOR_THEATER_SHOWTIME_INNER_LIST;
 	}
 
 }

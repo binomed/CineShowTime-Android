@@ -1,10 +1,8 @@
 package com.binomed.showtime.android.util.comparator;
 
-import java.util.Comparator;
-
 import com.binomed.showtime.beans.TheaterBean;
 
-public class TheaterDistanceComparator implements Comparator<TheaterBean> {
+public class TheaterDistanceComparator implements AndShowtimeComparator<TheaterBean> {
 
 	/*
 	 * (non-Javadoc)
@@ -35,6 +33,16 @@ public class TheaterDistanceComparator implements Comparator<TheaterBean> {
 			result = -1;
 		}
 		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.binomed.showtime.android.util.comparator.AndShowtimeComparator#getType()
+	 */
+	@Override
+	public int getType() {
+		return COMPARATOR_THEATER_DISTANCE;
 	}
 
 }

@@ -20,23 +20,26 @@ import com.binomed.showtime.R;
 import com.binomed.showtime.android.layout.view.MovieView;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
+import com.binomed.showtime.android.util.comparator.AndShowtimeComparator;
 import com.binomed.showtime.android.util.comparator.TheaterShowtimeComparator;
 import com.binomed.showtime.beans.MovieBean;
+import com.binomed.showtime.beans.MovieResp;
 import com.binomed.showtime.beans.NearResp;
 import com.binomed.showtime.beans.ProjectionBean;
 import com.binomed.showtime.beans.TheaterBean;
 
-public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
+public class TheaterAndMovieExpandableListAdapter extends BaseExpandableListAdapter {
 
 	private NearResp nearRespBean;
 	private List<TheaterBean> theatherList;
+	private List<MovieBean> movieList;
 	private Context mainContext;
-	private Comparator<TheaterBean> comparator;
+	private AndShowtimeComparator<?> comparator;
 	private boolean kmUnit;
 	private boolean distanceTime;
 	private HashMap<String, List<Entry<String, List<ProjectionBean>>>> projectionsMap;
 
-	public TheaterAndMovieListAdapter(Context context) {
+	public TheaterAndMovieExpandableListAdapter(Context context) {
 		// super();
 		mainContext = context;
 		changePreferences();
@@ -52,7 +55,21 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 		kmUnit = mainContext.getResources().getString(R.string.preference_loc_default_measure).equals(measure);
 	}
 
-	public void setTheaterList(NearResp nearRespBean, Comparator<TheaterBean> comparator) {
+	public void setMovieList(MovieResp movieRespBean, AndShowtimeComparator<?> comparator) {
+		NearResp transformNearResp = new NearResp();
+		transformNearResp.setTheaterList(new ArrayList<TheaterBean>());
+		transformNearResp.setHasMoreResults(false);
+		transformNearResp.setMapMovies(new HashMap<String, MovieBean>());
+		transformNearResp.setCityName(movieRespBean.getCityName());
+		MovieBean movie = movieRespBean.getMovie();
+		transformNearResp.getMapMovies().put(movie.getId(), movie);
+		for (TheaterBean theaterBean : movieRespBean.getTheaterList()) {
+			transformNearResp.getTheaterList().add(theaterBean);
+		}
+		setTheaterList(transformNearResp, comparator);
+	}
+
+	public void setTheaterList(NearResp nearRespBean, AndShowtimeComparator<?> comparator) {
 		this.nearRespBean = nearRespBean;
 		this.comparator = comparator;
 		this.projectionsMap = new HashMap<String, List<Entry<String, List<ProjectionBean>>>>();
@@ -60,7 +77,21 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 			this.theatherList = this.nearRespBean.getTheaterList();
 		}
 		if (comparator != null) {
-			Collections.sort(theatherList, comparator);
+			switch (comparator.getType()) {
+			case AndShowtimeComparator.COMPARATOR_MOVIE_ID:
+			case AndShowtimeComparator.COMPARATOR_MOVIE_NAME: {
+
+			}
+				break;
+			case AndShowtimeComparator.COMPARATOR_THEATER_NAME:
+			case AndShowtimeComparator.COMPARATOR_THEATER_DISTANCE:
+			case AndShowtimeComparator.COMPARATOR_THEATER_SHOWTIME: {
+				Collections.sort(theatherList, (Comparator<TheaterBean>) comparator);
+			}
+				break;
+			default:
+				break;
+			}
 		}
 		if (theatherList != null) {
 			Thread thread = new Thread(new Runnable() {

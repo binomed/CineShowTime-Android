@@ -366,7 +366,6 @@ public class ControlerSearchNearActivity {
 
 		@Override
 		public void finish() throws RemoteException {
-			// Intent intentNearFillDBService = new Intent(nearActivity, AndShowTimeSearchNearDBService.class);
 			Intent intentNearFillDBService = new Intent(nearActivity, AndShowDBGlobalService.class);
 			intentNearFillDBService.putExtra(ParamIntent.SERVICE_DB_TYPE, AndShowtimeCst.DB_TYPE_NEAR_RESP_WRITE);
 			nearActivity.startService(intentNearFillDBService);

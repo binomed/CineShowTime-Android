@@ -221,9 +221,6 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	 */
 	private void initViews() {
 
-		// bitmapGpsOn = BitmapFactory.decodeResource(getResources(), R.drawable.gps_activ);
-		// bitmapGpsOff = BitmapFactory.decodeResource(getResources(), R.drawable.gps_not_activ);
-
 		gpsImgView = (ImageView) findViewById(R.id.searchNearImgGps);
 		searchButton = (Button) findViewById(R.id.searchNearBtnSearch);
 		checkButtonLocalisation = (CheckBox) findViewById(R.id.searchNearLocation);
@@ -236,6 +233,9 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		// manageCallBack
 		localisationCallBack = AndShowTimeLayoutUtils.manageLocationManagement(this, gpsImgView, checkButtonLocalisation, fieldCityName, model);
 
+		// Manage Adapter
+		adapter = new TheaterAndMovieListAdapter(this);
+
 		// Manage speech button just if package present on device
 		AndShowTimeLayoutUtils.manageVisibiltyFieldSpeech(this, speechButton, fieldCityName, R.id.searchNearTxtCityName, R.id.searchNearLocation, -1);
 
@@ -243,15 +243,10 @@ public class AndShowTimeSearchNearActivity extends Activity {
 
 	private void initViewsState() {
 
-		// gpsImgView.setImageBitmap(bitmapGpsOff);
-		// checkButtonLocalisation.setChecked(false);
-		// checkButtonLocalisation.setEnabled(LocationUtils.isLocalisationEnabled(AndShowTimeSearchNearActivity.this, provider));
-
 		// Check to see if a recognition activity is present
 		PackageManager pm = getPackageManager();
 		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 		if (activities.size() != 0) {
-			// speechButton.setBackgroundResource(android.R.drawable.ic_btn_speak_now);
 			speechButton.setOnClickListener(listener);
 		}
 
@@ -279,25 +274,11 @@ public class AndShowTimeSearchNearActivity extends Activity {
 
 	private void initListeners() {
 		searchButton.setOnClickListener(listener);
-		// checkButtonLocalisation.setOnClickListener(listener);
 		resultList.setOnChildClickListener(listener);
 		resultList.setOnGroupClickListener(listener);
 		spinnerChooseDay.setOnItemSelectedListener(listener);
 
 	}
-
-	// protected void initListenersLocation() {
-	// if (checkboxPreference) {
-	// locationListener = true;
-	// LocationUtils.registerLocalisationListener(AndShowTimeSearchNearActivity.this, provider, listener);
-	// }
-	//
-	// }
-	//
-	// protected void removeListenersLocation() {
-	// locationListener = false;
-	// LocationUtils.unRegisterListener(AndShowTimeSearchNearActivity.this, listener);
-	// }
 
 	private void initMenus() {
 		registerForContextMenu(resultList);
@@ -331,14 +312,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 
 	}
 
-	// private void initProvider() {
-	// provider = LocationUtils.getProvider(prefs, this);
-	// checkboxPreference = prefs.getBoolean(getResources().getString(R.string.preference_loc_key_enable_localisation), true);
-	//
-	// }
-
 	protected void display() {
-
 		if (controler.isServiceRunning()) {
 			openDialog();
 		} else {
@@ -363,7 +337,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 						}
 					}
 				}
-				adapter = new TheaterAndMovieListAdapter(AndShowTimeSearchNearActivity.this, nearResp, comparator);
+				adapter.setTheaterList(nearResp, comparator);
 				resultList.setAdapter(adapter);
 				if ((nearResp != null) && (nearResp.getCityName() != null) && (nearResp.getCityName().length() > 0)) {
 					model.setCityName(nearResp.getCityName());
@@ -440,15 +414,10 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		Log.i(TAG, "onMenuItemSelected"); //$NON-NLS-1$
 		if (AndShowTimeMenuUtil.onMenuItemSelect(this, MENU_PREF, item.getItemId())) {
-			// checkboxPreference = prefs.getBoolean(getResources().getString(R.string.preference_loc_key_enable_localisation), true);
-			// if (checkboxPreference && checkButtonLocalisation.isChecked() && !locationListener) {
-			// initListenersLocation();
-			// } else {
-			// removeListenersLocation();
-			// }
 			if (localisationCallBack != null) {
 				localisationCallBack.onPreferenceReturn();
 			}
+			adapter.changePreferences();
 			return true;
 		}
 		switch (item.getItemId()) {
@@ -563,7 +532,6 @@ public class AndShowTimeSearchNearActivity extends Activity {
 			Object selectItem = resultList.getItemAtPosition(item.getGroupId());
 			if (selectItem.getClass() == TheaterBean.class) {
 				TheaterBean theater = (TheaterBean) selectItem;
-				// TODO faire quelque chose si pas de localisation (prendre le retour par défaut...? ou alors le request ?)
 				controler.addFavorite(theater);
 			}
 			return true;
