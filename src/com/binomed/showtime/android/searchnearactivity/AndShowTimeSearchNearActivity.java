@@ -461,7 +461,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 					AndShowTimeSearchNearActivity.this //
 					, listener //
 					, R.array.sort_theaters_values //
-					, ID_VOICE //
+					, ID_SORT //
 			);
 			dialog.setTitle(AndShowTimeSearchNearActivity.this.getResources().getString(R.string.sortDialogTitle));
 			dialog.setFeatureDrawableResource(featureId, android.R.drawable.ic_menu_sort_by_size);
