@@ -19,7 +19,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
 import com.binomed.showtime.android.aidl.ICallbackSearchNear;
 import com.binomed.showtime.android.aidl.IServiceSearchNear;

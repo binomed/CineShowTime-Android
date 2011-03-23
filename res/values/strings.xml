@@ -2,8 +2,8 @@
 <resources>
 	<!-- Commons -->
 	<string name="menuPreferences">Preferences </string>
-	<string name="menuAbout">A propos </string>
-	<string name="menuHelp">Aide </string>
+	<string name="menuAbout">About </string>
+	<string name="menuHelp">Help </string>
 	<string name="openMapsMenuItem">Search Theater </string>
 	<string name="openYoutubeMenuItem">Search Trailer</string>
 	<string name="search">Search</string>
@@ -63,12 +63,12 @@
 	<string name="dialogBookmarkTitle">Bookmarks</string>
 	<string name="menuRemoveBookmark">Remove bookmark</string>
 	<!-- Movie Activity Message -->
+	<string name="movieProgressTitle">Searching movie informations </string>
+	<string name="movieProgressMsg">Loading in progress ... </string>
 	<string name="plot">Synopsis</string>
 	<string name="projectionList">Show time for theater : </string>
 	<string name="projectionTime">Projection hour : </string>
 	<string name="endHour">Approximative end of movie : </string>
-	<string name="movieProgressTitle">Searching movie informations </string>
-	<string name="movieProgressMsg">Loading in progress ... </string>
 	<string name="txtTitle">Title : </string>
 	<string name="txtRate">Rate : </string>
 	<string name="txtDuration">Duration : </string>
@@ -106,6 +106,13 @@
 	<string name="preference_loc_key_time_direction">time_direction_preference</string>
 	<string name="preference_loc_time_direction">Direction time</string>
 	<string name="preference_loc_time_direction_summary">Always take care of directions time in show of show times</string>
+	<string name="preference_loc_key_enable_localisation">enable_localisation_preference</string>
+	<string name="preference_loc_enable_localisation">Enabled localisation</string>
+	<string name="preference_loc_enable_localisation_summary">Take care of GPS or network localisation if defined as active in device</string>
+	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
+	<string name="preference_loc_localisation_provider">Localisation mode</string>
+	<string name="preference_loc_localisation_provider_summary">Choose your localisation mode : GPS or network</string>
+	<string name="preference_loc_default_localisation_provider">GPS</string>
 	<string name="preference_sort_cat">Sort preference </string>
 	<string name="preference_sort_key_sort_movie">sort_movie</string>
 	<string name="preference_sort_default_sort_movie">THEATER_DISTANCE</string>
@@ -116,5 +123,5 @@
 	<string name="preference_sort_sort_theater">Default theater sort</string>
 	<string name="preference_sort_sort_theater_summary">Chose your default sort for theater search</string>
 	<!-- Error messages -->
-	<string name="msgErrorNoDb">La connexion à la base de donnée n'a pas pu se faire vérfier votre carte sd</string>
+	<string name="msgErrorNoDb">Connection to dabata could not be established, please check your sd card</string>
 </resources>

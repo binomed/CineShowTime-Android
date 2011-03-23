@@ -3,7 +3,7 @@ package com.binomed.showtime.android.activity;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 
 public class AndShowTimePreferencesActivity extends PreferenceActivity {
 

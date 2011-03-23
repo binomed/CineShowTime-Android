@@ -32,7 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.view.ProjectionListAdapter;
 import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.cst.ParamIntent;
@@ -219,7 +219,6 @@ public class AndShowTimeMovieActivity extends Activity {
 			model.setMovie(movie);
 
 			controler.fillDB();
-			// controler.unbindService();
 
 			try {
 				fillViews(movie);
@@ -286,14 +285,6 @@ public class AndShowTimeMovieActivity extends Activity {
 			AndShowtimeRequestManage.completeMovieDetailStream(movie);
 		}
 
-		// if (btnImdb == null && (movie.getImdbId() != null) && (movie.getImdbId().length() != 0)) {
-		// btnImdb = (Button) findViewById(R.id.movieBtnImdb);
-		// btnImdb.setOnClickListener(listener);
-		//
-		// }
-		// if (btnImdb != null) {
-		// btnImdb.setClickable((movie.getImdbId() != null) && (movie.getImdbId().length() != 0));
-		// }
 		if (movieWebLinks == null // 
 				&& ((movie.getImdbId() != null) && (movie.getImdbId().length() != 0)) //
 				|| ((movie.getUrlWikipedia() != null) && (movie.getUrlWikipedia().length() != 0)) //
@@ -398,14 +389,6 @@ public class AndShowTimeMovieActivity extends Activity {
 				if (actorArray.length > 3) {
 					actorBuffer.append(", ...");
 				}
-				// for (String actor : actorList) {
-				// if (first) {
-				// first = false;
-				// } else {
-				//					actorBuffer.append(", "); //$NON-NLS-1$
-				// }
-				// actorBuffer.append(actor);
-				// }
 				movieActor.setText(//
 						Html.fromHtml(new StringBuilder("<b>") //$NON-NLS-1$
 								.append(getResources().getString(R.string.txtActor)).append(" ") //$NON-NLS-1$
@@ -657,7 +640,7 @@ public class AndShowTimeMovieActivity extends Activity {
 
 				cr.insert(uri, values);
 
-				Toast.makeText(this, R.string.msgEventAdd, Toast.LENGTH_LONG);
+				Toast.makeText(this, R.string.msgEventAdd, Toast.LENGTH_LONG).show();
 
 			} catch (Exception e) {
 				Log.e(TAG, "error while translating", e); //$NON-NLS-1$

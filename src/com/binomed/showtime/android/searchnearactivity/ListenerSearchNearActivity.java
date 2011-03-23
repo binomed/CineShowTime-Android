@@ -15,7 +15,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.layout.dialogs.SortDialog;
 import com.binomed.showtime.android.layout.dialogs.SortSelectionListener;
 import com.binomed.showtime.android.layout.view.MovieView;
@@ -94,8 +94,10 @@ public class ListenerSearchNearActivity implements OnClickListener, OnChildClick
 			nearActivity.fieldCityName.setEnabled(!nearActivity.checkButtonLocalisation.isChecked());
 			if (!nearActivity.checkButtonLocalisation.isChecked()) {
 				nearActivity.gpsImgView.setImageBitmap(nearActivity.bitmapGpsOff);
+				nearActivity.removeListenersLocation();
 			} else {
 				nearActivity.gpsImgView.setImageBitmap(nearActivity.bitmapGpsOn);
+				nearActivity.initListenersLocation();
 			}
 			break;
 		}

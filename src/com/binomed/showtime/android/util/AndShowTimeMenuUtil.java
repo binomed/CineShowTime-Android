@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.view.Menu;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.activity.AndShowTimePreferencesActivity;
 import com.binomed.showtime.android.cst.IntentShowtime;
 

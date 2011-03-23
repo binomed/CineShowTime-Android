@@ -3,13 +3,13 @@ package com.binomed.showtime.android.adapter.view;
 import java.util.List;
 
 import android.content.Context;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.binomed.showtime.R;
 import com.binomed.showtime.beans.TheaterBean;
 
 public class TheaterFavListAdapter extends BaseAdapter {
@@ -47,7 +47,8 @@ public class TheaterFavListAdapter extends BaseAdapter {
 
 		TextView theaterView = null;
 		if (convertView == null) {
-			theaterView = getGenericView();
+			LayoutInflater inflator = (LayoutInflater) mainContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			theaterView = (TextView) inflator.inflate(R.layout.and_showtime_expandable_group_item, null);
 		} else {
 			theaterView = (TextView) convertView;
 		}
@@ -59,19 +60,6 @@ public class TheaterFavListAdapter extends BaseAdapter {
 		}
 
 		return theaterView;
-	}
-
-	public TextView getGenericView() {
-		// Layout parameters for the ExpandableListView
-		AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, 64);
-
-		TextView textView = new TextView(mainContext);
-		textView.setLayoutParams(lp);
-		// Center the text vertically
-		textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-		// Set the text starting position
-		textView.setPadding(36, 0, 0, 0);
-		return textView;
 	}
 
 }

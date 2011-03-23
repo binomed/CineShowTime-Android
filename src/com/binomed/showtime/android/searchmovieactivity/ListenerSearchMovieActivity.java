@@ -11,7 +11,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.layout.dialogs.SortDialog;
 import com.binomed.showtime.android.layout.dialogs.SortSelectionListener;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
@@ -100,8 +100,10 @@ public class ListenerSearchMovieActivity implements OnClickListener, OnItemClick
 			movieActivity.fieldNearName.setEnabled(!movieActivity.checkLocationButton.isChecked());
 			if (!movieActivity.checkLocationButton.isChecked()) {
 				movieActivity.gpsImgView.setImageBitmap(movieActivity.bitmapGpsOff);
+				movieActivity.removeListenersLocation();
 			} else {
 				movieActivity.gpsImgView.setImageBitmap(movieActivity.bitmapGpsOn);
+				movieActivity.initListenersLocation();
 			}
 			break;
 		}

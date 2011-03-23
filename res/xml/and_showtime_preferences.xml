@@ -28,6 +28,18 @@
                 android:summary="@string/preference_loc_time_direction_summary" 
                 android:title="@string/preference_loc_time_direction" 
                 android:defaultValue="false"/>
+        <CheckBoxPreference
+                android:key="@string/preference_loc_key_enable_localisation"
+                android:summary="@string/preference_loc_enable_localisation_summary" 
+                android:title="@string/preference_loc_enable_localisation" 
+                android:defaultValue="true"/>
+	    <ListPreference 
+	    		android:key="@string/preference_loc_key_localisation_provider"
+	    		android:summary="@string/preference_loc_localisation_provider_summary" 
+                android:title="@string/preference_loc_localisation_provider"
+	    		android:entries="@array/mode_localisation" 
+	    		android:entryValues="@array/mode_localisation_code" 
+	    		android:dependency="enable_localisation_preference"/>
 	</PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_sort_cat">
 	    <ListPreference 

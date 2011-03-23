@@ -11,7 +11,7 @@ import android.text.Html;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.beans.TheaterBean;

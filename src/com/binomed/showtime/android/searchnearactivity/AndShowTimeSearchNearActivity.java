@@ -28,7 +28,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.view.TheaterAndMovieListAdapter;
 import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.handler.ServiceCallBackNear;
@@ -39,6 +39,7 @@ import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.BeanManagerFactory;
 import com.binomed.showtime.android.util.LocationUtils;
+import com.binomed.showtime.android.util.LocationUtils.ProviderEnum;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.NearResp;
 import com.binomed.showtime.beans.TheaterBean;
@@ -76,6 +77,10 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	protected Bitmap bitmapGpsOn;
 	protected Bitmap bitmapGpsOff;
 
+	private ProviderEnum provider;
+	private boolean checkboxPreference, locationListener;
+	private SharedPreferences prefs;
+
 	protected EditText getFieldName() {
 		return fieldCityName;
 	}
@@ -87,20 +92,17 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		Log.i(TAG, "onCreate"); //$NON-NLS-1$
 		setContentView(R.layout.and_showtime_search_near);
 
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
 		controler = ControlerSearchNearActivity.getInstance();
 		model = controler.getModelNearActivity();
 		listener = new ListenerSearchNearActivity(this, controler, model);
 
 		initComparator();
 		initViews();
-		initListeners();
 		initMenus();
 
-		model.setGpsLocalisation(LocationUtils.getLastLocation(AndShowTimeSearchNearActivity.this));
-
 		controler.registerView(this);
-		// controler.bindService();
-		display();
 	}
 
 	/*
@@ -112,12 +114,62 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
+		controler.unbindService();
+		controler.closeDB();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.i(TAG, "onPause"); //$NON-NLS-1$
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
-		removeListeners();
-		controler.unbindService();
-		controler.closeDB();
+		removeListenersLocation();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.i(TAG, "onResume"); //$NON-NLS-1$
+		initProvider();
+		initListeners();
+		initViewsState();
+
+		model.setGpsLocalisation(checkboxPreference ? LocationUtils.getLastLocation(AndShowTimeSearchNearActivity.this, provider) : null);
+
+		display();
+
+	}
+
+	@Override
+	protected void onRestart() {
+		Log.i(TAG, "onRestart"); //$NON-NLS-1$
+		super.onRestart();
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		Log.i(TAG, "onRestoreInstance"); //$NON-NLS-1$
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		Log.i(TAG, "onSaveInstance"); //$NON-NLS-1$
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onStart() {
+		Log.i(TAG, "onStart"); //$NON-NLS-1$
+		super.onStart();
+	}
+
+	@Override
+	protected void onStop() {
+		Log.i(TAG, "onStop"); //$NON-NLS-1$
+		super.onStop();
 	}
 
 	/**
@@ -125,8 +177,6 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	 */
 	private void initViews() {
 
-		// bitmapGpsOn = BitmapFactory.decodeResource(getResources(), R.drawable.stat_sys_gps_on);
-		// bitmapGpsOff = BitmapFactory.decodeResource(getResources(), R.drawable.stat_sys_gps_acquiring);
 		bitmapGpsOn = BitmapFactory.decodeResource(getResources(), R.drawable.gps_activ);
 		bitmapGpsOff = BitmapFactory.decodeResource(getResources(), R.drawable.gps_not_activ);
 
@@ -137,9 +187,13 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		fieldCityName = (AutoCompleteTextView) findViewById(R.id.searchNearCityName);
 		spinnerChooseDay = (Spinner) findViewById(R.id.searchNearSpinner);
 
+	}
+
+	private void initViewsState() {
+
 		gpsImgView.setImageBitmap(bitmapGpsOff);
 		checkButtonLocalisation.setChecked(false);
-		checkButtonLocalisation.setEnabled(LocationUtils.isGPSEnabled(AndShowTimeSearchNearActivity.this));
+		checkButtonLocalisation.setEnabled(LocationUtils.isLocalisationEnabled(AndShowTimeSearchNearActivity.this, provider));
 
 		fillAutoField();
 
@@ -167,12 +221,20 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		checkButtonLocalisation.setOnClickListener(listener);
 		resultList.setOnChildClickListener(listener);
 		resultList.setOnGroupClickListener(listener);
-		LocationUtils.registerListener(AndShowTimeSearchNearActivity.this, listener);
 		spinnerChooseDay.setOnItemSelectedListener(listener);
 
 	}
 
-	private void removeListeners() {
+	protected void initListenersLocation() {
+		if (checkboxPreference) {
+			locationListener = true;
+			LocationUtils.registerLocalisationListener(AndShowTimeSearchNearActivity.this, provider, listener);
+		}
+
+	}
+
+	protected void removeListenersLocation() {
+		locationListener = false;
 		LocationUtils.unRegisterListener(AndShowTimeSearchNearActivity.this, listener);
 	}
 
@@ -181,7 +243,6 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	}
 
 	private void initComparator() {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String sort = prefs.getString(this.getResources().getString(R.string.preference_sort_key_sort_theater) //
 				, this.getResources().getString(R.string.preference_sort_default_sort_theater));
 		String[] values = getResources().getStringArray(R.array.sort_theaters_values_code);
@@ -206,6 +267,13 @@ public class AndShowTimeSearchNearActivity extends Activity {
 			comparator = null;
 			break;
 		}
+
+	}
+
+	private void initProvider() {
+		provider = LocationUtils.getProvider(prefs, this);
+		checkboxPreference = prefs.getBoolean(getResources().getString(R.string.preference_loc_key_enable_localisation), true);
+
 	}
 
 	protected void display() {
@@ -309,6 +377,12 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		Log.i(TAG, "onMenuItemSelected"); //$NON-NLS-1$
 		if (AndShowTimeMenuUtil.onMenuItemSelect(this, MENU_PREF, item.getItemId())) {
+			checkboxPreference = prefs.getBoolean(getResources().getString(R.string.preference_loc_key_enable_localisation), true);
+			if (checkboxPreference && checkButtonLocalisation.isChecked() && !locationListener) {
+				initListenersLocation();
+			} else {
+				removeListenersLocation();
+			}
 			return true;
 		}
 		switch (item.getItemId()) {

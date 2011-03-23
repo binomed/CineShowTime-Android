@@ -24,8 +24,8 @@
 	<string name="msgNoCityName">Vous devez saisir un nom de ville avant de lancer la recherche</string>
 	<string name="msgNoGps">Aucune coordonnée gps trouvée... Veuillez vous déplacer ou retenter plus tard</string>
 	<string name="msgNoMovieName">Vous devez saisir un nom de film avant de lancer la recherche</string>
-	<string name="msgNoPlaceMatch">Aucun film correspondant à votre recherche n'a été trouvé. Essayer avec une ville différente</string>
-	<string name="msgNoDateMatch">Aucune séance n'a été trouvée. Entrez une autre date.</string>
+	<string name="msgNoPlaceMatch">Aucun film correspondant à votre recherche n\'a été trouvé. Essayer avec une ville différente</string>
+	<string name="msgNoDateMatch">Aucune séance n\'a été trouvée. Entrez une autre date.</string>
 	<string name="msgVersionTitle">AndShowTime version : </string>
 	<string name="msgVersionCode">Version du code: </string>
 	<string name="msgVersionName">Nom de la version : </string>
@@ -82,13 +82,13 @@
 	<string name="menuTranslate">Traduire </string>
 	<string name="menuSms">Inviter par sms</string>
 	<string name="menuMail">Inviter par mail</string>
-	<string name="menuAddEvent">Ajouter dans l'agenda</string>
+	<string name="menuAddEvent">Ajouter dans l\'agenda</string>
 	<string name="smsContent">Je te propose de venir avec moi voir le film "{0}" {1} à la séance de {2} au cinéma "{3}" \n\n sms auto-généré par AndShowtime</string>
 	<string name="mailContent">Je te propose de venir avec moi voir le film <i>"{0}"</i> {1} à la séance de <b>{2}</b> au cinéma "{3}" \n\n mail auto-généré par AndShowtime</string>
 	<string name="mailSubject">Invitation pour le film {0}</string>
 	<string name="chooseIntentSms">Envoyer invitation sms</string>
 	<string name="chooseIntentMail">Envoyer invitation mail</string>
-	<string name="msgEventAdd">Séance ajouter dans l'agenda</string>
+	<string name="msgEventAdd">Séance ajouter dans l\'agenda</string>
 	<!-- Preferences Messages -->
 	<string name="preference_lang_cat">Préférences de langue </string>
 	<string name="preference_lang_key_auto_translate">check_preference</string>
@@ -105,7 +105,14 @@
 	<string name="preference_loc_measure_summary">Choissiez votre unitée par défaut</string>
 	<string name="preference_loc_key_time_direction">time_direction_preference</string>
 	<string name="preference_loc_time_direction">Temps de trajet</string>
-	<string name="preference_loc_time_direction_summary">Toujours prendre en compte le temps de trajet dans l'affichage des séance proches</string>
+	<string name="preference_loc_time_direction_summary">Toujours prendre en compte le temps de trajet dans l\'affichage des séance proches</string>
+	<string name="preference_loc_key_enable_localisation">enable_localisation_preference</string>
+	<string name="preference_loc_enable_localisation">Autoriser localisation</string>
+	<string name="preference_loc_enable_localisation_summary">Prendre en compte la localisation GPS ou GSM si elle est activée sur dans l\'appareil</string>
+	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
+	<string name="preference_loc_localisation_provider">Mode de localisation</string>
+	<string name="preference_loc_localisation_provider_summary">Choississez votre mode de localisation GSM ou GPS</string>
+	<string name="preference_loc_default_localisation_provider">GPS</string>
 	<string name="preference_sort_cat">Préférence de tri</string>
 	<string name="preference_sort_key_sort_movie">sort_movie</string>
 	<string name="preference_sort_default_sort_movie">THEATER_DISTANCE</string>
@@ -116,5 +123,5 @@
 	<string name="preference_sort_sort_theater">Tri de cinémas par défaut</string>
 	<string name="preference_sort_sort_theater_summary">Choissisez le tri à utiliser par défaut pour le résultat des recherches de proximités</string>
 	<!-- Error messages -->
-	<string name="msgErrorNoDb">La connexion à la base de donnée n'a pas pu se faire vérfier votre carte sd</string>
+	<string name="msgErrorNoDb">La connexion à la base de donnée n\'a pas pu se faire vérfier votre carte sd</string>
 </resources>

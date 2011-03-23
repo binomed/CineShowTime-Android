@@ -10,14 +10,13 @@ import java.util.Map.Entry;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.layout.view.MovieView;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
@@ -37,7 +36,7 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 	private HashMap<String, List<Entry<String, List<Long>>>> projectionsMap;
 
 	public TheaterAndMovieListAdapter(Context context, NearResp nearRespBean, Comparator<TheaterBean> comparator) {
-		super();
+		// super();
 		mainContext = context;
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		String measure = prefs.getString(context.getResources().getString(R.string.preference_loc_key_measure)//
@@ -110,19 +109,6 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 		return result;
 	}
 
-	public TextView getGenericView() {
-		// Layout parameters for the ExpandableListView
-		AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, 64);
-
-		TextView textView = new TextView(mainContext);
-		textView.setLayoutParams(lp);
-		// Center the text vertically
-		textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-		// Set the text starting position
-		textView.setPadding(36, 0, 0, 0);
-		return textView;
-	}
-
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 		MovieView movieView = null;
 		if (convertView == null) {
@@ -161,7 +147,8 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 
 		TextView textView = null;
 		if (convertView == null) {
-			textView = getGenericView();
+			LayoutInflater inflator = (LayoutInflater) mainContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			textView = (TextView) inflator.inflate(R.layout.and_showtime_expandable_group_item, null);
 		} else {
 			textView = (TextView) convertView;
 		}

@@ -33,7 +33,7 @@ import android.database.SQLException;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.activity.AndShowTimeMainActivity;
 import com.binomed.showtime.android.adapter.db.AndShowtimeDbAdapter;
 import com.binomed.showtime.android.cst.ParamIntent;

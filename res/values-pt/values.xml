@@ -7,6 +7,14 @@
 		<item>KM</item>
 		<item>ML</item>
 	</string-array>
+	<string-array name="mode_localisation">
+		<item>GPS</item>
+		<item>Network</item>
+	</string-array>
+	<string-array name="mode_localisation_code">
+		<item>GPS</item>
+		<item>GSM</item>
+	</string-array>
 	<string-array name="sort_theaters_values">
 		<item>por nome de cinema</item>
 		<item>por distância ao cinema</item>

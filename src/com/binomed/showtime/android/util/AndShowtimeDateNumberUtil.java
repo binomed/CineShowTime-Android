@@ -11,7 +11,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.text.format.DateUtils;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.cst.SpecialChars;

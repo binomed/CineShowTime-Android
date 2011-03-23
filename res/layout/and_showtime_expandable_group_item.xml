@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/customExpandableListItemGroup"
+    android:layout_width="fill_parent"
+    android:layout_height="64dip"
+    android:minHeight="64dip"
+    android:paddingLeft="36dip"
+    android:gravity="center_vertical"
+/>
+<!-- 
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/customExpandableListItemGroup"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+    android:gravity="center_vertical"
+/>
+-->

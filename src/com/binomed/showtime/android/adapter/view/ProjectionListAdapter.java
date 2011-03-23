@@ -6,14 +6,13 @@ import java.util.List;
 
 import android.content.Context;
 import android.text.Html;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.AndShowtimeCst;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
 import com.binomed.showtime.beans.MovieBean;
@@ -67,7 +66,8 @@ public class ProjectionListAdapter extends BaseAdapter {
 	public View getView(int groupPosition, View convertView, ViewGroup parent) {
 		TextView projectionView = null;
 		if (convertView == null) {
-			projectionView = getGenericView();
+			LayoutInflater inflator = (LayoutInflater) mainContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			projectionView = (TextView) inflator.inflate(R.layout.and_showtime_expandable_group_item, null);
 		} else {
 			projectionView = (TextView) convertView;
 		}
@@ -151,19 +151,6 @@ public class ProjectionListAdapter extends BaseAdapter {
 		projectionView.setText(Html.fromHtml(projectionBuilder.toString()));
 
 		return projectionView;
-	}
-
-	public TextView getGenericView() {
-		// Layout parameters for the ExpandableListView
-		AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, 64);
-
-		TextView textView = new TextView(mainContext);
-		textView.setLayoutParams(lp);
-		// Center the text vertically
-		textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-		// Set the text starting position
-		textView.setPadding(36, 0, 0, 0);
-		return textView;
 	}
 
 }

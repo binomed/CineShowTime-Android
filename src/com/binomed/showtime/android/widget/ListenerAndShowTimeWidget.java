@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 
 public class ListenerAndShowTimeWidget implements OnClickListener, LocationListener, OnItemClickListener {
 
@@ -79,8 +79,10 @@ public class ListenerAndShowTimeWidget implements OnClickListener, LocationListe
 			widgetActivity.txtCityName.setEnabled(!widgetActivity.chkGps.isChecked());
 			if (!widgetActivity.chkGps.isChecked()) {
 				widgetActivity.gpsImgView.setImageBitmap(widgetActivity.bitmapGpsOff);
+				widgetActivity.removeListenersLocation();
 			} else {
 				widgetActivity.gpsImgView.setImageBitmap(widgetActivity.bitmapGpsOn);
+				widgetActivity.initListenersLocation();
 			}
 			break;
 		}

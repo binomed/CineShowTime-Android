@@ -2,6 +2,8 @@
 <resources>
 	<!-- Commons -->
 	<string name="menuPreferences">Preferências </string>
+	<string name="menuAbout">About </string>
+	<string name="menuHelp">Help </string>
 	<string name="openYoutubeMenuItem">Pesquisa reboque </string>
 	<string name="openMapsMenuItem">Achar Cinema </string>
 	<string name="search">Pesquisar </string>
@@ -22,8 +24,16 @@
 	<string name="msgNoCityName">E preciso indicar o nome de uma cidade antes de fazer a pesquisa</string>
 	<string name="msgNoGps">Nenhuma coordenada gps achada... Move-se o esperimente mais tarde</string>
 	<string name="msgNoMovieName">E preciso indicar o nome de um filme andts de fazer a pesquisa</string>
+	<string name="msgNoPlaceMatch">No movies matched your query. Please select a different place.</string>
+	<string name="msgNoDateMatch"> No showtimes were found. Please select a different date.</string>
+	<string name="msgVersionTitle">AndShowTime version : </string>
+	<string name="msgVersionCode">Code version : </string>
+	<string name="msgVersionName">Name version : </string>
+	<string name="btnClose">Close</string>
 	<!--  Widget -->
 	<string name="widget_name_2x2">Android Show Time 2x2</string>
+	<string name="msgNoResults">No movie found</string>
+	<string name="msgLoading">Loading...</string>
 	<!--  Main acitivity -->
 	<string name="MainTitle">Bemvindo a Android Showtime Application</string>
 	<string name="app_name">Android Showtime</string>
@@ -62,6 +72,8 @@
 	<string name="txtTitle">Titulo : </string>
 	<string name="txtRate">Nota : </string>
 	<string name="txtDuration">Duração : </string>
+	<string name="txtDirector">Director(s): </string>
+	<string name="txtActor">Actor(s): </string>
 	<string name="txtGenre">Gênero : </string>
 	<string name="tabSummary">Ficha técnica do Filme </string>
 	<string name="tabProjection">Lista das exibicões </string>
@@ -70,11 +82,13 @@
 	<string name="menuTranslate">Traduzir </string>
 	<string name="menuSms">Convidar por sms</string>
 	<string name="menuMail">Convidar por mail</string>
+	<string name="menuAddEvent">Add into Calendar</string>
 	<string name="smsContent">Queres vir comigo ver o filme "{0}" {1} na sessão de {2} ao cinema "{3}" ?\n\n sms autotico fato por AndShowtime</string>
 	<string name="mailContent">Queres vir comigo ver o filme <i>"{0}"</i> {1} na sessão de <b>{2}</b> ao cinema "{3}" \n\n mail automatico fato por AndShowtime</string>
 	<string name="mailSubject">Convido para o filme {0}</string>
 	<string name="chooseIntentSms">Enviar convido sms</string>
 	<string name="chooseIntentMail">Enviar convido mail</string>
+	<string name="msgEventAdd">Show time add into calendar</string>
 	<!-- Preferences Messages -->
 	<string name="preference_lang_cat">Preferênçias de lingua </string>
 	<string name="preference_lang_key_auto_translate">check_preference</string>
@@ -89,6 +103,16 @@
 	<string name="preference_loc_default_measure">KM</string>
 	<string name="preference_loc_measure">Unidade por padrão</string>
 	<string name="preference_loc_measure_summary">Escolha a sua unidade por padrão</string>
+	<string name="preference_loc_key_time_direction">time_direction_preference</string>
+	<string name="preference_loc_time_direction">Direction time</string>
+	<string name="preference_loc_time_direction_summary">Always take care of directions time in show of show times</string>
+	<string name="preference_loc_key_enable_localisation">enable_localisation_preference</string>
+	<string name="preference_loc_enable_localisation">Enabled localisation</string>
+	<string name="preference_loc_enable_localisation_summary">Take care of GPS or network localisation if defined as active in device</string>
+	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
+	<string name="preference_loc_localisation_provider">Localisation mode</string>
+	<string name="preference_loc_localisation_provider_summary">Choose your localisation mode : GPS or network</string>
+	<string name="preference_loc_default_localisation_provider">GPS</string>
 	<string name="preference_sort_cat">Preferências de ordem</string>
 	<string name="preference_sort_key_sort_movie">sort_movie</string>
 	<string name="preference_sort_default_sort_movie">THEATER_DISTANCE</string>
@@ -98,4 +122,6 @@
 	<string name="preference_sort_default_sort_theater">THEATER_DISTANCE</string>
 	<string name="preference_sort_sort_theater">Ordena de cinemas por padrão</string>
 	<string name="preference_sort_sort_theater_summary">Escolha a ordem a utilizar por padrão para os resultados da pesquisa de proximidade</string>
+	<!-- Error messages -->
+	<string name="msgErrorNoDb">Connection to dabata could not be established, please check your sd card</string>
 </resources>

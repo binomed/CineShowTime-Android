@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 
 public class SortDialog extends Dialog {
 

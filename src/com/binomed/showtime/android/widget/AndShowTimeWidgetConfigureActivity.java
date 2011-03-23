@@ -4,9 +4,11 @@ import java.io.UnsupportedEncodingException;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -14,11 +16,12 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.view.TheaterFavListAdapter;
 import com.binomed.showtime.android.handler.ServiceCallBackNear;
 import com.binomed.showtime.android.util.BeanManagerFactory;
 import com.binomed.showtime.android.util.LocationUtils;
+import com.binomed.showtime.android.util.LocationUtils.ProviderEnum;
 import com.binomed.showtime.beans.NearResp;
 
 public class AndShowTimeWidgetConfigureActivity extends Activity {
@@ -39,6 +42,11 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 	protected Bitmap bitmapGpsOn;
 	protected Bitmap bitmapGpsOff;
 
+	private ProviderEnum provider;
+
+	private boolean checkboxPreference, locationListener;
+	private SharedPreferences prefs;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,14 +58,14 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 
 		setContentView(R.layout.and_showtime_widget_activity);
 
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
 		controler = ControlerAndShowTimeWidget.getInstance();
 		model = controler.getModelWidgetActivity();
 		listener = new ListenerAndShowTimeWidget(this, controler, model);
 
 		initViews();
 		initListeners();
-
-		model.setGpsLocalisation(LocationUtils.getLastLocation(AndShowTimeWidgetConfigureActivity.this));
 
 		controler.registerView(this);
 
@@ -72,12 +80,62 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
+		controler.unbindService();
+		controler.closeDB();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.i(TAG, "onPause"); //$NON-NLS-1$
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
-		removeListeners();
-		controler.unbindService();
-		controler.closeDB();
+		removeListenersLocation();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.i(TAG, "onResume"); //$NON-NLS-1$
+		initProvider();
+		initListeners();
+		initViewsState();
+
+		model.setGpsLocalisation(checkboxPreference ? LocationUtils.getLastLocation(AndShowTimeWidgetConfigureActivity.this, provider) : null);
+
+		display();
+
+	}
+
+	@Override
+	protected void onRestart() {
+		Log.i(TAG, "onRestart"); //$NON-NLS-1$
+		super.onRestart();
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		Log.i(TAG, "onRestoreInstance"); //$NON-NLS-1$
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		Log.i(TAG, "onSaveInstance"); //$NON-NLS-1$
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onStart() {
+		Log.i(TAG, "onStart"); //$NON-NLS-1$
+		super.onStart();
+	}
+
+	@Override
+	protected void onStop() {
+		Log.i(TAG, "onStop"); //$NON-NLS-1$
+		super.onStop();
 	}
 
 	private void initViews() {
@@ -89,22 +147,37 @@ public class AndShowTimeWidgetConfigureActivity extends Activity {
 		chkGps = (CheckBox) findViewById(R.id.searchWidgetLocation);
 		listResult = (ListView) findViewById(R.id.searchWidgetListResult);
 		gpsImgView = (ImageView) findViewById(R.id.searchWidgetImgGps);
+	}
+
+	private void initViewsState() {
 
 		gpsImgView.setImageBitmap(bitmapGpsOff);
 		chkGps.setChecked(false);
-		chkGps.setEnabled(LocationUtils.isGPSEnabled(AndShowTimeWidgetConfigureActivity.this));
+		chkGps.setEnabled(LocationUtils.isLocalisationEnabled(AndShowTimeWidgetConfigureActivity.this, provider));
 	}
 
 	private void initListeners() {
 		btnSearch.setOnClickListener(listener);
 		listResult.setOnItemClickListener(listener);
-
-		chkGps.setOnClickListener(listener);
-		LocationUtils.registerListener(AndShowTimeWidgetConfigureActivity.this, listener);
 	}
 
-	private void removeListeners() {
+	protected void initListenersLocation() {
+		if (checkboxPreference) {
+			locationListener = true;
+			LocationUtils.registerLocalisationListener(AndShowTimeWidgetConfigureActivity.this, provider, listener);
+		}
+
+	}
+
+	protected void removeListenersLocation() {
+		locationListener = false;
 		LocationUtils.unRegisterListener(AndShowTimeWidgetConfigureActivity.this, listener);
+	}
+
+	private void initProvider() {
+		provider = LocationUtils.getProvider(prefs, this);
+		checkboxPreference = prefs.getBoolean(getResources().getString(R.string.preference_loc_key_enable_localisation), true);
+
 	}
 
 	protected void launchNearService() throws UnsupportedEncodingException {

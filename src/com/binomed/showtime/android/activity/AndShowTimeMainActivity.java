@@ -13,7 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.searchmovieactivity.AndShowTimeSearchMovieActivity;
 import com.binomed.showtime.android.searchnearactivity.AndShowTimeSearchNearActivity;
 import com.binomed.showtime.android.service.AndShowCleanFileService;
@@ -33,6 +33,7 @@ public class AndShowTimeMainActivity extends Activity {
 	private static final Integer REQUEST_PREF = 1;
 
 	private Context mainContext;
+	private boolean checkboxPreference;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -44,13 +45,19 @@ public class AndShowTimeMainActivity extends Activity {
 
 		AndShowtimeFactory.initGeocoder(this);
 
-		if (!BeanManagerFactory.isFirstOpen()) {
-			LocationUtils.checkGPSLocation(AndShowTimeMainActivity.this);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		checkboxPreference = prefs.getBoolean(getResources().getString(R.string.preference_loc_key_enable_localisation), true);
 
-			Intent intentCleanFileService = new Intent(AndShowTimeMainActivity.this, AndShowCleanFileService.class);
-			startService(intentCleanFileService);
+		if (checkboxPreference) {
 
-			BeanManagerFactory.setFirstOpen();
+			if (!BeanManagerFactory.isFirstOpen()) {
+				LocationUtils.checkProviderLocation(AndShowTimeMainActivity.this, LocationUtils.getProvider(prefs, this));
+
+				Intent intentCleanFileService = new Intent(AndShowTimeMainActivity.this, AndShowCleanFileService.class);
+				startService(intentCleanFileService);
+
+				BeanManagerFactory.setFirstOpen();
+			}
 		}
 
 		ImageView logoImg = (ImageView) findViewById(R.id.logoImg);
@@ -99,14 +106,6 @@ public class AndShowTimeMainActivity extends Activity {
 		}
 
 		return super.onMenuItemSelected(featureId, item);
-	}
-
-	boolean checkboxPreference;
-
-	private void getPrefs() {
-		// Get the xml/preferences.xml preferences
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		checkboxPreference = prefs.getBoolean("checkbox_preference", false);
 	}
 
 }

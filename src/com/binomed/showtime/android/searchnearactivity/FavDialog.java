@@ -13,7 +13,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-import com.binomed.showtime.android.R;
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.view.TheaterFavListAdapter;
 import com.binomed.showtime.beans.TheaterBean;
 
