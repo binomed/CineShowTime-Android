@@ -337,6 +337,14 @@ public class AndShowTimeSearchNearActivity extends Activity {
 							break;
 						}
 					}
+				} else if (theaterList == null || theaterList.size() == 0) {
+					TheaterBean theaterZeroResp = new TheaterBean();
+					theaterZeroResp.setTheaterName(getResources().getString(R.string.msgNoResultRetryLater));
+					if (theaterList == null) {
+						theaterList = new ArrayList<TheaterBean>();
+						nearResp.setTheaterList(theaterList);
+					}
+					theaterList.add(theaterZeroResp);
 				}
 				adapter.setTheaterList(nearResp, comparator);
 				resultList.setAdapter(adapter);

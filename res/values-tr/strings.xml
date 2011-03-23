@@ -38,6 +38,7 @@
 	<string name="msgSpeecCity">Ses tanıma : aradığınız şehirin adı</string>
 	<string name="msgSpeecMovie">Ses tanıma : aradığınız filmin adı</string>
 	<string name="msgCalculating">Hesaplanıyor...</string>
+	<string name="msgNoResultRetryLater">No showtimes where found for the moment, there maybe a problem on server. Please retry.</string>
 	<string name="btnClose">Kapat</string>
 	<!--  Widget -->
 	<string name="widget_name_2x2">Android Show Time 2x2</string>

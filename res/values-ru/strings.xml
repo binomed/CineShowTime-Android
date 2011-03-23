@@ -37,6 +37,7 @@
 	<string name="msgSpeecCity">Распознавание голоса : запрашиваемый город</string>
 	<string name="msgSpeecMovie">Распознавание голоса : запрашиваемый фильм</string>
 	<string name="msgCalculating">Обрабатывается...</string>
+	<string name="msgNoResultRetryLater">No showtimes where found for the moment, there maybe a problem on server. Please retry.</string>
 	<string name="btnClose">Закрыть</string>
 	<!--  Widget -->
 	<string name="widget_name_2x2">CineShowTime 2x2</string>
