@@ -1,18 +1,27 @@
 package com.binomed.showtime.android.cst;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.net.Uri.Builder;
+import android.util.Log;
 
 import com.binomed.showtime.android.util.AndShowTimeEncodingUtil;
+import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.TheaterBean;
 import com.binomed.showtime.cst.SpecialChars;
 import com.binomed.showtime.util.AndShowtimeNumberFormat;
 
 public class IntentShowtime {
+
+	private static final String TAG = "IntentShowTime"; //$NON-NLS-1$
 
 	public static Intent createMapsIntent(TheaterBean theater) {
 		StringBuilder mapsUri = new StringBuilder("geo:");
@@ -45,6 +54,36 @@ public class IntentShowtime {
 		}
 		Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(mapsUri.toString()));
 		return myIntent;
+	}
+
+	public static Intent createMapsWithDrivingDirectionIntent(TheaterBean theater, Location source) {
+		Geocoder geocoder = AndShowtimeFactory.getGeocoder();
+		if (geocoder != null) {
+			List<Address> addressList = null;
+			try {
+				addressList = geocoder.getFromLocation(source.getLatitude(), source.getLongitude(), 1);
+			} catch (Exception e) {
+				Log.e(TAG, "error Searching latitude, longitude :" + source.getLatitude() + "," + source.getLongitude(), e);
+			}
+			if (addressList != null && addressList.size() > 0) {
+				try {
+					StringBuilder mapsUri = new StringBuilder("http://maps.google.com/maps?saddr="); //$NON-NLS-1$
+					mapsUri.append(addressList.get(0).getAddressLine(0));
+
+					mapsUri.append("&daddr="); //$NON-NLS-1$
+					mapsUri.append(URLEncoder.encode(theater.getPlace().getSearchQuery(), AndShowTimeEncodingUtil.getEncoding()));
+					mapsUri.append("+("); //$NON-NLS-1$
+					mapsUri.append(theater.getTheaterName()); //$NON-NLS-1$
+					mapsUri.append(")"); //$NON-NLS-1$
+					Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(mapsUri.toString()));
+					return myIntent;
+				} catch (UnsupportedEncodingException e) {
+					Log.e(TAG, "error encoding :" + theater.getPlace().getSearchQuery(), e);
+				}
+			}
+		}
+		return null;
+
 	}
 
 	public static Intent createCallIntent(TheaterBean theater) {

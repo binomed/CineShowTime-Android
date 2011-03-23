@@ -9,10 +9,12 @@ import com.binomed.showtime.beans.TheaterBean;
 public class ModelAndShowTimeWidget {
 
 	private String cityName;
+	private List<String> voiceCityList;
 	private List<TheaterBean> theaterResultList;
 	private TheaterBean theater;
 	private Location gpsLocalisation;
 	private Location localisationSearch;
+	private int start;
 
 	public ModelAndShowTimeWidget() {
 		super();
@@ -56,6 +58,22 @@ public class ModelAndShowTimeWidget {
 
 	public void setTheaterResultList(List<TheaterBean> theaterResultList) {
 		this.theaterResultList = theaterResultList;
+	}
+
+	public int getStart() {
+		return start;
+	}
+
+	public void setStart(int start) {
+		this.start = start;
+	}
+
+	public List<String> getVoiceCityList() {
+		return voiceCityList;
+	}
+
+	public void setVoiceCityList(List<String> voiceCityList) {
+		this.voiceCityList = voiceCityList;
 	}
 
 }

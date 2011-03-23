@@ -7,11 +7,16 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -24,15 +29,19 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.view.TheaterAndMovieListAdapter;
 import com.binomed.showtime.android.cst.IntentShowtime;
+import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.handler.ServiceCallBackNear;
-import com.binomed.showtime.android.layout.dialogs.SortDialog;
+import com.binomed.showtime.android.layout.dialogs.fav.FavDialog;
+import com.binomed.showtime.android.layout.dialogs.sort.ListDialog;
 import com.binomed.showtime.android.layout.view.MovieView;
 import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
@@ -50,17 +59,23 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	private static final int MENU_FAV = Menu.FIRST;
 	private static final int MENU_SORT = Menu.FIRST + 1;
 	private static final int OPEN_MAP = Menu.FIRST + 2;
-	private static final int OPEN_YOUTUBE = Menu.FIRST + 3;
-	private static final int CALL_THEATER = Menu.FIRST + 4;
-	private static final int ADD_FAV = Menu.FIRST + 5;
-	private static final int MENU_PREF = Menu.FIRST + 6;
+	private static final int OPEN_MAP_DIRECTION = Menu.FIRST + 3;
+	private static final int OPEN_YOUTUBE = Menu.FIRST + 4;
+	private static final int CALL_THEATER = Menu.FIRST + 5;
+	private static final int ADD_FAV = Menu.FIRST + 6;
+	private static final int MENU_PREF = Menu.FIRST + 7;
 
+	protected static final int ID_SORT = 1;
+	protected static final int ID_VOICE = ID_SORT + 1;
+
+	protected static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
 	public static final Integer ACTIVITY_OPEN_MOVIE = 0;
 
 	private static final String TAG = "NearActivity"; //$NON-NLS-1$
 
 	protected AutoCompleteTextView fieldCityName;
 	protected Button searchButton;
+	protected ImageButton speechButton;
 	protected CheckBox checkButtonLocalisation;
 	protected ExpandableListView resultList;
 	protected ProgressDialog progressDialog;
@@ -97,6 +112,32 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		controler = ControlerSearchNearActivity.getInstance();
 		model = controler.getModelNearActivity();
 		listener = new ListenerSearchNearActivity(this, controler, model);
+
+		// We init the theater id if set
+
+		String theaterId = getIntent().getStringExtra(ParamIntent.ACTIVITY_NEAR_THEATER_ID);
+		getIntent().putExtra(ParamIntent.ACTIVITY_NEAR_THEATER_ID, "");
+		if (theaterId != null && theaterId.length() > 0) {
+			model.setForceResearch(true);
+			model.setFavTheaterId(theaterId);
+			model.setLocalisationSearch(null);
+			model.setCityName(null);
+			Double latitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_NEAR_LATITUDE, 0);
+			Double longitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_NEAR_LONGITUDE, 0);
+			String cityName = getIntent().getStringExtra(ParamIntent.ACTIVITY_NEAR_CITY_NAME);
+			if (latitude != 0 && longitude != 0) {
+				Location locationTheater = new Location("GPS");
+				locationTheater.setLatitude(latitude);
+				locationTheater.setLongitude(longitude);
+				model.setLocalisationSearch(locationTheater);
+			} else {
+				if (cityName != null) {
+					model.setCityName(cityName);
+				}
+			}
+		} else {
+			model.setForceResearch(false);
+		}
 
 		initComparator();
 		initViews();
@@ -187,6 +228,17 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		fieldCityName = (AutoCompleteTextView) findViewById(R.id.searchNearCityName);
 		spinnerChooseDay = (Spinner) findViewById(R.id.searchNearSpinner);
 
+		// Manage speech button just if package present on device
+		PackageManager pm = getPackageManager();
+		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+		speechButton = (ImageButton) findViewById(R.id.searchNearBtnSpeech);
+		if (activities.size() == 0) {
+			speechButton.setVisibility(View.GONE);
+			// fieldCityName.invalidate();
+			// speechButton.setEnabled(false);
+			// fieldCityName.refreshDrawableState();
+		}
+
 	}
 
 	private void initViewsState() {
@@ -194,6 +246,14 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		gpsImgView.setImageBitmap(bitmapGpsOff);
 		checkButtonLocalisation.setChecked(false);
 		checkButtonLocalisation.setEnabled(LocationUtils.isLocalisationEnabled(AndShowTimeSearchNearActivity.this, provider));
+
+		// Check to see if a recognition activity is present
+		PackageManager pm = getPackageManager();
+		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+		if (activities.size() != 0) {
+			// speechButton.setBackgroundResource(android.R.drawable.ic_btn_speak_now);
+			speechButton.setOnClickListener(listener);
+		}
 
 		fillAutoField();
 
@@ -203,6 +263,7 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		);
 		adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerChooseDay.setAdapter(adapterSpinner);
+
 	}
 
 	protected void fillAutoField() {
@@ -362,11 +423,13 @@ public class AndShowTimeSearchNearActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		Log.i(TAG, "onCreateOptionsMenu"); //$NON-NLS-1$
-		menu.add(0, MENU_FAV, 0, R.string.menuFav).setIcon(R.drawable.ic_menu_star);
-		menu.add(0, MENU_SORT, 0, R.string.menuSort).setIcon(android.R.drawable.ic_menu_sort_by_size);
-		AndShowTimeMenuUtil.createMenu(menu, MENU_PREF);
+		menu.add(0, MENU_FAV, 1, R.string.menuFav).setIcon(R.drawable.ic_menu_star);
+		menu.add(0, MENU_SORT, 2, R.string.menuSort).setIcon(android.R.drawable.ic_menu_sort_by_size);
+		AndShowTimeMenuUtil.createMenu(menu, MENU_PREF, 3);
 		return true;
 	}
+
+	;
 
 	/*
 	 * (non-Javadoc)
@@ -397,14 +460,17 @@ public class AndShowTimeSearchNearActivity extends Activity {
 				dialog.setTitle(AndShowTimeSearchNearActivity.this.getResources().getString(R.string.dialogBookmarkTitle));
 				dialog.setFeatureDrawableResource(featureId, android.R.drawable.ic_input_get);
 				dialog.show();
+			} else {
+				Toast.makeText(this, R.string.msgNoDFav, Toast.LENGTH_SHORT).show();
 			}
 			return true;
 		}
 		case MENU_SORT: {
-			SortDialog dialog = new SortDialog(//
+			ListDialog dialog = new ListDialog(//
 					AndShowTimeSearchNearActivity.this //
 					, listener //
 					, R.array.sort_theaters_values //
+					, ID_VOICE //
 			);
 			dialog.setTitle(AndShowTimeSearchNearActivity.this.getResources().getString(R.string.sortDialogTitle));
 			dialog.setFeatureDrawableResource(featureId, android.R.drawable.ic_menu_sort_by_size);
@@ -430,8 +496,8 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		View targetView = info.targetView;
 		boolean isMovieView = (MovieView.class == targetView.getClass());
 		int groupId = Long.valueOf(info.id).intValue();
+		Object selectItem = resultList.getItemAtPosition(groupId);
 		if (!isMovieView) {
-			Object selectItem = resultList.getItemAtPosition(groupId);
 			if (((TheaterBean) selectItem).getId().equals(String.valueOf(HttpParamsCst.ERROR_WRONG_DATE)) //
 					|| ((TheaterBean) selectItem).getId().equals(String.valueOf(HttpParamsCst.ERROR_WRONG_PLACE))) {
 				return;
@@ -440,15 +506,26 @@ public class AndShowTimeSearchNearActivity extends Activity {
 						&& (((TheaterBean) selectItem).getPhoneNumber() != null) //  
 						&& (((TheaterBean) selectItem).getPhoneNumber().length() != 0) //  
 				) {
-					menu.add(groupId, CALL_THEATER, 0, R.string.menuCall).setIcon(android.R.drawable.ic_menu_call);
+					menu.add(groupId, CALL_THEATER, 1, R.string.menuCall).setIcon(android.R.drawable.ic_menu_call);
 				}
-				menu.add(groupId, ADD_FAV, 0, R.string.addFav).setIcon(R.drawable.ic_menu_star);
+				menu.add(groupId, ADD_FAV, 1, R.string.addFav).setIcon(R.drawable.ic_menu_star);
+				if ((selectItem.getClass() == TheaterBean.class) // 
+						&& (((TheaterBean) selectItem) != null) //
+						&& (model.getGpsLocalisation() != null)) {
+					menu.add(groupId, OPEN_MAP_DIRECTION, 2, R.string.openMapsDriveMenuItem).setIcon(android.R.drawable.ic_menu_directions);
+				}
 			}
 		}
 		int itemId = isMovieView ? OPEN_YOUTUBE : OPEN_MAP;
 		int menuStr = isMovieView ? R.string.openYoutubeMenuItem : R.string.openMapsMenuItem;
 		int icon = isMovieView ? R.drawable.ic_menu_play_clip : android.R.drawable.ic_dialog_map;
-		menu.add(groupId, itemId, 0, menuStr).setIcon(icon);
+		if ((isMovieView //
+				&& (selectItem.getClass() == TheaterBean.class) // 
+		&& (((TheaterBean) selectItem) != null) //
+				)
+				|| !isMovieView) {
+			menu.add(groupId, itemId, 0, menuStr).setIcon(icon);
+		}
 	}
 
 	/*
@@ -464,8 +541,17 @@ public class AndShowTimeSearchNearActivity extends Activity {
 			Object selectItem = resultList.getItemAtPosition(item.getGroupId());
 			if (selectItem.getClass() == TheaterBean.class) {
 				TheaterBean theater = (TheaterBean) selectItem;
-				if (theater.getPlace() != null) {
-					startActivity(IntentShowtime.createMapsIntent(theater));
+				startActivity(IntentShowtime.createMapsIntent(theater));
+			}
+			return true;
+		}
+		case OPEN_MAP_DIRECTION: {
+			Object selectItem = resultList.getItemAtPosition(item.getGroupId());
+			if (selectItem.getClass() == TheaterBean.class) {
+				TheaterBean theater = (TheaterBean) selectItem;
+				Intent intentDirection = IntentShowtime.createMapsWithDrivingDirectionIntent(theater, model.getGpsLocalisation());
+				if (intentDirection != null) {
+					startActivity(intentDirection);
 				}
 			}
 			return true;
@@ -495,6 +581,36 @@ public class AndShowTimeSearchNearActivity extends Activity {
 		}
 		}
 		return super.onContextItemSelected(item);
+	}
+
+	/*
+	 * 
+	 * Activity and Service Results
+	 */
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
+			// Fill the list view with the strings the recognizer thought it could have heard
+			ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+			if (matches != null && matches.size() > 0) {
+				model.setVoiceCityList(matches);
+				ListDialog dialog = new ListDialog(//
+						AndShowTimeSearchNearActivity.this //
+						, listener //
+						, matches //
+						, ID_VOICE//
+				);
+				dialog.setTitle(AndShowTimeSearchNearActivity.this.getResources().getString(R.string.msgSpeecRecognition));
+				dialog.show();
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 }

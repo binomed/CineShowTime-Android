@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -51,13 +52,14 @@ public class AndShowTimeMovieActivity extends Activity {
 	private static final String TAG = "MovieActivity"; //$NON-NLS-1$
 
 	private static final int MENU_OPEN_MAPS = Menu.FIRST;
-	private static final int MENU_VIDEO = Menu.FIRST + 1;
-	private static final int MENU_CALL = Menu.FIRST + 2;
-	private static final int ITEM_TRANSLATE = Menu.FIRST + 3;
-	private static final int ITEM_SEND_SMS = Menu.FIRST + 4;
-	private static final int ITEM_SEND_MAIL = Menu.FIRST + 5;
-	private static final int ITEM_ADD_EVENT = Menu.FIRST + 6;
-	private static final int MENU_PREF = Menu.FIRST + 7;
+	private static final int MENU_OPEN_MAPS_DIRECTION = Menu.FIRST + 1;
+	private static final int MENU_VIDEO = Menu.FIRST + 2;
+	private static final int MENU_CALL = Menu.FIRST + 3;
+	private static final int ITEM_TRANSLATE = Menu.FIRST + 4;
+	private static final int ITEM_SEND_SMS = Menu.FIRST + 5;
+	private static final int ITEM_SEND_MAIL = Menu.FIRST + 6;
+	private static final int ITEM_ADD_EVENT = Menu.FIRST + 7;
+	private static final int MENU_PREF = Menu.FIRST + 8;
 
 	private TextView movieTitle;
 	private TextView movieRate;
@@ -109,6 +111,17 @@ public class AndShowTimeMovieActivity extends Activity {
 
 		String movieId = getIntent().getStringExtra(ParamIntent.MOVIE_ID);
 		String theaterId = getIntent().getStringExtra(ParamIntent.THEATER_ID);
+		double latitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, 0);
+		double longitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, 0);
+		String near = getIntent().getStringExtra(ParamIntent.ACTIVITY_MOVIE_NEAR);
+		if (latitude != 0 && longitude != 0) {
+			Location gpsLocation = new Location("GPS"); //$NON-NLS-1$
+			gpsLocation.setLatitude(latitude);
+			gpsLocation.setLongitude(longitude);
+			model.setGpsLocation(gpsLocation);
+		} else {
+			model.setGpsLocation(null);
+		}
 
 		// Init star img
 		bitmapRateOff = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_off);
@@ -137,7 +150,7 @@ public class AndShowTimeMovieActivity extends Activity {
 			}
 
 			if (movie.getImdbId() == null) {
-				controler.searchMovieDetail(movie);
+				controler.searchMovieDetail(movie, near);
 			} else {
 				fillViews(movie);
 			}
@@ -532,10 +545,17 @@ public class AndShowTimeMovieActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		menu.add(0, MENU_OPEN_MAPS, 0, R.string.openMapsMenuItem).setIcon(android.R.drawable.ic_menu_mapmode);
-		menu.add(0, MENU_VIDEO, 0, R.string.openYoutubeMenuItem).setIcon(R.drawable.ic_menu_play_clip);
-		menu.add(0, MENU_CALL, 0, R.string.menuCall).setIcon(android.R.drawable.ic_menu_call);
-		AndShowTimeMenuUtil.createMenu(menu, MENU_PREF);
+		if (model.getTheater() != null) {
+			menu.add(0, MENU_OPEN_MAPS, 0, R.string.openMapsMenuItem).setIcon(android.R.drawable.ic_menu_mapmode);
+		}
+		if (model.getTheater() != null //
+				&& model.getGpsLocation() != null //
+		) {
+			menu.add(0, MENU_OPEN_MAPS_DIRECTION, 1, R.string.openMapsDriveMenuItem).setIcon(android.R.drawable.ic_menu_directions);
+		}
+		menu.add(0, MENU_VIDEO, 2, R.string.openYoutubeMenuItem).setIcon(R.drawable.ic_menu_play_clip);
+		menu.add(0, MENU_CALL, 3, R.string.menuCall).setIcon(android.R.drawable.ic_menu_call);
+		AndShowTimeMenuUtil.createMenu(menu, MENU_PREF, 4);
 		return true;
 	}
 
@@ -547,6 +567,13 @@ public class AndShowTimeMovieActivity extends Activity {
 		switch (item.getItemId()) {
 		case MENU_OPEN_MAPS: {
 			startActivity(IntentShowtime.createMapsIntent(model.getTheater()));
+			return true;
+		}
+		case MENU_OPEN_MAPS_DIRECTION: {
+			Intent intentDirection = IntentShowtime.createMapsWithDrivingDirectionIntent(model.getTheater(), model.getGpsLocation());
+			if (intentDirection != null) {
+				startActivity(intentDirection);
+			}
 			return true;
 		}
 		case MENU_CALL: {

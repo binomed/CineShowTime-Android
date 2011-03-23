@@ -1,6 +1,7 @@
 package com.binomed.showtime.android.searchnearactivity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import android.location.Location;
@@ -10,10 +11,12 @@ public class ModelSearchNearActivity {
 	private String cityName;
 	private String favTheaterId;
 	private Set<String> requestList;
+	private List<String> voiceCityList;
 	private Location gpsLocalisation;
 	private Location localisationSearch;
 	private int day;
 	private int start;
+	private boolean forceResearch;
 
 	public ModelSearchNearActivity() {
 		super();
@@ -74,6 +77,22 @@ public class ModelSearchNearActivity {
 
 	public void setStart(int start) {
 		this.start = start;
+	}
+
+	public List<String> getVoiceCityList() {
+		return voiceCityList;
+	}
+
+	public void setVoiceCityList(List<String> voiceCityList) {
+		this.voiceCityList = voiceCityList;
+	}
+
+	public boolean isForceResearch() {
+		return forceResearch;
+	}
+
+	public void setForceResearch(boolean forceResearch) {
+		this.forceResearch = forceResearch;
 	}
 
 }

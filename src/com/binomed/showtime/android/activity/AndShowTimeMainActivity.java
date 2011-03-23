@@ -6,16 +6,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.searchmovieactivity.AndShowTimeSearchMovieActivity;
-import com.binomed.showtime.android.searchnearactivity.AndShowTimeSearchNearActivity;
 import com.binomed.showtime.android.service.AndShowCleanFileService;
 import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
@@ -24,8 +21,10 @@ import com.binomed.showtime.android.util.LocationUtils;
 
 public class AndShowTimeMainActivity extends Activity {
 
-	private static final Integer ACTIVITY_NEAR = 0;
-	private static final Integer ACTIVITY_MOVIE = 1;
+	private static final String TAG = "AndShowTimeMainActivity"; //$NON-NLS-1$
+
+	protected static final Integer ACTIVITY_NEAR = 0;
+	protected static final Integer ACTIVITY_MOVIE = 1;
 	private static final int MENU_PREF = Menu.FIRST;
 	private static final int MENU_ABOUT = Menu.FIRST + 1;
 	private static final int MENU_HELP = Menu.FIRST + 2;
@@ -33,7 +32,13 @@ public class AndShowTimeMainActivity extends Activity {
 	private static final Integer REQUEST_PREF = 1;
 
 	private Context mainContext;
+	private ControlerMainActivity controler;
+	private ListenerMainActivity listener;
 	private boolean checkboxPreference;
+	private ImageView logoImg;
+	private Button buttonSearchNear;
+	private Button buttonSearchMovie;
+	private Button buttonTheatersFav;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -60,45 +65,79 @@ public class AndShowTimeMainActivity extends Activity {
 			}
 		}
 
-		ImageView logoImg = (ImageView) findViewById(R.id.logoImg);
+		controler = ControlerMainActivity.getInstance();
+		listener = new ListenerMainActivity(controler, this);
+
+		initViews();
+		initListeners();
+
+		controler.registerView(this);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onDestroy()
+	 */
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
+		controler.closeDB();
+	}
+
+	/*
+	 * 
+	 * Init Views
+	 */
+
+	/**
+	 * Init views objects
+	 */
+	private void initViews() {
+
+		logoImg = (ImageView) findViewById(R.id.logoImg);
 		logoImg.setImageResource(R.drawable.logo);
 
 		// Watch for button clicks.
-		Button buttonSearchNear = (Button) findViewById(R.id.mainBtnSearchNear);
-		buttonSearchNear.setOnClickListener(mStartListener);
-		Button buttonSearchMovie = (Button) findViewById(R.id.mainBtnSearchMovie);
-		buttonSearchMovie.setOnClickListener(mStartListener);
+		buttonSearchNear = (Button) findViewById(R.id.mainBtnSearchNear);
+		buttonSearchMovie = (Button) findViewById(R.id.mainBtnSearchMovie);
+		buttonTheatersFav = (Button) findViewById(R.id.mainBtnTheaterFav);
 	}
 
-	private OnClickListener mStartListener = new OnClickListener() {
-		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.mainBtnSearchNear: {
-				Intent intentStartNearActivity = new Intent(mainContext, AndShowTimeSearchNearActivity.class);
+	/**
+	 * Init listener
+	 */
+	private void initListeners() {
+		buttonSearchNear.setOnClickListener(listener);
+		buttonSearchMovie.setOnClickListener(listener);
+		buttonTheatersFav.setOnClickListener(listener);
 
-				startActivityForResult(intentStartNearActivity, ACTIVITY_NEAR);
-				break;
-			}
-			case R.id.mainBtnSearchMovie: {
-				Intent intentStartMovieActivity = new Intent(mainContext, AndShowTimeSearchMovieActivity.class);
+	}
 
-				startActivityForResult(intentStartMovieActivity, ACTIVITY_MOVIE);
-				break;
-			}
-			default:
-				break;
-			}
+	/*
+	 * 
+	 * 
+	 */
 
-		}
-	};
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		AndShowTimeMenuUtil.createMenu(menu, MENU_PREF);
+		AndShowTimeMenuUtil.createMenu(menu, MENU_PREF, 0);
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onMenuItemSelected(int, android.view.MenuItem)
+	 */
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		if (AndShowTimeMenuUtil.onMenuItemSelect(this, MENU_PREF, item.getItemId())) {

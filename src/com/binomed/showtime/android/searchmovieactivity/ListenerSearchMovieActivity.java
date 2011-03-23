@@ -1,8 +1,10 @@
 package com.binomed.showtime.android.searchmovieactivity;
 
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,14 +14,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.layout.dialogs.SortDialog;
-import com.binomed.showtime.android.layout.dialogs.SortSelectionListener;
+import com.binomed.showtime.android.cst.AndShowtimeCst;
+import com.binomed.showtime.android.layout.dialogs.sort.ListSelectionListener;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.BeanManagerFactory;
 import com.binomed.showtime.beans.MovieResp;
 import com.binomed.showtime.beans.TheaterBean;
 
-public class ListenerSearchMovieActivity implements OnClickListener, OnItemClickListener, LocationListener, OnItemSelectedListener, SortSelectionListener {
+public class ListenerSearchMovieActivity implements OnClickListener, OnItemClickListener, LocationListener, OnItemSelectedListener, ListSelectionListener {
 
 	private AndShowTimeSearchMovieActivity movieActivity;
 	private ControlerSearchMovieActivity controler;
@@ -95,6 +97,18 @@ public class ListenerSearchMovieActivity implements OnClickListener, OnItemClick
 				Log.e(TAG, "erreur au lancement du service", e); //$NON-NLS-1$
 			}
 			break;
+		}
+		case R.id.searchMovieBtnSpeechCity: {
+			Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+			intent.putExtra(RecognizerIntent.EXTRA_PROMPT, movieActivity.getResources().getString(R.string.msgSpeecCity));
+			movieActivity.startActivityForResult(intent, AndShowTimeSearchMovieActivity.VOICE_RECOGNITION_CITY_REQUEST_CODE);
+		}
+		case R.id.searchMovieBtnSpeechMovie: {
+			Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+			intent.putExtra(RecognizerIntent.EXTRA_PROMPT, movieActivity.getResources().getString(R.string.msgSpeecMovie));
+			movieActivity.startActivityForResult(intent, AndShowTimeSearchMovieActivity.VOICE_RECOGNITION_MOVIE_REQUEST_CODE);
 		}
 		case R.id.searchMovieLocation: {
 			movieActivity.fieldNearName.setEnabled(!movieActivity.checkLocationButton.isChecked());
@@ -203,24 +217,39 @@ public class ListenerSearchMovieActivity implements OnClickListener, OnItemClick
 	}
 
 	@Override
-	public void sortSelected(int sortKey) {
-		switch (sortKey) {
-		case SortDialog.SORT_THEATER_NAME:
-			movieActivity.comparator = AndShowtimeFactory.getTheaterNameComparator();
-			break;
-		case SortDialog.SORT_THEATER_DISTANCE:
-			movieActivity.comparator = AndShowtimeFactory.getTheaterDistanceComparator();
-			break;
-		case SortDialog.SORT_SHOWTIME:
-			movieActivity.comparator = AndShowtimeFactory.getTheaterShowtimeComparator();
-			break;
+	public void sortSelected(int sourceID, int sortKey) {
+		switch (sourceID) {
+		case AndShowTimeSearchMovieActivity.ID_SORT: {
+			switch (sortKey) {
+			case AndShowtimeCst.SORT_THEATER_NAME:
+				movieActivity.comparator = AndShowtimeFactory.getTheaterNameComparator();
+				break;
+			case AndShowtimeCst.SORT_THEATER_DISTANCE:
+				movieActivity.comparator = AndShowtimeFactory.getTheaterDistanceComparator();
+				break;
+			case AndShowtimeCst.SORT_SHOWTIME:
+				movieActivity.comparator = AndShowtimeFactory.getTheaterShowtimeComparator();
+				break;
 
-		default:
-			movieActivity.comparator = null;
+			default:
+				movieActivity.comparator = null;
+				break;
+			}
+
+			movieActivity.display();
 			break;
 		}
-
-		movieActivity.display();
+		case AndShowTimeSearchMovieActivity.ID_VOICE_CITY: {
+			movieActivity.fieldNearName.setText(model.getVoiceCityList().get(0));
+			break;
+		}
+		case AndShowTimeSearchMovieActivity.ID_VOICE_MOVIE: {
+			movieActivity.fieldMovieName.setText(model.getVoiceMovieList().get(0));
+			break;
+		}
+		default:
+			break;
+		}
 
 	}
 

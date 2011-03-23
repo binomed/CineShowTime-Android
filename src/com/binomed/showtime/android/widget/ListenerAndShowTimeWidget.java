@@ -1,8 +1,12 @@
 package com.binomed.showtime.android.widget;
 
+import java.io.UnsupportedEncodingException;
+
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,8 +15,9 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.layout.dialogs.sort.ListSelectionListener;
 
-public class ListenerAndShowTimeWidget implements OnClickListener, LocationListener, OnItemClickListener {
+public class ListenerAndShowTimeWidget implements OnClickListener, LocationListener, OnItemClickListener, ListSelectionListener {
 
 	private AndShowTimeWidgetConfigureActivity widgetActivity;
 	private ControlerAndShowTimeWidget controler;
@@ -67,6 +72,7 @@ public class ListenerAndShowTimeWidget implements OnClickListener, LocationListe
 					} else {
 						model.setLocalisationSearch(null);
 					}
+					model.setStart(0);
 					widgetActivity.launchNearService();
 				}
 
@@ -74,6 +80,12 @@ public class ListenerAndShowTimeWidget implements OnClickListener, LocationListe
 				Log.e(TAG, "erreur au lancement du service", e); //$NON-NLS-1$
 			}
 			break;
+		}
+		case R.id.searchWidgetBtnSpeech: {
+			Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+			intent.putExtra(RecognizerIntent.EXTRA_PROMPT, widgetActivity.getResources().getString(R.string.msgSpeecCity));
+			widgetActivity.startActivityForResult(intent, AndShowTimeWidgetConfigureActivity.VOICE_RECOGNITION_REQUEST_CODE);
 		}
 		case R.id.searchWidgetLocation: {
 			widgetActivity.txtCityName.setEnabled(!widgetActivity.chkGps.isChecked());
@@ -144,8 +156,34 @@ public class ListenerAndShowTimeWidget implements OnClickListener, LocationListe
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> adpater, View view, int groupPosition, long id) {
-		model.setTheater(model.getTheaterResultList().get(groupPosition));
-		controler.finalizeWidget();
+		int theaterListSize = model.getTheaterResultList().size();
+		if (theaterListSize == groupPosition) {
+			model.setStart(model.getStart() + 10);
+			try {
+				widgetActivity.launchNearService();
+			} catch (UnsupportedEncodingException e) {
+			}
+		} else {
+			model.setTheater(model.getTheaterResultList().get(groupPosition));
+			controler.finalizeWidget();
+		}
+	}
+
+	/**
+	 * @param viewId
+	 * @param selectKey
+	 */
+	@Override
+	public void sortSelected(int viewId, int selectKey) {
+		switch (viewId) {
+		case AndShowTimeWidgetConfigureActivity.ID_VOICE: {
+			widgetActivity.txtCityName.setText(model.getVoiceCityList().get(0));
+			break;
+		}
+		default:
+			break;
+		}
+
 	}
 
 }

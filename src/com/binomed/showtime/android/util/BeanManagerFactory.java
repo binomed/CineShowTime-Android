@@ -12,6 +12,7 @@ public final class BeanManagerFactory {
 	private static BeanManagerFactory instance;
 
 	private NearResp nearResp;
+	private NearResp nearRespFromWidget;
 	private MovieResp movieResp;
 	private HashMap<String, MovieBean> centralMovieMap;
 	private HashMap<String, TheaterBean> centralTheaterMap;
@@ -44,6 +45,14 @@ public final class BeanManagerFactory {
 
 	private void setPrivateNearResp(NearResp nearResp) {
 		this.nearResp = nearResp;
+	}
+
+	private NearResp getPrivateNearRespFromWidget() {
+		return nearRespFromWidget;
+	}
+
+	private void setPrivateNearRespFromWidget(NearResp nearRespFromWidget) {
+		this.nearRespFromWidget = nearRespFromWidget;
 	}
 
 	private MovieResp getPrivateMovieResp() {
@@ -92,6 +101,14 @@ public final class BeanManagerFactory {
 
 	public synchronized static NearResp getNearResp() {
 		return BeanManagerFactory.getInstance().getPrivateNearResp();
+	}
+
+	public synchronized static void setNearRespFromWidget(NearResp nearRespFromWidget) {
+		BeanManagerFactory.getInstance().setPrivateNearRespFromWidget(nearRespFromWidget);
+	}
+
+	public synchronized static NearResp getNearRespFromWidget() {
+		return BeanManagerFactory.getInstance().getPrivateNearRespFromWidget();
 	}
 
 	public synchronized static void setMovieResp(MovieResp MovieResp) {

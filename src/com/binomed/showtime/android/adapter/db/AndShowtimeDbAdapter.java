@@ -299,11 +299,20 @@ public class AndShowtimeDbAdapter {
 	public AndShowtimeDbAdapter open() throws SQLException {
 		mDbHelper = new DatabaseHelper(mCtx);
 		mDb = mDbHelper.getWritableDatabase();
+		mDb.setLockingEnabled(true);
 		return this;
 	}
 
 	public boolean isOpen() {
 		return mDb != null && mDb.isOpen();
+	}
+
+	public boolean isDbLockedByCurrentThread() {
+		return mDb != null && mDb.isDbLockedByCurrentThread();
+	}
+
+	public boolean isDbLockedByOtherThreads() {
+		return mDb != null && mDb.isDbLockedByOtherThreads();
 	}
 
 	public SQLiteDatabase getSqlLite() {
@@ -315,6 +324,8 @@ public class AndShowtimeDbAdapter {
 	}
 
 	public long addTheaterToFavorites(TheaterBean theater) {
+		chekDbAvailable();
+
 		Log.d(TAG, new StringBuilder("Create favorite theater : ").append(theater.getTheaterName()).toString()); //$NON-NLS-1$ 
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_FAV_TH_THEATER_ID, theater.getId());
@@ -365,6 +376,7 @@ public class AndShowtimeDbAdapter {
 	}
 
 	public long createNearRequest(String cityName, Double latitude, Double longitude, String theaterId) {
+		chekDbAvailable();
 		Log.d(TAG, new StringBuilder("Create near Request").toString()); //$NON-NLS-1$ 
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_NEAR_REQUEST_CITY_NAME, cityName);
@@ -383,6 +395,7 @@ public class AndShowtimeDbAdapter {
 	}
 
 	public long createMovieRequest(String cityName, String movieName, Double latitude, Double longitude, String theaterId) {
+		chekDbAvailable();
 		Log.d(TAG, new StringBuilder("Create movie Request").toString()); //$NON-NLS-1$ 
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_MOVIE_REQUEST_CITY_NAME, cityName);
@@ -411,6 +424,7 @@ public class AndShowtimeDbAdapter {
 	 * @return rowId or -1 if failed
 	 */
 	public long createTheater(TheaterBean theater) {
+		chekDbAvailable();
 		Log.d(TAG, new StringBuilder("Create Theater: ").append(theater.getId()).toString()); //$NON-NLS-1$ 
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_THEATER_ID, theater.getId());
@@ -427,6 +441,7 @@ public class AndShowtimeDbAdapter {
 	}
 
 	public long createOrUpdateMovie(MovieBean movie) {
+		chekDbAvailable();
 		Log.d(TAG, new StringBuilder("Create or update for movie: ").append(movie.getId()).toString()); //$NON-NLS-1$ 
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_MOVIE_ID, movie.getId());
@@ -478,6 +493,7 @@ public class AndShowtimeDbAdapter {
 	}
 
 	public long createShowtime(String theatherId, String movieId, Long time) {
+		chekDbAvailable();
 		Log.d(TAG, new StringBuilder("Create showtime for theater: ").append(theatherId).append(" and movieId : ").append(movieId).append(" for time : ").append(time).toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_SHOWTIME_THEATER_ID, theatherId);
@@ -492,6 +508,7 @@ public class AndShowtimeDbAdapter {
 	}
 
 	public long createLocation(LocalisationBean location, String theaterId) {
+		chekDbAvailable();
 		Log.d(TAG, new StringBuilder("Create location for theater: ").append(theaterId).toString()); //$NON-NLS-1$
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_LOCALISATION_THEATER_ID, theaterId);
@@ -513,6 +530,7 @@ public class AndShowtimeDbAdapter {
 	}
 
 	public long setWidgetTheater(TheaterBean theater) {
+		chekDbAvailable();
 		Log.d(TAG, new StringBuilder("Create Widget ").toString()); //$NON-NLS-1$
 
 		mDb.delete(DATABASE_WIDGET_TABLE, null, null);
@@ -551,6 +569,7 @@ public class AndShowtimeDbAdapter {
 	}
 
 	public long updateWidgetTheater() {
+		chekDbAvailable();
 		Log.d(TAG, new StringBuilder("Update date Widget ").toString()); //$NON-NLS-1$
 
 		ContentValues initialValues = new ContentValues();
@@ -566,6 +585,7 @@ public class AndShowtimeDbAdapter {
 	}
 
 	public long createWidgetShowtime(MovieBean movie, Long showtime) {
+		chekDbAvailable();
 		Log.d(TAG, new StringBuilder("Create Widget showtime").toString()); //$NON-NLS-1$
 
 		ContentValues initialValues = new ContentValues();
@@ -1016,6 +1036,7 @@ public class AndShowtimeDbAdapter {
 	}
 
 	public void deleteTheatersShowtimeRequestAndLocation() {
+		chekDbAvailable();
 		int result = mDb.delete(DATABASE_THEATERS_TABLE //
 				, null //
 				, null);
@@ -1041,6 +1062,7 @@ public class AndShowtimeDbAdapter {
 	}
 
 	public void deleteWidgetShowtime() {
+		chekDbAvailable();
 		int result = mDb.delete(DATABASE_WIDGET_MOVIE_TABLE//
 				, null //
 				, null);
@@ -1048,6 +1070,7 @@ public class AndShowtimeDbAdapter {
 	}
 
 	public void deleteFavorite(String theaterId) {
+		chekDbAvailable();
 		StringBuilder querySelect = new StringBuilder(KEY_FAV_TH_THEATER_ID).append(" = '"); //$NON-NLS-1$
 		querySelect.append(theaterId);
 		querySelect.append("'"); //$NON-NLS-1$
@@ -1058,7 +1081,7 @@ public class AndShowtimeDbAdapter {
 	}
 
 	public void deleteMovies(Set<String> movieIdList) {
-
+		chekDbAvailable();
 		StringBuilder querySelect = new StringBuilder(KEY_MOVIE_ID).append(" NOT IN ('"); //$NON-NLS-1$
 		boolean first = true;
 		for (String movieId : movieIdList) {
@@ -1077,6 +1100,7 @@ public class AndShowtimeDbAdapter {
 	}
 
 	public void clean() throws SQLException {
+		chekDbAvailable();
 		mDb.execSQL(DROP_THEATER_TABLE);
 		mDb.execSQL(DROP_FAV_THEATER_TABLE);
 		mDb.execSQL(DROP_MOVIE_TABLE);
@@ -1095,6 +1119,22 @@ public class AndShowtimeDbAdapter {
 		mDb.execSQL(DATABASE_CREATE_MOVIE_REQUEST_TABLE);
 		mDb.execSQL(DATABASE_CREATE_WIDGET_TABLE);
 		mDb.execSQL(DATABASE_CREATE_WIDGET_MOVIE_TABLE);
+	}
+
+	private void chekDbAvailable() {
+		do {
+			if (isDbLockedByCurrentThread() || isDbLockedByOtherThreads()) {
+				try {
+					Log.d(TAG, "DbBusy wait for availabality");
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+				}
+			}
+		} while (isOpen() && (isDbLockedByCurrentThread() || isDbLockedByOtherThreads()));
+		if (!isOpen()) {
+			throw new SQLException("DBClosed");
+		}
+		Log.d(TAG, "DbAvailable");
 	}
 
 }

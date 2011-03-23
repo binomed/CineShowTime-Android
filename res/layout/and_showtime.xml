@@ -17,10 +17,14 @@
 		android:id="@+id/mainBtnSearchMovie" 
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content" 
+		android:layout_marginBottom="5dip"  
 		style="@style/Button.button"
 		/>
-		
+	<Button android:text="@string/btnFav" 
+		android:id="@+id/mainBtnTheaterFav" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content" 
+		style="@style/Button.button"
+		/>
 	
-	        
-
 </LinearLayout>

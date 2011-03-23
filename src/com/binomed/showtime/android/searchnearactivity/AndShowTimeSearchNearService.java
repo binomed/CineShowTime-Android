@@ -20,6 +20,7 @@ public class AndShowTimeSearchNearService extends Service {
 	private double latitude, longitude;
 	private String cityName;
 	private String theaterId;
+	private String origin;
 	private int day;
 	private int start;
 
@@ -90,6 +91,7 @@ public class AndShowTimeSearchNearService extends Service {
 		latitude = Double.valueOf(intent.getExtras().getDouble(ParamIntent.SERVICE_NEAR_LATITUDE, 0));
 		longitude = Double.valueOf(intent.getExtras().getDouble(ParamIntent.SERVICE_NEAR_LONGITUDE, 0));
 		cityName = intent.getExtras().getString(ParamIntent.SERVICE_NEAR_CITY);
+		origin = intent.getExtras().getString(ParamIntent.SERVICE_NEAR_ORIGIN);
 		theaterId = intent.getExtras().getString(ParamIntent.SERVICE_NEAR_THEATER_ID);
 		day = intent.getExtras().getInt(ParamIntent.SERVICE_NEAR_DAY);
 		start = intent.getExtras().getInt(ParamIntent.SERVICE_NEAR_START);
@@ -108,8 +110,12 @@ public class AndShowTimeSearchNearService extends Service {
 		public void run() {
 			try {
 				NearResp resultBean = AndShowtimeRequestManage.searchTheaters( //
-						latitude, longitude, cityName, theaterId, day, start);
-				BeanManagerFactory.setNearResp(resultBean);
+						latitude, longitude, cityName, theaterId, day, start, origin);
+				if (origin == null || AndShowTimeSearchNearActivity.class.getName().equals(origin)) {
+					BeanManagerFactory.setNearResp(resultBean);
+				} else {
+					BeanManagerFactory.setNearRespFromWidget(resultBean);
+				}
 
 			} catch (Exception e) {
 				Log.e(TAG, "error searching theaters", e);

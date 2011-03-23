@@ -1,5 +1,7 @@
 package com.binomed.showtime.android.movieactivity;
 
+import android.location.Location;
+
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.TheaterBean;
 
@@ -12,6 +14,8 @@ public class ModelMovieActivity {
 	private MovieBean movie;
 
 	private TheaterBean theater;
+
+	private Location gpsLocation;
 
 	public boolean isTranslate() {
 		return translate;
@@ -43,6 +47,14 @@ public class ModelMovieActivity {
 
 	public void setTheater(TheaterBean theater) {
 		this.theater = theater;
+	}
+
+	public Location getGpsLocation() {
+		return gpsLocation;
+	}
+
+	public void setGpsLocation(Location gpsLocation) {
+		this.gpsLocation = gpsLocation;
 	}
 
 }

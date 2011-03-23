@@ -18,6 +18,9 @@ import com.binomed.showtime.beans.MovieBean;
 public class AndShowTimeMovieService extends Service {
 
 	private boolean serviceRunning;
+	private double latitude, longitude;
+	private String movieId;
+	private String near;
 
 	/**
 	 * The list of all available callbacks
@@ -82,6 +85,7 @@ public class AndShowTimeMovieService extends Service {
 		super.onStart(intent, startId);
 
 		movieId = intent.getExtras().getString(ParamIntent.SERVICE_MOVIE_ID);
+		near = intent.getExtras().getString(ParamIntent.SERVICE_MOVIE_NEAR);
 
 		try {
 			serviceRunning = true;
@@ -92,16 +96,13 @@ public class AndShowTimeMovieService extends Service {
 		}
 	}
 
-	private double latitude, longitude;
-	private String movieId;
-
 	private Runnable runnable = new Runnable() {
 
 		@Override
 		public void run() {
 			try {
 				MovieBean movie = BeanManagerFactory.getMovieForId(movieId);
-				AndShowtimeRequestManage.completeMovieDetail(movie);
+				AndShowtimeRequestManage.completeMovieDetail(movie, near);
 
 				// Intent intentDBService = new
 				// Intent(AndShowTimeMovieService.this,

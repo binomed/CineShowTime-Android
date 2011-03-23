@@ -92,10 +92,8 @@ public class ControlerMovieActivity {
 
 	private Runnable fillDBRunnable = new Runnable() {
 		public void run() {
-			if (mDbHelper.isOpen()) {
-				mDbHelper.createOrUpdateMovie(model.getMovie());
-				closeDB();
-			}
+			mDbHelper.createOrUpdateMovie(model.getMovie());
+			closeDB();
 
 		}
 	};
@@ -165,7 +163,7 @@ public class ControlerMovieActivity {
 
 	};
 
-	public void searchMovieDetail(MovieBean movie) throws Exception {
+	public void searchMovieDetail(MovieBean movie, String near) throws Exception {
 
 		// bindService();
 
@@ -179,6 +177,7 @@ public class ControlerMovieActivity {
 		Intent intentMovieService = new Intent(movieActivity, AndShowTimeMovieService.class);
 
 		intentMovieService.putExtra(ParamIntent.SERVICE_MOVIE_ID, movie.getId());
+		intentMovieService.putExtra(ParamIntent.SERVICE_MOVIE_NEAR, near);
 		intentMovieService.putExtra(ParamIntent.SERVICE_MOVIE_TRANSLATE, checkboxPreference);
 
 		movieActivity.startService(intentMovieService);

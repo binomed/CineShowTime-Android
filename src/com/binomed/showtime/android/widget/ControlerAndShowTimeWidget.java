@@ -67,12 +67,15 @@ public class ControlerAndShowTimeWidget {
 
 		Location gpsLocation = model.getLocalisationSearch();
 		String cityName = model.getCityName();
+		int start = model.getStart();
 
 		Intent intentNearService = new Intent(widgetActivity, AndShowTimeSearchNearService.class);
 
 		intentNearService.putExtra(ParamIntent.SERVICE_NEAR_LATITUDE, (gpsLocation != null) ? gpsLocation.getLatitude() : null);
 		intentNearService.putExtra(ParamIntent.SERVICE_NEAR_LONGITUDE, (gpsLocation != null) ? gpsLocation.getLongitude() : null);
 		intentNearService.putExtra(ParamIntent.SERVICE_NEAR_CITY, ((cityName != null) ? URLEncoder.encode(cityName, AndShowTimeEncodingUtil.getEncoding()) : cityName));
+		intentNearService.putExtra(ParamIntent.SERVICE_NEAR_ORIGIN, AndShowTimeWidgetConfigureActivity.class.getName());
+		intentNearService.putExtra(ParamIntent.SERVICE_NEAR_START, start);
 
 		widgetActivity.startService(intentNearService);
 	}
@@ -177,7 +180,7 @@ public class ControlerAndShowTimeWidget {
 		@Override
 		public void finish() throws RemoteException {
 
-			NearResp nearResp = BeanManagerFactory.getNearResp();
+			NearResp nearResp = BeanManagerFactory.getNearRespFromWidget();
 			if (nearResp != null) {
 				model.setTheaterResultList(nearResp.getTheaterList());
 			}

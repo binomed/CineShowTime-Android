@@ -1,4 +1,4 @@
-package com.binomed.showtime.android.searchnearactivity;
+package com.binomed.showtime.android.layout.dialogs.fav;
 
 import java.util.List;
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.text.Html;
 import android.view.Menu;
 
 import com.binomed.showtime.R;
@@ -14,10 +15,10 @@ public final class AndShowTimeMenuUtil {
 
 	private static final Integer REQUEST_PREF = 1;
 
-	public static void createMenu(Menu menu, int idItemPref) {
-		menu.add(0, idItemPref, 0, R.string.menuPreferences).setIcon(android.R.drawable.ic_menu_preferences);
-		menu.add(0, idItemPref + 1, 0, R.string.menuAbout).setIcon(android.R.drawable.ic_menu_info_details);
-		menu.add(0, idItemPref + 2, 0, R.string.menuHelp).setIcon(android.R.drawable.ic_menu_help);
+	public static void createMenu(Menu menu, int idItemPref, int order) {
+		menu.addSubMenu(0, idItemPref, order, R.string.menuPreferences).setIcon(android.R.drawable.ic_menu_preferences);
+		menu.addSubMenu(0, idItemPref + 1, order + 1, R.string.menuAbout).setIcon(android.R.drawable.ic_menu_info_details);
+		menu.addSubMenu(0, idItemPref + 2, order + 2, R.string.menuHelp).setIcon(android.R.drawable.ic_menu_help);
 	}
 
 	public static boolean onMenuItemSelect(Activity activity, int idItemPref, int idItemSelected) {
@@ -35,10 +36,12 @@ public final class AndShowTimeMenuUtil {
 			AlertDialog.Builder aboutDialog = new AlertDialog.Builder(activity);
 			try {
 				PackageInfo pi = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0);
-				aboutDialog.setMessage(new StringBuilder() //
-						.append(activity.getResources().getString(R.string.msgVersionCode)).append(pi.versionCode).append("\n") // //$NON-NLS-1$
-						.append(activity.getResources().getString(R.string.msgVersionName)).append(pi.versionName) //
-						);
+				aboutDialog.setMessage(Html.fromHtml(new StringBuilder() //
+						.append(activity.getResources().getString(R.string.msgVersionCode)).append(" ").append(pi.versionCode).append("<br>") // //$NON-NLS-1$ //$NON-NLS-2$
+						.append(activity.getResources().getString(R.string.msgVersionName)).append(" ").append(pi.versionName).append("<br>") // //$NON-NLS-1$ //$NON-NLS-2$
+						.append(activity.getResources().getString(R.string.msgTraductorName)).append("<br><br>") // //$NON-NLS-1$ //$NON-NLS-2$
+						.append(activity.getResources().getString(R.string.msgDonation)) //
+						.toString()));
 			} catch (Exception e) {
 			}
 			aboutDialog.setCancelable(false);

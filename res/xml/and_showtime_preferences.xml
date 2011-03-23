@@ -39,7 +39,7 @@
                 android:title="@string/preference_loc_localisation_provider"
 	    		android:entries="@array/mode_localisation" 
 	    		android:entryValues="@array/mode_localisation_code" 
-	    		android:dependency="enable_localisation_preference"/>
+	    		android:dependency="enable_localisation_preference" android:defaultValue="@string/preference_loc_default_localisation_provider"/>
 	</PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_sort_cat">
 	    <ListPreference 

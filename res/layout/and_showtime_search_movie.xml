@@ -11,11 +11,21 @@
 	    android:textStyle="bold"
 	    android:text="@string/movieName"
     	/>
+	<ImageButton 
+		android:id="@+id/searchMovieBtnSpeechMovie"
+		android:layout_marginLeft="10dip"  
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:src="@android:drawable/ic_btn_speak_now"
+	    />
 	<AutoCompleteTextView 
 	    android:id="@+id/searchMovieMovieName"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_toRightOf="@+id/searchMovieTxtMovieName" 
+	    android:layout_toLeftOf="@+id/searchMovieBtnSpeechMovie"
+	    android:singleLine="true"
 	    />
 	<TextView
 		android:id="@+id/searchMovieTxtCityName"
@@ -42,13 +52,23 @@
 	    android:layout_below="@+id/searchMovieMovieName" 
 	    android:layout_toLeftOf="@+id/searchMovieImgGps" 
 	    />
+	<ImageButton 
+		android:id="@+id/searchMovieBtnSpeechCity"
+		android:layout_marginLeft="10dip"  
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/searchMovieMovieName" 
+	    android:layout_toLeftOf="@+id/searchMovieLocation"
+	    android:src="@android:drawable/ic_btn_speak_now"
+	    />
 	<AutoCompleteTextView 
 	    android:id="@+id/searchMovieCityName"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@id/searchMovieMovieName" 
 	    android:layout_toRightOf="@+id/searchMovieTxtCityName" 
-	    android:layout_toLeftOf="@+id/searchMovieLocation" 
+	    android:layout_toLeftOf="@+id/searchMovieBtnSpeechCity" 
+	    android:singleLine="true"
 	    />
     <Spinner 
         android:id="@+id/searchMovieSpinner"
@@ -58,7 +78,7 @@
         android:drawSelectorOnTop="true"
         android:prompt="@string/spinnerChoseTitle"
 	    android:layout_below="@+id/searchMovieCityName"
-	    style="@style/Button.spinner"
+	    style="@style/Button.spinner" 
     />
 	<Button 
 		android:id="@+id/searchMovieBtnSearch"
@@ -67,7 +87,7 @@
 		android:layout_height="wrap_content"
 		android:layout_centerHorizontal="true" 
 	    android:layout_below="@id/searchMovieSpinner"
-	    style="@style/Button.button"
+	    style="@style/Button.button" 
 		/>
 	<TextView
 		android:id="@+id/searchMovieTxtMovieFind"

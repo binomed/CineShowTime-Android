@@ -1,4 +1,4 @@
-package com.binomed.showtime.android.layout.dialogs;
+package com.binomed.showtime.android.layout.dialogs.sort;
 
 import android.util.Log;
 import android.view.View;
@@ -7,13 +7,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-class ListenerSortDialog implements OnItemClickListener, OnItemSelectedListener, OnClickListener {
+class ListenerListDialog implements OnItemClickListener, OnItemSelectedListener, OnClickListener {
 
-	private SortDialog dialog;
+	private ListDialog dialog;
 
 	private static final String TAG = "ListenerSortDialog"; //$NON-NLS-1$
 
-	public ListenerSortDialog(SortDialog dialog) {
+	public ListenerListDialog(ListDialog dialog) {
 		super();
 		this.dialog = dialog;
 	}
@@ -21,7 +21,7 @@ class ListenerSortDialog implements OnItemClickListener, OnItemSelectedListener,
 	@Override
 	public void onItemClick(AdapterView<?> adpater, View view, int groupPosition, long id) {
 		Log.i(TAG, "onItemClick");
-		dialog.listenerCallBack.sortSelected(groupPosition);
+		dialog.listenerCallBack.sortSelected(dialog.getSourceID(), groupPosition);
 		dialog.dismiss();
 	}
 

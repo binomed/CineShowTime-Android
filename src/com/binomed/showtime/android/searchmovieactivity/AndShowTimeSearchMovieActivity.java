@@ -3,14 +3,19 @@ package com.binomed.showtime.android.searchmovieactivity;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -22,6 +27,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -33,7 +39,7 @@ import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.view.MovieListAdapter;
 import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.handler.ServiceCallBackNear;
-import com.binomed.showtime.android.layout.dialogs.SortDialog;
+import com.binomed.showtime.android.layout.dialogs.sort.ListDialog;
 import com.binomed.showtime.android.layout.view.MovieView;
 import com.binomed.showtime.android.util.AndShowTimeMenuUtil;
 import com.binomed.showtime.android.util.AndShowtimeDateNumberUtil;
@@ -50,9 +56,17 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 
 	private static final int MENU_SORT = Menu.FIRST;
 	private static final int OPEN_MAP = Menu.FIRST + 1;
-	private static final int OPEN_YOUTUBE = Menu.FIRST + 2;
-	private static final int CALL_THEATER = Menu.FIRST + 3;
+	private static final int OPEN_MAP_DIRECTION = Menu.FIRST + 2;
+	private static final int OPEN_YOUTUBE = Menu.FIRST + 3;
+	private static final int CALL_THEATER = Menu.FIRST + 4;
 	private static final int MENU_PREF = Menu.FIRST + 5;
+
+	protected static final int ID_SORT = 1;
+	protected static final int ID_VOICE_CITY = ID_SORT + 1;
+	protected static final int ID_VOICE_MOVIE = ID_SORT + 2;
+
+	protected static final int VOICE_RECOGNITION_CITY_REQUEST_CODE = 1234;
+	protected static final int VOICE_RECOGNITION_MOVIE_REQUEST_CODE = VOICE_RECOGNITION_CITY_REQUEST_CODE + 1;
 
 	public static final Integer ACTIVITY_OPEN_MOVIE = 0;
 
@@ -62,6 +76,8 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 	protected AutoCompleteTextView fieldMovieName;
 	protected CheckBox checkLocationButton;
 	protected Button searchButton;
+	protected ImageButton speechButtonCity;
+	protected ImageButton speechButtonMovie;
 	protected ListView resultList;
 	protected ProgressDialog progressDialog;
 	protected MovieListAdapter adapter = null;
@@ -193,6 +209,16 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 		movieFindDuration = (TextView) findViewById(R.id.searchMovieMovieFindDuration);
 		spinnerChooseDay = (Spinner) findViewById(R.id.searchMovieSpinner);
 
+		// Manage speech button just if package present on device
+		PackageManager pm = getPackageManager();
+		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+		speechButtonCity = (ImageButton) findViewById(R.id.searchMovieBtnSpeechCity);
+		speechButtonMovie = (ImageButton) findViewById(R.id.searchMovieBtnSpeechMovie);
+		if (activities.size() == 0) {
+			speechButtonCity.setVisibility(View.GONE);
+			speechButtonMovie.setVisibility(View.GONE);
+		}
+
 	}
 
 	private void initViewsState() {
@@ -200,6 +226,15 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 		gpsImgView.setImageBitmap(bitmapGpsOff);
 		checkLocationButton.setChecked(false);
 		checkLocationButton.setEnabled(LocationUtils.isLocalisationEnabled(AndShowTimeSearchMovieActivity.this, provider));
+
+		// Check to see if a recognition activity is present
+		PackageManager pm = getPackageManager();
+		List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+		if (activities.size() != 0) {
+			// speechButton.setBackgroundResource(android.R.drawable.ic_btn_speak_now);
+			speechButtonCity.setOnClickListener(listener);
+			speechButtonMovie.setOnClickListener(listener);
+		}
 
 		fillAutoFields();
 
@@ -369,13 +404,21 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 		int itemId = OPEN_MAP;
 		int menuStr = R.string.openMapsMenuItem;
 		int icon = android.R.drawable.ic_dialog_map;
-		menu.add(groupId, itemId, 0, menuStr).setIcon(icon);
 		Object selectItem = resultList.getItemAtPosition(groupId);
+		if ((selectItem.getClass() == TheaterBean.class) // 
+				&& (((TheaterBean) selectItem) != null)) {
+			menu.add(groupId, itemId, 0, menuStr).setIcon(icon);
+		}
 		if ((selectItem.getClass() == TheaterBean.class) // 
 				&& (((TheaterBean) selectItem).getPhoneNumber() != null) //  
 				&& (((TheaterBean) selectItem).getPhoneNumber().length() != 0) //  
 		) {
-			menu.add(groupId, CALL_THEATER, 0, R.string.menuCall).setIcon(android.R.drawable.ic_menu_call);
+			menu.add(groupId, CALL_THEATER, 2, R.string.menuCall).setIcon(android.R.drawable.ic_menu_call);
+		}
+		if ((selectItem.getClass() == TheaterBean.class) // 
+				&& (((TheaterBean) selectItem) != null) //
+				&& (model.getGpsLocalisation() != null)) {
+			menu.add(groupId, OPEN_MAP_DIRECTION, 1, R.string.openMapsDriveMenuItem).setIcon(android.R.drawable.ic_menu_directions);
 		}
 	}
 
@@ -392,8 +435,17 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 			Object selectItem = resultList.getItemAtPosition(item.getGroupId());
 			if (selectItem.getClass() == TheaterBean.class) {
 				TheaterBean theater = (TheaterBean) selectItem;
-				if (theater.getPlace() != null) {
-					startActivity(IntentShowtime.createMapsIntent(theater));
+				startActivity(IntentShowtime.createMapsIntent(theater));
+			}
+			return true;
+		}
+		case OPEN_MAP_DIRECTION: {
+			Object selectItem = resultList.getItemAtPosition(item.getGroupId());
+			if (selectItem.getClass() == TheaterBean.class) {
+				TheaterBean theater = (TheaterBean) selectItem;
+				Intent intentDirection = IntentShowtime.createMapsWithDrivingDirectionIntent(theater, model.getGpsLocalisation());
+				if (intentDirection != null) {
+					startActivity(intentDirection);
 				}
 			}
 			return true;
@@ -421,7 +473,7 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		menu.add(0, MENU_SORT, 0, R.string.menuSort).setIcon(android.R.drawable.ic_menu_sort_by_size);
-		AndShowTimeMenuUtil.createMenu(menu, MENU_PREF);
+		AndShowTimeMenuUtil.createMenu(menu, MENU_PREF, 1);
 		return true;
 	}
 
@@ -438,10 +490,11 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 		}
 		switch (item.getItemId()) {
 		case MENU_SORT: {
-			SortDialog dialog = new SortDialog(//
+			ListDialog dialog = new ListDialog(//
 					AndShowTimeSearchMovieActivity.this //
 					, listener //
 					, R.array.sort_movies_values //
+					, ID_SORT //
 			);
 			dialog.setTitle(AndShowTimeSearchMovieActivity.this.getResources().getString(R.string.sortDialogTitle));
 			dialog.setFeatureDrawableResource(featureId, android.R.drawable.ic_menu_sort_by_size);
@@ -453,6 +506,51 @@ public class AndShowTimeSearchMovieActivity extends Activity {
 		}
 		return super.onMenuItemSelected(featureId, item);
 
+	}
+
+	/*
+	 * 
+	 * Activity and Service Results
+	 */
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == VOICE_RECOGNITION_CITY_REQUEST_CODE && resultCode == RESULT_OK) {
+			// Fill the list view with the strings the recognizer thought it could have heard
+			ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+			if (matches != null && matches.size() > 0) {
+				model.setVoiceCityList(matches);
+				ListDialog dialog = new ListDialog(//
+						AndShowTimeSearchMovieActivity.this //
+						, listener //
+						, matches //
+						, ID_VOICE_CITY//
+				);
+				dialog.setTitle(AndShowTimeSearchMovieActivity.this.getResources().getString(R.string.msgSpeecRecognition));
+				dialog.show();
+
+			}
+		} else if (requestCode == VOICE_RECOGNITION_MOVIE_REQUEST_CODE && resultCode == RESULT_OK) {
+			// Fill the list view with the strings the recognizer thought it could have heard
+			ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+			if (matches != null && matches.size() > 0) {
+				model.setVoiceMovieList(matches);
+				ListDialog dialog = new ListDialog(//
+						AndShowTimeSearchMovieActivity.this //
+						, listener //
+						, matches //
+						, ID_VOICE_MOVIE//
+				);
+				dialog.setTitle(AndShowTimeSearchMovieActivity.this.getResources().getString(R.string.msgSpeecRecognition));
+				dialog.show();
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 }

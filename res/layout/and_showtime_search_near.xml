@@ -9,7 +9,7 @@
 			android:layout_marginRight="10dip"  
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content"
-		    android:textStyle="bold" 
+		    android:textStyle="bold"		     
 		    android:text="@string/cityName"
 	    />
     <ImageView 
@@ -26,12 +26,21 @@
 	    android:layout_height="wrap_content"
 	    android:layout_toLeftOf="@+id/searchNearImgGps" 
 	    />
-	<AutoCompleteTextView 
+	<ImageButton 
+		android:id="@+id/searchNearBtnSpeech"
+		android:layout_marginLeft="10dip"  
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_toLeftOf="@+id/searchNearLocation"
+	    android:src="@android:drawable/ic_btn_speak_now"
+	    />
+	 <AutoCompleteTextView 
 	    android:id="@+id/searchNearCityName"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_toRightOf="@+id/searchNearTxtCityName" 
-	    android:layout_toLeftOf="@+id/searchNearLocation" 
+	    android:layout_toLeftOf="@+id/searchNearBtnSpeech"
+	    android:singleLine="true" 
 	    />
     <Spinner 
         android:id="@+id/searchNearSpinner"
@@ -40,8 +49,8 @@
         android:drawSelectorOnTop="true"
         android:prompt="@string/spinnerChoseTitle"
 	    android:layout_below="@+id/searchNearCityName" 
-		android:layout_marginBottom="5dip" 
-		style="@style/Button.spinner"
+		android:layout_marginBottom="5dip"  
+	    style="@style/Button.spinner"
     />
 	<Button 
 		android:id="@+id/searchNearBtnSearch" 

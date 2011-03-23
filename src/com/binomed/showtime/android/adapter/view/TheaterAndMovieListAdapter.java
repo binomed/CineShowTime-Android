@@ -156,7 +156,7 @@ public class TheaterAndMovieListAdapter extends BaseExpandableListAdapter {
 		TheaterBean theater = (TheaterBean) getGroup(groupPosition);
 		if (nearRespBean != null && nearRespBean.isHasMoreResults() && theater == null) {
 			textView.setText(mainContext.getResources().getString(R.string.itemMoreTheaters));
-		} else if (theater != null) {
+		} else if (theater != null && theater.getTheaterName() != null) {
 			StringBuilder strBuilder = new StringBuilder(theater.getTheaterName());
 			if ((theater.getPlace() != null) && theater.getPlace().getDistance() != null) {
 				strBuilder.append("\n");

@@ -7,4 +7,8 @@ public final class AndShowtimeCst {
 
 	public static final String FOLDER_POSTER = ".andshowtime/"; //$NON-NLS-1$
 
+	public static final int SORT_THEATER_NAME = 0;
+	public static final int SORT_THEATER_DISTANCE = 1;
+	public static final int SORT_SHOWTIME = 2;
+
 }

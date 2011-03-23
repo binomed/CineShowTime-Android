@@ -2,9 +2,11 @@ package com.binomed.showtime.android.searchnearactivity;
 
 import java.io.UnsupportedEncodingException;
 
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,8 +18,9 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.layout.dialogs.SortDialog;
-import com.binomed.showtime.android.layout.dialogs.SortSelectionListener;
+import com.binomed.showtime.android.cst.AndShowtimeCst;
+import com.binomed.showtime.android.layout.dialogs.fav.TheaterFavSelectionListener;
+import com.binomed.showtime.android.layout.dialogs.sort.ListSelectionListener;
 import com.binomed.showtime.android.layout.view.MovieView;
 import com.binomed.showtime.android.util.AndShowtimeFactory;
 import com.binomed.showtime.android.util.BeanManagerFactory;
@@ -25,7 +28,7 @@ import com.binomed.showtime.beans.LocalisationBean;
 import com.binomed.showtime.beans.MovieBean;
 import com.binomed.showtime.beans.TheaterBean;
 
-public class ListenerSearchNearActivity implements OnClickListener, OnChildClickListener, LocationListener, TheaterFavSelectionListener, OnItemSelectedListener, OnGroupClickListener, SortSelectionListener {
+public class ListenerSearchNearActivity implements OnClickListener, OnChildClickListener, LocationListener, TheaterFavSelectionListener, OnItemSelectedListener, OnGroupClickListener, ListSelectionListener {
 
 	private AndShowTimeSearchNearActivity nearActivity;
 	private ControlerSearchNearActivity controler;
@@ -89,6 +92,12 @@ public class ListenerSearchNearActivity implements OnClickListener, OnChildClick
 				Log.e(TAG, "erreur au lancement du service", e); //$NON-NLS-1$
 			}
 			break;
+		}
+		case R.id.searchNearBtnSpeech: {
+			Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+			intent.putExtra(RecognizerIntent.EXTRA_PROMPT, nearActivity.getResources().getString(R.string.msgSpeecCity));
+			nearActivity.startActivityForResult(intent, AndShowTimeSearchNearActivity.VOICE_RECOGNITION_REQUEST_CODE);
 		}
 		case R.id.searchNearLocation: {
 			nearActivity.fieldCityName.setEnabled(!nearActivity.checkButtonLocalisation.isChecked());
@@ -270,24 +279,34 @@ public class ListenerSearchNearActivity implements OnClickListener, OnChildClick
 	}
 
 	@Override
-	public void sortSelected(int sortKey) {
-		switch (sortKey) {
-		case SortDialog.SORT_THEATER_NAME:
-			nearActivity.comparator = AndShowtimeFactory.getTheaterNameComparator();
-			break;
-		case SortDialog.SORT_THEATER_DISTANCE:
-			nearActivity.comparator = AndShowtimeFactory.getTheaterDistanceComparator();
-			break;
-		case SortDialog.SORT_SHOWTIME:
-			nearActivity.comparator = AndShowtimeFactory.getTheaterShowtimeComparator();
-			break;
+	public void sortSelected(int sourceID, int sortKey) {
+		switch (sourceID) {
+		case AndShowTimeSearchNearActivity.ID_SORT: {
+			switch (sortKey) {
+			case AndShowtimeCst.SORT_THEATER_NAME:
+				nearActivity.comparator = AndShowtimeFactory.getTheaterNameComparator();
+				break;
+			case AndShowtimeCst.SORT_THEATER_DISTANCE:
+				nearActivity.comparator = AndShowtimeFactory.getTheaterDistanceComparator();
+				break;
+			case AndShowtimeCst.SORT_SHOWTIME:
+				nearActivity.comparator = AndShowtimeFactory.getTheaterShowtimeComparator();
+				break;
 
-		default:
-			nearActivity.comparator = null;
+			default:
+				nearActivity.comparator = null;
+				break;
+			}
+			nearActivity.display();
 			break;
 		}
-
-		nearActivity.display();
+		case AndShowTimeSearchNearActivity.ID_VOICE: {
+			nearActivity.fieldCityName.setText(model.getVoiceCityList().get(sortKey));
+			break;
+		}
+		default:
+			break;
+		}
 
 	}
 

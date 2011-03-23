@@ -65,36 +65,57 @@ public abstract class AndShowtimeDateNumberUtil {
 			spinnerValues.add(context.getResources().getString(R.string.spinnerMonday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerTuesday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerWenesday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerThursday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerFriday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerSaturday));
 			break;
 		case Calendar.MONDAY:
 			spinnerValues.add(context.getResources().getString(R.string.spinnerTuesday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerWenesday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerThursday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerFriday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerSaturday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerSunday));
 			break;
 		case Calendar.TUESDAY:
 			spinnerValues.add(context.getResources().getString(R.string.spinnerWenesday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerThursday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerFriday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerSaturday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerSunday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerMonday));
 			break;
 		case Calendar.WEDNESDAY:
 			spinnerValues.add(context.getResources().getString(R.string.spinnerThursday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerFriday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerSaturday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerSunday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerMonday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerTuesday));
 			break;
 		case Calendar.THURSDAY:
 			spinnerValues.add(context.getResources().getString(R.string.spinnerFriday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerSaturday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerSunday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerMonday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerTuesday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerWenesday));
 			break;
 		case Calendar.FRIDAY:
 			spinnerValues.add(context.getResources().getString(R.string.spinnerSaturday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerSunday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerMonday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerTuesday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerWenesday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerThursday));
 			break;
 		case Calendar.SATURDAY:
 			spinnerValues.add(context.getResources().getString(R.string.spinnerSunday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerMonday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerTuesday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerWenesday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerThursday));
+			spinnerValues.add(context.getResources().getString(R.string.spinnerFriday));
 			break;
 		default:
 			break;

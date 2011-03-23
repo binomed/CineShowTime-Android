@@ -1,6 +1,7 @@
 package com.binomed.showtime.android.searchmovieactivity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import android.location.Location;
@@ -11,6 +12,9 @@ public class ModelSearchMovieActivity {
 	private String movieName;
 
 	private String favTheaterId;
+
+	private List<String> voiceCityList;
+	private List<String> voiceMovieList;
 
 	private Set<String> requestNearList;
 	private Set<String> requestMovieList;
@@ -88,6 +92,22 @@ public class ModelSearchMovieActivity {
 
 	public void setMovieName(String movieName) {
 		this.movieName = movieName;
+	}
+
+	public List<String> getVoiceCityList() {
+		return voiceCityList;
+	}
+
+	public void setVoiceCityList(List<String> voiceCityList) {
+		this.voiceCityList = voiceCityList;
+	}
+
+	public List<String> getVoiceMovieList() {
+		return voiceMovieList;
+	}
+
+	public void setVoiceMovieList(List<String> voiceMovieList) {
+		this.voiceMovieList = voiceMovieList;
 	}
 
 }

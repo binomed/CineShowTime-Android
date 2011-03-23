@@ -27,12 +27,21 @@
 	    android:layout_height="wrap_content"
 	    android:layout_toLeftOf="@id/searchWidgetImgGps" 
 	    />
+	<ImageButton 
+		android:id="@+id/searchWidgetBtnSpeech"
+		android:layout_marginLeft="10dip"  
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_toLeftOf="@+id/searchWidgetLocation"
+	    android:src="@android:drawable/ic_btn_speak_now"
+	    />
 	<AutoCompleteTextView 
 	    android:id="@+id/searchWidgetCityName"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_toRightOf="@id/searchWidgetTxtCityName" 
-	    android:layout_toLeftOf="@id/searchWidgetLocation" 
+	    android:layout_toLeftOf="@id/searchWidgetBtnSpeech" 
+	    android:singleLine="true"
 	    />    
 	<Button 
 		android:id="@+id/searchWidgetBtnSearch" 

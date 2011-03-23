@@ -50,8 +50,8 @@ public class ControlerSearchMovieActivity {
 		super();
 	}
 
-	public void registerView(AndShowTimeSearchMovieActivity nearActivity) {
-		this.movieActivity = nearActivity;
+	public void registerView(AndShowTimeSearchMovieActivity movieActivity) {
+		this.movieActivity = movieActivity;
 		bindService();
 		initDB();
 	}
@@ -73,6 +73,27 @@ public class ControlerSearchMovieActivity {
 
 		intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movie.getId());
 		intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theater.getId());
+		intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (model.getGpsLocalisation() != null) ? model.getGpsLocalisation().getLatitude() : null);
+		intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (model.getGpsLocalisation() != null) ? model.getGpsLocalisation().getLongitude() : null);
+		StringBuilder place = new StringBuilder();
+		if (theater != null) {
+			if (theater.getPlace() != null) {
+				if (theater.getPlace().getCityName() != null //
+						&& theater.getPlace().getCityName().length() > 0) {
+					place.append(theater.getPlace().getCityName());
+				}
+				if (theater.getPlace().getCountryNameCode() != null //
+						&& theater.getPlace().getCountryNameCode().length() > 0 //
+						&& place.length() > 0) {
+					place.append(", ").append(theater.getPlace().getCountryNameCode()); //$NON-NLS-1$
+				}
+				if (place.length() == 0) {
+					place.append(theater.getPlace().getSearchQuery());
+				}
+
+			}
+		}
+		intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, place.toString());
 		movieActivity.startActivityForResult(intentStartMovieActivity, movieActivity.ACTIVITY_OPEN_MOVIE);
 	}
 

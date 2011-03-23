@@ -11,15 +11,19 @@
 	<string-array name="mode_localisation">
 		<item>GPS</item>
 		<item>Network</item>
+		<!--<item>Wifi</item>-->
 	</string-array>
 	<string-array name="mode_localisation_code">
 		<item>GPS</item>
 		<item>GSM</item>
+		<!--<item>WIFI</item>-->
 	</string-array>
 	<string-array name="sort_theaters_values">
 		<item>durch Kinonamen</item>
 		<item>durch Kinoentfernung</item>
 		<item> pro nächsteVorstellungsuhrzeit </item>
+		<!-- <item>by movie name</item>-->
+		<!-- <item>by user prefereneces (slower)</item>-->
 	</string-array>
 	<string-array name="sort_movies_values">
 		<item> durch Kinonamen</item>
@@ -30,6 +34,8 @@
 		<item>THEATER_NAME</item>
 		<item>THEATER_DISTANCE</item>
 		<item>SHOWTIME_HOUR</item>
+		<!--<item>MOVIE_NAME</item>-->
+		<!--<item>USER_PREFERENCE</item>-->
 	</string-array>
 	<string-array name="sort_movies_values_code">
 		<item>THEATER_NAME</item>
