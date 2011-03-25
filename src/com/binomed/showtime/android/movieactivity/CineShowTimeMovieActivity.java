@@ -886,7 +886,7 @@ public class CineShowTimeMovieActivity extends TabActivity //
 
 		initResults();
 
-		if (requestCode == CineShowtimeCst.ACTIVITY_RESULT_PREFERENCES) {
+		if (requestCode == CineShowtimeCst.ACTIVITY_RESULT_PREFERENCES && projectionAdapter != null) {
 			projectionAdapter.changePreferences();
 
 		}
