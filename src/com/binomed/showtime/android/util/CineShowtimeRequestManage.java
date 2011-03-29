@@ -73,7 +73,11 @@ public abstract class CineShowtimeRequestManage {
 		Location originalPlace = null;
 		if (geocoder != null) {
 			if (cityName != null) {
-				cityName = URLDecoder.decode(cityName, CineShowTimeEncodingUtil.getEncoding());
+				try {
+					cityName = URLDecoder.decode(cityName, CineShowTimeEncodingUtil.getEncoding());
+				} catch (Exception e) {
+					Log.e(TAG, "error during decoding", e);
+				}
 				List<Address> addressList = null;
 				try {
 					addressList = geocoder.getFromLocationName(cityName, 1);
@@ -135,7 +139,11 @@ public abstract class CineShowtimeRequestManage {
 			}
 		} else {
 			if (cityName != null) {
-				cityName = URLDecoder.decode(cityName, CineShowTimeEncodingUtil.getEncoding());
+				try {
+					cityName = URLDecoder.decode(cityName, CineShowTimeEncodingUtil.getEncoding());
+				} catch (Exception e) {
+					Log.e(TAG, "error during decoding", e);
+				}
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
 			}
 			if ((latitude != null) && (longitude != null) && ((latitude != 0) && (longitude != 0))) {
@@ -148,7 +156,11 @@ public abstract class CineShowtimeRequestManage {
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_COUNTRY_CODE, countryCode);
 
 		if (movieName != null) {
-			movieName = URLDecoder.decode(movieName, CineShowTimeEncodingUtil.getEncoding());
+			try {
+				movieName = URLDecoder.decode(movieName, CineShowTimeEncodingUtil.getEncoding());
+			} catch (Exception e) {
+				Log.e(TAG, "error during decoding", e);
+			}
 			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_MOVIE_NAME, movieName);
 		}
 
@@ -200,7 +212,9 @@ public abstract class CineShowtimeRequestManage {
 						Location locaTheater = new Location("GPS");
 						locaTheater.setLatitude(localisation.getLatitude());
 						locaTheater.setLongitude(localisation.getLongitude());
-						theater.getPlace().setDistance(originalPlace.distanceTo(locaTheater) / 1000);
+						if (originalPlace != null) {
+							theater.getPlace().setDistance(originalPlace.distanceTo(locaTheater) / 1000);
+						}
 					}
 				}
 			}
@@ -213,7 +227,11 @@ public abstract class CineShowtimeRequestManage {
 		Location originalPlace = null;
 		if (geocoder != null) {
 			if (cityName != null) {
-				cityName = URLDecoder.decode(cityName, CineShowTimeEncodingUtil.getEncoding());
+				try {
+					cityName = URLDecoder.decode(cityName, CineShowTimeEncodingUtil.getEncoding());
+				} catch (Exception e) {
+					Log.e(TAG, "Error during encode", e);
+				}
 				List<Address> addressList = geocoder.getFromLocationName(cityName, 1);
 				if ((addressList != null) && !addressList.isEmpty()) {
 					if (addressList.get(0).getLocality() != null) {
@@ -254,7 +272,11 @@ public abstract class CineShowtimeRequestManage {
 			}
 		} else {
 			if (cityName != null) {
-				cityName = URLDecoder.decode(cityName, CineShowTimeEncodingUtil.getEncoding());
+				try {
+					cityName = URLDecoder.decode(cityName, CineShowTimeEncodingUtil.getEncoding());
+				} catch (Exception e) {
+					Log.e(TAG, "error during decoding", e);
+				}
 				andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_PLACE, cityName);
 			}
 			if ((latitude != null) && (longitude != null) && ((latitude != 0) && (longitude != 0))) {

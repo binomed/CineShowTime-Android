@@ -1,6 +1,5 @@
 package com.binomed.showtime.android.searchactivity;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -179,14 +178,14 @@ public class CineShowTimeSearchActivity extends Activity implements OnClickListe
 		if (model.getLastRequestCity() != null) {
 			try {
 				fieldCityName.setText(URLDecoder.decode(model.getLastRequestCity(), CineShowTimeEncodingUtil.getEncoding()));
-			} catch (UnsupportedEncodingException e) {
+			} catch (Exception e) {
 				fieldCityName.setText(model.getLastRequestCity());
 			}
 		}
 		if (model.getLastRequestMovie() != null) {
 			try {
 				fieldMovieName.setText(URLDecoder.decode(model.getLastRequestMovie(), CineShowTimeEncodingUtil.getEncoding()));
-			} catch (UnsupportedEncodingException e) {
+			} catch (Exception e) {
 				fieldMovieName.setText(model.getLastRequestMovie());
 			}
 		}
@@ -467,7 +466,7 @@ public class CineShowTimeSearchActivity extends Activity implements OnClickListe
 							if (movieName != null) {
 								model.getRequestMovieList().add(URLDecoder.decode(movieName, CineShowTimeEncodingUtil.getEncoding()));
 							}
-						} catch (UnsupportedEncodingException e) {
+						} catch (Exception e) {
 							Log.e(TAG, "Encode Error", e);
 						}
 					} while (cursorRequestHistory.moveToNext());
@@ -506,7 +505,7 @@ public class CineShowTimeSearchActivity extends Activity implements OnClickListe
 						model.setLastRequestTheaterId(cursorLastResult.getString(columnIndex));
 						columnIndex = cursorLastResult.getColumnIndex(CineShowtimeDbAdapter.KEY_MOVIE_REQUEST_NULL_RESULT);
 						model.setNullResult(cursorLastResult.getShort(columnIndex) == 1);
-					} catch (UnsupportedEncodingException e) {
+					} catch (Exception e) {
 						Log.e(TAG, "Encode Error", e);
 					}
 				}
