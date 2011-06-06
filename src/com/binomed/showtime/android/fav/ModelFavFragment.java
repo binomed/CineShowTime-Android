@@ -1,18 +1,18 @@
-package com.binomed.showtime.android.activity;
+package com.binomed.showtime.android.fav;
 
 import java.util.Calendar;
 import java.util.List;
 
 import com.binomed.showtime.android.model.TheaterBean;
 
-public class ModelMainActivity {
+public class ModelFavFragment {
 
 	private List<TheaterBean> favList;
 	private Calendar lastRequestDate;
 	private boolean nullResult;
 	private boolean resetTheme;
 
-	public ModelMainActivity() {
+	public ModelFavFragment() {
 		super();
 		nullResult = false;
 		resetTheme = false;

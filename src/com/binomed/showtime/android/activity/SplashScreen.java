@@ -2,6 +2,7 @@ package com.binomed.showtime.android.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
@@ -20,7 +21,14 @@ public class SplashScreen extends Activity {
 	private final Runnable mPendingLauncherRunnable = new Runnable() {
 		@Override
 		public void run() {
-			Intent intent = new Intent(SplashScreen.this, CineShowTimeMainActivity.class);
+			Intent intent = null;
+			if ((SplashScreen.this.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE //
+					|| (SplashScreen.this.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE //
+			) {
+				intent = new Intent(SplashScreen.this, CineShowTimeMainTabletActivity.class);
+			} else {
+				intent = new Intent(SplashScreen.this, CineShowTimeMainPhoneActivity.class);
+			}
 			startActivity(intent);
 			finish();
 		}

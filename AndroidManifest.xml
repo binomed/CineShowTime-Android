@@ -17,7 +17,8 @@ version="1.0" encoding="utf-8"?>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".android.activity.CineShowTimeMainActivity"></activity>
+        <activity android:name="android.activity.CineShowTimeMainTabletActivity"></activity>
+        <activity android:name="android.activity.CineShowTimeMainPhoneActivity"></activity>
     	<activity android:name=".android.searchactivity.CineShowTimeSearchActivity"></activity>
     	<activity android:name=".android.resultsactivity.CineShowTimeResultsActivity"></activity>
 		<service android:name=".android.resultsactivity.CineShowTimeResultsService"></service>

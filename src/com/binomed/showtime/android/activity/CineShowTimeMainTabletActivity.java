@@ -44,7 +44,7 @@ import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
-public class CineShowTimeMainActivity extends Activity implements OnClickListener //
+public class CineShowTimeMainTabletActivity extends Activity implements OnClickListener //
 		, OnItemClickListener //
 {
 
@@ -53,7 +53,7 @@ public class CineShowTimeMainActivity extends Activity implements OnClickListene
 	private static final int MENU_PREF = Menu.FIRST;
 
 	private Context mainContext;
-	private ModelMainActivity model;
+	private ModelMainFragment model;
 	private Button buttonSearchNear;
 	private ListView theaterFavList;
 	private TheaterFavMainListAdapter adapter;
@@ -76,13 +76,13 @@ public class CineShowTimeMainActivity extends Activity implements OnClickListene
 
 		CineShowtimeFactory.initGeocoder(this);
 
-		Intent intentCleanFileService = new Intent(CineShowTimeMainActivity.this, CineShowCleanFileService.class);
+		Intent intentCleanFileService = new Intent(CineShowTimeMainTabletActivity.this, CineShowCleanFileService.class);
 		startService(intentCleanFileService);
 
 		initViews();
 		initListeners();
 
-		this.model = new ModelMainActivity();
+		this.model = new ModelMainFragment();
 
 		display();
 
