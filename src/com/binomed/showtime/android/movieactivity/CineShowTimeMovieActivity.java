@@ -171,7 +171,7 @@ public class CineShowTimeMovieActivity extends TabActivity //
 		tracker.trackPageView("/MovieActivity");
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
-		setContentView(R.layout.activity_movie);
+		// setContentView(R.layout.activity_movie); TODO
 
 		model = new ModelMovieActivity();
 		// Init star img

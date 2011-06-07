@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -24,11 +23,13 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -42,7 +43,6 @@ import com.binomed.showtime.android.adapter.view.CineShowTimeExpandableListAdapt
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.handler.ServiceCallBackSearch;
-import com.binomed.showtime.android.layout.dialogs.sort.ListDialog;
 import com.binomed.showtime.android.layout.dialogs.sort.ListSelectionListener;
 import com.binomed.showtime.android.layout.view.ObjectMasterView;
 import com.binomed.showtime.android.layout.view.ObjectSubView;
@@ -54,7 +54,6 @@ import com.binomed.showtime.android.movieactivity.CineShowTimeMovieActivity;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
-import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
 import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.android.util.comparator.CineShowtimeComparator;
@@ -62,7 +61,7 @@ import com.binomed.showtime.android.util.localisation.LocationUtils;
 import com.binomed.showtime.cst.HttpParamsCst;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
-public class CineShowTimeResultsFragment extends Activity implements OnChildClickListener //
+public class CineShowTimeResultsFragment extends Fragment implements OnChildClickListener //
 		, OnGroupClickListener //
 		, OnGroupExpandListener //
 		, OnGroupCollapseListener //
@@ -95,47 +94,50 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 
 	/** Called when the activity is first created. */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, this);
+		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, getActivity());
 		tracker.trackPageView("/ResultActivity");
-		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
+		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		CineShowTimeLayoutUtils.onActivityCreateSetTheme(getActivity(), prefs);
 		Log.i(TAG, "onCreate"); //$NON-NLS-1$
-		setContentView(R.layout.activity_results);
+		// setContentView(R.layout.activity_results);
+		View mainView = inflater.inflate(R.layout.fragment_results, container, false);
 
 		model = new ModelResultsActivity();
 
 		// We init the theater id if set
 
-		model.setForceResearch(getIntent().getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, true));
-		getIntent().putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false);
-		model.setFavTheaterId(getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID));
+		model.setForceResearch(getActivity().getIntent().getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, true));
+		getActivity().getIntent().putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false);
+		model.setFavTheaterId(getActivity().getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID));
 		model.setLocalisation(null);
-		model.setDay(getIntent().getIntExtra(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
-		model.setCityName(getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_CITY));
-		model.setMovieName(getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
-		Double latitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
-		Double longitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
+		model.setDay(getActivity().getIntent().getIntExtra(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
+		model.setCityName(getActivity().getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_CITY));
+		model.setMovieName(getActivity().getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
+		Double latitude = getActivity().getIntent().getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
+		Double longitude = getActivity().getIntent().getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
 		if ((latitude != 0) && (longitude != 0)) {
 			Location locationTheater = new Location("GPS");
 			locationTheater.setLatitude(latitude);
 			locationTheater.setLongitude(longitude);
 			model.setLocalisation(locationTheater);
 		}
-		getIntent().putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, "");
+		getActivity().getIntent().putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, "");
 
 		movieView = (model.getMovieName() != null) && (model.getMovieName().length() > 0);
 
 		initComparator();
-		initViews();
+		initViews(mainView);
 		initMenus();
 
 		bindService();
 		initDB();
 
-		initResults();
+		// initResults(); TODO
+
+		return mainView;
 
 	}
 
@@ -145,7 +147,7 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 	 * @see android.app.Activity#onDestroy()
 	 */
 	@Override
-	protected void onDestroy() {
+	public void onDestroy() {
 		super.onDestroy();
 		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
 		unbindService();
@@ -155,7 +157,7 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 	}
 
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		super.onPause();
 		Log.i(TAG, "onPause"); //$NON-NLS-1$
 		if ((progressDialog != null) && progressDialog.isShowing()) {
@@ -164,7 +166,7 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
 		Log.i(TAG, "onResume"); //$NON-NLS-1$
 		initListeners();
@@ -173,22 +175,23 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 
 	}
 
-	private void initResults() {
-		Intent intentResult = new Intent();
-		intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
-		intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, model.isNullResult());
-		setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
-	}
+	// TODO
+	// private void initResults() {
+	// Intent intentResult = new Intent();
+	// intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
+	// intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, model.isNullResult());
+	// setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
+	// }
 
 	/**
 	 * init the view of activity
 	 */
-	private void initViews() {
+	private void initViews(View mainView) {
 
-		resultList = (ExpandableListView) findViewById(R.id.resultListResult);
+		resultList = (ExpandableListView) mainView.findViewById(R.id.resultListResult);
 
 		// Manage Adapter
-		adapter = new CineShowTimeExpandableListAdapter(this, this);
+		adapter = new CineShowTimeExpandableListAdapter(getActivity(), this);
 	}
 
 	private void initListeners() {
@@ -315,7 +318,7 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 	 * 
 	 */
 	protected void openDialog() {
-		progressDialog = ProgressDialog.show(CineShowTimeResultsFragment.this, //
+		progressDialog = ProgressDialog.show(getActivity(), //
 				CineShowTimeResultsFragment.this.getResources().getString(R.string.searchNearProgressTitle)//
 				, CineShowTimeResultsFragment.this.getResources().getString(R.string.searchNearProgressMsg) //
 				, true, true, this);
@@ -330,7 +333,7 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 		public void handleInputRecived() {
 
 			try {
-				initResults();
+				// initResults(); TODO
 				display();
 			} catch (Exception e) {
 				Log.e(TAG, "Error during display", e);
@@ -351,77 +354,78 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 	 * ------
 	 */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		Log.i(TAG, "onCreateOptionsMenu"); //$NON-NLS-1$
-		menu.add(0, MENU_SORT, 2, R.string.menuSort).setIcon(android.R.drawable.ic_menu_sort_by_size);
-		CineShowTimeMenuUtil.createMenu(menu, MENU_PREF, 3);
-		return true;
-	}
-
-	;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onMenuItemSelected(int, android.view.MenuItem)
-	 */
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		Log.i(TAG, "onMenuItemSelected"); //$NON-NLS-1$
-		if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
-			adapter.changePreferences();
-			return true;
-		}
-		switch (item.getItemId()) {
-		case MENU_SORT: {
-			ListDialog dialog = new ListDialog(//
-					CineShowTimeResultsFragment.this //
-					, this //
-					, R.array.sort_theaters_values //
-					, ID_SORT //
-			);
-			dialog.setTitle(CineShowTimeResultsFragment.this.getResources().getString(R.string.sortDialogTitle));
-			dialog.setFeatureDrawableResource(featureId, android.R.drawable.ic_menu_sort_by_size);
-			dialog.show();
-
-			return true;
-		}
-		}
-
-		return super.onMenuItemSelected(featureId, item);
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (data != null) {
-			model.setNullResult(data.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, false));
-			model.setResetTheme(data.getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false));
-		} else {
-			model.setResetTheme(false);
-			model.setNullResult(false);
-		}
-
-		initResults();
-
-		if (requestCode == CineShowtimeCst.ACTIVITY_RESULT_PREFERENCES) {
-			adapter.changePreferences();
-
-		}
-
-		if (model.isResetTheme()) {
-			CineShowTimeLayoutUtils.changeToTheme(this, getIntent());
-		}
-
-	}
+	// TODO
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	// */
+	// @Override
+	// public boolean onCreateOptionsMenu(Menu menu) {
+	// super.onCreateOptionsMenu(menu);
+	//		Log.i(TAG, "onCreateOptionsMenu"); //$NON-NLS-1$
+	// menu.add(0, MENU_SORT, 2, R.string.menuSort).setIcon(android.R.drawable.ic_menu_sort_by_size);
+	// CineShowTimeMenuUtil.createMenu(menu, MENU_PREF, 3);
+	// return true;
+	// }
+	//
+	// ;
+	//
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.app.Activity#onMenuItemSelected(int, android.view.MenuItem)
+	// */
+	// @Override
+	// public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	//		Log.i(TAG, "onMenuItemSelected"); //$NON-NLS-1$
+	// if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
+	// adapter.changePreferences();
+	// return true;
+	// }
+	// switch (item.getItemId()) {
+	// case MENU_SORT: {
+	// ListDialog dialog = new ListDialog(//
+	// CineShowTimeResultsFragment.this //
+	// , this //
+	// , R.array.sort_theaters_values //
+	// , ID_SORT //
+	// );
+	// dialog.setTitle(CineShowTimeResultsFragment.this.getResources().getString(R.string.sortDialogTitle));
+	// dialog.setFeatureDrawableResource(featureId, android.R.drawable.ic_menu_sort_by_size);
+	// dialog.show();
+	//
+	// return true;
+	// }
+	// }
+	//
+	// return super.onMenuItemSelected(featureId, item);
+	// }
+	//
+	// @Override
+	// protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	// super.onActivityResult(requestCode, resultCode, data);
+	//
+	// if (data != null) {
+	// model.setNullResult(data.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, false));
+	// model.setResetTheme(data.getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false));
+	// } else {
+	// model.setResetTheme(false);
+	// model.setNullResult(false);
+	// }
+	//
+	// initResults();
+	//
+	// if (requestCode == CineShowtimeCst.ACTIVITY_RESULT_PREFERENCES) {
+	// adapter.changePreferences();
+	//
+	// }
+	//
+	// if (model.isResetTheme()) {
+	// CineShowTimeLayoutUtils.changeToTheme(this, getIntent());
+	// }
+	//
+	// }
 
 	/*
 	 * 
@@ -545,9 +549,9 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 		} catch (RemoteException e) {
 			Log.e(TAG, "Error cancel service", e);
 		}
-		Intent intentResultService = new Intent(this, CineShowTimeResultsService.class);
-		stopService(intentResultService);
-		finish();
+		Intent intentResultService = new Intent(getActivity(), CineShowTimeResultsService.class);
+		getActivity().stopService(intentResultService);
+		// finish(); TODO
 	}
 
 	/*
@@ -557,7 +561,7 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 
 	public void openMovieActivity(MovieBean movie, TheaterBean theater) {
 		if (movie != null) {
-			Intent intentStartMovieActivity = new Intent(this, CineShowTimeMovieActivity.class);
+			Intent intentStartMovieActivity = new Intent(getActivity(), CineShowTimeMovieActivity.class);
 
 			intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movie.getId());
 			intentStartMovieActivity.putExtra(ParamIntent.MOVIE, movie);
@@ -615,8 +619,8 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 			model.getRequestList().add(cityName);
 		}
 
-		CineShowtimeFactory.initGeocoder(this);
-		Intent intentResultService = new Intent(this, CineShowTimeResultsService.class);
+		CineShowtimeFactory.initGeocoder(getActivity());
+		Intent intentResultService = new Intent(getActivity(), CineShowTimeResultsService.class);
 
 		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_LATITUDE, (gpsLocation != null) ? gpsLocation.getLatitude() : null);
 		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_LONGITUDE, (gpsLocation != null) ? gpsLocation.getLongitude() : null);
@@ -626,7 +630,7 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_DAY, day);
 		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_START, start);
 
-		startService(intentResultService);
+		getActivity().startService(intentResultService);
 	}
 
 	/*
@@ -638,7 +642,7 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 
 		try {
 			Log.i(TAG, "openDB"); //$NON-NLS-1$
-			mDbHelper = new CineShowtimeDbAdapter(this);
+			mDbHelper = new CineShowtimeDbAdapter(getActivity());
 			mDbHelper.open();
 		} catch (SQLException e) {
 			Log.e(TAG, "error during getting fetching informations", e); //$NON-NLS-1$
@@ -758,10 +762,10 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 				place.setCityName(model.getCityName());
 			}
 			model.getTheaterFavList().put(theaterBean.getId(), theaterBean);
-			Intent service = new Intent(this, CineShowDBGlobalService.class);
+			Intent service = new Intent(getActivity(), CineShowDBGlobalService.class);
 			service.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_FAV_WRITE);
 			service.putExtra(ParamIntent.SERVICE_DB_DATA, theaterBean);
-			startService(service);
+			getActivity().startService(service);
 		} catch (Exception e) {
 			Log.e(TAG, "error putting data into data base", e);
 		}
@@ -771,10 +775,10 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 	public void removeFavorite(TheaterBean theaterBean) {
 		try {
 			model.getTheaterFavList().remove(theaterBean);
-			Intent service = new Intent(this, CineShowDBGlobalService.class);
+			Intent service = new Intent(getActivity(), CineShowDBGlobalService.class);
 			service.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_FAV_DELETE);
 			service.putExtra(ParamIntent.SERVICE_DB_DATA, theaterBean);
-			startService(service);
+			getActivity().startService(service);
 		} catch (Exception e) {
 			Log.e(TAG, "error removing theater from fav", e);
 		}
@@ -793,13 +797,13 @@ public class CineShowTimeResultsFragment extends Activity implements OnChildClic
 	 */
 
 	public void bindService() {
-		bindService(new Intent(this, CineShowTimeResultsService.class), mConnection, Context.BIND_AUTO_CREATE);
+		getActivity().bindService(new Intent(getActivity(), CineShowTimeResultsService.class), mConnection, Context.BIND_AUTO_CREATE);
 	}
 
 	public void unbindService() {
 		try {
 			serviceResult.unregisterCallback(m_callback);
-			unbindService(mConnection);
+			getActivity().unbindService(mConnection);
 		} catch (Exception e) {
 			Log.e(TAG, "error while unbinding service", e);
 		}

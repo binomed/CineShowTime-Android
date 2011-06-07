@@ -103,7 +103,7 @@ public class CineShowTimeResultsActivity extends Activity implements OnChildClic
 		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
 		Log.i(TAG, "onCreate"); //$NON-NLS-1$
-		setContentView(R.layout.activity_results);
+		// setContentView(R.layout.activity_results); TODO
 
 		model = new ModelResultsActivity();
 

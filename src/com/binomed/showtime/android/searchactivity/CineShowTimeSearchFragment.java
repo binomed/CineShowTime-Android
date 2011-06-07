@@ -5,7 +5,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -13,11 +12,13 @@ import android.database.SQLException;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -36,14 +37,13 @@ import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.resultsactivity.CineShowTimeResultsActivity;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
-import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.android.util.localisation.IListenerLocalisationUtilCallBack;
 import com.binomed.showtime.cst.SpecialChars;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
-public class CineShowTimeSearchFragment extends Activity implements OnClickListener //
+public class CineShowTimeSearchFragment extends Fragment implements OnClickListener //
 		, OnItemSelectedListener //
 {
 
@@ -70,30 +70,33 @@ public class CineShowTimeSearchFragment extends Activity implements OnClickListe
 
 	/** Called when the activity is first created. */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		// super.onCreate(savedInstanceState);
 		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, this);
+		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, getActivity());
 		tracker.trackPageView("/SearchActivity");
-		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
+		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		// CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
 		Log.i(TAG, "onCreate"); //$NON-NLS-1$
-		setContentView(R.layout.activity_search);
+		// setContentView(R.layout.activity_search);
+		View mainView = inflater.inflate(R.layout.fragment_search, container, false);
 
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 		model = new ModelSearchActivity();
 
-		initViews();
+		initViews(mainView);
 		initDB();
 
 		display();
 
-		initResults();
+		// initResults(); TODO
+
+		return mainView;
 	}
 
 	@Override
-	protected void onDestroy() {
+	public void onDestroy() {
 		super.onDestroy();
 		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
 		closeDB();
@@ -102,7 +105,7 @@ public class CineShowTimeSearchFragment extends Activity implements OnClickListe
 	}
 
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		super.onPause();
 		if (localisationCallBack != null) {
 			localisationCallBack.onPause();
@@ -110,7 +113,7 @@ public class CineShowTimeSearchFragment extends Activity implements OnClickListe
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
 		Log.i(TAG, "onResume"); //$NON-NLS-1$
 		initListeners();
@@ -121,35 +124,38 @@ public class CineShowTimeSearchFragment extends Activity implements OnClickListe
 		}
 	}
 
-	private void initResults() {
-		Intent intentResult = new Intent();
-		intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
-		intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, model.isNullResult());
-		setResult(CineShowtimeCst.ACTIVITY_RESULT_SEARCH_ACTIVITY, intentResult);
-	}
+	// TODO
+	// private void initResults() {
+	// Intent intentResult = new Intent();
+	// intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
+	// intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, model.isNullResult());
+	// setResult(CineShowtimeCst.ACTIVITY_RESULT_SEARCH_ACTIVITY, intentResult);
+	// }
 
 	/**
 	 * init the view of activity
+	 * 
+	 * @param mainView
 	 */
-	private void initViews() {
+	private void initViews(View mainView) {
 
-		gpsImgView = (ImageView) findViewById(R.id.searchImgGps);
-		searchButton = (Button) findViewById(R.id.searchBtnSearch);
-		fieldCityName = (AutoCompleteTextView) findViewById(R.id.searchCityName);
-		fieldMovieName = (AutoCompleteTextView) findViewById(R.id.searchMovieName);
-		spinnerChooseDay = (Spinner) findViewById(R.id.searchSpinner);
+		gpsImgView = (ImageView) mainView.findViewById(R.id.searchImgGps);
+		searchButton = (Button) mainView.findViewById(R.id.searchBtnSearch);
+		fieldCityName = (AutoCompleteTextView) mainView.findViewById(R.id.searchCityName);
+		fieldMovieName = (AutoCompleteTextView) mainView.findViewById(R.id.searchMovieName);
+		spinnerChooseDay = (Spinner) mainView.findViewById(R.id.searchSpinner);
 
 		// manageCallBack
-		localisationCallBack = CineShowTimeLayoutUtils.manageLocationManagement(this, tracker, gpsImgView, fieldCityName, model);
+		localisationCallBack = CineShowTimeLayoutUtils.manageLocationManagement(getActivity(), tracker, gpsImgView, fieldCityName, model);
 	}
 
 	private void initViewsState() {
 
 		fillAutoField();
 
-		ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(this //
+		ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(getActivity() //
 				, R.layout.view_spinner_item//
-				, CineShowtimeDateNumberUtil.getSpinnerDaysValues(CineShowTimeSearchFragment.this)//
+				, CineShowtimeDateNumberUtil.getSpinnerDaysValues(getActivity())//
 		);
 		adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerChooseDay.setAdapter(adapterSpinner);
@@ -159,7 +165,7 @@ public class CineShowTimeSearchFragment extends Activity implements OnClickListe
 	protected void fillAutoField() {
 		if (fieldCityName != null) {
 			ArrayAdapter<String> adapterII = new ArrayAdapter<String>( //
-					this //
+					getActivity() //
 					, android.R.layout.simple_dropdown_item_1line //
 					, new ArrayList<String>(model.getRequestList()) //
 			);
@@ -199,58 +205,59 @@ public class CineShowTimeSearchFragment extends Activity implements OnClickListe
 	 * ------
 	 */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		Log.i(TAG, "onCreateOptionsMenu"); //$NON-NLS-1$
-		tracker.trackEvent("Menu", "Consult", "Consult menu from search Activity", 0);
-		CineShowTimeMenuUtil.createMenu(menu, MENU_PREF, 3);
-		return true;
-	}
-
-	;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onMenuItemSelected(int, android.view.MenuItem)
-	 */
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		Log.i(TAG, "onMenuItemSelected"); //$NON-NLS-1$
-		if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
-			if (localisationCallBack != null) {
-				localisationCallBack.onPreferenceReturn();
-			}
-			return true;
-		}
-		return super.onMenuItemSelected(featureId, item);
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (data != null) {
-			model.setNullResult(data.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, false));
-			model.setResetTheme(data.getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false));
-		} else {
-			model.setResetTheme(false);
-			model.setNullResult(false);
-		}
-
-		initResults();
-
-		if (model.isResetTheme()) {
-			CineShowTimeLayoutUtils.changeToTheme(this, getIntent());
-		}
-
-	}
+	// TODO
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	// */
+	// @Override
+	// public boolean onCreateOptionsMenu(Menu menu) {
+	// super.onCreateOptionsMenu(menu);
+	//		Log.i(TAG, "onCreateOptionsMenu"); //$NON-NLS-1$
+	// tracker.trackEvent("Menu", "Consult", "Consult menu from search Activity", 0);
+	// CineShowTimeMenuUtil.createMenu(menu, MENU_PREF, 3);
+	// return true;
+	// }
+	//
+	// ;
+	//
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.app.Activity#onMenuItemSelected(int, android.view.MenuItem)
+	// */
+	// @Override
+	// public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	//		Log.i(TAG, "onMenuItemSelected"); //$NON-NLS-1$
+	// if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
+	// if (localisationCallBack != null) {
+	// localisationCallBack.onPreferenceReturn();
+	// }
+	// return true;
+	// }
+	// return super.onMenuItemSelected(featureId, item);
+	// }
+	//
+	// @Override
+	// protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	// super.onActivityResult(requestCode, resultCode, data);
+	//
+	// if (data != null) {
+	// model.setNullResult(data.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, false));
+	// model.setResetTheme(data.getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false));
+	// } else {
+	// model.setResetTheme(false);
+	// model.setNullResult(false);
+	// }
+	//
+	// initResults();
+	//
+	// if (model.isResetTheme()) {
+	// CineShowTimeLayoutUtils.changeToTheme(this, getIntent());
+	// }
+	//
+	// }
 
 	/*
 	 * 
@@ -284,13 +291,13 @@ public class CineShowTimeSearchFragment extends Activity implements OnClickListe
 				boolean canLaunch = true;
 				boolean btnCheck = localisationCallBack.isGPSCheck();
 				if (btnCheck && (model.getLocalisation() == null)) {
-					Toast.makeText(this //
+					Toast.makeText(getActivity() //
 							, R.string.msgNoGps //
 							, Toast.LENGTH_LONG) //
 							.show();
 					canLaunch = false;
 				} else if (!btnCheck && (cityName == null)) {
-					Toast.makeText(this //
+					Toast.makeText(getActivity() //
 							, R.string.msgNoCityName //
 							, Toast.LENGTH_LONG) //
 							.show();
@@ -409,8 +416,8 @@ public class CineShowTimeSearchFragment extends Activity implements OnClickListe
 			model.setLastRequestTheaterId(theaterId);
 			model.setLastRequestDate(today);
 
-			CineShowtimeFactory.initGeocoder(this);
-			Intent intentResultActivity = new Intent(this, CineShowTimeResultsActivity.class);
+			CineShowtimeFactory.initGeocoder(getActivity());
+			Intent intentResultActivity = new Intent(getActivity(), CineShowTimeResultsActivity.class);
 
 			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, (gpsLocation != null) ? gpsLocation.getLatitude() : null);
 			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, (gpsLocation != null) ? gpsLocation.getLongitude() : null);
@@ -434,7 +441,7 @@ public class CineShowTimeSearchFragment extends Activity implements OnClickListe
 
 		try {
 			Log.i(TAG, "openDB"); //$NON-NLS-1$
-			mDbHelper = new CineShowtimeDbAdapter(this);
+			mDbHelper = new CineShowtimeDbAdapter(getActivity());
 			mDbHelper.open();
 		} catch (SQLException e) {
 			Log.e(TAG, "error during getting fetching informations", e); //$NON-NLS-1$

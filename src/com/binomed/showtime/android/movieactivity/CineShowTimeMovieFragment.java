@@ -23,15 +23,13 @@ import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Gallery;
@@ -114,6 +112,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 	private ImageView sumRate1, sumRate2, sumRate3, sumRate4, sumRate5, sumRate6, sumRate7, sumRate8, sumRate9, sumRate10;
 
+	private View mainView;
+
 	private Bitmap bitmapRateOff;
 	private Bitmap bitmapRateHalf;
 	private Bitmap bitmapRateOn;
@@ -164,14 +164,15 @@ public class CineShowTimeMovieFragment extends Fragment //
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		// super.onCreate(savedInstanceState);
 		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, this);
+		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, getActivity());
 		tracker.trackPageView("/MovieActivity");
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
-		setContentView(R.layout.activity_movie);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		CineShowTimeLayoutUtils.onActivityCreateSetTheme(getActivity(), prefs);
+		// setContentView(R.layout.activity_movie);
+		mainView = inflater.inflate(R.layout.fragment_movie, container, false);
 
 		model = new ModelMovieActivity();
 		// Init star img
@@ -179,35 +180,37 @@ public class CineShowTimeMovieFragment extends Fragment //
 		bitmapRateHalf = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_half);
 		bitmapRateOn = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_on);
 
-		model.setMapInstalled(CineShowTimeMenuUtil.isMapsInstalled(getPackageManager()));
-		model.setDialerInstalled(CineShowTimeMenuUtil.isDialerInstalled(getPackageManager()));
-		model.setCalendarInstalled(CineShowTimeMenuUtil.isCalendarInstalled(getPackageManager()));
+		model.setMapInstalled(CineShowTimeMenuUtil.isMapsInstalled(getActivity().getPackageManager()));
+		model.setDialerInstalled(CineShowTimeMenuUtil.isDialerInstalled(getActivity().getPackageManager()));
+		model.setCalendarInstalled(CineShowTimeMenuUtil.isCalendarInstalled(getActivity().getPackageManager()));
 
-		createTabs();
-		initViews();
+		createTabs(mainView);
+		initViews(mainView);
 		initlisteners();
 		initMenus();
 		bindService();
 
-		initResults();
+		// initResults(); TODO
+		return mainView;
 	}
 
-	private void initResults() {
-		Intent intentResult = new Intent();
-		intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
-		setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
-	}
+	// TODO
+	// private void initResults() {
+	// Intent intentResult = new Intent();
+	// intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
+	// setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
+	// }
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
 
 		homePress = false;
 
 		String movieId = null;
 		String theaterId = null;
-		boolean fromWidget = getIntent().getBooleanExtra(ParamIntent.ACTIVITY_MOVIE_FROM_WIDGET, false);
-		String near = getIntent().getStringExtra(ParamIntent.ACTIVITY_MOVIE_NEAR);
+		boolean fromWidget = getActivity().getIntent().getBooleanExtra(ParamIntent.ACTIVITY_MOVIE_FROM_WIDGET, false);
+		String near = getActivity().getIntent().getStringExtra(ParamIntent.ACTIVITY_MOVIE_NEAR);
 		Log.i(TAG, "From Widget : " + fromWidget);
 		MovieBean movie = null;
 		TheaterBean theater = null;
@@ -219,12 +222,12 @@ public class CineShowTimeMovieFragment extends Fragment //
 				movie = (MovieBean) currentMovie[1];
 			}
 		} else {
-			movieId = getIntent().getStringExtra(ParamIntent.MOVIE_ID);
-			movie = getIntent().getParcelableExtra(ParamIntent.MOVIE);
-			theaterId = getIntent().getStringExtra(ParamIntent.THEATER_ID);
-			theater = getIntent().getParcelableExtra(ParamIntent.THEATER);
-			double latitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, 0);
-			double longitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, 0);
+			movieId = getActivity().getIntent().getStringExtra(ParamIntent.MOVIE_ID);
+			movie = getActivity().getIntent().getParcelableExtra(ParamIntent.MOVIE);
+			theaterId = getActivity().getIntent().getStringExtra(ParamIntent.THEATER_ID);
+			theater = getActivity().getIntent().getParcelableExtra(ParamIntent.THEATER);
+			double latitude = getActivity().getIntent().getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, 0);
+			double longitude = getActivity().getIntent().getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, 0);
 			if ((latitude != 0) && (longitude != 0)) {
 				Location gpsLocation = new Location("GPS"); //$NON-NLS-1$
 				gpsLocation.setLatitude(latitude);
@@ -256,7 +259,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 				searchMovieDetail(movie, near);
 			} else {
 				tracker.trackEvent("Movie", "Reuse", "Reuse data from database", 0);
-				fillViews(movie, false);
+				fillViews(mainView, movie, false);
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "error on create", e); //$NON-NLS-1$
@@ -280,7 +283,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 	}
 
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		super.onPause();
 		Log.i(TAG, "onPause");
 		// if (homePress) {
@@ -288,38 +291,40 @@ public class CineShowTimeMovieFragment extends Fragment //
 		// }
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onDestroy()
-	 */
-	@Override
-	public void finish() {
-		boolean resetTheme = getIntent() != null ? getIntent().getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false) : false;
-		if (resetTheme) {
-			setResult(CineShowtimeCst.RESULT_PREF_WITH_NEW_THEME);
-		}
-		super.finish();
-	}
+	// TODO
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.app.Activity#onDestroy()
+	// */
+	// @Override
+	// public void finish() {
+	// boolean resetTheme = getActivity().getIntent() != null ? getActivity().getIntent().getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false) : false;
+	// if (resetTheme) {
+	// setResult(CineShowtimeCst.RESULT_PREF_WITH_NEW_THEME);
+	// }
+	// super.finish();
+	// }
 
 	@Override
-	protected void onStop() {
+	public void onStop() {
 		Log.i(TAG, "onStop : ");
 		super.onStop();
 	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Log.i(TAG, "onKeyDown : " + (keyCode == KeyEvent.KEYCODE_HOME));
-		homePress = (keyCode == KeyEvent.KEYCODE_HOME);
-		return super.onKeyDown(keyCode, event);
-	}
-
-	@Override
-	public boolean onTouchEvent(MotionEvent touchEvent) {
-		manageMotionEvent(touchEvent);
-		return false;
-	}
+	// TODO
+	// @Override
+	// public boolean onKeyDown(int keyCode, KeyEvent event) {
+	// Log.i(TAG, "onKeyDown : " + (keyCode == KeyEvent.KEYCODE_HOME));
+	// homePress = (keyCode == KeyEvent.KEYCODE_HOME);
+	// return super.onKeyDown(keyCode, event);
+	// }
+	//
+	// @Override
+	// public boolean onTouchEvent(MotionEvent touchEvent) {
+	// manageMotionEvent(touchEvent);
+	// return false;
+	// }
 
 	protected void manageMotionEvent(MotionEvent touchEvent) {
 		final float x = touchEvent.getX();
@@ -369,29 +374,29 @@ public class CineShowTimeMovieFragment extends Fragment //
 	/**
 	 * 
 	 */
-	private void initViews() {
+	private void initViews(View mainView) {
 
-		movieFlipper = (ViewFlipper) findViewById(R.id.movieFlipper);
+		movieFlipper = (ViewFlipper) mainView.findViewById(R.id.movieFlipper);
 
-		summaryMoviePoster = (ImageView) findViewById(R.id.moviePoster);
+		summaryMoviePoster = (ImageView) mainView.findViewById(R.id.moviePoster);
 		// txtMovieTitle = (TextView) findViewById(R.id.txtMovieTitle);
-		movieTitle = (TextView) findViewById(R.id.movieTitle);
-		txtMovieDuration = (TextView) findViewById(R.id.txtMovieDuration);
-		movieDuration = (TextView) findViewById(R.id.movieDuration);
-		moviePlot = (TextView) findViewById(R.id.moviePlot);
-		theaterTitle = (TextView) findViewById(R.id.movieTheaterTitle);
-		theaterAddress = (TextView) findViewById(R.id.movieTheaterAddress);
-		movieProjectionTimeList = (ListView) findViewById(R.id.movieListProjection);
-		movieReviewsList = (ListView) findViewById(R.id.movieListReview);
-		movieGalleryTrailer = (Gallery) findViewById(R.id.gallery_trailer);
+		movieTitle = (TextView) mainView.findViewById(R.id.movieTitle);
+		txtMovieDuration = (TextView) mainView.findViewById(R.id.txtMovieDuration);
+		movieDuration = (TextView) mainView.findViewById(R.id.movieDuration);
+		moviePlot = (TextView) mainView.findViewById(R.id.moviePlot);
+		theaterTitle = (TextView) mainView.findViewById(R.id.movieTheaterTitle);
+		theaterAddress = (TextView) mainView.findViewById(R.id.movieTheaterAddress);
+		movieProjectionTimeList = (ListView) mainView.findViewById(R.id.movieListProjection);
+		movieReviewsList = (ListView) mainView.findViewById(R.id.movieListReview);
+		movieGalleryTrailer = (Gallery) mainView.findViewById(R.id.gallery_trailer);
 
-		movieTabInfoScrollView = (ScrollView) findViewById(R.id.movieTab_summary);
+		movieTabInfoScrollView = (ScrollView) mainView.findViewById(R.id.movieTab_summary);
 
-		tabShowtimes = (RelativeLayout) findViewById(R.id.Projection);
+		tabShowtimes = (RelativeLayout) mainView.findViewById(R.id.Projection);
 
-		movieBtnMap = (ImageButton) findViewById(R.id.movieBtnMap);
-		movieBtnDirection = (ImageButton) findViewById(R.id.movieBtnDirection);
-		movieBtnCall = (ImageButton) findViewById(R.id.movieBtnCall);
+		movieBtnMap = (ImageButton) mainView.findViewById(R.id.movieBtnMap);
+		movieBtnDirection = (ImageButton) mainView.findViewById(R.id.movieBtnDirection);
+		movieBtnCall = (ImageButton) mainView.findViewById(R.id.movieBtnCall);
 
 		// drawableManager = new DrawableManager();
 		imageDownloader = new ImageDownloader();
@@ -415,15 +420,15 @@ public class CineShowTimeMovieFragment extends Fragment //
 		registerForContextMenu(movieProjectionTimeList);
 	}
 
-	private void createTabs() {
+	private void createTabs(View mainView) {
 		try {
-			// tabHost = (TabHost) this.findViewById(android.R.id.tabhost);
-			// tabWidget = (TabWidget) this.findViewById(android.R.id.tabs);
-			tabHost = getTabHost();
-			tabWidget = getTabWidget();
+			tabHost = (TabHost) mainView.findViewById(android.R.id.tabhost);
+			tabWidget = (TabWidget) mainView.findViewById(android.R.id.tabs);
+			// tabHost = getTabHost();
+			// tabWidget = getTabWidget();
 			// tabHost.setup();
 
-			Intent intentEmptyActivity = new Intent(CineShowTimeMovieFragment.this, EmptyActivity.class);
+			Intent intentEmptyActivity = new Intent(getActivity(), EmptyActivity.class);
 
 			TabHost.TabSpec tabSummary = tabHost.newTabSpec("Summary");
 			// tabSummary.setContent(R.id.movieTab_summary);
@@ -458,7 +463,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 	 * @see android.app.Activity#onDestroy()
 	 */
 	@Override
-	protected void onDestroy() {
+	public void onDestroy() {
 		super.onDestroy();
 		if ((progressDialog != null) && progressDialog.isShowing()) {
 			progressDialog.dismiss();
@@ -484,7 +489,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 			fillDB();
 
 			try {
-				fillViews(model.getMovie(), false);
+				fillViews(mainView, model.getMovie(), false);
 			} catch (Exception e) {
 				Log.e(TAG, "exception ", e);
 			}
@@ -498,7 +503,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 		@Override
 		public void handleInputRecived(int tabIndex) {
 			try {
-				fillViews(model.getMovie(), true);
+				fillViews(mainView, model.getMovie(), true);
 			} catch (Exception e) {
 				Log.e(TAG, "error during filling", e);
 			}
@@ -507,10 +512,10 @@ public class CineShowTimeMovieFragment extends Fragment //
 	};
 
 	public void openDialog() {
-		progressDialog = ProgressDialog.show(CineShowTimeMovieFragment.this,
+		progressDialog = ProgressDialog.show(getActivity(),
 		//
-				CineShowTimeMovieFragment.this.getResources().getString(R.string.movieProgressTitle)//
-				, CineShowTimeMovieFragment.this.getResources().getString(R.string.movieProgressMsg) //
+				getResources().getString(R.string.movieProgressTitle)//
+				, getResources().getString(R.string.movieProgressMsg) //
 				, true, true, this);
 	}
 
@@ -522,7 +527,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 		movieTitle.setText(movie.getMovieName());
 
 		txtMovieDuration.setText(getResources().getString(R.string.txtDuration));
-		movieDuration.setText(CineShowtimeDateNumberUtil.showMovieTimeLength(this, movie));
+		movieDuration.setText(CineShowtimeDateNumberUtil.showMovieTimeLength(getActivity(), movie));
 
 	}
 
@@ -530,7 +535,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 	 * @param movie
 	 * @throws Exception
 	 */
-	protected void fillViews(MovieBean movie, boolean withAdapter) throws Exception {
+	protected void fillViews(View mainView, MovieBean movie, boolean withAdapter) throws Exception {
 
 		Log.i(TAG, "FillViews : " + withAdapter);
 		if ((movie.getUrlImg() != null)) {
@@ -542,7 +547,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 				)
 				|| ((movie.getUrlWikipedia() != null) && (movie.getUrlWikipedia().length() != 0)) //
 		) {
-			movieWebLinks = (TextView) findViewById(R.id.movieWebLinks);
+			movieWebLinks = (TextView) mainView.findViewById(R.id.movieWebLinks);
 		}
 		if (movieWebLinks != null) {
 			StringBuffer linkBuffer = new StringBuffer();
@@ -561,8 +566,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 		}
 
 		if ((movieRate == null) && (movie.getRate() != null)) {
-			txtMovieRate = (TextView) findViewById(R.id.txtMovieRate);
-			movieRate = (TextView) findViewById(R.id.movieRate);
+			txtMovieRate = (TextView) mainView.findViewById(R.id.txtMovieRate);
+			movieRate = (TextView) mainView.findViewById(R.id.movieRate);
 		}
 		if (movieRate != null) {
 			String rate = " / 10";
@@ -574,23 +579,23 @@ public class CineShowTimeMovieFragment extends Fragment //
 			txtMovieRate.setText(getResources().getString(R.string.txtRate));
 			movieRate.setText(rate);
 
-			sumRate1 = (ImageView) findViewById(R.id.movieImgRate1);
-			sumRate2 = (ImageView) findViewById(R.id.movieImgRate2);
-			sumRate3 = (ImageView) findViewById(R.id.movieImgRate3);
-			sumRate4 = (ImageView) findViewById(R.id.movieImgRate4);
-			sumRate5 = (ImageView) findViewById(R.id.movieImgRate5);
-			sumRate6 = (ImageView) findViewById(R.id.movieImgRate6);
-			sumRate7 = (ImageView) findViewById(R.id.movieImgRate7);
-			sumRate8 = (ImageView) findViewById(R.id.movieImgRate8);
-			sumRate9 = (ImageView) findViewById(R.id.movieImgRate9);
-			sumRate10 = (ImageView) findViewById(R.id.movieImgRate10);
+			sumRate1 = (ImageView) mainView.findViewById(R.id.movieImgRate1);
+			sumRate2 = (ImageView) mainView.findViewById(R.id.movieImgRate2);
+			sumRate3 = (ImageView) mainView.findViewById(R.id.movieImgRate3);
+			sumRate4 = (ImageView) mainView.findViewById(R.id.movieImgRate4);
+			sumRate5 = (ImageView) mainView.findViewById(R.id.movieImgRate5);
+			sumRate6 = (ImageView) mainView.findViewById(R.id.movieImgRate6);
+			sumRate7 = (ImageView) mainView.findViewById(R.id.movieImgRate7);
+			sumRate8 = (ImageView) mainView.findViewById(R.id.movieImgRate8);
+			sumRate9 = (ImageView) mainView.findViewById(R.id.movieImgRate9);
+			sumRate10 = (ImageView) mainView.findViewById(R.id.movieImgRate10);
 			fillRateImg(movie.getRate());
 		}
 
 		String style = movie.getStyle();
 		if ((movieStyle == null) && (style != null) && (style.length() != 0)) {
-			txtMovieStyle = (TextView) findViewById(R.id.txtMovieGenre);
-			movieStyle = (TextView) findViewById(R.id.movieGenre);
+			txtMovieStyle = (TextView) mainView.findViewById(R.id.txtMovieGenre);
+			movieStyle = (TextView) mainView.findViewById(R.id.movieGenre);
 		}
 		if (movieStyle != null) {
 			if ((style != null) && (style.length() != 0)) {
@@ -601,8 +606,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 		String directorList = movie.getDirectorList();
 		if ((movieDirector == null) && (directorList != null) && (directorList.length() > 0)) {
-			txtMovieDirector = (TextView) findViewById(R.id.txtMovieDirector);
-			movieDirector = (TextView) findViewById(R.id.movieDirector);
+			txtMovieDirector = (TextView) mainView.findViewById(R.id.txtMovieDirector);
+			movieDirector = (TextView) mainView.findViewById(R.id.movieDirector);
 		}
 		if (movieDirector != null) {
 			if ((directorList != null) && (directorList.length() > 0)) {
@@ -613,8 +618,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 		String actorList = movie.getActorList();
 		if ((movieActor == null) && (actorList != null) && (actorList.length() > 0)) {
-			txtMovieActor = (TextView) findViewById(R.id.txtMovieActor);
-			movieActor = (TextView) findViewById(R.id.movieActor);
+			txtMovieActor = (TextView) mainView.findViewById(R.id.txtMovieActor);
+			movieActor = (TextView) mainView.findViewById(R.id.movieActor);
 		}
 		if (movieActor != null) {
 			StringBuffer actorBuffer = new StringBuffer();
@@ -639,7 +644,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 		}
 
 		boolean checkboxPreference;
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		checkboxPreference = prefs.getBoolean(this.getResources().getString(R.string.preference_lang_key_auto_translate), false);
 
 		if ((movie.getDescription() != null)) {
@@ -657,7 +662,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 			moviePlot.setText(getResources().getString(R.string.noSummary));
 		}
 		if (movie.getUrlImg() != null) {
-			imageDownloader.download(movie.getUrlImg(), summaryMoviePoster, this);
+			imageDownloader.download(movie.getUrlImg(), summaryMoviePoster, getActivity());
 		} else {
 			summaryMoviePoster.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.no_poster));
 		}
@@ -677,7 +682,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 		}
 
 		if ((movie.getYoutubeVideos() != null) && !movie.getYoutubeVideos().isEmpty()) {
-			this.movieGalleryTrailer.setAdapter(new GalleryTrailerAdapter(this, movie.getYoutubeVideos(), imageDownloader));
+			this.movieGalleryTrailer.setAdapter(new GalleryTrailerAdapter(getActivity(), movie.getYoutubeVideos(), imageDownloader));
 		}
 		List<ProjectionBean> projectionList = null;
 		distanceTime = prefs.getBoolean(this.getResources().getString(R.string.preference_loc_key_time_direction)//
@@ -690,14 +695,14 @@ public class CineShowTimeMovieFragment extends Fragment //
 			}
 		}
 
-		projectionAdapter = new ProjectionListAdapter(CineShowTimeMovieFragment.this //
+		projectionAdapter = new ProjectionListAdapter(getActivity()//
 				, movie //
 				, projectionList //
 				, CineShowtimeDateNumberUtil.getMinTime(projectionList, distanceTimeLong) //
 				, this//
 		);
 		movieProjectionTimeList.setAdapter(projectionAdapter);
-		this.movieReviewsList.setAdapter(new ReviewListAdapter(this, movie.getReviews()));
+		this.movieReviewsList.setAdapter(new ReviewListAdapter(getActivity(), movie.getReviews()));
 	}
 
 	/**
@@ -803,106 +808,106 @@ public class CineShowTimeMovieFragment extends Fragment //
 	/*
 	 * MENU
 	 */
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		Log.i(TAG, "onCreateOptionMenu : ");
-		tracker.trackEvent("Menu", "Consult", "Consult menu from movie activity", 0);
-		CineShowTimeMenuUtil.createMenu(menu, MENU_PREF, 3);
-		super.onCreateOptionsMenu(menu);
-		// menu.add(0, MENU_VIDEO, 2, R.string.openYoutubeMenuItem).setIcon(R.drawable.ic_menu_play_clip);
-		return true;
-	}
-
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		Log.i(TAG, "onMenuItemSelect : " + item.getItemId());
-		if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
-			projectionAdapter.changePreferences();
-			return true;
-		}
-		// switch (item.getItemId()) {
-		// case MENU_VIDEO: {
-		// startActivity(IntentShowtime.createYoutubeIntent(model.getMovie()));
-		// return true;
-		// }
-		// case ITEM_TRANSLATE: {
-		// try {
-		// moviePlot.setText(controler.translateDesc());
-		// } catch (Exception e) {
-		//				Log.e(TAG, "error while translating", e); //$NON-NLS-1$
-		// }
-		// return true;
-		// }
-		// default:
-		// break;
-		// }
-
-		return super.onMenuItemSelected(featureId, item);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu, android.view.View, android.view.ContextMenu.ContextMenuInfo)
-	 */
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		MovieBean movie = model.getMovie();
-		switch (v.getId()) {
-		case R.id.moviePlot:
-			if (movie.isImdbDesrciption() && (movie.getDescription() != null)) {
-				menu.add(0, ITEM_TRANSLATE, 0, R.string.menuTranslate);
-
-			}
-
-			break;
-
-		default:
-			break;
-		}
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Log.i(TAG, "onOptionsItemSelected : " + item.getItemId());
-		if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
-			projectionAdapter.changePreferences();
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (data != null) {
-			model.setResetTheme(data.getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false));
-		} else {
-			model.setResetTheme(false);
-		}
-
-		initResults();
-
-		if (requestCode == CineShowtimeCst.ACTIVITY_RESULT_PREFERENCES && projectionAdapter != null) {
-			projectionAdapter.changePreferences();
-
-		}
-
-		if (model.isResetTheme()) {
-			CineShowTimeLayoutUtils.changeToTheme(this, getIntent());
-		}
-		//
-		// if (requestCode == AndShowtimeCst.ACTIVITY_RESULT_PREFERENCES) {
-		// projectionAdapter.changePreferences();
-		// if (AndShowTimeMenuUtil.manageResult(this, requestCode, resultCode, data)) {
-		// return;
-		// }
-		// }
-
-	}
+	// TODO
+	// @Override
+	// public boolean onCreateOptionsMenu(Menu menu) {
+	// Log.i(TAG, "onCreateOptionMenu : ");
+	// tracker.trackEvent("Menu", "Consult", "Consult menu from movie activity", 0);
+	// CineShowTimeMenuUtil.createMenu(menu, MENU_PREF, 3);
+	// super.onCreateOptionsMenu(menu);
+	// // menu.add(0, MENU_VIDEO, 2, R.string.openYoutubeMenuItem).setIcon(R.drawable.ic_menu_play_clip);
+	// return true;
+	// }
+	//
+	// @Override
+	// public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	// Log.i(TAG, "onMenuItemSelect : " + item.getItemId());
+	// if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
+	// projectionAdapter.changePreferences();
+	// return true;
+	// }
+	// // switch (item.getItemId()) {
+	// // case MENU_VIDEO: {
+	// // startActivity(IntentShowtime.createYoutubeIntent(model.getMovie()));
+	// // return true;
+	// // }
+	// // case ITEM_TRANSLATE: {
+	// // try {
+	// // moviePlot.setText(controler.translateDesc());
+	// // } catch (Exception e) {
+	//		//				Log.e(TAG, "error while translating", e); //$NON-NLS-1$
+	// // }
+	// // return true;
+	// // }
+	// // default:
+	// // break;
+	// // }
+	//
+	// return super.onMenuItemSelected(featureId, item);
+	// }
+	//
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu, android.view.View, android.view.ContextMenu.ContextMenuInfo)
+	// */
+	// @Override
+	// public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+	// super.onCreateContextMenu(menu, v, menuInfo);
+	// MovieBean movie = model.getMovie();
+	// switch (v.getId()) {
+	// case R.id.moviePlot:
+	// if (movie.isImdbDesrciption() && (movie.getDescription() != null)) {
+	// menu.add(0, ITEM_TRANSLATE, 0, R.string.menuTranslate);
+	//
+	// }
+	//
+	// break;
+	//
+	// default:
+	// break;
+	// }
+	// }
+	//
+	// @Override
+	// public boolean onOptionsItemSelected(MenuItem item) {
+	// Log.i(TAG, "onOptionsItemSelected : " + item.getItemId());
+	// if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
+	// projectionAdapter.changePreferences();
+	// return true;
+	// }
+	// return super.onOptionsItemSelected(item);
+	// }
+	//
+	// @Override
+	// protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	// super.onActivityResult(requestCode, resultCode, data);
+	//
+	// if (data != null) {
+	// model.setResetTheme(data.getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false));
+	// } else {
+	// model.setResetTheme(false);
+	// }
+	//
+	// initResults();
+	//
+	// if (requestCode == CineShowtimeCst.ACTIVITY_RESULT_PREFERENCES && projectionAdapter != null) {
+	// projectionAdapter.changePreferences();
+	//
+	// }
+	//
+	// if (model.isResetTheme()) {
+	// CineShowTimeLayoutUtils.changeToTheme(this, getIntent());
+	// }
+	// //
+	// // if (requestCode == AndShowtimeCst.ACTIVITY_RESULT_PREFERENCES) {
+	// // projectionAdapter.changePreferences();
+	// // if (AndShowTimeMenuUtil.manageResult(this, requestCode, resultCode, data)) {
+	// // return;
+	// // }
+	// // }
+	//
+	// }
 
 	/*
 	 * 
@@ -985,7 +990,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 			ImageButton imageBtn = (ImageButton) v;
 			ProjectionView parentView = (ProjectionView) imageBtn.getParent().getParent();
 
-			ListPopupWindow popupWindow = new ListPopupWindow(v, this, model.getTheater(), model.getMovie(), parentView.getProjectionBean(), model.isCalendarInstalled());
+			ListPopupWindow popupWindow = new ListPopupWindow(v, getActivity(), model.getTheater(), model.getMovie(), parentView.getProjectionBean(), model.isCalendarInstalled());
 			// popupWindow.showLikeQuickAction(0, -30);
 			// popupWindow.showLikePopDownMenu(0, -100);
 			popupWindow.loadView();
@@ -1028,9 +1033,9 @@ public class CineShowTimeMovieFragment extends Fragment //
 		} catch (RemoteException e) {
 			Log.e(TAG, "Error cancel service", e);
 		}
-		Intent intentMovieService = new Intent(this, CineShowTimeMovieService.class);
-		stopService(intentMovieService);
-		finish();
+		Intent intentMovieService = new Intent(getActivity(), CineShowTimeMovieService.class);
+		getActivity().stopService(intentMovieService);
+		// finish(); TODO
 	}
 
 	/*
@@ -1041,7 +1046,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 	public void initDB() {
 
 		try {
-			mDbHelper = new CineShowtimeDbAdapter(this);
+			mDbHelper = new CineShowtimeDbAdapter(getActivity());
 			mDbHelper.open();
 
 		} catch (SQLException e) {
@@ -1060,10 +1065,10 @@ public class CineShowTimeMovieFragment extends Fragment //
 	}
 
 	public void fillDB() {
-		Intent intentUpdateMovie = new Intent(this, CineShowDBGlobalService.class);
+		Intent intentUpdateMovie = new Intent(getActivity(), CineShowDBGlobalService.class);
 		intentUpdateMovie.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_MOVIE_WRITE);
 		intentUpdateMovie.putExtra(ParamIntent.SERVICE_DB_DATA, model.getMovie());
-		startService(intentUpdateMovie);
+		getActivity().startService(intentUpdateMovie);
 
 	}
 
@@ -1079,13 +1084,13 @@ public class CineShowTimeMovieFragment extends Fragment //
 	 */
 
 	public void bindService() {
-		bindService(new Intent(this, CineShowTimeMovieService.class), mConnection, Context.BIND_AUTO_CREATE);
+		getActivity().bindService(new Intent(getActivity(), CineShowTimeMovieService.class), mConnection, Context.BIND_AUTO_CREATE);
 	}
 
 	public void unbindService() {
 		try {
 			serviceMovie.unregisterCallback(m_callback);
-			unbindService(mConnection);
+			getActivity().unbindService(mConnection);
 		} catch (Exception e) {
 			Log.e(TAG, "error while unbinding service", e);
 		}
@@ -1148,17 +1153,17 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 		boolean checkboxPreference;
 		// Get the xml/preferences.xml preferences
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		checkboxPreference = prefs.getBoolean("checkbox_preference", false);
 
-		Intent intentMovieService = new Intent(this, CineShowTimeMovieService.class);
+		Intent intentMovieService = new Intent(getActivity(), CineShowTimeMovieService.class);
 
 		intentMovieService.putExtra(ParamIntent.SERVICE_MOVIE_ID, movie.getId());
 		intentMovieService.putExtra(ParamIntent.SERVICE_MOVIE, movie);
 		intentMovieService.putExtra(ParamIntent.SERVICE_MOVIE_NEAR, near);
 		intentMovieService.putExtra(ParamIntent.SERVICE_MOVIE_TRANSLATE, checkboxPreference);
 
-		startService(intentMovieService);
+		getActivity().startService(intentMovieService);
 
 	}
 

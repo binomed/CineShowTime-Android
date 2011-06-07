@@ -15,20 +15,6 @@
 		    android:layout_height="fill_parent"
 		    >
 		    <RelativeLayout
-				android:id="@+id/searchHeader"
-		    	android:layout_width="fill_parent"
-		    	android:layout_height="wrap_content"
-		    	android:layout_marginBottom="10dip"
-		    	android:background="@drawable/header"
-		    	>
-		    	 <ImageView 
-					android:layout_width="wrap_content" 
-					android:layout_height="wrap_content" 
-					android:layout_centerHorizontal="true" 
-					android:background="@drawable/logo_header"
-					/>
-		    </RelativeLayout>
-		    <RelativeLayout
 				android:id="@+id/searchLayoutCity"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"

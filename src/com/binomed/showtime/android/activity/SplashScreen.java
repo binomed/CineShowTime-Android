@@ -25,9 +25,9 @@ public class SplashScreen extends Activity {
 			if ((SplashScreen.this.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE //
 					|| (SplashScreen.this.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE //
 			) {
-				intent = new Intent(SplashScreen.this, CineShowTimeMainTabletActivity.class);
+				intent = new Intent(SplashScreen.this, CineShowTimeMainActivity.class);
 			} else {
-				intent = new Intent(SplashScreen.this, CineShowTimeMainPhoneActivity.class);
+				// intent = new Intent(SplashScreen.this, CineShowTimeMainPhoneActivity.class); TODO
 			}
 			startActivity(intent);
 			finish();

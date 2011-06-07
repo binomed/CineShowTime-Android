@@ -7,17 +7,14 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -41,8 +38,6 @@ import com.binomed.showtime.android.searchactivity.CineShowTimeSearchActivity;
 import com.binomed.showtime.android.service.CineShowCleanFileService;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
-import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
-import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
 import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
@@ -70,8 +65,6 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 		tracker = GoogleAnalyticsTracker.getInstance();
 		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, getActivity());
 		tracker.trackPageView("/FavFragment");
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
 
 		View mainView = inflater.inflate(R.layout.fragment_fav, container, false);
 
@@ -89,7 +82,7 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 
 		display();
 
-		initResults();
+		// initResults(); TODO
 
 		return mainView;
 	}
@@ -140,12 +133,13 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 		this.theaterFavList.setAdapter(adapter);
 	}
 
-	private void initResults() {
-		Intent intentResult = new Intent();
-		intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
-		intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, model.isNullResult());
-		setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
-	}
+	// TODO
+	// private void initResults() {
+	// Intent intentResult = new Intent();
+	// intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
+	// intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, model.isNullResult());
+	// setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
+	// }
 
 	/**
 	 * Init views objects
@@ -180,52 +174,52 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 	 * 
 	 * 
 	 */
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		tracker.trackEvent("Menu", "Open", "Consult menu from main activity", 0);
-		CineShowTimeMenuUtil.createMenu(menu, MENU_PREF, 0);
-		return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onMenuItemSelected(int, android.view.MenuItem)
-	 */
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
-			return true;
-		}
-
-		return super.onMenuItemSelected(featureId, item);
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (data != null) {
-			model.setNullResult(data.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, false));
-			model.setResetTheme(data.getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false));
-		} else {
-			model.setResetTheme(false);
-			model.setNullResult(false);
-		}
-
-		initResults();
-
-		if (model.isResetTheme()) {
-			CineShowTimeLayoutUtils.changeToTheme(this, getActivity().getIntent());
-		}
-	}
+	// TODO
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	// */
+	// @Override
+	// public boolean onCreateOptionsMenu(Menu menu) {
+	// super.onCreateOptionsMenu(menu);
+	// tracker.trackEvent("Menu", "Open", "Consult menu from main activity", 0);
+	// CineShowTimeMenuUtil.createMenu(menu, MENU_PREF, 0);
+	// return true;
+	// }
+	//
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.app.Activity#onMenuItemSelected(int, android.view.MenuItem)
+	// */
+	// @Override
+	// public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	// if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
+	// return true;
+	// }
+	//
+	// return super.onMenuItemSelected(featureId, item);
+	// }
+	//
+	// @Override
+	// protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	// super.onActivityResult(requestCode, resultCode, data);
+	//
+	// if (data != null) {
+	// model.setNullResult(data.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, false));
+	// model.setResetTheme(data.getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false));
+	// } else {
+	// model.setResetTheme(false);
+	// model.setNullResult(false);
+	// }
+	//
+	// initResults();
+	//
+	// if (model.isResetTheme()) {
+	// CineShowTimeLayoutUtils.changeToTheme(this, getActivity().getIntent());
+	// }
+	// }
 
 	/*
 	 * 

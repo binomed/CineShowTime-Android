@@ -78,7 +78,7 @@ public class CineShowTimeSearchActivity extends Activity implements OnClickListe
 		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
 		Log.i(TAG, "onCreate"); //$NON-NLS-1$
-		setContentView(R.layout.activity_search);
+		// setContentView(R.layout.activity_search);TODO
 
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 

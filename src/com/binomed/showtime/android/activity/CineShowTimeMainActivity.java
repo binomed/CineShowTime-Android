@@ -44,7 +44,7 @@ import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
-public class CineShowTimeMainTabletActivity extends Activity implements OnClickListener //
+public class CineShowTimeMainActivity extends Activity implements OnClickListener //
 		, OnItemClickListener //
 {
 
@@ -76,7 +76,7 @@ public class CineShowTimeMainTabletActivity extends Activity implements OnClickL
 
 		CineShowtimeFactory.initGeocoder(this);
 
-		Intent intentCleanFileService = new Intent(CineShowTimeMainTabletActivity.this, CineShowCleanFileService.class);
+		Intent intentCleanFileService = new Intent(CineShowTimeMainActivity.this, CineShowCleanFileService.class);
 		startService(intentCleanFileService);
 
 		initViews();
