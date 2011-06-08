@@ -1,66 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-   xmlns:android="http://schemas.android.com/apk/res/android"
-   android:id="@+id/relativeLayoutId"
-   android:layout_width="fill_parent"
-   android:layout_height="fill_parent"
-	style="?attr/imgBackground" 
-   >
-   <!--     style="@style/Layouts.background"--> 
-	<ImageView android:layout_width="wrap_content" 
-		android:layout_alignParentTop="true"  
-		android:layout_centerHorizontal="true"  
-		android:layout_height="wrap_content" 
-		android:id="@+id/logoImg"
-		style="?attr/logoImg" 
-		/>
-	<Button android:text="@string/btnNear" 
-		android:id="@+id/mainBtnSearchNear" 
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content" 
-		android:layout_marginBottom="10dip"  
-		android:layout_marginLeft="10dip"  
-		android:layout_marginRight="10dip"  
-		android:layout_below="@+id/logoImg" 
-		style="@style/Button.button"
-		/>
-	<RelativeLayout
-		 android:layout_width="fill_parent"
-	   	 android:layout_height="wrap_content"
-		 android:layout_below="@+id/mainBtnSearchNear" 
-		>
-		<LinearLayout
-			android:id="@+id/mainLayoutTextFav"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="10dip"  
-			android:layout_marginRight="10dip"  
-		   	android:background="@drawable/back_fav_acceuil_top"
-		>
-			<TextView
-				android:id="@+id/mainTextFav"
-				android:layout_width="fill_parent"
-			   	android:layout_height="wrap_content"
-				android:text="@string/btnFav"
-				android:gravity="center_horizontal"
-				style="@style/Text.FavMain"
-			/>
-		</LinearLayout>
-		<ListView
-			android:id="@+id/mainFavList" 
-			android:layout_width="fill_parent" 
-			android:layout_height="wrap_content" 
-			android:layout_below="@+id/mainLayoutTextFav" 
-			android:layout_marginLeft="10dip"  
-			android:layout_marginRight="10dip"  
-		   	android:background="@drawable/back_fav_acceuil_bottom"
-			/>
-	</RelativeLayout>
-	<ImageView 
-		android:id="@+id/logoSkyHook" 
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content"
-		android:layout_centerHorizontal="true" 
-		android:layout_alignParentBottom="true" 
-		android:background="@drawable/skyhookcolor_sm"/>
-</RelativeLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    <fragment class="com.binomed.showtime.android.searchactivity.CineShowTimeSearchFragment"
+            android:id="@+id/fragmentSearch" 
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" 
+            android:layout_weight="40"
+            />
+    <fragment class="com.binomed.showtime.android.fav.CineShowTimeFavFragment"
+            android:id="@+id/fragmentB" 
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" 
+            android:layout_weight="60"
+            />
+
+    
+</LinearLayout>

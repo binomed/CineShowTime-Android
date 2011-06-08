@@ -1,11 +1,7 @@
 package com.binomed.showtime.android.activity;
 
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,38 +10,29 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.ListView;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
-import com.binomed.showtime.android.adapter.view.TheaterFavMainListAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
+import com.binomed.showtime.android.fav.CineShowTimeFavFragment;
 import com.binomed.showtime.android.layout.dialogs.last.LastChangeDialog;
-import com.binomed.showtime.android.layout.view.TheaterFavView;
-import com.binomed.showtime.android.model.LocalisationBean;
-import com.binomed.showtime.android.model.TheaterBean;
-import com.binomed.showtime.android.resultsactivity.CineShowTimeResultsActivity;
-import com.binomed.showtime.android.searchactivity.CineShowTimeSearchActivity;
+import com.binomed.showtime.android.searchactivity.CineShowTimeSearchFragment;
 import com.binomed.showtime.android.service.CineShowCleanFileService;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
-import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
-import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
-public class CineShowTimeMainActivity extends Activity implements OnClickListener //
-		, OnItemClickListener //
+public class CineShowTimeMainActivity extends FragmentActivity implements
+// OnClickListener, //
+// OnItemClickListener, //
+		CineShowTimeFavFragment.FavFragmentInteraction //
 {
 
 	private static final String TAG = "AndShowTimeMainActivity"; //$NON-NLS-1$
@@ -54,12 +41,12 @@ public class CineShowTimeMainActivity extends Activity implements OnClickListene
 
 	private Context mainContext;
 	private ModelMainFragment model;
-	private Button buttonSearchNear;
-	private ListView theaterFavList;
-	private TheaterFavMainListAdapter adapter;
 	private CineShowtimeDbAdapter mDbHelper;
 
 	private GoogleAnalyticsTracker tracker;
+
+	private CineShowTimeSearchFragment fragmentSearch;
+	private CineShowTimeFavFragment fragmentFav;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -68,6 +55,7 @@ public class CineShowTimeMainActivity extends Activity implements OnClickListene
 		tracker = GoogleAnalyticsTracker.getInstance();
 		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, this);
 		tracker.trackPageView("/MainActivity");
+
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
 		setContentView(R.layout.activity_main);
@@ -116,23 +104,6 @@ public class CineShowTimeMainActivity extends Activity implements OnClickListene
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		List<TheaterBean> favList = getFavTheater();
-
-		if ((favList == null) || (favList.size() == 0)) {
-			favList = new ArrayList<TheaterBean>();
-			TheaterBean thTmp = new TheaterBean();
-			thTmp.setId("0");
-			thTmp.setTheaterName(getResources().getString(R.string.msgNoDFav));
-
-			favList.add(thTmp);
-		}
-
-		model.setFavList(favList);
-
-		adapter = new TheaterFavMainListAdapter(mainContext, favList, this);
-
-		this.theaterFavList.setAdapter(adapter);
 	}
 
 	private void initResults() {
@@ -148,8 +119,8 @@ public class CineShowTimeMainActivity extends Activity implements OnClickListene
 	private void initViews() {
 
 		// Watch for button clicks.
-		buttonSearchNear = (Button) findViewById(R.id.mainBtnSearchNear);
-		theaterFavList = (ListView) findViewById(R.id.mainFavList);
+		fragmentSearch = (CineShowTimeSearchFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentSearch);
+		fragmentFav = (CineShowTimeFavFragment) getSupportFragmentManager().findFragmentById(R.id.FragmentFav);
 	}
 
 	/**
@@ -157,8 +128,8 @@ public class CineShowTimeMainActivity extends Activity implements OnClickListene
 	 */
 
 	private void initListeners() {
-		buttonSearchNear.setOnClickListener(this);
-		theaterFavList.setOnItemClickListener(this);
+		// buttonSearchNear.setOnClickListener(this);
+		// theaterFavList.setOnItemClickListener(this);
 	}
 
 	private void display() {
@@ -218,158 +189,6 @@ public class CineShowTimeMainActivity extends Activity implements OnClickListene
 		if (model.isResetTheme()) {
 			CineShowTimeLayoutUtils.changeToTheme(this, getIntent());
 		}
-	}
-
-	/*
-	 * 
-	 * ACTIVITIES
-	 */
-
-	public void openSearchActivity(TheaterBean theater) {
-		Intent intentStartNearActivity = new Intent(this, CineShowTimeSearchActivity.class);
-		Bundle extras = new Bundle();
-		if (theater != null) {
-			extras.putString(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, theater.getId());
-			intentStartNearActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, theater.getId());
-			if (theater.getPlace() != null) {
-				LocalisationBean localisation = theater.getPlace();
-				if ((localisation.getLatitude() != null) && (localisation.getLongitude() != null)) {
-					extras.putDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, localisation.getLatitude());
-					extras.putDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, localisation.getLongitude());
-					intentStartNearActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, localisation.getLatitude());
-					intentStartNearActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, localisation.getLongitude());
-				}
-				// else {
-				StringBuilder place = new StringBuilder();
-				if ((theater.getPlace().getCityName() != null //
-						)
-						&& (theater.getPlace().getCityName().length() > 0)) {
-					place.append(theater.getPlace().getCityName());
-				}
-				if ((theater.getPlace().getCountryNameCode() != null //
-						)
-						&& (theater.getPlace().getCountryNameCode().length() > 0 //
-						) && (place.length() > 0)) {
-					place.append(", ").append(theater.getPlace().getCountryNameCode()); //$NON-NLS-1$
-				}
-				extras.putString(ParamIntent.ACTIVITY_SEARCH_CITY, place.toString());
-				intentStartNearActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_CITY, place.toString());
-				// }
-			}
-		} else {
-			extras.putString(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, null);
-		}
-		intentStartNearActivity.replaceExtras(extras);
-		startActivityForResult(intentStartNearActivity, CineShowtimeCst.ACTIVITY_RESULT_SEARCH_ACTIVITY);
-	}
-
-	public void openResultsActivity(TheaterBean theaterBean) {
-		openDB();
-
-		try {
-			String cityName = theaterBean.getPlace().getCityName();
-			if (theaterBean.getPlace().getCountryNameCode() != null) {
-				cityName += ", " + theaterBean.getPlace().getCountryNameCode();
-			}
-			String theaterId = theaterBean.getId();
-			boolean forceRequest = false;
-
-			Calendar today = Calendar.getInstance();
-			Calendar calendarLastRequest = model.getLastRequestDate();
-			if (calendarLastRequest != null) {
-				int yearToday = today.get(Calendar.YEAR);
-				int monthToday = today.get(Calendar.MONTH);
-				int dayToday = today.get(Calendar.DAY_OF_MONTH);
-				int yearLast = calendarLastRequest.get(Calendar.YEAR);
-				int monthLast = calendarLastRequest.get(Calendar.MONTH);
-				int dayLast = calendarLastRequest.get(Calendar.DAY_OF_MONTH);
-				if ((yearToday != yearLast) //
-						|| (monthToday != monthLast) //
-						|| (dayToday != dayLast) //
-				) {//
-
-					forceRequest = true;
-				} else {
-					Cursor cursorInResults = null;
-					try {
-						if (mDbHelper.isOpen()) {
-							cursorInResults = mDbHelper.fetchInResults(theaterBean);
-							forceRequest = !cursorInResults.moveToFirst();
-						}
-					} finally {
-						if (cursorInResults != null) {
-							cursorInResults.close();
-						}
-					}
-				}
-			} else {
-				forceRequest = true;
-			}
-
-			model.setLastRequestDate(today);
-
-			CineShowtimeFactory.initGeocoder(this);
-			Intent intentResultActivity = new Intent(this, CineShowTimeResultsActivity.class);
-
-			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_CITY, ((cityName != null) ? URLEncoder.encode(cityName, CineShowTimeEncodingUtil.getEncoding()) : cityName));
-			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, theaterId);
-			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_DAY, 0);
-			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, forceRequest);
-			startActivityForResult(intentResultActivity, CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY);
-
-		} catch (Exception e) {
-			Log.e(TAG, "Error during open results activity", e);
-		} finally {
-			closeDB();
-		}
-
-	}
-
-	/*
-	 * 
-	 * EVENT Part
-	 */
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.mainBtnSearchNear: {
-			tracker.trackEvent("Button", "Click", "Click search Btn", 0);
-			tracker.dispatch();
-			openSearchActivity(null);
-			break;
-		}
-		case R.id.favItemDelete: {
-			tracker.trackEvent("Favoris", "Delete", "Delete from main activity", 0);
-			TheaterFavView thFavView = (TheaterFavView) v.getParent().getParent();
-			TheaterBean thTmp = thFavView.getTheaterBean();
-			Intent intentRemoveTh = new Intent(this, CineShowDBGlobalService.class);
-			intentRemoveTh.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_FAV_DELETE);
-			intentRemoveTh.putExtra(ParamIntent.SERVICE_DB_DATA, thTmp);
-			startService(intentRemoveTh);
-			model.getFavList().remove(thTmp);
-			if (model.getFavList().size() == 0) {
-				TheaterBean thEmtpy = new TheaterBean();
-				thEmtpy.setId("0");
-				thEmtpy.setTheaterName(getResources().getString(R.string.msgNoDFav));
-				model.getFavList().add(thEmtpy);
-			}
-			adapter.notifyDataSetChanged();
-			break;
-		}
-		default:
-			break;
-		}
-
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> adpater, View view, int groupPosition, long id) {
-		tracker.trackEvent("Open", "Favoris", "Open from main activity", 0);
-		tracker.dispatch();
-		// Sinon on ouvre la page résultats
-		TheaterBean theater = model.getFavList().get(groupPosition);
-		openResultsActivity(theater);
 	}
 
 	/*
@@ -459,23 +278,6 @@ public class CineShowTimeMainActivity extends Activity implements OnClickListene
 	}
 
 	/**
-	 * @return
-	 */
-	public List<TheaterBean> getFavTheater() {
-		openDB();
-		List<TheaterBean> theaterList = null;
-		try {
-			theaterList = CineShowtimeDB2AndShowtimeBeans.extractFavTheaterList(mDbHelper);
-		} catch (Exception e) {
-			Log.e(TAG, "Error during getting fav", e);
-		} finally {
-			closeDB();
-		}
-
-		return theaterList;
-	}
-
-	/**
 	 * 
 	 */
 	public void closeDB() {
@@ -489,15 +291,14 @@ public class CineShowTimeMainActivity extends Activity implements OnClickListene
 		}
 	}
 
-	public void removeFavorite(TheaterBean theaterBean) {
-		try {
-			if (mDbHelper.isOpen()) {
-				mDbHelper.deleteFavorite(theaterBean.getId());
-			}
-		} catch (Exception e) {
-			Log.e(TAG, "error removing theater from fav", e);
-		}
+	/*
+	 * 
+	 * Fragement Interaction
+	 */
 
+	@Override
+	public GoogleAnalyticsTracker getTracker() {
+		return tracker;
 	}
 
 }
