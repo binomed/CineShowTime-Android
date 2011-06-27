@@ -35,6 +35,7 @@ import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.resultsactivity.CineShowTimeResultsActivity;
+import com.binomed.showtime.android.resultsactivity.CineShowTimeResultsTabletActivity;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
@@ -66,6 +67,16 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 
 	protected EditText getFieldName() {
 		return fieldCityName;
+	}
+
+	public void setTracker(GoogleAnalyticsTracker tracker) {
+		this.tracker = tracker;
+	}
+
+	public void setNullResult(boolean nullResult) {
+		if (model != null) {
+			model.setNullResult(nullResult);
+		}
 	}
 
 	/** Called when the activity is first created. */
@@ -196,68 +207,6 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 			}
 		}
 	}
-
-	/*
-	 * ---------
-	 * 
-	 * MENU
-	 * 
-	 * ------
-	 */
-
-	// TODO
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	// */
-	// @Override
-	// public boolean onCreateOptionsMenu(Menu menu) {
-	// super.onCreateOptionsMenu(menu);
-	//		Log.i(TAG, "onCreateOptionsMenu"); //$NON-NLS-1$
-	// tracker.trackEvent("Menu", "Consult", "Consult menu from search Activity", 0);
-	// CineShowTimeMenuUtil.createMenu(menu, MENU_PREF, 3);
-	// return true;
-	// }
-	//
-	// ;
-	//
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see android.app.Activity#onMenuItemSelected(int, android.view.MenuItem)
-	// */
-	// @Override
-	// public boolean onMenuItemSelected(int featureId, MenuItem item) {
-	//		Log.i(TAG, "onMenuItemSelected"); //$NON-NLS-1$
-	// if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
-	// if (localisationCallBack != null) {
-	// localisationCallBack.onPreferenceReturn();
-	// }
-	// return true;
-	// }
-	// return super.onMenuItemSelected(featureId, item);
-	// }
-	//
-	// @Override
-	// protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	// super.onActivityResult(requestCode, resultCode, data);
-	//
-	// if (data != null) {
-	// model.setNullResult(data.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, false));
-	// model.setResetTheme(data.getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false));
-	// } else {
-	// model.setResetTheme(false);
-	// model.setNullResult(false);
-	// }
-	//
-	// initResults();
-	//
-	// if (model.isResetTheme()) {
-	// CineShowTimeLayoutUtils.changeToTheme(this, getIntent());
-	// }
-	//
-	// }
 
 	/*
 	 * 
@@ -417,7 +366,12 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 			model.setLastRequestDate(today);
 
 			CineShowtimeFactory.initGeocoder(getActivity());
-			Intent intentResultActivity = new Intent(getActivity(), CineShowTimeResultsActivity.class);
+			Intent intentResultActivity = null;
+			if (getActivity().getIntent().getBooleanExtra(ParamIntent.ACTIVITY_LARGE_SCREEN, false)) {
+				intentResultActivity = new Intent(getActivity(), CineShowTimeResultsActivity.class);
+			} else {
+				intentResultActivity = new Intent(getActivity(), CineShowTimeResultsTabletActivity.class);
+			}
 
 			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, (gpsLocation != null) ? gpsLocation.getLatitude() : null);
 			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, (gpsLocation != null) ? gpsLocation.getLongitude() : null);

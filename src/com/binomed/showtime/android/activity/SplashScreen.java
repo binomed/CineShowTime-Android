@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.cst.ParamIntent;
 
 public class SplashScreen extends Activity {
 
@@ -21,14 +22,11 @@ public class SplashScreen extends Activity {
 	private final Runnable mPendingLauncherRunnable = new Runnable() {
 		@Override
 		public void run() {
-			Intent intent = null;
-			if ((SplashScreen.this.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE //
-					|| (SplashScreen.this.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE //
-			) {
-				intent = new Intent(SplashScreen.this, CineShowTimeMainActivity.class);
-			} else {
-				// intent = new Intent(SplashScreen.this, CineShowTimeMainPhoneActivity.class); TODO
-			}
+			Intent intent = new Intent(SplashScreen.this, CineShowTimeMainActivity.class);
+			intent.putExtra(ParamIntent.ACTIVITY_LARGE_SCREEN, ((SplashScreen.this.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE //
+					)
+					|| ((SplashScreen.this.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE //
+					));
 			startActivity(intent);
 			finish();
 		}

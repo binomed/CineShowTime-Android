@@ -1,46 +1,43 @@
 package com.binomed.showtime.android.activity;
 
-import java.util.Calendar;
-import java.util.List;
-
-import com.binomed.showtime.android.model.TheaterBean;
 
 public class ModelMainFragment {
 
-	private List<TheaterBean> favList;
-	private Calendar lastRequestDate;
-	private boolean nullResult;
+	// TODO à virer
+	// private List<TheaterBean> favList;
+	// private Calendar lastRequestDate;
+	// private boolean nullResult;
 	private boolean resetTheme;
 
 	public ModelMainFragment() {
 		super();
-		nullResult = false;
+		// nullResult = false;
 		resetTheme = false;
 	}
 
-	public List<TheaterBean> getFavList() {
-		return favList;
-	}
-
-	public void setFavList(List<TheaterBean> favList) {
-		this.favList = favList;
-	}
-
-	public Calendar getLastRequestDate() {
-		return lastRequestDate;
-	}
-
-	public void setLastRequestDate(Calendar lastRequestDate) {
-		this.lastRequestDate = lastRequestDate;
-	}
-
-	public boolean isNullResult() {
-		return nullResult;
-	}
-
-	public void setNullResult(boolean nullResult) {
-		this.nullResult = nullResult;
-	}
+	// public List<TheaterBean> getFavList() {
+	// return favList;
+	// }
+	//
+	// public void setFavList(List<TheaterBean> favList) {
+	// this.favList = favList;
+	// }
+	//
+	// public Calendar getLastRequestDate() {
+	// return lastRequestDate;
+	// }
+	//
+	// public void setLastRequestDate(Calendar lastRequestDate) {
+	// this.lastRequestDate = lastRequestDate;
+	// }
+	//
+	// public boolean isNullResult() {
+	// return nullResult;
+	// }
+	//
+	// public void setNullResult(boolean nullResult) {
+	// this.nullResult = nullResult;
+	// }
 
 	public boolean isResetTheme() {
 		return resetTheme;

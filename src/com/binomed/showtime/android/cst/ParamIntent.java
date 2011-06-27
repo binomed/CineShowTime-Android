@@ -12,6 +12,8 @@ public interface ParamIntent {
 	//	public static final String ACTIVITY_NEAR_LONGITUDE = "and.binomed.showtime.near.longitude"; //$NON-NLS-1$
 	//	public static final String ACTIVITY_NEAR_CITY_NAME = "and.binomed.showtime.near.cityName"; //$NON-NLS-1$
 
+	public static final String ACTIVITY_LARGE_SCREEN = "and.binomed.showtime.large_screen"; //$NON-NLS-1$
+
 	public static final String ACTIVITY_MOVIE_LATITUDE = "and.binomed.showtime.movie.latitude"; //$NON-NLS-1$
 	public static final String ACTIVITY_MOVIE_LONGITUDE = "and.binomed.showtime.movie.longitude"; //$NON-NLS-1$
 	public static final String ACTIVITY_MOVIE_NEAR = "and.binomed.showtime.movie.near"; //$NON-NLS-1$

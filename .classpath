@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="libs/imageloader.jar"/>
 	<classpathentry kind="lib" path="libs/libGoogleAnalytics.jar"/>
 	<classpathentry kind="lib" path="libs/android-support-v4.jar"/>
+	<classpathentry kind="src" path="com_cyrilmottier_android_greendroid_src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

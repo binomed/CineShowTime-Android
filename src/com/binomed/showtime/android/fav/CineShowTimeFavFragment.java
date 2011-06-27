@@ -22,7 +22,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.activity.ModelMainFragment;
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.adapter.view.TheaterFavMainListAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
@@ -43,7 +42,7 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 	private static final String TAG = "CineShowTimeFavFragment"; //$NON-NLS-1$
 
 	private Context mainContext;
-	private ModelMainFragment model;
+	private ModelFavFragment model;
 	private ListView theaterFavList;
 	private TheaterFavMainListAdapter adapter;
 	private CineShowtimeDbAdapter mDbHelper;
@@ -62,7 +61,7 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 		initViews(mainView);
 		initListeners();
 
-		this.model = new ModelMainFragment();
+		this.model = new ModelFavFragment();
 
 		// initResults(); TODO
 

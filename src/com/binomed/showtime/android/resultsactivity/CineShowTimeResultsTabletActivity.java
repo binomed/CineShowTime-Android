@@ -62,7 +62,7 @@ import com.binomed.showtime.android.util.localisation.LocationUtils;
 import com.binomed.showtime.cst.HttpParamsCst;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
-public class CineShowTimeResultsActivity extends FragmentActivity implements OnChildClickListener //
+public class CineShowTimeResultsTabletActivity extends FragmentActivity implements OnChildClickListener //
 		, OnGroupClickListener //
 		, OnGroupExpandListener //
 		, OnGroupCollapseListener //
@@ -315,9 +315,9 @@ public class CineShowTimeResultsActivity extends FragmentActivity implements OnC
 	 * 
 	 */
 	protected void openDialog() {
-		progressDialog = ProgressDialog.show(CineShowTimeResultsActivity.this, //
-				CineShowTimeResultsActivity.this.getResources().getString(R.string.searchNearProgressTitle)//
-				, CineShowTimeResultsActivity.this.getResources().getString(R.string.searchNearProgressMsg) //
+		progressDialog = ProgressDialog.show(CineShowTimeResultsTabletActivity.this, //
+				CineShowTimeResultsTabletActivity.this.getResources().getString(R.string.searchNearProgressTitle)//
+				, CineShowTimeResultsTabletActivity.this.getResources().getString(R.string.searchNearProgressMsg) //
 				, true, true, this);
 	}
 
@@ -382,12 +382,12 @@ public class CineShowTimeResultsActivity extends FragmentActivity implements OnC
 		switch (item.getItemId()) {
 		case MENU_SORT: {
 			ListDialog dialog = new ListDialog(//
-					CineShowTimeResultsActivity.this //
+					CineShowTimeResultsTabletActivity.this //
 					, this //
 					, R.array.sort_theaters_values //
 					, ID_SORT //
 			);
-			dialog.setTitle(CineShowTimeResultsActivity.this.getResources().getString(R.string.sortDialogTitle));
+			dialog.setTitle(CineShowTimeResultsTabletActivity.this.getResources().getString(R.string.sortDialogTitle));
 			dialog.setFeatureDrawableResource(featureId, android.R.drawable.ic_menu_sort_by_size);
 			dialog.show();
 
@@ -480,7 +480,7 @@ public class CineShowTimeResultsActivity extends FragmentActivity implements OnC
 		tracker.trackEvent("Sort", "Click", "Click search Btn", sortKey);
 
 		sourceLabel: switch (sourceID) {
-		case CineShowTimeResultsActivity.ID_SORT: {
+		case CineShowTimeResultsTabletActivity.ID_SORT: {
 			CineShowtimeComparator<?> comparator = null;
 			sortLabel: switch (sortKey) {
 			case CineShowtimeCst.SORT_THEATER_NAME:

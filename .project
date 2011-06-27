@@ -30,4 +30,11 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>com_cyrilmottier_android_greendroid_src</name>
+			<type>2</type>
+			<locationURI>_android_com_cyrilmottier_android_greendroid_e3e350b5/src</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
