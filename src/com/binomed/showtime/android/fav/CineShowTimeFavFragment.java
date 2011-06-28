@@ -154,7 +154,7 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 			boolean forceRequest = false;
 
 			Calendar today = Calendar.getInstance();
-			Calendar calendarLastRequest = model.getLastRequestDate();
+			Calendar calendarLastRequest = fragmentInteraction.getLastRequestDate();
 			if (calendarLastRequest != null) {
 				int yearToday = today.get(Calendar.YEAR);
 				int monthToday = today.get(Calendar.MONTH);
@@ -185,7 +185,7 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 				forceRequest = true;
 			}
 
-			model.setLastRequestDate(today);
+			fragmentInteraction.setLastRequestDate(today);
 
 			CineShowtimeFactory.initGeocoder(mainContext);
 			Intent intentResultActivity = new Intent(mainContext, CineShowTimeResultsActivity.class);
@@ -266,19 +266,6 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 		try {
 			openDB();
 
-			if (mDbHelper.isOpen()) {
-				// else we just look at previous request in order to check it's time
-				Cursor cursorLastResult = mDbHelper.fetchLastMovieRequest();
-				if (cursorLastResult.moveToFirst()) {
-					Calendar calendarLastRequest = Calendar.getInstance();
-					long timeLastRequest = cursorLastResult.getLong(cursorLastResult.getColumnIndex(CineShowtimeDbAdapter.KEY_MOVIE_REQUEST_TIME));
-					calendarLastRequest.setTimeInMillis(timeLastRequest);
-
-					model.setLastRequestDate(calendarLastRequest);
-					model.setNullResult(cursorLastResult.getShort(cursorLastResult.getColumnIndex(CineShowtimeDbAdapter.KEY_MOVIE_REQUEST_NULL_RESULT)) == 1);
-				}
-				cursorLastResult.close();
-			}
 		} catch (SQLException e) {
 			Log.e(TAG, "error during getting fetching informations", e); //$NON-NLS-1$
 		} finally {
@@ -325,6 +312,10 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 	public interface FavFragmentInteraction {
 
 		GoogleAnalyticsTracker getTracker();
+
+		void setLastRequestDate(Calendar today);
+
+		Calendar getLastRequestDate();
 
 	}
 

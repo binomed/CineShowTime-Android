@@ -103,7 +103,7 @@ public class CineShowTimeResultsTabletActivity extends FragmentActivity implemen
 		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
 		Log.i(TAG, "onCreate"); //$NON-NLS-1$
-		// setContentView(R.layout.activity_results); TODO
+		setContentView(R.layout.activity_result);
 
 		model = new ModelResultsActivity();
 

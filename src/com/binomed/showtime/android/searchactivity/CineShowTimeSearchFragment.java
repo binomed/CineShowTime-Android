@@ -5,17 +5,15 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.location.Location;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -48,8 +46,6 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		, OnItemSelectedListener //
 {
 
-	private static final int MENU_PREF = Menu.FIRST;
-
 	private static final String TAG = "SearchActivity"; //$NON-NLS-1$
 
 	protected AutoCompleteTextView fieldCityName, fieldMovieName;
@@ -62,8 +58,9 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 
 	protected IListenerLocalisationUtilCallBack localisationCallBack;
 
-	private SharedPreferences prefs;
 	protected GoogleAnalyticsTracker tracker;
+
+	private SearchFragmentInteraction fragmentInteraction;
 
 	protected EditText getFieldName() {
 		return fieldCityName;
@@ -75,7 +72,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 
 	public void setNullResult(boolean nullResult) {
 		if (model != null) {
-			model.setNullResult(nullResult);
+			fragmentInteraction.setNullResult(nullResult);
 		}
 	}
 
@@ -83,11 +80,9 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// super.onCreate(savedInstanceState);
-		tracker = GoogleAnalyticsTracker.getInstance();
+		tracker = fragmentInteraction.getTracker();
 		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, getActivity());
 		tracker.trackPageView("/SearchActivity");
-		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		// CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
 		Log.i(TAG, "onCreate"); //$NON-NLS-1$
 		// setContentView(R.layout.activity_search);
 		View mainView = inflater.inflate(R.layout.fragment_search, container, false);
@@ -101,9 +96,13 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 
 		display();
 
-		// initResults(); TODO
-
 		return mainView;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		fragmentInteraction = (SearchFragmentInteraction) activity;
 	}
 
 	@Override
@@ -134,14 +133,6 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 			localisationCallBack.onResume();
 		}
 	}
-
-	// TODO
-	// private void initResults() {
-	// Intent intentResult = new Intent();
-	// intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
-	// intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, model.isNullResult());
-	// setResult(CineShowtimeCst.ACTIVITY_RESULT_SEARCH_ACTIVITY, intentResult);
-	// }
 
 	/**
 	 * init the view of activity
@@ -317,13 +308,13 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		String lastCityName = model.getLastRequestCity();
 		String lastMovieName = model.getLastRequestMovie();
 		String theaterId = model.getFavTheaterId();
-		boolean nullResult = model.isNullResult();
+		boolean nullResult = fragmentInteraction.isNullResult();
 		int day = model.getDay();
 		boolean forceRequest = false;
 
 		Calendar today = Calendar.getInstance();
 		today.add(Calendar.DAY_OF_MONTH, day);
-		Calendar calendarLastRequest = model.getLastRequestDate();
+		Calendar calendarLastRequest = fragmentInteraction.getLastRequestDate();
 		if (calendarLastRequest != null) {
 			int yearToday = today.get(Calendar.YEAR);
 			int monthToday = today.get(Calendar.MONTH);
@@ -363,7 +354,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 			model.setLastRequestCity(cityName);
 			model.setLastRequestMovie(movieName);
 			model.setLastRequestTheaterId(theaterId);
-			model.setLastRequestDate(today);
+			fragmentInteraction.setLastRequestDate(today);
 
 			CineShowtimeFactory.initGeocoder(getActivity());
 			Intent intentResultActivity = null;
@@ -449,7 +440,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 					location.setLongitude(cursorLastResult.getDouble(columnIndex));
 
 					model.setLocalisation(location);
-					model.setLastRequestDate(calendarLastRequest);
+					fragmentInteraction.setLastRequestDate(calendarLastRequest);
 
 					try {
 						columnIndex = cursorLastResult.getColumnIndex(CineShowtimeDbAdapter.KEY_MOVIE_REQUEST_CITY_NAME);
@@ -465,7 +456,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 						columnIndex = cursorLastResult.getColumnIndex(CineShowtimeDbAdapter.KEY_MOVIE_REQUEST_THEATER_ID);
 						model.setLastRequestTheaterId(cursorLastResult.getString(columnIndex));
 						columnIndex = cursorLastResult.getColumnIndex(CineShowtimeDbAdapter.KEY_MOVIE_REQUEST_NULL_RESULT);
-						model.setNullResult(cursorLastResult.getShort(columnIndex) == 1);
+						fragmentInteraction.setNullResult(cursorLastResult.getShort(columnIndex) == 1);
 					} catch (Exception e) {
 						Log.e(TAG, "Encode Error", e);
 					}
@@ -486,6 +477,20 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		} catch (Exception e) {
 			Log.e(TAG, "error onDestroy of movie Activity", e); //$NON-NLS-1$
 		}
+	}
+
+	public interface SearchFragmentInteraction {
+
+		GoogleAnalyticsTracker getTracker();
+
+		void setNullResult(boolean result);
+
+		boolean isNullResult();
+
+		void setLastRequestDate(Calendar lastRequestDate);
+
+		Calendar getLastRequestDate();
+
 	}
 
 }

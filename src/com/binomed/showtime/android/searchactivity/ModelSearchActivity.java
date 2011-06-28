@@ -1,6 +1,5 @@
 package com.binomed.showtime.android.searchactivity;
 
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,19 +18,20 @@ public class ModelSearchActivity implements IModelLocalisation {
 	private String lastRequestCity;
 	private String lastRequestMovie;
 	private String lastRequestTheaterId;
-	private Calendar lastRequestDate;
+	// private Calendar lastRequestDate;
 	private int day;
 	private int start;
 	private boolean forceResearch;
-	private boolean nullResult;
-	private boolean resetTheme;
+
+	// private boolean nullResult;
+	// private boolean resetTheme;
 
 	public ModelSearchActivity() {
 		super();
 		requestList = new HashSet<String>();
 		requestMovieList = new HashSet<String>();
-		nullResult = false;
-		resetTheme = false;
+		// nullResult = false;
+		// resetTheme = false;
 	}
 
 	public String getCityName() {
@@ -100,21 +100,21 @@ public class ModelSearchActivity implements IModelLocalisation {
 		this.start = start;
 	}
 
-	public boolean isNullResult() {
-		return nullResult;
-	}
-
-	public void setNullResult(boolean nullResult) {
-		this.nullResult = nullResult;
-	}
-
-	public boolean isResetTheme() {
-		return resetTheme;
-	}
-
-	public void setResetTheme(boolean resetTheme) {
-		this.resetTheme = resetTheme;
-	}
+	// public boolean isNullResult() {
+	// return nullResult;
+	// }
+	//
+	// public void setNullResult(boolean nullResult) {
+	// this.nullResult = nullResult;
+	// }
+	//
+	// public boolean isResetTheme() {
+	// return resetTheme;
+	// }
+	//
+	// public void setResetTheme(boolean resetTheme) {
+	// this.resetTheme = resetTheme;
+	// }
 
 	public boolean isForceResearch() {
 		return forceResearch;
@@ -140,13 +140,13 @@ public class ModelSearchActivity implements IModelLocalisation {
 		this.lastRequestMovie = lastRequestMovie;
 	}
 
-	public Calendar getLastRequestDate() {
-		return lastRequestDate;
-	}
-
-	public void setLastRequestDate(Calendar lastRequestDate) {
-		this.lastRequestDate = lastRequestDate;
-	}
+	// public Calendar getLastRequestDate() {
+	// return lastRequestDate;
+	// }
+	//
+	// public void setLastRequestDate(Calendar lastRequestDate) {
+	// this.lastRequestDate = lastRequestDate;
+	// }
 
 	public String getLastRequestTheaterId() {
 		return lastRequestTheaterId;

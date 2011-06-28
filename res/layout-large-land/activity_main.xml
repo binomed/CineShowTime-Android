@@ -8,13 +8,17 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent" 
             android:layout_weight="40"
-            />
+            >
+        <!-- Preview: layout=@layout/fragment_search -->
+    </fragment>
     <fragment class="com.binomed.showtime.android.fav.CineShowTimeFavFragment"
             android:id="@+id/fragmentB" 
             android:layout_width="0dp"
             android:layout_height="fill_parent" 
             android:layout_weight="60"
-            />
+            >
+        <!-- Preview: layout=@layout/fragment_fav -->
+    </fragment>
 
     
 </LinearLayout>

@@ -32,7 +32,8 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 public class CineShowTimeMainActivity extends FragmentActivity implements
 // OnClickListener, //
 // OnItemClickListener, //
-		CineShowTimeFavFragment.FavFragmentInteraction //
+		CineShowTimeFavFragment.FavFragmentInteraction, //
+		CineShowTimeSearchFragment.SearchFragmentInteraction //
 {
 
 	private static final String TAG = "AndShowTimeMainActivity"; //$NON-NLS-1$
@@ -299,6 +300,27 @@ public class CineShowTimeMainActivity extends FragmentActivity implements
 	@Override
 	public GoogleAnalyticsTracker getTracker() {
 		return tracker;
+	}
+
+	@Override
+	public void setLastRequestDate(Calendar today) {
+		model.setLastRequestDate(today);
+
+	}
+
+	@Override
+	public Calendar getLastRequestDate() {
+		return model.getLastRequestDate();
+	}
+
+	@Override
+	public void setNullResult(boolean result) {
+		model.setNullResult(result);
+	}
+
+	@Override
+	public boolean isNullResult() {
+		return model.isNullResult();
 	}
 
 }

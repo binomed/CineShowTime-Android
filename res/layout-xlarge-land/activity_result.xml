@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    <fragment class="com.binomed.showtime.android.resultsactivity.CineShowTimeResultsFragment"
+            android:id="@+id/fragmentResults" 
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" 
+            android:layout_weight="35"
+            >
+        <!-- Preview: layout=@layout/fragment_results -->
+    </fragment>
+	<LinearLayout 
+	        android:orientation="vertical"
+            android:id="@+id/fragmentInfo" 
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" 
+            android:layout_weight="75"/>
+
+    
+</LinearLayout>
