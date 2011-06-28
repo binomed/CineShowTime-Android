@@ -118,14 +118,6 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 		this.theaterFavList.setAdapter(adapter);
 	}
 
-	// TODO
-	// private void initResults() {
-	// Intent intentResult = new Intent();
-	// intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
-	// intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, model.isNullResult());
-	// setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
-	// }
-
 	/**
 	 * Init views objects
 	 * 
