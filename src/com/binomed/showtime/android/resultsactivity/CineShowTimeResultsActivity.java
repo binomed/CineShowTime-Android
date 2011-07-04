@@ -11,11 +11,8 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,12 +28,13 @@ import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.movieactivity.CineShowTimeMovieActivity;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
-import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
+import com.binomed.showtime.android.util.activity.AbstractSimpleCineShowTimeActivity;
+import com.binomed.showtime.android.util.activity.ICineShowTimeActivityHelperModel;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
-public class CineShowTimeResultsActivity extends FragmentActivity // implements
+public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActivity<CineShowTimeResultsFragment> // implements
 // OnChildClickListener //
 // , OnGroupClickListener //
 // , OnGroupExpandListener //
@@ -52,13 +50,13 @@ public class CineShowTimeResultsActivity extends FragmentActivity // implements
 	protected static final int ID_SORT = 1;
 
 	private static final String TAG = "ResultsActivity"; //$NON-NLS-1$
+	private static final String TRACKER_NAME = "/ResultActivity"; //$NON-NLS-1$
 
 	// protected ExpandableListView resultList;
 	protected ProgressDialog progressDialog;
 	// protected CineShowTimeExpandableListAdapter adapter = null;
 
 	private ModelResultsActivity model;
-	private CineShowTimeResultsFragment resultFragment;
 
 	// protected boolean movieView;
 
@@ -69,69 +67,75 @@ public class CineShowTimeResultsActivity extends FragmentActivity // implements
 	private CineShowtimeDbAdapter mDbHelper;
 	protected GoogleAnalyticsTracker tracker;
 
-	/** Called when the activity is first created. */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, this);
-		tracker.trackPageView("/ResultActivity");
-		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
-		Log.i(TAG, "onCreate"); //$NON-NLS-1$
-		setContentView(R.layout.empty);
-
-		resultFragment = new CineShowTimeResultsFragment();
-		// model = new ModelResultsActivity();
-
-		getSupportFragmentManager().beginTransaction().add(R.id.root_container, resultFragment);
-
-		// We init the theater id if set
-
-		// model.setForceResearch(getIntent().getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, true));
-		// getIntent().putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false);
-		// model.setFavTheaterId(getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID));
-		// model.setLocalisation(null);
-		// model.setDay(getIntent().getIntExtra(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
-		// model.setCityName(getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_CITY));
-		// model.setMovieName(getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
-		// Double latitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
-		// Double longitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
-		// if ((latitude != 0) && (longitude != 0)) {
-		// Location locationTheater = new Location("GPS");
-		// locationTheater.setLatitude(latitude);
-		// locationTheater.setLongitude(longitude);
-		// model.setLocalisation(locationTheater);
-		// }
-		// getIntent().putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, "");
-		//
-		// movieView = (model.getMovieName() != null) && (model.getMovieName().length() > 0);
-
-		// initComparator();
-		// initViews();
-		// initMenus();
-
+	protected void setContentView() {
+		super.setContentView();
 		bindService();
-		// initDB();
-
-		initResults();
-
 	}
+
+	// /** Called when the activity is first created. */
+	// @Override
+	// public void onCreate(Bundle savedInstanceState) {
+	// super.onCreate(savedInstanceState);
+	// tracker = GoogleAnalyticsTracker.getInstance();
+	// tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, this);
+	// tracker.trackPageView("/ResultActivity");
+	// prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+	// CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
+	//		Log.i(TAG, "onCreate"); //$NON-NLS-1$
+	// // setContentView(R.layout.empty);
+	//
+	// // resultFragment = new CineShowTimeResultsFragment();
+	// // model = new ModelResultsActivity();
+	//
+	// // getSupportFragmentManager().beginTransaction().add(R.id.root_container, resultFragment);
+	//
+	// // We init the theater id if set
+	//
+	// // model.setForceResearch(getIntent().getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, true));
+	// // getIntent().putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false);
+	// // model.setFavTheaterId(getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID));
+	// // model.setLocalisation(null);
+	// // model.setDay(getIntent().getIntExtra(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
+	// // model.setCityName(getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_CITY));
+	// // model.setMovieName(getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
+	// // Double latitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
+	// // Double longitude = getIntent().getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
+	// // if ((latitude != 0) && (longitude != 0)) {
+	// // Location locationTheater = new Location("GPS");
+	// // locationTheater.setLatitude(latitude);
+	// // locationTheater.setLongitude(longitude);
+	// // model.setLocalisation(locationTheater);
+	// // }
+	// // getIntent().putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, "");
+	// //
+	// // movieView = (model.getMovieName() != null) && (model.getMovieName().length() > 0);
+	//
+	// // initComparator();
+	// // initViews();
+	// // initMenus();
+	//
+	// bindService();
+	// // initDB();
+	//
+	// // initResults();
+	//
+	// }
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see android.app.Activity#onDestroy()
 	 */
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
-		unbindService();
-		// closeDB();
-		tracker.dispatch();
-		tracker.stop();
-	}
+	// @Override
+	// protected void onDestroy() {
+	// super.onDestroy();
+	//		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
+	// unbindService();
+	// // closeDB();
+	// tracker.dispatch();
+	// tracker.stop();
+	// }
 
 	@Override
 	protected void onPause() {
@@ -152,12 +156,12 @@ public class CineShowTimeResultsActivity extends FragmentActivity // implements
 
 	}
 
-	private void initResults() {
-		Intent intentResult = new Intent();
-		intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
-		intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, model.isNullResult());
-		setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
-	}
+	// private void initResults() {
+	// Intent intentResult = new Intent();
+	// intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
+	// intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, model.isNullResult());
+	// setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
+	// }
 
 	/**
 	 * init the view of activity
@@ -377,30 +381,30 @@ public class CineShowTimeResultsActivity extends FragmentActivity // implements
 		return super.onMenuItemSelected(featureId, item);
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (data != null) {
-			model.setNullResult(data.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, false));
-			model.setResetTheme(data.getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false));
-		} else {
-			model.setResetTheme(false);
-			model.setNullResult(false);
-		}
-
-		initResults();
-
-		if (requestCode == CineShowtimeCst.ACTIVITY_RESULT_PREFERENCES) {
-			adapter.changePreferences();
-
-		}
-
-		if (model.isResetTheme()) {
-			CineShowTimeLayoutUtils.changeToTheme(this, getIntent());
-		}
-
-	}
+	// @Override
+	// protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	// super.onActivityResult(requestCode, resultCode, data);
+	//
+	// if (data != null) {
+	// model.setNullResult(data.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, false));
+	// model.setResetTheme(data.getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false));
+	// } else {
+	// model.setResetTheme(false);
+	// model.setNullResult(false);
+	// }
+	//
+	// initResults();
+	//
+	// if (requestCode == CineShowtimeCst.ACTIVITY_RESULT_PREFERENCES) {
+	// adapter.changePreferences();
+	//
+	// }
+	//
+	// if (model.isResetTheme()) {
+	// CineShowTimeLayoutUtils.changeToTheme(this, getIntent());
+	// }
+	//
+	// }
 
 	/*
 	 * 
@@ -881,5 +885,41 @@ public class CineShowTimeResultsActivity extends FragmentActivity // implements
 		}
 
 	};
+
+	/*
+	 * Override methods
+	 */
+
+	@Override
+	protected CineShowTimeResultsFragment getFragment() {
+		return new CineShowTimeResultsFragment();
+	}
+
+	@Override
+	protected String getTrackerName() {
+		return TRACKER_NAME;
+	}
+
+	@Override
+	protected String getTAG() {
+		return TAG;
+	}
+
+	@Override
+	protected ICineShowTimeActivityHelperModel getModel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void doOnDestroy() {
+		unbindService();
+
+	}
+
+	@Override
+	protected void doChangeFromPref() {
+		adapter.changePreferences();
+	}
 
 }

@@ -8,9 +8,13 @@ import android.location.Location;
 
 import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.model.TheaterBean;
+import com.binomed.showtime.android.util.activity.ICineShowTimeActivityHelperModel;
 import com.binomed.showtime.android.util.localisation.IModelLocalisation;
 
-public class ModelResultsActivity implements IModelLocalisation {
+public class ModelResultsActivity implements //
+		IModelLocalisation, //
+		ICineShowTimeActivityHelperModel //
+{
 
 	private String cityName;
 	private String movieName;
@@ -93,18 +97,22 @@ public class ModelResultsActivity implements IModelLocalisation {
 		this.start = start;
 	}
 
+	@Override
 	public boolean isNullResult() {
 		return nullResult;
 	}
 
+	@Override
 	public void setNullResult(boolean nullResult) {
 		this.nullResult = nullResult;
 	}
 
+	@Override
 	public boolean isResetTheme() {
 		return resetTheme;
 	}
 
+	@Override
 	public void setResetTheme(boolean resetTheme) {
 		this.resetTheme = resetTheme;
 	}
