@@ -1,47 +1,34 @@
 package com.binomed.showtime.android.resultsactivity;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import android.app.ProgressDialog;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.location.Location;
-import android.os.IBinder;
-import android.os.RemoteException;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
-import com.binomed.showtime.android.layout.dialogs.sort.ListDialog;
-import com.binomed.showtime.android.model.LocalisationBean;
 import com.binomed.showtime.android.model.MovieBean;
-import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.movieactivity.CineShowTimeMovieActivity;
-import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
+import com.binomed.showtime.android.resultsactivity.CineShowTimeResultsFragment.CineShowTimeResultInteraction;
 import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
-import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.android.util.activity.AbstractSimpleCineShowTimeActivity;
-import com.binomed.showtime.android.util.activity.ICineShowTimeActivityHelperModel;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
-public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActivity<CineShowTimeResultsFragment> // implements
+public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActivity<CineShowTimeResultsFragment, ModelResultsActivity> implements
 // OnChildClickListener //
 // , OnGroupClickListener //
 // , OnGroupExpandListener //
 // , OnGroupCollapseListener //
 // , ListSelectionListener //
 // , OnClickListener//
-// , OnCancelListener //
+		// ,
+		OnCancelListener, //
+		CineShowTimeResultInteraction//
 {
 
 	private static final int MENU_SORT = Menu.FIRST;
@@ -54,24 +41,25 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 
 	// protected ExpandableListView resultList;
 	protected ProgressDialog progressDialog;
+
 	// protected CineShowTimeExpandableListAdapter adapter = null;
 
-	private ModelResultsActivity model;
+	// private ModelResultsActivity model;
 
 	// protected boolean movieView;
 
 	// protected Comparator<?> comparator;
 	// private IServiceSearch serviceResult;
 
-	private SharedPreferences prefs;
-	private CineShowtimeDbAdapter mDbHelper;
-	protected GoogleAnalyticsTracker tracker;
+	// private SharedPreferences prefs;
+	// private CineShowtimeDbAdapter mDbHelper;
+	// protected GoogleAnalyticsTracker tracker;
 
-	@Override
-	protected void setContentView() {
-		super.setContentView();
-		bindService();
-	}
+	// @Override
+	// protected void initContentView() {
+	// super.initContentView();
+	// bindService();
+	// }
 
 	// /** Called when the activity is first created. */
 	// @Override
@@ -137,14 +125,14 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 	// tracker.stop();
 	// }
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		Log.i(TAG, "onPause"); //$NON-NLS-1$
-		if ((progressDialog != null) && progressDialog.isShowing()) {
-			progressDialog.dismiss();
-		}
-	}
+	// @Override
+	// protected void onPause() {
+	// super.onPause();
+	//		Log.i(TAG, "onPause"); //$NON-NLS-1$
+	// if ((progressDialog != null) && progressDialog.isShowing()) {
+	// progressDialog.dismiss();
+	// }
+	// }
 
 	@Override
 	protected void onResume() {
@@ -357,28 +345,7 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 	 */
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		Log.i(TAG, "onMenuItemSelected"); //$NON-NLS-1$
-		if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
-			adapter.changePreferences();
-			return true;
-		}
-		switch (item.getItemId()) {
-		case MENU_SORT: {
-			ListDialog dialog = new ListDialog(//
-					CineShowTimeResultsActivity.this //
-					, this //
-					, R.array.sort_theaters_values //
-					, ID_SORT //
-			);
-			dialog.setTitle(CineShowTimeResultsActivity.this.getResources().getString(R.string.sortDialogTitle));
-			dialog.setFeatureDrawableResource(featureId, android.R.drawable.ic_menu_sort_by_size);
-			dialog.show();
-
-			return true;
-		}
-		}
-
-		return super.onMenuItemSelected(featureId, item);
+		return fragment.onMenuItemSelection(featureId, item);
 	}
 
 	// @Override
@@ -511,27 +478,27 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 	//
 	// }
 
-	@Override
-	public void onGroupExpand(int groupPosition) {
-		model.getGroupExpanded().add(groupPosition);
-	}
+	// @Override
+	// public void onGroupExpand(int groupPosition) {
+	// model.getGroupExpanded().add(groupPosition);
+	// }
+	//
+	// @Override
+	// public void onGroupCollapse(int groupPosition) {
+	// model.getGroupExpanded().remove(groupPosition);
+	// }
 
-	@Override
-	public void onGroupCollapse(int groupPosition) {
-		model.getGroupExpanded().remove(groupPosition);
-	}
-
-	@Override
-	public void onCancel(DialogInterface dialog) {
-		try {
-			serviceResult.cancelService();
-		} catch (RemoteException e) {
-			Log.e(TAG, "Error cancel service", e);
-		}
-		Intent intentResultService = new Intent(this, CineShowTimeResultsService.class);
-		stopService(intentResultService);
-		finish();
-	}
+	// @Override
+	// public void onCancel(DialogInterface dialog) {
+	// try {
+	// serviceResult.cancelService();
+	// } catch (RemoteException e) {
+	// Log.e(TAG, "Error cancel service", e);
+	// }
+	// Intent intentResultService = new Intent(this, CineShowTimeResultsService.class);
+	// stopService(intentResultService);
+	// finish();
+	// }
 
 	/*
 	 * 
@@ -578,39 +545,39 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 		}
 	}
 
-	public void launchSearchService() throws UnsupportedEncodingException {
-
-		Location gpsLocation = model.getLocalisation();
-		String cityName = model.getCityName();
-		String movieName = model.getMovieName();
-		String theaterId = model.getFavTheaterId();
-		int day = model.getDay();
-		int start = model.getStart();
-
-		if (mDbHelper.isOpen()) {
-			mDbHelper.createNearRequest(cityName //
-					, (gpsLocation != null) ? gpsLocation.getLatitude() : null //
-					, (gpsLocation != null) ? gpsLocation.getLongitude() : null //
-					, theaterId//
-					);
-		}
-		if ((cityName != null) && (cityName.length() > 0)) {
-			model.getRequestList().add(cityName);
-		}
-
-		CineShowtimeFactory.initGeocoder(this);
-		Intent intentResultService = new Intent(this, CineShowTimeResultsService.class);
-
-		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_LATITUDE, (gpsLocation != null) ? gpsLocation.getLatitude() : null);
-		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_LONGITUDE, (gpsLocation != null) ? gpsLocation.getLongitude() : null);
-		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_CITY, ((cityName != null) ? URLEncoder.encode(cityName, CineShowTimeEncodingUtil.getEncoding()) : cityName));
-		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_MOVIE_NAME, ((movieName != null) ? URLEncoder.encode(movieName, CineShowTimeEncodingUtil.getEncoding()) : movieName));
-		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_THEATER_ID, theaterId);
-		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_DAY, day);
-		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_START, start);
-
-		startService(intentResultService);
-	}
+	// public void launchSearchService() throws UnsupportedEncodingException {
+	//
+	// Location gpsLocation = model.getLocalisation();
+	// String cityName = model.getCityName();
+	// String movieName = model.getMovieName();
+	// String theaterId = model.getFavTheaterId();
+	// int day = model.getDay();
+	// int start = model.getStart();
+	//
+	// if (mDbHelper.isOpen()) {
+	// mDbHelper.createNearRequest(cityName //
+	// , (gpsLocation != null) ? gpsLocation.getLatitude() : null //
+	// , (gpsLocation != null) ? gpsLocation.getLongitude() : null //
+	// , theaterId//
+	// );
+	// }
+	// if ((cityName != null) && (cityName.length() > 0)) {
+	// model.getRequestList().add(cityName);
+	// }
+	//
+	// CineShowtimeFactory.initGeocoder(this);
+	// Intent intentResultService = new Intent(this, CineShowTimeResultsService.class);
+	//
+	// intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_LATITUDE, (gpsLocation != null) ? gpsLocation.getLatitude() : null);
+	// intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_LONGITUDE, (gpsLocation != null) ? gpsLocation.getLongitude() : null);
+	// intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_CITY, ((cityName != null) ? URLEncoder.encode(cityName, CineShowTimeEncodingUtil.getEncoding()) : cityName));
+	// intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_MOVIE_NAME, ((movieName != null) ? URLEncoder.encode(movieName, CineShowTimeEncodingUtil.getEncoding()) : movieName));
+	// intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_THEATER_ID, theaterId);
+	// intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_DAY, day);
+	// intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_START, start);
+	//
+	// startService(intentResultService);
+	// }
 
 	/*
 	 * 
@@ -775,116 +742,116 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 	 * CALL BACK SERVICE
 	 */
 
-	public void bindService() {
-		bindService(new Intent(this, CineShowTimeResultsService.class), mConnection, Context.BIND_AUTO_CREATE);
-	}
-
-	public void unbindService() {
-		try {
-			serviceResult.unregisterCallback(m_callback);
-			unbindService(mConnection);
-		} catch (Exception e) {
-			Log.e(TAG, "error while unbinding service", e);
-		}
-	}
-
-	/**
-	 * The service connection inteface with our binded service {@link http ://code .google.com/android/reference/android/content/ServiceConnection.html}
-	 */
-	private ServiceConnection mConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			serviceResult = IServiceSearch.Stub.asInterface(service);
-
-			try {
-				serviceResult.registerCallback(m_callback);
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
-
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-
-		}
-
-	};
-
-	protected boolean isServiceRunning() {
-		if (serviceResult != null) {
-			try {
-				return serviceResult.isServiceRunning();
-			} catch (RemoteException e) {
-				Log.e(TAG, "Eror during checking service", e); //$NON-NLS-1$
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * The callback object that will return from the service
-	 */
-	private ICallbackSearch m_callback = new ICallbackSearch.Stub() {
-
-		@Override
-		public void finish() throws RemoteException {
-
-			Location gpsLocation = model.getLocalisation();
-			String cityName = model.getCityName();
-			String movieName = model.getMovieName();
-			String theaterId = model.getFavTheaterId();
-
-			NearResp nearResp = serviceResult.getNearResp();
-			if (model.getStart() > 0) {
-				// We have to complete the result with previous entries
-				NearResp lastNearResp = model.getNearResp();
-				if (lastNearResp != null) {
-					lastNearResp.setHasMoreResults(nearResp.isHasMoreResults());
-					lastNearResp.getTheaterList().addAll(nearResp.getTheaterList());
-					for (String movieId : nearResp.getMapMovies().keySet()) {
-						if (!lastNearResp.getMapMovies().containsKey(movieId)) {
-							lastNearResp.getMapMovies().put(movieId, nearResp.getMapMovies().get(movieId));
-						}
-					}
-				}
-				nearResp = lastNearResp;
-			}
-			model.setNearResp(nearResp);
-
-			if (mDbHelper.isOpen()) {
-				mDbHelper.createMovieRequest(cityName //
-						, movieName //
-						, (gpsLocation != null) ? gpsLocation.getLatitude() : null //
-						, (gpsLocation != null) ? gpsLocation.getLongitude() : null //
-						, theaterId//
-						, nearResp == null //
-						);
-			}
-
-			model.setNullResult(nearResp == null);
-			m_callbackHandler.sendInputRecieved();
-
-		}
-
-		@Override
-		public void finishLocation(String theaterId) throws RemoteException {
-
-			if ((model.getNearResp() != null) && (model.getNearResp().getTheaterList() != null)) {
-				for (TheaterBean theaterBean : model.getNearResp().getTheaterList()) {
-					if (theaterId.equals(theaterBean.getId())) {
-						LocalisationBean localisation = serviceResult.getLocalisation(theaterId);
-						theaterBean.setPlace(localisation);
-						// TODO
-						break;
-					}
-				}
-			}
-
-		}
-
-	};
+	// public void bindService() {
+	// bindService(new Intent(this, CineShowTimeResultsService.class), mConnection, Context.BIND_AUTO_CREATE);
+	// }
+	//
+	// public void unbindService() {
+	// try {
+	// serviceResult.unregisterCallback(m_callback);
+	// unbindService(mConnection);
+	// } catch (Exception e) {
+	// Log.e(TAG, "error while unbinding service", e);
+	// }
+	// }
+	//
+	// /**
+	// * The service connection inteface with our binded service {@link http ://code .google.com/android/reference/android/content/ServiceConnection.html}
+	// */
+	// private ServiceConnection mConnection = new ServiceConnection() {
+	//
+	// @Override
+	// public void onServiceConnected(ComponentName name, IBinder service) {
+	// serviceResult = IServiceSearch.Stub.asInterface(service);
+	//
+	// try {
+	// serviceResult.registerCallback(m_callback);
+	// } catch (RemoteException e) {
+	// e.printStackTrace();
+	// }
+	//
+	// }
+	//
+	// @Override
+	// public void onServiceDisconnected(ComponentName name) {
+	//
+	// }
+	//
+	// };
+	//
+	// protected boolean isServiceRunning() {
+	// if (serviceResult != null) {
+	// try {
+	// return serviceResult.isServiceRunning();
+	// } catch (RemoteException e) {
+	//				Log.e(TAG, "Eror during checking service", e); //$NON-NLS-1$
+	// }
+	// }
+	// return false;
+	// }
+	//
+	// /**
+	// * The callback object that will return from the service
+	// */
+	// private ICallbackSearch m_callback = new ICallbackSearch.Stub() {
+	//
+	// @Override
+	// public void finish() throws RemoteException {
+	//
+	// Location gpsLocation = model.getLocalisation();
+	// String cityName = model.getCityName();
+	// String movieName = model.getMovieName();
+	// String theaterId = model.getFavTheaterId();
+	//
+	// NearResp nearResp = serviceResult.getNearResp();
+	// if (model.getStart() > 0) {
+	// // We have to complete the result with previous entries
+	// NearResp lastNearResp = model.getNearResp();
+	// if (lastNearResp != null) {
+	// lastNearResp.setHasMoreResults(nearResp.isHasMoreResults());
+	// lastNearResp.getTheaterList().addAll(nearResp.getTheaterList());
+	// for (String movieId : nearResp.getMapMovies().keySet()) {
+	// if (!lastNearResp.getMapMovies().containsKey(movieId)) {
+	// lastNearResp.getMapMovies().put(movieId, nearResp.getMapMovies().get(movieId));
+	// }
+	// }
+	// }
+	// nearResp = lastNearResp;
+	// }
+	// model.setNearResp(nearResp);
+	//
+	// if (mDbHelper.isOpen()) {
+	// mDbHelper.createMovieRequest(cityName //
+	// , movieName //
+	// , (gpsLocation != null) ? gpsLocation.getLatitude() : null //
+	// , (gpsLocation != null) ? gpsLocation.getLongitude() : null //
+	// , theaterId//
+	// , nearResp == null //
+	// );
+	// }
+	//
+	// model.setNullResult(nearResp == null);
+	// m_callbackHandler.sendInputRecieved();
+	//
+	// }
+	//
+	// @Override
+	// public void finishLocation(String theaterId) throws RemoteException {
+	//
+	// if ((model.getNearResp() != null) && (model.getNearResp().getTheaterList() != null)) {
+	// for (TheaterBean theaterBean : model.getNearResp().getTheaterList()) {
+	// if (theaterId.equals(theaterBean.getId())) {
+	// LocalisationBean localisation = serviceResult.getLocalisation(theaterId);
+	// theaterBean.setPlace(localisation);
+	// // TODO
+	// break;
+	// }
+	// }
+	// }
+	//
+	// }
+	//
+	// };
 
 	/*
 	 * Override methods
@@ -906,20 +873,55 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 	}
 
 	@Override
-	protected ICineShowTimeActivityHelperModel getModel() {
-		// TODO Auto-generated method stub
-		return null;
+	protected ModelResultsActivity getModel() {
+		return new ModelResultsActivity();
 	}
 
 	@Override
 	protected void doOnDestroy() {
-		unbindService();
+		// unbindService();
 
 	}
 
 	@Override
 	protected void doChangeFromPref() {
-		adapter.changePreferences();
+		fragment.changePreferences();
+	}
+
+	@Override
+	protected void doOnCancel() {
+		fragment.onCancel();
+	}
+
+	/*
+	 * Fragment Interaction
+	 */
+
+	@Override
+	public ModelResultsActivity getModelActivity() {
+		return model;
+	}
+
+	@Override
+	public GoogleAnalyticsTracker getTracker() {
+		return tracker;
+	}
+
+	@Override
+	public SharedPreferences getPrefs() {
+		return prefs;
+	}
+
+	@Override
+	public void closeDialog() {
+		dismissDialog();
+
+	}
+
+	@Override
+	public void openDialog() {
+		openDialog(R.string.searchNearProgressTitle, R.string.searchNearProgressMsg);
+
 	}
 
 }

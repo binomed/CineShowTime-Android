@@ -1,5 +1,8 @@
 package com.binomed.showtime.android.util.activity;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,11 +15,17 @@ import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
-public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivityHelperModel> extends FragmentActivity {
+public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivityHelperModel> //
+		extends FragmentActivity //
+		implements //
+		OnCancelListener //
+{
 
-	private GoogleAnalyticsTracker tracker;
-	private SharedPreferences prefs;
-	private M model;
+	protected GoogleAnalyticsTracker tracker;
+	protected SharedPreferences prefs;
+	protected M model;
+	protected ProgressDialog progressDialog;
+	private String TAG = null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -25,12 +34,15 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		tracker = GoogleAnalyticsTracker.getInstance();
 		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, this);
 		tracker.trackPageView(getTrackerName());
+		TAG = getTAG();
 		prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
-		Log.i(getTAG(), "onCreate"); //$NON-NLS-1$
+		Log.i(TAG, "onCreate"); //$NON-NLS-1$
 
 		// We call the contentView
-		setContentView();
+		setContentView(getLayout());
+		model = getModel();
+		initContentView();
 
 		initResults();
 	}
@@ -43,11 +55,20 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		Log.i(getTAG(), "onDestroy"); //$NON-NLS-1$
+		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
 		doOnDestroy();
 		// closeDB();
 		tracker.dispatch();
 		tracker.stop();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.i(TAG, "onPause"); //$NON-NLS-1$
+		if ((progressDialog != null) && progressDialog.isShowing()) {
+			progressDialog.dismiss();
+		}
 	}
 
 	@Override
@@ -72,6 +93,12 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		}
 	}
 
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		doOnCancel();
+		finish();
+	}
+
 	private void initResults() {
 		Intent intentResult = new Intent();
 		intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
@@ -79,19 +106,39 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
 	}
 
+	protected void openDialog(int dialogTitle, int dialogMessage) {
+		progressDialog = ProgressDialog.show(this, //
+				getResources().getString(dialogTitle)//
+				, getResources().getString(dialogMessage) //
+				, true // indeterminate
+				, true // cancelable
+				, this // cancelListener
+				);
+	}
+
+	protected void dismissDialog() {
+		if (progressDialog != null) {
+			progressDialog.dismiss();
+		}
+	}
+
 	/*
 	 * METHODS to redefine
 	 */
+
+	protected abstract int getLayout();
 
 	protected abstract String getTrackerName();
 
 	protected abstract String getTAG();
 
-	protected abstract void setContentView();
+	protected abstract void initContentView();
 
 	protected abstract M getModel();
 
 	protected abstract void doOnDestroy();
+
+	protected abstract void doOnCancel();
 
 	protected abstract void doChangeFromPref();
 
