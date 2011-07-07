@@ -15,31 +15,6 @@
 			android:layout_alignParentBottom="true" 
 			android:layout_centerHorizontal="true"
 			/>
-	<LinearLayout
-			android:id="@+id/FragmentLayout" 
-			android:layout_above="@+id/logoSkyHook"
-			android:orientation="vertical" 
-			android:layout_height="fill_parent" 
-			android:layout_width="fill_parent"
-		 
-		>
-		<fragment 
-				android:id="@+id/FragmentSearch" 
-				android:name="com.binomed.showtime.android.searchactivity.CineShowTimeSearchFragment" 
-				android:layout_height="wrap_content"				
-				android:layout_width="fill_parent"
-				>
-		    <!-- Preview: layout=@layout/fragment_search -->
-		</fragment>
-		<fragment 
-				android:id="@+id/FragmentFav" 
-				android:name="com.binomed.showtime.android.fav.CineShowTimeFavFragment" 
-				android:layout_height="wrap_content" 
-				android:layout_width="fill_parent"
-				>
-		    <!-- Preview: layout=@layout/fragment_fav -->
-		</fragment>
-	</LinearLayout>
 	<ImageView 
 			android:id="@+id/logoImg" 
 			android:layout_width="wrap_content" 
@@ -47,4 +22,39 @@
 			android:layout_alignParentTop="true"
 			style="?attr/logoImg" 
 			/>
+	<ScrollView 
+			android:id="@+id/FragmentLayout" 
+			android:layout_above="@+id/logoSkyHook"
+			android:layout_below="@+id/logoImg"
+			android:scrollbars="vertical"
+			android:orientation="vertical" 
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent" 
+				>
+		<LinearLayout
+				android:id="@+id/FragmentLayout" 
+				android:orientation="vertical" 
+				android:layout_height="fill_parent" 
+				android:layout_width="fill_parent"
+			 
+			>
+			<fragment 
+					android:id="@+id/FragmentSearch" 
+					android:name="com.binomed.showtime.android.searchactivity.CineShowTimeSearchFragment" 
+					android:layout_height="wrap_content"				
+					android:layout_width="fill_parent"
+					>
+			    <!-- Preview: layout=@layout/fragment_search -->
+			</fragment>
+			<fragment 
+					android:id="@+id/FragmentFav" 
+					android:name="com.binomed.showtime.android.fav.CineShowTimeFavFragment" 
+					android:layout_height="200dip" 
+					android:layout_width="fill_parent"
+					>
+			    <!-- Preview: layout=@layout/fragment_fav -->
+			</fragment>
+		</LinearLayout>
+	</ScrollView>
+	
 </RelativeLayout>

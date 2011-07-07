@@ -5,14 +5,19 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.SQLException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
+import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivityHelperModel> //
@@ -26,6 +31,8 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	protected M model;
 	protected ProgressDialog progressDialog;
 	private String TAG = null;
+	protected CineShowtimeDbAdapter mDbHelper;
+	protected static final int MENU_PREF = Menu.FIRST;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -56,8 +63,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
-		doOnDestroy();
-		// closeDB();
+		closeDB();
 		tracker.dispatch();
 		tracker.stop();
 	}
@@ -94,6 +100,23 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		tracker.trackEvent("Menu", "Open", "Consult menu from main activity", 0);
+		CineShowTimeMenuUtil.createMenu(menu, MENU_PREF, 0);
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
+			return true;
+		}
+
+		return super.onMenuItemSelected(featureId, item);
+	}
+
+	@Override
 	public void onCancel(DialogInterface dialog) {
 		doOnCancel();
 		finish();
@@ -105,6 +128,10 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, model.isNullResult());
 		setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
 	}
+
+	/*
+	 * Dialogs methods
+	 */
 
 	protected void openDialog(int dialogTitle, int dialogMessage) {
 		progressDialog = ProgressDialog.show(this, //
@@ -123,6 +150,32 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	}
 
 	/*
+	 * DB Methods
+	 */
+
+	protected void openDB() {
+
+		try {
+			Log.i(TAG, "openDB"); //$NON-NLS-1$
+			mDbHelper = new CineShowtimeDbAdapter(this);
+			mDbHelper.open();
+		} catch (SQLException e) {
+			Log.e(TAG, "error during getting fetching informations", e); //$NON-NLS-1$
+		}
+	}
+
+	protected void closeDB() {
+		try {
+			if (mDbHelper != null && mDbHelper.isOpen()) {
+				Log.i(TAG, "Close DB"); //$NON-NLS-1$
+				mDbHelper.close();
+			}
+		} catch (Exception e) {
+			Log.e(TAG, "error onDestroy of movie Activity", e); //$NON-NLS-1$
+		}
+	}
+
+	/*
 	 * METHODS to redefine
 	 */
 
@@ -135,8 +188,6 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	protected abstract void initContentView();
 
 	protected abstract M getModel();
-
-	protected abstract void doOnDestroy();
 
 	protected abstract void doOnCancel();
 

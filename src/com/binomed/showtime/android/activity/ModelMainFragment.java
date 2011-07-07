@@ -2,7 +2,9 @@ package com.binomed.showtime.android.activity;
 
 import java.util.Calendar;
 
-public class ModelMainFragment {
+import com.binomed.showtime.android.util.activity.ICineShowTimeActivityHelperModel;
+
+public class ModelMainFragment implements ICineShowTimeActivityHelperModel {
 
 	// TODO à virer
 	// private List<TheaterBean> favList;
@@ -32,18 +34,22 @@ public class ModelMainFragment {
 		this.lastRequestDate = lastRequestDate;
 	}
 
+	@Override
 	public boolean isNullResult() {
 		return nullResult;
 	}
 
+	@Override
 	public void setNullResult(boolean nullResult) {
 		this.nullResult = nullResult;
 	}
 
+	@Override
 	public boolean isResetTheme() {
 		return resetTheme;
 	}
 
+	@Override
 	public void setResetTheme(boolean resetTheme) {
 		this.resetTheme = resetTheme;
 	}

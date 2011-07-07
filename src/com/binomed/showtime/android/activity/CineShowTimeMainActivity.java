@@ -2,18 +2,12 @@ package com.binomed.showtime.android.activity;
 
 import java.util.Calendar;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
@@ -24,12 +18,11 @@ import com.binomed.showtime.android.layout.dialogs.last.LastChangeDialog;
 import com.binomed.showtime.android.searchactivity.CineShowTimeSearchFragment;
 import com.binomed.showtime.android.service.CineShowCleanFileService;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
-import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
-import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
+import com.binomed.showtime.android.util.activity.AbstractCineShowTimeActivity;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
-public class CineShowTimeMainActivity extends FragmentActivity implements
+public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<ModelMainFragment> implements
 // OnClickListener, //
 // OnItemClickListener, //
 		CineShowTimeFavFragment.FavFragmentInteraction, //
@@ -37,14 +30,15 @@ public class CineShowTimeMainActivity extends FragmentActivity implements
 {
 
 	private static final String TAG = "AndShowTimeMainActivity"; //$NON-NLS-1$
+	private static final String TRACKER_NAME = "/MainActivity"; //$NON-NLS-1$
 
-	private static final int MENU_PREF = Menu.FIRST;
+	// private static final int MENU_PREF = Menu.FIRST;
 
-	private Context mainContext;
-	private ModelMainFragment model;
-	private CineShowtimeDbAdapter mDbHelper;
+	// private Context mainContext;
+	// private ModelMainFragment model;
+	// private CineShowtimeDbAdapter mDbHelper;
 
-	private GoogleAnalyticsTracker tracker;
+	// private GoogleAnalyticsTracker tracker;
 
 	private CineShowTimeSearchFragment fragmentSearch;
 	private CineShowTimeFavFragment fragmentFav;
@@ -53,29 +47,29 @@ public class CineShowTimeMainActivity extends FragmentActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, this);
-		tracker.trackPageView("/MainActivity");
+		// tracker = GoogleAnalyticsTracker.getInstance();
+		// tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, this);
+		// tracker.trackPageView("/MainActivity");
+		//
+		// SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		// CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
+		// setContentView(R.layout.activity_main);
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, prefs);
-		setContentView(R.layout.activity_main);
-
-		mainContext = this;
-
-		CineShowtimeFactory.initGeocoder(this);
-
-		Intent intentCleanFileService = new Intent(CineShowTimeMainActivity.this, CineShowCleanFileService.class);
-		startService(intentCleanFileService);
-
-		initViews();
-		initListeners();
-
-		this.model = new ModelMainFragment();
-
-		display();
-
-		initResults();
+		// mainContext = this;
+		//
+		// CineShowtimeFactory.initGeocoder(this);
+		//
+		// Intent intentCleanFileService = new Intent(CineShowTimeMainActivity.this, CineShowCleanFileService.class);
+		// startService(intentCleanFileService);
+		//
+		// initViews();
+		// initListeners();
+		//
+		// this.model = new ModelMainFragment();
+		//
+		// display();
+		//
+		// initResults();
 	}
 
 	/*
@@ -83,14 +77,14 @@ public class CineShowTimeMainActivity extends FragmentActivity implements
 	 * 
 	 * @see android.app.Activity#onDestroy()
 	 */
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
-		closeDB();
-		tracker.dispatch();
-		tracker.stop();
-	}
+	// @Override
+	// protected void onDestroy() {
+	// super.onDestroy();
+	//		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
+	// closeDB();
+	// tracker.dispatch();
+	// tracker.stop();
+	// }
 
 	/*
 	 * 
@@ -102,17 +96,17 @@ public class CineShowTimeMainActivity extends FragmentActivity implements
 	 * 
 	 * @see android.app.Activity#onResume()
 	 */
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
+	// @Override
+	// protected void onResume() {
+	// super.onResume();
+	// }
 
-	private void initResults() {
-		Intent intentResult = new Intent();
-		intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
-		intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, model.isNullResult());
-		setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
-	}
+	// private void initResults() {
+	// Intent intentResult = new Intent();
+	// intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, model.isResetTheme());
+	// intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, model.isNullResult());
+	// setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
+	// }
 
 	/**
 	 * Init views objects
@@ -151,62 +145,62 @@ public class CineShowTimeMainActivity extends FragmentActivity implements
 	 * 
 	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
 	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		tracker.trackEvent("Menu", "Open", "Consult menu from main activity", 0);
-		CineShowTimeMenuUtil.createMenu(menu, MENU_PREF, 0);
-		return true;
-	}
+	// @Override
+	// public boolean onCreateOptionsMenu(Menu menu) {
+	// super.onCreateOptionsMenu(menu);
+	// tracker.trackEvent("Menu", "Open", "Consult menu from main activity", 0);
+	// CineShowTimeMenuUtil.createMenu(menu, MENU_PREF, 0);
+	// return true;
+	// }
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see android.app.Activity#onMenuItemSelected(int, android.view.MenuItem)
 	 */
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
-			return true;
-		}
+	// @Override
+	// public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	// if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
+	// return true;
+	// }
+	//
+	// return super.onMenuItemSelected(featureId, item);
+	// }
 
-		return super.onMenuItemSelected(featureId, item);
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (data != null) {
-			model.setNullResult(data.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, false));
-			model.setResetTheme(data.getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false));
-		} else {
-			model.setResetTheme(false);
-			model.setNullResult(false);
-		}
-
-		initResults();
-
-		if (model.isResetTheme()) {
-			CineShowTimeLayoutUtils.changeToTheme(this, getIntent());
-		}
-	}
+	// @Override
+	// protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	// super.onActivityResult(requestCode, resultCode, data);
+	//
+	// if (data != null) {
+	// model.setNullResult(data.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, false));
+	// model.setResetTheme(data.getBooleanExtra(ParamIntent.PREFERENCE_RESULT_THEME, false));
+	// } else {
+	// model.setResetTheme(false);
+	// model.setNullResult(false);
+	// }
+	//
+	// initResults();
+	//
+	// if (model.isResetTheme()) {
+	// CineShowTimeLayoutUtils.changeToTheme(this, getIntent());
+	// }
+	// }
 
 	/*
 	 * 
 	 * DataBase
 	 */
 
-	public void openDB() {
-
-		try {
-			Log.i(TAG, "openDB"); //$NON-NLS-1$
-			mDbHelper = new CineShowtimeDbAdapter(this);
-			mDbHelper.open();
-		} catch (SQLException e) {
-			Log.e(TAG, "error during getting fetching informations", e); //$NON-NLS-1$
-		}
-	}
+	// public void openDB() {
+	//
+	// try {
+	//			Log.i(TAG, "openDB"); //$NON-NLS-1$
+	// mDbHelper = new CineShowtimeDbAdapter(this);
+	// mDbHelper.open();
+	// } catch (SQLException e) {
+	//			Log.e(TAG, "error during getting fetching informations", e); //$NON-NLS-1$
+	// }
+	// }
 
 	public void initDB() {
 
@@ -248,8 +242,8 @@ public class CineShowTimeMainActivity extends FragmentActivity implements
 			} catch (Exception e) {
 				Log.e(TAG, "Error getting package for activity", e); //$NON-NLS-1$
 			}
-			if (cursorLastChange != null) {
-				try {
+			try {
+				if (cursorLastChange != null) {
 					if (cursorLastChange.moveToFirst()) {
 						int columnIndex = cursorLastChange.getColumnIndex(CineShowtimeDbAdapter.KEY_LAST_CHANGE_VERSION);
 						int codeVersion = cursorLastChange.getInt(columnIndex);
@@ -259,12 +253,14 @@ public class CineShowTimeMainActivity extends FragmentActivity implements
 					} else {
 						result = true;
 					}
-				} finally {
-					cursorLastChange.close();
-					closeDB();
+				} else {
+					result = true;
 				}
-			} else {
-				result = true;
+			} finally {
+				if (cursorLastChange != null) {
+					cursorLastChange.close();
+				}
+				closeDB();
 			}
 		}
 
@@ -281,16 +277,16 @@ public class CineShowTimeMainActivity extends FragmentActivity implements
 	/**
 	 * 
 	 */
-	public void closeDB() {
-		try {
-			if (mDbHelper.isOpen()) {
-				Log.i(TAG, "Close DB"); //$NON-NLS-1$
-				mDbHelper.close();
-			}
-		} catch (Exception e) {
-			Log.e(TAG, "error onDestroy of movie Activity", e); //$NON-NLS-1$
-		}
-	}
+	// public void closeDB() {
+	// try {
+	// if (mDbHelper.isOpen()) {
+	//				Log.i(TAG, "Close DB"); //$NON-NLS-1$
+	// mDbHelper.close();
+	// }
+	// } catch (Exception e) {
+	//			Log.e(TAG, "error onDestroy of movie Activity", e); //$NON-NLS-1$
+	// }
+	// }
 
 	/*
 	 * 
@@ -321,6 +317,56 @@ public class CineShowTimeMainActivity extends FragmentActivity implements
 	@Override
 	public boolean isNullResult() {
 		return model.isNullResult();
+	}
+
+	/*
+	 * 
+	 * Override methods
+	 */
+
+	@Override
+	protected int getLayout() {
+		return R.layout.activity_main;
+	}
+
+	@Override
+	protected String getTrackerName() {
+		return TAG;
+	}
+
+	@Override
+	protected String getTAG() {
+		return TRACKER_NAME;
+	}
+
+	@Override
+	protected void initContentView() {
+		CineShowtimeFactory.initGeocoder(this);
+
+		Intent intentCleanFileService = new Intent(CineShowTimeMainActivity.this, CineShowCleanFileService.class);
+		startService(intentCleanFileService);
+
+		initViews();
+		initListeners();
+
+		display();
+	}
+
+	@Override
+	protected ModelMainFragment getModel() {
+		return new ModelMainFragment();
+	}
+
+	@Override
+	protected void doOnCancel() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void doChangeFromPref() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

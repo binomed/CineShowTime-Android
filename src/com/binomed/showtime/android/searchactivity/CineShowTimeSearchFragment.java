@@ -23,7 +23,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -61,14 +60,6 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	protected GoogleAnalyticsTracker tracker;
 
 	private SearchFragmentInteraction fragmentInteraction;
-
-	protected EditText getFieldName() {
-		return fieldCityName;
-	}
-
-	public void setTracker(GoogleAnalyticsTracker tracker) {
-		this.tracker = tracker;
-	}
 
 	public void setNullResult(boolean nullResult) {
 		if (model != null) {

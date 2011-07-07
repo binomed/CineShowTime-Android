@@ -878,12 +878,6 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 	}
 
 	@Override
-	protected void doOnDestroy() {
-		// unbindService();
-
-	}
-
-	@Override
 	protected void doChangeFromPref() {
 		fragment.changePreferences();
 	}
