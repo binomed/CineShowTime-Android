@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.activity.ModelMainFragment;
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
@@ -37,6 +38,7 @@ import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
+import com.binomed.showtime.android.util.activity.IFragmentCineShowTimeInteraction;
 import com.binomed.showtime.android.util.localisation.IListenerLocalisationUtilCallBack;
 import com.binomed.showtime.cst.SpecialChars;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
@@ -350,9 +352,9 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 			CineShowtimeFactory.initGeocoder(getActivity());
 			Intent intentResultActivity = null;
 			if (getActivity().getIntent().getBooleanExtra(ParamIntent.ACTIVITY_LARGE_SCREEN, false)) {
-				intentResultActivity = new Intent(getActivity(), CineShowTimeResultsActivity.class);
-			} else {
 				intentResultActivity = new Intent(getActivity(), CineShowTimeResultsTabletActivity.class);
+			} else {
+				intentResultActivity = new Intent(getActivity(), CineShowTimeResultsActivity.class);
 			}
 
 			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, (gpsLocation != null) ? gpsLocation.getLatitude() : null);
@@ -470,9 +472,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		}
 	}
 
-	public interface SearchFragmentInteraction {
-
-		GoogleAnalyticsTracker getTracker();
+	public interface SearchFragmentInteraction extends IFragmentCineShowTimeInteraction<ModelMainFragment> {
 
 		void setNullResult(boolean result);
 

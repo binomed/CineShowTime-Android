@@ -16,7 +16,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.location.Location;
 import android.os.Bundle;
@@ -25,8 +24,6 @@ import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -54,13 +51,12 @@ import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.movieactivity.CineShowTimeMovieActivity;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
-import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
 import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
+import com.binomed.showtime.android.util.activity.IFragmentCineShowTimeInteraction;
 import com.binomed.showtime.android.util.comparator.CineShowtimeComparator;
 import com.binomed.showtime.android.util.localisation.LocationUtils;
 import com.binomed.showtime.cst.HttpParamsCst;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class CineShowTimeResultsFragment extends Fragment implements OnChildClickListener //
 		, OnGroupClickListener //
@@ -71,57 +67,49 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		, OnCancelListener //
 {
 
-	private static final int MENU_SORT = Menu.FIRST;
-	private static final int MENU_PREF = Menu.FIRST + 1;
-
 	protected static final int ID_SORT = 1;
 
 	private static final String TAG = "ResultsActivity"; //$NON-NLS-1$
 
 	protected ExpandableListView resultList;
-	// protected ProgressDialog progressDialog;
 	protected CineShowTimeExpandableListAdapter adapter = null;
 	private CineShowTimeResultInteraction interaction;
-
-	// private ModelResultsActivity model;
 
 	protected boolean movieView;
 
 	protected Comparator<?> comparator;
 	private IServiceSearch serviceResult;
 
-	// private SharedPreferences prefs;
+	private ModelResultsActivity model;
 	private CineShowtimeDbAdapter mDbHelper;
-
-	// protected GoogleAnalyticsTracker tracker;
 
 	/** Called when the activity is first created. */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		// setContentView(R.layout.activity_results);
 		View mainView = inflater.inflate(R.layout.fragment_results, container, false);
 
 		// We init the theater id if set
+		model = interaction.getModelActivity();
+		mDbHelper = interaction.getMDbHelper();
 
-		interaction.getModelActivity().setForceResearch(getActivity().getIntent().getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, true));
+		model.setForceResearch(getActivity().getIntent().getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, true));
 		getActivity().getIntent().putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false);
-		interaction.getModelActivity().setFavTheaterId(getActivity().getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID));
-		interaction.getModelActivity().setLocalisation(null);
-		interaction.getModelActivity().setDay(getActivity().getIntent().getIntExtra(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
-		interaction.getModelActivity().setCityName(getActivity().getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_CITY));
-		interaction.getModelActivity().setMovieName(getActivity().getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
+		model.setFavTheaterId(getActivity().getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID));
+		model.setLocalisation(null);
+		model.setDay(getActivity().getIntent().getIntExtra(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
+		model.setCityName(getActivity().getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_CITY));
+		model.setMovieName(getActivity().getIntent().getStringExtra(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
 		Double latitude = getActivity().getIntent().getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
 		Double longitude = getActivity().getIntent().getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
 		if ((latitude != 0) && (longitude != 0)) {
 			Location locationTheater = new Location("GPS");
 			locationTheater.setLatitude(latitude);
 			locationTheater.setLongitude(longitude);
-			interaction.getModelActivity().setLocalisation(locationTheater);
+			model.setLocalisation(locationTheater);
 		}
 		getActivity().getIntent().putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, "");
 
-		movieView = (interaction.getModelActivity().getMovieName() != null) && (interaction.getModelActivity().getMovieName().length() > 0);
+		movieView = (model.getMovieName() != null) && (model.getMovieName().length() > 0);
 
 		initComparator();
 		initViews(mainView);
@@ -129,8 +117,6 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 		bindService();
 		initDB();
-
-		// initResults(); TODO
 
 		return mainView;
 
@@ -152,19 +138,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		super.onDestroy();
 		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
 		unbindService();
-		closeDB();
-		// tracker.dispatch();
-		// tracker.stop();
 	}
-
-	// @Override
-	// public void onPause() {
-	// super.onPause();
-	//		Log.i(TAG, "onPause"); //$NON-NLS-1$
-	// if ((progressDialog != null) && progressDialog.isShowing()) {
-	// progressDialog.dismiss();
-	// }
-	// }
 
 	@Override
 	public void onResume() {
@@ -244,7 +218,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		if (isServiceRunning()) {
 			interaction.openDialog();
 		} else {
-			NearResp nearResp = interaction.getModelActivity().getNearResp();
+			NearResp nearResp = model.getNearResp();
 			if (nearResp != null) {
 				boolean error = false;
 				List<TheaterBean> theaterList = nearResp.getTheaterList();
@@ -285,17 +259,17 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 					}
 					theaterList.add(theaterZeroResp);
 				}
-				adapter.setTheaterList(nearResp, interaction.getModelActivity().getTheaterFavList(), (CineShowtimeComparator<?>) comparator);
+				adapter.setTheaterList(nearResp, model.getTheaterFavList(), (CineShowtimeComparator<?>) comparator);
 				resultList.setAdapter(adapter);
 				if ((theaterList.size() == 1) && !error) {
 					resultList.expandGroup(0);
 				} else {
-					for (int i : interaction.getModelActivity().getGroupExpanded()) {
+					for (int i : model.getGroupExpanded()) {
 						resultList.expandGroup(i);
 					}
 				}
 				if ((nearResp != null) && (nearResp.getCityName() != null) && (nearResp.getCityName().length() > 0)) {
-					interaction.getModelActivity().setCityName(nearResp.getCityName());
+					model.setCityName(nearResp.getCityName());
 				}
 			}
 		}
@@ -457,10 +431,10 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 		switch (parent.getId()) {
 		case R.id.resultListResult: {
-			if ((interaction.getModelActivity().getNearResp() != null) && (interaction.getModelActivity().getNearResp().getTheaterList() != null)) {
-				int theaterListSize = interaction.getModelActivity().getNearResp().getTheaterList().size();
+			if ((model.getNearResp() != null) && (model.getNearResp().getTheaterList() != null)) {
+				int theaterListSize = model.getNearResp().getTheaterList().size();
 				if (theaterListSize == groupPosition) {
-					interaction.getModelActivity().setStart(interaction.getModelActivity().getStart() + 10);
+					model.setStart(model.getStart() + 10);
 					try {
 						interaction.getTracker().trackEvent("Resultats", "Click", "Search more theaters", 0);
 						launchNearService();
@@ -533,12 +507,12 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 	@Override
 	public void onGroupExpand(int groupPosition) {
-		interaction.getModelActivity().getGroupExpanded().add(groupPosition);
+		model.getGroupExpanded().add(groupPosition);
 	}
 
 	@Override
 	public void onGroupCollapse(int groupPosition) {
-		interaction.getModelActivity().getGroupExpanded().remove(groupPosition);
+		model.getGroupExpanded().remove(groupPosition);
 	}
 
 	@Override
@@ -566,8 +540,8 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 			intentStartMovieActivity.putExtra(ParamIntent.MOVIE, movie);
 			intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theater.getId());
 			intentStartMovieActivity.putExtra(ParamIntent.THEATER, theater);
-			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (interaction.getModelActivity().getLocalisation() != null) ? interaction.getModelActivity().getLocalisation().getLatitude() : null);
-			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (interaction.getModelActivity().getLocalisation() != null) ? interaction.getModelActivity().getLocalisation().getLongitude() : null);
+			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (model.getLocalisation() != null) ? model.getLocalisation().getLatitude() : null);
+			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (model.getLocalisation() != null) ? model.getLocalisation().getLongitude() : null);
 			StringBuilder place = new StringBuilder();
 			if (theater != null) {
 				if (theater.getPlace() != null) {
@@ -600,12 +574,12 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 	public void launchSearchService() throws UnsupportedEncodingException {
 
-		Location gpsLocation = interaction.getModelActivity().getLocalisation();
-		String cityName = interaction.getModelActivity().getCityName();
-		String movieName = interaction.getModelActivity().getMovieName();
-		String theaterId = interaction.getModelActivity().getFavTheaterId();
-		int day = interaction.getModelActivity().getDay();
-		int start = interaction.getModelActivity().getStart();
+		Location gpsLocation = model.getLocalisation();
+		String cityName = model.getCityName();
+		String movieName = model.getMovieName();
+		String theaterId = model.getFavTheaterId();
+		int day = model.getDay();
+		int start = model.getStart();
 
 		if (mDbHelper.isOpen()) {
 			mDbHelper.createNearRequest(cityName //
@@ -615,7 +589,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 					);
 		}
 		if ((cityName != null) && (cityName.length() > 0)) {
-			interaction.getModelActivity().getRequestList().add(cityName);
+			model.getRequestList().add(cityName);
 		}
 
 		CineShowtimeFactory.initGeocoder(getActivity());
@@ -651,9 +625,9 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	public void initDB() {
 
 		try {
-			openDB();
+			// openDB();
 
-			boolean rerunService = interaction.getModelActivity().isForceResearch();
+			boolean rerunService = model.isForceResearch();
 			if (mDbHelper.isOpen()) {
 
 				List<TheaterBean> theaterFav = CineShowtimeDB2AndShowtimeBeans.extractFavTheaterList(mDbHelper);
@@ -662,7 +636,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 					for (TheaterBean theater : theaterFav) {
 						theaterFavList.put(theater.getId(), theater);
 					}
-					interaction.getModelActivity().setTheaterFavList(theaterFavList);
+					model.setTheaterFavList(theaterFavList);
 				}
 			}
 			if (rerunService) {
@@ -673,7 +647,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 				}
 			} else {
 
-				NearResp nearResp = interaction.getModelActivity().getNearResp();
+				NearResp nearResp = model.getNearResp();
 				if (nearResp == null) {
 					nearResp = new NearResp();
 					if (mDbHelper.isOpen()) {
@@ -685,16 +659,16 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 							Log.i(TAG, "No datas founds"); //$NON-NLS-1$
 						}
 					}
-					interaction.getModelActivity().setNearResp(nearResp);
+					model.setNearResp(nearResp);
 				}
 
 				if (nearResp != null) {
 					// We manage particular case of fav theaterResults :
 					// if previous result was just favorite => we have to relaunch the request
 					// if previous result was a full results => we have to filtered the results
-					if ((interaction.getModelActivity().getTheaterFavList() != null) && !interaction.getModelActivity().getTheaterFavList().isEmpty()) {
-						if ((nearResp.getTheaterList().size() == 1) && (interaction.getModelActivity().getFavTheaterId() == null)) {
-							thLabel: for (String thFavId : interaction.getModelActivity().getTheaterFavList().keySet()) {
+					if ((model.getTheaterFavList() != null) && !model.getTheaterFavList().isEmpty()) {
+						if ((nearResp.getTheaterList().size() == 1) && (model.getFavTheaterId() == null)) {
+							thLabel: for (String thFavId : model.getTheaterFavList().keySet()) {
 								for (TheaterBean thTmp : nearResp.getTheaterList()) {
 									if (thTmp.getId().equals(thFavId)) {
 										try {
@@ -706,16 +680,16 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 									}
 								}
 							}
-						} else if ((interaction.getModelActivity().getFavTheaterId() != null) && (nearResp.getTheaterList().size() > 0)) {
+						} else if ((model.getFavTheaterId() != null) && (nearResp.getTheaterList().size() > 0)) {
 							List<TheaterBean> filteredTheaterBean = new ArrayList<TheaterBean>();
 							for (TheaterBean thTmp : nearResp.getTheaterList()) {
-								if (thTmp.getId().equals(interaction.getModelActivity().getFavTheaterId())) {
+								if (thTmp.getId().equals(model.getFavTheaterId())) {
 									filteredTheaterBean.add(thTmp);
 									break;
 								}
 							}
 							Map<String, MovieBean> mapMovieFiltered = new HashMap<String, MovieBean>();
-							String theaterFavId = interaction.getModelActivity().getFavTheaterId();
+							String theaterFavId = model.getFavTheaterId();
 							List<String> theaterIdListTmp = new ArrayList<String>();
 							theaterIdListTmp.add(theaterFavId);
 							for (Entry<String, MovieBean> entryMovieTmp : nearResp.getMapMovies().entrySet()) {
@@ -739,17 +713,6 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		}
 	}
 
-	public void closeDB() {
-		try {
-			if (mDbHelper.isOpen()) {
-				Log.i(TAG, "Close DB"); //$NON-NLS-1$
-				mDbHelper.close();
-			}
-		} catch (Exception e) {
-			Log.e(TAG, "error onDestroy of movie Activity", e); //$NON-NLS-1$
-		}
-	}
-
 	public void addFavorite(TheaterBean theaterBean) {
 		try {
 			if (LocationUtils.isEmptyLocation(theaterBean.getPlace())) {
@@ -758,9 +721,9 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 					place = new LocalisationBean();
 					theaterBean.setPlace(place);
 				}
-				place.setCityName(interaction.getModelActivity().getCityName());
+				place.setCityName(model.getCityName());
 			}
-			interaction.getModelActivity().getTheaterFavList().put(theaterBean.getId(), theaterBean);
+			model.getTheaterFavList().put(theaterBean.getId(), theaterBean);
 			Intent service = new Intent(getActivity(), CineShowDBGlobalService.class);
 			service.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_FAV_WRITE);
 			service.putExtra(ParamIntent.SERVICE_DB_DATA, theaterBean);
@@ -773,7 +736,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 	public void removeFavorite(TheaterBean theaterBean) {
 		try {
-			interaction.getModelActivity().getTheaterFavList().remove(theaterBean);
+			model.getTheaterFavList().remove(theaterBean);
 			Intent service = new Intent(getActivity(), CineShowDBGlobalService.class);
 			service.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_FAV_DELETE);
 			service.putExtra(ParamIntent.SERVICE_DB_DATA, theaterBean);
@@ -851,15 +814,15 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		@Override
 		public void finish() throws RemoteException {
 
-			Location gpsLocation = interaction.getModelActivity().getLocalisation();
-			String cityName = interaction.getModelActivity().getCityName();
-			String movieName = interaction.getModelActivity().getMovieName();
-			String theaterId = interaction.getModelActivity().getFavTheaterId();
+			Location gpsLocation = model.getLocalisation();
+			String cityName = model.getCityName();
+			String movieName = model.getMovieName();
+			String theaterId = model.getFavTheaterId();
 
 			NearResp nearResp = serviceResult.getNearResp();
-			if (interaction.getModelActivity().getStart() > 0) {
+			if (model.getStart() > 0) {
 				// We have to complete the result with previous entries
-				NearResp lastNearResp = interaction.getModelActivity().getNearResp();
+				NearResp lastNearResp = model.getNearResp();
 				if (lastNearResp != null) {
 					lastNearResp.setHasMoreResults(nearResp.isHasMoreResults());
 					lastNearResp.getTheaterList().addAll(nearResp.getTheaterList());
@@ -871,7 +834,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 				}
 				nearResp = lastNearResp;
 			}
-			interaction.getModelActivity().setNearResp(nearResp);
+			model.setNearResp(nearResp);
 
 			if (mDbHelper.isOpen()) {
 				mDbHelper.createMovieRequest(cityName //
@@ -883,7 +846,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 						);
 			}
 
-			interaction.getModelActivity().setNullResult(nearResp == null);
+			model.setNullResult(nearResp == null);
 			m_callbackHandler.sendInputRecieved();
 
 		}
@@ -891,8 +854,8 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		@Override
 		public void finishLocation(String theaterId) throws RemoteException {
 
-			if ((interaction.getModelActivity().getNearResp() != null) && (interaction.getModelActivity().getNearResp().getTheaterList() != null)) {
-				for (TheaterBean theaterBean : interaction.getModelActivity().getNearResp().getTheaterList()) {
+			if ((model.getNearResp() != null) && (model.getNearResp().getTheaterList() != null)) {
+				for (TheaterBean theaterBean : model.getNearResp().getTheaterList()) {
 					if (theaterId.equals(theaterBean.getId())) {
 						LocalisationBean localisation = serviceResult.getLocalisation(theaterId);
 						theaterBean.setPlace(localisation);
@@ -906,13 +869,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 	};
 
-	public interface CineShowTimeResultInteraction {
-
-		ModelResultsActivity getModelActivity();
-
-		GoogleAnalyticsTracker getTracker();
-
-		SharedPreferences getPrefs();
+	public interface CineShowTimeResultInteraction extends IFragmentCineShowTimeInteraction<ModelResultsActivity> {
 
 		void closeDialog();
 
@@ -929,28 +886,17 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		adapter.changePreferences();
 	}
 
-	public boolean onMenuItemSelection(int featureId, MenuItem item) {
-		Log.i(TAG, "onMenuItemSelected"); //$NON-NLS-1$
-		if (CineShowTimeMenuUtil.onMenuItemSelect(getActivity(), interaction.getTracker(), MENU_PREF, item.getItemId())) {
-			adapter.changePreferences();
-			return true;
-		}
-		switch (item.getItemId()) {
-		case MENU_SORT: {
-			ListDialog dialog = new ListDialog(//
-					getActivity() // Context
-					, this // ListSelectionListener
-					, R.array.sort_theaters_values //
-					, ID_SORT //
-			);
-			dialog.setTitle(getActivity().getResources().getString(R.string.sortDialogTitle));
-			dialog.setFeatureDrawableResource(featureId, android.R.drawable.ic_menu_sort_by_size);
-			dialog.show();
+	public void openSortDialog() {
+		ListDialog dialog = new ListDialog(//
+				getActivity() // Context
+				, this // ListSelectionListener
+				, R.array.sort_theaters_values //
+				, ID_SORT //
+		);
+		dialog.setTitle(getActivity().getResources().getString(R.string.sortDialogTitle));
+		dialog.setFeatureDrawableResource(0, android.R.drawable.ic_menu_sort_by_size);
+		dialog.show();
 
-			return true;
-		}
-		}
-		return true;
 	}
 
 	public void onCancel() {

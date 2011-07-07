@@ -11,7 +11,7 @@ public abstract class AbstractSimpleCineShowTimeActivity<T extends Fragment, M e
 	@Override
 	protected void initContentView() {
 		fragment = getFragment();
-		getSupportFragmentManager().beginTransaction().add(R.id.root_container, fragment);
+		getSupportFragmentManager().beginTransaction().add(R.id.root_container, fragment).commit();
 	}
 
 	@Override

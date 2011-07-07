@@ -23,8 +23,8 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivityHelperModel> //
 		extends FragmentActivity //
 		implements //
-		OnCancelListener //
-{
+		OnCancelListener, //
+		IFragmentCineShowTimeInteraction<M> {
 
 	protected GoogleAnalyticsTracker tracker;
 	protected SharedPreferences prefs;
@@ -32,7 +32,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	protected ProgressDialog progressDialog;
 	private String TAG = null;
 	protected CineShowtimeDbAdapter mDbHelper;
-	protected static final int MENU_PREF = Menu.FIRST;
+	protected final int MENU_PREF = getMenuKey();
 
 	/** Called when the activity is first created. */
 	@Override
@@ -52,6 +52,8 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		initContentView();
 
 		initResults();
+
+		openDB();
 	}
 
 	/*
@@ -113,7 +115,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 			return true;
 		}
 
-		return super.onMenuItemSelected(featureId, item);
+		return false;
 	}
 
 	@Override
@@ -153,7 +155,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	 * DB Methods
 	 */
 
-	protected void openDB() {
+	private void openDB() {
 
 		try {
 			Log.i(TAG, "openDB"); //$NON-NLS-1$
@@ -166,7 +168,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 
 	protected void closeDB() {
 		try {
-			if (mDbHelper != null && mDbHelper.isOpen()) {
+			if ((mDbHelper != null) && mDbHelper.isOpen()) {
 				Log.i(TAG, "Close DB"); //$NON-NLS-1$
 				mDbHelper.close();
 			}
@@ -178,6 +180,8 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	/*
 	 * METHODS to redefine
 	 */
+
+	protected abstract int getMenuKey();
 
 	protected abstract int getLayout();
 
@@ -192,5 +196,25 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	protected abstract void doOnCancel();
 
 	protected abstract void doChangeFromPref();
+
+	@Override
+	public M getModelActivity() {
+		return model;
+	}
+
+	@Override
+	public GoogleAnalyticsTracker getTracker() {
+		return tracker;
+	}
+
+	@Override
+	public SharedPreferences getPrefs() {
+		return prefs;
+	}
+
+	@Override
+	public CineShowtimeDbAdapter getMDbHelper() {
+		return mDbHelper;
+	}
 
 }

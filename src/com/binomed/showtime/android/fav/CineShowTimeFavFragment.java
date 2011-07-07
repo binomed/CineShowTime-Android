@@ -22,6 +22,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.activity.ModelMainFragment;
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.adapter.view.TheaterFavMainListAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
@@ -33,6 +34,7 @@ import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
+import com.binomed.showtime.android.util.activity.IFragmentCineShowTimeInteraction;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class CineShowTimeFavFragment extends Fragment implements OnClickListener //
@@ -309,9 +311,7 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 	 * Interface of communication
 	 */
 
-	public interface FavFragmentInteraction {
-
-		GoogleAnalyticsTracker getTracker();
+	public interface FavFragmentInteraction extends IFragmentCineShowTimeInteraction<ModelMainFragment> {
 
 		void setLastRequestDate(Calendar today);
 

@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
@@ -20,7 +21,6 @@ import com.binomed.showtime.android.service.CineShowCleanFileService;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.android.util.activity.AbstractCineShowTimeActivity;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<ModelMainFragment> implements
 // OnClickListener, //
@@ -32,7 +32,7 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	private static final String TAG = "AndShowTimeMainActivity"; //$NON-NLS-1$
 	private static final String TRACKER_NAME = "/MainActivity"; //$NON-NLS-1$
 
-	// private static final int MENU_PREF = Menu.FIRST;
+	private static final int MENU_PREF = Menu.FIRST;
 
 	// private Context mainContext;
 	// private ModelMainFragment model;
@@ -205,7 +205,6 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	public void initDB() {
 
 		try {
-			openDB();
 
 			if (mDbHelper.isOpen()) {
 				// else we just look at previous request in order to check it's time
@@ -231,7 +230,7 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	 * @return
 	 */
 	public boolean showLastChange() {
-		openDB();
+		// openDB();
 		boolean result = false;
 		int versionCode = -1;
 		if (mDbHelper.isOpen()) {
@@ -294,11 +293,6 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	 */
 
 	@Override
-	public GoogleAnalyticsTracker getTracker() {
-		return tracker;
-	}
-
-	@Override
 	public void setLastRequestDate(Calendar today) {
 		model.setLastRequestDate(today);
 
@@ -353,20 +347,25 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	}
 
 	@Override
-	protected ModelMainFragment getModel() {
-		return new ModelMainFragment();
-	}
-
-	@Override
 	protected void doOnCancel() {
-		// TODO Auto-generated method stub
+		// nothing to do
 
 	}
 
 	@Override
 	protected void doChangeFromPref() {
-		// TODO Auto-generated method stub
+		// nothing to do
 
+	}
+
+	@Override
+	protected int getMenuKey() {
+		return MENU_PREF;
+	}
+
+	@Override
+	protected ModelMainFragment getModel() {
+		return new ModelMainFragment();
 	}
 
 }
