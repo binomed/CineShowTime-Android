@@ -35,6 +35,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 
 	private CineShowTimeResultsFragment fragmentResult;
 	private CineShowTimeMovieFragment fragmentMovie;
+	private CineShowTimeFrameFragment fragmentFrame;
 
 	// protected ExpandableListView resultList;
 	// protected ProgressDialog progressDialog;
@@ -870,7 +871,9 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	@Override
 	protected void initContentView() {
 		fragmentResult = (CineShowTimeResultsFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentResults);
-		fragmentMovie = (CineShowTimeMovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentInfo);
+		fragmentFrame = new CineShowTimeFrameFragment();
+		getSupportFragmentManager().beginTransaction().add(R.id.fragmentInfo, fragmentFrame).commit();
+		// fragmentMovie = (CineShowTimeMovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentInfo);
 	}
 
 	@Override

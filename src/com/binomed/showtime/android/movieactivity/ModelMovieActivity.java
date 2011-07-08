@@ -4,8 +4,9 @@ import android.location.Location;
 
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.TheaterBean;
+import com.binomed.showtime.android.util.activity.ICineShowTimeActivityHelperModel;
 
-public class ModelMovieActivity {
+public class ModelMovieActivity implements ICineShowTimeActivityHelperModel {
 
 	private int lastTab = 0;
 	private boolean translate = false;
@@ -57,10 +58,12 @@ public class ModelMovieActivity {
 		this.gpsLocation = gpsLocation;
 	}
 
+	@Override
 	public boolean isResetTheme() {
 		return resetTheme;
 	}
 
+	@Override
 	public void setResetTheme(boolean resetTheme) {
 		this.resetTheme = resetTheme;
 	}
@@ -87,6 +90,17 @@ public class ModelMovieActivity {
 
 	public void setCalendarInstalled(boolean calendarInstalled) {
 		this.calendarInstalled = calendarInstalled;
+	}
+
+	@Override
+	public void setNullResult(boolean nullResult) {
+		// nothing to do
+	}
+
+	@Override
+	public boolean isNullResult() {
+		// nothing to do
+		return false;
 	}
 
 }

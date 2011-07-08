@@ -3,11 +3,9 @@ package com.binomed.showtime.android.movieactivity;
 import java.net.URLDecoder;
 import java.util.List;
 
-import android.app.ProgressDialog;
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -63,11 +61,11 @@ import com.binomed.showtime.android.model.ProjectionBean;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
-import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
 import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.CineShowtimeRequestManage;
+import com.binomed.showtime.android.util.activity.IFragmentCineShowTimeInteraction;
 import com.binomed.showtime.android.util.images.ImageDownloader;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.api.translate.Language;
@@ -79,7 +77,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 		, OnTabChangeListener //
 		, OnTouchListener //
 		, OnClickListener //
-		, OnCancelListener //
+// , OnCancelListener //
 {
 
 	private static final String TAG = "MovieActivity"; //$NON-NLS-1$
@@ -118,19 +116,21 @@ public class CineShowTimeMovieFragment extends Fragment //
 	private Bitmap bitmapRateHalf;
 	private Bitmap bitmapRateOn;
 
-	private ProgressDialog progressDialog;
+	// private ProgressDialog progressDialog;
 	/**
 	 * The invoked service
 	 */
 	private ModelMovieActivity model;
 	protected GoogleAnalyticsTracker tracker;
 
+	private MovieFragmentInteraction interaction;
+
 	/*
 	 * attributes
 	 */
-	private long minTime;
+	// private long minTime;
 	private boolean distanceTime;
-	private boolean homePress;
+	// private boolean homePress;
 
 	private float oldTouchValue;
 	protected boolean desactivListener = false;
@@ -166,15 +166,16 @@ public class CineShowTimeMovieFragment extends Fragment //
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// super.onCreate(savedInstanceState);
-		tracker = GoogleAnalyticsTracker.getInstance();
-		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, getActivity());
-		tracker.trackPageView("/MovieActivity");
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		CineShowTimeLayoutUtils.onActivityCreateSetTheme(getActivity(), prefs);
+		// tracker = GoogleAnalyticsTracker.getInstance();
+		// tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, getActivity());
+		// tracker.trackPageView("/MovieActivity");
+		// SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		// CineShowTimeLayoutUtils.onActivityCreateSetTheme(getActivity(), prefs);
 		// setContentView(R.layout.activity_movie);
 		mainView = inflater.inflate(R.layout.fragment_movie, container, false);
 
-		model = new ModelMovieActivity();
+		model = interaction.getModelActivity();
+		tracker = interaction.getTracker();
 		// Init star img
 		bitmapRateOff = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_off);
 		bitmapRateHalf = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_half);
@@ -202,10 +203,16 @@ public class CineShowTimeMovieFragment extends Fragment //
 	// }
 
 	@Override
+	public void onAttach(Activity activity) {
+		interaction = (MovieFragmentInteraction) activity;
+		super.onAttach(activity);
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 
-		homePress = false;
+		// homePress = false;
 
 		String movieId = null;
 		String theaterId = null;
@@ -251,7 +258,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 			fillBasicInformations(movie);
 
 			if (isServiceRunning()) {
-				openDialog();
+				interaction.openDialog();
+				// openDialog();
 			}
 
 			if (movie.getImdbId() == null) {
@@ -457,22 +465,22 @@ public class CineShowTimeMovieFragment extends Fragment //
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onDestroy()
-	 */
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if ((progressDialog != null) && progressDialog.isShowing()) {
-			progressDialog.dismiss();
-		}
-		unbindService();
-		tracker.dispatch();
-		tracker.stop();
-		// controler.closeDB();
-	}
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see android.app.Activity#onDestroy()
+	// */
+	// @Override
+	// public void onDestroy() {
+	// super.onDestroy();
+	// if ((progressDialog != null) && progressDialog.isShowing()) {
+	// progressDialog.dismiss();
+	// }
+	// unbindService();
+	// tracker.dispatch();
+	// tracker.stop();
+	// // controler.closeDB();
+	// }
 
 	/**
 	 * The call back message handler
@@ -481,10 +489,10 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 		@Override
 		public void handleInputRecived(String idMovie) {
-
-			if (progressDialog != null) {
-				progressDialog.dismiss();
-			}
+			interaction.closeDialog();
+			// if (progressDialog != null) {
+			// progressDialog.dismiss();
+			// }
 
 			fillDB();
 
@@ -511,13 +519,14 @@ public class CineShowTimeMovieFragment extends Fragment //
 		}
 	};
 
-	public void openDialog() {
-		progressDialog = ProgressDialog.show(getActivity(),
-		//
-				getResources().getString(R.string.movieProgressTitle)//
-				, getResources().getString(R.string.movieProgressMsg) //
-				, true, true, this);
-	}
+	// public void openDialog() {
+	//
+	// progressDialog = ProgressDialog.show(getActivity(),
+	// //
+	// getResources().getString(R.string.movieProgressTitle)//
+	// , getResources().getString(R.string.movieProgressMsg) //
+	// , true, true, this);
+	// }
 
 	/**
 	 * @param movie
@@ -1026,8 +1035,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 	}
 
-	@Override
-	public void onCancel(DialogInterface arg0) {
+	public void onCancel() {
 		try {
 			serviceMovie.cancelService();
 		} catch (RemoteException e) {
@@ -1149,7 +1157,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 		// bindService();
 
-		openDialog();
+		// openDialog();
+		interaction.openDialog();
 
 		boolean checkboxPreference;
 		// Get the xml/preferences.xml preferences
@@ -1194,6 +1203,22 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 	public void openImdbBrowser() {
 		startActivity(IntentShowtime.createImdbBrowserIntent(model.getMovie()));
+	}
+
+	/*
+	 * Interactions
+	 */
+
+	public void changePreferences() {
+		projectionAdapter.changePreferences();
+	}
+
+	public interface MovieFragmentInteraction extends IFragmentCineShowTimeInteraction<ModelMovieActivity> {
+
+		void openDialog();
+
+		void closeDialog();
+
 	}
 
 }

@@ -47,13 +47,13 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		Log.i(TAG, "onCreate"); //$NON-NLS-1$
 
 		// We call the contentView
-		setContentView(getLayout());
+		openDB();
 		model = getModel();
+		setContentView(getLayout());
 		initContentView();
 
 		initResults();
 
-		openDB();
 	}
 
 	/*
