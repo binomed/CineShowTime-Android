@@ -435,32 +435,61 @@ public class CineShowTimeMovieFragment extends Fragment //
 			tabWidget = (TabWidget) mainView.findViewById(android.R.id.tabs);
 			// tabHost = getTabHost();
 			// tabWidget = getTabWidget();
-			// tabHost.setup();
+			tabHost.setup();
 
 			Intent intentEmptyActivity = new Intent(getActivity(), EmptyActivity.class);
 
 			TabHost.TabSpec tabSummary = tabHost.newTabSpec("Summary");
 			// tabSummary.setContent(R.id.movieTab_summary);
-			tabSummary.setContent(intentEmptyActivity);
+			// tabSummary.setContent(intentEmptyActivity);
+			tabSummary.setContent(new TabHost.TabContentFactory() {
+
+				@Override
+				public View createTabContent(String arg0) {
+					TextView view = new TextView(getActivity());
+					view.setText("Un texte");
+					return view;
+				}
+			});
 			// tabSummary.setIndicator(new TabInfoView(this, getResources().getString(R.string.movieLabel).toUpperCase(), getResources().getDrawable(R.drawable.tab_info)));
 			tabSummary.setIndicator(getResources().getString(R.string.movieLabel).toUpperCase(), getResources().getDrawable(R.drawable.tab_info));
 
 			TabHost.TabSpec tabProjection = tabHost.newTabSpec("Projection");
 			// tabProjection.setContent(R.id.movieTab_projections);
-			tabProjection.setContent(intentEmptyActivity);
+			// tabProjection.setContent(intentEmptyActivity);
+			// tabProjection.setContent(intentEmptyActivity);
+			tabProjection.setContent(new TabHost.TabContentFactory() {
+
+				@Override
+				public View createTabContent(String arg0) {
+					TextView view = new TextView(getActivity());
+					view.setText("Un texte");
+					return view;
+				}
+			});
 			// tabSummary.setIndicator(new TabInfoView(this, getResources().getString(R.string.showtimeLabel).toUpperCase(), getResources().getDrawable(R.drawable.tab_showtimes)));
 			tabProjection.setIndicator(getResources().getString(R.string.showtimeLabel).toUpperCase(), getResources().getDrawable(R.drawable.tab_showtimes));
 
 			TabHost.TabSpec tabReviews = tabHost.newTabSpec("Review");
 			// tabReviews.setContent(R.id.movieTab_reviews);
-			tabReviews.setContent(intentEmptyActivity);
+			// tabReviews.setContent(intentEmptyActivity);
+			// tabReviews.setContent(intentEmptyActivity);
+			tabReviews.setContent(new TabHost.TabContentFactory() {
+
+				@Override
+				public View createTabContent(String arg0) {
+					TextView view = new TextView(getActivity());
+					view.setText("Un texte");
+					return view;
+				}
+			});
 			// tabSummary.setIndicator(new TabInfoView(this, getResources().getString(R.string.rateLabel).toUpperCase(), getResources().getDrawable(R.drawable.tab_review)));
 			tabReviews.setIndicator(getResources().getString(R.string.rateLabel).toUpperCase(), getResources().getDrawable(R.drawable.tab_review));
 
 			tabHost.addTab(tabSummary);
 			tabHost.addTab(tabProjection);
 			tabHost.addTab(tabReviews);
-			tabHost.setCurrentTab(model.getLastTab());
+			// tabHost.setCurrentTab(model.getLastTab());
 		} catch (Exception e1) {
 			Log.e(TAG, "error while init Movie acitivty", e1); //$NON-NLS-1$
 		}

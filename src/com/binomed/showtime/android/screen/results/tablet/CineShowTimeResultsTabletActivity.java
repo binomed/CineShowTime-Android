@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.TheaterBean;
@@ -39,6 +38,8 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	private CineShowTimeResultsFragment fragmentResult;
 	private CineShowTimeMovieFragment fragmentMovie;
 	private CineShowTimeFrameFragment fragmentFrame;
+
+	private Intent intentStartMovieActivity;
 
 	// protected ExpandableListView resultList;
 	// protected ProgressDialog progressDialog;
@@ -498,50 +499,50 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	// finish();
 	// }
 
-	/*
-	 * 
-	 * ACTIVITIES
-	 */
-
-	public void openMovieActivity(MovieBean movie, TheaterBean theater) {
-		if (movie != null) {
-			Intent intentStartMovieActivity = new Intent(this, CineShowTimeMovieActivity.class);
-
-			intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movie.getId());
-			intentStartMovieActivity.putExtra(ParamIntent.MOVIE, movie);
-			intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theater.getId());
-			intentStartMovieActivity.putExtra(ParamIntent.THEATER, theater);
-			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (model.getLocalisation() != null) ? model.getLocalisation().getLatitude() : null);
-			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (model.getLocalisation() != null) ? model.getLocalisation().getLongitude() : null);
-			StringBuilder place = new StringBuilder();
-			if (theater != null) {
-				if (theater.getPlace() != null) {
-					if ((theater.getPlace().getCityName() != null //
-							)
-							&& (theater.getPlace().getCityName().length() > 0)) {
-						place.append(theater.getPlace().getCityName());
-					}
-					if ((theater.getPlace().getPostalCityNumber() != null //
-							)
-							&& (theater.getPlace().getPostalCityNumber().length() > 0)) {
-						place.append(" ").append(theater.getPlace().getPostalCityNumber());
-					}
-					if ((theater.getPlace().getCountryNameCode() != null //
-							)
-							&& (theater.getPlace().getCountryNameCode().length() > 0 //
-							) && (place.length() > 0)) {
-						place.append(", ").append(theater.getPlace().getCountryNameCode()); //$NON-NLS-1$
-					}
-					if (place.length() == 0) {
-						place.append(theater.getPlace().getSearchQuery());
-					}
-
-				}
-			}
-			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, place.toString());
-			startActivityForResult(intentStartMovieActivity, CineShowtimeCst.ACTIVITY_RESULT_MOVIE_ACTIVITY);
-		}
-	}
+	// /*
+	// *
+	// * ACTIVITIES
+	// */
+	//
+	// public void openMovieActivity(MovieBean movie, TheaterBean theater) {
+	// if (movie != null) {
+	// Intent intentStartMovieActivity = new Intent(this, CineShowTimeMovieActivity.class);
+	//
+	// intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movie.getId());
+	// intentStartMovieActivity.putExtra(ParamIntent.MOVIE, movie);
+	// intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theater.getId());
+	// intentStartMovieActivity.putExtra(ParamIntent.THEATER, theater);
+	// intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (model.getLocalisation() != null) ? model.getLocalisation().getLatitude() : null);
+	// intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (model.getLocalisation() != null) ? model.getLocalisation().getLongitude() : null);
+	// StringBuilder place = new StringBuilder();
+	// if (theater != null) {
+	// if (theater.getPlace() != null) {
+	// if ((theater.getPlace().getCityName() != null //
+	// )
+	// && (theater.getPlace().getCityName().length() > 0)) {
+	// place.append(theater.getPlace().getCityName());
+	// }
+	// if ((theater.getPlace().getPostalCityNumber() != null //
+	// )
+	// && (theater.getPlace().getPostalCityNumber().length() > 0)) {
+	// place.append(" ").append(theater.getPlace().getPostalCityNumber());
+	// }
+	// if ((theater.getPlace().getCountryNameCode() != null //
+	// )
+	// && (theater.getPlace().getCountryNameCode().length() > 0 //
+	// ) && (place.length() > 0)) {
+	//						place.append(", ").append(theater.getPlace().getCountryNameCode()); //$NON-NLS-1$
+	// }
+	// if (place.length() == 0) {
+	// place.append(theater.getPlace().getSearchQuery());
+	// }
+	//
+	// }
+	// }
+	// intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, place.toString());
+	// startActivityForResult(intentStartMovieActivity, CineShowtimeCst.ACTIVITY_RESULT_MOVIE_ACTIVITY);
+	// }
+	// }
 
 	// public void launchSearchService() throws UnsupportedEncodingException {
 	//
@@ -906,8 +907,45 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 
 	@Override
 	public void openMovieScreen(MovieBean movie, TheaterBean theater) {
-		fragmentMovie = new CineShowTimeMovieFragment();
-		getSupportFragmentManager().beginTransaction().replace(R.id.fragmentInfo, fragmentMovie).commit();
+		if (movie != null) {
+			intentStartMovieActivity = new Intent(this, CineShowTimeMovieActivity.class);
+
+			intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movie.getId());
+			intentStartMovieActivity.putExtra(ParamIntent.MOVIE, movie);
+			intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theater.getId());
+			intentStartMovieActivity.putExtra(ParamIntent.THEATER, theater);
+			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (model.getLocalisation() != null) ? model.getLocalisation().getLatitude() : null);
+			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (model.getLocalisation() != null) ? model.getLocalisation().getLongitude() : null);
+			StringBuilder place = new StringBuilder();
+			if (theater != null) {
+				if (theater.getPlace() != null) {
+					if ((theater.getPlace().getCityName() != null //
+							)
+							&& (theater.getPlace().getCityName().length() > 0)) {
+						place.append(theater.getPlace().getCityName());
+					}
+					if ((theater.getPlace().getPostalCityNumber() != null //
+							)
+							&& (theater.getPlace().getPostalCityNumber().length() > 0)) {
+						place.append(" ").append(theater.getPlace().getPostalCityNumber());
+					}
+					if ((theater.getPlace().getCountryNameCode() != null //
+							)
+							&& (theater.getPlace().getCountryNameCode().length() > 0 //
+							) && (place.length() > 0)) {
+						place.append(", ").append(theater.getPlace().getCountryNameCode()); //$NON-NLS-1$
+					}
+					if (place.length() == 0) {
+						place.append(theater.getPlace().getSearchQuery());
+					}
+
+				}
+			}
+			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, place.toString());
+			// startActivityForResult(intentStartMovieActivity, CineShowtimeCst.ACTIVITY_RESULT_MOVIE_ACTIVITY);
+			fragmentMovie = new CineShowTimeMovieFragment();
+			getSupportFragmentManager().beginTransaction().replace(R.id.fragmentInfo, fragmentMovie).commit();
+		}
 
 	}
 
@@ -917,8 +955,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 
 	@Override
 	public Intent getIntentMovie() {
-		// TODO Auto-generated method stub
-		return null;
+		return intentStartMovieActivity;
 	}
 
 }
