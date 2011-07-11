@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.binomed.showtime.android.layout.view.OptionProjectionView;
-import com.binomed.showtime.android.objects.OptionEnum;
+import com.binomed.showtime.android.model.OptionEnum;
 
 public class ProjectionOptionListAdapter extends BaseAdapter {
 

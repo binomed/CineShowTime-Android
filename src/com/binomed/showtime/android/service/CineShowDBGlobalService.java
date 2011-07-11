@@ -19,6 +19,7 @@ import android.util.Log;
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
+import com.binomed.showtime.android.model.DBActionObject;
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.MovieResp;
 import com.binomed.showtime.android.model.NearResp;
@@ -26,7 +27,6 @@ import com.binomed.showtime.android.model.ProjectionBean;
 import com.binomed.showtime.android.model.ReviewBean;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.model.YoutubeBean;
-import com.binomed.showtime.android.objects.DBActionObject;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 
 public class CineShowDBGlobalService extends Service {

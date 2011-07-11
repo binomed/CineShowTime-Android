@@ -15,4 +15,8 @@ public interface IFragmentCineShowTimeInteraction<M extends ICineShowTimeActivit
 
 	CineShowtimeDbAdapter getMDbHelper();
 
+	void closeDialog();
+
+	void openDialog();
+
 }

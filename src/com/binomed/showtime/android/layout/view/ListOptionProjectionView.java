@@ -12,8 +12,8 @@ import android.widget.ListView;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.view.ProjectionOptionListAdapter;
+import com.binomed.showtime.android.model.OptionEnum;
 import com.binomed.showtime.android.model.ProjectionBean;
-import com.binomed.showtime.android.objects.OptionEnum;
 
 public class ListOptionProjectionView extends LinearLayout {
 

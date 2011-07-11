@@ -20,9 +20,9 @@ import android.widget.Toast;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.OptionEnum;
 import com.binomed.showtime.android.model.ProjectionBean;
 import com.binomed.showtime.android.model.TheaterBean;
-import com.binomed.showtime.android.objects.OptionEnum;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 
 public class ListPopupWindow extends AbstractCustomPopupWindow {

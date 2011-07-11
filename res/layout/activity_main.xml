@@ -40,7 +40,7 @@
 			>
 			<fragment 
 					android:id="@+id/FragmentSearch" 
-					android:name="com.binomed.showtime.android.searchactivity.CineShowTimeSearchFragment" 
+					android:name="com.binomed.showtime.android.screen.search.CineShowTimeSearchFragment" 
 					android:layout_height="wrap_content"				
 					android:layout_width="fill_parent"
 					>
@@ -48,7 +48,7 @@
 			</fragment>
 			<fragment 
 					android:id="@+id/FragmentFav" 
-					android:name="com.binomed.showtime.android.fav.CineShowTimeFavFragment" 
+					android:name="com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment" 
 					android:layout_height="200dip" 
 					android:layout_width="fill_parent"
 					>

@@ -3,7 +3,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-    <fragment class="com.binomed.showtime.android.searchactivity.CineShowTimeSearchFragment"
+    <fragment class="com.binomed.showtime.android.screen.search.CineShowTimeSearchFragment"
             android:id="@+id/fragmentSearch" 
             android:layout_width="0dp"
             android:layout_height="fill_parent" 
@@ -11,7 +11,7 @@
             >
         <!-- Preview: layout=@layout/fragment_search -->
     </fragment>
-    <fragment class="com.binomed.showtime.android.fav.CineShowTimeFavFragment"
+    <fragment class="com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment"
             android:id="@+id/fragmentB" 
             android:layout_width="0dp"
             android:layout_height="fill_parent" 

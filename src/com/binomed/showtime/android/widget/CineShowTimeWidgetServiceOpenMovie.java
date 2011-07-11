@@ -11,7 +11,7 @@ import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.TheaterBean;
-import com.binomed.showtime.android.movieactivity.CineShowTimeMovieActivity;
+import com.binomed.showtime.android.screen.movie.CineShowTimeMovieActivity;
 
 public class CineShowTimeWidgetServiceOpenMovie extends Service {
 

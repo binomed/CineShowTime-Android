@@ -44,7 +44,7 @@ import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.model.ProjectionBean;
 import com.binomed.showtime.android.model.TheaterBean;
-import com.binomed.showtime.android.resultsactivity.CineShowTimeResultsActivity;
+import com.binomed.showtime.android.screen.results.CineShowTimeResultsActivity;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;

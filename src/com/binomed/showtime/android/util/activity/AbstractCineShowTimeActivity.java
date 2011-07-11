@@ -132,26 +132,6 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	}
 
 	/*
-	 * Dialogs methods
-	 */
-
-	protected void openDialog(int dialogTitle, int dialogMessage) {
-		progressDialog = ProgressDialog.show(this, //
-				getResources().getString(dialogTitle)//
-				, getResources().getString(dialogMessage) //
-				, true // indeterminate
-				, true // cancelable
-				, this // cancelListener
-				);
-	}
-
-	protected void dismissDialog() {
-		if (progressDialog != null) {
-			progressDialog.dismiss();
-		}
-	}
-
-	/*
 	 * DB Methods
 	 */
 
@@ -197,24 +177,54 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 
 	protected abstract void doChangeFromPref();
 
+	protected abstract int getDialogTitle();
+
+	protected abstract int getDialogMsg();
+
+	/*
+	 * Default implementation of IFragmentCineShowTimeInteraction
+	 */
+
 	@Override
-	public M getModelActivity() {
+	public final M getModelActivity() {
 		return model;
 	}
 
 	@Override
-	public GoogleAnalyticsTracker getTracker() {
+	public final GoogleAnalyticsTracker getTracker() {
 		return tracker;
 	}
 
 	@Override
-	public SharedPreferences getPrefs() {
+	public final SharedPreferences getPrefs() {
 		return prefs;
 	}
 
 	@Override
-	public CineShowtimeDbAdapter getMDbHelper() {
+	public final CineShowtimeDbAdapter getMDbHelper() {
 		return mDbHelper;
+	}
+
+	/*
+	 * Dialogs methods
+	 */
+
+	@Override
+	public final void closeDialog() {
+		if (progressDialog != null) {
+			progressDialog.dismiss();
+		}
+	}
+
+	@Override
+	public final void openDialog() {
+		progressDialog = ProgressDialog.show(this, //
+				getResources().getString(getDialogTitle())//
+				, getResources().getString(getDialogMsg()) //
+				, true // indeterminate
+				, true // cancelable
+				, this // cancelListener
+				);
 	}
 
 }

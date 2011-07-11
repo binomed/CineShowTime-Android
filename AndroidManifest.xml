@@ -11,22 +11,22 @@ version="1.0" encoding="utf-8"?>
           android:smallScreens="true"
           android:anyDensity="true" />
     <application android:label="@string/app_name" android:icon="@drawable/icon" android:debuggable="false">
-        <activity android:label="@string/app_name" android:name=".android.activity.SplashScreen" android:icon="@drawable/icon">
+        <activity android:label="@string/app_name" android:name=".android.screen.main.SplashScreen" android:icon="@drawable/icon">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".android.activity.CineShowTimeMainActivity"></activity>
-    	<activity android:name=".android.searchactivity.CineShowTimeSearchActivity"></activity>
-    	<activity android:name=".android.resultsactivity.CineShowTimeResultsActivity"></activity>
-    	<activity android:name=".android.resultsactivity.CineShowTimeResultsTabletActivity"></activity>
-		<service android:name=".android.resultsactivity.CineShowTimeResultsService"></service>
+        <activity android:name=".android.screen.main.CineShowTimeMainActivity"></activity>
+    	<activity android:name=".android.screen.search.CineShowTimeSearchActivity"></activity>
+    	<activity android:name=".android.screen.results.CineShowTimeResultsActivity"></activity>
+    	<activity android:name=".android.screen.results.tablet.CineShowTimeResultsTabletActivity"></activity>
+		<service android:name=".android.screen.results.CineShowTimeResultsService"></service>
 		<!--<activity android:name=".android.movieactivity.CineShowTimeMovieActivity" android:launchMode="singleInstance"></activity>-->
-		<activity android:name=".android.movieactivity.CineShowTimeMovieActivity" ></activity>
-		<activity android:name=".android.movieactivity.EmptyActivity"></activity>
-		<service android:name=".android.movieactivity.CineShowTimeMovieService"></service>
-		<activity android:name=".android.activity.CineShowTimePreferencesActivity"></activity>
+		<activity android:name=".android.screen.movie.CineShowTimeMovieActivity" ></activity>
+		<activity android:name=".android.screen.moviea.EmptyActivity"></activity>
+		<service android:name=".android.screen.movie.CineShowTimeMovieService"></service>
+		<activity android:name=".android.screen.pref.CineShowTimePreferencesActivity"></activity>
 		<service android:name=".android.service.CineShowCleanFileService"></service>
 		<service android:name=".android.service.CineShowDBGlobalService"></service>
 		

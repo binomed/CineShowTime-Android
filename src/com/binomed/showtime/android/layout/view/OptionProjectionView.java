@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.objects.OptionEnum;
+import com.binomed.showtime.android.model.OptionEnum;
 
 public class OptionProjectionView extends LinearLayout {
 

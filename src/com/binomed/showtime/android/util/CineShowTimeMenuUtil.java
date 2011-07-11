@@ -12,11 +12,11 @@ import android.text.Html;
 import android.view.Menu;
 
 import com.binomed.showtime.R;
-import com.binomed.showtime.android.activity.CineShowTimePreferencesActivity;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.layout.view.AboutView;
+import com.binomed.showtime.android.screen.pref.CineShowTimePreferencesActivity;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public final class CineShowTimeMenuUtil {
