@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
@@ -905,6 +906,18 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		}
 		Intent intentResultService = new Intent(getActivity(), CineShowTimeResultsService.class);
 		getActivity().stopService(intentResultService);
+	}
+
+	public void changeAdapter(boolean full) {
+		// TODO
+	}
+
+	public void requestFocus() {
+		resultList.requestFocus();
+	}
+
+	public void setOnFocusListener(OnFocusChangeListener onFocusChangeListener) {
+		resultList.setOnFocusChangeListener(onFocusChangeListener);
 	}
 
 }

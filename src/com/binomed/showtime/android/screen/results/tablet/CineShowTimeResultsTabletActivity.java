@@ -1,9 +1,17 @@
 package com.binomed.showtime.android.screen.results.tablet;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.TranslateAnimation;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.ParamIntent;
@@ -40,6 +48,20 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	private CineShowTimeFrameFragment fragmentFrame;
 
 	private Intent intentStartMovieActivity;
+
+	// Var for portrait mode
+	private boolean portraitMode;
+	private ImageButton btnExpand;
+	private FrameLayout frameLayout = null;
+	private LinearLayout infoLayout = null;
+	private final Handler mHandler = new Handler();
+
+	private int dist = 200;
+	private int delay = 500;
+	private int widthLeftFull, widthLeftLight;
+	private FrameLayout.LayoutParams paramsLeft, paramsRight;
+
+	private boolean hideRight;
 
 	// protected ExpandableListView resultList;
 	// protected ProgressDialog progressDialog;
@@ -842,6 +864,51 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	//
 	// };
 
+	private void extendList() {
+
+		if (hideRight) {
+			// We move the info to the right
+			TranslateAnimation animation = new TranslateAnimation(infoLayout.getLeft(), infoLayout.getLeft() + dist, 0, 0);
+			animation = new TranslateAnimation(0, dist, 0, 0);
+			animation.setStartOffset(0);// layoutRight.getLeft());
+			animation.setDuration(delay);
+			animation.setFillAfter(true);
+			infoLayout.startAnimation(animation);
+
+			fragmentResult.changeAdapter(true);
+
+			paramsLeft.width = widthLeftFull;
+			fragmentResult.getView().setLayoutParams(paramsLeft);
+
+			mHandler.postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					btnExpand.setImageResource(R.drawable.ic_btn_find_prev);
+				}
+			}, delay + 200);
+		} else {
+			// We move the info to initial position
+			TranslateAnimation animation = new TranslateAnimation(infoLayout.getLeft() + dist, infoLayout.getLeft(), 0, 0);
+			animation = new TranslateAnimation(dist, 0, 0, 0);
+			animation.setStartOffset(0);// layoutRight.getLeft());
+			animation.setDuration(500);
+			animation.setFillAfter(true);
+			infoLayout.startAnimation(animation);
+
+			mHandler.postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					btnExpand.setImageResource(R.drawable.ic_btn_find_next);
+					paramsLeft.width = widthLeftLight;
+					fragmentResult.getView().setLayoutParams(paramsLeft);
+					fragmentResult.changeAdapter(false);
+				}
+			}, delay + 200);
+		}
+	}
+
 	/*
 	 * OverRide methods
 	 */
@@ -872,6 +939,65 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 		fragmentFrame = new CineShowTimeFrameFragment();
 		getSupportFragmentManager().beginTransaction().add(R.id.fragmentInfo, fragmentFrame).commit();
 		// fragmentMovie = (CineShowTimeMovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentInfo);
+
+		// We check if we're in portrait mode in order to manage specific expand
+		Configuration conf = getResources().getConfiguration();
+		portraitMode = conf.orientation == Configuration.ORIENTATION_PORTRAIT;
+		if (portraitMode) {
+			hideRight = false;
+			btnExpand = (ImageButton) findViewById(R.id.btnExpand);
+			frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
+			infoLayout = (LinearLayout) findViewById(R.id.fragmentInfo);
+			frameLayout.setVisibility(View.INVISIBLE);
+
+			mHandler.postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					paramsLeft = (android.widget.FrameLayout.LayoutParams) fragmentResult.getView().getLayoutParams();
+					paramsRight = (android.widget.FrameLayout.LayoutParams) infoLayout.getLayoutParams();
+
+					int totalWidth = frameLayout.getWidth();
+					widthLeftFull = Double.valueOf(totalWidth * 0.50).intValue();
+					widthLeftLight = Double.valueOf(totalWidth * 0.30).intValue();
+					dist = widthLeftFull - widthLeftLight;
+					int widthRight = Double.valueOf(totalWidth * 0.70).intValue();
+
+					paramsLeft.width = widthLeftLight;
+					paramsRight.width = widthRight;
+					paramsRight.gravity = Gravity.RIGHT;
+
+					fragmentResult.getView().setLayoutParams(paramsLeft);
+					infoLayout.setLayoutParams(paramsRight);
+					frameLayout.setVisibility(View.VISIBLE);
+				}
+			}, delay);
+
+			btnExpand.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					hideRight = !hideRight;
+					extendList();
+					fragmentResult.requestFocus();
+
+				}
+			});
+
+			fragmentResult.setOnFocusListener(new View.OnFocusChangeListener() {
+
+				@Override
+				public void onFocusChange(View v, boolean focus) {
+					if (!focus && hideRight) {
+						hideRight = false;
+						extendList();
+					} else if (focus && !hideRight) {
+						hideRight = true;
+						extendList();
+					}
+				}
+			});
+		}
 	}
 
 	@Override

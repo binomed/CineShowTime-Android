@@ -2,21 +2,39 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
-
-    <fragment class="com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment"
-            android:id="@+id/fragmentResults" 
-            android:layout_width="0dp"
-            android:layout_height="fill_parent" 
-            android:layout_weight="35"
-            >
-        <!-- Preview: layout=@layout/fragment_results -->
-    </fragment>
-	<LinearLayout 
+        
+    <ImageButton 
+	    android:id="@+id/btnExpand"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:src="@drawable/ic_btn_find_next"
+    />
+	<!-- <LinearLayout
+    	android:orientation="horizontal"	
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:weightSum="1.0"
+	    >-->
+	<FrameLayout
+	    android:id="@+id/frameLayout" 
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    >
+       <fragment class="com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment"
+	            android:id="@+id/fragmentResults" 
+	            android:layout_width="70dip"
+	            android:layout_height="fill_parent"
+	            android:layout_alignParentLeft="true"
+	            >
+          <!-- Preview: layout=@layout/fragment_results -->
+      </fragment>
+      <LinearLayout 
 	        android:orientation="vertical"
             android:id="@+id/fragmentInfo" 
-            android:layout_width="0dp"
-            android:layout_height="fill_parent" 
-            android:layout_weight="75"/>
-
-    
+	            android:layout_width="150dip"
+	            android:layout_height="fill_parent" 
+	            android:layout_marginLeft="70dip"
+	            />          
+   <!-- </LinearLayout>-->
+   </FrameLayout>
 </LinearLayout>
