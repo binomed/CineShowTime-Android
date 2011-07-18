@@ -1,5 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
         
@@ -7,7 +7,7 @@
 	    android:id="@+id/btnExpand"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:src="@drawable/ic_btn_find_next"
+	    android:background="@drawable/ic_btn_find_next"
     />
 	<!-- <LinearLayout
     	android:orientation="horizontal"	

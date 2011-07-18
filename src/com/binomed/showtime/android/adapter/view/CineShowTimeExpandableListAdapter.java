@@ -44,6 +44,7 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 	private boolean movieView;
 	private boolean blackTheme;
 	private boolean format24;
+	private boolean lightFormat;
 	private HashMap<String, List<Entry<String, List<ProjectionBean>>>> projectionsThMap;
 	// private HashMap<String, List<Entry<String, List<ProjectionBean>>>> projectionsMovMap;
 	private OnClickListener onClickListener;
@@ -55,7 +56,11 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 		mainContext = context;
 		this.onClickListener = listener;
 		changePreferences();
+		lightFormat = false;
+	}
 
+	public void setLightFormat(boolean lightFormat) {
+		this.lightFormat = lightFormat;
 	}
 
 	public void changePreferences() {
@@ -169,14 +174,14 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 					for (TheaterBean theater : tempTheaterList) {
 						entries = projectionsThMap.get(theater.getId());
 
-						if (entries == null && theater.getMovieMap() != null) {
+						if ((entries == null) && (theater.getMovieMap() != null)) {
 
 							entries = new ArrayList<Entry<String, List<ProjectionBean>>>(theater.getMovieMap().entrySet());
 							Collections.sort(entries, CineShowtimeFactory.getTheaterShowtimeInnerListComparator());
 							projectionsThMap.put(theater.getId(), entries);
 
 							for (Entry<String, List<ProjectionBean>> entryMovieIdListProjection : theater.getMovieMap().entrySet()) {
-								if (distanceTime && theater != null && theater.getPlace() != null) {
+								if (distanceTime && (theater != null) && (theater.getPlace() != null)) {
 									distanceTimeLong = theater.getPlace().getDistanceTime();
 								}
 								CineShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, true, true);
@@ -294,6 +299,7 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 				, movieView //
 				, blackTheme//
 				, format24//
+				, lightFormat //
 		);
 		return subView;
 	}
@@ -340,14 +346,14 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 
 		if (!movieView) {
 			TheaterBean theater = (TheaterBean) getGroup(groupPosition);
-			if (nearRespBean != null && nearRespBean.isHasMoreResults() && theater == null) {
-				objectMasterView.setTheater(null, false);
-			} else if (theater != null && theater.getTheaterName() != null) {
-				objectMasterView.setTheater(theater, theatherFavList != null && theatherFavList.containsKey(theater.getId()));
+			if ((nearRespBean != null) && nearRespBean.isHasMoreResults() && (theater == null)) {
+				objectMasterView.setTheater(null, false, lightFormat);
+			} else if ((theater != null) && (theater.getTheaterName() != null)) {
+				objectMasterView.setTheater(theater, (theatherFavList != null) && theatherFavList.containsKey(theater.getId()), lightFormat);
 			}
 		} else {
 			MovieBean movie = (MovieBean) getGroup(groupPosition);
-			objectMasterView.setMovie(movie, false);
+			objectMasterView.setMovie(movie, false, lightFormat);
 		}
 		return objectMasterView;
 	}

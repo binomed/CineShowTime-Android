@@ -162,4 +162,19 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 
 	}
 
+	@Override
+	public void onGroupClick() {
+		// nothing to do
+	}
+
+	@Override
+	public void onChildClick() {
+		// nothing to do
+	}
+
+	@Override
+	public void onFocusListener(boolean focus) {
+		// nothing to do
+	}
+
 }

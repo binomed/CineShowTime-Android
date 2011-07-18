@@ -62,6 +62,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		, OnGroupClickListener //
 		, OnGroupExpandListener //
 		, OnGroupCollapseListener //
+		, OnFocusChangeListener //
 		, ListSelectionListener //
 		, OnClickListener//
 		, OnCancelListener //
@@ -174,6 +175,8 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		resultList.setOnGroupClickListener(this);
 		resultList.setOnGroupExpandListener(this);
 		resultList.setOnGroupCollapseListener(this);
+		resultList.setOnFocusChangeListener(this);
+
 	}
 
 	private void initMenus() {
@@ -420,6 +423,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		interaction.getTracker().dispatch();
 		// openMovieActivity(movie, theater);
 		interaction.openMovieScreen(movie, theater);
+		interaction.onChildClick();
 		return false;
 	}
 
@@ -444,6 +448,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 					}
 				}
 			}
+			interaction.onGroupClick();
 			break;
 		}
 
@@ -451,6 +456,11 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 			break;
 		}
 		return false;
+	}
+
+	@Override
+	public void onFocusChange(View arg0, boolean arg1) {
+		interaction.onFocusListener(arg1);
 	}
 
 	@Override
@@ -874,6 +884,12 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 		void openMovieScreen(MovieBean movie, TheaterBean theater);
 
+		void onGroupClick();
+
+		void onChildClick();
+
+		void onFocusListener(boolean focus);
+
 	}
 
 	/*
@@ -909,15 +925,28 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	}
 
 	public void changeAdapter(boolean full) {
-		// TODO
+		adapter.setLightFormat(!full);
+		adapter.notifyDataSetChanged();
+		// resultList.setAdapter(adapter);
+		// int groupSelect = resultList.getSelectedItemPosition();
+		// for (int i : model.getGroupExpanded()) {
+		// resultList.expandGroup(i);
+		// }
+		// if (groupSelect != -1) {
+		// resultList.setSelectedGroup(groupSelect);
+		// }
 	}
 
 	public void requestFocus() {
 		resultList.requestFocus();
 	}
 
-	public void setOnFocusListener(OnFocusChangeListener onFocusChangeListener) {
-		resultList.setOnFocusChangeListener(onFocusChangeListener);
-	}
+	// public void setOnFocusListener(OnFocusChangeListener onFocusChangeListener) {
+	// resultList.setOnFocusChangeListener(onFocusChangeListener);
+	// }
+	//
+	// public void setOnGroupClickListener(OnGroupClickListener onGroupClickListener) {
+	// resultList.setOnGroupClickListener(onGroupClickListener);
+	// }
 
 }

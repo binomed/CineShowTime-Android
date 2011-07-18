@@ -884,7 +884,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 
 				@Override
 				public void run() {
-					btnExpand.setImageResource(R.drawable.ic_btn_find_prev);
+					btnExpand.setBackgroundResource(R.drawable.ic_btn_find_prev);
 				}
 			}, delay + 200);
 		} else {
@@ -900,7 +900,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 
 				@Override
 				public void run() {
-					btnExpand.setImageResource(R.drawable.ic_btn_find_next);
+					btnExpand.setBackgroundResource(R.drawable.ic_btn_find_next);
 					paramsLeft.width = widthLeftLight;
 					fragmentResult.getView().setLayoutParams(paramsLeft);
 					fragmentResult.changeAdapter(false);
@@ -959,9 +959,9 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 
 					int totalWidth = frameLayout.getWidth();
 					widthLeftFull = Double.valueOf(totalWidth * 0.50).intValue();
-					widthLeftLight = Double.valueOf(totalWidth * 0.30).intValue();
+					widthLeftLight = Double.valueOf(totalWidth * 0.20).intValue();
 					dist = widthLeftFull - widthLeftLight;
-					int widthRight = Double.valueOf(totalWidth * 0.70).intValue();
+					int widthRight = Double.valueOf(totalWidth * 0.80).intValue();
 
 					paramsLeft.width = widthLeftLight;
 					paramsRight.width = widthRight;
@@ -984,19 +984,30 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 				}
 			});
 
-			fragmentResult.setOnFocusListener(new View.OnFocusChangeListener() {
-
-				@Override
-				public void onFocusChange(View v, boolean focus) {
-					if (!focus && hideRight) {
-						hideRight = false;
-						extendList();
-					} else if (focus && !hideRight) {
-						hideRight = true;
-						extendList();
-					}
-				}
-			});
+			// fragmentResult.setOnFocusListener(new ExpandableListView.OnFocusChangeListener() {
+			//
+			// @Override
+			// public void onFocusChange(View v, boolean focus) {
+			// if (!focus && hideRight) {
+			// hideRight = false;
+			// extendList();
+			// } else if (focus && !hideRight) {
+			// hideRight = true;
+			// extendList();
+			// }
+			// }
+			// });
+			// fragmentResult.setOnGroupClickListener(new OnGroupClickListener() {
+			//
+			// @Override
+			// public boolean onGroupClick(ExpandableListView arg0, View arg1, int arg2, long arg3) {
+			// if (hideRight) {
+			// hideRight = true;
+			// extendList();
+			// }
+			// return false;
+			// }
+			// });
 		}
 	}
 
@@ -1082,6 +1093,36 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	@Override
 	public Intent getIntentMovie() {
 		return intentStartMovieActivity;
+	}
+
+	@Override
+	public void onGroupClick() {
+		if (portraitMode && !hideRight) {
+			hideRight = true;
+			extendList();
+		}
+
+	}
+
+	@Override
+	public void onChildClick() {
+		if (portraitMode && hideRight) {
+			hideRight = false;
+			extendList();
+		}
+
+	}
+
+	@Override
+	public void onFocusListener(boolean focus) {
+		if (portraitMode && !focus && hideRight) {
+			hideRight = false;
+			extendList();
+		} else if (portraitMode && focus && !hideRight) {
+			hideRight = true;
+			extendList();
+		}
+
 	}
 
 }

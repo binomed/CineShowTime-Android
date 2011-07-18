@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -64,12 +65,12 @@ public class ObjectMasterView extends LinearLayout {
 		objectSubContentName = (TextView) this.findViewById(R.id.object_subcontent_name);
 	}
 
-	public void setTheater(TheaterBean theaterBean, boolean isFav) {
+	public void setTheater(TheaterBean theaterBean, boolean isFav, boolean lightFormat) {
 		this.theaterBean = theaterBean;
 		this.isFav = isFav;
 
 		StringBuilder strTheater = new StringBuilder();
-		if ((theaterBean != null) && (theaterBean.getPlace() != null) && theaterBean.getPlace().getDistance() != null) {
+		if ((theaterBean != null) && (theaterBean.getPlace() != null) && (theaterBean.getPlace().getDistance() != null)) {
 			strTheater.append(" (");
 			strTheater.append(CineShowtimeDateNumberUtil.showDistance(theaterBean.getPlace().getDistance(), !kmUnit));
 			strTheater.append(")");
@@ -89,10 +90,13 @@ public class ObjectMasterView extends LinearLayout {
 			objectName.setText(context.getResources().getString(R.string.itemMoreTheaters));
 			expandFav.setImageDrawable(context.getResources().getDrawable(R.drawable.vide));
 		}
+
 		objectSubContentName.setText(strTheater.toString());
+
+		objectSubContentName.setVisibility(lightFormat ? View.GONE : View.VISIBLE);
 	}
 
-	public void setMovie(MovieBean movieBean, boolean isFav) {
+	public void setMovie(MovieBean movieBean, boolean isFav, boolean lightFormat) {
 		this.movieBean = movieBean;
 
 		if (movieBean != null) {
@@ -104,6 +108,8 @@ public class ObjectMasterView extends LinearLayout {
 
 		}
 		expandFav.setImageDrawable(context.getResources().getDrawable(R.drawable.vide));
+
+		objectSubContentName.setVisibility(lightFormat ? View.GONE : View.VISIBLE);
 	}
 
 	public void toggleFav() {

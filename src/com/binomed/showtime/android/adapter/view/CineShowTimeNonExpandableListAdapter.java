@@ -97,10 +97,10 @@ public class CineShowTimeNonExpandableListAdapter extends BaseAdapter {
 		}
 
 		TheaterBean theater = (TheaterBean) getItem(position);
-		if (nearRespBean != null && nearRespBean.isHasMoreResults() && theater == null) {
-			objectMasterView.setTheater(null, false);
-		} else if (theater != null && theater.getTheaterName() != null) {
-			objectMasterView.setTheater(theater, theatherFavList != null && theatherFavList.containsKey(theater.getId()));
+		if ((nearRespBean != null) && nearRespBean.isHasMoreResults() && (theater == null)) {
+			objectMasterView.setTheater(null, false, false);
+		} else if ((theater != null) && (theater.getTheaterName() != null)) {
+			objectMasterView.setTheater(theater, (theatherFavList != null) && theatherFavList.containsKey(theater.getId()), false);
 		}
 		return objectMasterView;
 	}

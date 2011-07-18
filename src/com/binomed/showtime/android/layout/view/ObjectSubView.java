@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.text.Spanned;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,11 +49,11 @@ public class ObjectSubView extends LinearLayout {
 		movieList = (TextView) this.findViewById(R.id.object_sub_subcontent_name);
 	}
 
-	public void setMovie(MovieBean movieBean, TheaterBean theaterBean, boolean distanceTime, boolean movieView, boolean blackTheme, boolean format24) {
+	public void setMovie(MovieBean movieBean, TheaterBean theaterBean, boolean distanceTime, boolean movieView, boolean blackTheme, boolean format24, boolean lightFormat) {
 		this.movieBean = movieBean;
 		this.theaterBean = theaterBean;
 
-		if (movieBean != null && theaterBean != null) {
+		if ((movieBean != null) && (theaterBean != null)) {
 			if (!movieView) {
 				// movieTitle.setText(new StringBuilder(movieBean.getMovieName()) //
 				// .append(" : ").append(AndShowtimeDateNumberUtil.showMovieTimeLength(getContext(), movieBean))//
@@ -72,7 +73,7 @@ public class ObjectSubView extends LinearLayout {
 
 			List<ProjectionBean> projectionList = theaterBean.getMovieMap().get(movieBean.getId());
 			Long distanceTimeLong = null;
-			if (distanceTime && theaterBean != null && theaterBean.getPlace() != null) {
+			if (distanceTime && (theaterBean != null) && (theaterBean.getPlace() != null)) {
 				distanceTimeLong = theaterBean.getPlace().getDistanceTime();
 			}
 			Spanned movieListStr = CineShowtimeDateNumberUtil.getMovieViewStr(movieBean.getId(), theaterBean.getId(), projectionList, getContext(), distanceTimeLong, blackTheme, format24);
@@ -82,5 +83,8 @@ public class ObjectSubView extends LinearLayout {
 			movieTitle.setText("");
 			movieList.setText("");
 		}
+
+		movieList.setVisibility(lightFormat ? View.GONE : View.VISIBLE);
+		// movieTitle.setVisibility(lightFormat ? View.GONE : View.VISIBLE);
 	}
 }
