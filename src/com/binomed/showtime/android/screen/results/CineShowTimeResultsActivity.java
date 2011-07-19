@@ -129,8 +129,8 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 			intentStartMovieActivity.putExtra(ParamIntent.MOVIE, movie);
 			intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theater.getId());
 			intentStartMovieActivity.putExtra(ParamIntent.THEATER, theater);
-			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (model.getLocalisation() != null) ? model.getLocalisation().getLatitude() : null);
-			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (model.getLocalisation() != null) ? model.getLocalisation().getLongitude() : null);
+			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (getModelActivity().getLocalisation() != null) ? getModelActivity().getLocalisation().getLatitude() : null);
+			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (getModelActivity().getLocalisation() != null) ? getModelActivity().getLocalisation().getLongitude() : null);
 			StringBuilder place = new StringBuilder();
 			if (theater != null) {
 				if (theater.getPlace() != null) {

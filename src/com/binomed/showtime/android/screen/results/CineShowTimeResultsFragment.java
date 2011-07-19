@@ -83,12 +83,24 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 	private IModelResults model;
 	private CineShowtimeDbAdapter mDbHelper;
+	private View mainView;
 
 	/** Called when the activity is first created. */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View mainView = inflater.inflate(R.layout.fragment_results, container, false);
+		mainView = inflater.inflate(R.layout.fragment_results, container, false);
+		initViews(mainView);
+		initMenus();
 
+		bindService();
+		initDB();
+		return mainView;
+
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		// We init the theater id if set
 		model = interaction.getModelActivity();
 		mDbHelper = interaction.getMDbHelper();
@@ -113,13 +125,11 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		movieView = (model.getMovieName() != null) && (model.getMovieName().length() > 0);
 
 		initComparator();
-		initViews(mainView);
-		initMenus();
+	}
 
-		bindService();
-		initDB();
-
-		return mainView;
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
 	}
 
