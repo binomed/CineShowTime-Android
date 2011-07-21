@@ -1,6 +1,7 @@
 package com.binomed.showtime.android.util.activity;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 
 import com.binomed.showtime.R;
 
@@ -11,7 +12,9 @@ public abstract class AbstractSimpleCineShowTimeActivity<T extends Fragment, M e
 	@Override
 	protected void initContentView() {
 		fragment = getFragment();
-		getSupportFragmentManager().beginTransaction().add(R.id.root_container, fragment).commit();
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().add(R.id.root_container, fragment);
+		transaction.commit();
+
 	}
 
 	@Override
