@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+<greendroid.widget.ActionBarHost
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@id/gd_action_bar_host"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	style="?attr/imgBackground" 
+	android:orientation="vertical">
+
+	<greendroid.widget.ActionBar
+		android:id="@id/gd_action_bar"
+		android:layout_height="@dimen/gd_action_bar_height"
+		android:layout_width="fill_parent"
+		android:background="?attr/gdActionBarBackground" />
+	<FrameLayout
+		android:id="@id/gd_action_bar_content_view"
+		android:layout_height="0dp"
+		android:layout_width="fill_parent"
+		android:layout_weight="1">
 <RelativeLayout
+   android:id="@+id/relativeLayoutId"
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent"
+   >
+<!-- <RelativeLayout
    xmlns:android="http://schemas.android.com/apk/res/android"
    android:id="@+id/relativeLayoutId"
    android:layout_width="fill_parent"
    android:layout_height="fill_parent"
 	style="?attr/imgBackground" 
-   >
+   >-->
    <!--     style="@style/Layouts.background"-->
 	<ImageView 
-			android:id="@+id/logoSkyHook" 
-			android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:background="@drawable/skyhookcolor_sm" 
-			android:layout_alignParentBottom="true" 
-			android:layout_centerHorizontal="true"
-			/>
-	<ImageView 
 			android:id="@+id/logoImg" 
+			android:layout_below="@id/gd_action_bar"
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
 			android:layout_alignParentTop="true"
@@ -24,7 +42,6 @@
 			/>
 	<ScrollView 
 			android:id="@+id/FragmentLayout" 
-			android:layout_above="@+id/logoSkyHook"
 			android:layout_below="@+id/logoImg"
 			android:scrollbars="vertical"
 			android:orientation="vertical" 
@@ -54,7 +71,17 @@
 					>
 			    <!-- Preview: layout=@layout/fragment_fav -->
 			</fragment>
+			<ImageView 
+				android:id="@+id/logoSkyHook" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" 
+				android:background="@drawable/skyhookcolor_sm" 
+				android:layout_alignParentBottom="true" 
+				android:layout_centerHorizontal="true"
+				/>
 		</LinearLayout>
 	</ScrollView>
 	
 </RelativeLayout>
+</FrameLayout>
+</greendroid.widget.ActionBarHost>

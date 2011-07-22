@@ -1,10 +1,17 @@
 package com.binomed.showtime.android.util.activity;
 
+import greendroid.app.ActionBarActivity;
+import greendroid.app.GDApplication;
+import greendroid.widget.ActionBar;
+import greendroid.widget.ActionBarHost;
+import greendroid.widget.ActionBarItem;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,19 +19,23 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
+import com.cyrilmottier.android.greendroid.R;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivityHelperModel> //
 		extends FragmentActivity //
 		implements //
 		OnCancelListener, //
-		IFragmentCineShowTimeInteraction<M> {
+		IFragmentCineShowTimeInteraction<M>, //
+		ActionBarActivity {
 
 	private GoogleAnalyticsTracker tracker;
 	private SharedPreferences prefs;
@@ -32,6 +43,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	private ProgressDialog progressDialog;
 	// private String TAG = null;
 	private CineShowtimeDbAdapter mDbHelper;
+	private ActionBarHost mActionBarHost;
 	protected final int MENU_PREF = getMenuKey();
 
 	/** Called when the activity is first created. */
@@ -51,6 +63,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		openDB();
 		getModelActivity();
 		setContentView(getLayout());
+		mActionBarHost = (ActionBarHost) findViewById(R.id.gd_action_bar_host);
 		initContentView();
 
 		initResults();
@@ -240,6 +253,96 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 				, true // cancelable
 				, this // cancelListener
 				);
+	}
+
+	/*
+	 * ActionBarCode
+	 */
+
+	@Override
+	public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
+		return false;
+	}
+
+	@Override
+	public FrameLayout getContentView() {
+		return mActionBarHost.getContentView();
+	}
+
+	@Override
+	public ActionBar getActionBar() {
+		return mActionBarHost.getActionBar();
+	}
+
+	@Override
+	public GDApplication getGDApplication() {
+		return (GDApplication) getApplication();
+	}
+
+	@Override
+	public ActionBarItem addActionBarItem(ActionBarItem item) {
+		return getActionBar().addItem(item);
+	}
+
+	@Override
+	public ActionBarItem addActionBarItem(ActionBarItem item, int itemId) {
+		return getActionBar().addItem(item, itemId);
+	}
+
+	@Override
+	public ActionBarItem addActionBarItem(ActionBarItem.Type actionBarItemType) {
+		return getActionBar().addItem(actionBarItemType);
+	}
+
+	@Override
+	public ActionBarItem addActionBarItem(ActionBarItem.Type actionBarItemType, int itemId) {
+		return getActionBar().addItem(actionBarItemType, itemId);
+	}
+
+	@Override
+	public int createLayout() {
+		return getLayout();
+	}
+
+	@Override
+	public void onPreContentChanged() {
+		mActionBarHost = (ActionBarHost) findViewById(R.id.gd_action_bar_host);
+		if (mActionBarHost == null) {
+			throw new RuntimeException("Your content must have an ActionBarHost whose id attribute is R.id.gd_action_bar_host");
+		}
+		// mActionBarHost.getActionBar().setOnActionBarListener(mActionBarListener);
+
+	}
+
+	@Override
+	public void onPostContentChanged() {
+		boolean titleSet = false;
+
+		final Intent intent = getIntent();
+		if (intent != null) {
+			String title = intent.getStringExtra(ActionBarActivity.GD_ACTION_BAR_TITLE);
+			if (title != null) {
+				titleSet = true;
+				setTitle(title);
+			}
+		}
+
+		if (!titleSet) {
+			// No title has been set via the Intent. Let's look in the
+			// ActivityInfo
+			try {
+				final ActivityInfo activityInfo = getPackageManager().getActivityInfo(getComponentName(), 0);
+				if (activityInfo.labelRes != 0) {
+					setTitle(activityInfo.labelRes);
+				}
+			} catch (NameNotFoundException e) {
+				// Do nothing
+			}
+		}
+
+		final int visibility = intent.getIntExtra(ActionBarActivity.GD_ACTION_BAR_VISIBILITY, View.VISIBLE);
+		getActionBar().setVisibility(visibility);
+
 	}
 
 }
