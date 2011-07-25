@@ -1,24 +1,46 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+<?xml version="1.0" encoding="utf-8"?>
+<greendroid.widget.ActionBarHost
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@id/gd_action_bar_host"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	style="?attr/imgBackground" 
+	android:orientation="vertical">
 
-    <fragment class="com.binomed.showtime.android.screen.search.CineShowTimeSearchFragment"
-            android:id="@+id/fragmentSearch" 
-            android:layout_width="0dp"
-            android:layout_height="fill_parent" 
-            android:layout_weight="40"
-            >
-        <!-- Preview: layout=@layout/fragment_search -->
-    </fragment>
-    <fragment class="com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment"
-            android:id="@+id/fragmentB" 
-            android:layout_width="0dp"
-            android:layout_height="fill_parent" 
-            android:layout_weight="60"
-            >
-        <!-- Preview: layout=@layout/fragment_fav -->
-    </fragment>
+	<greendroid.widget.ActionBar
+		android:id="@id/gd_action_bar"
+		android:layout_height="@dimen/gd_action_bar_height"
+		android:layout_width="fill_parent"
+		android:background="?attr/gdActionBarBackground" />
+	<FrameLayout
+		android:id="@id/gd_action_bar_content_view"
+		android:layout_height="0dp"
+		android:layout_width="fill_parent"
+		android:layout_weight="1">
 
-    
-</LinearLayout>
+		<LinearLayout 
+		        android:orientation="horizontal"
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent">
+		
+		    <fragment class="com.binomed.showtime.android.screen.search.CineShowTimeSearchFragment"
+		            android:id="@+id/fragmentSearch" 
+		            android:layout_width="0dp"
+		            android:layout_height="fill_parent" 
+		            android:layout_weight="40"
+		            >
+		        <!-- Preview: layout=@layout/fragment_search -->
+		    </fragment>
+		    <fragment class="com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment"
+		            android:id="@+id/fragmentB" 
+		            android:layout_width="0dp"
+		            android:layout_height="fill_parent" 
+		            android:layout_weight="60"
+		            >
+		        <!-- Preview: layout=@layout/fragment_fav -->
+		    </fragment>
+		
+		    
+		</LinearLayout>
+</FrameLayout>
+</greendroid.widget.ActionBarHost>

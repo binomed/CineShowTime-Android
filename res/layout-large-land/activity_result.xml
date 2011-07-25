@@ -1,22 +1,43 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+<?xml version="1.0" encoding="utf-8"?>
+<greendroid.widget.ActionBarHost
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@id/gd_action_bar_host"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	style="?attr/imgBackground" 
+	android:orientation="vertical">
 
-    <fragment class="com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment"
-            android:id="@+id/fragmentResults" 
-            android:layout_width="0dp"
-            android:layout_height="fill_parent" 
-            android:layout_weight="35"
-            >
-        <!-- Preview: layout=@layout/fragment_results -->
-    </fragment>
-	<LinearLayout 
-	        android:orientation="vertical"
-            android:id="@+id/fragmentInfo" 
-            android:layout_width="0dp"
-            android:layout_height="fill_parent" 
-            android:layout_weight="75"/>
-
-    
-</LinearLayout>
+	<greendroid.widget.ActionBar
+		android:id="@id/gd_action_bar"
+		android:layout_height="@dimen/gd_action_bar_height"
+		android:layout_width="fill_parent"
+		android:background="?attr/gdActionBarBackground" />
+	<FrameLayout
+		android:id="@id/gd_action_bar_content_view"
+		android:layout_height="0dp"
+		android:layout_width="fill_parent"
+		android:layout_weight="1">
+		<LinearLayout 
+		        android:orientation="horizontal"
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent">
+		
+		    <fragment class="com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment"
+		            android:id="@+id/fragmentResults" 
+		            android:layout_width="0dp"
+		            android:layout_height="fill_parent" 
+		            android:layout_weight="35"
+		            >
+		        <!-- Preview: layout=@layout/fragment_results -->
+		    </fragment>
+			<LinearLayout 
+			        android:orientation="vertical"
+		            android:id="@+id/fragmentInfo" 
+		            android:layout_width="0dp"
+		            android:layout_height="fill_parent" 
+		            android:layout_weight="75"/>
+		
+		    
+		</LinearLayout>
+	</FrameLayout>
+</greendroid.widget.ActionBarHost>

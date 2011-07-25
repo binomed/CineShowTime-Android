@@ -2,9 +2,11 @@ package com.binomed.showtime.android.util.activity;
 
 import greendroid.app.ActionBarActivity;
 import greendroid.app.GDApplication;
+import greendroid.graphics.drawable.ActionBarDrawable;
 import greendroid.widget.ActionBar;
 import greendroid.widget.ActionBarHost;
 import greendroid.widget.ActionBarItem;
+import greendroid.widget.NormalActionBarItem;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -65,6 +67,8 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		setContentView(getLayout());
 		mActionBarHost = (ActionBarHost) findViewById(R.id.gd_action_bar_host);
 		initContentView();
+
+		addActionBarItem(getActionBar().newActionBarItem(NormalActionBarItem.class).setDrawable(new ActionBarDrawable(this, R.drawable.ic_menu_moreoverflow_normal_holo_light)), R.id.action_bar_menu);
 
 		initResults();
 

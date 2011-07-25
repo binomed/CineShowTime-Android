@@ -1,40 +1,62 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        
-    <ImageButton 
-	    android:id="@+id/btnExpand"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:background="@drawable/ic_btn_find_next"
-    />
-	<!-- <LinearLayout
-    	android:orientation="horizontal"	
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:weightSum="1.0"
-	    >-->
+<?xml version="1.0" encoding="utf-8"?>
+<greendroid.widget.ActionBarHost
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@id/gd_action_bar_host"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	style="?attr/imgBackground" 
+	android:orientation="vertical">
+
+	<greendroid.widget.ActionBar
+		android:id="@id/gd_action_bar"
+		android:layout_height="@dimen/gd_action_bar_height"
+		android:layout_width="fill_parent"
+		android:background="?attr/gdActionBarBackground" />
 	<FrameLayout
-	    android:id="@+id/frameLayout" 
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    >
-       <fragment class="com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment"
-	            android:id="@+id/fragmentResults" 
-	            android:layout_width="70dip"
-	            android:layout_height="fill_parent"
-	            android:layout_alignParentLeft="true"
-	            >
-          <!-- Preview: layout=@layout/fragment_results -->
-      </fragment>
-      <LinearLayout 
-	        android:orientation="vertical"
-            android:id="@+id/fragmentInfo" 
-	            android:layout_width="150dip"
-	            android:layout_height="fill_parent" 
-	            android:layout_marginLeft="70dip"
-	            />          
-   <!-- </LinearLayout>-->
-   </FrameLayout>
-</LinearLayout>
+		android:id="@id/gd_action_bar_content_view"
+		android:layout_height="0dp"
+		android:layout_width="fill_parent"
+		android:layout_weight="1">
+
+		<LinearLayout 
+		        android:orientation="vertical"
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent">
+		        
+		    <ImageButton 
+			    android:id="@+id/btnExpand"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:background="@drawable/ic_btn_find_next"
+		    />
+			<!-- <LinearLayout
+		    	android:orientation="horizontal"	
+			    android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"
+			    android:weightSum="1.0"
+			    >-->
+			<FrameLayout
+			    android:id="@+id/frameLayout" 
+			    android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"
+			    >
+		       <fragment class="com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment"
+			            android:id="@+id/fragmentResults" 
+			            android:layout_width="70dip"
+			            android:layout_height="fill_parent"
+			            android:layout_alignParentLeft="true"
+			            >
+		          <!-- Preview: layout=@layout/fragment_results -->
+		      </fragment>
+		      <LinearLayout 
+			        android:orientation="vertical"
+		            android:id="@+id/fragmentInfo" 
+			            android:layout_width="150dip"
+			            android:layout_height="fill_parent" 
+			            android:layout_marginLeft="70dip"
+			            />          
+		   <!-- </LinearLayout>-->
+		   </FrameLayout>
+		</LinearLayout>
+	</FrameLayout>
+</greendroid.widget.ActionBarHost>
