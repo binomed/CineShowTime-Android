@@ -25,7 +25,7 @@
 	  <style name="Theme.Dark_Night">
 	  	<item name="gdActionBarBackground">@drawable/action_bar_background</item>
 	  	<item name="gdActionBarApplicationDrawable">@drawable/cst_application_logo</item>
-	    <item name="android:windowNoTitle">false</item>
+	    <item name="android:windowNoTitle">true</item>
         <item name="logoImg">@style/LogoDark</item>
         <item name="imgBackground">@style/ImgDark</item>
         <item name="cstTabBackground">@style/TabBackGround.Dark</item>
@@ -50,7 +50,7 @@
 	  <style name="Theme.Shine_the_lite" parent="android:Theme.Light">
 	  	<item name="gdActionBarBackground">@drawable/action_bar_background</item>
 	  	<item name="gdActionBarApplicationDrawable">@drawable/cst_application_logo</item>
-	    <item name="android:windowNoTitle">false</item>
+	    <item name="android:windowNoTitle">true</item>
         <item name="logoImg">@style/LogoLight</item>
         <item name="imgBackground">@style/ImgLight</item>
         <item name="cstTabBackground">@style/TabBackGround.Light</item>

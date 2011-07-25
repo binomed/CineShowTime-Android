@@ -8,6 +8,7 @@
 	android:orientation="vertical">
 
 	<greendroid.widget.ActionBar
+		style="@style/GreenDroid.Widget.ActionBar.Dashboard"
 		android:id="@id/gd_action_bar"
 		android:layout_height="@dimen/gd_action_bar_height"
 		android:layout_width="fill_parent"

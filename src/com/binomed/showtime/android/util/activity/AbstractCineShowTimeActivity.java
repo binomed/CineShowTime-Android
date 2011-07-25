@@ -3,21 +3,35 @@ package com.binomed.showtime.android.util.activity;
 import greendroid.app.ActionBarActivity;
 import greendroid.app.GDApplication;
 import greendroid.graphics.drawable.ActionBarDrawable;
+import greendroid.util.Config;
 import greendroid.widget.ActionBar;
+import greendroid.widget.ActionBar.OnActionBarListener;
 import greendroid.widget.ActionBarHost;
 import greendroid.widget.ActionBarItem;
 import greendroid.widget.NormalActionBarItem;
+import greendroid.widget.QuickAction;
+import greendroid.widget.QuickActionBar;
+import greendroid.widget.QuickActionWidget;
+import greendroid.widget.QuickActionWidget.OnQuickActionClickListener;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.SQLException;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +40,10 @@ import android.widget.FrameLayout;
 
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
+import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.cst.ParamIntent;
+import com.binomed.showtime.android.layout.view.AboutView;
+import com.binomed.showtime.android.screen.pref.CineShowTimePreferencesActivity;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
 import com.cyrilmottier.android.greendroid.R;
@@ -46,6 +63,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	// private String TAG = null;
 	private CineShowtimeDbAdapter mDbHelper;
 	private ActionBarHost mActionBarHost;
+	private QuickActionWidget mBar;
 	protected final int MENU_PREF = getMenuKey();
 
 	/** Called when the activity is first created. */
@@ -68,7 +86,9 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		mActionBarHost = (ActionBarHost) findViewById(R.id.gd_action_bar_host);
 		initContentView();
 
+		addActionBarItems(getActionBar());
 		addActionBarItem(getActionBar().newActionBarItem(NormalActionBarItem.class).setDrawable(new ActionBarDrawable(this, R.drawable.ic_menu_moreoverflow_normal_holo_light)), R.id.action_bar_menu);
+		prepareQuickActionBar();
 
 		initResults();
 
@@ -199,6 +219,12 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 
 	protected abstract int getDialogMsg();
 
+	protected abstract void addActionBarItems(ActionBar actionBar);
+
+	protected abstract boolean delegateOnActionBarItemClick(ActionBarItem item, int position);
+
+	protected abstract boolean isHomeActivity();
+
 	/*
 	 * Default implementation of IFragmentCineShowTimeInteraction
 	 */
@@ -264,8 +290,30 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	 */
 
 	@Override
+	public void onContentChanged() {
+		super.onContentChanged();
+
+		onPreContentChanged();
+		onPostContentChanged();
+	}
+
+	private void prepareQuickActionBar() {
+		mBar = new QuickActionBar(this);
+		mBar.addQuickAction(new MyQuickAction(this, android.R.drawable.ic_menu_preferences, R.string.menuPreferences));
+		mBar.addQuickAction(new MyQuickAction(this, android.R.drawable.ic_menu_info_details, R.string.menuAbout));
+		mBar.addQuickAction(new MyQuickAction(this, android.R.drawable.ic_menu_help, R.string.menuHelp));
+
+		mBar.setOnQuickActionClickListener(mActionListener);
+	}
+
+	@Override
 	public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
-		return false;
+		if (position == MENU_PREF) {
+			mBar.show(item.getItemView());
+			return true;
+		} else {
+			return delegateOnActionBarItemClick(item, position);
+		}
 	}
 
 	@Override
@@ -314,7 +362,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		if (mActionBarHost == null) {
 			throw new RuntimeException("Your content must have an ActionBarHost whose id attribute is R.id.gd_action_bar_host");
 		}
-		// mActionBarHost.getActionBar().setOnActionBarListener(mActionBarListener);
+		mActionBarHost.getActionBar().setOnActionBarListener(mActionBarListener);
 
 	}
 
@@ -349,4 +397,84 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 
 	}
 
+	private OnActionBarListener mActionBarListener = new OnActionBarListener() {
+		@Override
+		public void onActionBarItemClicked(int position) {
+			if ((position == OnActionBarListener.HOME_ITEM) && !isHomeActivity()) {
+
+				final GDApplication app = getGDApplication();
+				final Intent appIntent = app.getMainApplicationIntent();
+				if (appIntent != null) {
+					if (Config.GD_INFO_LOGS_ENABLED) {
+						Log.i(getTAG(), "Launching the main application Intent");
+					}
+					startActivity(appIntent);
+				}
+
+			} else {
+				if (!onHandleActionBarItemClick(getActionBar().getItem(position), position)) {
+					if (Config.GD_WARNING_LOGS_ENABLED) {
+						Log.w(getTAG(), "Click on item at position " + position + " dropped down to the floor");
+					}
+				}
+			}
+		}
+	};
+
+	private OnQuickActionClickListener mActionListener = new OnQuickActionClickListener() {
+		@Override
+		public void onQuickActionClicked(QuickActionWidget widget, int position) {
+			final int MENU_PREF = 0;
+			final int MENU_ABOUT = 1;
+			final int MENU_HELP = 2;
+			if (position == MENU_PREF) {
+				tracker.trackEvent("Open", "Click", "Open preferences from " + getTAG(), 0);
+				Intent launchPreferencesIntent = new Intent().setClass(getApplicationContext(), CineShowTimePreferencesActivity.class);
+
+				// Make it a subactivity so we know when it returns
+				startActivityForResult(launchPreferencesIntent, CineShowtimeCst.ACTIVITY_RESULT_PREFERENCES);
+			} else if (position == MENU_ABOUT) {
+				tracker.trackEvent("Open", "Click", "Open about from " + getTAG(), 0);
+				AlertDialog.Builder aboutDialog = new AlertDialog.Builder(AbstractCineShowTimeActivity.this);
+				try {
+					PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+					aboutDialog.setTitle(Html.fromHtml(new StringBuilder() //
+							.append("CineShowTime ").append(pi.versionName).append("<br>") // //$NON-NLS-1$ //$NON-NLS-2$
+							.toString()));
+				} catch (Exception e) {
+				}
+				aboutDialog.setCancelable(false);
+				aboutDialog.setIcon(R.drawable.icon);
+				aboutDialog.setNeutralButton(R.string.btnClose, null);
+
+				AboutView aboutView = new AboutView(AbstractCineShowTimeActivity.this);
+				aboutDialog.setView(aboutView);
+
+				// aboutDialog.create();
+				aboutDialog.show();
+			} else if (position == MENU_HELP) {
+				tracker.trackEvent("Open", "Click", "Open help from " + getTAG(), 0);
+				Intent launchPreferencesIntent = IntentShowtime.createHelpAndShowTime(getApplicationContext());
+
+				// Make it a subactivity so we know when it returns
+				startActivityForResult(launchPreferencesIntent, 0);
+			}
+		}
+	};
+
+	private static class MyQuickAction extends QuickAction {
+
+		private static final ColorFilter BLACK_CF = new LightingColorFilter(Color.BLACK, Color.BLACK);
+
+		public MyQuickAction(Context ctx, int drawableId, int titleId) {
+			super(ctx, buildDrawable(ctx, drawableId), titleId);
+		}
+
+		private static Drawable buildDrawable(Context ctx, int drawableId) {
+			Drawable d = ctx.getResources().getDrawable(drawableId);
+			d.setColorFilter(BLACK_CF);
+			return d;
+		}
+
+	}
 }

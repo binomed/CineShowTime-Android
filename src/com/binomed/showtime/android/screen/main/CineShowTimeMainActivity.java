@@ -1,5 +1,8 @@
 package com.binomed.showtime.android.screen.main;
 
+import greendroid.widget.ActionBar;
+import greendroid.widget.ActionBarItem;
+
 import java.util.Calendar;
 
 import android.content.Intent;
@@ -28,7 +31,7 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	private static final String TAG = "AndShowTimeMainActivity"; //$NON-NLS-1$
 	private static final String TRACKER_NAME = "/MainActivity"; //$NON-NLS-1$
 
-	private static final int MENU_PREF = Menu.FIRST;
+	private static final int MENU_PREF = Menu.NONE;
 
 	private CineShowTimeSearchFragment fragmentSearch;
 	private CineShowTimeFavFragment fragmentFav;
@@ -220,6 +223,22 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	protected int getDialogMsg() {
 		// nothing to do
 		return 0;
+	}
+
+	@Override
+	protected boolean delegateOnActionBarItemClick(ActionBarItem item, int position) {
+		// Nothing to do
+		return false;
+	}
+
+	@Override
+	protected void addActionBarItems(ActionBar actionBar) {
+		// nothing to do
+	}
+
+	@Override
+	protected boolean isHomeActivity() {
+		return true;
 	}
 
 }

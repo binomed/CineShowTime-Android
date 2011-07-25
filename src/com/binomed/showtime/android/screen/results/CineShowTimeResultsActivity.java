@@ -1,5 +1,9 @@
 package com.binomed.showtime.android.screen.results;
 
+import greendroid.graphics.drawable.ActionBarDrawable;
+import greendroid.widget.ActionBar;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.NormalActionBarItem;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -18,8 +22,8 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 		CineShowTimeResultInteraction<IModelResults>//
 {
 
-	private static final int MENU_SORT = Menu.FIRST;
-	private static final int MENU_PREF = Menu.FIRST + 1;
+	private static final int MENU_SORT = Menu.NONE;
+	private static final int MENU_PREF = Menu.NONE + 1;
 
 	protected static final int ID_SORT = 1;
 
@@ -104,6 +108,22 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 	@Override
 	protected void doOnCancel() {
 		fragment.onCancel();
+	}
+
+	@Override
+	protected void addActionBarItems(ActionBar actionBar) {
+		addActionBarItem(getActionBar().newActionBarItem(NormalActionBarItem.class).setDrawable(new ActionBarDrawable(this, android.R.drawable.ic_menu_sort_by_size)), R.id.menuSort);
+	}
+
+	@Override
+	protected boolean delegateOnActionBarItemClick(ActionBarItem item, int position) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected boolean isHomeActivity() {
+		return false;
 	}
 
 	/*
