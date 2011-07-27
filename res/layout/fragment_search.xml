@@ -2,23 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" 
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    style="?attr/imgBackground" 
+    android:layout_height="wrap_content"
     >
-   	<ScrollView  
-        android:orientation="vertical" 
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" 
-        android:scrollbars="vertical">
-		<RelativeLayout 
+   		<RelativeLayout 
 		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent"
+		    android:layout_height="wrap_content"
 		    >
 		    <RelativeLayout
 				android:id="@+id/searchLayoutCity"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
-			    android:layout_below="@+id/searchHeader"
 			    >
 				<TextView
 					android:id="@+id/searchTxtCityName"
@@ -96,5 +89,4 @@
 			    style="@style/Button.button"
 				/>
 		</RelativeLayout>
-	</ScrollView>
 </LinearLayout>

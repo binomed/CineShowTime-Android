@@ -5,9 +5,7 @@ import greendroid.widget.ActionBar;
 import greendroid.widget.ActionBarItem;
 import greendroid.widget.NormalActionBarItem;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
@@ -29,47 +27,6 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 
 	private static final String TAG = "ResultsActivity"; //$NON-NLS-1$
 	private static final String TRACKER_NAME = "/ResultActivity"; //$NON-NLS-1$
-
-	/*
-	 * ---------
-	 * 
-	 * MENU
-	 * 
-	 * ------
-	 */
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		Log.i(TAG, "onCreateOptionsMenu"); //$NON-NLS-1$
-		menu.add(0, MENU_SORT, 2, R.string.menuSort).setIcon(android.R.drawable.ic_menu_sort_by_size);
-		super.onCreateOptionsMenu(menu);
-		// CineShowTimeMenuUtil.createMenu(menu, MENU_PREF, 3);
-		return true;
-	}
-
-	;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onMenuItemSelected(int, android.view.MenuItem)
-	 */
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		boolean menuItemSetlect = super.onMenuItemSelected(featureId, item);
-		switch (item.getItemId()) {
-		case MENU_SORT: {
-			fragment.openSortDialog();
-			return true;
-		}
-		}
-		return menuItemSetlect;
-	}
 
 	/*
 	 * Override methods
@@ -117,7 +74,12 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 
 	@Override
 	protected boolean delegateOnActionBarItemClick(ActionBarItem item, int position) {
-		// TODO Auto-generated method stub
+		switch (position) {
+		case MENU_SORT: {
+			fragment.openSortDialog();
+			return true;
+		}
+		}
 		return false;
 	}
 

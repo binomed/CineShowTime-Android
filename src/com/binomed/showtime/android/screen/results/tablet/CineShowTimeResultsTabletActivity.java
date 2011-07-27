@@ -7,10 +7,8 @@ import greendroid.widget.NormalActionBarItem;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
@@ -60,46 +58,6 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	private FrameLayout.LayoutParams paramsLeft, paramsRight;
 
 	private boolean hideRight;
-
-	/*
-	 * ---------
-	 * 
-	 * MENU
-	 * 
-	 * ------
-	 */
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		Log.i(TAG, "onCreateOptionsMenu"); //$NON-NLS-1$
-		menu.add(0, MENU_SORT, 2, R.string.menuSort).setIcon(android.R.drawable.ic_menu_sort_by_size);
-		super.onCreateOptionsMenu(menu);
-		return true;
-	}
-
-	;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onMenuItemSelected(int, android.view.MenuItem)
-	 */
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		boolean menuItemSetlect = super.onMenuItemSelected(featureId, item);
-		switch (item.getItemId()) {
-		case MENU_SORT: {
-			fragmentResult.openSortDialog();
-			return true;
-		}
-		}
-		return menuItemSetlect;
-	}
 
 	private void extendList() {
 
@@ -221,30 +179,6 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 				}
 			});
 
-			// fragmentResult.setOnFocusListener(new ExpandableListView.OnFocusChangeListener() {
-			//
-			// @Override
-			// public void onFocusChange(View v, boolean focus) {
-			// if (!focus && hideRight) {
-			// hideRight = false;
-			// extendList();
-			// } else if (focus && !hideRight) {
-			// hideRight = true;
-			// extendList();
-			// }
-			// }
-			// });
-			// fragmentResult.setOnGroupClickListener(new OnGroupClickListener() {
-			//
-			// @Override
-			// public boolean onGroupClick(ExpandableListView arg0, View arg1, int arg2, long arg3) {
-			// if (hideRight) {
-			// hideRight = true;
-			// extendList();
-			// }
-			// return false;
-			// }
-			// });
 		}
 	}
 
@@ -276,8 +210,13 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 
 	@Override
 	protected boolean delegateOnActionBarItemClick(ActionBarItem item, int position) {
-		// TODO Auto-generated method stub
-		return false;
+		switch (position) {
+		case MENU_SORT: {
+			fragmentResult.openSortDialog();
+			return true;
+		}
+		}
+		return true;
 	}
 
 	@Override

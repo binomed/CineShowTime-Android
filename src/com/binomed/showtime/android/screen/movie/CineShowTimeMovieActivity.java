@@ -88,7 +88,7 @@ public class CineShowTimeMovieActivity extends AbstractSimpleCineShowTimeActivit
 
 	@Override
 	protected boolean delegateOnActionBarItemClick(ActionBarItem item, int position) {
-		// TODO Auto-generated method stub
+		// nothing to do
 		return false;
 	}
 

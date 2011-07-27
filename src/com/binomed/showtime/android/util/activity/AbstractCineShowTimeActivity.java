@@ -33,8 +33,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -45,7 +43,6 @@ import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.layout.view.AboutView;
 import com.binomed.showtime.android.screen.pref.CineShowTimePreferencesActivity;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
-import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
 import com.cyrilmottier.android.greendroid.R;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
@@ -60,7 +57,6 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	private SharedPreferences prefs;
 	private M model;
 	private ProgressDialog progressDialog;
-	// private String TAG = null;
 	private CineShowtimeDbAdapter mDbHelper;
 	private ActionBarHost mActionBarHost;
 	private QuickActionWidget mBar;
@@ -71,11 +67,6 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getTracker();
-		// tracker = GoogleAnalyticsTracker.getInstance();
-		// tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, this);
-		// tracker.trackPageView(getTrackerName());
-		// TAG = getTAG();
-		// prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, getPrefs());
 		Log.i(getTAG(), "onCreate"); //$NON-NLS-1$
 
@@ -137,23 +128,6 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		if (getModelActivity().isResetTheme()) {
 			CineShowTimeLayoutUtils.changeToTheme(this, getIntent());
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		getTracker().trackEvent("Menu", "Open", "Consult menu from main activity", 0);
-		CineShowTimeMenuUtil.createMenu(menu, MENU_PREF, 0);
-		return true;
-	}
-
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		if (CineShowTimeMenuUtil.onMenuItemSelect(this, tracker, MENU_PREF, item.getItemId())) {
-			return true;
-		}
-
-		return false;
 	}
 
 	@Override
