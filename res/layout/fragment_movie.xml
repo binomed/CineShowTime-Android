@@ -33,6 +33,16 @@
                 android:layout_width="fill_parent" 
                 android:layout_height="wrap_content"
                 />
+                
+            <greendroid.widget.PagedView
+				android:id="@+id/paged_view"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent" 
+				android:layout_marginTop="5dip"
+				android:layout_alignParentBottom="true"
+				android:layout_below="@android:id/tabs"
+				/> 
+            <!-- 
             <ViewFlipper 
 				android:id="@+id/movieFlipper"
 				android:layout_width="fill_parent"
@@ -47,6 +57,7 @@
                  
 				
 			</ViewFlipper>
+             -->
 			<FrameLayout 
            	android:id="@android:id/tabcontent" 
                android:layout_width="wrap_content" 

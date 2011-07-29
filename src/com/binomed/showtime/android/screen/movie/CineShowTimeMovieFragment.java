@@ -1,8 +1,6 @@
 package com.binomed.showtime.android.screen.movie;
 
-import java.net.URLDecoder;
-import java.util.List;
-
+import greendroid.widget.PagedView;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -10,32 +8,19 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.database.SQLException;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Gallery;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabWidget;
@@ -44,39 +29,28 @@ import android.widget.ViewFlipper;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
-import com.binomed.showtime.android.adapter.view.GalleryTrailerAdapter;
-import com.binomed.showtime.android.adapter.view.ProjectionListAdapter;
-import com.binomed.showtime.android.adapter.view.ReviewListAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.handler.MovieCallBackMovie;
 import com.binomed.showtime.android.handler.ServiceCallBackMovie;
-import com.binomed.showtime.android.layout.view.GalleryTrailerView;
-import com.binomed.showtime.android.layout.view.ListPopupWindow;
-import com.binomed.showtime.android.layout.view.ProjectionView;
-import com.binomed.showtime.android.model.LocalisationBean;
 import com.binomed.showtime.android.model.MovieBean;
-import com.binomed.showtime.android.model.ProjectionBean;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
 import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
-import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
-import com.binomed.showtime.android.util.CineShowtimeRequestManage;
 import com.binomed.showtime.android.util.activity.IFragmentCineShowTimeInteraction;
-import com.binomed.showtime.android.util.images.ImageDownloader;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.google.api.translate.Language;
 import com.google.api.translate.Translate;
 
 public class CineShowTimeMovieFragment extends Fragment //
 		// public class CineShowTimeMovieActivity extends Activity //
-		implements OnItemClickListener //
-		, OnTabChangeListener //
-		, OnTouchListener //
-		, OnClickListener //
+		implements // OnItemClickListener //
+		OnTabChangeListener //
+// , OnTouchListener //
+// , OnClickListener //
 // , OnCancelListener //
 {
 
@@ -87,34 +61,35 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 	private TabHost tabHost;
 	private TabWidget tabWidget;
-	private TextView movieTitle, txtMovieTitle;
-	private TextView movieRate, txtMovieRate;
-	private TextView movieDuration, txtMovieDuration;
-	private TextView movieDirector, txtMovieDirector;
-	private TextView movieActor, txtMovieActor;
-	private TextView movieStyle, txtMovieStyle;
-	private TextView theaterTitle, theaterAddress;
-	private ImageView summaryMoviePoster;
-	private TextView moviePlot;
-	private TextView movieWebLinks;
-	private ListView movieProjectionTimeList;
-	private ListView movieReviewsList;
-	private Gallery movieGalleryTrailer;
-	protected ViewFlipper movieFlipper;
-	private ScrollView movieTabInfoScrollView;
+	// private TextView movieTitle, txtMovieTitle;
+	// private TextView movieRate, txtMovieRate;
+	// private TextView movieDuration, txtMovieDuration;
+	// private TextView movieDirector, txtMovieDirector;
+	// private TextView movieActor, txtMovieActor;
+	// private TextView movieStyle, txtMovieStyle;
+	// private TextView theaterTitle, theaterAddress;
+	// private ImageView summaryMoviePoster;
+	// private TextView moviePlot;
+	// private TextView movieWebLinks;
+	// private ListView movieProjectionTimeList;
+	// private ListView movieReviewsList;
+	// private Gallery movieGalleryTrailer;
+	// protected ViewFlipper movieFlipper;
+	protected PagedView moviePagedView;
+	// private ScrollView movieTabInfoScrollView;
 	protected RelativeLayout tabShowtimes;
-	private ImageButton movieBtnMap, movieBtnDirection, movieBtnCall;
+	// private ImageButton movieBtnMap, movieBtnDirection, movieBtnCall;
 
-	protected GalleryTrailerAdapter trailerAdapter;
-	protected ProjectionListAdapter projectionAdapter;
+	// protected GalleryTrailerAdapter trailerAdapter;
+	// protected ProjectionListAdapter projectionAdapter;
 
-	private ImageView sumRate1, sumRate2, sumRate3, sumRate4, sumRate5, sumRate6, sumRate7, sumRate8, sumRate9, sumRate10;
+	// private ImageView sumRate1, sumRate2, sumRate3, sumRate4, sumRate5, sumRate6, sumRate7, sumRate8, sumRate9, sumRate10;
 
 	private View mainView;
 
-	private Bitmap bitmapRateOff;
-	private Bitmap bitmapRateHalf;
-	private Bitmap bitmapRateOn;
+	// private Bitmap bitmapRateOff;
+	// private Bitmap bitmapRateHalf;
+	// private Bitmap bitmapRateOn;
 
 	// private ProgressDialog progressDialog;
 	/**
@@ -129,7 +104,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 	 * attributes
 	 */
 	// private long minTime;
-	private boolean distanceTime;
+	// private boolean distanceTime;
 	// private boolean homePress;
 
 	private float oldTouchValue;
@@ -137,7 +112,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 	protected int lastTab = 0;
 
 	// private DrawableManager drawableManager;
-	private ImageDownloader imageDownloader;
+	// private ImageDownloader imageDownloader;
 
 	private IServiceMovie serviceMovie;
 	private CineShowtimeDbAdapter mDbHelper;
@@ -176,10 +151,10 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 		model = interaction.getModelActivity();
 		tracker = interaction.getTracker();
-		// Init star img
-		bitmapRateOff = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_off);
-		bitmapRateHalf = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_half);
-		bitmapRateOn = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_on);
+		// // Init star img
+		// bitmapRateOff = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_off);
+		// bitmapRateHalf = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_half);
+		// bitmapRateOn = BitmapFactory.decodeResource(getResources(), R.drawable.rate_star_small_on);
 
 		model.setMapInstalled(CineShowTimeMenuUtil.isMapsInstalled(getActivity().getPackageManager()));
 		model.setDialerInstalled(CineShowTimeMenuUtil.isDialerInstalled(getActivity().getPackageManager()));
@@ -275,21 +250,21 @@ public class CineShowTimeMovieFragment extends Fragment //
 		}
 	}
 
-	private void manageViewVisibility() {
-		if ((model.getTheater() == null) //
-		) {
-			movieBtnMap.setEnabled(false);
-		}
-		if ((model.getGpsLocation() == null) //
-				|| !model.isMapInstalled()//
-		) {
-			movieBtnDirection.setEnabled(false);
-		}
-		if (!model.isDialerInstalled() //
-				&& ((model.getTheater() == null) || (model.getTheater().getPhoneNumber() == null))) {
-			movieBtnCall.setEnabled(false);
-		}
-	}
+	// private void manageViewVisibility() {
+	// if ((model.getTheater() == null) //
+	// ) {
+	// movieBtnMap.setEnabled(false);
+	// }
+	// if ((model.getGpsLocation() == null) //
+	// || !model.isMapInstalled()//
+	// ) {
+	// movieBtnDirection.setEnabled(false);
+	// }
+	// if (!model.isDialerInstalled() //
+	// && ((model.getTheater() == null) || (model.getTheater().getPhoneNumber() == null))) {
+	// movieBtnCall.setEnabled(false);
+	// }
+	// }
 
 	@Override
 	public void onPause() {
@@ -387,46 +362,46 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 		movieFlipper = (ViewFlipper) mainView.findViewById(R.id.movieFlipper);
 
-		summaryMoviePoster = (ImageView) mainView.findViewById(R.id.moviePoster);
-		// txtMovieTitle = (TextView) findViewById(R.id.txtMovieTitle);
-		movieTitle = (TextView) mainView.findViewById(R.id.movieTitle);
-		txtMovieDuration = (TextView) mainView.findViewById(R.id.txtMovieDuration);
-		movieDuration = (TextView) mainView.findViewById(R.id.movieDuration);
-		moviePlot = (TextView) mainView.findViewById(R.id.moviePlot);
-		theaterTitle = (TextView) mainView.findViewById(R.id.movieTheaterTitle);
-		theaterAddress = (TextView) mainView.findViewById(R.id.movieTheaterAddress);
-		movieProjectionTimeList = (ListView) mainView.findViewById(R.id.movieListProjection);
-		movieReviewsList = (ListView) mainView.findViewById(R.id.movieListReview);
-		movieGalleryTrailer = (Gallery) mainView.findViewById(R.id.gallery_trailer);
+		// summaryMoviePoster = (ImageView) mainView.findViewById(R.id.moviePoster);
+		// // txtMovieTitle = (TextView) findViewById(R.id.txtMovieTitle);
+		// movieTitle = (TextView) mainView.findViewById(R.id.movieTitle);
+		// txtMovieDuration = (TextView) mainView.findViewById(R.id.txtMovieDuration);
+		// movieDuration = (TextView) mainView.findViewById(R.id.movieDuration);
+		// moviePlot = (TextView) mainView.findViewById(R.id.moviePlot);
+		// theaterTitle = (TextView) mainView.findViewById(R.id.movieTheaterTitle);
+		// theaterAddress = (TextView) mainView.findViewById(R.id.movieTheaterAddress);
+		// movieProjectionTimeList = (ListView) mainView.findViewById(R.id.movieListProjection);
+		// movieReviewsList = (ListView) mainView.findViewById(R.id.movieListReview);
+		// movieGalleryTrailer = (Gallery) mainView.findViewById(R.id.gallery_trailer);
 
-		movieTabInfoScrollView = (ScrollView) mainView.findViewById(R.id.movieTab_summary);
+		// movieTabInfoScrollView = (ScrollView) mainView.findViewById(R.id.movieTab_summary);
 
 		tabShowtimes = (RelativeLayout) mainView.findViewById(R.id.Projection);
 
-		movieBtnMap = (ImageButton) mainView.findViewById(R.id.movieBtnMap);
-		movieBtnDirection = (ImageButton) mainView.findViewById(R.id.movieBtnDirection);
-		movieBtnCall = (ImageButton) mainView.findViewById(R.id.movieBtnCall);
+		// movieBtnMap = (ImageButton) mainView.findViewById(R.id.movieBtnMap);
+		// movieBtnDirection = (ImageButton) mainView.findViewById(R.id.movieBtnDirection);
+		// movieBtnCall = (ImageButton) mainView.findViewById(R.id.movieBtnCall);
 
 		// drawableManager = new DrawableManager();
-		imageDownloader = new ImageDownloader();
+		// imageDownloader = new ImageDownloader();
 	}
 
 	private void initlisteners() {
-		movieGalleryTrailer.setOnItemClickListener(this);
+		// movieGalleryTrailer.setOnItemClickListener(this);
 		tabHost.setOnTabChangedListener(this);
 
-		movieTabInfoScrollView.setOnTouchListener(this);
-		movieProjectionTimeList.setOnTouchListener(this);
-		movieReviewsList.setOnTouchListener(this);
+		// movieTabInfoScrollView.setOnTouchListener(this);
+		// movieProjectionTimeList.setOnTouchListener(this);
+		// movieReviewsList.setOnTouchListener(this);
 
-		movieBtnMap.setOnClickListener(this);
-		movieBtnDirection.setOnClickListener(this);
-		movieBtnCall.setOnClickListener(this);
+		// movieBtnMap.setOnClickListener(this);
+		// movieBtnDirection.setOnClickListener(this);
+		// movieBtnCall.setOnClickListener(this);
 	}
 
 	private void initMenus() {
-		registerForContextMenu(moviePlot);
-		registerForContextMenu(movieProjectionTimeList);
+		// registerForContextMenu(moviePlot);
+		// registerForContextMenu(movieProjectionTimeList);
 	}
 
 	private void createTabs(View mainView) {
@@ -558,291 +533,292 @@ public class CineShowTimeMovieFragment extends Fragment //
 	// , true, true, this);
 	// }
 
-	/**
-	 * @param movie
-	 */
-	private void fillBasicInformations(MovieBean movie) {
+	// /**
+	// * @param movie
+	// */
+	// private void fillBasicInformations(MovieBean movie) {
+	//
+	// movieTitle.setText(movie.getMovieName());
+	//
+	// txtMovieDuration.setText(getResources().getString(R.string.txtDuration));
+	// movieDuration.setText(CineShowtimeDateNumberUtil.showMovieTimeLength(getActivity(), movie));
+	//
+	// }
 
-		movieTitle.setText(movie.getMovieName());
+	// /**
+	// * @param movie
+	// * @throws Exception
+	// */
+	// protected void fillViews(View mainView, MovieBean movie, boolean withAdapter) throws Exception {
+	//
+	// Log.i(TAG, "FillViews : " + withAdapter);
+	// if ((movie.getUrlImg() != null)) {
+	// CineShowtimeRequestManage.completeMovieDetailStream(movie);
+	// }
+	//
+	// if (((movieWebLinks == null //
+	// ) && ((movie.getImdbId() != null) && (movie.getImdbId().length() != 0)) //
+	// )
+	// || ((movie.getUrlWikipedia() != null) && (movie.getUrlWikipedia().length() != 0)) //
+	// ) {
+	// movieWebLinks = (TextView) mainView.findViewById(R.id.movieWebLinks);
+	// }
+	// if (movieWebLinks != null) {
+	// StringBuffer linkBuffer = new StringBuffer();
+	// if ((movie.getImdbId() != null) && (movie.getImdbId().length() != 0)) {
+	//				linkBuffer.append("<A HREF=\"http://www.imdb.com/title/tt").append(movie.getImdbId()).append("\">Imdb</A>"); //$NON-NLS-1$//$NON-NLS-2$
+	// }
+	// if ((movie.getUrlWikipedia() != null) && (movie.getUrlWikipedia().length() != 0)) {
+	// if (linkBuffer.length() > 0) {
+	//					linkBuffer.append(", "); //$NON-NLS-1$
+	// }
+	//				linkBuffer.append("<A HREF=\"").append(movie.getUrlWikipedia()).append("\">Wikipedia</A>"); //$NON-NLS-1$//$NON-NLS-2$
+	// }
+	//
+	// movieWebLinks.setText(Html.fromHtml(linkBuffer.toString()));
+	// movieWebLinks.setMovementMethod(LinkMovementMethod.getInstance());
+	// }
+	//
+	// if ((movieRate == null) && (movie.getRate() != null)) {
+	// txtMovieRate = (TextView) mainView.findViewById(R.id.txtMovieRate);
+	// movieRate = (TextView) mainView.findViewById(R.id.movieRate);
+	// }
+	// if (movieRate != null) {
+	// String rate = " / 10";
+	// if (movie.getRate() != null) {
+	// rate = String.valueOf(movie.getRate()) + rate;
+	// } else {
+	// rate = "-" + rate;
+	// }
+	// txtMovieRate.setText(getResources().getString(R.string.txtRate));
+	// movieRate.setText(rate);
+	//
+	// sumRate1 = (ImageView) mainView.findViewById(R.id.movieImgRate1);
+	// sumRate2 = (ImageView) mainView.findViewById(R.id.movieImgRate2);
+	// sumRate3 = (ImageView) mainView.findViewById(R.id.movieImgRate3);
+	// sumRate4 = (ImageView) mainView.findViewById(R.id.movieImgRate4);
+	// sumRate5 = (ImageView) mainView.findViewById(R.id.movieImgRate5);
+	// sumRate6 = (ImageView) mainView.findViewById(R.id.movieImgRate6);
+	// sumRate7 = (ImageView) mainView.findViewById(R.id.movieImgRate7);
+	// sumRate8 = (ImageView) mainView.findViewById(R.id.movieImgRate8);
+	// sumRate9 = (ImageView) mainView.findViewById(R.id.movieImgRate9);
+	// sumRate10 = (ImageView) mainView.findViewById(R.id.movieImgRate10);
+	// fillRateImg(movie.getRate());
+	// }
+	//
+	// String style = movie.getStyle();
+	// if ((movieStyle == null) && (style != null) && (style.length() != 0)) {
+	// txtMovieStyle = (TextView) mainView.findViewById(R.id.txtMovieGenre);
+	// movieStyle = (TextView) mainView.findViewById(R.id.movieGenre);
+	// }
+	// if (movieStyle != null) {
+	// if ((style != null) && (style.length() != 0)) {
+	// txtMovieStyle.setText(getResources().getString(R.string.txtGenre));
+	// movieStyle.setText(style.replaceAll("\\|", ", "));
+	// }
+	// }
+	//
+	// String directorList = movie.getDirectorList();
+	// if ((movieDirector == null) && (directorList != null) && (directorList.length() > 0)) {
+	// txtMovieDirector = (TextView) mainView.findViewById(R.id.txtMovieDirector);
+	// movieDirector = (TextView) mainView.findViewById(R.id.movieDirector);
+	// }
+	// if (movieDirector != null) {
+	// if ((directorList != null) && (directorList.length() > 0)) {
+	// txtMovieDirector.setText(getResources().getString(R.string.txtDirector));
+	// movieDirector.setText(directorList.replaceAll("\\|", ", "));
+	// }
+	// }
+	//
+	// String actorList = movie.getActorList();
+	// if ((movieActor == null) && (actorList != null) && (actorList.length() > 0)) {
+	// txtMovieActor = (TextView) mainView.findViewById(R.id.txtMovieActor);
+	// movieActor = (TextView) mainView.findViewById(R.id.movieActor);
+	// }
+	// if (movieActor != null) {
+	// StringBuffer actorBuffer = new StringBuffer();
+	// if ((actorList != null) && (actorList.length() > 0)) {
+	// boolean first = true;
+	// String[] actorArray = actorList.split("\\|");
+	// for (int i = 0; i < Math.min(3, actorArray.length); i++) {
+	// String actor = actorArray[i];
+	// if (first) {
+	// first = false;
+	// } else {
+	//						actorBuffer.append(", "); //$NON-NLS-1$
+	// }
+	// actorBuffer.append(actor);
+	// }
+	// if (actorArray.length > Math.min(3, actorArray.length)) {
+	// actorBuffer.append(", ...");
+	// }
+	// txtMovieActor.setText(getResources().getString(R.string.txtActor));
+	// movieActor.setText(actorBuffer.toString());
+	// }
+	// }
+	//
+	// boolean checkboxPreference;
+	// SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+	// checkboxPreference = prefs.getBoolean(this.getResources().getString(R.string.preference_lang_key_auto_translate), false);
+	//
+	// if ((movie.getDescription() != null)) {
+	// String descTlt = movie.getDescription();
+	// if (checkboxPreference) {
+	// descTlt = Translate.translate(movie.getDescription(), Language.ENGLISH, Language.FRENCH);
+	// movie.setTrDescription(descTlt);
+	// fillDB();
+	// model.setTranslate(true);
+	// } else {
+	// model.setTranslate(false);
+	// }
+	// moviePlot.setText(descTlt);
+	// } else {
+	// moviePlot.setText(getResources().getString(R.string.noSummary));
+	// }
+	// if (movie.getUrlImg() != null) {
+	// imageDownloader.download(movie.getUrlImg(), summaryMoviePoster, getActivity());
+	// } else {
+	// summaryMoviePoster.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.no_poster));
+	// }
+	//
+	//
+	// if ((movie.getYoutubeVideos() != null) && !movie.getYoutubeVideos().isEmpty()) {
+	// this.movieGalleryTrailer.setAdapter(new GalleryTrailerAdapter(getActivity(), movie.getYoutubeVideos(), imageDownloader));
+	// }
+	// TheaterBean theater = model.getTheater();
+	// if (theater != null) {
+	// theaterTitle.setText(theater.getTheaterName());
+	//
+	// LocalisationBean place = theater.getPlace();
+	// if (place != null) {
+	// try {
+	// theaterAddress.setText(URLDecoder.decode(place.getSearchQuery(), CineShowTimeEncodingUtil.getEncoding()));
+	// } catch (Exception e) {
+	// Log.e(TAG, "error decoding address", e);
+	// }
+	// }
+	// }
+	// List<ProjectionBean> projectionList = null;
+	// distanceTime = prefs.getBoolean(this.getResources().getString(R.string.preference_loc_key_time_direction)//
+	// , false);
+	// Long distanceTimeLong = null;
+	// if (theater != null) {
+	// projectionList = theater.getMovieMap().get(movie.getId());
+	// if (distanceTime && (theater.getPlace() != null)) {
+	// distanceTimeLong = theater.getPlace().getDistanceTime();
+	// }
+	// }
+	//
+	// projectionAdapter = new ProjectionListAdapter(getActivity()//
+	// , movie //
+	// , projectionList //
+	// , CineShowtimeDateNumberUtil.getMinTime(projectionList, distanceTimeLong) //
+	// , this//
+	// );
+	// movieProjectionTimeList.setAdapter(projectionAdapter);
+	// this.movieReviewsList.setAdapter(new ReviewListAdapter(getActivity(), movie.getReviews()));
+	// }
 
-		txtMovieDuration.setText(getResources().getString(R.string.txtDuration));
-		movieDuration.setText(CineShowtimeDateNumberUtil.showMovieTimeLength(getActivity(), movie));
-
-	}
-
-	/**
-	 * @param movie
-	 * @throws Exception
-	 */
-	protected void fillViews(View mainView, MovieBean movie, boolean withAdapter) throws Exception {
-
-		Log.i(TAG, "FillViews : " + withAdapter);
-		if ((movie.getUrlImg() != null)) {
-			CineShowtimeRequestManage.completeMovieDetailStream(movie);
-		}
-
-		if (((movieWebLinks == null //
-				) && ((movie.getImdbId() != null) && (movie.getImdbId().length() != 0)) //
-				)
-				|| ((movie.getUrlWikipedia() != null) && (movie.getUrlWikipedia().length() != 0)) //
-		) {
-			movieWebLinks = (TextView) mainView.findViewById(R.id.movieWebLinks);
-		}
-		if (movieWebLinks != null) {
-			StringBuffer linkBuffer = new StringBuffer();
-			if ((movie.getImdbId() != null) && (movie.getImdbId().length() != 0)) {
-				linkBuffer.append("<A HREF=\"http://www.imdb.com/title/tt").append(movie.getImdbId()).append("\">Imdb</A>"); //$NON-NLS-1$//$NON-NLS-2$
-			}
-			if ((movie.getUrlWikipedia() != null) && (movie.getUrlWikipedia().length() != 0)) {
-				if (linkBuffer.length() > 0) {
-					linkBuffer.append(", "); //$NON-NLS-1$
-				}
-				linkBuffer.append("<A HREF=\"").append(movie.getUrlWikipedia()).append("\">Wikipedia</A>"); //$NON-NLS-1$//$NON-NLS-2$
-			}
-
-			movieWebLinks.setText(Html.fromHtml(linkBuffer.toString()));
-			movieWebLinks.setMovementMethod(LinkMovementMethod.getInstance());
-		}
-
-		if ((movieRate == null) && (movie.getRate() != null)) {
-			txtMovieRate = (TextView) mainView.findViewById(R.id.txtMovieRate);
-			movieRate = (TextView) mainView.findViewById(R.id.movieRate);
-		}
-		if (movieRate != null) {
-			String rate = " / 10";
-			if (movie.getRate() != null) {
-				rate = String.valueOf(movie.getRate()) + rate;
-			} else {
-				rate = "-" + rate;
-			}
-			txtMovieRate.setText(getResources().getString(R.string.txtRate));
-			movieRate.setText(rate);
-
-			sumRate1 = (ImageView) mainView.findViewById(R.id.movieImgRate1);
-			sumRate2 = (ImageView) mainView.findViewById(R.id.movieImgRate2);
-			sumRate3 = (ImageView) mainView.findViewById(R.id.movieImgRate3);
-			sumRate4 = (ImageView) mainView.findViewById(R.id.movieImgRate4);
-			sumRate5 = (ImageView) mainView.findViewById(R.id.movieImgRate5);
-			sumRate6 = (ImageView) mainView.findViewById(R.id.movieImgRate6);
-			sumRate7 = (ImageView) mainView.findViewById(R.id.movieImgRate7);
-			sumRate8 = (ImageView) mainView.findViewById(R.id.movieImgRate8);
-			sumRate9 = (ImageView) mainView.findViewById(R.id.movieImgRate9);
-			sumRate10 = (ImageView) mainView.findViewById(R.id.movieImgRate10);
-			fillRateImg(movie.getRate());
-		}
-
-		String style = movie.getStyle();
-		if ((movieStyle == null) && (style != null) && (style.length() != 0)) {
-			txtMovieStyle = (TextView) mainView.findViewById(R.id.txtMovieGenre);
-			movieStyle = (TextView) mainView.findViewById(R.id.movieGenre);
-		}
-		if (movieStyle != null) {
-			if ((style != null) && (style.length() != 0)) {
-				txtMovieStyle.setText(getResources().getString(R.string.txtGenre));
-				movieStyle.setText(style.replaceAll("\\|", ", "));
-			}
-		}
-
-		String directorList = movie.getDirectorList();
-		if ((movieDirector == null) && (directorList != null) && (directorList.length() > 0)) {
-			txtMovieDirector = (TextView) mainView.findViewById(R.id.txtMovieDirector);
-			movieDirector = (TextView) mainView.findViewById(R.id.movieDirector);
-		}
-		if (movieDirector != null) {
-			if ((directorList != null) && (directorList.length() > 0)) {
-				txtMovieDirector.setText(getResources().getString(R.string.txtDirector));
-				movieDirector.setText(directorList.replaceAll("\\|", ", "));
-			}
-		}
-
-		String actorList = movie.getActorList();
-		if ((movieActor == null) && (actorList != null) && (actorList.length() > 0)) {
-			txtMovieActor = (TextView) mainView.findViewById(R.id.txtMovieActor);
-			movieActor = (TextView) mainView.findViewById(R.id.movieActor);
-		}
-		if (movieActor != null) {
-			StringBuffer actorBuffer = new StringBuffer();
-			if ((actorList != null) && (actorList.length() > 0)) {
-				boolean first = true;
-				String[] actorArray = actorList.split("\\|");
-				for (int i = 0; i < Math.min(3, actorArray.length); i++) {
-					String actor = actorArray[i];
-					if (first) {
-						first = false;
-					} else {
-						actorBuffer.append(", "); //$NON-NLS-1$
-					}
-					actorBuffer.append(actor);
-				}
-				if (actorArray.length > Math.min(3, actorArray.length)) {
-					actorBuffer.append(", ...");
-				}
-				txtMovieActor.setText(getResources().getString(R.string.txtActor));
-				movieActor.setText(actorBuffer.toString());
-			}
-		}
-
-		boolean checkboxPreference;
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		checkboxPreference = prefs.getBoolean(this.getResources().getString(R.string.preference_lang_key_auto_translate), false);
-
-		if ((movie.getDescription() != null)) {
-			String descTlt = movie.getDescription();
-			if (checkboxPreference) {
-				descTlt = Translate.translate(movie.getDescription(), Language.ENGLISH, Language.FRENCH);
-				movie.setTrDescription(descTlt);
-				fillDB();
-				model.setTranslate(true);
-			} else {
-				model.setTranslate(false);
-			}
-			moviePlot.setText(descTlt);
-		} else {
-			moviePlot.setText(getResources().getString(R.string.noSummary));
-		}
-		if (movie.getUrlImg() != null) {
-			imageDownloader.download(movie.getUrlImg(), summaryMoviePoster, getActivity());
-		} else {
-			summaryMoviePoster.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.no_poster));
-		}
-
-		TheaterBean theater = model.getTheater();
-		if (theater != null) {
-			theaterTitle.setText(theater.getTheaterName());
-
-			LocalisationBean place = theater.getPlace();
-			if (place != null) {
-				try {
-					theaterAddress.setText(URLDecoder.decode(place.getSearchQuery(), CineShowTimeEncodingUtil.getEncoding()));
-				} catch (Exception e) {
-					Log.e(TAG, "error decoding address", e);
-				}
-			}
-		}
-
-		if ((movie.getYoutubeVideos() != null) && !movie.getYoutubeVideos().isEmpty()) {
-			this.movieGalleryTrailer.setAdapter(new GalleryTrailerAdapter(getActivity(), movie.getYoutubeVideos(), imageDownloader));
-		}
-		List<ProjectionBean> projectionList = null;
-		distanceTime = prefs.getBoolean(this.getResources().getString(R.string.preference_loc_key_time_direction)//
-				, false);
-		Long distanceTimeLong = null;
-		if (theater != null) {
-			projectionList = theater.getMovieMap().get(movie.getId());
-			if (distanceTime && (theater.getPlace() != null)) {
-				distanceTimeLong = theater.getPlace().getDistanceTime();
-			}
-		}
-
-		projectionAdapter = new ProjectionListAdapter(getActivity()//
-				, movie //
-				, projectionList //
-				, CineShowtimeDateNumberUtil.getMinTime(projectionList, distanceTimeLong) //
-				, this//
-		);
-		movieProjectionTimeList.setAdapter(projectionAdapter);
-		this.movieReviewsList.setAdapter(new ReviewListAdapter(getActivity(), movie.getReviews()));
-	}
-
-	/**
-	 * @param rate
-	 */
-	private void fillRateImg(Double rate) {
-
-		int rate1 = R.drawable.rate_star_small_off;
-		int rate2 = R.drawable.rate_star_small_off;
-		int rate3 = R.drawable.rate_star_small_off;
-		int rate4 = R.drawable.rate_star_small_off;
-		int rate5 = R.drawable.rate_star_small_off;
-		int rate6 = R.drawable.rate_star_small_off;
-		int rate7 = R.drawable.rate_star_small_off;
-		int rate8 = R.drawable.rate_star_small_off;
-		int rate9 = R.drawable.rate_star_small_off;
-		int rate10 = R.drawable.rate_star_small_off;
-		if (rate != null) {
-			switch (rate.intValue()) {
-			case 10:
-				rate10 = R.drawable.rate_star_small_on;
-			case 9:
-				rate9 = R.drawable.rate_star_small_on;
-				if ((rate > 9.5) && (rate < 10)) {
-					rate10 = R.drawable.rate_star_small_half;
-				}
-			case 8:
-				rate8 = R.drawable.rate_star_small_on;
-				if ((rate > 8.5) && (rate < 9)) {
-					rate9 = R.drawable.rate_star_small_half;
-				}
-			case 7:
-				rate7 = R.drawable.rate_star_small_on;
-				if ((rate > 7.5) && (rate < 8)) {
-					rate8 = R.drawable.rate_star_small_half;
-				}
-			case 6:
-				rate6 = R.drawable.rate_star_small_on;
-				if ((rate > 6.5) && (rate < 7)) {
-					rate7 = R.drawable.rate_star_small_half;
-				}
-			case 5:
-				rate5 = R.drawable.rate_star_small_on;
-				if ((rate > 5.5) && (rate < 6)) {
-					rate6 = R.drawable.rate_star_small_half;
-				}
-			case 4:
-				rate4 = R.drawable.rate_star_small_on;
-				if ((rate > 4.5) && (rate < 5)) {
-					rate5 = R.drawable.rate_star_small_half;
-				}
-			case 3:
-				rate3 = R.drawable.rate_star_small_on;
-				if ((rate > 3.5) && (rate < 4)) {
-					rate4 = R.drawable.rate_star_small_half;
-				}
-			case 2:
-				rate2 = R.drawable.rate_star_small_on;
-				if ((rate > 2.5) && (rate < 3)) {
-					rate3 = R.drawable.rate_star_small_half;
-				}
-			case 1:
-				rate1 = R.drawable.rate_star_small_on;
-				if ((rate > 1.5) && (rate < 2)) {
-					rate2 = R.drawable.rate_star_small_half;
-				}
-			case 0:
-				if ((rate > 0.5) && (rate < 1)) {
-					rate1 = R.drawable.rate_star_small_half;
-				}
-			default:
-				break;
-			}
-		}
-
-		sumRate1.setImageBitmap(getImg(rate1));
-		sumRate2.setImageBitmap(getImg(rate2));
-		sumRate3.setImageBitmap(getImg(rate3));
-		sumRate4.setImageBitmap(getImg(rate4));
-		sumRate5.setImageBitmap(getImg(rate5));
-		sumRate6.setImageBitmap(getImg(rate6));
-		sumRate7.setImageBitmap(getImg(rate7));
-		sumRate8.setImageBitmap(getImg(rate8));
-		sumRate9.setImageBitmap(getImg(rate9));
-		sumRate10.setImageBitmap(getImg(rate10));
-
-	}
-
-	/**
-	 * @param rate
-	 * @return
-	 */
-	private Bitmap getImg(int rate) {
-		if (rate == R.drawable.rate_star_small_off) {
-			return bitmapRateOff;
-		} else if (rate == R.drawable.rate_star_small_half) {
-			return bitmapRateHalf;
-		} else {
-			return bitmapRateOn;
-		}
-	}
+	//
+	// /**
+	// * @param rate
+	// */
+	// private void fillRateImg(Double rate) {
+	//
+	// int rate1 = R.drawable.rate_star_small_off;
+	// int rate2 = R.drawable.rate_star_small_off;
+	// int rate3 = R.drawable.rate_star_small_off;
+	// int rate4 = R.drawable.rate_star_small_off;
+	// int rate5 = R.drawable.rate_star_small_off;
+	// int rate6 = R.drawable.rate_star_small_off;
+	// int rate7 = R.drawable.rate_star_small_off;
+	// int rate8 = R.drawable.rate_star_small_off;
+	// int rate9 = R.drawable.rate_star_small_off;
+	// int rate10 = R.drawable.rate_star_small_off;
+	// if (rate != null) {
+	// switch (rate.intValue()) {
+	// case 10:
+	// rate10 = R.drawable.rate_star_small_on;
+	// case 9:
+	// rate9 = R.drawable.rate_star_small_on;
+	// if ((rate > 9.5) && (rate < 10)) {
+	// rate10 = R.drawable.rate_star_small_half;
+	// }
+	// case 8:
+	// rate8 = R.drawable.rate_star_small_on;
+	// if ((rate > 8.5) && (rate < 9)) {
+	// rate9 = R.drawable.rate_star_small_half;
+	// }
+	// case 7:
+	// rate7 = R.drawable.rate_star_small_on;
+	// if ((rate > 7.5) && (rate < 8)) {
+	// rate8 = R.drawable.rate_star_small_half;
+	// }
+	// case 6:
+	// rate6 = R.drawable.rate_star_small_on;
+	// if ((rate > 6.5) && (rate < 7)) {
+	// rate7 = R.drawable.rate_star_small_half;
+	// }
+	// case 5:
+	// rate5 = R.drawable.rate_star_small_on;
+	// if ((rate > 5.5) && (rate < 6)) {
+	// rate6 = R.drawable.rate_star_small_half;
+	// }
+	// case 4:
+	// rate4 = R.drawable.rate_star_small_on;
+	// if ((rate > 4.5) && (rate < 5)) {
+	// rate5 = R.drawable.rate_star_small_half;
+	// }
+	// case 3:
+	// rate3 = R.drawable.rate_star_small_on;
+	// if ((rate > 3.5) && (rate < 4)) {
+	// rate4 = R.drawable.rate_star_small_half;
+	// }
+	// case 2:
+	// rate2 = R.drawable.rate_star_small_on;
+	// if ((rate > 2.5) && (rate < 3)) {
+	// rate3 = R.drawable.rate_star_small_half;
+	// }
+	// case 1:
+	// rate1 = R.drawable.rate_star_small_on;
+	// if ((rate > 1.5) && (rate < 2)) {
+	// rate2 = R.drawable.rate_star_small_half;
+	// }
+	// case 0:
+	// if ((rate > 0.5) && (rate < 1)) {
+	// rate1 = R.drawable.rate_star_small_half;
+	// }
+	// default:
+	// break;
+	// }
+	// }
+	//
+	// sumRate1.setImageBitmap(getImg(rate1));
+	// sumRate2.setImageBitmap(getImg(rate2));
+	// sumRate3.setImageBitmap(getImg(rate3));
+	// sumRate4.setImageBitmap(getImg(rate4));
+	// sumRate5.setImageBitmap(getImg(rate5));
+	// sumRate6.setImageBitmap(getImg(rate6));
+	// sumRate7.setImageBitmap(getImg(rate7));
+	// sumRate8.setImageBitmap(getImg(rate8));
+	// sumRate9.setImageBitmap(getImg(rate9));
+	// sumRate10.setImageBitmap(getImg(rate10));
+	//
+	// }
+	//
+	// /**
+	// * @param rate
+	// * @return
+	// */
+	// private Bitmap getImg(int rate) {
+	// if (rate == R.drawable.rate_star_small_off) {
+	// return bitmapRateOff;
+	// } else if (rate == R.drawable.rate_star_small_half) {
+	// return bitmapRateHalf;
+	// } else {
+	// return bitmapRateOn;
+	// }
+	// }
 
 	/*
 	 * MENU
@@ -954,16 +930,16 @@ public class CineShowTimeMovieFragment extends Fragment //
 	 * Event Part
 	 */
 
-	@Override
-	public void onItemClick(AdapterView<?> adpater, View view, int groupPosition, long id) {
-		if (view instanceof GalleryTrailerView) {
-			GalleryTrailerView trailer = (GalleryTrailerView) view;
-			tracker.trackEvent("Open", "Click", "Open trailer", 0);
-			tracker.dispatch();
-			startActivity(IntentShowtime.createTrailerIntent(trailer.getYoutubeBean()));
-		}
-
-	}
+	// @Override
+	// public void onItemClick(AdapterView<?> adpater, View view, int groupPosition, long id) {
+	// if (view instanceof GalleryTrailerView) {
+	// GalleryTrailerView trailer = (GalleryTrailerView) view;
+	// tracker.trackEvent("Open", "Click", "Open trailer", 0);
+	// tracker.dispatch();
+	// startActivity(IntentShowtime.createTrailerIntent(trailer.getYoutubeBean()));
+	// }
+	//
+	// }
 
 	@Override
 	public void onTabChanged(String tabId) {
@@ -1021,49 +997,49 @@ public class CineShowTimeMovieFragment extends Fragment //
 		return false;
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.item_projection_button:
-			tracker.trackEvent("Action", "Click", "Use popup button", 0);
-			ImageButton imageBtn = (ImageButton) v;
-			ProjectionView parentView = (ProjectionView) imageBtn.getParent().getParent();
-
-			ListPopupWindow popupWindow = new ListPopupWindow(v, getActivity(), model.getTheater(), model.getMovie(), parentView.getProjectionBean(), model.isCalendarInstalled());
-			// popupWindow.showLikeQuickAction(0, -30);
-			// popupWindow.showLikePopDownMenu(0, -100);
-			popupWindow.loadView();
-			// Log.i("ListenerMovieActivity", "Rect : " + popupWindow.getSize() + ", list : " + popupWindow.getSizeList());
-			popupWindow.showLikePopDownMenu(0, -(popupWindow.getOptions().size() * 40));
-			break;
-		case R.id.movieBtnMap:
-			tracker.trackEvent("Action", "Click", "Use map button", 0);
-			tracker.dispatch();
-			if (model.isMapInstalled()) {
-				startActivity(IntentShowtime.createMapsIntent(model.getTheater()));
-			} else {
-				startActivity(IntentShowtime.createMapsIntentBrowser(model.getTheater()));
-
-			}
-			break;
-		case R.id.movieBtnDirection:
-			tracker.trackEvent("Action", "Click", "Use map navigation button", 0);
-			tracker.dispatch();
-			Intent intentDirection = IntentShowtime.createMapsWithDrivingDirectionIntent(model.getTheater(), model.getGpsLocation());
-			if (intentDirection != null) {
-				startActivity(intentDirection);
-			}
-			break;
-		case R.id.movieBtnCall:
-			tracker.trackEvent("Action", "Click", "Use call button", 0);
-			tracker.dispatch();
-			startActivity(IntentShowtime.createCallIntent(model.getTheater()));
-			break;
-		default:
-			break;
-		}
-
-	}
+	// @Override
+	// public void onClick(View v) {
+	// switch (v.getId()) {
+	// case R.id.item_projection_button:
+	// tracker.trackEvent("Action", "Click", "Use popup button", 0);
+	// ImageButton imageBtn = (ImageButton) v;
+	// ProjectionView parentView = (ProjectionView) imageBtn.getParent().getParent();
+	//
+	// ListPopupWindow popupWindow = new ListPopupWindow(v, getActivity(), model.getTheater(), model.getMovie(), parentView.getProjectionBean(), model.isCalendarInstalled());
+	// // popupWindow.showLikeQuickAction(0, -30);
+	// // popupWindow.showLikePopDownMenu(0, -100);
+	// popupWindow.loadView();
+	// // Log.i("ListenerMovieActivity", "Rect : " + popupWindow.getSize() + ", list : " + popupWindow.getSizeList());
+	// popupWindow.showLikePopDownMenu(0, -(popupWindow.getOptions().size() * 40));
+	// break;
+	// case R.id.movieBtnMap:
+	// tracker.trackEvent("Action", "Click", "Use map button", 0);
+	// tracker.dispatch();
+	// if (model.isMapInstalled()) {
+	// startActivity(IntentShowtime.createMapsIntent(model.getTheater()));
+	// } else {
+	// startActivity(IntentShowtime.createMapsIntentBrowser(model.getTheater()));
+	//
+	// }
+	// break;
+	// case R.id.movieBtnDirection:
+	// tracker.trackEvent("Action", "Click", "Use map navigation button", 0);
+	// tracker.dispatch();
+	// Intent intentDirection = IntentShowtime.createMapsWithDrivingDirectionIntent(model.getTheater(), model.getGpsLocation());
+	// if (intentDirection != null) {
+	// startActivity(intentDirection);
+	// }
+	// break;
+	// case R.id.movieBtnCall:
+	// tracker.trackEvent("Action", "Click", "Use call button", 0);
+	// tracker.dispatch();
+	// startActivity(IntentShowtime.createCallIntent(model.getTheater()));
+	// break;
+	// default:
+	// break;
+	// }
+	//
+	// }
 
 	public void onCancel() {
 		try {
