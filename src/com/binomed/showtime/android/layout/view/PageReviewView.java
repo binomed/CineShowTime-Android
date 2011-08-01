@@ -3,7 +3,6 @@ package com.binomed.showtime.android.layout.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -50,7 +49,7 @@ public class PageReviewView extends LinearLayout {
 	 * @param movie
 	 * @throws Exception
 	 */
-	public void fillViews(View mainView, MovieBean movie) throws Exception {
+	public void fillViews(MovieBean movie) throws Exception {
 		this.movieReviewsList.setAdapter(new ReviewListAdapter(getContext(), movie.getReviews()));
 	}
 

@@ -2,14 +2,25 @@ package com.binomed.showtime.android.adapter.view;
 
 import greendroid.widget.PagedAdapter;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.binomed.showtime.android.layout.view.PageInfoView;
+import com.binomed.showtime.android.layout.view.PageInfoView.CallBack;
+import com.binomed.showtime.android.layout.view.PageProjectionView;
+import com.binomed.showtime.android.layout.view.PageReviewView;
 import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.screen.movie.IModelMovie;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class MoviePagedAdapter extends PagedAdapter {
 
 	private int NB_PAGE = 3;
+
+	protected PageInfoView pageInfoView;
+	protected PageProjectionView pageProjectionView;
+	protected PageReviewView pageReviewView;
 
 	@Override
 	public int getCount() {
@@ -18,11 +29,17 @@ public class MoviePagedAdapter extends PagedAdapter {
 
 	private MovieBean movie;
 	private Context context;
+	private IModelMovie model;
+	private GoogleAnalyticsTracker tracker;
+	private CallBack callBack;
 
-	public MoviePagedAdapter(MovieBean movie, Context context) {
+	public MoviePagedAdapter(MovieBean movie, Context context, IModelMovie model, GoogleAnalyticsTracker tracker, CallBack callBack) {
 		super();
 		this.movie = movie;
 		this.context = context;
+		this.model = model;
+		this.tracker = tracker;
+		this.callBack = callBack;
 	}
 
 	@Override
@@ -37,8 +54,69 @@ public class MoviePagedAdapter extends PagedAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		return null;
+		View view = null;
+		try {
+			switch (position) {
+			case 0: {
+				if (pageInfoView == null) {
+					pageInfoView = new PageInfoView(context, model, tracker, callBack);
+				}
+				pageInfoView.fillBasicInformations(movie);
+				view = pageInfoView;
+				break;
+			}
+			case 1: {
+				if (pageProjectionView == null) {
+					pageProjectionView = new PageProjectionView(context, model, tracker);
+				}
+				pageProjectionView.fillViews(movie);
+				view = pageProjectionView;
+				break;
+			}
+			case 2: {
+				if (pageReviewView == null) {
+					pageReviewView = new PageReviewView(context, model, tracker);
+				}
+				pageReviewView.fillViews(movie);
+				view = pageReviewView;
+				break;
+			}
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			Log.e("MoviePagedAdapter", "error during getView", e);
+		}
+		return view;
 	}
 
+	public void manageViewVisibility() {
+		if (pageProjectionView != null) {
+			pageProjectionView.manageViewVisibility();
+		}
+	}
+
+	public void fillBasicInformations(MovieBean movie) {
+		if (pageInfoView != null) {
+			pageInfoView.fillBasicInformations(movie);
+		}
+	}
+
+	public void fillViews(View mainView, MovieBean movie) throws Exception {
+		if (pageInfoView != null) {
+			pageInfoView.fillViews(mainView, movie);
+		}
+		if (pageProjectionView != null) {
+			pageProjectionView.fillViews(movie);
+		}
+		if (pageReviewView != null) {
+			pageReviewView.fillViews(movie);
+		}
+	}
+
+	public void changePreferences() {
+		if (pageProjectionView != null) {
+			pageProjectionView.changePreferences();
+		}
+	}
 }

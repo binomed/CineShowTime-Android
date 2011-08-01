@@ -81,7 +81,7 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 	 * @param movie
 	 * @throws Exception
 	 */
-	public void fillViews(View mainView, MovieBean movie) throws Exception {
+	public void fillViews(MovieBean movie) throws Exception {
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 

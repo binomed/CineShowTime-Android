@@ -1,6 +1,7 @@
 package com.binomed.showtime.android.screen.movie;
 
 import greendroid.widget.PagedView;
+import greendroid.widget.PagedView.OnPagedViewChangeListener;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -20,20 +21,20 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
+import com.binomed.showtime.android.adapter.view.MoviePagedAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.handler.MovieCallBackMovie;
 import com.binomed.showtime.android.handler.ServiceCallBackMovie;
+import com.binomed.showtime.android.layout.view.PageInfoView.CallBack;
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
@@ -49,6 +50,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 		// public class CineShowTimeMovieActivity extends Activity //
 		implements // OnItemClickListener //
 		OnTabChangeListener //
+		, OnPagedViewChangeListener //
+		, CallBack//
 // , OnTouchListener //
 // , OnClickListener //
 // , OnCancelListener //
@@ -76,8 +79,10 @@ public class CineShowTimeMovieFragment extends Fragment //
 	// private Gallery movieGalleryTrailer;
 	// protected ViewFlipper movieFlipper;
 	protected PagedView moviePagedView;
+	private MoviePagedAdapter moviePagedAdapter;
+
 	// private ScrollView movieTabInfoScrollView;
-	protected RelativeLayout tabShowtimes;
+	// protected RelativeLayout tabShowtimes;
 	// private ImageButton movieBtnMap, movieBtnDirection, movieBtnCall;
 
 	// protected GalleryTrailerAdapter trailerAdapter;
@@ -96,7 +101,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 	 * The invoked service
 	 */
 	private IModelMovie model;
-	protected GoogleAnalyticsTracker tracker;
+	private GoogleAnalyticsTracker tracker;
 
 	private MovieFragmentInteraction<? extends IModelMovie> interaction;
 
@@ -223,15 +228,16 @@ public class CineShowTimeMovieFragment extends Fragment //
 		Log.i(TAG, "Movie ID : " + movieId);
 
 		model.setMovie(movie);
+		moviePagedAdapter = new MoviePagedAdapter(movie, getActivity(), model, tracker, this);
 
 		if (theaterId != null) {
 			model.setTheater(theater);
 		}
 
-		manageViewVisibility();
+		moviePagedAdapter.manageViewVisibility();
 
 		try {
-			fillBasicInformations(movie);
+			moviePagedAdapter.fillBasicInformations(movie);
 
 			if (isServiceRunning()) {
 				interaction.openDialog();
@@ -243,7 +249,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 				searchMovieDetail(movie, near);
 			} else {
 				tracker.trackEvent("Movie", "Reuse", "Reuse data from database", 0);
-				fillViews(mainView, movie, false);
+				moviePagedAdapter.fillViews(mainView, movie);
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "error on create", e); //$NON-NLS-1$
@@ -328,9 +334,9 @@ public class CineShowTimeMovieFragment extends Fragment //
 					if ((oldTouchValue > currentX) && (tabHost.getCurrentTab() <= 1)) {
 						tracker.trackEvent("Action", "Slide", "Use slide on movie screen", 0);
 						// fillViews(model.getMovie(), false);
-						movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
-						movieFlipper.setOutAnimation(AnimationHelper.outToLeftAnimation());
-						movieFlipper.showNext();
+						// movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
+						// movieFlipper.setOutAnimation(AnimationHelper.outToLeftAnimation());
+						// movieFlipper.showNext();
 						desactivListener = true;
 						tabHost.setCurrentTab(tabHost.getCurrentTab() + 1);
 						lastTab = tabHost.getCurrentTab();
@@ -338,9 +344,9 @@ public class CineShowTimeMovieFragment extends Fragment //
 					} else if ((oldTouchValue < currentX) && (tabHost.getCurrentTab() >= 1)) {
 						tracker.trackEvent("Action", "Slide", "Use slide on movie screen", 0);
 						// fillViews(model.getMovie(), false);
-						movieFlipper.setInAnimation(AnimationHelper.inFromLeftAnimation());
-						movieFlipper.setOutAnimation(AnimationHelper.outToRightAnimation());
-						movieFlipper.showPrevious();
+						// movieFlipper.setInAnimation(AnimationHelper.inFromLeftAnimation());
+						// movieFlipper.setOutAnimation(AnimationHelper.outToRightAnimation());
+						// movieFlipper.showPrevious();
 						desactivListener = true;
 						tabHost.setCurrentTab(tabHost.getCurrentTab() - 1);
 						lastTab = tabHost.getCurrentTab();
@@ -360,7 +366,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 	 */
 	private void initViews(View mainView) {
 
-		movieFlipper = (ViewFlipper) mainView.findViewById(R.id.movieFlipper);
+		// movieFlipper = (ViewFlipper) mainView.findViewById(R.id.movieFlipper);
+		moviePagedView = (PagedView) mainView.findViewById(R.id.paged_view);
 
 		// summaryMoviePoster = (ImageView) mainView.findViewById(R.id.moviePoster);
 		// // txtMovieTitle = (TextView) findViewById(R.id.txtMovieTitle);
@@ -376,7 +383,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 		// movieTabInfoScrollView = (ScrollView) mainView.findViewById(R.id.movieTab_summary);
 
-		tabShowtimes = (RelativeLayout) mainView.findViewById(R.id.Projection);
+		// tabShowtimes = (RelativeLayout) mainView.findViewById(R.id.Projection);
 
 		// movieBtnMap = (ImageButton) mainView.findViewById(R.id.movieBtnMap);
 		// movieBtnDirection = (ImageButton) mainView.findViewById(R.id.movieBtnDirection);
@@ -502,7 +509,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 			fillDB();
 
 			try {
-				fillViews(mainView, model.getMovie(), false);
+				moviePagedAdapter.fillViews(mainView, model.getMovie());
+				// fillViews(mainView, model.getMovie(), false);
 			} catch (Exception e) {
 				Log.e(TAG, "exception ", e);
 			}
@@ -516,7 +524,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 		@Override
 		public void handleInputRecived(int tabIndex) {
 			try {
-				fillViews(mainView, model.getMovie(), true);
+				moviePagedAdapter.fillViews(mainView, model.getMovie());
+				// fillViews(mainView, model.getMovie(), true);
 			} catch (Exception e) {
 				Log.e(TAG, "error during filling", e);
 			}
@@ -949,38 +958,47 @@ public class CineShowTimeMovieFragment extends Fragment //
 				if (tabId.equals("Summary")) {
 					tracker.trackEvent("Action", "Click", "Go to tab Info", 0);
 					// movieActivity.fillViews(model.getMovie(), false);
-					movieFlipper.setInAnimation(AnimationHelper.inFromLeftAnimation());
-					movieFlipper.setOutAnimation(AnimationHelper.outToRightAnimation());
-					movieFlipper.showPrevious();
+					// movieFlipper.setInAnimation(AnimationHelper.inFromLeftAnimation());
+					// movieFlipper.setOutAnimation(AnimationHelper.outToRightAnimation());
+					// movieFlipper.showPrevious();
 					if (lastTab == 2) {
-						tabShowtimes.setVisibility(View.INVISIBLE);
-						movieFlipper.showPrevious();
+						// tabShowtimes.setVisibility(View.INVISIBLE);
+						// movieFlipper.showPrevious();
 						// movieActivity.tabShowtimes.setVisibility(View.VISIBLE);
+						moviePagedView.smoothScrollToPage(0);
+					} else {
+						moviePagedView.smoothScrollToPrevious();
 					}
 					lastTab = 0;
 				} else if (tabId.equals("Projection")) {
 					tracker.trackEvent("Action", "Click", "Go to tab projections", 0);
 					// movieActivity.fillViews(model.getMovie(), false);
 					if (lastTab == 0) {
-						movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
-						movieFlipper.setOutAnimation(AnimationHelper.outToLeftAnimation());
-						movieFlipper.showNext();
+						moviePagedView.smoothScrollToNext();
+						// movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
+						// movieFlipper.setOutAnimation(AnimationHelper.outToLeftAnimation());
+						// movieFlipper.showNext();
 					} else {
-						movieFlipper.setInAnimation(AnimationHelper.inFromLeftAnimation());
-						movieFlipper.setOutAnimation(AnimationHelper.outToRightAnimation());
-						movieFlipper.showPrevious();
+						moviePagedView.smoothScrollToPrevious();
+						// movieFlipper.setInAnimation(AnimationHelper.inFromLeftAnimation());
+						// movieFlipper.setOutAnimation(AnimationHelper.outToRightAnimation());
+						// movieFlipper.showPrevious();
 					}
 					lastTab = 1;
 				} else if (tabId.equals("Review")) {
 					tracker.trackEvent("Action", "Click", "Go to tab reviews", 0);
 					// movieActivity.fillViews(model.getMovie(), false);
-					movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
-					movieFlipper.setOutAnimation(AnimationHelper.outToLeftAnimation());
-					movieFlipper.showNext();
+					// movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
+					// movieFlipper.setOutAnimation(AnimationHelper.outToLeftAnimation());
+					// movieFlipper.showNext();
 					if (lastTab == 0) {
-						tabShowtimes.setVisibility(View.INVISIBLE);
-						movieFlipper.showNext();
+						// tabShowtimes.setVisibility(View.INVISIBLE);
+						// movieFlipper.showNext();
+						moviePagedView.smoothScrollToPage(2);
 						// movieActivity.tabShowtimes.setVisibility(View.VISIBLE);
+					} else {
+						moviePagedView.smoothScrollToNext();
+
 					}
 					lastTab = 2;
 				}
@@ -991,10 +1009,52 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 	}
 
+	// @Override
+	// public boolean onTouch(View v, MotionEvent event) {
+	// manageMotionEvent(event);
+	// return false;
+	// }
+
 	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		manageMotionEvent(event);
-		return false;
+	public void onPageChanged(PagedView pagedView, int previousPage, int newPage) {
+		try {
+			if ((newPage > previousPage) && (tabHost.getCurrentTab() <= 1)) {
+				tracker.trackEvent("Action", "Slide", "Use slide on movie screen", 0);
+				// fillViews(model.getMovie(), false);
+				// movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
+				// movieFlipper.setOutAnimation(AnimationHelper.outToLeftAnimation());
+				// movieFlipper.showNext();
+				desactivListener = true;
+				tabHost.setCurrentTab(tabHost.getCurrentTab() + 1);
+				lastTab = tabHost.getCurrentTab();
+				desactivListener = false;
+			} else if ((newPage < previousPage) && (tabHost.getCurrentTab() >= 1)) {
+				tracker.trackEvent("Action", "Slide", "Use slide on movie screen", 0);
+				// fillViews(model.getMovie(), false);
+				// movieFlipper.setInAnimation(AnimationHelper.inFromLeftAnimation());
+				// movieFlipper.setOutAnimation(AnimationHelper.outToRightAnimation());
+				// movieFlipper.showPrevious();
+				desactivListener = true;
+				tabHost.setCurrentTab(tabHost.getCurrentTab() - 1);
+				lastTab = tabHost.getCurrentTab();
+				desactivListener = false;
+			}
+		} catch (Exception e) {
+			Log.e(TAG, "error during managing ActionUp", e);
+		}
+
+	}
+
+	@Override
+	public void onStartTracking(PagedView pagedView) {
+		// nothing to do
+
+	}
+
+	@Override
+	public void onStopTracking(PagedView pagedView) {
+		// nothing to do
+
 	}
 
 	// @Override
@@ -1078,6 +1138,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 		}
 	}
 
+	@Override
 	public void fillDB() {
 		Intent intentUpdateMovie = new Intent(getActivity(), CineShowDBGlobalService.class);
 		intentUpdateMovie.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_MOVIE_WRITE);
@@ -1216,7 +1277,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 	 */
 
 	public void changePreferences() {
-		projectionAdapter.changePreferences();
+		// projectionAdapter.changePreferences();
+		moviePagedAdapter.changePreferences();
 	}
 
 	public interface MovieFragmentInteraction<M extends IModelMovie> extends IFragmentCineShowTimeInteraction<M> {
