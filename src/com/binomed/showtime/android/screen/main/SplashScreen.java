@@ -55,6 +55,12 @@ public class SplashScreen extends Activity {
 
 		splashImage = (ImageView) findViewById(R.id.SplashImage);
 		splashImage2 = (ImageView) findViewById(R.id.SplashImage2);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
 		Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.appear);
 		// splashImage.setImageResource(R.drawable.splash_front_0);
 		Animation fadeOut = AnimationUtils.loadAnimation(SplashScreen.this, R.anim.disappear);
@@ -63,7 +69,6 @@ public class SplashScreen extends Activity {
 
 		mHandler.postDelayed(mFadeOutRunnable, SPLASH_SCREEN_FIRST_DURATION);
 		mHandler.postDelayed(mPendingLauncherRunnable, SPLASH_SCREEN_DURATION);
-
 	}
 
 	@Override

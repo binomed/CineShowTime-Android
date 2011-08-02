@@ -377,12 +377,14 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 			if ((position == OnActionBarListener.HOME_ITEM) && !isHomeActivity()) {
 
 				final GDApplication app = getGDApplication();
-				final Intent appIntent = app.getMainApplicationIntent();
-				if (appIntent != null) {
+				final Class<?> klass = app.getHomeActivityClass();
+				if ((klass != null) && !klass.equals(AbstractCineShowTimeActivity.this.getClass())) {
 					if (Config.GD_INFO_LOGS_ENABLED) {
-						Log.i(getTAG(), "Launching the main application Intent");
+						Log.i(getTAG(), "Going back to the home activity");
 					}
-					startActivity(appIntent);
+					Intent homeIntent = new Intent(AbstractCineShowTimeActivity.this, klass);
+					homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(homeIntent);
 				}
 
 			} else {
