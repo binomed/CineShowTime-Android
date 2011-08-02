@@ -33,13 +33,32 @@ public class MoviePagedAdapter extends PagedAdapter {
 	private GoogleAnalyticsTracker tracker;
 	private CallBack callBack;
 
-	public MoviePagedAdapter(MovieBean movie, Context context, IModelMovie model, GoogleAnalyticsTracker tracker, CallBack callBack) {
+	public MoviePagedAdapter() {
 		super();
+	}
+
+	public void changeData(MovieBean movie, Context context, IModelMovie model, GoogleAnalyticsTracker tracker, CallBack callBack) {
 		this.movie = movie;
 		this.context = context;
 		this.model = model;
 		this.tracker = tracker;
 		this.callBack = callBack;
+		try {
+			if (pageInfoView != null) {
+				pageInfoView.changeData(model, tracker, callBack);
+				pageInfoView.fillViews(movie);
+			}
+			if (pageProjectionView != null) {
+				pageProjectionView.changeData(model, tracker);
+				pageProjectionView.fillViews(movie);
+			}
+			if (pageReviewView != null) {
+				pageReviewView.changeData(model, tracker);
+				pageReviewView.fillViews(movie);
+			}
+		} catch (Exception e) {
+			Log.e("MoviePagedAdapter", "error during getView", e);
+		}
 	}
 
 	@Override
@@ -59,25 +78,28 @@ public class MoviePagedAdapter extends PagedAdapter {
 			switch (position) {
 			case 0: {
 				if (pageInfoView == null) {
-					pageInfoView = new PageInfoView(context, model, tracker, callBack);
+					pageInfoView = new PageInfoView(context);
+					pageInfoView.changeData(model, tracker, callBack);
+					pageInfoView.fillBasicInformations(movie);
 				}
-				pageInfoView.fillBasicInformations(movie);
 				view = pageInfoView;
 				break;
 			}
 			case 1: {
 				if (pageProjectionView == null) {
-					pageProjectionView = new PageProjectionView(context, model, tracker);
+					pageProjectionView = new PageProjectionView(context);
+					pageProjectionView.changeData(model, tracker);
+					pageProjectionView.fillViews(movie);
 				}
-				pageProjectionView.fillViews(movie);
 				view = pageProjectionView;
 				break;
 			}
 			case 2: {
 				if (pageReviewView == null) {
-					pageReviewView = new PageReviewView(context, model, tracker);
+					pageReviewView = new PageReviewView(context);
+					pageReviewView.changeData(model, tracker);
+					pageReviewView.fillViews(movie);
 				}
-				pageReviewView.fillViews(movie);
 				view = pageReviewView;
 				break;
 			}
@@ -102,9 +124,9 @@ public class MoviePagedAdapter extends PagedAdapter {
 		}
 	}
 
-	public void fillViews(View mainView, MovieBean movie) throws Exception {
+	public void fillViews(MovieBean movie) throws Exception {
 		if (pageInfoView != null) {
-			pageInfoView.fillViews(mainView, movie);
+			pageInfoView.fillViews(movie);
 		}
 		if (pageProjectionView != null) {
 			pageProjectionView.fillViews(movie);

@@ -47,11 +47,14 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 		init();
 	}
 
-	public PageProjectionView(Context context, IModelMovie model, GoogleAnalyticsTracker tracker) {
+	public PageProjectionView(Context context) {
 		super(context);
+		init();
+	}
+
+	public void changeData(IModelMovie model, GoogleAnalyticsTracker tracker) {
 		this.model = model;
 		this.tracker = tracker;
-		init();
 	}
 
 	private void init() {
@@ -63,6 +66,8 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 	}
 
 	private void initViews() {
+		theaterTitle = (TextView) findViewById(R.id.movieTheaterTitle);
+		theaterAddress = (TextView) findViewById(R.id.movieTheaterAddress);
 		movieProjectionTimeList = (ListView) findViewById(R.id.movieListProjection);
 		movieBtnMap = (ImageButton) findViewById(R.id.movieBtnMap);
 		movieBtnDirection = (ImageButton) findViewById(R.id.movieBtnDirection);

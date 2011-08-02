@@ -62,12 +62,15 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 		init();
 	}
 
-	public PageInfoView(Context context, IModelMovie model, GoogleAnalyticsTracker tracker, CallBack callBack) {
+	public PageInfoView(Context context) {
 		super(context);
+		init();
+	}
+
+	public void changeData(IModelMovie model, GoogleAnalyticsTracker tracker, CallBack callBack) {
 		this.model = model;
 		this.tracker = tracker;
 		this.callBack = callBack;
-		init();
 	}
 
 	private void init() {
@@ -94,6 +97,30 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 		moviePlot = (TextView) findViewById(R.id.moviePlot);
 		movieGalleryTrailer = (Gallery) findViewById(R.id.gallery_trailer);
 
+		movieWebLinks = (TextView) findViewById(R.id.movieWebLinks);
+		txtMovieRate = (TextView) findViewById(R.id.txtMovieRate);
+		movieRate = (TextView) findViewById(R.id.movieRate);
+
+		sumRate1 = (ImageView) findViewById(R.id.movieImgRate1);
+		sumRate2 = (ImageView) findViewById(R.id.movieImgRate2);
+		sumRate3 = (ImageView) findViewById(R.id.movieImgRate3);
+		sumRate4 = (ImageView) findViewById(R.id.movieImgRate4);
+		sumRate5 = (ImageView) findViewById(R.id.movieImgRate5);
+		sumRate6 = (ImageView) findViewById(R.id.movieImgRate6);
+		sumRate7 = (ImageView) findViewById(R.id.movieImgRate7);
+		sumRate8 = (ImageView) findViewById(R.id.movieImgRate8);
+		sumRate9 = (ImageView) findViewById(R.id.movieImgRate9);
+		sumRate10 = (ImageView) findViewById(R.id.movieImgRate10);
+
+		txtMovieStyle = (TextView) findViewById(R.id.txtMovieGenre);
+		movieStyle = (TextView) findViewById(R.id.movieGenre);
+
+		txtMovieDirector = (TextView) findViewById(R.id.txtMovieDirector);
+		movieDirector = (TextView) findViewById(R.id.movieDirector);
+
+		txtMovieActor = (TextView) findViewById(R.id.txtMovieActor);
+		movieActor = (TextView) findViewById(R.id.movieActor);
+
 	}
 
 	private void initListeners() {
@@ -118,7 +145,7 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 	 * @param movie
 	 * @throws Exception
 	 */
-	public void fillViews(View mainView, MovieBean movie) throws Exception {
+	public void fillViews(MovieBean movie) throws Exception {
 
 		fillBasicInformations(movie);
 
@@ -131,9 +158,6 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 				)
 				|| ((movie.getUrlWikipedia() != null) && (movie.getUrlWikipedia().length() != 0)) //
 		) {
-			movieWebLinks = (TextView) mainView.findViewById(R.id.movieWebLinks);
-		}
-		if (movieWebLinks != null) {
 			StringBuffer linkBuffer = new StringBuffer();
 			if ((movie.getImdbId() != null) && (movie.getImdbId().length() != 0)) {
 				linkBuffer.append("<A HREF=\"http://www.imdb.com/title/tt").append(movie.getImdbId()).append("\">Imdb</A>"); //$NON-NLS-1$//$NON-NLS-2$
@@ -150,10 +174,6 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 		}
 
 		if ((movieRate == null) && (movie.getRate() != null)) {
-			txtMovieRate = (TextView) mainView.findViewById(R.id.txtMovieRate);
-			movieRate = (TextView) mainView.findViewById(R.id.movieRate);
-		}
-		if (movieRate != null) {
 			String rate = " / 10";
 			if (movie.getRate() != null) {
 				rate = String.valueOf(movie.getRate()) + rate;
@@ -163,25 +183,11 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 			txtMovieRate.setText(getResources().getString(R.string.txtRate));
 			movieRate.setText(rate);
 
-			sumRate1 = (ImageView) mainView.findViewById(R.id.movieImgRate1);
-			sumRate2 = (ImageView) mainView.findViewById(R.id.movieImgRate2);
-			sumRate3 = (ImageView) mainView.findViewById(R.id.movieImgRate3);
-			sumRate4 = (ImageView) mainView.findViewById(R.id.movieImgRate4);
-			sumRate5 = (ImageView) mainView.findViewById(R.id.movieImgRate5);
-			sumRate6 = (ImageView) mainView.findViewById(R.id.movieImgRate6);
-			sumRate7 = (ImageView) mainView.findViewById(R.id.movieImgRate7);
-			sumRate8 = (ImageView) mainView.findViewById(R.id.movieImgRate8);
-			sumRate9 = (ImageView) mainView.findViewById(R.id.movieImgRate9);
-			sumRate10 = (ImageView) mainView.findViewById(R.id.movieImgRate10);
 			fillRateImg(movie.getRate());
 		}
 
 		String style = movie.getStyle();
 		if ((movieStyle == null) && (style != null) && (style.length() != 0)) {
-			txtMovieStyle = (TextView) mainView.findViewById(R.id.txtMovieGenre);
-			movieStyle = (TextView) mainView.findViewById(R.id.movieGenre);
-		}
-		if (movieStyle != null) {
 			if ((style != null) && (style.length() != 0)) {
 				txtMovieStyle.setText(getResources().getString(R.string.txtGenre));
 				movieStyle.setText(style.replaceAll("\\|", ", "));
@@ -190,10 +196,6 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 
 		String directorList = movie.getDirectorList();
 		if ((movieDirector == null) && (directorList != null) && (directorList.length() > 0)) {
-			txtMovieDirector = (TextView) mainView.findViewById(R.id.txtMovieDirector);
-			movieDirector = (TextView) mainView.findViewById(R.id.movieDirector);
-		}
-		if (movieDirector != null) {
 			if ((directorList != null) && (directorList.length() > 0)) {
 				txtMovieDirector.setText(getResources().getString(R.string.txtDirector));
 				movieDirector.setText(directorList.replaceAll("\\|", ", "));
@@ -202,10 +204,6 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 
 		String actorList = movie.getActorList();
 		if ((movieActor == null) && (actorList != null) && (actorList.length() > 0)) {
-			txtMovieActor = (TextView) mainView.findViewById(R.id.txtMovieActor);
-			movieActor = (TextView) mainView.findViewById(R.id.movieActor);
-		}
-		if (movieActor != null) {
 			StringBuffer actorBuffer = new StringBuffer();
 			if ((actorList != null) && (actorList.length() > 0)) {
 				boolean first = true;

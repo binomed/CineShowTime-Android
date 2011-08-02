@@ -26,11 +26,14 @@ public class PageReviewView extends LinearLayout {
 		init();
 	}
 
-	public PageReviewView(Context context, IModelMovie model, GoogleAnalyticsTracker tracker) {
+	public PageReviewView(Context context) {
 		super(context);
+		init();
+	}
+
+	public void changeData(IModelMovie model, GoogleAnalyticsTracker tracker) {
 		this.model = model;
 		this.tracker = tracker;
-		init();
 	}
 
 	private void init() {

@@ -307,22 +307,33 @@ public abstract class CineShowtimeDateNumberUtil {
 
 		// Calendar cal = Calendar.getInstance();
 		if (timeList != null) {
+			boolean nearShowTime = true;
 			for (ProjectionBean timeTmp : timeList) {
-				// cal.setTimeInMillis(timeTmp);
-				minDiffTemp = (timeTmp.getShowtime() - curTime);
-				if (((minDiffTemp < (minDiff0)) || (minDiff0 == -1)) && (minDiffTemp > 0)) {
-					minDiff0 = minDiffTemp;
-					minTime = timeTmp;
-					if (minList.size() > 0) {
-						beforeList.add(minList.remove(0));
-					}
-					minList.add(minTime);
-				} else if (minDiffTemp < 0) {
+				if (timeTmp.getShowtime() < curTime) {
+
 					beforeList.add(timeTmp);
-				} else if (minDiffTemp > 0) {
+				} else if (nearShowTime) {
+					minList.add(timeTmp);
+					nearShowTime = false;
+				} else {
 					afterList.add(timeTmp);
 
 				}
+				// cal.setTimeInMillis(timeTmp);
+				// minDiffTemp = (timeTmp.getShowtime() - curTime);
+				// if (((minDiffTemp < (minDiff0)) || (minDiff0 == -1)) && (minDiffTemp > 0)) {
+				// minDiff0 = minDiffTemp;
+				// minTime = timeTmp;
+				// if (minList.size() > 0) {
+				// beforeList.add(minList.remove(0));
+				// }
+				// minList.add(minTime);
+				// } else if (minDiffTemp < 0) {
+				// beforeList.add(timeTmp);
+				// } else if (minDiffTemp > 0) {
+				// afterList.add(timeTmp);
+				//
+				// }
 			}
 		}
 
