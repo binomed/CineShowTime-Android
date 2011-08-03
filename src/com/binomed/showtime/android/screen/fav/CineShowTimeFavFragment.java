@@ -55,6 +55,7 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 	/** Called when the activity is first created. */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		Log.i("LIFECYCLE-FRAGMENT", "onCreateView");
 		View mainView = inflater.inflate(R.layout.fragment_fav, container, false);
 
 		tracker = fragmentInteraction.getTracker();

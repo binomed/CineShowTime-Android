@@ -44,6 +44,7 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 		// Watch for button clicks.
 		fragmentSearch = (CineShowTimeSearchFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentSearch);
 		fragmentFav = (CineShowTimeFavFragment) getSupportFragmentManager().findFragmentById(R.id.FragmentFav);
+
 	}
 
 	private void display() {

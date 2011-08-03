@@ -125,6 +125,16 @@ public class CineShowTimeMovieFragment extends Fragment //
 	}
 
 	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		try {
+			unbindService();
+		} catch (Exception e) {
+			Log.e(TAG, "Error during unbinding service");
+		}
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 
@@ -353,19 +363,19 @@ public class CineShowTimeMovieFragment extends Fragment //
 		try {
 			if (previousPage != previousTab && newPage != lastTab) {
 				desactivListener = true;
-				if ((newPage > previousPage) && (tabHost.getCurrentTab() <= 1)) {
-					tracker.trackEvent("Action", "Slide", "Use slide on movie screen", 0);
-					// movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
-					// movieFlipper.setOutAnimation(AnimationHelper.outToLeftAnimation());
-					tabHost.setCurrentTab(tabHost.getCurrentTab() + 1);
-					lastTab = tabHost.getCurrentTab();
-				} else if ((newPage < previousPage) && (tabHost.getCurrentTab() >= 1)) {
-					tracker.trackEvent("Action", "Slide", "Use slide on movie screen", 0);
-					// movieFlipper.setInAnimation(AnimationHelper.inFromLeftAnimation());
-					// movieFlipper.setOutAnimation(AnimationHelper.outToRightAnimation());
-					tabHost.setCurrentTab(tabHost.getCurrentTab() - 1);
-					lastTab = tabHost.getCurrentTab();
-				}
+				tabHost.setCurrentTab(newPage);
+				lastTab = tabHost.getCurrentTab();
+				// if ((newPage > previousPage) && (tabHost.getCurrentTab() <= 1)) {
+				// tracker.trackEvent("Action", "Slide", "Use slide on movie screen", 0);
+				// // movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
+				// // movieFlipper.setOutAnimation(AnimationHelper.outToLeftAnimation());
+				// } else if ((newPage < previousPage) && (tabHost.getCurrentTab() >= 1)) {
+				// tracker.trackEvent("Action", "Slide", "Use slide on movie screen", 0);
+				// // movieFlipper.setInAnimation(AnimationHelper.inFromLeftAnimation());
+				// // movieFlipper.setOutAnimation(AnimationHelper.outToRightAnimation());
+				// tabHost.setCurrentTab(tabHost.getCurrentTab() - 1);
+				// lastTab = tabHost.getCurrentTab();
+				// }
 				desactivListener = false;
 			}
 		} catch (Exception e) {

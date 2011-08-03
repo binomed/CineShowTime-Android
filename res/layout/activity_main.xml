@@ -62,9 +62,9 @@
 						android:layout_alignParentBottom="true" 
 						android:layout_centerHorizontal="true"
 						/>
-				</LinearLayout>
-			</ScrollView>
-			
+			</LinearLayout>
+		</ScrollView>
+		  
 		</RelativeLayout>
 	</FrameLayout>
 </greendroid.widget.ActionBarHost>

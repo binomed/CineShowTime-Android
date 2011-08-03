@@ -6,7 +6,6 @@ import android.os.Build;
 
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.screen.main.CineShowTimeMainActivity;
-import com.binomed.showtime.android.screen.main.SplashScreen;
 import com.binomed.showtime.android.util.activity.TestSizeHoneyComb;
 import com.binomed.showtime.android.util.activity.TestSizeOther;
 
@@ -14,7 +13,7 @@ public class CineShowTimeApplication extends GDApplication {
 
 	@Override
 	public Class<?> getHomeActivityClass() {
-		return SplashScreen.class;
+		return CineShowTimeMainActivity.class;
 	}
 
 	@Override

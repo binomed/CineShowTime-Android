@@ -28,6 +28,7 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
@@ -383,6 +384,13 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 						Log.i(getTAG(), "Going back to the home activity");
 					}
 					Intent homeIntent = new Intent(AbstractCineShowTimeActivity.this, klass);
+					if (Integer.valueOf(Build.VERSION.SDK) <= 10) {
+						homeIntent.putExtra(ParamIntent.ACTIVITY_LARGE_SCREEN, TestSizeOther.checkLargeScreen(getResources().getConfiguration().screenLayout));
+
+					} else {
+						homeIntent.putExtra(ParamIntent.ACTIVITY_LARGE_SCREEN, TestSizeHoneyComb.checkLargeScreen(getResources().getConfiguration().screenLayout));
+
+					}
 					homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(homeIntent);
 				}
