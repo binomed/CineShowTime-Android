@@ -9,9 +9,9 @@ import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.screen.movie.CineShowTimeMovieFragment.MovieFragmentInteraction;
-import com.binomed.showtime.android.util.activity.AbstractSimpleCineShowTimeActivity;
+import com.binomed.showtime.android.util.activity.AbstractCineShowTimeActivity;
 
-public class CineShowTimeMovieActivity extends AbstractSimpleCineShowTimeActivity<CineShowTimeMovieFragment, IModelMovie> //
+public class CineShowTimeMovieActivity extends AbstractCineShowTimeActivity<IModelMovie> //
 		implements MovieFragmentInteraction<IModelMovie> //
 {
 
@@ -20,6 +20,8 @@ public class CineShowTimeMovieActivity extends AbstractSimpleCineShowTimeActivit
 
 	private static final int ITEM_TRANSLATE = Menu.NONE + 2;
 	private static final int MENU_PREF = Menu.NONE;
+
+	private CineShowTimeMovieFragment fragment;
 
 	/*
 	 * (non-Javadoc)
@@ -40,8 +42,14 @@ public class CineShowTimeMovieActivity extends AbstractSimpleCineShowTimeActivit
 	 */
 
 	@Override
-	protected CineShowTimeMovieFragment getFragment() {
-		return new CineShowTimeMovieFragment();
+	protected void initContentView() {
+		fragment = (CineShowTimeMovieFragment) getSupportFragmentManager().findFragmentById(R.id.FragmentMovie);
+
+	}
+
+	@Override
+	protected int getLayout() {
+		return R.layout.activity_movie;
 	}
 
 	@Override

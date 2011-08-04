@@ -1,11 +1,23 @@
 package com.binomed.showtime.android.layout.view;
 
-import java.net.URLDecoder;
-import java.util.List;
+import greendroid.widget.QuickActionBar;
+import greendroid.widget.QuickActionWidget;
+import greendroid.widget.QuickActionWidget.OnQuickActionClickListener;
 
+import java.net.URLDecoder;
+import java.text.MessageFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TimeZone;
+
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -15,20 +27,23 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.view.ProjectionListAdapter;
 import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.model.LocalisationBean;
 import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.OptionEnum;
 import com.binomed.showtime.android.model.ProjectionBean;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.screen.movie.IModelMovie;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
+import com.binomed.showtime.android.util.MyQuickAction;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
-public class PageProjectionView extends LinearLayout implements View.OnClickListener {
+public class PageProjectionView extends LinearLayout implements View.OnClickListener, OnQuickActionClickListener {
 
 	private static final String TAG = "CineShowTime-PageProjectionView";
 
@@ -36,11 +51,15 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 	private ListView movieProjectionTimeList;
 	private ImageButton movieBtnMap, movieBtnDirection, movieBtnCall;
 	protected ProjectionListAdapter projectionAdapter;
+	private QuickActionWidget mBarProjections;
 
 	private IModelMovie model;
 	private GoogleAnalyticsTracker tracker;
 
 	private boolean distanceTime;
+
+	private HashMap<Integer, OptionEnum> mapQuickAction = new HashMap<Integer, OptionEnum>();
+	private ProjectionBean currentProjectionBean = null;
 
 	public PageProjectionView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -121,6 +140,13 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 				, this//
 		);
 		movieProjectionTimeList.setAdapter(projectionAdapter);
+
+		prepareQuickActionBar();
+	}
+
+	private void prepareQuickActionBar() {
+		mBarProjections = new QuickActionBar(getContext());
+		mBarProjections.setOnQuickActionClickListener(this);
 	}
 
 	public void manageViewVisibility() {
@@ -148,15 +174,32 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 		switch (v.getId()) {
 		case R.id.item_projection_button:
 			tracker.trackEvent("Action", "Click", "Use popup button", 0);
+
+			mBarProjections.clearAllQuickActions();
+
 			ImageButton imageBtn = (ImageButton) v;
 			ProjectionView parentView = (ProjectionView) imageBtn.getParent().getParent();
 
-			ListPopupWindow popupWindow = new ListPopupWindow(v, getContext(), model.getTheater(), model.getMovie(), parentView.getProjectionBean(), model.isCalendarInstalled());
-			// popupWindow.showLikeQuickAction(0, -30);
-			// popupWindow.showLikePopDownMenu(0, -100);
-			popupWindow.loadView();
-			// Log.i("ListenerMovieActivity", "Rect : " + popupWindow.getSize() + ", list : " + popupWindow.getSizeList());
-			popupWindow.showLikePopDownMenu(0, -(popupWindow.getOptions().size() * 40));
+			int compt = 0;
+			currentProjectionBean = parentView.getProjectionBean();
+			mBarProjections.addQuickAction(new MyQuickAction(getContext(), OptionEnum.SMS.getRessourceDrawable(), OptionEnum.SMS.getRessourceText(), false));
+			mapQuickAction.put(compt, OptionEnum.SMS);
+			compt++;
+			mBarProjections.addQuickAction(new MyQuickAction(getContext(), OptionEnum.MAIL.getRessourceDrawable(), OptionEnum.MAIL.getRessourceText(), false));
+			mapQuickAction.put(compt, OptionEnum.MAIL);
+			compt++;
+			if (Integer.valueOf(Build.VERSION.SDK) <= 8 && model.isCalendarInstalled()) {
+				mBarProjections.addQuickAction(new MyQuickAction(getContext(), OptionEnum.AGENDA.getRessourceDrawable(), OptionEnum.AGENDA.getRessourceText(), false));
+				mapQuickAction.put(compt, OptionEnum.AGENDA);
+				compt++;
+			}
+			if (currentProjectionBean.getReservationLink() != null && currentProjectionBean.getReservationLink().length() > 0) {
+				mBarProjections.addQuickAction(new MyQuickAction(getContext(), OptionEnum.RESERVATION.getRessourceDrawable(), OptionEnum.RESERVATION.getRessourceText(), false));
+				mapQuickAction.put(compt, OptionEnum.RESERVATION);
+			}
+
+			mBarProjections.show(imageBtn);
+
 			break;
 		case R.id.movieBtnMap:
 			tracker.trackEvent("Action", "Click", "Use map button", 0);
@@ -181,6 +224,117 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 			tracker.dispatch();
 			getContext().startActivity(IntentShowtime.createCallIntent(model.getTheater()));
 			break;
+		default:
+			break;
+		}
+
+	}
+
+	@Override
+	public void onQuickActionClicked(QuickActionWidget widget, int position) {
+		Context ctx = getContext();
+		MovieBean movie = model.getMovie();
+		TheaterBean theater = model.getTheater();
+		ProjectionBean projectionBean = currentProjectionBean;
+
+		boolean format24 = CineShowtimeDateNumberUtil.isFormat24(getContext());
+
+		switch (mapQuickAction.get(position)) {
+		case SMS: {
+			try {
+
+				Object[] testArgs = { new Long(3), "MyDisk" };
+
+				MessageFormat form = new MessageFormat("The disk \"{1}\" contains {0} file(s).");
+
+				String rest = form.format(testArgs);
+
+				Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+				String msg = MessageFormat.format(ctx.getResources().getString(R.string.smsContent) // //$NON-NLS-1$
+						, movie.getMovieName() //
+						, CineShowtimeDateNumberUtil.getDayString(ctx, projectionBean.getShowtime()) //
+						, CineShowtimeDateNumberUtil.showMovieTime(ctx, projectionBean.getShowtime(), format24) //
+						, theater.getTheaterName());
+				sendIntent.putExtra("sms_body", msg);
+				sendIntent.setType("vnd.android-dir/mms-sms"); //$NON-NLS-1$
+				ctx.startActivity(Intent.createChooser(sendIntent, ctx.getResources().getString(R.string.chooseIntentSms)));
+
+			} catch (Exception e) {
+				Log.e(TAG, "error while translating", e); //$NON-NLS-1$
+			}
+			break;
+		}
+		case MAIL: {
+			try {
+
+				// Create a new Intent to send messages
+				Intent sendIntent = new Intent(Intent.ACTION_SEND);
+				sendIntent.setType("text/html"); //$NON-NLS-1$
+				// sendIntent.putExtra(Intent.EXTRA_EMAIL, mailto);
+				String subject = MessageFormat.format(ctx.getResources().getString(R.string.mailSubject), movie.getMovieName());
+				String msg = MessageFormat.format(ctx.getResources().getString(R.string.mailContent) //
+						, movie.getMovieName() //
+						, CineShowtimeDateNumberUtil.getDayString(ctx, projectionBean.getShowtime()) //
+						, CineShowtimeDateNumberUtil.showMovieTime(ctx, projectionBean.getShowtime(), format24) //
+						, theater.getTheaterName());
+				sendIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+				sendIntent.putExtra(Intent.EXTRA_TEXT,//
+						msg);
+				ctx.startActivity(Intent.createChooser(sendIntent, ctx.getResources().getString(R.string.chooseIntentMail)));
+			} catch (Exception e) {
+				Log.e(TAG, "error while translating", e); //$NON-NLS-1$
+			}
+			break;
+		}
+		case AGENDA: {
+			try {
+
+				// Before or equel Donuts
+				Uri uri = null;
+				if (Integer.valueOf(Build.VERSION.SDK) <= 7) {
+					uri = Uri.parse("content://calendar/events");
+				} else if (Integer.valueOf(Build.VERSION.SDK) <= 8) {
+					uri = Uri.parse("content://com.android.calendar/events");
+
+				}
+
+				if (uri != null) {
+					ContentResolver cr = ctx.getContentResolver();
+
+					Calendar timeAfter = Calendar.getInstance();
+					timeAfter.setTimeInMillis(projectionBean.getShowtime());
+					Calendar timeMovie = Calendar.getInstance();
+					timeMovie.setTimeInMillis(movie.getMovieTime());
+					timeAfter.add(Calendar.HOUR_OF_DAY, timeMovie.get(Calendar.HOUR_OF_DAY));
+					timeAfter.add(Calendar.MINUTE, timeMovie.get(Calendar.MINUTE));
+					ContentValues values = new ContentValues();
+					values.put("eventTimezone", TimeZone.getDefault().getID());
+					values.put("calendar_id", 1); // query content://calendar/calendars for more
+					values.put("title", movie.getMovieName());
+					values.put("allDay", 0);
+					values.put("dtstart", projectionBean.getShowtime()); // long (start date in ms)
+					values.put("dtend", timeAfter.getTimeInMillis()); // long (end date in ms)
+					values.put("description", movie.getMovieName() + " at " + theater.getTheaterName());
+					values.put("eventLocation", (theater.getPlace() != null) ? theater.getPlace().getSearchQuery() : null);
+					values.put("transparency", 0);
+					values.put("visibility", 0);
+					values.put("hasAlarm", 0);
+
+					cr.insert(uri, values);
+
+					Toast.makeText(ctx, R.string.msgEventAdd, Toast.LENGTH_LONG).show();
+				}
+
+			} catch (Exception e) {
+				Log.e(TAG, "error while translating", e); //$NON-NLS-1$
+			}
+			break;
+		}
+		case RESERVATION: {
+			Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(projectionBean.getReservationLink()));
+			ctx.startActivity(myIntent);
+			break;
+		}
 		default:
 			break;
 		}

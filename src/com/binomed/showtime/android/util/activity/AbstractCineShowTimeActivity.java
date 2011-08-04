@@ -9,13 +9,11 @@ import greendroid.widget.ActionBar.OnActionBarListener;
 import greendroid.widget.ActionBarHost;
 import greendroid.widget.ActionBarItem;
 import greendroid.widget.NormalActionBarItem;
-import greendroid.widget.QuickAction;
 import greendroid.widget.QuickActionBar;
 import greendroid.widget.QuickActionWidget;
 import greendroid.widget.QuickActionWidget.OnQuickActionClickListener;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
@@ -24,10 +22,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.SQLException;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -44,6 +38,7 @@ import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.layout.view.AboutView;
 import com.binomed.showtime.android.screen.pref.CineShowTimePreferencesActivity;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
+import com.binomed.showtime.android.util.MyQuickAction;
 import com.cyrilmottier.android.greendroid.R;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
@@ -274,9 +269,9 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 
 	private void prepareQuickActionBar() {
 		mBar = new QuickActionBar(this);
-		mBar.addQuickAction(new MyQuickAction(this, android.R.drawable.ic_menu_preferences, R.string.menuPreferences));
-		mBar.addQuickAction(new MyQuickAction(this, android.R.drawable.ic_menu_info_details, R.string.menuAbout));
-		mBar.addQuickAction(new MyQuickAction(this, android.R.drawable.ic_menu_help, R.string.menuHelp));
+		mBar.addQuickAction(new MyQuickAction(this, android.R.drawable.ic_menu_preferences, R.string.menuPreferences, true));
+		mBar.addQuickAction(new MyQuickAction(this, android.R.drawable.ic_menu_info_details, R.string.menuAbout, true));
+		mBar.addQuickAction(new MyQuickAction(this, android.R.drawable.ic_menu_help, R.string.menuHelp, true));
 
 		mBar.setOnQuickActionClickListener(mActionListener);
 	}
@@ -446,19 +441,4 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		}
 	};
 
-	private static class MyQuickAction extends QuickAction {
-
-		private static final ColorFilter BLACK_CF = new LightingColorFilter(Color.BLACK, Color.BLACK);
-
-		public MyQuickAction(Context ctx, int drawableId, int titleId) {
-			super(ctx, buildDrawable(ctx, drawableId), titleId);
-		}
-
-		private static Drawable buildDrawable(Context ctx, int drawableId) {
-			Drawable d = ctx.getResources().getDrawable(drawableId);
-			d.setColorFilter(BLACK_CF);
-			return d;
-		}
-
-	}
 }
