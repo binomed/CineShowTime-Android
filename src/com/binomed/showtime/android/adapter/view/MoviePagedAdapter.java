@@ -109,6 +109,7 @@ public class MoviePagedAdapter extends PagedAdapter {
 		} catch (Exception e) {
 			Log.e("MoviePagedAdapter", "error during getView", e);
 		}
+		parent.removeView(view);
 		return view;
 	}
 
