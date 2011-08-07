@@ -80,7 +80,7 @@ public class MoviePagedAdapter extends PagedAdapter {
 				if (pageInfoView == null) {
 					pageInfoView = new PageInfoView(context);
 					pageInfoView.changeData(model, tracker, callBack);
-					pageInfoView.fillBasicInformations(movie);
+					pageInfoView.fillViews(movie);
 				}
 				view = pageInfoView;
 				break;
@@ -126,6 +126,7 @@ public class MoviePagedAdapter extends PagedAdapter {
 	}
 
 	public void fillViews(MovieBean movie) throws Exception {
+		this.movie = movie;
 		if (pageInfoView != null) {
 			pageInfoView.fillViews(movie);
 		}

@@ -30,15 +30,12 @@
 					android:layout_alignParentRight="true"
 					/>
 			</RelativeLayout>
-			 <AutoCompleteTextView 
+			<com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech 
 			    android:id="@+id/searchCityName"
 			    android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
-			    android:layout_below="@+id/searchLayoutCity" 
 				android:layout_marginTop="10dip"  
-			    android:singleLine="true"
-			    android:imeOptions="actionDone"
-			    style="?attr/cstEditText" 
+			    android:layout_below="@+id/searchLayoutCity" 
 			    />
 			<TextView
 				android:id="@+id/searchTxtMovieName"
@@ -49,15 +46,11 @@
 			    android:layout_below="@+id/searchCityName" 
 			    style="?attr/cstSearchLabel"
 		    	/>
-			<AutoCompleteTextView 
+			<com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech 
 			    android:id="@+id/searchMovieName"
 			    android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
 			    android:layout_below="@+id/searchTxtMovieName" 
-				android:layout_marginTop="10dip"  
-			    android:singleLine="true"
-			    android:imeOptions="actionDone"
-			    style="?attr/cstEditText" 
 			    />
 			<TextView
 				android:id="@+id/searchTxtSpinner"

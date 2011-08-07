@@ -126,123 +126,13 @@ public final class LocationUtils {
 					.setMessage(R.string.gpsInactiveMsg)
 					//
 					.setNeutralButton(R.string.gpsInactiveBtnYes, new DialogInterface.OnClickListener() {
+						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							context.startActivity(new Intent(ANDROID_SETTINGS_LOCATION_SOURCE_SETTINGS));
 						}
 					})
 					//
 					.setNegativeButton(R.string.gpsInactiveBtnNo, null).show();
-		}
-	}
-
-	public static void registerLocalisationListenerOld(final Context context, ProviderEnum provider, LocalisationManagementOld listener) {
-		switch (provider) {
-		case GPS_PROVIDER:
-		case GSM_PROVIDER: {
-			LocationManager locationManager = getLocationManager(context);
-			if (locationManager != null) {
-				locationManager.requestLocationUpdates(provider.getAndroidProvider(), 10000, 10, listener);
-			} else {
-				if (Log.isLoggable(TAG, Log.DEBUG)) {
-					Log.d(TAG, "No listener Put"); //$NON-NLS-1$
-				}
-			}
-			break;
-		}
-		case IP_PROVIDER:
-		case WIFI_PROVIDER:
-		case XPS_PROVIDER: {
-			XPS xps = listener.getXps();
-			if (xps == null) {
-				xps = new XPS(context);
-				listener.setXps(xps);
-			}
-
-			WPSAuthentication auth = new WPSAuthentication(GoogleKeys.SKYHOOK_USER_NAME, GoogleKeys.SKYHOOK_REALM);
-			if (!checkSkyHookRegistration(context)) {
-				WPSAuthentication authRegister = new WPSAuthentication(GoogleKeys.SKYHOOK_USER_NAME_REGISTER, GoogleKeys.SKYHOOK_REALM);
-				WPS wps = new WPS(context);
-				wps.registerUser(authRegister, auth, new RegistrationCallback() {
-
-					@Override
-					public WPSContinuation handleError(WPSReturnCode error) {
-						switch (error) {
-						case WPS_ERROR_LOCATION_CANNOT_BE_DETERMINED: {
-							Log.e(TAG, error.toString());
-							break;
-						}
-						case WPS_ERROR_WIFI_NOT_AVAILABLE: {
-							Log.e(TAG, error.toString());
-							break;
-						}
-						case WPS_ERROR_SERVER_UNAVAILABLE: {
-							Log.e(TAG, error.toString());
-							break;
-						}
-						case WPS_ERROR_NO_WIFI_IN_RANGE: {
-							Log.e(TAG, error.toString());
-
-							break;
-						}
-						case WPS_ERROR: {
-							Log.e(TAG, error.name());
-
-							break;
-						}
-						default:
-							Log.e(TAG, error.name());
-							break;
-						}
-						// TODO gérer les cas d'erreur
-						// in all case, we'll stop
-						return WPSContinuation.WPS_STOP;
-					}
-
-					@Override
-					public void done() {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void handleSuccess() {
-						Intent intentNearFillDBService = new Intent(context, CineShowDBGlobalService.class);
-						intentNearFillDBService.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_SKYHOOK_REGISTRATION);
-						context.startService(intentNearFillDBService);
-					}
-				});
-			}
-			switch (provider) {
-			case IP_PROVIDER: {
-				xps.getIPLocation(auth //
-						, WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP //
-						, listener//
-				);
-				break;
-			}
-			case WIFI_PROVIDER: {
-				xps.getLocation(auth //
-						, WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP //
-						, listener//
-				);
-				break;
-			}
-			case XPS_PROVIDER: {
-				xps.getXPSLocation(auth,
-				// note we convert _period to seconds
-						(int) (5000 / 1000) //
-						, 30 //
-						, listener//
-				);
-
-			}
-			default:
-				break;
-			}
-			break;
-		}
-		default:
-			break;
 		}
 	}
 
@@ -339,9 +229,7 @@ public final class LocationUtils {
 				break;
 			}
 			case XPS_PROVIDER: {
-				xps.getXPSLocation(auth,
-				// note we convert _period to seconds
-						(int) (5000 / 1000) //
+				xps.getXPSLocation(auth, (5000 / 1000) //
 						, 30 //
 						, listener//
 				);
@@ -349,33 +237,6 @@ public final class LocationUtils {
 			}
 			default:
 				break;
-			}
-			break;
-		}
-		default:
-			break;
-		}
-	}
-
-	public static void unRegisterListenerOld(Context context, ProviderEnum provider, LocalisationManagementOld listener) {
-		switch (provider) {
-		case GPS_PROVIDER:
-		case GSM_PROVIDER: {
-			LocationManager locationManager = getLocationManager(context);
-			if (locationManager != null) {
-				locationManager.removeUpdates(listener);
-			} else {
-				if (Log.isLoggable(TAG, Log.DEBUG)) {
-					Log.d(TAG, "No listener Put"); //$NON-NLS-1$
-				}
-			}
-			break;
-		}
-		case WIFI_PROVIDER:
-		case XPS_PROVIDER: {
-			XPS xps = listener.getXps();
-			if (xps != null) {
-				xps.abort();
 			}
 			break;
 		}
@@ -465,9 +326,9 @@ public final class LocationUtils {
 
 	public static boolean isEmptyLocation(LocalisationBean localisation) {
 		return (localisation == null) //
-				|| ((localisation.getCityName() == null || localisation.getCityName().length() == 0) //
-				&& ((localisation.getLatitude() == null || localisation.getLatitude() == 0)//
-				|| (localisation.getLongitude() == null || localisation.getLongitude() == 0))//
+				|| (((localisation.getCityName() == null) || (localisation.getCityName().length() == 0)) //
+				&& (((localisation.getLatitude() == null) || (localisation.getLatitude() == 0))//
+				|| ((localisation.getLongitude() == null) || (localisation.getLongitude() == 0)))//
 				);
 	}
 
@@ -477,7 +338,7 @@ public final class LocationUtils {
 		Double latitude = coordiante != null ? coordiante.getLatitude() : 0;
 		Double longitude = coordiante != null ? coordiante.getLongitude() : 0;
 		if (geocoder != null) {
-			if (latitude != null && longitude != null && (latitude != 0 && longitude != 0)) {
+			if ((latitude != null) && (longitude != null) && ((latitude != 0) && (longitude != 0))) {
 				List<Address> addressList = null;
 				try {
 					addressList = geocoder.getFromLocation(latitude, longitude, 1);
@@ -488,10 +349,10 @@ public final class LocationUtils {
 					if (addressList.get(0).getLocality() != null) {
 						cityName = addressList.get(0).getLocality();
 					}
-					if (addressList.get(0).getLocality() != null && addressList.get(0).getPostalCode() != null) {
+					if ((addressList.get(0).getLocality() != null) && (addressList.get(0).getPostalCode() != null)) {
 						cityName += " " + addressList.get(0).getPostalCode();
 					}
-					if (addressList.get(0).getLocality() != null && addressList.get(0).getCountryCode() != null) {
+					if ((addressList.get(0).getLocality() != null) && (addressList.get(0).getCountryCode() != null)) {
 						cityName += ", " + addressList.get(0).getCountryCode();
 					}
 				}
@@ -511,7 +372,7 @@ public final class LocationUtils {
 				result = cursorRegistration.moveToFirst();
 			} finally {
 				cursorRegistration.close();
-				if (mDbHelper != null && mDbHelper.isOpen()) {
+				if ((mDbHelper != null) && mDbHelper.isOpen()) {
 					mDbHelper.close();
 				}
 			}
@@ -537,9 +398,9 @@ public final class LocationUtils {
 			JSONObject jsonObj = new JSONObject(EntityUtils.toString(res.getEntity()));
 
 			JSONObject statusJSON = jsonObj.getJSONObject("Status");
-			if (statusJSON != null && statusJSON.has("code")) {
+			if ((statusJSON != null) && statusJSON.has("code")) {
 				Object code = statusJSON.get("code");
-				if (code != null && "200".equals(code.toString())) {
+				if ((code != null) && "200".equals(code.toString())) {
 					if (jsonObj.has("Directions")) {
 						JSONObject directionJSON = jsonObj.getJSONObject("Directions");
 						if (directionJSON.has("Distance")) {
@@ -552,7 +413,7 @@ public final class LocationUtils {
 						}
 					}
 					// get informations about destination :
-					if (jsonObj.has("Placemark") && jsonObj.getJSONArray("Placemark").length() == 2) {
+					if (jsonObj.has("Placemark") && (jsonObj.getJSONArray("Placemark").length() == 2)) {
 						JSONArray arrayDirections = jsonObj.getJSONArray("Placemark");
 						JSONObject objDest = arrayDirections.getJSONObject(1);
 						if (objDest.has("AddressDetails")) {
@@ -592,7 +453,7 @@ public final class LocationUtils {
 
 			}
 
-			if (localisationBean.getCityName() == null || localisationBean.getCityName().length() == 0) {
+			if ((localisationBean.getCityName() == null) || (localisationBean.getCityName().length() == 0)) {
 				localisationBean.setCityName(source);
 			}
 		} catch (Exception e) {

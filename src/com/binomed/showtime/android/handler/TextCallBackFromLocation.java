@@ -2,15 +2,16 @@ package com.binomed.showtime.android.handler;
 
 import android.os.Handler;
 import android.os.Message;
-import android.widget.AutoCompleteTextView;
+
+import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech;
 
 public class TextCallBackFromLocation extends Handler {
 
-	private AutoCompleteTextView autoCompleteText;
+	private AutoCompleteTextWithSpeech autoCompleteText;
 
 	private String cityName;
 
-	public TextCallBackFromLocation(AutoCompleteTextView autoCompleteText) {
+	public TextCallBackFromLocation(AutoCompleteTextWithSpeech autoCompleteText) {
 		super();
 		this.autoCompleteText = autoCompleteText;
 	}

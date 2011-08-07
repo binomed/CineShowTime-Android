@@ -36,6 +36,10 @@
 						android:orientation="vertical" 
 						android:layout_height="fill_parent" 
 						android:layout_width="fill_parent"
+						android:paddingTop="@dimen/cstPaddingTopMain"
+						android:paddingLeft="@dimen/cstPaddingLeftMain"
+						android:paddingRight="@dimen/cstPaddingRightMain"
+						android:paddingBottom="@dimen/cstPaddingBottomMain"
 					 
 					>
 					<fragment 

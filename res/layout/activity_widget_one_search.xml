@@ -59,14 +59,12 @@
 					android:layout_alignParentRight="true"
 					/>
 			</RelativeLayout>
-			 <AutoCompleteTextView 
+			 <com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech  
 			    android:id="@+id/searchWidgetCityName"
 			    android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
 			    android:layout_below="@+id/searchWidgetLayoutCity" 
 				android:layout_marginTop="10dip"  
-			    android:singleLine="true" 
-		    	style="?attr/cstEditText"
 			    />	
 			<Button 
 				android:id="@+id/searchWidgetBtnSearch" 

@@ -21,7 +21,6 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -31,6 +30,8 @@ import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
+import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech;
+import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech.AutoCompleteInteraction;
 import com.binomed.showtime.android.screen.main.ModelMainFragment;
 import com.binomed.showtime.android.screen.results.CineShowTimeResultsActivity;
 import com.binomed.showtime.android.screen.results.tablet.CineShowTimeResultsTabletActivity;
@@ -49,7 +50,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 
 	private static final String TAG = "SearchActivity"; //$NON-NLS-1$
 
-	protected AutoCompleteTextView fieldCityName, fieldMovieName;
+	protected AutoCompleteTextWithSpeech fieldCityName, fieldMovieName;
 	protected Button searchButton;
 	protected Spinner spinnerChooseDay;
 	protected ImageView gpsImgView;
@@ -136,8 +137,8 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 
 		gpsImgView = (ImageView) mainView.findViewById(R.id.searchImgGps);
 		searchButton = (Button) mainView.findViewById(R.id.searchBtnSearch);
-		fieldCityName = (AutoCompleteTextView) mainView.findViewById(R.id.searchCityName);
-		fieldMovieName = (AutoCompleteTextView) mainView.findViewById(R.id.searchMovieName);
+		fieldCityName = (AutoCompleteTextWithSpeech) mainView.findViewById(R.id.searchCityName);
+		fieldMovieName = (AutoCompleteTextWithSpeech) mainView.findViewById(R.id.searchMovieName);
 		spinnerChooseDay = (Spinner) mainView.findViewById(R.id.searchSpinner);
 
 		// manageCallBack
@@ -166,6 +167,8 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 			);
 			fieldCityName.setAdapter(adapterII);
 		}
+		fieldCityName.setCallBack(fragmentInteraction);
+		fieldMovieName.setCallBack(fragmentInteraction);
 	}
 
 	private void initListeners() {
@@ -293,6 +296,11 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	 * 
 	 * ACTIVITIES
 	 */
+
+	public boolean delegateOnResultActivity(int requestCode, int resultCode, Intent data) {
+		return fieldCityName.onVoiceRecognitionResult(data, resultCode, requestCode) //
+				|| fieldMovieName.onVoiceRecognitionResult(data, resultCode, requestCode);
+	}
 
 	public void openResultActivity() {
 		Location gpsLocation = model.getLocalisation();
@@ -472,7 +480,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		}
 	}
 
-	public interface SearchFragmentInteraction extends IFragmentCineShowTimeInteraction<ModelMainFragment> {
+	public interface SearchFragmentInteraction extends IFragmentCineShowTimeInteraction<ModelMainFragment>, AutoCompleteInteraction {
 
 		void setNullResult(boolean result);
 

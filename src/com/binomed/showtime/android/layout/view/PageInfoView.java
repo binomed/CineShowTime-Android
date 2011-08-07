@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -150,12 +151,15 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 		fillBasicInformations(movie);
 
 		if ((movie.getUrlImg() != null)) {
-			CineShowtimeRequestManage.completeMovieDetailStream(movie);
+			try {
+				CineShowtimeRequestManage.completeMovieDetailStream(movie);
+			} catch (Exception e) {
+				Log.w(TAG, "Error getting movie img : ", e);
+			}
 		}
 
-		if (((movieWebLinks == null //
-				) && ((movie.getImdbId() != null) && (movie.getImdbId().length() != 0)) //
-				)
+		if (((movie.getImdbId() != null) && (movie.getImdbId().length() != 0)) //
+
 				|| ((movie.getUrlWikipedia() != null) && (movie.getUrlWikipedia().length() != 0)) //
 		) {
 			StringBuffer linkBuffer = new StringBuffer();
@@ -173,7 +177,7 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 			movieWebLinks.setMovementMethod(LinkMovementMethod.getInstance());
 		}
 
-		if ((movieRate == null) && (movie.getRate() != null)) {
+		if ((movie.getRate() != null)) {
 			String rate = " / 10";
 			if (movie.getRate() != null) {
 				rate = String.valueOf(movie.getRate()) + rate;
@@ -187,7 +191,7 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 		}
 
 		String style = movie.getStyle();
-		if ((movieStyle == null) && (style != null) && (style.length() != 0)) {
+		if ((style != null) && (style.length() != 0)) {
 			if ((style != null) && (style.length() != 0)) {
 				txtMovieStyle.setText(getResources().getString(R.string.txtGenre));
 				movieStyle.setText(style.replaceAll("\\|", ", "));
@@ -195,7 +199,7 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 		}
 
 		String directorList = movie.getDirectorList();
-		if ((movieDirector == null) && (directorList != null) && (directorList.length() > 0)) {
+		if ((directorList != null) && (directorList.length() > 0)) {
 			if ((directorList != null) && (directorList.length() > 0)) {
 				txtMovieDirector.setText(getResources().getString(R.string.txtDirector));
 				movieDirector.setText(directorList.replaceAll("\\|", ", "));
@@ -203,7 +207,7 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 		}
 
 		String actorList = movie.getActorList();
-		if ((movieActor == null) && (actorList != null) && (actorList.length() > 0)) {
+		if ((actorList != null) && (actorList.length() > 0)) {
 			StringBuffer actorBuffer = new StringBuffer();
 			if ((actorList != null) && (actorList.length() > 0)) {
 				boolean first = true;

@@ -242,4 +242,26 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 		return true;
 	}
 
+	@Override
+	public int getRequestCode(int viewId) {
+		switch (viewId) {
+		case R.id.searchCityName: {
+			return CineShowtimeCst.ACTIVITY_RESULT_CITY_SPEECH_SEARCH;
+		}
+		case R.id.searchMovieName: {
+			return CineShowtimeCst.ACTIVITY_RESULT_MOVIE_SPEECH_SEARCH;
+		}
+		default:
+			break;
+		}
+		return 0;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (!fragmentSearch.delegateOnResultActivity(requestCode, resultCode, data)) {
+			super.onActivityResult(requestCode, resultCode, data);
+		}
+	}
+
 }

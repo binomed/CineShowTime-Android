@@ -19,24 +19,32 @@
 		android:layout_width="fill_parent"
 		android:layout_weight="1">
 
-		<LinearLayout 
-		        android:orientation="horizontal"
+		<LinearLayout
+				android:orientation="horizontal" 
 		        android:layout_width="fill_parent"
-		        android:layout_height="fill_parent">
+		        android:layout_height="fill_parent"
+		       	android:paddingTop="@dimen/cstPaddingTopMain"
+				android:paddingLeft="@dimen/cstPaddingLeftMain"
+				android:paddingRight="@dimen/cstPaddingRightMain"
+				android:paddingBottom="@dimen/cstPaddingBottomMain"
+		        >
 		
 		    <fragment class="com.binomed.showtime.android.screen.search.CineShowTimeSearchFragment"
 		            android:id="@+id/fragmentSearch" 
 		            android:layout_width="0dp"
 		            android:layout_height="fill_parent" 
 		            android:layout_weight="40"
+		            android:layout_marginRight="20dip"
 		            >
 		        <!-- Preview: layout=@layout/fragment_search -->
 		    </fragment>
 		    <fragment class="com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment"
 		            android:id="@+id/fragmentB" 
+		        	android:paddingTop="20dip"
 		            android:layout_width="0dp"
 		            android:layout_height="fill_parent" 
 		            android:layout_weight="60"
+		            android:layout_marginLeft="20dip"
 		            >
 		        <!-- Preview: layout=@layout/fragment_fav -->
 		    </fragment>

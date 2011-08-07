@@ -12,11 +12,11 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.handler.TextCallBackFromLocation;
+import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.android.util.localisation.LocationUtils.ProviderEnum;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
@@ -47,7 +47,7 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	private Bitmap bitmapGpsDisabled;
 	private Context context;
 	private ImageView imageGps;
-	private AutoCompleteTextView textSearch;
+	private AutoCompleteTextWithSpeech textSearch;
 	private IModelLocalisation model;
 	private boolean locationListener, checkedGps;
 	private TextCallBackFromLocation handlerTextSearch;
@@ -62,7 +62,7 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		this.xps = xps;
 	}
 
-	public LocalisationManagement(Context context, GoogleAnalyticsTracker tracker, ImageView imageGps, AutoCompleteTextView textSearch, IModelLocalisation model) {
+	public LocalisationManagement(Context context, GoogleAnalyticsTracker tracker, ImageView imageGps, AutoCompleteTextWithSpeech textSearch, IModelLocalisation model) {
 		super();
 		this.context = context;
 		this.imageGps = imageGps;

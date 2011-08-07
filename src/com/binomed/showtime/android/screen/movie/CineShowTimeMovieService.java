@@ -1,7 +1,8 @@
 package com.binomed.showtime.android.screen.movie;
 
-import android.app.Service;
-import android.content.ComponentName;
+import java.util.HashMap;
+
+import android.app.IntentService;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteCallbackList;
@@ -12,7 +13,7 @@ import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.util.CineShowtimeRequestManage;
 
-public class CineShowTimeMovieService extends Service {
+public class CineShowTimeMovieService extends IntentService {
 
 	private boolean serviceRunning;
 	private double latitude, longitude;
@@ -20,7 +21,8 @@ public class CineShowTimeMovieService extends Service {
 	private MovieBean movie;
 	private String near;
 	private boolean inBrodCast = false;
-	private Thread thread = null;
+	private HashMap<Integer, Boolean> mapCancel = new HashMap<Integer, Boolean>();
+	private int compt = 0;
 
 	private static final String TAG = "CineShowTimeMovieService";
 
@@ -28,6 +30,10 @@ public class CineShowTimeMovieService extends Service {
 	 * The list of all available callbacks
 	 */
 	private final RemoteCallbackList<ICallbackMovie> m_callbacks = new RemoteCallbackList<ICallbackMovie>();
+
+	public CineShowTimeMovieService() {
+		super(TAG);
+	}
 
 	@Override
 	public IBinder onBind(Intent arg0) {
@@ -75,23 +81,18 @@ public class CineShowTimeMovieService extends Service {
 
 		@Override
 		public void cancelService() throws RemoteException {
-			if (serviceRunning && thread.isAlive()) {
-				thread.interrupt();
+			if (serviceRunning) {
+				mapCancel.put(compt, true);
 			}
 
 		}
 	};
 
 	@Override
-	public ComponentName startService(Intent service) {
-		return super.startService(service);
-	}
-
-	@Override
 	public boolean stopService(Intent name) {
 		try {
-			if (serviceRunning && thread.isAlive()) {
-				thread.interrupt();
+			if (serviceRunning) {
+				stopSelf();
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "Stop service error", e);
@@ -108,42 +109,36 @@ public class CineShowTimeMovieService extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 
+	}
+
+	@Override
+	protected void onHandleIntent(Intent intent) {
+		mapCancel.put(compt, false);
 		movieId = intent.getExtras().getString(ParamIntent.SERVICE_MOVIE_ID);
 		movie = intent.getExtras().getParcelable(ParamIntent.SERVICE_MOVIE);
 		near = intent.getExtras().getString(ParamIntent.SERVICE_MOVIE_NEAR);
 
 		try {
 			serviceRunning = true;
-			thread = new Thread(runnable);
-			thread.start();
+			CineShowtimeRequestManage.completeMovieDetail(movie, near);
+
 		} catch (Exception e) {
-			Log.e("ServiceMovie", "error searching Movie", e);
-		}
-	}
-
-	private Runnable runnable = new Runnable() {
-
-		@Override
-		public void run() {
+			Log.e(TAG, "error searching movie", e);
+		} finally {
 			try {
-				CineShowtimeRequestManage.completeMovieDetail(movie, near);
-
-			} catch (Exception e) {
-				Log.e(TAG, "error searching movie", e);
-			} finally {
-				try {
-					serviceRunning = false;
-					while (inBrodCast) {
-						Thread.sleep(100);
-					}
-					binder.finish(movieId);
-					stopSelf();
-				} catch (Exception e) {
-					Log.e(TAG, "Error during finishing service", e);
+				serviceRunning = false;
+				while (inBrodCast) {
+					Thread.sleep(100);
 				}
+				if (!mapCancel.get(compt)) {
+					binder.finish(movieId);
+				}
+			} catch (Exception e) {
+				Log.e(TAG, "Error during finishing service", e);
 			}
-
 		}
-	};
+		compt++;
+
+	}
 
 }

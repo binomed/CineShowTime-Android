@@ -3,7 +3,7 @@ package com.binomed.showtime.android.screen.results;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.app.Service;
+import android.app.IntentService;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowtimeRequestManage;
 
-public class CineShowTimeResultsService extends Service {
+public class CineShowTimeResultsService extends IntentService {
 
 	private double latitude, longitude;
 	private String cityName;
@@ -28,10 +28,10 @@ public class CineShowTimeResultsService extends Service {
 	private String origin;
 	private int day;
 	private int start;
-	private Intent intent;
 	private NearResp nearResp;
 	private Map<String, LocalisationBean> localisationMap = new HashMap<String, LocalisationBean>();
-	private Thread thread;
+	private HashMap<Integer, Boolean> mapCancel = new HashMap<Integer, Boolean>();
+	private int compt = 0;
 
 	private boolean serviceStarted;
 	/**
@@ -39,6 +39,10 @@ public class CineShowTimeResultsService extends Service {
 	 */
 	private final RemoteCallbackList<ICallbackSearch> m_callbacks = new RemoteCallbackList<ICallbackSearch>();
 	private static final String TAG = "SearchService"; //$NON-NLS-1$
+
+	public CineShowTimeResultsService() {
+		super(TAG);
+	}
 
 	@Override
 	public IBinder onBind(Intent arg0) {
@@ -107,8 +111,8 @@ public class CineShowTimeResultsService extends Service {
 
 		@Override
 		public void cancelService() throws RemoteException {
-			if (serviceStarted && thread.isAlive()) {
-				thread.interrupt();
+			if (serviceStarted) {
+				mapCancel.put(compt, true);
 			}
 
 		}
@@ -122,8 +126,8 @@ public class CineShowTimeResultsService extends Service {
 	@Override
 	public boolean stopService(Intent name) {
 		try {
-			if (serviceStarted && thread.isAlive()) {
-				thread.interrupt();
+			if (serviceStarted) {
+				stopSelf();
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "Stop service error", e);
@@ -140,6 +144,11 @@ public class CineShowTimeResultsService extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 
+	}
+
+	@Override
+	protected void onHandleIntent(Intent intent) {
+		mapCancel.put(compt, false);
 		if (intent != null) {
 
 			Bundle extras = intent.getExtras();
@@ -152,32 +161,8 @@ public class CineShowTimeResultsService extends Service {
 			day = extras.getInt(ParamIntent.SERVICE_SEARCH_DAY);
 			start = extras.getInt(ParamIntent.SERVICE_SEARCH_START);
 
-			this.intent = intent;
 			try {
 				serviceStarted = true;
-				thread = new Thread(runnable);
-				thread.start();
-			} catch (Exception e) {
-				Log.e(TAG, "error searching theaters", e);
-			}
-		} else {
-			nearResp = null;
-			try {
-				serviceStarted = false;
-				binder.finish();
-				stopSelf();
-			} catch (RemoteException e) {
-				//
-			}
-
-		}
-	}
-
-	private Runnable runnable = new Runnable() {
-
-		@Override
-		public void run() {
-			try {
 				localisationMap = new HashMap<String, LocalisationBean>();
 				nearResp = CineShowtimeRequestManage.searchTheatersOrMovies( //
 						latitude //
@@ -201,14 +186,28 @@ public class CineShowTimeResultsService extends Service {
 			} finally {
 				try {
 					serviceStarted = false;
-					binder.finish();
-					stopSelf();
+					if (!mapCancel.get(compt)) {
+						binder.finish();
+					}
 				} catch (RemoteException e) {
 					//
 				}
 			}
+		} else {
+			nearResp = null;
+			try {
+				serviceStarted = false;
+				if (!mapCancel.get(compt)) {
+					binder.finish();
+				}
+			} catch (RemoteException e) {
+				//
+			}
 
 		}
-	};
+
+		compt++;
+
+	}
 
 }

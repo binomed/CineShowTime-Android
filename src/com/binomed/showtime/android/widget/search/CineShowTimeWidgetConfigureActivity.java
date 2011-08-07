@@ -19,7 +19,6 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,6 +30,7 @@ import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.adapter.view.TheaterFavMainListAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
+import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
@@ -52,7 +52,7 @@ public class CineShowTimeWidgetConfigureActivity extends Activity implements OnC
 
 	private static final String TAG = "SearchWidgetActivity"; //$NON-NLS-1$
 
-	protected AutoCompleteTextView fieldCityName;
+	protected AutoCompleteTextWithSpeech fieldCityName;
 	protected Button searchButton;
 	protected ImageView gpsImgView;
 	private ListView theaterFavList;
@@ -67,7 +67,7 @@ public class CineShowTimeWidgetConfigureActivity extends Activity implements OnC
 	protected GoogleAnalyticsTracker tracker;
 
 	protected EditText getFieldName() {
-		return fieldCityName;
+		return fieldCityName.getEditText();
 	}
 
 	/** Called when the activity is first created. */
@@ -133,7 +133,7 @@ public class CineShowTimeWidgetConfigureActivity extends Activity implements OnC
 
 		gpsImgView = (ImageView) findViewById(R.id.searchWidgetImgGps);
 		searchButton = (Button) findViewById(R.id.searchWidgetBtnSearch);
-		fieldCityName = (AutoCompleteTextView) findViewById(R.id.searchWidgetCityName);
+		fieldCityName = (AutoCompleteTextWithSpeech) findViewById(R.id.searchWidgetCityName);
 		theaterFavList = (ListView) findViewById(R.id.searchWidgetFavList);
 
 		// manageCallBack

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<dimen name="cstPaddingTopMain">30dp</dimen>
+	<dimen name="cstPaddingLeftMain">30dp</dimen>
+	<dimen name="cstPaddingRightMain">30dp</dimen>
+	<dimen name="cstPaddingBottomMain">30dp</dimen>
+
+</resources>

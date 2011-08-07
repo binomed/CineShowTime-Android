@@ -26,17 +26,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AutoCompleteTextView;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
+import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech;
 import com.binomed.showtime.android.util.localisation.IListenerLocalisationUtilCallBack;
 import com.binomed.showtime.android.util.localisation.IModelLocalisation;
 import com.binomed.showtime.android.util.localisation.LocalisationManagement;
-import com.binomed.showtime.android.util.localisation.LocalisationManagementOld;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public final class CineShowTimeLayoutUtils {
@@ -50,7 +49,7 @@ public final class CineShowTimeLayoutUtils {
 		if (activities.size() == 0) {
 			button.setVisibility(View.GONE);
 
-			if (text != null && Integer.valueOf(Build.VERSION.SDK) <= 3) {
+			if ((text != null) && (Integer.valueOf(Build.VERSION.SDK) <= 3)) {
 				// Manage specificity for version before 4
 				RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 				if (idRightof != -1) {
@@ -68,19 +67,7 @@ public final class CineShowTimeLayoutUtils {
 		}
 	}
 
-	public static IListenerLocalisationUtilCallBack manageLocationManagementold(Context context, ImageView imageGps, CheckBox chckBoxGps, AutoCompleteTextView textSearch, IModelLocalisation model) {
-		LocalisationManagementOld callBack = new LocalisationManagementOld(context, imageGps, chckBoxGps, textSearch, model);
-		// callBack.setContext(context);
-		// callBack.setImageGps(imageGps);
-		// callBack.setChckBoxGps(chckBoxGps);
-		// callBack.setTextSearch(textSearch);
-		// callBack.setModel(model);
-		// callBack.initLocalisationManager();
-		return callBack;
-
-	}
-
-	public static IListenerLocalisationUtilCallBack manageLocationManagement(Context context, GoogleAnalyticsTracker tracker, ImageView imageGps, AutoCompleteTextView textSearch, IModelLocalisation model) {
+	public static IListenerLocalisationUtilCallBack manageLocationManagement(Context context, GoogleAnalyticsTracker tracker, ImageView imageGps, AutoCompleteTextWithSpeech textSearch, IModelLocalisation model) {
 		LocalisationManagement callBack = new LocalisationManagement(context, tracker, imageGps, textSearch, model);
 		// callBack.setContext(context);
 		// callBack.setImageGps(imageGps);

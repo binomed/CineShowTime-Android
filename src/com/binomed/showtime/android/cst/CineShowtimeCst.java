@@ -23,6 +23,8 @@ public final class CineShowtimeCst {
 	public static final int ACTIVITY_RESULT_SEARCH_ACTIVITY = 2;
 	public static final int ACTIVITY_RESULT_RESULT_ACTIVITY = 3;
 	public static final int ACTIVITY_RESULT_MOVIE_ACTIVITY = 4;
+	public static final int ACTIVITY_RESULT_MOVIE_SPEECH_SEARCH = 5;
+	public static final int ACTIVITY_RESULT_CITY_SPEECH_SEARCH = 6;
 
 	public static final int ACTIVITY_RESULT_PARAM_NULL_RESULT = 1;
 
@@ -56,5 +58,7 @@ public final class CineShowtimeCst {
 	public static final String GOOGLE_ANALYTICS_ID = "UA-21310883-2";
 
 	public static final String PREF_KEY_ANALYTICS = "com.binomed.showtime.analytics";
+
+	public static final String ACRA_FORM_KEY = "dEtLdVJ5aFNjOUFRcGI5Ym5TckhwaVE6MQ";
 
 }
