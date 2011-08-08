@@ -25,7 +25,7 @@
 				    android:layout_toLeftOf="@+id/btnSpeech" 
 				    android:layout_centerVertical="true"
 				    android:singleLine="true"
-				    android:imeOptions="actionDone"
+				    android:imeOptions="actionSearch"
 				    style="?attr/cstEditText" 
 				    />
 		</RelativeLayout>
@@ -34,7 +34,7 @@
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 		    android:singleLine="true"
-		    android:imeOptions="actionDone"
+		    android:imeOptions="actionSearch"
 		    style="?attr/cstEditText" 
 		    />
 </RelativeLayout>

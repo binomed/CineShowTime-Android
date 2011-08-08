@@ -22,6 +22,7 @@
 	    		android:entryValues="@array/themes_code"  
 	    		android:defaultValue="@string/preference_gen_default_theme"/>
     </PreferenceCategory>
+<!-- 
     <PreferenceCategory android:title="@string/preference_lang_cat">
         <CheckBoxPreference
                 android:key="@string/preference_lang_key_auto_translate"
@@ -29,6 +30,7 @@
                 android:title="@string/preference_lang_auto_translate" 
                 android:defaultValue="false"/>
     </PreferenceCategory>
+ -->
     <PreferenceCategory android:title="@string/preference_loc_cat">
 	    <ListPreference 
 	    		android:key="@string/preference_loc_key_measure"

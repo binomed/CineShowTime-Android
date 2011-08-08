@@ -3,13 +3,11 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="libs/andshowtime.beans.jar" sourcepath="/CineShowtimeBeans"/>
-	<classpathentry kind="lib" path="libs/google-api-translate-java-0.6.jar"/>
 	<classpathentry kind="lib" path="libs/wpsapi.jar"/>
-	<classpathentry kind="lib" path="libs/imageloader.jar"/>
 	<classpathentry kind="lib" path="libs/libGoogleAnalytics.jar"/>
 	<classpathentry kind="lib" path="libs/android-support-v4.jar"/>
 	<classpathentry kind="lib" path="libs/acra-4.2.3.jar"/>
 	<classpathentry kind="src" path="GreenDroid_src"/>
+	<classpathentry kind="lib" path="libs/andshowtime.beans.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

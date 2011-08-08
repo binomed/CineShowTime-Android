@@ -42,7 +42,7 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	private void initViews() {
 
 		// Watch for button clicks.
-		fragmentSearch = (CineShowTimeSearchFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentSearch);
+		fragmentSearch = (CineShowTimeSearchFragment) getSupportFragmentManager().findFragmentById(R.id.FragmentSearch);
 		fragmentFav = (CineShowTimeFavFragment) getSupportFragmentManager().findFragmentById(R.id.FragmentFav);
 
 	}
@@ -262,6 +262,12 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 		if (!fragmentSearch.delegateOnResultActivity(requestCode, resultCode, data)) {
 			super.onActivityResult(requestCode, resultCode, data);
 		}
+	}
+
+	@Override
+	public void fireSearch() {
+		fragmentSearch.launchSearchWithVerif();
+
 	}
 
 }

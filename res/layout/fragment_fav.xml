@@ -3,12 +3,12 @@
    xmlns:android="http://schemas.android.com/apk/res/android"
    android:id="@+id/relativeLayoutId"
    android:layout_width="fill_parent"
-   android:layout_height="wrap_content"
+   android:layout_height="fill_parent"
    >
    <!--     style="@style/Layouts.background"--> 
 	<RelativeLayout
 		 android:layout_width="fill_parent"
-	   	 android:layout_height="wrap_content"
+	   	 android:layout_height="fill_parent"
 		>
 		<LinearLayout
 			android:id="@+id/mainLayoutTextFav"
@@ -31,7 +31,7 @@
 		<ListView
 			android:id="@+id/mainFavList" 
 			android:layout_width="fill_parent" 
-			android:layout_height="wrap_content" 
+			android:layout_height="fill_parent" 
 			android:layout_below="@+id/mainLayoutTextFav" 
 			android:layout_marginLeft="10dip"  
 			android:layout_marginRight="10dip"  

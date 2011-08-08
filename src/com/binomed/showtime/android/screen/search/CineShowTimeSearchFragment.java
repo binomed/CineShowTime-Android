@@ -209,53 +209,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.searchBtnSearch: {
-			String cityName = null;
-			String movieName = null;
-			if (fieldCityName.getText().toString().length() > 0) {
-				cityName = fieldCityName.getText().toString();
-			}
-			if (fieldMovieName.getText().toString().length() > 0) {
-				movieName = fieldMovieName.getText().toString();
-			}
-			model.setCityName(cityName);
-			model.setMovieName(movieName);
-			model.setFavTheaterId(null);
-			model.setStart(0);
-
-			try {
-
-				boolean canLaunch = true;
-				boolean btnCheck = localisationCallBack.isGPSCheck();
-				if (btnCheck && (model.getLocalisation() == null)) {
-					Toast.makeText(getActivity() //
-							, R.string.msgNoGps //
-							, Toast.LENGTH_LONG) //
-							.show();
-					canLaunch = false;
-				} else if (!btnCheck && (cityName == null)) {
-					Toast.makeText(getActivity() //
-							, R.string.msgNoCityName //
-							, Toast.LENGTH_LONG) //
-							.show();
-					canLaunch = false;
-				}
-
-				if (canLaunch) {
-					if (btnCheck) {
-						tracker.trackEvent("Open", "Click", "Open result with gps", 0);
-						model.setCityName(null);
-						// model.setLocalisation(model.getLocalisation());
-					} else {
-						tracker.trackEvent("Open", "Click", "Open result with city name" + cityName, 0);
-						model.setLocalisation(null);
-					}
-					tracker.dispatch();
-					openResultActivity();
-				}
-
-			} catch (Exception e) {
-				Log.e(TAG, "erreur au lancement du service", e); //$NON-NLS-1$
-			}
+			launchSearchWithVerif();
 			break;
 		}
 		default:
@@ -300,6 +254,56 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	public boolean delegateOnResultActivity(int requestCode, int resultCode, Intent data) {
 		return fieldCityName.onVoiceRecognitionResult(data, resultCode, requestCode) //
 				|| fieldMovieName.onVoiceRecognitionResult(data, resultCode, requestCode);
+	}
+
+	public void launchSearchWithVerif() {
+		String cityName = null;
+		String movieName = null;
+		if (fieldCityName.getText().toString().length() > 0) {
+			cityName = fieldCityName.getText().toString();
+		}
+		if (fieldMovieName.getText().toString().length() > 0) {
+			movieName = fieldMovieName.getText().toString();
+		}
+		model.setCityName(cityName);
+		model.setMovieName(movieName);
+		model.setFavTheaterId(null);
+		model.setStart(0);
+
+		try {
+
+			boolean canLaunch = true;
+			boolean btnCheck = localisationCallBack.isGPSCheck();
+			if (btnCheck && (model.getLocalisation() == null)) {
+				Toast.makeText(getActivity() //
+						, R.string.msgNoGps //
+						, Toast.LENGTH_LONG) //
+						.show();
+				canLaunch = false;
+			} else if (!btnCheck && (cityName == null)) {
+				Toast.makeText(getActivity() //
+						, R.string.msgNoCityName //
+						, Toast.LENGTH_LONG) //
+						.show();
+				canLaunch = false;
+			}
+
+			if (canLaunch) {
+				if (btnCheck) {
+					tracker.trackEvent("Open", "Click", "Open result with gps", 0);
+					model.setCityName(null);
+					// model.setLocalisation(model.getLocalisation());
+				} else {
+					tracker.trackEvent("Open", "Click", "Open result with city name" + cityName, 0);
+					model.setLocalisation(null);
+				}
+				tracker.dispatch();
+				openResultActivity();
+			}
+
+		} catch (Exception e) {
+			Log.e(TAG, "erreur au lancement du service", e); //$NON-NLS-1$
+		}
 	}
 
 	public void openResultActivity() {

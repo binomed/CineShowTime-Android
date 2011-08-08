@@ -36,13 +36,10 @@ import com.binomed.showtime.android.layout.view.PageInfoView.CallBack;
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
-import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowTimeMenuUtil;
 import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.activity.IFragmentCineShowTimeInteraction;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-import com.google.api.translate.Language;
-import com.google.api.translate.Translate;
 
 public class CineShowTimeMovieFragment extends Fragment //
 		implements OnTabChangeListener //
@@ -535,27 +532,6 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 	}
 
-	public String translateDesc() throws Exception {
-		MovieBean movie = model.getMovie();
-		String descTlt = movie.getDescription();
-		if (!model.isTranslate()) {
-			descTlt = movie.getTrDescription();
-			if ((descTlt == null) //
-					|| (descTlt.length() == 0)) {
-				Language convertLanguage = CineShowTimeEncodingUtil.convertLocaleToLanguage();
-				if (!convertLanguage.equals(Language.ENGLISH)) {
-					descTlt = Translate.translate(movie.getDescription(), Language.ENGLISH, convertLanguage);
-					movie.setTrDescription(descTlt);
-					fillDB();
-				}
-			}
-			model.setTranslate(true);
-		} else {
-			model.setTranslate(false);
-		}
-		return descTlt;
-	}
-
 	/*
 	 * Intents
 	 */
@@ -563,6 +539,28 @@ public class CineShowTimeMovieFragment extends Fragment //
 	public void openImdbBrowser() {
 		startActivity(IntentShowtime.createImdbBrowserIntent(model.getMovie()));
 	}
+
+	// TODO a remettre quand j'aurais une api de traduction
+	// public String translateDesc() throws Exception {
+	// MovieBean movie = model.getMovie();
+	// String descTlt = movie.getDescription();
+	// if (!model.isTranslate()) {
+	// descTlt = movie.getTrDescription();
+	// if ((descTlt == null) //
+	// || (descTlt.length() == 0)) {
+	// Language convertLanguage = CineShowTimeEncodingUtil.convertLocaleToLanguage();
+	// if (!convertLanguage.equals(Language.ENGLISH)) {
+	// descTlt = Translate.translate(movie.getDescription(), Language.ENGLISH, convertLanguage);
+	// movie.setTrDescription(descTlt);
+	// fillDB();
+	// }
+	// }
+	// model.setTranslate(true);
+	// } else {
+	// model.setTranslate(false);
+	// }
+	// return descTlt;
+	// }
 
 	/*
 	 * Interactions

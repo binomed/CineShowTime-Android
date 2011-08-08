@@ -11,19 +11,23 @@ import android.content.pm.ResolveInfo;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.layout.dialogs.sort.ListDialog;
 import com.binomed.showtime.android.layout.dialogs.sort.ListSelectionListener;
 
-public class AutoCompleteTextWithSpeech extends RelativeLayout implements OnClickListener, ListSelectionListener {
+public class AutoCompleteTextWithSpeech extends RelativeLayout implements OnClickListener, ListSelectionListener, OnEditorActionListener {
 
 	private AutoCompleteTextView autoCompleteText;
 	private AutoCompleteInteraction callBack;
@@ -62,8 +66,9 @@ public class AutoCompleteTextWithSpeech extends RelativeLayout implements OnClic
 			autoCompleteTextWithoutSpeech.setVisibility(View.GONE);
 			autoCompleteText = autoCompleteTextWithSpeech;
 			btnSpeech.setOnClickListener(this);
-
 		}
+
+		autoCompleteText.setOnEditorActionListener(this);
 	}
 
 	public boolean onVoiceRecognitionResult(Intent data, int resultCode, int requestCode) {
@@ -127,5 +132,17 @@ public class AutoCompleteTextWithSpeech extends RelativeLayout implements OnClic
 
 		int getRequestCode(int itemId);
 
+		void fireSearch();
+
+	}
+
+	@Override
+	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+		if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+			if (callBack != null) {
+				callBack.fireSearch();
+			}
+		}
+		return false;
 	}
 }

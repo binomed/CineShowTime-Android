@@ -1,10 +1,8 @@
 package com.binomed.showtime.android.layout.view;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
@@ -28,8 +26,6 @@ import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.CineShowtimeRequestManage;
 import com.binomed.showtime.android.util.images.ImageDownloader;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-import com.google.api.translate.Language;
-import com.google.api.translate.Translate;
 
 public class PageInfoView extends LinearLayout implements OnItemClickListener, OnLongClickListener {
 
@@ -229,20 +225,21 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 			}
 		}
 
-		boolean checkboxPreference;
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-		checkboxPreference = prefs.getBoolean(this.getResources().getString(R.string.preference_lang_key_auto_translate), false);
+		// boolean checkboxPreference;
+		// SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+		// checkboxPreference = prefs.getBoolean(this.getResources().getString(R.string.preference_lang_key_auto_translate), false);
+		// TODO a remettre quand j'aurais une api de traduction
 
 		if ((movie.getDescription() != null)) {
 			String descTlt = movie.getDescription();
-			if (checkboxPreference) {
-				descTlt = Translate.translate(movie.getDescription(), Language.ENGLISH, Language.FRENCH);
-				movie.setTrDescription(descTlt);
-				callBack.fillDB();
-				model.setTranslate(true);
-			} else {
-				model.setTranslate(false);
-			}
+			// if (checkboxPreference) {
+			// descTlt = Translate.translate(movie.getDescription(), Language.ENGLISH, Language.FRENCH);
+			// movie.setTrDescription(descTlt);
+			// callBack.fillDB();
+			// model.setTranslate(true);
+			// } else {
+			model.setTranslate(false);
+			// }
 			moviePlot.setText(descTlt);
 		} else {
 			moviePlot.setText(getResources().getString(R.string.noSummary));
