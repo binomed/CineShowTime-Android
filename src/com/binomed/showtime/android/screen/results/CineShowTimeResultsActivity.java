@@ -145,6 +145,11 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 	}
 
 	@Override
+	public void onTheaterClick(TheaterBean theaterBean) {
+		// nothing to do
+	}
+
+	@Override
 	public void onGroupClick() {
 		// nothing to do
 	}

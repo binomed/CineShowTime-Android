@@ -132,7 +132,7 @@ public class AutoCompleteTextWithSpeech extends RelativeLayout implements OnClic
 
 		int getRequestCode(int itemId);
 
-		void fireSearch();
+		void fireSearch(int viewId, String text);
 
 	}
 
@@ -140,7 +140,7 @@ public class AutoCompleteTextWithSpeech extends RelativeLayout implements OnClic
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 		if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 			if (callBack != null) {
-				callBack.fireSearch();
+				callBack.fireSearch(getId(), autoCompleteText.getText().toString());
 			}
 		}
 		return false;

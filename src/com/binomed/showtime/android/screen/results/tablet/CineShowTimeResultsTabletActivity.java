@@ -317,4 +317,10 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 
 	}
 
+	@Override
+	public void onTheaterClick(TheaterBean theater) {
+		// nothing to do
+
+	}
+
 }

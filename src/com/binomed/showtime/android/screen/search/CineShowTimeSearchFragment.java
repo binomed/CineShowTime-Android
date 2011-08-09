@@ -7,12 +7,15 @@ import java.util.Calendar;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.binomed.showtime.R;
@@ -32,13 +36,13 @@ import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech;
 import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech.AutoCompleteInteraction;
-import com.binomed.showtime.android.screen.main.ModelMainFragment;
 import com.binomed.showtime.android.screen.results.CineShowTimeResultsActivity;
 import com.binomed.showtime.android.screen.results.tablet.CineShowTimeResultsTabletActivity;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
+import com.binomed.showtime.android.util.activity.ICineShowTimeActivityHelperModel;
 import com.binomed.showtime.android.util.activity.IFragmentCineShowTimeInteraction;
 import com.binomed.showtime.android.util.localisation.IListenerLocalisationUtilCallBack;
 import com.binomed.showtime.cst.SpecialChars;
@@ -50,6 +54,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 
 	private static final String TAG = "SearchActivity"; //$NON-NLS-1$
 
+	protected TextView lblMovieName;
 	protected AutoCompleteTextWithSpeech fieldCityName, fieldMovieName;
 	protected Button searchButton;
 	protected Spinner spinnerChooseDay;
@@ -79,7 +84,16 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		tracker.trackPageView("/SearchActivity");
 		Log.i(TAG, "onCreate"); //$NON-NLS-1$
 		// setContentView(R.layout.activity_search);
-		View mainView = inflater.inflate(R.layout.fragment_search, container, false);
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		String defaultTheme = getActivity().getResources().getString(R.string.preference_gen_default_theme);
+		String theme = pref.getString(getActivity().getResources().getString(R.string.preference_gen_key_theme), defaultTheme);
+		int themeRessource = R.style.Theme_Dark_Night;
+		if (!theme.equals(defaultTheme)) {
+			themeRessource = R.style.Theme_Shine_the_lite;
+		}
+
+		LayoutInflater newInflater = inflater.cloneInContext(new ContextThemeWrapper(getActivity(), themeRessource));
+		View mainView = newInflater.inflate(R.layout.fragment_search, container, false);
 
 		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -138,6 +152,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		gpsImgView = (ImageView) mainView.findViewById(R.id.searchImgGps);
 		searchButton = (Button) mainView.findViewById(R.id.searchBtnSearch);
 		fieldCityName = (AutoCompleteTextWithSpeech) mainView.findViewById(R.id.searchCityName);
+		lblMovieName = (TextView) mainView.findViewById(R.id.searchTxtMovieName);
 		fieldMovieName = (AutoCompleteTextWithSpeech) mainView.findViewById(R.id.searchMovieName);
 		spinnerChooseDay = (Spinner) mainView.findViewById(R.id.searchSpinner);
 
@@ -209,7 +224,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.searchBtnSearch: {
-			launchSearchWithVerif();
+			launchSearchWithVerif(-1, null);
 			break;
 		}
 		default:
@@ -256,15 +271,23 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 				|| fieldMovieName.onVoiceRecognitionResult(data, resultCode, requestCode);
 	}
 
-	public void launchSearchWithVerif() {
+	public void launchSearchWithVerif(int viewId, String text) {
 		String cityName = null;
 		String movieName = null;
+		if (viewId != -1) {
+			if (viewId == R.id.searchCityName) {
+				cityName = text;
+			} else if (viewId == R.id.searchMovieName) {
+				movieName = text;
+			}
+		}
 		if (fieldCityName.getText().toString().length() > 0) {
 			cityName = fieldCityName.getText().toString();
 		}
 		if (fieldMovieName.getText().toString().length() > 0) {
 			movieName = fieldMovieName.getText().toString();
 		}
+
 		model.setCityName(cityName);
 		model.setMovieName(movieName);
 		model.setFavTheaterId(null);
@@ -376,10 +399,16 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, theaterId);
 			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_DAY, day);
 			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, forceRequest);
-			startActivityForResult(intentResultActivity, CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY);
+			fragmentInteraction.delegateStartSearchResult(intentResultActivity, CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY);
+
 		} catch (Exception e) {
 			Log.e(TAG, "error before sending search intent", e);
 		}
+	}
+
+	public void hideMovieFields() {
+		lblMovieName.setVisibility(View.GONE);
+		fieldMovieName.setVisibility(View.GONE);
 	}
 
 	/*
@@ -484,7 +513,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		}
 	}
 
-	public interface SearchFragmentInteraction extends IFragmentCineShowTimeInteraction<ModelMainFragment>, AutoCompleteInteraction {
+	public interface SearchFragmentInteraction<M extends ICineShowTimeActivityHelperModel> extends IFragmentCineShowTimeInteraction<M>, AutoCompleteInteraction {
 
 		void setNullResult(boolean result);
 
@@ -493,6 +522,8 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		void setLastRequestDate(Calendar lastRequestDate);
 
 		Calendar getLastRequestDate();
+
+		void delegateStartSearchResult(Intent intent, int requestCode);
 
 	}
 

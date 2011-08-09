@@ -17,6 +17,7 @@ import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.layout.dialogs.last.LastChangeDialog;
+import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment;
 import com.binomed.showtime.android.screen.search.CineShowTimeSearchFragment;
 import com.binomed.showtime.android.service.CineShowCleanFileService;
@@ -24,8 +25,8 @@ import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.android.util.activity.AbstractCineShowTimeActivity;
 
-public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<ModelMainFragment> implements CineShowTimeFavFragment.FavFragmentInteraction, //
-		CineShowTimeSearchFragment.SearchFragmentInteraction //
+public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<ModelMainFragment> implements CineShowTimeFavFragment.FavFragmentInteraction<ModelMainFragment>, //
+		CineShowTimeSearchFragment.SearchFragmentInteraction<ModelMainFragment> //
 {
 
 	private static final String TAG = "AndShowTimeMainActivity"; //$NON-NLS-1$
@@ -42,8 +43,8 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	private void initViews() {
 
 		// Watch for button clicks.
-		fragmentSearch = (CineShowTimeSearchFragment) getSupportFragmentManager().findFragmentById(R.id.FragmentSearch);
-		fragmentFav = (CineShowTimeFavFragment) getSupportFragmentManager().findFragmentById(R.id.FragmentFav);
+		fragmentSearch = (CineShowTimeSearchFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentSearch);
+		fragmentFav = (CineShowTimeFavFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentFav);
 
 	}
 
@@ -259,15 +260,27 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (!fragmentSearch.delegateOnResultActivity(requestCode, resultCode, data)) {
+		if ((fragmentSearch != null) && !fragmentSearch.delegateOnResultActivity(requestCode, resultCode, data)) {
 			super.onActivityResult(requestCode, resultCode, data);
 		}
 	}
 
 	@Override
-	public void fireSearch() {
-		fragmentSearch.launchSearchWithVerif();
+	public void fireSearch(int viewId, String text) {
+		if (fragmentSearch != null) {
+			fragmentSearch.launchSearchWithVerif(viewId, text);
+		}
 
+	}
+
+	@Override
+	public void delegateStartSearchResult(Intent intent, int requestCode) {
+		startActivityForResult(intent, requestCode);
+	}
+
+	@Override
+	public boolean onFavClick(TheaterBean theater) {
+		return false;
 	}
 
 }

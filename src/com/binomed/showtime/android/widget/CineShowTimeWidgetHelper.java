@@ -45,13 +45,13 @@ import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.model.ProjectionBean;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.screen.results.CineShowTimeResultsActivity;
+import com.binomed.showtime.android.screen.widget.search.CineShowTimeWidgetConfigureActivity;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.android.util.CineShowtimeRequestManage;
 import com.binomed.showtime.android.util.localisation.LocationUtils;
-import com.binomed.showtime.android.widget.search.CineShowTimeWidgetConfigureActivity;
 
 /**
  * Helper methods to simplify talking with and parsing responses from a lightweight Wiktionary API. Before making any requests, you should call {@link #prepareUserAgent(Context)} to generate a User-Agent string based on your application package name and version.

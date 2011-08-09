@@ -5,6 +5,6 @@
 	<dimen name="cstPaddingLeftMain">30dp</dimen>
 	<dimen name="cstPaddingRightMain">30dp</dimen>
 	<dimen name="cstPaddingBottomMain">30dp</dimen>
-	<dimen name="cstFavMainHeight">400dp</dimen>
+	<dimen name="cstFavMainHeight">300dp</dimen>
 
 </resources>

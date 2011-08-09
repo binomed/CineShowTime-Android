@@ -19,5 +19,5 @@
     android:minHeight="146dip"
     android:updatePeriodMillis="600000"
     android:initialLayout="@layout/widget_one"
-    android:configure="com.binomed.showtime.android.widget.search.CineShowTimeWidgetConfigureActivity"
+    android:configure="com.binomed.showtime.android.screen.widget.search.CineShowTimeWidgetConfigureActivity"
     />

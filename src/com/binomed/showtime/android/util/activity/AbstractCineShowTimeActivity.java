@@ -28,6 +28,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -69,8 +70,10 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		// We call the contentView
 		openDB();
 		getModelActivity();
-		setContentView(getLayout());
+		setContentView(R.layout.cst_action_bar_activity);
 		mActionBarHost = (ActionBarHost) findViewById(R.id.gd_action_bar_host);
+		mActionBarHost.getContentView().removeAllViews();
+		LayoutInflater.from(this).inflate(getLayout(), mActionBarHost.getContentView());
 		initContentView();
 
 		addActionBarItems(getActionBar());

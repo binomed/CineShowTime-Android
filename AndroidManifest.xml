@@ -39,8 +39,8 @@ version="1.0" encoding="utf-8"?>
 		<service android:name=".android.widget.CineShowTimeWidgetServiceRefresh"/>
 		<service android:name=".android.widget.CineShowTimeWidgetServiceOpenMovie"/>
 		<service android:name=".android.widget.CineShowTimeWidgetServiceOpenMovie1"/>
-		<activity android:name=".android.widget.results.CineShowTimeResultsWidgetActivity" />
-		<activity android:name=".android.widget.search.CineShowTimeWidgetConfigureActivity">
+		<activity android:name=".android.screen.widget.results.CineShowTimeResultsWidgetActivity" />
+		<activity android:name=".android.screen.widget.search.CineShowTimeWidgetConfigureActivity">
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_CONFIGURE">
 				</action>

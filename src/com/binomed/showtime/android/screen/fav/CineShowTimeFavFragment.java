@@ -28,12 +28,12 @@ import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.layout.view.TheaterFavView;
 import com.binomed.showtime.android.model.TheaterBean;
-import com.binomed.showtime.android.screen.main.ModelMainFragment;
 import com.binomed.showtime.android.screen.results.CineShowTimeResultsActivity;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
+import com.binomed.showtime.android.util.activity.ICineShowTimeActivityHelperModel;
 import com.binomed.showtime.android.util.activity.IFragmentCineShowTimeInteraction;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
@@ -245,7 +245,9 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 		tracker.dispatch();
 		// Sinon on ouvre la page résultats
 		TheaterBean theater = model.getFavList().get(groupPosition);
-		openResultsActivity(theater);
+		if (!fragmentInteraction.onFavClick(theater)) {
+			openResultsActivity(theater);
+		}
 	}
 
 	/*
@@ -312,11 +314,13 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 	 * Interface of communication
 	 */
 
-	public interface FavFragmentInteraction extends IFragmentCineShowTimeInteraction<ModelMainFragment> {
+	public interface FavFragmentInteraction<M extends ICineShowTimeActivityHelperModel> extends IFragmentCineShowTimeInteraction<M> {
 
 		void setLastRequestDate(Calendar today);
 
 		Calendar getLastRequestDate();
+
+		boolean onFavClick(TheaterBean theater);
 
 	}
 
