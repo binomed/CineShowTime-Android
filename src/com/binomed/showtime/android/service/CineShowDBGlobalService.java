@@ -50,8 +50,9 @@ public class CineShowDBGlobalService extends IntentService {
 	}
 
 	private void writeWidgetResp(NearResp nearResp) {
-		mDbHelper.deleteWidgetShowtime();
 		if ((nearResp != null) && (nearResp.getTheaterList() != null)) {
+			TheaterBean theater = nearResp.getTheaterList().get(0);
+			mDbHelper.deleteWidgetShowtime(theater.getWidgetId());
 			Map<String, MovieBean> movieBeanList = nearResp.getMapMovies();
 			MovieBean movieBean = null;
 			ProjectionBean minTime = null;
@@ -60,11 +61,11 @@ public class CineShowDBGlobalService extends IntentService {
 				minTime = CineShowtimeDateNumberUtil.getMinTime(showTime.getValue(), null);
 				if (minTime != null) {
 					for (ProjectionBean time : showTime.getValue()) {
-						mDbHelper.createWidgetShowtime(movieBean, time);
+						mDbHelper.createWidgetShowtime(movieBean, time, theater.getWidgetId());
 					}
 				}
 			}
-			mDbHelper.updateWidgetTheater();
+			mDbHelper.updateWidgetTheater(theater.getWidgetId());
 		}
 
 	}
@@ -193,6 +194,7 @@ public class CineShowDBGlobalService extends IntentService {
 			data = new String[] { //
 			intent.getStringExtra(ParamIntent.THEATER_ID) //
 					, intent.getStringExtra(ParamIntent.MOVIE_ID) //
+					, intent.getStringExtra(ParamIntent.WIDGET_ID) //
 			};
 			break;
 		}
@@ -265,6 +267,7 @@ public class CineShowDBGlobalService extends IntentService {
 			case CineShowtimeCst.DB_TYPE_CURENT_MOVIE_WRITE: {
 				mDbHelper.createCurentMovie(((String[]) action.getData())[0] //
 						, ((String[]) action.getData())[1] //
+						, Integer.valueOf(((String[]) action.getData())[2]) //
 						);
 				break;
 			}

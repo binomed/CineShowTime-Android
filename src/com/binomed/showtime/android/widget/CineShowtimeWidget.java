@@ -52,7 +52,9 @@ public class CineShowtimeWidget extends AppWidgetProvider {
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		CineShowtimeFactory.initGeocoder(context);
-		CineShowTimeWidgetHelper.updateWidget(context, null, null);
+		for (int widgetId : appWidgetIds) {
+			CineShowTimeWidgetHelper.updateWidget(context, null, null, widgetId);
+		}
 	}
 
 }

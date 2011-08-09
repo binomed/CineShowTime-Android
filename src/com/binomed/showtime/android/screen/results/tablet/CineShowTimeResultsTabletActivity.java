@@ -6,7 +6,9 @@ import greendroid.widget.ActionBarItem;
 import greendroid.widget.NormalActionBarItem;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -114,6 +116,67 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	}
 
 	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		if ((fragmentMovie != null) && (getModelActivity().getMovie() != null)) {
+			outState.putParcelable(ParamIntent.MOVIE, getModelActivity().getMovie());
+			outState.putParcelable(ParamIntent.THEATER, getModelActivity().getTheater());
+			outState.putDouble(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (getModelActivity().getLocalisation() != null) ? getModelActivity().getLocalisation().getLatitude() : -1);
+			outState.putDouble(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (getModelActivity().getLocalisation() != null) ? getModelActivity().getLocalisation().getLongitude() : -1);
+			outState.putBoolean(ParamIntent.BUNDLE_SAVE, true);
+		}
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		Log.i(TAG, "onRestoreInstanceState");
+		if ((savedInstanceState != null) && savedInstanceState.getBoolean(ParamIntent.BUNDLE_SAVE, false)) {
+			intentStartMovieActivity = new Intent(this, CineShowTimeMovieActivity.class);
+
+			MovieBean movie = savedInstanceState.getParcelable(ParamIntent.MOVIE);
+			TheaterBean theater = savedInstanceState.getParcelable(ParamIntent.THEATER);
+			double latitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_MOVIE_LATITUDE);
+			double longitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_MOVIE_LONGITUDE);
+			intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movie.getId());
+			intentStartMovieActivity.putExtra(ParamIntent.MOVIE, movie);
+			intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theater.getId());
+			intentStartMovieActivity.putExtra(ParamIntent.THEATER, theater);
+			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, latitude != -1 ? latitude : null);
+			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, longitude != -1 ? longitude : null);
+			StringBuilder place = new StringBuilder();
+			if (theater != null) {
+				if (theater.getPlace() != null) {
+					if ((theater.getPlace().getCityName() != null //
+							)
+							&& (theater.getPlace().getCityName().length() > 0)) {
+						place.append(theater.getPlace().getCityName());
+					}
+					if ((theater.getPlace().getPostalCityNumber() != null //
+							)
+							&& (theater.getPlace().getPostalCityNumber().length() > 0)) {
+						place.append(" ").append(theater.getPlace().getPostalCityNumber());
+					}
+					if ((theater.getPlace().getCountryNameCode() != null //
+							)
+							&& (theater.getPlace().getCountryNameCode().length() > 0 //
+							) && (place.length() > 0)) {
+						place.append(", ").append(theater.getPlace().getCountryNameCode()); //$NON-NLS-1$
+					}
+					if (place.length() == 0) {
+						place.append(theater.getPlace().getSearchQuery());
+					}
+
+				}
+			}
+			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, place.toString());
+			fragmentMovie = new CineShowTimeMovieFragment();
+			getSupportFragmentManager().beginTransaction().replace(R.id.fragmentInfo, fragmentMovie).commit();
+		}
+		// TODO Auto-generated method stub
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
 	protected int getLayout() {
 		return R.layout.activity_result;
 	}
@@ -129,7 +192,14 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	}
 
 	@Override
+	protected void onPostResume() {
+		Log.i(TAG, "onPostResume");
+		super.onPostResume();
+	}
+
+	@Override
 	protected void initContentView() {
+		Log.i(TAG, "initContentView");
 		fragmentResult = (CineShowTimeResultsFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentResults);
 		fragmentFrame = new CineShowTimeFrameFragment();
 		getSupportFragmentManager().beginTransaction().add(R.id.fragmentInfo, fragmentFrame).commit();

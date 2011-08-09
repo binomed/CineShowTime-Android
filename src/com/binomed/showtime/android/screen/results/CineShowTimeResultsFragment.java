@@ -119,6 +119,10 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 			intent = getActivity().getIntent();
 		}
 
+		if ((savedInstanceState != null) && savedInstanceState.getBoolean(ParamIntent.BUNDLE_SAVE, false)) {
+			model.setNearResp((NearResp) savedInstanceState.getParcelable(ParamIntent.NEAR_RESP));
+		}
+
 		model.setForceResearch(intent.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, true));
 		intent.putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false);
 		model.setFavTheaterId(intent.getStringExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID));
@@ -173,6 +177,16 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 		display();
 
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		if (!isServiceRunning()) {
+			NearResp nearResp = model.getNearResp();
+			outState.putBoolean(ParamIntent.BUNDLE_SAVE, true);
+			outState.putParcelable(ParamIntent.NEAR_RESP, nearResp);
+		}
+		super.onSaveInstanceState(outState);
 	}
 
 	/**

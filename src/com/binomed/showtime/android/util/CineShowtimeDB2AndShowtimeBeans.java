@@ -327,13 +327,13 @@ public abstract class CineShowtimeDB2AndShowtimeBeans {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static TheaterBean extractWidgetTheater(CineShowtimeDbAdapter mDbHelper, Calendar dateSearch) throws SQLException {
+	public static TheaterBean extractWidgetTheater(CineShowtimeDbAdapter mDbHelper, Calendar dateSearch, int widgetId) throws SQLException {
 		if (Log.isLoggable(TAG, Log.DEBUG)) {
 			Log.d(TAG, "Extract widget theater"); //$NON-NLS-1$
 		}
 		TheaterBean theaterBean = null;
 		LocalisationBean location = null;
-		Cursor theaterWidgetCursor = mDbHelper.fetchWidgetTheater();
+		Cursor theaterWidgetCursor = mDbHelper.fetchWidgetTheater(widgetId);
 		int columnIndex = 0;
 		try {
 			if (theaterWidgetCursor.moveToFirst()) {
@@ -367,7 +367,7 @@ public abstract class CineShowtimeDB2AndShowtimeBeans {
 
 				columnIndex = theaterWidgetCursor.getColumnIndex(CineShowtimeDbAdapter.KEY_WIDGET_THEATER_DATE);
 				Long lastSearch = theaterWidgetCursor.getLong(columnIndex);
-				if (lastSearch != null && lastSearch > 0) {
+				if ((lastSearch != null) && (lastSearch > 0)) {
 					dateSearch.setTimeInMillis(lastSearch);
 				} else {
 					dateSearch.add(Calendar.DAY_OF_MONTH, -1);
@@ -390,10 +390,11 @@ public abstract class CineShowtimeDB2AndShowtimeBeans {
 	 * Extract theater of widget
 	 * 
 	 * @param mDbHelper
+	 * @param widgetId
 	 * @return
 	 * @throws SQLException
 	 */
-	public static Map<MovieBean, List<ProjectionBean>> extractWidgetShowtimes(CineShowtimeDbAdapter mDbHelper) throws SQLException {
+	public static Map<MovieBean, List<ProjectionBean>> extractWidgetShowtimes(CineShowtimeDbAdapter mDbHelper, int widgetId) throws SQLException {
 		if (Log.isLoggable(TAG, Log.DEBUG)) {
 			Log.d(TAG, "Extract widget showtimes"); //$NON-NLS-1$
 		}
@@ -404,7 +405,7 @@ public abstract class CineShowtimeDB2AndShowtimeBeans {
 		MovieBean movieBean = null;
 		ProjectionBean projectionBean = null;
 		String movieId;
-		Cursor movieWidgetShowtimeCursor = mDbHelper.fetchAllWidgetShowtime();
+		Cursor movieWidgetShowtimeCursor = mDbHelper.fetchAllWidgetShowtime(widgetId);
 		int columnIndex = 0;
 		try {
 			if (movieWidgetShowtimeCursor.moveToFirst()) {
@@ -474,14 +475,14 @@ public abstract class CineShowtimeDB2AndShowtimeBeans {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static MovieBean extractWidgetMovie(CineShowtimeDbAdapter mDbHelper, String movieId, TheaterBean theaterBean) throws SQLException {
+	public static MovieBean extractWidgetMovie(CineShowtimeDbAdapter mDbHelper, String movieId, TheaterBean theaterBean, int widgetId) throws SQLException {
 		if (Log.isLoggable(TAG, Log.DEBUG)) {
 			Log.d(TAG, "Extract widget movie showtimes"); //$NON-NLS-1$
 		}
 		List<ProjectionBean> showTimeList = null;
 		MovieBean movieBean = null;
 		ProjectionBean projectionBean = null;
-		Cursor movieWidgetShowtimeCursor = mDbHelper.fetchWidgetMovie(movieId);
+		Cursor movieWidgetShowtimeCursor = mDbHelper.fetchWidgetMovie(movieId, widgetId);
 		int columnIndex = 0;
 		try {
 			if (movieWidgetShowtimeCursor.moveToFirst()) {
@@ -675,7 +676,7 @@ public abstract class CineShowtimeDB2AndShowtimeBeans {
 	 * @throws SQLException
 	 */
 	public static Object[] extractCurrentMovie(CineShowtimeDbAdapter mDbHelper) throws SQLException {
-		Object[] result = new Object[2];
+		Object[] result = new Object[3];
 
 		Cursor cursorCurerntMovie = mDbHelper.fetchCurentMovie();
 
@@ -687,6 +688,11 @@ public abstract class CineShowtimeDB2AndShowtimeBeans {
 
 				columnIndex = cursorCurerntMovie.getColumnIndex(CineShowtimeDbAdapter.KEY_CURENT_MOVIE_MOVIE_ID);
 				String movieId = cursorCurerntMovie.getString(columnIndex);
+
+				columnIndex = cursorCurerntMovie.getColumnIndex(CineShowtimeDbAdapter.KEY_CURENT_MOVIE_WIDGET_ID);
+				Integer widgetId = cursorCurerntMovie.getInt(columnIndex);
+
+				result[2] = widgetId;
 
 				if (Log.isLoggable(TAG, Log.DEBUG)) {
 					Log.d(TAG, "Extract curent movie : movieId : " + movieId + ", theaterId : " + theaterId); //$NON-NLS-1$
@@ -756,11 +762,14 @@ public abstract class CineShowtimeDB2AndShowtimeBeans {
 				columnIndex = cursorCurerntMovie.getColumnIndex(CineShowtimeDbAdapter.KEY_CURENT_MOVIE_MOVIE_ID);
 				String movieId = cursorCurerntMovie.getString(columnIndex);
 
+				columnIndex = cursorCurerntMovie.getColumnIndex(CineShowtimeDbAdapter.KEY_CURENT_MOVIE_WIDGET_ID);
+				int widgetId = cursorCurerntMovie.getInt(columnIndex);
+
 				if (Log.isLoggable(TAG, Log.DEBUG)) {
 					Log.d(TAG, "Extract curent movie : movieId : " + movieId + ", theaterId : " + theaterId); //$NON-NLS-1$
 				}
-				result[0] = extractWidgetTheater(mDbHelper, Calendar.getInstance());
-				result[1] = extractWidgetMovie(mDbHelper, movieId, (TheaterBean) result[0]);
+				result[0] = extractWidgetTheater(mDbHelper, Calendar.getInstance(), widgetId);
+				result[1] = extractWidgetMovie(mDbHelper, movieId, (TheaterBean) result[0], widgetId);
 
 			} else {
 				if (Log.isLoggable(TAG, Log.DEBUG)) {

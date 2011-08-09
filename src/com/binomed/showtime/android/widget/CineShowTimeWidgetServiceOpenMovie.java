@@ -64,13 +64,14 @@ public class CineShowTimeWidgetServiceOpenMovie extends Service {
 			intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theaterBean.getId());
 			intentStartMovieActivity.putExtra(ParamIntent.THEATER, theaterBean);
 			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, near);
-			intentStartMovieActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			// intentStartMovieActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intentStartMovieActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 			this.startActivity(intentStartMovieActivity);
 		} catch (Exception e) {
 			Log.e(TAG, "error launching activity movie", e);
 		} finally {
-			if (mDbHelper != null && mDbHelper.isOpen()) {
+			if ((mDbHelper != null) && mDbHelper.isOpen()) {
 				mDbHelper.close();
 			}
 		}

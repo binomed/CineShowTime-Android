@@ -3,14 +3,15 @@ package com.binomed.showtime.android.screen.widget.results;
 import greendroid.widget.ActionBar;
 import greendroid.widget.ActionBarItem;
 import android.app.Activity;
+import android.content.Intent;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment;
 import com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment.CineShowTimeResultInteraction;
 import com.binomed.showtime.android.util.activity.AbstractSimpleCineShowTimeActivity;
-import com.binomed.showtime.android.widget.CineShowTimeWidgetHelper;
 
 public class CineShowTimeResultsWidgetActivity extends AbstractSimpleCineShowTimeActivity<CineShowTimeResultsFragment, ModelResultsWidgetActivity> implements CineShowTimeResultInteraction<ModelResultsWidgetActivity> {
 
@@ -104,7 +105,11 @@ public class CineShowTimeResultsWidgetActivity extends AbstractSimpleCineShowTim
 
 	@Override
 	public void onTheaterClick(TheaterBean theaterBean) {
-		CineShowTimeWidgetHelper.finalizeWidget(this, theaterBean, getModelActivity().getCityName());
+		Intent data = new Intent();
+		data.putExtra(ParamIntent.THEATER, theaterBean);
+		setResult(RESULT_OK, data);
+		finish();
+
 	}
 
 	@Override

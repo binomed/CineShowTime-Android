@@ -65,7 +65,7 @@ public class CineShowTimeWidgetHelper {
 	/**
 	 * Build a widget update to show the current Wiktionary "Word of the day." Will block until the online API returns.
 	 */
-	public static RemoteViews buildUpdate(Context context, Intent intent, TheaterBean theater, Map<MovieBean, ProjectionBean> movieBeanShowtimes) {
+	public static RemoteViews buildUpdate(Context context, Intent intent, TheaterBean theater, Map<MovieBean, ProjectionBean> movieBeanShowtimes, int widgetId) {
 		RemoteViews updateViews = null;
 		updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_one);
 		updateViews.setTextViewText(R.id.widget_one_theater_title, (theater != null) ? theater.getTheaterName() : ""); //$NON-NLS-1$
@@ -145,6 +145,7 @@ public class CineShowTimeWidgetHelper {
 			intentCurrentMovie.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_CURENT_MOVIE_WRITE);
 			intentCurrentMovie.putExtra(ParamIntent.THEATER_ID, theater.getId());
 			intentCurrentMovie.putExtra(ParamIntent.MOVIE_ID, movieBean.getId());
+			intentCurrentMovie.putExtra(ParamIntent.WIDGET_ID, String.valueOf(widgetId));
 
 			context.startService(intentCurrentMovie);
 		}
@@ -174,6 +175,7 @@ public class CineShowTimeWidgetHelper {
 		Intent intentScrollLeft = new Intent(context, CineShowTimeWidgetServiceLeft.class);
 		intentScrollLeft.putExtra(ParamIntent.WIDGET_SCROLL_SENS, -1);
 		intentScrollLeft.putExtra(ParamIntent.WIDGET_START, start);
+		intentScrollLeft.putExtra(ParamIntent.WIDGET_ID, widgetId);
 		PendingIntent pendingIntentScrollLeft = PendingIntent.getService(context, 0 /*
 																					 * no requestCode
 																					 */, intentScrollLeft, PendingIntent.FLAG_UPDATE_CURRENT /*
@@ -184,6 +186,7 @@ public class CineShowTimeWidgetHelper {
 		Intent intentScrollRight = new Intent(context, CineShowTimeWidgetServiceRight.class);
 		intentScrollRight.putExtra(ParamIntent.WIDGET_SCROLL_SENS, 1);
 		intentScrollRight.putExtra(ParamIntent.WIDGET_START, start);
+		intentScrollRight.putExtra(ParamIntent.WIDGET_ID, widgetId);
 		PendingIntent pendingIntentScrollRight = PendingIntent.getService(context, 0 /*
 																					 * no requestCode
 																					 */, intentScrollRight, PendingIntent.FLAG_UPDATE_CURRENT /*
@@ -193,6 +196,7 @@ public class CineShowTimeWidgetHelper {
 
 		Intent intentScrollRefresh = new Intent(context, CineShowTimeWidgetServiceRefresh.class);
 		intentScrollRefresh.putExtra(ParamIntent.WIDGET_REFRESH, true);
+		intentScrollRefresh.putExtra(ParamIntent.WIDGET_ID, widgetId);
 		PendingIntent pendingIntentScrollRefresh = PendingIntent.getService(context, 0 /*
 																						 * no requestCode
 																						 */, intentScrollRefresh, PendingIntent.FLAG_UPDATE_CURRENT /*
@@ -203,7 +207,7 @@ public class CineShowTimeWidgetHelper {
 		return updateViews;
 	}
 
-	public static void updateWidget(Context context, Intent intent, TheaterBean theater) {
+	public static void updateWidget(Context context, Intent intent, TheaterBean theater, int widgetId) {
 		Log.i(TAG, "Update Widget");
 		CineShowtimeDbAdapter mdbHelper = new CineShowtimeDbAdapter(context);
 		try {
@@ -215,7 +219,7 @@ public class CineShowTimeWidgetHelper {
 			Calendar dateLastSearch = Calendar.getInstance();
 
 			if ((theater == null) && mdbHelper.isOpen()) {
-				theater = CineShowtimeDB2AndShowtimeBeans.extractWidgetTheater(mdbHelper, dateLastSearch);
+				theater = CineShowtimeDB2AndShowtimeBeans.extractWidgetTheater(mdbHelper, dateLastSearch, widgetId);
 			}
 			Map<MovieBean, ProjectionBean> movieShowTimeMap = new HashMap<MovieBean, ProjectionBean>();
 			Log.i(TAG, "Theater != null : " + (theater != null));
@@ -228,7 +232,7 @@ public class CineShowTimeWidgetHelper {
 				if ((dateToday.get(Calendar.DAY_OF_MONTH) != dateLastSearch.get(Calendar.DAY_OF_MONTH)) || refresh) {
 					Log.i(TAG, "Force refresh " + refresh + ", " + (dateToday.get(Calendar.DAY_OF_MONTH) != dateLastSearch.get(Calendar.DAY_OF_MONTH)) + ", today : " + dateToday.get(Calendar.DAY_OF_MONTH) + ", last day : " + dateLastSearch.get(Calendar.DAY_OF_MONTH));
 					try {
-						RemoteViews updateViews = CineShowTimeWidgetHelper.buildUpdate(context, intent, theater, movieShowTimeMap);
+						RemoteViews updateViews = CineShowTimeWidgetHelper.buildUpdate(context, intent, theater, movieShowTimeMap, widgetId);
 						// Push update for this widget to the home screen
 						ComponentName thisWidget = new ComponentName(context, CineShowtimeWidget.class);
 						AppWidgetManager manager = AppWidgetManager.getInstance(context);
@@ -236,9 +240,18 @@ public class CineShowTimeWidgetHelper {
 
 						LocalisationBean localisationTheater = theater.getPlace();
 						CineShowtimeFactory.initGeocoder(context);
-						NearResp nearResp = CineShowtimeRequestManage.searchTheatersOrMovies(localisationTheater.getLatitude(), localisationTheater.getLongitude(), localisationTheater.getCityName(), null, theater.getId(), 0, 0, CineShowTimeWidgetConfigureActivity.class.getName());
+						NearResp nearResp = CineShowtimeRequestManage.searchTheatersOrMovies(localisationTheater.getLatitude() //
+								, localisationTheater.getLongitude() //
+								, localisationTheater.getCityName()//
+								, null// movieName
+								, theater.getId() //
+								, 0 // day
+								, 0 // start
+								, CineShowTimeWidgetConfigureActivity.class.getName()//
+								);
 						if ((nearResp != null) && (nearResp.getTheaterList() != null)) {
 							movieBeanList = nearResp.getMapMovies();
+							nearResp.getTheaterList().get(0).setWidgetId(widgetId);
 							MovieBean movieBean = null;
 							ProjectionBean minTime = null;
 							for (Entry<String, List<ProjectionBean>> showTime : nearResp.getTheaterList().get(0).getMovieMap().entrySet()) {
@@ -258,7 +271,7 @@ public class CineShowTimeWidgetHelper {
 						Log.e(TAG, "Error during service widget", e); //$NON-NLS-1$
 					}
 				} else {
-					Map<MovieBean, List<ProjectionBean>> movieShowtimeMap = CineShowtimeDB2AndShowtimeBeans.extractWidgetShowtimes(mdbHelper);
+					Map<MovieBean, List<ProjectionBean>> movieShowtimeMap = CineShowtimeDB2AndShowtimeBeans.extractWidgetShowtimes(mdbHelper, widgetId);
 					Log.i(TAG, "Extract datas from base : " + movieShowtimeMap.size());
 					ProjectionBean minTime = null;
 					for (Entry<MovieBean, List<ProjectionBean>> movieShowTime : movieShowtimeMap.entrySet()) {
@@ -268,7 +281,7 @@ public class CineShowTimeWidgetHelper {
 						}
 					}
 				}
-				RemoteViews updateViews = CineShowTimeWidgetHelper.buildUpdate(context, intent, theater, movieShowTimeMap);
+				RemoteViews updateViews = CineShowTimeWidgetHelper.buildUpdate(context, intent, theater, movieShowTimeMap, widgetId);
 				// Push update for this widget to the home screen
 				ComponentName thisWidget = new ComponentName(context, CineShowtimeWidget.class);
 				AppWidgetManager manager = AppWidgetManager.getInstance(context);
@@ -323,7 +336,7 @@ public class CineShowTimeWidgetHelper {
 		// We force widget to refresh
 		Intent intentRefreshWidget = new Intent(activity, CineShowTimeWidgetHelper.class);
 		intentRefreshWidget.putExtra(ParamIntent.WIDGET_REFRESH, true);
-		CineShowTimeWidgetHelper.updateWidget(context, intentRefreshWidget, theater);
+		CineShowTimeWidgetHelper.updateWidget(context, intentRefreshWidget, theater, mAppWidgetId);
 
 		// Make sure we pass back the original appWidgetId
 		Intent resultValue = new Intent();

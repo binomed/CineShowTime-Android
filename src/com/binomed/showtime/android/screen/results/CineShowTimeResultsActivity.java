@@ -5,6 +5,7 @@ import greendroid.widget.ActionBar;
 import greendroid.widget.ActionBarItem;
 import greendroid.widget.NormalActionBarItem;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 
 import com.binomed.showtime.R;
@@ -35,6 +36,18 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 	@Override
 	protected CineShowTimeResultsFragment getFragment() {
 		return new CineShowTimeResultsFragment();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onRestoreInstanceState(savedInstanceState);
 	}
 
 	@Override

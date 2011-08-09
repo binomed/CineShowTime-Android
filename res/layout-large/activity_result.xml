@@ -3,7 +3,12 @@
 		xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:paddingTop="@dimen/cstPaddingTopMain"
+		android:paddingLeft="@dimen/cstPaddingLeftMain"
+		android:paddingRight="@dimen/cstPaddingRightMain"
+		android:paddingBottom="@dimen/cstPaddingBottomMain"
+        >
         
     <ImageButton 
 	    android:id="@+id/btnExpand"
@@ -27,6 +32,7 @@
 	            android:layout_width="70dip"
 	            android:layout_height="fill_parent"
 	            android:layout_alignParentLeft="true"
+	            android:layout_marginRight="20dip"
 	            >
           <!-- Preview: layout=@layout/fragment_results -->
       </fragment>

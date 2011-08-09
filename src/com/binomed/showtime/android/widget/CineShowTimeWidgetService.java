@@ -5,6 +5,8 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.binomed.showtime.android.cst.ParamIntent;
+
 public class CineShowTimeWidgetService extends Service {
 
 	private static final String TAG = "ServiceWidget"; //$NON-NLS-1$
@@ -33,7 +35,7 @@ public class CineShowTimeWidgetService extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 
-		CineShowTimeWidgetHelper.updateWidget(this, intent, null);
+		CineShowTimeWidgetHelper.updateWidget(this, intent, null, intent.getIntExtra(ParamIntent.WIDGET_ID, 0));
 	}
 
 }

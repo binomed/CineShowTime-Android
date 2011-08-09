@@ -6,6 +6,8 @@ public interface ParamIntent {
 	public static final String MOVIE = "and.binomed.showtime.movie"; //$NON-NLS-1$
 	public static final String THEATER_ID = "and.binomed.showtime.theater_id"; //$NON-NLS-1$
 	public static final String THEATER = "and.binomed.showtime.theater"; //$NON-NLS-1$
+	public static final String NEAR_RESP = "and.binomed.showtime.near_resp"; //$NON-NLS-1$
+	public static final String BUNDLE_SAVE = "and.binomed.showtime.bundle_save"; //$NON-NLS-1$
 
 	//	public static final String ACTIVITY_NEAR_THEATER_ID = "and.binomed.showtime.near.theaterId"; //$NON-NLS-1$
 	//	public static final String ACTIVITY_NEAR_LATITUDE = "and.binomed.showtime.near.latitude"; //$NON-NLS-1$
@@ -72,5 +74,6 @@ public interface ParamIntent {
 	public static final String WIDGET_SCROLL_SENS = "and.binomed.showtime.widget.scrollSens"; //$NON-NLS-1$
 	public static final String WIDGET_ORIGIN = "and.binomed.showtime.widget.widgetOrigin"; //$NON-NLS-1$
 	public static final String WIDGET_REFRESH = "and.binomed.showtime.widget.widgetRefresh"; //$NON-NLS-1$
+	public static final String WIDGET_ID = "and.binomed.showtime.widget.widgetId"; //$NON-NLS-1$
 
 }

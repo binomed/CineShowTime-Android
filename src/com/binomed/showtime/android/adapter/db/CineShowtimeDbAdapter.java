@@ -115,7 +115,7 @@ public class CineShowtimeDbAdapter {
 	public static final String KEY_FAV_SHOWTIME_LANG = "lang"; //$NON-NLS-1$
 	public static final String KEY_FAV_SHOWTIME_RESERVATION_URL = "reservation_url"; //$NON-NLS-1$
 
-	public static final String KEY_WIDGET_ID = "widget_id"; //$NON-NLS-1$
+	public static final String KEY_WIDGET_THEATER_WIDGET_ID = "widget_id"; //$NON-NLS-1$
 	public static final String KEY_WIDGET_THEATER_ID = "theater_id"; //$NON-NLS-1$
 	public static final String KEY_WIDGET_THEATER_NAME = "theater_name"; //$NON-NLS-1$
 	public static final String KEY_WIDGET_THEATER_PLACE = "theater_place_city_name"; //$NON-NLS-1$
@@ -125,6 +125,7 @@ public class CineShowtimeDbAdapter {
 	public static final String KEY_WIDGET_THEATER_LONG = "theater_place_long"; //$NON-NLS-1$
 	public static final String KEY_WIDGET_THEATER_DATE = "date"; //$NON-NLS-1$
 
+	public static final String KEY_WIDGET_MOVIE_WIDGET_ID = "widget_id"; //$NON-NLS-1$
 	public static final String KEY_WIDGET_MOVIE_ID = "id"; //$NON-NLS-1$
 	public static final String KEY_WIDGET_MOVIE_MID = "movie_id"; //$NON-NLS-1$
 	public static final String KEY_WIDGET_MOVIE_NAME = "movie_name"; //$NON-NLS-1$
@@ -150,6 +151,7 @@ public class CineShowtimeDbAdapter {
 
 	public static final String KEY_CURENT_MOVIE_MOVIE_ID = "movie_id"; //$NON-NLS-1$
 	public static final String KEY_CURENT_MOVIE_THEATER_ID = "theater_id"; //$NON-NLS-1$
+	public static final String KEY_CURENT_MOVIE_WIDGET_ID = "widget_id"; //$NON-NLS-1$
 
 	public static final String KEY_SKYHOOK_REGISTRATION = "skyhook_registration"; //$NON-NLS-1$
 
@@ -175,7 +177,7 @@ public class CineShowtimeDbAdapter {
 	private static final String DATABASE_LAST_CHANGE_TABLE = "last_change"; //$NON-NLS-1$
 	private static final String DATABASE_REVIEW_TABLE = "reviews"; //$NON-NLS-1$
 	private static final String DATABASE_VIDEO_TABLE = "videos"; //$NON-NLS-1$
-	private static final int DATABASE_VERSION = 26;
+	private static final int DATABASE_VERSION = 27;
 	/**
 	 * Database creation sql statement
 	 */
@@ -266,7 +268,7 @@ public class CineShowtimeDbAdapter {
 	;
 
 	private static final String DATABASE_CREATE_WIDGET_TABLE = " create table " + DATABASE_WIDGET_TABLE //$NON-NLS-1$
-			+ " (" + KEY_WIDGET_ID + " integer " //$NON-NLS-1$//$NON-NLS-2$
+			+ " (" + KEY_WIDGET_THEATER_WIDGET_ID + " integer " //$NON-NLS-1$//$NON-NLS-2$
 			+ ", " + KEY_WIDGET_THEATER_ID + " text primary key" //$NON-NLS-1$//$NON-NLS-2$
 			+ ", " + KEY_WIDGET_THEATER_NAME + " text " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_WIDGET_THEATER_PLACE + " text " //$NON-NLS-1$ //$NON-NLS-2$
@@ -280,6 +282,7 @@ public class CineShowtimeDbAdapter {
 
 	private static final String DATABASE_CREATE_WIDGET_MOVIE_TABLE = " create table " + DATABASE_WIDGET_MOVIE_TABLE //$NON-NLS-1$
 			+ " (" + KEY_WIDGET_MOVIE_ID + " integer primary key autoincrement" //$NON-NLS-1$//$NON-NLS-2$
+			+ ", " + KEY_WIDGET_MOVIE_WIDGET_ID + " integer" //$NON-NLS-1$//$NON-NLS-2$
 			+ ", " + KEY_WIDGET_MOVIE_MID + " text " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_WIDGET_MOVIE_NAME + " text " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_WIDGET_MOVIE_EN_NAME + " text " //$NON-NLS-1$ //$NON-NLS-2$
@@ -313,6 +316,7 @@ public class CineShowtimeDbAdapter {
 	private static final String DATABASE_CREATE_CURENT_MOVIE_TABLE = " create table " + DATABASE_CURENT_MOVIE_TABLE //$NON-NLS-1$
 			+ " (" + KEY_CURENT_MOVIE_MOVIE_ID + " text primary key" //$NON-NLS-1$//$NON-NLS-2$
 			+ ", " + KEY_CURENT_MOVIE_THEATER_ID + " text not null" //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_CURENT_MOVIE_WIDGET_ID + " integer" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ");"//$NON-NLS-1$
 	;
 	private static final String DATABASE_CREATE_SKYHOOK_REGISTRATION_TABLE = " create table " + DATABASE_SKYHOOK_REGISTRATION_TABLE//$NON-NLS-1$
@@ -423,7 +427,11 @@ public class CineShowtimeDbAdapter {
 				db.execSQL(DATABASE_CREATE_MOVIE_REQUEST_TABLE);
 			}
 			if (oldVersion < 26) {
-				db.execSQL("ALTER TABLE " + DATABASE_WIDGET_TABLE + " ADD COLUMN " + KEY_WIDGET_ID + " integer;");
+				db.execSQL("ALTER TABLE " + DATABASE_WIDGET_TABLE + " ADD COLUMN " + KEY_WIDGET_THEATER_WIDGET_ID + " integer;");
+			}
+			if (oldVersion < 27) {
+				db.execSQL("ALTER TABLE " + DATABASE_WIDGET_MOVIE_TABLE + " ADD COLUMN " + KEY_WIDGET_MOVIE_WIDGET_ID + " integer;");
+				db.execSQL("ALTER TABLE " + DATABASE_CURENT_MOVIE_TABLE + " ADD COLUMN " + KEY_CURENT_MOVIE_WIDGET_ID + " integer;");
 			}
 
 		}
@@ -456,15 +464,15 @@ public class CineShowtimeDbAdapter {
 	}
 
 	public boolean isOpen() {
-		return mDb != null && mDb.isOpen();
+		return (mDb != null) && mDb.isOpen();
 	}
 
 	public boolean isDbLockedByCurrentThread() {
-		return mDb != null && mDb.isDbLockedByCurrentThread();
+		return (mDb != null) && mDb.isDbLockedByCurrentThread();
 	}
 
 	public boolean isDbLockedByOtherThreads() {
-		return mDb != null && mDb.isDbLockedByOtherThreads();
+		return (mDb != null) && mDb.isDbLockedByOtherThreads();
 	}
 
 	public SQLiteDatabase getSqlLite() {
@@ -485,16 +493,19 @@ public class CineShowtimeDbAdapter {
 		initialValues.put(KEY_FAV_TH_THEATER_ID, theater.getId());
 		initialValues.put(KEY_FAV_TH_THEATER_NAME, theater.getTheaterName());
 		if (theater.getPlace() != null) {
-			if (theater.getPlace().getCityName() != null //
-					&& theater.getPlace().getCityName().length() > 0) {
+			if ((theater.getPlace().getCityName() != null //
+					)
+					&& (theater.getPlace().getCityName().length() > 0)) {
 				initialValues.put(KEY_FAV_TH_THEATER_PLACE, theater.getPlace().getCityName());
 			}
-			if (theater.getPlace().getCountryNameCode() != null //
-					&& theater.getPlace().getCountryNameCode().length() > 0) {
+			if ((theater.getPlace().getCountryNameCode() != null //
+					)
+					&& (theater.getPlace().getCountryNameCode().length() > 0)) {
 				initialValues.put(KEY_FAV_TH_THEATER_COUNRTY_CODE, theater.getPlace().getCountryNameCode());
 			}
-			if (theater.getPlace().getPostalCityNumber() != null //
-					&& theater.getPlace().getPostalCityNumber().length() > 0) {
+			if ((theater.getPlace().getPostalCityNumber() != null //
+					)
+					&& (theater.getPlace().getPostalCityNumber().length() > 0)) {
 				initialValues.put(KEY_FAV_TH_THEATER_POSTAL_CODE, theater.getPlace().getPostalCityNumber());
 			}
 			if (theater.getPlace().getLatitude() != null) {
@@ -825,20 +836,23 @@ public class CineShowtimeDbAdapter {
 		mDb.delete(DATABASE_WIDGET_TABLE, KEY_WIDGET_THEATER_ID + " = ?", new String[] { theater.getId() });
 
 		ContentValues initialValues = new ContentValues();
-		initialValues.put(KEY_WIDGET_ID, theater.getWidgetId());
+		initialValues.put(KEY_WIDGET_THEATER_WIDGET_ID, theater.getWidgetId());
 		initialValues.put(KEY_WIDGET_THEATER_ID, theater.getId());
 		initialValues.put(KEY_WIDGET_THEATER_NAME, theater.getTheaterName());
 		if (theater.getPlace() != null) {
-			if (theater.getPlace().getCityName() != null //
-					&& theater.getPlace().getCityName().length() > 0) {
+			if ((theater.getPlace().getCityName() != null //
+					)
+					&& (theater.getPlace().getCityName().length() > 0)) {
 				initialValues.put(KEY_WIDGET_THEATER_PLACE, theater.getPlace().getCityName());
 			}
-			if (theater.getPlace().getCountryNameCode() != null //
-					&& theater.getPlace().getCountryNameCode().length() > 0) {
+			if ((theater.getPlace().getCountryNameCode() != null //
+					)
+					&& (theater.getPlace().getCountryNameCode().length() > 0)) {
 				initialValues.put(KEY_WIDGET_THEATER_COUNRTY_CODE, theater.getPlace().getCountryNameCode());
 			}
-			if (theater.getPlace().getPostalCityNumber() != null //
-					&& theater.getPlace().getPostalCityNumber().length() > 0) {
+			if ((theater.getPlace().getPostalCityNumber() != null //
+					)
+					&& (theater.getPlace().getPostalCityNumber().length() > 0)) {
 				initialValues.put(KEY_WIDGET_THEATER_POSTAL_CODE, theater.getPlace().getPostalCityNumber());
 			}
 			if (theater.getPlace().getLatitude() != null) {
@@ -896,7 +910,7 @@ public class CineShowtimeDbAdapter {
 		return result;
 	}
 
-	public long updateWidgetTheater() {
+	public long updateWidgetTheater(int widgetId) {
 		chekDbAvailable();
 		if (Log.isLoggable(TAG, Log.DEBUG)) {
 			Log.d(TAG, new StringBuilder("Update date Widget ").toString()); //$NON-NLS-1$
@@ -905,7 +919,11 @@ public class CineShowtimeDbAdapter {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_WIDGET_THEATER_DATE, Calendar.getInstance().getTimeInMillis());
 
-		long result = mDb.update(DATABASE_WIDGET_TABLE, initialValues, null, null);
+		long result = mDb.update(DATABASE_WIDGET_TABLE//
+				, initialValues//
+				, KEY_WIDGET_MOVIE_WIDGET_ID + " = ?"//
+				, new String[] { String.valueOf(widgetId) }//
+				);
 
 		if (result == -1) {
 			Log.e(TAG, "Error inserting or updating row"); //$NON-NLS-1$
@@ -914,13 +932,14 @@ public class CineShowtimeDbAdapter {
 		return result;
 	}
 
-	public long createWidgetShowtime(MovieBean movie, ProjectionBean showtime) {
+	public long createWidgetShowtime(MovieBean movie, ProjectionBean showtime, int widgetId) {
 		chekDbAvailable();
 		if (Log.isLoggable(TAG, Log.DEBUG)) {
 			Log.d(TAG, new StringBuilder("Create Widget showtime").toString()); //$NON-NLS-1$
 		}
 
 		ContentValues initialValues = new ContentValues();
+		initialValues.put(KEY_WIDGET_MOVIE_WIDGET_ID, widgetId);
 		initialValues.put(KEY_WIDGET_MOVIE_MID, movie.getId());
 		initialValues.put(KEY_WIDGET_MOVIE_NAME, movie.getMovieName());
 		initialValues.put(KEY_WIDGET_MOVIE_EN_NAME, movie.getEnglishMovieName());
@@ -938,7 +957,7 @@ public class CineShowtimeDbAdapter {
 		return result;
 	}
 
-	public long createCurentMovie(String theatherId, String movieId) {
+	public long createCurentMovie(String theatherId, String movieId, int widgetId) {
 		chekDbAvailable();
 		if (Log.isLoggable(TAG, Log.DEBUG)) {
 			Log.d(TAG, new StringBuilder("Create curent movie for theater: ").append(theatherId).append(" and movieId : ").append(movieId).toString()); //$NON-NLS-1$ //$NON-NLS-2$
@@ -946,8 +965,12 @@ public class CineShowtimeDbAdapter {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_CURENT_MOVIE_THEATER_ID, theatherId);
 		initialValues.put(KEY_CURENT_MOVIE_MOVIE_ID, movieId);
+		initialValues.put(KEY_CURENT_MOVIE_WIDGET_ID, widgetId);
 
-		long result = mDb.delete(DATABASE_CURENT_MOVIE_TABLE, null, null);
+		long result = mDb.delete(DATABASE_CURENT_MOVIE_TABLE //
+				, KEY_CURENT_MOVIE_WIDGET_ID + " = ?" //
+				, new String[] { String.valueOf(widgetId) } //
+				);
 		if (result == -1) {
 			Log.e(TAG, "Error deleting current movie"); //$NON-NLS-1$
 		}
@@ -1410,11 +1433,13 @@ public class CineShowtimeDbAdapter {
 	/**
 	 * Return a Cursor positioned at the note that matches the given rowId
 	 * 
+	 * @param widgetId
+	 * 
 	 * @return Cursor positioned to matching note, if found
 	 * @throws SQLException
 	 *             if note could not be found/retrieved
 	 */
-	public Cursor fetchAllWidgetShowtime() throws SQLException {
+	public Cursor fetchAllWidgetShowtime(int widgetId) throws SQLException {
 
 		Cursor mCursor =
 
@@ -1429,8 +1454,8 @@ public class CineShowtimeDbAdapter {
 						, KEY_WIDGET_MOVIE_SHOWTIME_LANG //
 						, KEY_WIDGET_MOVIE_SHOWTIME_RESERVATION //
 				} //
-				, null //
-				, null //
+				, KEY_WIDGET_THEATER_WIDGET_ID + " = ?" //
+				, new String[] { String.valueOf(widgetId) } //
 				, null //
 				, null //
 				, null //
@@ -1450,7 +1475,7 @@ public class CineShowtimeDbAdapter {
 	 * @throws SQLException
 	 *             if note could not be found/retrieved
 	 */
-	public Cursor fetchWidgetMovie(String movieId) throws SQLException {
+	public Cursor fetchWidgetMovie(String movieId, int widgetId) throws SQLException {
 
 		Cursor mCursor =
 
@@ -1466,8 +1491,10 @@ public class CineShowtimeDbAdapter {
 						, KEY_WIDGET_MOVIE_SHOWTIME_RESERVATION //
 				} //
 				, new StringBuilder(KEY_WIDGET_MOVIE_MID).append("='") //$NON-NLS-1$
-						.append(movieId).append("'").toString()// //$NON-NLS-1$
-				, null //
+						.append(movieId).append("'")//
+						.append(" AND ").append(KEY_WIDGET_MOVIE_WIDGET_ID).append(" = ?")//
+						.toString()// //$NON-NLS-1$
+				, new String[] { String.valueOf(widgetId) } //
 				, null //
 				, null //
 				, null //
@@ -1483,9 +1510,11 @@ public class CineShowtimeDbAdapter {
 	/**
 	 * Return a Cursor over the list of all notes in the database
 	 * 
+	 * @param widgetId
+	 * 
 	 * @return Cursor over all notes
 	 */
-	public Cursor fetchWidgetTheater() {
+	public Cursor fetchWidgetTheater(int widgetId) {
 
 		return mDb.query(//
 				DATABASE_WIDGET_TABLE//
@@ -1498,8 +1527,8 @@ public class CineShowtimeDbAdapter {
 						, KEY_WIDGET_THEATER_LONG //
 						, KEY_WIDGET_THEATER_DATE //
 				}//
-				, null//
-				, null//
+				, KEY_WIDGET_THEATER_WIDGET_ID + " = ?"//
+				, new String[] { String.valueOf(widgetId) }//
 				, null//
 				, null//
 				, null//
@@ -1517,6 +1546,7 @@ public class CineShowtimeDbAdapter {
 				DATABASE_CURENT_MOVIE_TABLE//
 				, new String[] { KEY_CURENT_MOVIE_THEATER_ID//
 						, KEY_CURENT_MOVIE_MOVIE_ID //
+						, KEY_CURENT_MOVIE_WIDGET_ID //
 				}//
 				, null //
 				, null//
@@ -1711,11 +1741,12 @@ public class CineShowtimeDbAdapter {
 		}
 	}
 
-	public void deleteWidgetShowtime() {
+	public void deleteWidgetShowtime(int widgetId) {
 		chekDbAvailable();
 		int result = mDb.delete(DATABASE_WIDGET_MOVIE_TABLE//
-				, null //
-				, null);
+				, KEY_WIDGET_MOVIE_WIDGET_ID + " = ?" //
+				, new String[] { String.valueOf(widgetId) }//
+				);
 		if (Log.isLoggable(TAG, Log.DEBUG)) {
 			Log.d(TAG, result + " Showtimes where remove from widget_movie table"); //$NON-NLS-1$
 		}
@@ -1723,13 +1754,13 @@ public class CineShowtimeDbAdapter {
 
 	public void deleteWidget(int widgetId) {
 		int result = mDb.delete(DATABASE_WIDGET_TABLE //
-				, KEY_WIDGET_ID + " = ?" //
+				, KEY_WIDGET_THEATER_WIDGET_ID + " = ?" //
 				, new String[] { String.valueOf(widgetId) } //
 				);
 		// If nothing was removed we have to delete the old widget
 		if (result == 0) {
 			mDb.delete(DATABASE_WIDGET_TABLE //
-					, KEY_WIDGET_ID + " is null" //
+					, KEY_WIDGET_THEATER_WIDGET_ID + " is null" //
 					, null //
 			);
 

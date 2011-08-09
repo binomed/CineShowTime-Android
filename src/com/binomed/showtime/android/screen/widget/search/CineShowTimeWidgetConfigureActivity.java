@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
+import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment;
@@ -157,8 +158,6 @@ public class CineShowTimeWidgetConfigureActivity extends AbstractCineShowTimeAct
 			intent.setClass(getApplicationContext(), CineShowTimeResultsWidgetActivity.class);
 			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID));
 			startActivityForResult(intent, requestCode);
-			setResult(RESULT_OK);
-			finish();
 		} else {
 			CineShowTimeResultsFragment resultFragment = new CineShowTimeResultsFragment();
 			resultFragment.setNonExpendable(true);
@@ -201,6 +200,15 @@ public class CineShowTimeWidgetConfigureActivity extends AbstractCineShowTimeAct
 	public void onFocusListener(boolean focus) {
 		// nothing to do
 
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if ((requestCode == CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY) && (resultCode == RESULT_OK)) {
+			TheaterBean theaterBean = data.getExtras().getParcelable(ParamIntent.THEATER);
+			CineShowTimeWidgetHelper.finalizeWidget(this, theaterBean, getModelActivity().getCityName());
+		}
 	}
 
 }
