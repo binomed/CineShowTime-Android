@@ -115,6 +115,7 @@ public class CineShowtimeDbAdapter {
 	public static final String KEY_FAV_SHOWTIME_LANG = "lang"; //$NON-NLS-1$
 	public static final String KEY_FAV_SHOWTIME_RESERVATION_URL = "reservation_url"; //$NON-NLS-1$
 
+	public static final String KEY_WIDGET_ID = "widget_id"; //$NON-NLS-1$
 	public static final String KEY_WIDGET_THEATER_ID = "theater_id"; //$NON-NLS-1$
 	public static final String KEY_WIDGET_THEATER_NAME = "theater_name"; //$NON-NLS-1$
 	public static final String KEY_WIDGET_THEATER_PLACE = "theater_place_city_name"; //$NON-NLS-1$
@@ -174,7 +175,7 @@ public class CineShowtimeDbAdapter {
 	private static final String DATABASE_LAST_CHANGE_TABLE = "last_change"; //$NON-NLS-1$
 	private static final String DATABASE_REVIEW_TABLE = "reviews"; //$NON-NLS-1$
 	private static final String DATABASE_VIDEO_TABLE = "videos"; //$NON-NLS-1$
-	private static final int DATABASE_VERSION = 25;
+	private static final int DATABASE_VERSION = 26;
 	/**
 	 * Database creation sql statement
 	 */
@@ -265,7 +266,8 @@ public class CineShowtimeDbAdapter {
 	;
 
 	private static final String DATABASE_CREATE_WIDGET_TABLE = " create table " + DATABASE_WIDGET_TABLE //$NON-NLS-1$
-			+ " (" + KEY_WIDGET_THEATER_ID + " text primary key" //$NON-NLS-1$//$NON-NLS-2$
+			+ " (" + KEY_WIDGET_ID + " integer " //$NON-NLS-1$//$NON-NLS-2$
+			+ ", " + KEY_WIDGET_THEATER_ID + " text primary key" //$NON-NLS-1$//$NON-NLS-2$
 			+ ", " + KEY_WIDGET_THEATER_NAME + " text " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_WIDGET_THEATER_PLACE + " text " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_WIDGET_THEATER_COUNRTY_CODE + " text " //$NON-NLS-1$ //$NON-NLS-2$
@@ -419,6 +421,9 @@ public class CineShowtimeDbAdapter {
 			if (oldVersion < 25) {
 				db.execSQL(DROP_MOVIE_REQUEST_TABLE);
 				db.execSQL(DATABASE_CREATE_MOVIE_REQUEST_TABLE);
+			}
+			if (oldVersion < 26) {
+				db.execSQL("ALTER TABLE " + DATABASE_WIDGET_TABLE + " ADD COLUMN " + KEY_WIDGET_ID + " integer;");
 			}
 
 		}
@@ -817,9 +822,10 @@ public class CineShowtimeDbAdapter {
 			Log.d(TAG, new StringBuilder("Create Widget ").toString()); //$NON-NLS-1$
 		}
 
-		mDb.delete(DATABASE_WIDGET_TABLE, null, null);
+		mDb.delete(DATABASE_WIDGET_TABLE, KEY_WIDGET_THEATER_ID + " = ?", new String[] { theater.getId() });
 
 		ContentValues initialValues = new ContentValues();
+		initialValues.put(KEY_WIDGET_ID, theater.getWidgetId());
 		initialValues.put(KEY_WIDGET_THEATER_ID, theater.getId());
 		initialValues.put(KEY_WIDGET_THEATER_NAME, theater.getTheaterName());
 		if (theater.getPlace() != null) {
@@ -1712,6 +1718,21 @@ public class CineShowtimeDbAdapter {
 				, null);
 		if (Log.isLoggable(TAG, Log.DEBUG)) {
 			Log.d(TAG, result + " Showtimes where remove from widget_movie table"); //$NON-NLS-1$
+		}
+	}
+
+	public void deleteWidget(int widgetId) {
+		int result = mDb.delete(DATABASE_WIDGET_TABLE //
+				, KEY_WIDGET_ID + " = ?" //
+				, new String[] { String.valueOf(widgetId) } //
+				);
+		// If nothing was removed we have to delete the old widget
+		if (result == 0) {
+			mDb.delete(DATABASE_WIDGET_TABLE //
+					, KEY_WIDGET_ID + " is null" //
+					, null //
+			);
+
 		}
 	}
 

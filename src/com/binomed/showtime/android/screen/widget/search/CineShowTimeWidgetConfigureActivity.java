@@ -5,6 +5,8 @@ import greendroid.widget.ActionBarItem;
 
 import java.util.Calendar;
 
+import android.app.Activity;
+import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.view.Menu;
 import android.widget.LinearLayout;
@@ -67,6 +69,7 @@ public class CineShowTimeWidgetConfigureActivity extends AbstractCineShowTimeAct
 		zoneResultWidget = (LinearLayout) findViewById(R.id.zoneWidgetResults);
 
 		searchFragment.hideMovieFields();
+		setResult(Activity.RESULT_CANCELED);
 
 	}
 
@@ -152,7 +155,10 @@ public class CineShowTimeWidgetConfigureActivity extends AbstractCineShowTimeAct
 	public void delegateStartSearchResult(Intent intent, int requestCode) {
 		if (zoneResultWidget == null) {
 			intent.setClass(getApplicationContext(), CineShowTimeResultsWidgetActivity.class);
+			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID));
 			startActivityForResult(intent, requestCode);
+			setResult(RESULT_OK);
+			finish();
 		} else {
 			CineShowTimeResultsFragment resultFragment = new CineShowTimeResultsFragment();
 			resultFragment.setNonExpendable(true);

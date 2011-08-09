@@ -2,6 +2,7 @@ package com.binomed.showtime.android.screen.widget.results;
 
 import greendroid.widget.ActionBar;
 import greendroid.widget.ActionBarItem;
+import android.app.Activity;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.model.MovieBean;
@@ -23,6 +24,7 @@ public class CineShowTimeResultsWidgetActivity extends AbstractSimpleCineShowTim
 
 	@Override
 	protected CineShowTimeResultsFragment getFragment() {
+		setResult(Activity.RESULT_CANCELED);
 		CineShowTimeResultsFragment resultFragment = new CineShowTimeResultsFragment();
 		resultFragment.setNonExpendable(true);
 		return resultFragment;

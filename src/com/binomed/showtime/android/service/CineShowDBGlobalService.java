@@ -202,6 +202,12 @@ public class CineShowDBGlobalService extends IntentService {
 			};
 			break;
 		}
+		case CineShowtimeCst.DB_TYPE_WIDGET_DELETE: {
+			data = new int[] { //
+			intent.getIntExtra(ParamIntent.SERVICE_DB_DATA, -1) //
+			};
+			break;
+		}
 		default:
 			break;
 		}
@@ -246,6 +252,10 @@ public class CineShowDBGlobalService extends IntentService {
 			}
 			case CineShowtimeCst.DB_TYPE_WIDGET_WRITE: {
 				mDbHelper.setWidgetTheater((TheaterBean) action.getData());
+				break;
+			}
+			case CineShowtimeCst.DB_TYPE_WIDGET_DELETE: {
+				mDbHelper.deleteWidget((Integer) action.getData());
 				break;
 			}
 			case CineShowtimeCst.DB_TYPE_WIDGET_WRITE_LIST: {

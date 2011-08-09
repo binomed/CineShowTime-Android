@@ -27,7 +27,10 @@ public class TheaterBean extends AbstractModel implements Parcelable {
 	private static final int FIELD_PHONE_NUMBER = 2;
 	private static final int FIELD_PLACE = 3;
 	private static final int FIELD_MOVIE_MAP = 4;
+	private static final int FIELD_WIDGET_ID = 5;
 	private static final int FIELD_END = -1;
+
+	private Integer widgetId;
 
 	private String id;
 
@@ -46,6 +49,14 @@ public class TheaterBean extends AbstractModel implements Parcelable {
 	public TheaterBean(Parcel parcel) {
 		this();
 		readFromParcel(parcel);
+	}
+
+	public Integer getWidgetId() {
+		return widgetId;
+	}
+
+	public void setWidgetId(Integer widgetId) {
+		this.widgetId = widgetId;
 	}
 
 	public String getId() {
@@ -114,6 +125,10 @@ public class TheaterBean extends AbstractModel implements Parcelable {
 				setTheaterName(readString(parcel));
 				break;
 			}
+			case FIELD_WIDGET_ID: {
+				setWidgetId(readInt(parcel));
+				break;
+			}
 			case FIELD_END: {
 				end = true;
 				break;
@@ -155,6 +170,10 @@ public class TheaterBean extends AbstractModel implements Parcelable {
 		if (getTheaterName() != null) {
 			writeInt(dest, FIELD_THEATER_NAME);
 			writeString(dest, getTheaterName());
+		}
+		if (getWidgetId() != null) {
+			writeInt(dest, FIELD_WIDGET_ID);
+			writeInt(dest, getWidgetId());
 		}
 		writeInt(dest, FIELD_END);
 

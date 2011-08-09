@@ -268,13 +268,13 @@ public class CineShowTimeWidgetHelper {
 						}
 					}
 				}
+				RemoteViews updateViews = CineShowTimeWidgetHelper.buildUpdate(context, intent, theater, movieShowTimeMap);
+				// Push update for this widget to the home screen
+				ComponentName thisWidget = new ComponentName(context, CineShowtimeWidget.class);
+				AppWidgetManager manager = AppWidgetManager.getInstance(context);
+				manager.updateAppWidget(thisWidget, updateViews);
 			}
 
-			RemoteViews updateViews = CineShowTimeWidgetHelper.buildUpdate(context, intent, theater, movieShowTimeMap);
-			// Push update for this widget to the home screen
-			ComponentName thisWidget = new ComponentName(context, CineShowtimeWidget.class);
-			AppWidgetManager manager = AppWidgetManager.getInstance(context);
-			manager.updateAppWidget(thisWidget, updateViews);
 		} finally {
 			if (mdbHelper.isOpen()) {
 				mdbHelper.close();
@@ -304,9 +304,12 @@ public class CineShowTimeWidgetHelper {
 	public static void finalizeWidget(Activity activity, TheaterBean theater, String cityName) {
 		final Context context = activity;
 
+		initWidgetId(activity);
+
 		// We fill db
 		Intent intentWidgetDb = new Intent(activity, CineShowDBGlobalService.class);
 		intentWidgetDb.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_WIDGET_WRITE);
+		theater.setWidgetId(mAppWidgetId);
 		intentWidgetDb.putExtra(ParamIntent.SERVICE_DB_DATA, theater);
 		if (LocationUtils.isEmptyLocation(theater.getPlace())) {
 			LocalisationBean place = theater.getPlace();
