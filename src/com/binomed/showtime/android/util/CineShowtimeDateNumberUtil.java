@@ -271,21 +271,13 @@ public abstract class CineShowtimeDateNumberUtil {
 	public static ProjectionBean getMinTime(List<ProjectionBean> timeList, Long distanceTime) {
 		long currentTime = Calendar.getInstance().getTimeInMillis() + ((distanceTime != null) ? distanceTime : 0);
 
-		long minDiff0 = -1;
-		long minDiffTemp = 0;
-		long minTime = -1;
-
 		ProjectionBean result = null;
 
-		// Calendar cal = Calendar.getInstance();
 		if (timeList != null) {
 			for (ProjectionBean timeTmp : timeList) {
-				// cal.setTimeInMillis(timeTmp);
-				minDiffTemp = (timeTmp.getShowtime() - currentTime);
-				if (((minDiffTemp < (minDiff0)) || (minDiff0 == -1)) && (minDiffTemp > 0)) {
-					minDiff0 = minDiffTemp;
-					minTime = timeTmp.getShowtime();
+				if (timeTmp.getShowtime() > currentTime) {
 					result = timeTmp;
+					break;
 				}
 			}
 		}
@@ -301,10 +293,6 @@ public abstract class CineShowtimeDateNumberUtil {
 		ArrayList<ProjectionBean> afterList = new ArrayList<ProjectionBean>();
 		ArrayList<ProjectionBean>[] timeOrderArray = new ArrayList[] { beforeList, minList, afterList };
 
-		long minDiff0 = -1;
-		long minDiffTemp = 0;
-		ProjectionBean minTime = null;
-
 		// Calendar cal = Calendar.getInstance();
 		if (timeList != null) {
 			boolean nearShowTime = true;
@@ -319,21 +307,6 @@ public abstract class CineShowtimeDateNumberUtil {
 					afterList.add(timeTmp);
 
 				}
-				// cal.setTimeInMillis(timeTmp);
-				// minDiffTemp = (timeTmp.getShowtime() - curTime);
-				// if (((minDiffTemp < (minDiff0)) || (minDiff0 == -1)) && (minDiffTemp > 0)) {
-				// minDiff0 = minDiffTemp;
-				// minTime = timeTmp;
-				// if (minList.size() > 0) {
-				// beforeList.add(minList.remove(0));
-				// }
-				// minList.add(minTime);
-				// } else if (minDiffTemp < 0) {
-				// beforeList.add(timeTmp);
-				// } else if (minDiffTemp > 0) {
-				// afterList.add(timeTmp);
-				//
-				// }
 			}
 		}
 

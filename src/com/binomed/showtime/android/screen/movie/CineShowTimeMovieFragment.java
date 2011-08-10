@@ -143,29 +143,29 @@ public class CineShowTimeMovieFragment extends Fragment //
 		Log.i(TAG, "From Widget : " + fromWidget);
 		MovieBean movie = null;
 		TheaterBean theater = null;
-		if (fromWidget) {
-
-			Object[] currentMovie = extractCurrentMovie();
-			if (currentMovie != null) {
-				theater = (TheaterBean) currentMovie[0];
-				movie = (MovieBean) currentMovie[1];
-			}
+		// if (fromWidget) {
+		//
+		// Object[] currentMovie = extractCurrentMovie();
+		// if (currentMovie != null) {
+		// theater = (TheaterBean) currentMovie[0];
+		// movie = (MovieBean) currentMovie[1];
+		// }
+		// } else {
+		movieId = intent.getStringExtra(ParamIntent.MOVIE_ID);
+		movie = intent.getParcelableExtra(ParamIntent.MOVIE);
+		theaterId = intent.getStringExtra(ParamIntent.THEATER_ID);
+		theater = intent.getParcelableExtra(ParamIntent.THEATER);
+		double latitude = intent.getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, 0);
+		double longitude = intent.getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, 0);
+		if ((latitude != 0) && (longitude != 0)) {
+			Location gpsLocation = new Location("GPS"); //$NON-NLS-1$
+			gpsLocation.setLatitude(latitude);
+			gpsLocation.setLongitude(longitude);
+			model.setGpsLocation(gpsLocation);
 		} else {
-			movieId = intent.getStringExtra(ParamIntent.MOVIE_ID);
-			movie = intent.getParcelableExtra(ParamIntent.MOVIE);
-			theaterId = intent.getStringExtra(ParamIntent.THEATER_ID);
-			theater = intent.getParcelableExtra(ParamIntent.THEATER);
-			double latitude = intent.getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, 0);
-			double longitude = intent.getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, 0);
-			if ((latitude != 0) && (longitude != 0)) {
-				Location gpsLocation = new Location("GPS"); //$NON-NLS-1$
-				gpsLocation.setLatitude(latitude);
-				gpsLocation.setLongitude(longitude);
-				model.setGpsLocation(gpsLocation);
-			} else {
-				model.setGpsLocation(null);
-			}
+			model.setGpsLocation(null);
 		}
+		// }
 		Log.i(TAG, "Movie ID : " + movieId);
 
 		model.setMovie(movie);

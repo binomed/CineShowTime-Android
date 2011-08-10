@@ -27,7 +27,6 @@ import java.util.Map.Entry;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
@@ -65,7 +64,7 @@ public class CineShowTimeWidgetHelper {
 	/**
 	 * Build a widget update to show the current Wiktionary "Word of the day." Will block until the online API returns.
 	 */
-	public static RemoteViews buildUpdate(Context context, Intent intent, TheaterBean theater, Map<MovieBean, ProjectionBean> movieBeanShowtimes, int widgetId) {
+	public static RemoteViews buildUpdate(Context context, Intent intent, TheaterBean theater, Map<MovieBean, List<ProjectionBean>> movieBeanShowtimes, int widgetId) {
 		RemoteViews updateViews = null;
 		updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_one);
 		updateViews.setTextViewText(R.id.widget_one_theater_title, (theater != null) ? theater.getTheaterName() : ""); //$NON-NLS-1$
@@ -73,6 +72,9 @@ public class CineShowTimeWidgetHelper {
 		HashMap<String, ProjectionBean> showTimeMap = new HashMap<String, ProjectionBean>();
 		List<MovieBean> movieList = new ArrayList<MovieBean>();
 		MovieBean movieBean = null;
+		List<ProjectionBean> projectionList = null;
+		ProjectionBean currentProjection = null;
+		long currentTime = System.currentTimeMillis();
 		boolean refresh = (intent != null) ? intent.getBooleanExtra(ParamIntent.WIDGET_REFRESH, false) : false;
 		int start = 0;
 		int sens = 0;
@@ -101,15 +103,25 @@ public class CineShowTimeWidgetHelper {
 			}
 		}
 
-		if (movieBeanShowtimes.size() == 0) {
+		for (Entry<MovieBean, List<ProjectionBean>> movieShowTime : movieBeanShowtimes.entrySet()) {
+			movieBean = movieShowTime.getKey();
+			projectionList = movieShowTime.getValue();
+			currentProjection = null;
+			projectionLabel: for (ProjectionBean projection : projectionList) {
+				if (projection.getShowtime() > currentTime) {
+					currentProjection = projection;
+					break projectionLabel;
+				}
+			}
+			if (currentProjection != null) {
+				movieList.add(movieBean);
+				showTimeMap.put(movieBean.getId(), currentProjection);
+			}
+		}
+		if (movieList.size() == 0) {
 			updateViews.setTextViewText(R.id.widget_one_movie_txt_1, context.getResources().getString(((refresh) ? R.string.msgLoading : R.string.msgNoResults)));
 			updateViews.setTextViewText(R.id.widget_one_movie_hour_1, ""); //$NON-NLS-1$
 		} else {
-			for (Entry<MovieBean, ProjectionBean> movieShowTime : movieBeanShowtimes.entrySet()) {
-				movieBean = movieShowTime.getKey();
-				movieList.add(movieBean);
-				showTimeMap.put(movieBean.getId(), movieShowTime.getValue());
-			}
 			Collections.sort(movieList, CineShowtimeFactory.getMovieNameComparator());
 			if (intent != null) {
 				start = intent.getIntExtra(ParamIntent.WIDGET_START, 0);
@@ -129,14 +141,11 @@ public class CineShowTimeWidgetHelper {
 			openMovieIntent1.putExtra(ParamIntent.MOVIE, movieBean);
 			openMovieIntent1.putExtra(ParamIntent.THEATER, theater);
 			openMovieIntent1.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, place.toString());
-			PendingIntent pendingOpenMovieIntent1 = PendingIntent.getService(context, 0 /*
-																						 * no requestCode
-																						 */, openMovieIntent1, PendingIntent.FLAG_UPDATE_CURRENT /*
-																																				 * no flags
-																																				 */);
-			// PendingIntent pendingOpenMovieIntent1 =
-			// PendingIntent.getService(context, 0 /* no requestCode */,
-			// openMovieIntent1, 0 /* no flags */);
+			PendingIntent pendingOpenMovieIntent1 = PendingIntent.getService(context, widgetId /*
+																								 * no requestCode
+																								 */, openMovieIntent1, PendingIntent.FLAG_UPDATE_CURRENT /*
+																																						 * no flags
+																																						 */);
 			updateViews.setOnClickPendingIntent(R.id.widget_one_group_movie_1, pendingOpenMovieIntent1);
 
 			start = start % size;
@@ -157,51 +166,43 @@ public class CineShowTimeWidgetHelper {
 				defineIntent.putExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, localisation.getLatitude());
 				defineIntent.putExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, localisation.getLongitude());
 			}
-			// else {
 			defineIntent.putExtra(ParamIntent.ACTIVITY_SEARCH_CITY, place.toString());
-			// }
 		}
-		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /*
-		// no requestCode */, defineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /*
-		// no requestCode */, defineIntent, 0);
-		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /*
-																			 * no requestCode
-																			 */, defineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-		// PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /*
-		// no requestCode */, defineIntent, 0);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, widgetId /*
+																				 * no requestCode
+																				 */, defineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		updateViews.setOnClickPendingIntent(R.id.widget_top_one, pendingIntent);
 
 		Intent intentScrollLeft = new Intent(context, CineShowTimeWidgetServiceLeft.class);
 		intentScrollLeft.putExtra(ParamIntent.WIDGET_SCROLL_SENS, -1);
 		intentScrollLeft.putExtra(ParamIntent.WIDGET_START, start);
 		intentScrollLeft.putExtra(ParamIntent.WIDGET_ID, widgetId);
-		PendingIntent pendingIntentScrollLeft = PendingIntent.getService(context, 0 /*
-																					 * no requestCode
-																					 */, intentScrollLeft, PendingIntent.FLAG_UPDATE_CURRENT /*
-																																			 * no flags
-																																			 */);
+		PendingIntent pendingIntentScrollLeft = PendingIntent.getService(context, widgetId /*
+																							 * no requestCode
+																							 */, intentScrollLeft, PendingIntent.FLAG_UPDATE_CURRENT /*
+																																					 * no flags
+																																					 */);
 		updateViews.setOnClickPendingIntent(R.id.widget_one_button_scroll_left, pendingIntentScrollLeft);
 
 		Intent intentScrollRight = new Intent(context, CineShowTimeWidgetServiceRight.class);
 		intentScrollRight.putExtra(ParamIntent.WIDGET_SCROLL_SENS, 1);
 		intentScrollRight.putExtra(ParamIntent.WIDGET_START, start);
 		intentScrollRight.putExtra(ParamIntent.WIDGET_ID, widgetId);
-		PendingIntent pendingIntentScrollRight = PendingIntent.getService(context, 0 /*
-																					 * no requestCode
-																					 */, intentScrollRight, PendingIntent.FLAG_UPDATE_CURRENT /*
-																																			 * no flags
-																																			 */);
+		PendingIntent pendingIntentScrollRight = PendingIntent.getService(context, widgetId /*
+																							 * no requestCode
+																							 */, intentScrollRight, PendingIntent.FLAG_UPDATE_CURRENT /*
+																																					 * no flags
+																																					 */);
 		updateViews.setOnClickPendingIntent(R.id.widget_one_button_scroll_right, pendingIntentScrollRight);
 
 		Intent intentScrollRefresh = new Intent(context, CineShowTimeWidgetServiceRefresh.class);
 		intentScrollRefresh.putExtra(ParamIntent.WIDGET_REFRESH, true);
 		intentScrollRefresh.putExtra(ParamIntent.WIDGET_ID, widgetId);
-		PendingIntent pendingIntentScrollRefresh = PendingIntent.getService(context, 0 /*
-																						 * no requestCode
-																						 */, intentScrollRefresh, PendingIntent.FLAG_UPDATE_CURRENT /*
-																																					 * no flags
-																																					 */);
+		PendingIntent pendingIntentScrollRefresh = PendingIntent.getService(context, widgetId /*
+																							 * no requestCode
+																							 */, intentScrollRefresh, PendingIntent.FLAG_UPDATE_CURRENT /*
+																																						 * no flags
+																																						 */);
 		updateViews.setOnClickPendingIntent(R.id.widget_one_button_refresh, pendingIntentScrollRefresh);
 
 		return updateViews;
@@ -221,7 +222,7 @@ public class CineShowTimeWidgetHelper {
 			if ((theater == null) && mdbHelper.isOpen()) {
 				theater = CineShowtimeDB2AndShowtimeBeans.extractWidgetTheater(mdbHelper, dateLastSearch, widgetId);
 			}
-			Map<MovieBean, ProjectionBean> movieShowTimeMap = new HashMap<MovieBean, ProjectionBean>();
+			Map<MovieBean, List<ProjectionBean>> movieShowTimeMap = new HashMap<MovieBean, List<ProjectionBean>>();
 			Log.i(TAG, "Theater != null : " + (theater != null));
 			if (theater != null) {
 
@@ -234,9 +235,8 @@ public class CineShowTimeWidgetHelper {
 					try {
 						RemoteViews updateViews = CineShowTimeWidgetHelper.buildUpdate(context, intent, theater, movieShowTimeMap, widgetId);
 						// Push update for this widget to the home screen
-						ComponentName thisWidget = new ComponentName(context, CineShowtimeWidget.class);
 						AppWidgetManager manager = AppWidgetManager.getInstance(context);
-						manager.updateAppWidget(thisWidget, updateViews);
+						manager.updateAppWidget(widgetId, updateViews);
 
 						LocalisationBean localisationTheater = theater.getPlace();
 						CineShowtimeFactory.initGeocoder(context);
@@ -253,13 +253,13 @@ public class CineShowTimeWidgetHelper {
 							movieBeanList = nearResp.getMapMovies();
 							nearResp.getTheaterList().get(0).setWidgetId(widgetId);
 							MovieBean movieBean = null;
-							ProjectionBean minTime = null;
+							// ProjectionBean minTime = null;
 							for (Entry<String, List<ProjectionBean>> showTime : nearResp.getTheaterList().get(0).getMovieMap().entrySet()) {
 								movieBean = movieBeanList.get(showTime.getKey());
-								minTime = CineShowtimeDateNumberUtil.getMinTime(showTime.getValue(), null);
-								if (minTime != null) {
-									movieShowTimeMap.put(movieBean, minTime);
-								}
+								// minTime = CineShowtimeDateNumberUtil.getMinTime(showTime.getValue(), null);
+								// if (minTime != null) {
+								movieShowTimeMap.put(movieBean, showTime.getValue());
+								// }
 							}
 						}
 						Intent intentFillWidget = new Intent(context, CineShowDBGlobalService.class);
@@ -273,19 +273,18 @@ public class CineShowTimeWidgetHelper {
 				} else {
 					Map<MovieBean, List<ProjectionBean>> movieShowtimeMap = CineShowtimeDB2AndShowtimeBeans.extractWidgetShowtimes(mdbHelper, widgetId);
 					Log.i(TAG, "Extract datas from base : " + movieShowtimeMap.size());
-					ProjectionBean minTime = null;
+					// ProjectionBean minTime = null;
 					for (Entry<MovieBean, List<ProjectionBean>> movieShowTime : movieShowtimeMap.entrySet()) {
-						minTime = CineShowtimeDateNumberUtil.getMinTime(movieShowTime.getValue(), null);
-						if (minTime != null) {
-							movieShowTimeMap.put(movieShowTime.getKey(), minTime);
-						}
+						// minTime = CineShowtimeDateNumberUtil.getMinTime(movieShowTime.getValue(), null);
+						// if (minTime != null) {
+						movieShowTimeMap.put(movieShowTime.getKey(), movieShowTime.getValue());
+						// }
 					}
 				}
 				RemoteViews updateViews = CineShowTimeWidgetHelper.buildUpdate(context, intent, theater, movieShowTimeMap, widgetId);
 				// Push update for this widget to the home screen
-				ComponentName thisWidget = new ComponentName(context, CineShowtimeWidget.class);
 				AppWidgetManager manager = AppWidgetManager.getInstance(context);
-				manager.updateAppWidget(thisWidget, updateViews);
+				manager.updateAppWidget(widgetId, updateViews);
 			}
 
 		} finally {
@@ -341,7 +340,7 @@ public class CineShowTimeWidgetHelper {
 		// Make sure we pass back the original appWidgetId
 		Intent resultValue = new Intent();
 		resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-		activity.setResult(activity.RESULT_OK, resultValue);
+		activity.setResult(Activity.RESULT_OK, resultValue);
 		activity.finish();
 	}
 

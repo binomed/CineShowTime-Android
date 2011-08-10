@@ -54,6 +54,7 @@ public class CineShowTimeWidgetServiceOpenMovie extends Service {
 			MovieBean movie = intent.getParcelableExtra(ParamIntent.MOVIE);
 			TheaterBean theaterBean = intent.getParcelableExtra(ParamIntent.THEATER);
 			String near = intent.getStringExtra(ParamIntent.ACTIVITY_MOVIE_NEAR);
+			int widgetId = intent.getIntExtra(ParamIntent.WIDGET_ID, 0);
 			// Object[] currentMovie = CineShowtimeDB2AndShowtimeBeans.extractCurrentWidgetMovie(mDbHelper);
 			// TheaterBean theaterBean = (TheaterBean) currentMovie[0];
 			// MovieBean movie = (MovieBean) currentMovie[1];
@@ -61,11 +62,11 @@ public class CineShowTimeWidgetServiceOpenMovie extends Service {
 			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_FROM_WIDGET, true);
 			intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movie.getId());
 			intentStartMovieActivity.putExtra(ParamIntent.MOVIE, movie);
+			intentStartMovieActivity.putExtra(ParamIntent.MOVIE, movie);
 			intentStartMovieActivity.putExtra(ParamIntent.THEATER_ID, theaterBean.getId());
 			intentStartMovieActivity.putExtra(ParamIntent.THEATER, theaterBean);
 			intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, near);
-			// intentStartMovieActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			intentStartMovieActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intentStartMovieActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 			this.startActivity(intentStartMovieActivity);
 		} catch (Exception e) {

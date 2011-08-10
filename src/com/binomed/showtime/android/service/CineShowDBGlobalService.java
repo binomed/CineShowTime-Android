@@ -25,7 +25,6 @@ import com.binomed.showtime.android.model.ProjectionBean;
 import com.binomed.showtime.android.model.ReviewBean;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.model.YoutubeBean;
-import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 
 public class CineShowDBGlobalService extends IntentService {
 
@@ -55,15 +54,15 @@ public class CineShowDBGlobalService extends IntentService {
 			mDbHelper.deleteWidgetShowtime(theater.getWidgetId());
 			Map<String, MovieBean> movieBeanList = nearResp.getMapMovies();
 			MovieBean movieBean = null;
-			ProjectionBean minTime = null;
+			// ProjectionBean minTime = null;
 			for (Entry<String, List<ProjectionBean>> showTime : nearResp.getTheaterList().get(0).getMovieMap().entrySet()) {
 				movieBean = movieBeanList.get(showTime.getKey());
-				minTime = CineShowtimeDateNumberUtil.getMinTime(showTime.getValue(), null);
-				if (minTime != null) {
-					for (ProjectionBean time : showTime.getValue()) {
-						mDbHelper.createWidgetShowtime(movieBean, time, theater.getWidgetId());
-					}
+				// minTime = CineShowtimeDateNumberUtil.getMinTime(showTime.getValue(), null);
+				// if (minTime != null) {
+				for (ProjectionBean time : showTime.getValue()) {
+					mDbHelper.createWidgetShowtime(movieBean, time, theater.getWidgetId());
 				}
+				// }
 			}
 			mDbHelper.updateWidgetTheater(theater.getWidgetId());
 		}
