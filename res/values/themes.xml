@@ -18,13 +18,13 @@
 
     <!-- Base application theme is the default theme. -->
 	  <style name="Theme" parent="android:Theme">
-	  	<item name="gdActionBarApplicationDrawable">@drawable/cst_application_logo</item>
-	    <item name="android:windowNoTitle">true</item>
 	  </style>
 
 	  <!-- Variation on our application theme that has a translucent
 	 background. -->
 	  <style name="Theme.Dark_Night">
+	  	<item name="gdActionBarApplicationDrawable">@drawable/cst_application_logo</item>
+	    <item name="android:windowNoTitle">true</item>
 	  	<item name="gdActionBarBackground">@drawable/action_bar_background</item>
         <item name="logoImg">@style/LogoDark</item>
         <item name="imgBackground">@style/ImgDark</item>
@@ -48,6 +48,8 @@
 	background; this example completely removes the background,
 	allowing the activity to decide how to composite. -->
 	  <style name="Theme.Shine_the_lite" parent="android:Theme.Light">
+	  	<item name="gdActionBarApplicationDrawable">@drawable/cst_application_logo</item>
+	    <item name="android:windowNoTitle">true</item>
 	  	<item name="gdActionBarBackground">@drawable/action_bar_background</item>
         <item name="logoImg">@style/LogoLight</item>
         <item name="imgBackground">@style/ImgLight</item>

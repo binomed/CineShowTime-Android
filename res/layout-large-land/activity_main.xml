@@ -4,10 +4,10 @@
 		android:orientation="horizontal" 
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-       	android:paddingTop="@dimen/cstPaddingTopMain"
-		android:paddingLeft="@dimen/cstPaddingLeftMain"
-		android:paddingRight="@dimen/cstPaddingRightMain"
-		android:paddingBottom="@dimen/cstPaddingBottomMain"
+       	android:layout_marginTop="@dimen/cstPaddingTopMain"
+		android:layout_marginLeft="@dimen/cstPaddingLeftMain"
+		android:layout_marginRight="@dimen/cstPaddingRightMain"
+		android:layout_marginBottom="@dimen/cstPaddingBottomMain"
         >
 
     <fragment class="com.binomed.showtime.android.screen.search.CineShowTimeSearchFragment"

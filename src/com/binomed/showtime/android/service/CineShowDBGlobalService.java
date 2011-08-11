@@ -25,6 +25,7 @@ import com.binomed.showtime.android.model.ProjectionBean;
 import com.binomed.showtime.android.model.ReviewBean;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.model.YoutubeBean;
+import com.binomed.showtime.android.widget.CineShowTimeWidgetHelper;
 
 public class CineShowDBGlobalService extends IntentService {
 
@@ -261,6 +262,15 @@ public class CineShowDBGlobalService extends IntentService {
 			}
 			case CineShowtimeCst.DB_TYPE_WIDGET_WRITE_LIST: {
 				writeWidgetResp((NearResp) action.getData());
+				// if request comes from widget, we have to refresh it
+				Integer widgetId = -1;
+				NearResp nearResp = (NearResp) action.getData();
+				if (nearResp != null && nearResp.getTheaterList() != null && nearResp.getTheaterList().size() > 0) {
+					widgetId = nearResp.getTheaterList().get(0).getWidgetId();
+				}
+				if (widgetId != null && widgetId != -1) {
+					CineShowTimeWidgetHelper.updateWidget(getApplicationContext(), null, null, widgetId);
+				}
 				break;
 			}
 			case CineShowtimeCst.DB_TYPE_CURENT_MOVIE_WRITE: {

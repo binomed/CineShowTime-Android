@@ -42,7 +42,6 @@ import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
-import com.binomed.showtime.android.util.activity.ICineShowTimeActivityHelperModel;
 import com.binomed.showtime.android.util.activity.IFragmentCineShowTimeInteraction;
 import com.binomed.showtime.android.util.localisation.IListenerLocalisationUtilCallBack;
 import com.binomed.showtime.cst.SpecialChars;
@@ -60,14 +59,14 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	protected Spinner spinnerChooseDay;
 	protected ImageView gpsImgView;
 
-	private ModelSearchActivity model;
+	private IModelSearch model;
 	private CineShowtimeDbAdapter mDbHelper;
 
 	protected IListenerLocalisationUtilCallBack localisationCallBack;
 
 	protected GoogleAnalyticsTracker tracker;
 
-	private SearchFragmentInteraction fragmentInteraction;
+	private SearchFragmentInteraction<? extends IModelSearch> fragmentInteraction;
 
 	public void setNullResult(boolean nullResult) {
 		if (model != null) {
@@ -95,7 +94,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 
 		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-		model = new ModelSearchActivity();
+		model = fragmentInteraction.getModelActivity();
 
 		initViews(mainView);
 		initDB();
@@ -509,7 +508,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		}
 	}
 
-	public interface SearchFragmentInteraction<M extends ICineShowTimeActivityHelperModel> extends IFragmentCineShowTimeInteraction<M>, AutoCompleteInteraction {
+	public interface SearchFragmentInteraction<M extends IModelSearch> extends IFragmentCineShowTimeInteraction<M>, AutoCompleteInteraction {
 
 		void setNullResult(boolean result);
 

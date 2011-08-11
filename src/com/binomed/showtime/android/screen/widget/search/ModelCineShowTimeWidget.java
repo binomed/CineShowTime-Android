@@ -12,9 +12,9 @@ import android.location.Location;
 import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.screen.results.IModelResults;
-import com.binomed.showtime.android.util.activity.ICineShowTimeActivityHelperModel;
+import com.binomed.showtime.android.screen.search.IModelSearch;
 
-public class ModelCineShowTimeWidget implements ICineShowTimeActivityHelperModel, IModelResults {
+public class ModelCineShowTimeWidget implements IModelSearch, IModelResults {
 
 	private String cityName;
 	private TheaterBean theater;
@@ -24,12 +24,16 @@ public class ModelCineShowTimeWidget implements ICineShowTimeActivityHelperModel
 	private Calendar lastRequestDate;
 	private Location location;
 	private Set<String> requestList = new HashSet<String>();
+	private Set<String> requestMovieList = new HashSet<String>();
 	private int day;
 	private int start;
 	private boolean forceSearch;
 	private Map<String, TheaterBean> theaterFavList = new HashMap<String, TheaterBean>();
 	private Set<Integer> groupExpand = new HashSet<Integer>();
 	private NearResp nearResp;
+	private String lastRequestCity;
+	private String lastRequestMovie;
+	private String lastRequestTheaterId;
 
 	public ModelCineShowTimeWidget() {
 		super();
@@ -192,6 +196,46 @@ public class ModelCineShowTimeWidget implements ICineShowTimeActivityHelperModel
 	public void setNearResp(NearResp nearResp) {
 		this.nearResp = nearResp;
 
+	}
+
+	@Override
+	public Set<String> getRequestMovieList() {
+		return requestMovieList;
+	}
+
+	@Override
+	public void setRequestMovieList(Set<String> requestMovieList) {
+		this.requestMovieList = requestMovieList;
+	}
+
+	@Override
+	public String getLastRequestCity() {
+		return lastRequestCity;
+	}
+
+	@Override
+	public void setLastRequestCity(String lastRequestCity) {
+		this.lastRequestCity = lastRequestCity;
+	}
+
+	@Override
+	public String getLastRequestMovie() {
+		return lastRequestMovie;
+	}
+
+	@Override
+	public void setLastRequestMovie(String lastRequestMovie) {
+		this.lastRequestMovie = lastRequestMovie;
+	}
+
+	@Override
+	public String getLastRequestTheaterId() {
+		return lastRequestTheaterId;
+	}
+
+	@Override
+	public void setLastRequestTheaterId(String lastRequestTheaterId) {
+		this.lastRequestTheaterId = lastRequestTheaterId;
 	}
 
 }

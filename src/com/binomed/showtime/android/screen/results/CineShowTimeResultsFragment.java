@@ -299,8 +299,8 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 					theaterList.add(theaterZeroResp);
 				}
 				adapter.setTheaterList(nearResp, model.getTheaterFavList(), (CineShowtimeComparator<?>) comparator);
-				adapterNonExpendable.setTheaterList(nearResp, model.getTheaterFavList(), (CineShowtimeComparator<?>) comparator);
 				if (nonExpendable) {
+					adapterNonExpendable.setTheaterList(nearResp, model.getTheaterFavList(), (CineShowtimeComparator<?>) comparator);
 					resultListNonExpandable.setAdapter(adapterNonExpendable);
 				} else {
 					resultList.setAdapter(adapter);
@@ -345,6 +345,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		public void handleInputRecived() {
 
 			try {
+				unregisterCallBack();
 				display();
 			} catch (Exception e) {
 				Log.e(TAG, "Error during display", e);
@@ -718,14 +719,24 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	 * CALL BACK SERVICE
 	 */
 
-	public void bindService() {
+	private void bindService() {
 		getActivity().bindService(new Intent(getActivity(), CineShowTimeResultsService.class), mConnection, Context.BIND_AUTO_CREATE);
 	}
 
-	public void unbindService() {
+	private void unbindService() {
 		try {
-			serviceResult.unregisterCallback(m_callback);
+			unregisterCallBack();
 			getActivity().unbindService(mConnection);
+		} catch (Exception e) {
+			Log.e(TAG, "error while unbinding service", e);
+		}
+	}
+
+	private void unregisterCallBack() {
+		try {
+			if (serviceResult != null) {
+				serviceResult.unregisterCallback(m_callback);
+			}
 		} catch (Exception e) {
 			Log.e(TAG, "error while unbinding service", e);
 		}
@@ -739,13 +750,13 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			serviceResult = IServiceSearch.Stub.asInterface(service);
-
 			try {
-				serviceResult.registerCallback(m_callback);
-			} catch (RemoteException e) {
-				e.printStackTrace();
+				if (serviceResult != null) {
+					serviceResult.registerCallback(m_callback);
+				}
+			} catch (Exception e) {
+				Log.e(TAG, "error while unbinding service", e);
 			}
-
 		}
 
 		@Override

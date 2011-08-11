@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 
@@ -159,6 +160,17 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	@Override
 	public boolean isNullResult() {
 		return getModelActivity().isNullResult();
+	}
+
+	/*
+	 * Overides methods from activity
+	 */
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean(ParamIntent.BUNDLE_SAVE, true);
+		// TODO
+		super.onSaveInstanceState(outState);
 	}
 
 	/*

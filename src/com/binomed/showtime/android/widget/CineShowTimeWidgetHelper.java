@@ -40,15 +40,14 @@ import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.model.LocalisationBean;
 import com.binomed.showtime.android.model.MovieBean;
-import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.model.ProjectionBean;
 import com.binomed.showtime.android.model.TheaterBean;
+import com.binomed.showtime.android.screen.results.CineShowTimeResultsService;
 import com.binomed.showtime.android.screen.widget.search.CineShowTimeWidgetConfigureActivity;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
-import com.binomed.showtime.android.util.CineShowtimeRequestManage;
 import com.binomed.showtime.android.util.localisation.LocationUtils;
 
 /**
@@ -228,7 +227,6 @@ public class CineShowTimeWidgetHelper {
 
 				Calendar dateToday = Calendar.getInstance();
 
-				Map<String, MovieBean> movieBeanList = null;
 				boolean refresh = (intent != null) ? intent.getBooleanExtra(ParamIntent.WIDGET_REFRESH, false) : false;
 				if ((dateToday.get(Calendar.DAY_OF_MONTH) != dateLastSearch.get(Calendar.DAY_OF_MONTH)) || refresh) {
 					Log.i(TAG, "Force refresh " + refresh + ", " + (dateToday.get(Calendar.DAY_OF_MONTH) != dateLastSearch.get(Calendar.DAY_OF_MONTH)) + ", today : " + dateToday.get(Calendar.DAY_OF_MONTH) + ", last day : " + dateLastSearch.get(Calendar.DAY_OF_MONTH));
@@ -238,34 +236,17 @@ public class CineShowTimeWidgetHelper {
 						AppWidgetManager manager = AppWidgetManager.getInstance(context);
 						manager.updateAppWidget(widgetId, updateViews);
 
-						LocalisationBean localisationTheater = theater.getPlace();
+						Intent intentSearchDatas = new Intent(context, CineShowTimeResultsService.class);
+
 						CineShowtimeFactory.initGeocoder(context);
-						NearResp nearResp = CineShowtimeRequestManage.searchTheatersOrMovies(localisationTheater.getLatitude() //
-								, localisationTheater.getLongitude() //
-								, localisationTheater.getCityName()//
-								, null// movieName
-								, theater.getId() //
-								, 0 // day
-								, 0 // start
-								, CineShowTimeWidgetConfigureActivity.class.getName()//
-								);
-						if ((nearResp != null) && (nearResp.getTheaterList() != null)) {
-							movieBeanList = nearResp.getMapMovies();
-							nearResp.getTheaterList().get(0).setWidgetId(widgetId);
-							MovieBean movieBean = null;
-							// ProjectionBean minTime = null;
-							for (Entry<String, List<ProjectionBean>> showTime : nearResp.getTheaterList().get(0).getMovieMap().entrySet()) {
-								movieBean = movieBeanList.get(showTime.getKey());
-								// minTime = CineShowtimeDateNumberUtil.getMinTime(showTime.getValue(), null);
-								// if (minTime != null) {
-								movieShowTimeMap.put(movieBean, showTime.getValue());
-								// }
-							}
-						}
-						Intent intentFillWidget = new Intent(context, CineShowDBGlobalService.class);
-						intentFillWidget.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_WIDGET_WRITE_LIST);
-						intentFillWidget.putExtra(ParamIntent.SERVICE_DB_DATA, nearResp);
-						context.startService(intentFillWidget);
+						LocalisationBean localisationTheater = theater.getPlace();
+						intentSearchDatas.putExtra(ParamIntent.SERVICE_SEARCH_CITY, localisationTheater.getCityName());
+						intentSearchDatas.putExtra(ParamIntent.SERVICE_SEARCH_ORIGIN, CineShowTimeWidgetConfigureActivity.class.getName());
+						intentSearchDatas.putExtra(ParamIntent.SERVICE_SEARCH_THEATER_ID, theater.getId());
+						intentSearchDatas.putExtra(ParamIntent.SERVICE_SEARCH_DAY, 0);
+						intentSearchDatas.putExtra(ParamIntent.SERVICE_SEARCH_START, 0);
+						intentSearchDatas.putExtra(ParamIntent.WIDGET_ID, widgetId);
+						context.startService(intentSearchDatas);
 
 					} catch (Exception e) {
 						Log.e(TAG, "Error during service widget", e); //$NON-NLS-1$
@@ -280,11 +261,12 @@ public class CineShowTimeWidgetHelper {
 						movieShowTimeMap.put(movieShowTime.getKey(), movieShowTime.getValue());
 						// }
 					}
+					
+					RemoteViews updateViews = CineShowTimeWidgetHelper.buildUpdate(context, intent, theater, movieShowTimeMap, widgetId);
+					// Push update for this widget to the home screen
+					AppWidgetManager manager = AppWidgetManager.getInstance(context);
+					manager.updateAppWidget(widgetId, updateViews);
 				}
-				RemoteViews updateViews = CineShowTimeWidgetHelper.buildUpdate(context, intent, theater, movieShowTimeMap, widgetId);
-				// Push update for this widget to the home screen
-				AppWidgetManager manager = AppWidgetManager.getInstance(context);
-				manager.updateAppWidget(widgetId, updateViews);
 			}
 
 		} finally {

@@ -160,6 +160,7 @@ public class CineShowTimeResultsService extends IntentService {
 			theaterId = extras.getString(ParamIntent.SERVICE_SEARCH_THEATER_ID);
 			day = extras.getInt(ParamIntent.SERVICE_SEARCH_DAY);
 			start = extras.getInt(ParamIntent.SERVICE_SEARCH_START);
+			int widgetId = extras.getInt(ParamIntent.WIDGET_ID, -1);
 
 			try {
 				serviceStarted = true;
@@ -175,8 +176,13 @@ public class CineShowTimeResultsService extends IntentService {
 						, origin //
 						);
 
+				// if request comes from widget, we have to refresh it
+				if (widgetId != -1 && nearResp != null && nearResp.getTheaterList() != null && nearResp.getTheaterList().size() > 0) {
+					nearResp.getTheaterList().get(0).setWidgetId(widgetId);
+				}
+
 				Intent intentNearFillDBService = new Intent(CineShowTimeResultsService.this, CineShowDBGlobalService.class);
-				intentNearFillDBService.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_NEAR_RESP_WRITE);
+				intentNearFillDBService.putExtra(ParamIntent.SERVICE_DB_TYPE, widgetId == -1 ? CineShowtimeCst.DB_TYPE_NEAR_RESP_WRITE : CineShowtimeCst.DB_TYPE_WIDGET_WRITE_LIST);
 				intentNearFillDBService.putExtra(ParamIntent.SERVICE_DB_DATA, nearResp);
 				CineShowTimeResultsService.this.startService(intentNearFillDBService);
 
