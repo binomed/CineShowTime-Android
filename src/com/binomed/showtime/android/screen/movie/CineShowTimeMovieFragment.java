@@ -310,7 +310,6 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 	@Override
 	public void onTabChanged(String tabId) {
-		Log.i("ListenerMovieActivity", "Change Tab : " + tabId + ", " + desactivListener);
 		try {
 			if (!desactivListener) {
 				previousTab = lastTab;
@@ -358,23 +357,11 @@ public class CineShowTimeMovieFragment extends Fragment //
 	@Override
 	public void onPageChanged(PagedView pagedView, int previousPage, int newPage) {
 		try {
-			if (previousPage != previousTab && newPage != lastTab) {
-				desactivListener = true;
-				tabHost.setCurrentTab(newPage);
-				lastTab = tabHost.getCurrentTab();
-				// if ((newPage > previousPage) && (tabHost.getCurrentTab() <= 1)) {
-				// tracker.trackEvent("Action", "Slide", "Use slide on movie screen", 0);
-				// // movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
-				// // movieFlipper.setOutAnimation(AnimationHelper.outToLeftAnimation());
-				// } else if ((newPage < previousPage) && (tabHost.getCurrentTab() >= 1)) {
-				// tracker.trackEvent("Action", "Slide", "Use slide on movie screen", 0);
-				// // movieFlipper.setInAnimation(AnimationHelper.inFromLeftAnimation());
-				// // movieFlipper.setOutAnimation(AnimationHelper.outToRightAnimation());
-				// tabHost.setCurrentTab(tabHost.getCurrentTab() - 1);
-				// lastTab = tabHost.getCurrentTab();
-				// }
-				desactivListener = false;
-			}
+			desactivListener = true;
+			previousTab = lastTab;
+			tabHost.setCurrentTab(newPage);
+			lastTab = tabHost.getCurrentTab();
+			desactivListener = false;
 		} catch (Exception e) {
 			Log.e(TAG, "error during managing ActionUp", e);
 		}

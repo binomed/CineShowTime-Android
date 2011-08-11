@@ -4,11 +4,6 @@
 	android:id="@+id/LinearLayoutTabShowtimes"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	<!--<LinearLayout 
-        android:id="@+id/movieTab_projections"
-		android:orientation="vertical"
-		android:layout_width="fill_parent" 
-		android:layout_height="fill_parent">-->
 		<TextView 
 			android:id="@+id/movieTheaterTitle" 
 			android:gravity="center_horizontal"
@@ -60,5 +55,4 @@
 			android:layout_height="fill_parent" 
 			android:layout_below="@+id/movieBtnDirection"
 			/>
-	<!-- </LinearLayout>-->
 </RelativeLayout>

@@ -80,10 +80,8 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// super.onCreate(savedInstanceState);
 		tracker = fragmentInteraction.getTracker();
-		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, getActivity());
-		tracker.trackPageView("/SearchActivity");
-		Log.i(TAG, "onCreate"); //$NON-NLS-1$
-		// setContentView(R.layout.activity_search);
+
+		// Bug fix do to pb of theme. Was forced to set manually the theme.
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String defaultTheme = getActivity().getResources().getString(R.string.preference_gen_default_theme);
 		String theme = pref.getString(getActivity().getResources().getString(R.string.preference_gen_key_theme), defaultTheme);
@@ -118,8 +116,6 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		super.onDestroy();
 		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
 		closeDB();
-		tracker.dispatch();
-		tracker.stop();
 	}
 
 	@Override
@@ -317,7 +313,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 					model.setCityName(null);
 					// model.setLocalisation(model.getLocalisation());
 				} else {
-					tracker.trackEvent("Open", "Click", "Open result with city name" + cityName, 0);
+					tracker.trackEvent("Open", "Click", "Open result with city name", 0);
 					model.setLocalisation(null);
 				}
 				tracker.dispatch();

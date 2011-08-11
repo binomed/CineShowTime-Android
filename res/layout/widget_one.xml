@@ -22,7 +22,7 @@
 	<LinearLayout
 	        android:id="@+id/widget_top_one"
 	        android:layout_width="fill_parent" 
-	        android:layout_height="32dip"
+	        android:layout_height="37dip"
 			android:layout_toRightOf="@+id/widget_left_one"
 			android:layout_toLeftOf="@+id/widget_right_one"
 			android:background="@drawable/widget_bg_2_portrait_1_0_0_0"

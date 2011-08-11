@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout 
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	>
 	<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:id="@android:id/tabhost"
 	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
+	    android:layout_height="fill_parent"
 	    android:layout_alignParentTop="true"
 	    >
 	    <!--     style="@style/Layouts.background"-->
 		<RelativeLayout    
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="fill_parent">
 			<TabWidget
 				android:id="@android:id/tabs" 
                 android:layout_width="fill_parent" 
@@ -27,14 +21,13 @@
                android:layout_below="@android:id/tabs"
                >  
         	</FrameLayout> 
+			<greendroid.widget.PagedView
+					android:id="@+id/paged_view"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent" 
+					android:layout_marginTop="5dip"
+					android:layout_alignParentBottom="true"
+					android:layout_below="@android:id/tabs"
+					/>
 		</RelativeLayout>
 	</TabHost>
-	<greendroid.widget.PagedView
-			android:id="@+id/paged_view"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent" 
-			android:layout_marginTop="5dip"
-			android:layout_alignParentBottom="true"
-			android:layout_below="@android:id/tabhost"
-			/>  
-</RelativeLayout>

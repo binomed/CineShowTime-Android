@@ -43,7 +43,6 @@ import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.model.ProjectionBean;
 import com.binomed.showtime.android.model.TheaterBean;
-import com.binomed.showtime.android.screen.results.CineShowTimeResultsActivity;
 import com.binomed.showtime.android.screen.widget.search.CineShowTimeWidgetConfigureActivity;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
@@ -159,8 +158,9 @@ public class CineShowTimeWidgetHelper {
 			context.startService(intentCurrentMovie);
 		}
 
-		Intent defineIntent = new Intent(context, CineShowTimeResultsActivity.class);
+		Intent defineIntent = new Intent(context, CineShowTimeWidgetServiceOpenResults.class);
 		if (theater != null) {
+			defineIntent.putExtra(ParamIntent.WIDGET_ID, theater.getId());
 			defineIntent.putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, theater.getId());
 			if ((localisation.getLatitude() != null) && (localisation.getLongitude() != null)) {
 				defineIntent.putExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, localisation.getLatitude());
@@ -168,7 +168,7 @@ public class CineShowTimeWidgetHelper {
 			}
 			defineIntent.putExtra(ParamIntent.ACTIVITY_SEARCH_CITY, place.toString());
 		}
-		PendingIntent pendingIntent = PendingIntent.getActivity(context, widgetId /*
+		PendingIntent pendingIntent = PendingIntent.getService(context, widgetId /*
 																				 * no requestCode
 																				 */, defineIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		updateViews.setOnClickPendingIntent(R.id.widget_top_one, pendingIntent);
@@ -332,16 +332,18 @@ public class CineShowTimeWidgetHelper {
 			place.setCityName(cityName);
 		}
 		activity.startService(intentWidgetDb);
-		// We force widget to refresh
-		Intent intentRefreshWidget = new Intent(activity, CineShowTimeWidgetHelper.class);
-		intentRefreshWidget.putExtra(ParamIntent.WIDGET_REFRESH, true);
-		CineShowTimeWidgetHelper.updateWidget(context, intentRefreshWidget, theater, mAppWidgetId);
 
 		// Make sure we pass back the original appWidgetId
 		Intent resultValue = new Intent();
 		resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
 		activity.setResult(Activity.RESULT_OK, resultValue);
 		activity.finish();
+
+		// We force widget to refresh
+		Intent intentRefreshWidget = new Intent(activity, CineShowTimeWidgetHelper.class);
+		intentRefreshWidget.putExtra(ParamIntent.WIDGET_REFRESH, true);
+		CineShowTimeWidgetHelper.updateWidget(context, intentRefreshWidget, theater, mAppWidgetId);
+
 	}
 
 }

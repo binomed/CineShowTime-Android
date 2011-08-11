@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/LinearLayoutTabInfo"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:orientation="vertical">
 	<ScrollView 
+		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:id="@+id/movieTab_summary" 
         android:orientation="vertical" 
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
-        android:scrollbars="vertical"> 
-		<LinearLayout 
-			android:orientation="vertical"
-			android:layout_width="fill_parent" 
-			android:layout_height="fill_parent">
-			<RelativeLayout
-				android:layout_width="fill_parent" 
-				android:layout_height="wrap_content">
+        android:scrollbars="vertical">
 				<RelativeLayout 
 					android:id="@+id/movieInfoBasicBloc" 
 					android:layout_width="fill_parent" 
@@ -31,14 +19,6 @@
 						android:layout_alignParentLeft="true"
 						>
 					</ImageView>
-					<!-- <TextView 
-						android:id="@+id/txtMovieTitle" 
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_toLeftOf="@+id/moviePoster"
-						android:layout_marginRight="5dp"
-						style="@style/Text.SearchLabel"
-						/>-->
 					<TextView 
 						android:id="@+id/movieTitle" 
 						android:layout_width="fill_parent"
@@ -221,13 +201,13 @@
 						android:layout_alignLeft="@id/movieTitle"
 						style="?attr/cstTextMovieInfoBelow"
 						/>
-				</RelativeLayout>
-			</RelativeLayout>
 			<LinearLayout
 			  	android:id="@+id/videosSeparator"
 				android:orientation="horizontal"
 				android:layout_width="fill_parent" 
-				android:layout_height="wrap_content">
+				android:layout_height="wrap_content"
+						android:layout_below="@id/movieGenre"
+						>
 			<ImageView
 				android:layout_width="20dip" 
 				android:layout_marginRight="5dp"
@@ -255,12 +235,15 @@
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:spacing="16dp"
+						android:layout_below="@id/videosSeparator"
 			/>
 			<LinearLayout
 			  	android:id="@+id/plotSeparator"
 				android:orientation="horizontal"
 				android:layout_width="fill_parent" 
-				android:layout_height="wrap_content">
+				android:layout_height="wrap_content"
+						android:layout_below="@id/gallery_trailer"
+						>
 			<ImageView
 				android:layout_width="20dip" 
 				android:layout_marginRight="5dp"
@@ -288,7 +271,7 @@
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content" 
 				style="?attr/cstTextMovieInfo"
+						android:layout_below="@id/plotSeparator"
 				/>						
-		</LinearLayout>
-     </ScrollView> 
-</LinearLayout>
+				</RelativeLayout>
+     </ScrollView>

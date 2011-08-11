@@ -371,8 +371,9 @@ public class ImageDownloader {
 				// Entries push-out of hard reference cache are transferred to soft reference cache
 				sSoftBitmapCache.put(eldest.getKey(), new SoftReference<Bitmap>(eldest.getValue()));
 				return true;
-			} else
+			} else {
 				return false;
+			}
 		}
 	};
 

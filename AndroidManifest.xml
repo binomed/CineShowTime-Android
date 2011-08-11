@@ -37,6 +37,7 @@ version="1.0" encoding="utf-8"?>
 		<service android:name=".android.widget.CineShowTimeWidgetServiceLeft"/>
 		<service android:name=".android.widget.CineShowTimeWidgetServiceRight"/>
 		<service android:name=".android.widget.CineShowTimeWidgetServiceRefresh"/>
+		<service android:name=".android.widget.CineShowTimeWidgetServiceOpenResults"/>
 		<service android:name=".android.widget.CineShowTimeWidgetServiceOpenMovie"/>
 		<service android:name=".android.widget.CineShowTimeWidgetServiceOpenMovie1"/>
 		<activity android:name=".android.screen.widget.results.CineShowTimeResultsWidgetActivity" />
