@@ -4,10 +4,13 @@ import greendroid.widget.ActionBar;
 import greendroid.widget.ActionBarItem;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment;
 import com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment.CineShowTimeResultInteraction;
@@ -18,16 +21,25 @@ public class CineShowTimeResultsWidgetActivity extends AbstractSimpleCineShowTim
 	public static final Integer ACTIVITY_OPEN_MOVIE = 0;
 
 	private static final String TAG = "ResultsWidgetActivity"; //$NON-NLS-1$
+	private Intent intentResult;
 
 	/*
 	 * Override methods
 	 */
 
 	@Override
-	protected CineShowTimeResultsFragment getFragment() {
+	protected CineShowTimeResultsFragment getFragment(Fragment fragmentRecycle) {
 		setResult(Activity.RESULT_CANCELED);
-		CineShowTimeResultsFragment resultFragment = new CineShowTimeResultsFragment();
+		CineShowTimeResultsFragment resultFragment = null;
+		if (fragmentRecycle != null) {
+			resultFragment = (CineShowTimeResultsFragment) fragmentRecycle;
+		} else {
+			resultFragment = new CineShowTimeResultsFragment();
+		}
 		resultFragment.setNonExpendable(true);
+		if (intentResult != null) {
+			resultFragment.setIntentResult(intentResult);
+		}
 		return resultFragment;
 	}
 
@@ -76,6 +88,48 @@ public class CineShowTimeResultsWidgetActivity extends AbstractSimpleCineShowTim
 	protected boolean isHomeActivity() {
 		// nothing to do
 		return false;
+	}
+
+	/*
+	 * Overides methods from activity
+	 */
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		if (getModelActivity().getNearResp() != null) {
+			outState.putBoolean(ParamIntent.BUNDLE_SAVE, true);
+			if (getModelActivity().getNearResp() != null) {
+				outState.putParcelable(ParamIntent.NEAR_RESP, getModelActivity().getNearResp());
+			} else {
+				outState.putBoolean(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, getModelActivity().isForceResearch());
+			}
+			if (getModelActivity().getLocalisation() != null) {
+				outState.putDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, getModelActivity().getLocalisation().getLatitude());
+				outState.putDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, getModelActivity().getLocalisation().getLongitude());
+			}
+			outState.putString(ParamIntent.ACTIVITY_SEARCH_CITY, getModelActivity().getCityName());
+		}
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onPreRestoreBundle(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			boolean saved = savedInstanceState.getBoolean(ParamIntent.BUNDLE_SAVE, false);
+			if (saved) {
+				getModelActivity().setNearResp((NearResp) savedInstanceState.getParcelable(ParamIntent.NEAR_RESP));
+				intentResult = new Intent();
+				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false);
+				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_CITY, savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_CITY));
+				Double latitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
+				Double longitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
+				if ((latitude != 0) && (longitude != 0)) {
+					intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, latitude);
+					intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, longitude);
+				}
+			}
+
+		}
 	}
 
 	/*

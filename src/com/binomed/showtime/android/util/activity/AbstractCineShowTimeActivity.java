@@ -67,21 +67,49 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, getPrefs());
 		Log.i(getTAG(), "onCreate"); //$NON-NLS-1$
 
-		// We call the contentView
+		// Init vital informations
 		openDB();
 		getModelActivity();
+
+		// try to restore informations before
+		onPreRestoreBundle(savedInstanceState);
+		// We call the contentView
 		setContentView(R.layout.cst_action_bar_activity);
 		mActionBarHost = (ActionBarHost) findViewById(R.id.gd_action_bar_host);
 		mActionBarHost.getContentView().removeAllViews();
 		LayoutInflater.from(this).inflate(getLayout(), mActionBarHost.getContentView());
+
+		// We load the content
 		initContentView();
 
+		// We add actions bar items
 		addActionBarItems(getActionBar());
 		addActionBarItem(getActionBar().newActionBarItem(NormalActionBarItem.class).setDrawable(new ActionBarDrawable(this, R.drawable.ic_menu_moreoverflow_normal_holo_light)), R.id.action_bar_menu);
 		prepareQuickActionBar();
 
+		// We manage the results for other activity
 		initResults();
 
+		// try to restore information after
+		onPostRestoreBundle(savedInstanceState);
+	}
+
+	/**
+	 * Call in the saveInstanceState is to manage. in first
+	 * 
+	 * @param savedInstanceState
+	 */
+	protected void onPreRestoreBundle(Bundle savedInstanceState) {
+		// Nothing to do, just a method to override
+	}
+
+	/**
+	 * Call in the saveInstanceState is to manage. at last
+	 * 
+	 * @param savedInstanceState
+	 */
+	protected void onPostRestoreBundle(Bundle savedInstanceState) {
+		// Nothing to do, just a method to override
 	}
 
 	/*

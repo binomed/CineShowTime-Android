@@ -11,8 +11,14 @@ public abstract class AbstractSimpleCineShowTimeActivity<T extends Fragment, M e
 
 	@Override
 	protected void initContentView() {
-		fragment = getFragment();
-		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().add(R.id.root_container, fragment);
+		Fragment fragmentRecycle = getSupportFragmentManager().findFragmentById(R.id.root_container);
+		fragment = getFragment(fragmentRecycle);
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		if (fragmentRecycle == null) {
+			transaction.add(R.id.root_container, fragment);
+		} else if ((fragment != null) && !fragmentRecycle.equals(fragment)) {
+			transaction.replace(R.id.root_container, fragment);
+		}
 		transaction.commit();
 
 	}
@@ -22,6 +28,6 @@ public abstract class AbstractSimpleCineShowTimeActivity<T extends Fragment, M e
 		return R.layout.empty;
 	}
 
-	protected abstract T getFragment();
+	protected abstract T getFragment(Fragment fragmentRecycle);
 
 }

@@ -34,4 +34,12 @@
 		android:layout_centerHorizontal="true"
 		android:textStyle="bold"
 		/>
+	<ImageView 
+			android:id="@+id/logoSkyHook" 
+			android:layout_width="wrap_content" 
+			android:background="@drawable/skyhookcolor_sm" 
+			android:layout_height="wrap_content" 
+			android:layout_below="@+id/txtAboutDialogCopyright"
+			android:layout_centerHorizontal="true"
+			/>
 </RelativeLayout>

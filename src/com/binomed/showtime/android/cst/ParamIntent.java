@@ -21,6 +21,8 @@ public interface ParamIntent {
 	public static final String ACTIVITY_MOVIE_NEAR = "and.binomed.showtime.movie.near"; //$NON-NLS-1$
 	public static final String ACTIVITY_MOVIE_FROM_WIDGET = "and.binomed.showtime.movie.fromwidget"; //$NON-NLS-1$
 
+	public static final String ACTIVITY_WIDGET_SHOW_RESULTS = "and.binomed.showtime.widget.show_results"; //$NON-NLS-1$
+
 	public static final String ACTIVITY_SEARCH_LATITUDE = "and.binomed.showtime.search.latitude"; //$NON-NLS-1$
 	public static final String ACTIVITY_SEARCH_LONGITUDE = "and.binomed.showtime.search.longitude"; //$NON-NLS-1$
 	public static final String ACTIVITY_SEARCH_CITY = "and.binomed.showtime.search.city"; //$NON-NLS-1$
@@ -29,6 +31,7 @@ public interface ParamIntent {
 	public static final String ACTIVITY_SEARCH_THEATER_ID = "and.binomed.showtime.search.theaterId"; //$NON-NLS-1$
 	public static final String ACTIVITY_SEARCH_DAY = "and.binomed.showtime.search.day"; //$NON-NLS-1$
 	public static final String ACTIVITY_SEARCH_NULL_RESULT = "and.binomed.showtime.search.day"; //$NON-NLS-1$
+	public static final String ACTIVITY_SEARCH_GROUP_EXPAND = "and.binomed.showtime.search.group_expand"; //$NON-NLS-1$
 
 	public static final String SERVICE_NEAR_LATITUDE = "and.binomed.showtime.near.service.latitude"; //$NON-NLS-1$
 	public static final String SERVICE_NEAR_LONGITUDE = "and.binomed.showtime.near.service.longitude"; //$NON-NLS-1$

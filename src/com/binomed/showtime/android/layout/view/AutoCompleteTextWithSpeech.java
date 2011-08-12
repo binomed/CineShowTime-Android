@@ -72,7 +72,7 @@ public class AutoCompleteTextWithSpeech extends RelativeLayout implements OnClic
 	}
 
 	public boolean onVoiceRecognitionResult(Intent data, int resultCode, int requestCode) {
-		if ((requestCode == callBack.getRequestCode(getId())) && (resultCode == Activity.RESULT_OK)) {
+		if ((callBack != null) && (requestCode == callBack.getRequestCode(getId())) && (resultCode == Activity.RESULT_OK)) {
 			matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 			if ((matches != null) && (matches.size() > 0)) {
 				ListDialog dialog = new ListDialog(//

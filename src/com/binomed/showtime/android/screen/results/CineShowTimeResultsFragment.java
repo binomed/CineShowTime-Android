@@ -95,22 +95,14 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	private boolean nonExpendable = false;
 	private Intent intent;
 
+	public CineShowTimeResultsFragment() {
+		super();
+	}
+
 	/** Called when the activity is first created. */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mainView = inflater.inflate(R.layout.fragment_results, container, false);
-		initViews(mainView);
-		initMenus();
 
-		bindService();
-		initDB();
-		return mainView;
-
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		// We init the theater id if set
 		model = interaction.getModelActivity();
 		mDbHelper = interaction.getMDbHelper();
@@ -119,17 +111,20 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 			intent = getActivity().getIntent();
 		}
 
-		// if ((savedInstanceState != null) && savedInstanceState.getBoolean(ParamIntent.BUNDLE_SAVE, false)) {
-		// model.setNearResp((NearResp) savedInstanceState.getParcelable(ParamIntent.NEAR_RESP));
-		// }
-
 		model.setForceResearch(intent.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, true));
 		intent.putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false);
 		model.setFavTheaterId(intent.getStringExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID));
+		if ((model.getFavTheaterId() != null) && model.getFavTheaterId().isEmpty()) {
+			model.setFavTheaterId(null);
+		}
 		model.setLocalisation(null);
 		model.setDay(intent.getIntExtra(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
 		model.setCityName(intent.getStringExtra(ParamIntent.ACTIVITY_SEARCH_CITY));
 		model.setMovieName(intent.getStringExtra(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
+		ArrayList<Integer> groupExpandList = intent.getIntegerArrayListExtra(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND);
+		if ((groupExpandList != null) && !groupExpandList.isEmpty()) {
+			model.getGroupExpanded().addAll(groupExpandList);
+		}
 		Double latitude = intent.getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
 		Double longitude = intent.getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
 		if ((latitude != 0) && (longitude != 0)) {
@@ -143,11 +138,14 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		movieView = (model.getMovieName() != null) && (model.getMovieName().length() > 0);
 
 		initComparator();
-	}
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+		mainView = inflater.inflate(R.layout.fragment_results, container, false);
+		initViews(mainView);
+		initMenus();
+
+		bindService();
+		initDB();
+		return mainView;
 
 	}
 
@@ -178,16 +176,6 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		display();
 
 	}
-
-	// @Override
-	// public void onSaveInstanceState(Bundle outState) {
-	// if (!isServiceRunning()) {
-	// NearResp nearResp = model.getNearResp();
-	// outState.putBoolean(ParamIntent.BUNDLE_SAVE, true);
-	// outState.putParcelable(ParamIntent.NEAR_RESP, nearResp);
-	// }
-	// super.onSaveInstanceState(outState);
-	// }
 
 	/**
 	 * init the view of activity
@@ -298,19 +286,18 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 					}
 					theaterList.add(theaterZeroResp);
 				}
-				adapter.setTheaterList(nearResp, model.getTheaterFavList(), (CineShowtimeComparator<?>) comparator);
 				if (nonExpendable) {
 					adapterNonExpendable.setTheaterList(nearResp, model.getTheaterFavList(), (CineShowtimeComparator<?>) comparator);
 					resultListNonExpandable.setAdapter(adapterNonExpendable);
 				} else {
+					adapter.setTheaterList(nearResp, model.getTheaterFavList(), (CineShowtimeComparator<?>) comparator);
 					resultList.setAdapter(adapter);
-
-				}
-				if ((theaterList.size() == 1) && !error) {
-					resultList.expandGroup(0);
-				} else {
-					for (int i : model.getGroupExpanded()) {
-						resultList.expandGroup(i);
+					if ((theaterList.size() == 1) && !error) {
+						resultList.expandGroup(0);
+					} else {
+						for (int i : model.getGroupExpanded()) {
+							resultList.expandGroup(i);
+						}
 					}
 				}
 				if ((nearResp != null) && (nearResp.getCityName() != null) && (nearResp.getCityName().length() > 0)) {

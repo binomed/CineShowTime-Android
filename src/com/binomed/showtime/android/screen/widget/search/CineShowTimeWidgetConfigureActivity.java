@@ -8,6 +8,7 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.widget.LinearLayout;
 
@@ -15,6 +16,7 @@ import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment;
 import com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment.FavFragmentInteraction;
@@ -38,6 +40,7 @@ public class CineShowTimeWidgetConfigureActivity extends AbstractCineShowTimeAct
 	private CineShowTimeFavFragment favFragment;
 	private CineShowTimeResultsFragment resultFragment;
 	private LinearLayout zoneResultWidget;
+	private Intent searchIntent;
 
 	/*
 	 * Overrides
@@ -117,6 +120,69 @@ public class CineShowTimeWidgetConfigureActivity extends AbstractCineShowTimeAct
 	}
 
 	/*
+	 * Overides methods from activity
+	 */
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean(ParamIntent.BUNDLE_SAVE, true);
+		// we save search fragment information
+		searchFragment.savedInstance();
+		outState.putString(ParamIntent.ACTIVITY_SEARCH_CITY, getModelActivity().getCityName());
+		outState.putString(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME, getModelActivity().getMovieName());
+		outState.putInt(ParamIntent.ACTIVITY_SEARCH_DAY, getModelActivity().getDay());
+		// We save results fragment information
+		if (resultFragment != null) {
+			outState.putBoolean(ParamIntent.ACTIVITY_WIDGET_SHOW_RESULTS, resultFragment != null);
+			if (getModelActivity().getNearResp() != null) {
+				outState.putParcelable(ParamIntent.NEAR_RESP, getModelActivity().getNearResp());
+			} else {
+				outState.putBoolean(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, getModelActivity().isForceResearch());
+			}
+			if (getModelActivity().getLocalisation() != null) {
+				outState.putDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, getModelActivity().getLocalisation().getLatitude());
+				outState.putDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, getModelActivity().getLocalisation().getLongitude());
+			}
+			outState.putString(ParamIntent.ACTIVITY_SEARCH_CITY, getModelActivity().getCityName());
+		}
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onPostRestoreBundle(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			boolean saved = savedInstanceState.getBoolean(ParamIntent.BUNDLE_SAVE, false);
+			if (saved) {
+				// We restore search Fragment informations
+				getModelActivity().setLastRequestCity(savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_CITY));
+				getModelActivity().setLastRequestMovie(savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
+				getModelActivity().setDay(savedInstanceState.getInt(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
+				searchFragment.refreshAfterSavedBundle();
+
+				// We restore result fragment informations
+				boolean restoreResult = savedInstanceState.getBoolean(ParamIntent.ACTIVITY_WIDGET_SHOW_RESULTS, false);
+				if (restoreResult) {
+					getModelActivity().setNearResp((NearResp) savedInstanceState.getParcelable(ParamIntent.NEAR_RESP));
+					resultFragment = new CineShowTimeResultsFragment();
+					resultFragment.setNonExpendable(true);
+					Intent intentResult = new Intent();
+					intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false);
+					intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_CITY, savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_CITY));
+					Double latitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
+					Double longitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
+					if ((latitude != 0) && (longitude != 0)) {
+						intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, latitude);
+						intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, longitude);
+					}
+					resultFragment.setIntentResult(intentResult);
+					getSupportFragmentManager().beginTransaction().replace(R.id.zoneWidgetResults, resultFragment).commit();
+				}
+
+			}
+		}
+	}
+
+	/*
 	 * Interaction
 	 */
 
@@ -159,8 +225,9 @@ public class CineShowTimeWidgetConfigureActivity extends AbstractCineShowTimeAct
 			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID));
 			startActivityForResult(intent, requestCode);
 		} else {
-			CineShowTimeResultsFragment resultFragment = new CineShowTimeResultsFragment();
+			resultFragment = new CineShowTimeResultsFragment();
 			resultFragment.setNonExpendable(true);
+			searchIntent = intent;
 			resultFragment.setIntentResult(intent);
 			getSupportFragmentManager().beginTransaction().replace(R.id.zoneWidgetResults, resultFragment).commit();
 		}

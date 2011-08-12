@@ -53,7 +53,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 
 	private static final String TAG = "SearchActivity"; //$NON-NLS-1$
 
-	protected TextView lblMovieName;
+	protected TextView lblMovieName, lblDay;
 	protected AutoCompleteTextWithSpeech fieldCityName, fieldMovieName;
 	protected Button searchButton;
 	protected Spinner spinnerChooseDay;
@@ -149,6 +149,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		fieldCityName = (AutoCompleteTextWithSpeech) mainView.findViewById(R.id.searchCityName);
 		lblMovieName = (TextView) mainView.findViewById(R.id.searchTxtMovieName);
 		fieldMovieName = (AutoCompleteTextWithSpeech) mainView.findViewById(R.id.searchMovieName);
+		lblDay = (TextView) mainView.findViewById(R.id.searchTxtSpinner);
 		spinnerChooseDay = (Spinner) mainView.findViewById(R.id.searchSpinner);
 
 		// manageCallBack
@@ -158,7 +159,6 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	private void initViewsState() {
 
 		fillAutoField();
-
 		ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(getActivity() //
 				, R.layout.view_spinner_item//
 				, CineShowtimeDateNumberUtil.getSpinnerDaysValues(getActivity())//
@@ -404,6 +404,20 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	public void hideMovieFields() {
 		lblMovieName.setVisibility(View.GONE);
 		fieldMovieName.setVisibility(View.GONE);
+		lblDay.setVisibility(View.GONE);
+		spinnerChooseDay.setVisibility(View.GONE);
+	}
+
+	public void savedInstance() {
+		model.setCityName(fieldCityName.getText().toString());
+		model.setMovieName(fieldMovieName.getText().toString());
+		model.setDay(spinnerChooseDay.getSelectedItemPosition());
+	}
+
+	public void refreshAfterSavedBundle() {
+		fieldCityName.setText(model.getLastRequestCity());
+		fieldMovieName.setText(model.getLastRequestMovie());
+		spinnerChooseDay.setSelection(model.getDay());
 	}
 
 	/*
@@ -474,11 +488,13 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 					try {
 						columnIndex = cursorLastResult.getColumnIndex(CineShowtimeDbAdapter.KEY_MOVIE_REQUEST_CITY_NAME);
 						cityName = cursorLastResult.getString(columnIndex);
+						// Manage case of saved bundle
 						if (cityName != null) {
 							model.setLastRequestCity(URLDecoder.decode(cityName, CineShowTimeEncodingUtil.getEncoding()));
 						}
 						columnIndex = cursorLastResult.getColumnIndex(CineShowtimeDbAdapter.KEY_MOVIE_REQUEST_MOVIE_NAME);
 						movieName = cursorLastResult.getString(columnIndex);
+						// Manage case of saved bundle
 						if (movieName != null) {
 							model.setLastRequestMovie(URLDecoder.decode(movieName, CineShowTimeEncodingUtil.getEncoding()));
 						}

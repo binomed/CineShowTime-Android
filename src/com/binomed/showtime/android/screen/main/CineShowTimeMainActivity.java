@@ -12,6 +12,7 @@ import android.database.SQLException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.TabHost;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
@@ -32,6 +33,7 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 
 	private static final String TAG = "AndShowTimeMainActivity"; //$NON-NLS-1$
 	private static final String TRACKER_NAME = "/MainActivity"; //$NON-NLS-1$
+	private TabHost tabHost;
 
 	private static final int MENU_PREF = Menu.NONE;
 
@@ -47,6 +49,22 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 		fragmentSearch = (CineShowTimeSearchFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentSearch);
 		fragmentFav = (CineShowTimeFavFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentFav);
 
+		// Manage case of layout with tabs
+		tabHost = (TabHost) findViewById(android.R.id.tabhost);
+		if (tabHost != null) {
+			tabHost.setup();
+			// We have to create the tabs*
+			TabHost.TabSpec tabSearch = tabHost.newTabSpec("Search");
+			tabSearch.setContent(R.id.FragmentLayout);
+			tabSearch.setIndicator(getResources().getString(R.string.search), getResources().getDrawable(R.drawable.ic_tab_search));
+
+			TabHost.TabSpec tabFav = tabHost.newTabSpec("Fav");
+			tabFav.setContent(R.id.fragmentFav);
+			tabFav.setIndicator(getResources().getString(R.string.btnFav), getResources().getDrawable(R.drawable.ic_tab_fav));
+
+			tabHost.addTab(tabSearch);
+			tabHost.addTab(tabFav);
+		}
 	}
 
 	private void display() {
@@ -169,8 +187,25 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		outState.putBoolean(ParamIntent.BUNDLE_SAVE, true);
-		// TODO
+		fragmentSearch.savedInstance();
+		outState.putString(ParamIntent.ACTIVITY_SEARCH_CITY, getModelActivity().getCityName());
+		outState.putString(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME, getModelActivity().getMovieName());
+		outState.putInt(ParamIntent.ACTIVITY_SEARCH_DAY, getModelActivity().getDay());
 		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onPostRestoreBundle(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			boolean saved = savedInstanceState.getBoolean(ParamIntent.BUNDLE_SAVE, false);
+			if (saved) {
+				getModelActivity().setLastRequestCity(savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_CITY));
+				getModelActivity().setLastRequestMovie(savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
+				getModelActivity().setDay(savedInstanceState.getInt(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
+				fragmentSearch.refreshAfterSavedBundle();
+
+			}
+		}
 	}
 
 	/*

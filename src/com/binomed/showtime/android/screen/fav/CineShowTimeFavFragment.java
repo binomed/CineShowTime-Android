@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -29,12 +30,15 @@ import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.layout.view.TheaterFavView;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.screen.results.CineShowTimeResultsActivity;
+import com.binomed.showtime.android.screen.results.tablet.CineShowTimeResultsTabletActivity;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowtimeDB2AndShowtimeBeans;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.android.util.activity.ICineShowTimeActivityHelperModel;
 import com.binomed.showtime.android.util.activity.IFragmentCineShowTimeInteraction;
+import com.binomed.showtime.android.util.activity.TestSizeHoneyComb;
+import com.binomed.showtime.android.util.activity.TestSizeOther;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class CineShowTimeFavFragment extends Fragment implements OnClickListener //
@@ -50,7 +54,7 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 	private CineShowtimeDbAdapter mDbHelper;
 
 	private GoogleAnalyticsTracker tracker;
-	private FavFragmentInteraction fragmentInteraction;
+	private FavFragmentInteraction<? extends ICineShowTimeActivityHelperModel> fragmentInteraction;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -66,15 +70,13 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 
 		this.model = new ModelFavFragment();
 
-		// initResults(); TODO
-
 		return mainView;
 	}
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		fragmentInteraction = (FavFragmentInteraction) activity;
+		fragmentInteraction = (FavFragmentInteraction<? extends ICineShowTimeActivityHelperModel>) activity;
 	}
 
 	/*
@@ -191,7 +193,20 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 			fragmentInteraction.setLastRequestDate(today);
 
 			CineShowtimeFactory.initGeocoder(mainContext);
-			Intent intentResultActivity = new Intent(mainContext, CineShowTimeResultsActivity.class);
+			Class<?> clazz = CineShowTimeResultsActivity.class;
+			boolean largeScreen = false;
+			if (Integer.valueOf(Build.VERSION.SDK) <= 10) {
+				largeScreen = TestSizeOther.checkLargeScreen(getResources().getConfiguration().screenLayout);
+
+			} else {
+				largeScreen = TestSizeHoneyComb.checkLargeScreen(getResources().getConfiguration().screenLayout);
+
+			}
+
+			if (largeScreen) {
+				clazz = CineShowTimeResultsTabletActivity.class;
+			}
+			Intent intentResultActivity = new Intent(mainContext, clazz);
 
 			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_CITY, ((cityName != null) ? URLEncoder.encode(cityName, CineShowTimeEncodingUtil.getEncoding()) : cityName));
 			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, theaterId);

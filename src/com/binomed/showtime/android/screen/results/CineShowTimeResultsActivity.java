@@ -4,14 +4,19 @@ import greendroid.graphics.drawable.ActionBarDrawable;
 import greendroid.widget.ActionBar;
 import greendroid.widget.ActionBarItem;
 import greendroid.widget.NormalActionBarItem;
+
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.Menu;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.screen.movie.CineShowTimeMovieActivity;
 import com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment.CineShowTimeResultInteraction;
@@ -29,25 +34,24 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 	private static final String TAG = "ResultsActivity"; //$NON-NLS-1$
 	private static final String TRACKER_NAME = "/ResultActivity"; //$NON-NLS-1$
 
+	private Intent intentResult;
+
 	/*
 	 * Override methods
 	 */
 
 	@Override
-	protected CineShowTimeResultsFragment getFragment() {
-		return new CineShowTimeResultsFragment();
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		// TODO Auto-generated method stub
-		super.onSaveInstanceState(outState);
-	}
-
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onRestoreInstanceState(savedInstanceState);
+	protected CineShowTimeResultsFragment getFragment(Fragment fragmentRecycle) {
+		CineShowTimeResultsFragment resultFragment = null;
+		if (fragmentRecycle != null) {
+			resultFragment = (CineShowTimeResultsFragment) fragmentRecycle;
+		} else {
+			resultFragment = new CineShowTimeResultsFragment();
+		}
+		if (intentResult != null) {
+			resultFragment.setIntentResult(intentResult);
+		}
+		return resultFragment;
 	}
 
 	@Override
@@ -99,6 +103,54 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 	@Override
 	protected boolean isHomeActivity() {
 		return false;
+	}
+
+	/*
+	 * Overides methods from activity
+	 */
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean(ParamIntent.BUNDLE_SAVE, true);
+		if (getModelActivity().getNearResp() != null) {
+			outState.putParcelable(ParamIntent.NEAR_RESP, getModelActivity().getNearResp());
+		} else {
+			outState.putBoolean(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, getModelActivity().isForceResearch());
+		}
+		if (getModelActivity().getLocalisation() != null) {
+			outState.putDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, getModelActivity().getLocalisation().getLatitude());
+			outState.putDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, getModelActivity().getLocalisation().getLongitude());
+		}
+		outState.putString(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, getModelActivity().getFavTheaterId());
+		outState.putInt(ParamIntent.ACTIVITY_SEARCH_DAY, getModelActivity().getDay());
+		outState.putString(ParamIntent.ACTIVITY_SEARCH_CITY, getModelActivity().getCityName());
+		outState.putString(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME, getModelActivity().getMovieName());
+		outState.putIntegerArrayList(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND, new ArrayList<Integer>(getModelActivity().getGroupExpanded()));
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onPreRestoreBundle(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			boolean saved = savedInstanceState.getBoolean(ParamIntent.BUNDLE_SAVE, false);
+			if (saved) {
+				getModelActivity().setNearResp((NearResp) savedInstanceState.getParcelable(ParamIntent.NEAR_RESP));
+				intentResult = new Intent();
+				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, savedInstanceState.getBoolean(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false));
+				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_CITY, savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_CITY));
+				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME, savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
+				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_THEATER_ID));
+				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_DAY, savedInstanceState.getInt(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
+				intentResult.putIntegerArrayListExtra(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND, savedInstanceState.getIntegerArrayList(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND));
+				Double latitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
+				Double longitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
+				if ((latitude != 0) && (longitude != 0)) {
+					intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, latitude);
+					intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, longitude);
+				}
+			}
+
+		}
 	}
 
 	/*

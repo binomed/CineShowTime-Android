@@ -1,50 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<ScrollView 
-   				xmlns:android="http://schemas.android.com/apk/res/android"
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_alignParentTop="true"
+	    >
+	    <!--     style="@style/Layouts.background"-->
+		<RelativeLayout    
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			<TabWidget
+				android:id="@android:id/tabs" 
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                />
+            <FrameLayout 
+           	   android:id="@android:id/tabcontent" 
+               android:layout_width="fill_parent" 
+               android:layout_height="fill_parent"
+               android:layout_below="@android:id/tabs"
+			   android:layout_marginTop="@dimen/cstPaddingTopMain"
+			   android:layout_marginLeft="@dimen/cstPaddingLeftMain"
+			   android:layout_marginRight="@dimen/cstPaddingRightMain"
+			   android:layout_marginBottom="@dimen/cstPaddingBottomMain"
+               > 
+               <ScrollView 
 				android:id="@+id/FragmentLayout" 
-				android:layout_below="@+id/logoImg"
 				android:scrollbars="vertical"
 				android:orientation="vertical" 
 		        android:layout_width="fill_parent"
 		        android:layout_height="fill_parent" 
-				android:layout_marginTop="@dimen/cstPaddingTopMain"
-				android:layout_marginLeft="@dimen/cstPaddingLeftMain"
-				android:layout_marginRight="@dimen/cstPaddingRightMain"
-				android:layout_marginBottom="@dimen/cstPaddingBottomMain"
 					>
-			<LinearLayout
-					android:id="@+id/FragmentLayout" 
-					android:orientation="vertical" 
-					android:layout_height="fill_parent" 
-					android:layout_width="fill_parent"
-				 
-				>
-				<fragment 
-						android:id="@+id/fragmentSearch" 
-						android:name="com.binomed.showtime.android.screen.search.CineShowTimeSearchFragment" 
-						android:layout_height="wrap_content"				
-						android:layout_width="fill_parent"
-						>
-				    <!-- Preview: layout=@layout/fragment_search -->
-				</fragment>
+	        	  <fragment 
+							android:id="@+id/fragmentSearch" 
+							android:name="com.binomed.showtime.android.screen.search.CineShowTimeSearchFragment" 
+							android:layout_height="fill_parent"				
+							android:layout_width="fill_parent"
+							>
+					    <!-- Preview: layout=@layout/fragment_search -->
+					</fragment>
+				</ScrollView>
 				<fragment 
 						android:id="@+id/fragmentFav" 
 						android:name="com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment" 
-						android:layout_height="@dimen/cstFavMainHeight" 
+						android:layout_height="fill_parent" 
 						android:layout_width="fill_parent"
-						android:layout_marginTop="20dp"
 						>
 				    <!-- Preview: layout=@layout/fragment_fav -->
 				</fragment>
-				<ImageView 
-					android:layout_marginTop="10dp"
-					android:id="@+id/logoSkyHook" 
-					android:layout_width="wrap_content" 
-					android:layout_height="wrap_content" 
-					android:background="@drawable/skyhookcolor_sm" 
-					android:layout_alignParentBottom="true" 
-					android:layout_gravity="center_horizontal"
-					/>
-		</LinearLayout>
-	</ScrollView>
-	
+		</FrameLayout>
+	</RelativeLayout>
+</TabHost>
