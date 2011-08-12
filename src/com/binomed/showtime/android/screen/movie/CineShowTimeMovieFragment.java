@@ -68,6 +68,10 @@ public class CineShowTimeMovieFragment extends Fragment //
 	 * attributes
 	 */
 
+	public CineShowTimeMovieFragment() {
+		super();
+	}
+
 	private float oldTouchValue;
 	protected boolean desactivListener = false;
 	protected int lastTab = 0, previousTab = 0;

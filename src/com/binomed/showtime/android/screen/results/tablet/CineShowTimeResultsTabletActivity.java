@@ -117,28 +117,31 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	 */
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		outState.putBoolean(ParamIntent.BUNDLE_SAVE, true);
-		// Save results state
-		if (getModelActivity().getNearResp() != null) {
-			outState.putParcelable(ParamIntent.NEAR_RESP, getModelActivity().getNearResp());
-		} else {
-			outState.putBoolean(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, getModelActivity().isForceResearch());
-		}
-		if (getModelActivity().getLocalisation() != null) {
-			outState.putDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, getModelActivity().getLocalisation().getLatitude());
-			outState.putDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, getModelActivity().getLocalisation().getLongitude());
-		}
-		outState.putString(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, getModelActivity().getFavTheaterId());
-		outState.putInt(ParamIntent.ACTIVITY_SEARCH_DAY, getModelActivity().getDay());
-		outState.putString(ParamIntent.ACTIVITY_SEARCH_CITY, getModelActivity().getCityName());
-		outState.putString(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME, getModelActivity().getMovieName());
-		outState.putIntegerArrayList(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND, new ArrayList<Integer>(getModelActivity().getGroupExpanded()));
-		// Save movie state
-		if ((fragmentMovie != null) && (getModelActivity().getMovie() != null)) {
-			outState.putParcelable(ParamIntent.MOVIE, getModelActivity().getMovie());
-			outState.putParcelable(ParamIntent.THEATER, getModelActivity().getTheater());
-			outState.putDouble(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (getModelActivity().getLocalisation() != null) ? getModelActivity().getLocalisation().getLatitude() : -1);
-			outState.putDouble(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (getModelActivity().getLocalisation() != null) ? getModelActivity().getLocalisation().getLongitude() : -1);
+		if (getModel().getNearResp() != null || fragmentMovie != null) {
+			outState.putBoolean(ParamIntent.BUNDLE_SAVE, true);
+			// Save results state
+			if (getModelActivity().getNearResp() != null) {
+				outState.putParcelable(ParamIntent.NEAR_RESP, getModelActivity().getNearResp());
+			} else {
+				outState.putBoolean(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, getModelActivity().isForceResearch());
+			}
+			if (getModelActivity().getLocalisation() != null) {
+				outState.putDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, getModelActivity().getLocalisation().getLatitude());
+				outState.putDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, getModelActivity().getLocalisation().getLongitude());
+			}
+			outState.putString(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, getModelActivity().getFavTheaterId());
+			outState.putInt(ParamIntent.ACTIVITY_SEARCH_DAY, getModelActivity().getDay());
+			outState.putString(ParamIntent.ACTIVITY_SEARCH_CITY, getModelActivity().getCityName());
+			outState.putString(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME, getModelActivity().getMovieName());
+			outState.putIntegerArrayList(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND, new ArrayList<Integer>(getModelActivity().getGroupExpanded()));
+
+			// Save movie state
+			if ((fragmentMovie != null) && (getModelActivity().getMovie() != null)) {
+				outState.putParcelable(ParamIntent.MOVIE, getModelActivity().getMovie());
+				outState.putParcelable(ParamIntent.THEATER, getModelActivity().getTheater());
+				outState.putDouble(ParamIntent.ACTIVITY_MOVIE_LATITUDE, (getModelActivity().getLocalisation() != null) ? getModelActivity().getLocalisation().getLatitude() : -1);
+				outState.putDouble(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, (getModelActivity().getLocalisation() != null) ? getModelActivity().getLocalisation().getLongitude() : -1);
+			}
 		}
 		super.onSaveInstanceState(outState);
 	}
@@ -205,7 +208,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 					}
 					intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, place.toString());
 					Fragment fragmentRecycle = getSupportFragmentManager().findFragmentById(R.id.fragmentInfo);
-					if (fragmentRecycle != null) {
+					if (fragmentRecycle != null && fragmentRecycle.getClass() == CineShowTimeMovieFragment.class) {
 						fragmentMovie = (CineShowTimeMovieFragment) fragmentRecycle;
 					} else {
 						fragmentMovie = new CineShowTimeMovieFragment();
