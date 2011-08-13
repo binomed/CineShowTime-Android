@@ -142,9 +142,9 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_THEATER_ID));
 				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_DAY, savedInstanceState.getInt(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
 				intentResult.putIntegerArrayListExtra(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND, savedInstanceState.getIntegerArrayList(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND));
-				Double latitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
-				Double longitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
-				if ((latitude != 0) && (longitude != 0)) {
+				Double latitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, -1);
+				Double longitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, -1);
+				if ((latitude != -1) && (longitude != -1)) {
 					intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, latitude);
 					intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, longitude);
 				}

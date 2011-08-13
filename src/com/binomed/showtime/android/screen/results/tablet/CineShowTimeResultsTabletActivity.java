@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -61,7 +60,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 
 	private int dist = 200;
 	private int delay = 500;
-	private int widthLeftFull, widthLeftLight;
+	private int widthLeftFull, widthLeftLight, widthRight;
 	private FrameLayout.LayoutParams paramsLeft, paramsRight;
 	private Intent intentResult;
 
@@ -75,7 +74,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 			animation = new TranslateAnimation(0, dist, 0, 0);
 			animation.setStartOffset(0);// layoutRight.getLeft());
 			animation.setDuration(delay);
-			animation.setFillAfter(true);
+			// animation.setFillAfter(true);
 			infoLayout.startAnimation(animation);
 
 			fragmentResult.changeAdapter(true);
@@ -83,6 +82,17 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 			paramsLeft.width = widthLeftFull;
 			fragmentResult.getView().setLayoutParams(paramsLeft);
 
+			paramsRight.leftMargin = widthLeftFull;
+			infoLayout.setLayoutParams(paramsRight);
+
+			mHandler.postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+
+					infoLayout.layout(widthLeftFull, infoLayout.getTop(), widthLeftFull + widthRight, infoLayout.getBottom());
+				}
+			}, delay);
 			mHandler.postDelayed(new Runnable() {
 
 				@Override
@@ -94,11 +104,22 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 			// We move the info to initial position
 			TranslateAnimation animation = new TranslateAnimation(infoLayout.getLeft() + dist, infoLayout.getLeft(), 0, 0);
 			animation = new TranslateAnimation(dist, 0, 0, 0);
+			animation = new TranslateAnimation(0, -dist, 0, 0);
 			animation.setStartOffset(0);// layoutRight.getLeft());
-			animation.setDuration(500);
-			animation.setFillAfter(true);
+			animation.setDuration(delay);
+			// animation.setFillAfter(true);
 			infoLayout.startAnimation(animation);
 
+			paramsRight.leftMargin = widthLeftLight;
+			infoLayout.setLayoutParams(paramsRight);
+
+			mHandler.postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					infoLayout.layout(widthLeftLight, infoLayout.getTop(), widthLeftLight + widthRight, infoLayout.getBottom());
+				}
+			}, delay);
 			mHandler.postDelayed(new Runnable() {
 
 				@Override
@@ -117,7 +138,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	 */
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		if (getModel().getNearResp() != null || fragmentMovie != null) {
+		if ((getModel().getNearResp() != null) || (fragmentMovie != null)) {
 			outState.putBoolean(ParamIntent.BUNDLE_SAVE, true);
 			// Save results state
 			if (getModelActivity().getNearResp() != null) {
@@ -208,7 +229,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 					}
 					intentStartMovieActivity.putExtra(ParamIntent.ACTIVITY_MOVIE_NEAR, place.toString());
 					Fragment fragmentRecycle = getSupportFragmentManager().findFragmentById(R.id.fragmentInfo);
-					if (fragmentRecycle != null && fragmentRecycle.getClass() == CineShowTimeMovieFragment.class) {
+					if ((fragmentRecycle != null) && (fragmentRecycle.getClass() == CineShowTimeMovieFragment.class)) {
 						fragmentMovie = (CineShowTimeMovieFragment) fragmentRecycle;
 					} else {
 						fragmentMovie = new CineShowTimeMovieFragment();
@@ -256,9 +277,13 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	protected void initContentView() {
 		Log.i(TAG, "initContentView");
 		fragmentResult = (CineShowTimeResultsFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentResults);
-		fragmentFrame = new CineShowTimeFrameFragment();
-		getSupportFragmentManager().beginTransaction().add(R.id.fragmentInfo, fragmentFrame).commit();
-		// fragmentMovie = (CineShowTimeMovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentInfo);
+		Fragment recycleFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentInfo);
+		if (recycleFragment == null) {
+			fragmentFrame = new CineShowTimeFrameFragment();
+			getSupportFragmentManager().beginTransaction().add(R.id.fragmentInfo, fragmentFrame).commit();
+		} else if (recycleFragment.getClass() == CineShowTimeFrameFragment.class) {
+			fragmentFrame = (CineShowTimeFrameFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentInfo);
+		}
 
 		// We check if we're in portrait mode in order to manage specific expand
 		Configuration conf = getResources().getConfiguration();
@@ -281,14 +306,14 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 					widthLeftFull = Double.valueOf(totalWidth * 0.50).intValue();
 					widthLeftLight = Double.valueOf(totalWidth * 0.20).intValue();
 					dist = widthLeftFull - widthLeftLight;
-					int widthRight = Double.valueOf(totalWidth * 0.80).intValue();
+					widthRight = Double.valueOf(totalWidth * 0.80).intValue();
 
 					paramsLeft.width = widthLeftLight;
 					paramsRight.width = widthRight;
-					paramsRight.gravity = Gravity.RIGHT;
 
 					fragmentResult.getView().setLayoutParams(paramsLeft);
 					infoLayout.setLayoutParams(paramsRight);
+					infoLayout.setBackgroundColor(android.R.color.darker_gray);
 					frameLayout.setVisibility(View.VISIBLE);
 				}
 			}, delay);

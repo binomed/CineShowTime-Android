@@ -74,6 +74,7 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 	public void changeData(IModelMovie model, GoogleAnalyticsTracker tracker) {
 		this.model = model;
 		this.tracker = tracker;
+		manageViewVisibility();
 	}
 
 	private void init() {
@@ -188,12 +189,12 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 			mBarProjections.addQuickAction(new MyQuickAction(getContext(), OptionEnum.MAIL.getRessourceDrawable(), OptionEnum.MAIL.getRessourceText(), false));
 			mapQuickAction.put(compt, OptionEnum.MAIL);
 			compt++;
-			if (Integer.valueOf(Build.VERSION.SDK) <= 8 && model.isCalendarInstalled()) {
+			if ((Integer.valueOf(Build.VERSION.SDK) <= 8) && model.isCalendarInstalled()) {
 				mBarProjections.addQuickAction(new MyQuickAction(getContext(), OptionEnum.AGENDA.getRessourceDrawable(), OptionEnum.AGENDA.getRessourceText(), false));
 				mapQuickAction.put(compt, OptionEnum.AGENDA);
 				compt++;
 			}
-			if (currentProjectionBean.getReservationLink() != null && currentProjectionBean.getReservationLink().length() > 0) {
+			if ((currentProjectionBean.getReservationLink() != null) && (currentProjectionBean.getReservationLink().length() > 0)) {
 				mBarProjections.addQuickAction(new MyQuickAction(getContext(), OptionEnum.RESERVATION.getRessourceDrawable(), OptionEnum.RESERVATION.getRessourceText(), false));
 				mapQuickAction.put(compt, OptionEnum.RESERVATION);
 			}

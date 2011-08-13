@@ -125,13 +125,16 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		if ((groupExpandList != null) && !groupExpandList.isEmpty()) {
 			model.getGroupExpanded().addAll(groupExpandList);
 		}
-		Double latitude = intent.getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
-		Double longitude = intent.getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
-		if ((latitude != 0) && (longitude != 0)) {
+		Double latitude = intent.getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, -1);
+		Double longitude = intent.getDoubleExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, -1);
+		if ((latitude != -1) && (longitude != -1)) {
 			Location locationTheater = new Location("GPS");
 			locationTheater.setLatitude(latitude);
 			locationTheater.setLongitude(longitude);
 			model.setLocalisation(locationTheater);
+		} else {
+			model.setLocalisation(null);
+
 		}
 		intent.putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, "");
 
@@ -551,6 +554,13 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_DAY, day);
 		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_START, start);
 
+		if (serviceResult != null) {
+			try {
+				serviceResult.registerCallback(m_callback);
+			} catch (RemoteException e) {
+				Log.e(TAG, "Error of callBack", e);
+			}
+		}
 		getActivity().startService(intentResultService);
 	}
 

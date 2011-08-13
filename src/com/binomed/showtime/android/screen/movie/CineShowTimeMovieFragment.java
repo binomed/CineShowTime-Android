@@ -159,9 +159,9 @@ public class CineShowTimeMovieFragment extends Fragment //
 		movie = intent.getParcelableExtra(ParamIntent.MOVIE);
 		theaterId = intent.getStringExtra(ParamIntent.THEATER_ID);
 		theater = intent.getParcelableExtra(ParamIntent.THEATER);
-		double latitude = intent.getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, 0);
-		double longitude = intent.getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, 0);
-		if ((latitude != 0) && (longitude != 0)) {
+		double latitude = intent.getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LATITUDE, -1);
+		double longitude = intent.getDoubleExtra(ParamIntent.ACTIVITY_MOVIE_LONGITUDE, -1);
+		if ((latitude != -1) && (longitude != -1)) {
 			Location gpsLocation = new Location("GPS"); //$NON-NLS-1$
 			gpsLocation.setLatitude(latitude);
 			gpsLocation.setLongitude(longitude);

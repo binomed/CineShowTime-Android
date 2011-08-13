@@ -142,6 +142,10 @@ public class ReviewBean extends AbstractModel implements Parcelable {
 		}
 		if (getReview() != null) {
 			writeInt(dest, FIELD_REVIEW);
+			writeString(dest, getReview());
+		}
+		if (getUrlReview() != null) {
+			writeInt(dest, FIELD_URL_REVIEW);
 			writeString(dest, getUrlReview());
 		}
 		writeInt(dest, FIELD_END);

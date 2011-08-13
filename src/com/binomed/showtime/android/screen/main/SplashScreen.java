@@ -61,19 +61,25 @@ public class SplashScreen extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.appear);
-		// splashImage.setImageResource(R.drawable.splash_front_0);
-		Animation fadeOut = AnimationUtils.loadAnimation(SplashScreen.this, R.anim.disappear);
-		splashImage.startAnimation(fadeOut);
-		splashImage2.startAnimation(fadeIn);
+		try {
+			Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.appear);
+			// splashImage.setImageResource(R.drawable.splash_front_0);
+			Animation fadeOut = AnimationUtils.loadAnimation(SplashScreen.this, R.anim.disappear);
+			splashImage.startAnimation(fadeOut);
+			splashImage2.startAnimation(fadeIn);
 
-		mHandler.postDelayed(mFadeOutRunnable, SPLASH_SCREEN_FIRST_DURATION);
-		mHandler.postDelayed(mPendingLauncherRunnable, SPLASH_SCREEN_DURATION);
+			mHandler.postDelayed(mFadeOutRunnable, SPLASH_SCREEN_FIRST_DURATION);
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			mHandler.postDelayed(mPendingLauncherRunnable, SPLASH_SCREEN_DURATION);
+		}
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+		mHandler.removeCallbacks(mFadeOutRunnable);
 		mHandler.removeCallbacks(mPendingLauncherRunnable);
 	}
 
