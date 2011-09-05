@@ -427,11 +427,14 @@ public class CineShowtimeDbAdapter {
 				db.execSQL(DATABASE_CREATE_MOVIE_REQUEST_TABLE);
 			}
 			if (oldVersion < 26) {
-				db.execSQL("ALTER TABLE " + DATABASE_WIDGET_TABLE + " ADD COLUMN " + KEY_WIDGET_THEATER_WIDGET_ID + " integer;");
+				db.execSQL(DROP_WIDGET_TABLE);
+				db.execSQL(DATABASE_WIDGET_TABLE);
 			}
 			if (oldVersion < 27) {
-				db.execSQL("ALTER TABLE " + DATABASE_WIDGET_MOVIE_TABLE + " ADD COLUMN " + KEY_WIDGET_MOVIE_WIDGET_ID + " integer;");
-				db.execSQL("ALTER TABLE " + DATABASE_CURENT_MOVIE_TABLE + " ADD COLUMN " + KEY_CURENT_MOVIE_WIDGET_ID + " integer;");
+				db.execSQL(DROP_WIDGET_MOVIE_TABLE);
+				db.execSQL(DROP_CURENT_MOVIE_TABLE);
+				db.execSQL(DATABASE_WIDGET_MOVIE_TABLE);
+				db.execSQL(DATABASE_CURENT_MOVIE_TABLE);
 			}
 
 		}
@@ -907,6 +910,52 @@ public class CineShowtimeDbAdapter {
 		if (result == -1) {
 			Log.e(TAG, "Error inserting row"); //$NON-NLS-1$
 		}
+		return result;
+	}
+
+	public long updateOldWidgetTheater(int widgetId) {
+		chekDbAvailable();
+		if (Log.isLoggable(TAG, Log.DEBUG)) {
+			Log.d(TAG, new StringBuilder("Update date Widget ").toString()); //$NON-NLS-1$
+		}
+
+		ContentValues initialValues = new ContentValues();
+		initialValues.put(KEY_WIDGET_THEATER_WIDGET_ID, widgetId);
+
+		long result = mDb.update(DATABASE_WIDGET_TABLE//
+				, initialValues//
+				, KEY_WIDGET_THEATER_WIDGET_ID + " = -1"//
+				, null//
+				);
+
+		if (result == -1) {
+			Log.e(TAG, "Error inserting or updating row"); //$NON-NLS-1$
+		}
+
+		initialValues.clear();
+		initialValues.put(KEY_WIDGET_MOVIE_WIDGET_ID, widgetId);
+		result = mDb.update(DATABASE_WIDGET_MOVIE_TABLE//
+				, initialValues//
+				, KEY_WIDGET_MOVIE_WIDGET_ID + " = -1"//
+				, null//
+				);
+
+		if (result == -1) {
+			Log.e(TAG, "Error inserting or updating row"); //$NON-NLS-1$
+		}
+
+		initialValues.clear();
+		initialValues.put(KEY_CURENT_MOVIE_WIDGET_ID, widgetId);
+		result = mDb.update(DATABASE_CURENT_MOVIE_TABLE//
+				, initialValues//
+				, KEY_CURENT_MOVIE_WIDGET_ID + " = -1"//
+				, null//
+				);
+
+		if (result == -1) {
+			Log.e(TAG, "Error inserting or updating row"); //$NON-NLS-1$
+		}
+
 		return result;
 	}
 

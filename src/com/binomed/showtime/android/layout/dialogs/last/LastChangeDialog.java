@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.binomed.showtime.R;
@@ -26,10 +28,26 @@ public class LastChangeDialog extends Dialog {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_last);
 
+		Button btnClose = (Button) findViewById(R.id.lastBtnClose);
+		btnClose.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				LastChangeDialog.this.dismiss();
+			}
+		});
+
 		setTitle(mainContext.getResources().getString(R.string.dialogLastChangeTitle));
 		TextView contentLastChange = (TextView) findViewById(R.id.lastChangetText);
 		Spanned spanned = Html.fromHtml( //
-				"<b>v2.1.1</b><br><br>" + //
+				"<b>v3.0.0</b><br><br>" + //
+						" * Reset Widgets<br>" + //
+						" * Multi Widgets support<br>" + //
+						" * Add of Action bar<br>" + //
+						" * Tablet screen support<br>" + //
+						" * Improve UI<br>" + //
+						" * Fix some crash problems<br>" + //
+						"<b>v2.1.1</b><br><br>" + //
 						" * Fix some crash problems<br>" + //
 						"<b>v2.1.0</b><br><br>" + //
 						" * Add of SplashScreen<br>" + //
