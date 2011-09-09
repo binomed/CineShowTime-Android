@@ -1,3 +1,16 @@
+/*
+ * Copyright (C) 2011 Binomed (http://blog.binomed.fr)
+ *
+ * Licensed under the Eclipse Public License - v 1.0;
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.eclipse.org/legal/epl-v10.html
+ *
+ * THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC 
+ * LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM 
+ * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
+ */
 package com.binomed.showtime.android.cst;
 
 import java.io.UnsupportedEncodingException;
@@ -50,7 +63,7 @@ public class IntentShowtime {
 			mapsUri.append(theater.getTheaterName()); //$NON-NLS-1$
 			mapsUri.append(")"); //$NON-NLS-1$
 		} catch (Exception e) {
-			if (theater.getPlace().getLatitude() != null && theater.getPlace().getLongitude() != null) {
+			if ((theater.getPlace().getLatitude() != null) && (theater.getPlace().getLongitude() != null)) {
 				mapsUri.append(AndShowtimeNumberFormat.getFormatGeoCoord().format(theater.getPlace().getLongitude()));
 				mapsUri.append(SpecialChars.COMMA);
 				mapsUri.append(AndShowtimeNumberFormat.getFormatGeoCoord().format(theater.getPlace().getLatitude()));
@@ -72,7 +85,7 @@ public class IntentShowtime {
 			mapsUri.append(theater.getTheaterName()); //$NON-NLS-1$
 			mapsUri.append(")"); //$NON-NLS-1$
 		} catch (Exception e) {
-			if (theater.getPlace().getLatitude() != null && theater.getPlace().getLongitude() != null) {
+			if ((theater.getPlace().getLatitude() != null) && (theater.getPlace().getLongitude() != null)) {
 				mapsUri.append(AndShowtimeNumberFormat.getFormatGeoCoord().format(theater.getPlace().getLongitude()));
 				mapsUri.append(SpecialChars.COMMA);
 				mapsUri.append(AndShowtimeNumberFormat.getFormatGeoCoord().format(theater.getPlace().getLatitude()));
@@ -92,7 +105,7 @@ public class IntentShowtime {
 			} catch (Exception e) {
 				Log.e(TAG, "error Searching latitude, longitude :" + source.getLatitude() + "," + source.getLongitude(), e);
 			}
-			if (addressList != null && addressList.size() > 0) {
+			if ((addressList != null) && (addressList.size() > 0)) {
 				try {
 					StringBuilder mapsUri = new StringBuilder("http://maps.google.com/maps?saddr="); //$NON-NLS-1$
 					mapsUri.append(addressList.get(0).getAddressLine(0));

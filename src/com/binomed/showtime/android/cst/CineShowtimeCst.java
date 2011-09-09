@@ -1,3 +1,16 @@
+/*
+ * Copyright (C) 2011 Binomed (http://blog.binomed.fr)
+ *
+ * Licensed under the Eclipse Public License - v 1.0;
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.eclipse.org/legal/epl-v10.html
+ *
+ * THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC 
+ * LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM 
+ * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
+ */
 package com.binomed.showtime.android.cst;
 
 public final class CineShowtimeCst {
@@ -61,5 +74,15 @@ public final class CineShowtimeCst {
 	public static final String PREF_KEY_ANALYTICS = "com.binomed.showtime.analytics";
 
 	public static final String ACRA_FORM_KEY = "dEtLdVJ5aFNjOUFRcGI5Ym5TckhwaVE6MQ";
+
+	public static final String ANALYTICS_CATEGORY_ACTIVITY = "Activity";
+
+	public static final String ANALYTICS_ACTION_OPEN = "Open";
+	public static final String ANALYTICS_ACTION_CANCEL_SERVICE = "CancelService";
+	public static final String ANALYTICS_ACTION_CHANGE_THEME = "ChangeTheme";
+	public static final String ANALYTICS_ACTION_RETURN_HOME = "ReturnHome";
+
+	public static final int ANALYTICS_VALUE_THEME_BLACK = -1;
+	public static final int ANALYTICS_VALUE_THEME_LIGHT = 1;
 
 }

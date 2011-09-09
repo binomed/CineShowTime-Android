@@ -1,3 +1,16 @@
+/*
+ * Copyright (C) 2011 Binomed (http://blog.binomed.fr)
+ *
+ * Licensed under the Eclipse Public License - v 1.0;
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.eclipse.org/legal/epl-v10.html
+ *
+ * THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC 
+ * LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM 
+ * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
+ */
 package com.binomed.showtime.android.util.comparator;
 
 import java.util.Calendar;
@@ -23,13 +36,13 @@ public class TheaterShowtimeInnerListComparator implements CineShowtimeComparato
 
 		for (ProjectionBean time : entry0.getValue()) {
 			minDiffTemp = (time.getShowtime() - currentTime);
-			if ((minDiffTemp < (minDiff0) || (minDiff0 == -1)) && (minDiffTemp > 0)) {
+			if (((minDiffTemp < (minDiff0)) || (minDiff0 == -1)) && (minDiffTemp > 0)) {
 				minDiff0 = minDiffTemp;
 			}
 		}
 		for (ProjectionBean time : entry1.getValue()) {
 			minDiffTemp = (time.getShowtime() - currentTime);
-			if ((minDiffTemp < (minDiff1) || (minDiff1 == -1)) && (minDiffTemp > 0)) {
+			if (((minDiffTemp < (minDiff1)) || (minDiff1 == -1)) && (minDiffTemp > 0)) {
 				minDiff1 = minDiffTemp;
 			}
 		}

@@ -1,3 +1,16 @@
+/*
+ * Copyright (C) 2011 Binomed (http://blog.binomed.fr)
+ *
+ * Licensed under the Eclipse Public License - v 1.0;
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.eclipse.org/legal/epl-v10.html
+ *
+ * THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC 
+ * LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM 
+ * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
+ */
 package com.binomed.showtime.android.layout.view;
 
 import android.content.Context;
@@ -76,26 +89,26 @@ public class ReviewView extends LinearLayout {
 				rate5 = R.drawable.rate_star_small_on;
 			case 4:
 				rate4 = R.drawable.rate_star_small_on;
-				if (rate > 4.5 && rate < 5) {
+				if ((rate > 4.5) && (rate < 5)) {
 					rate5 = R.drawable.rate_star_small_half;
 				}
 			case 3:
 				rate3 = R.drawable.rate_star_small_on;
-				if (rate > 3.5 && rate < 4) {
+				if ((rate > 3.5) && (rate < 4)) {
 					rate4 = R.drawable.rate_star_small_half;
 				}
 			case 2:
 				rate2 = R.drawable.rate_star_small_on;
-				if (rate > 2.5 && rate < 3) {
+				if ((rate > 2.5) && (rate < 3)) {
 					rate3 = R.drawable.rate_star_small_half;
 				}
 			case 1:
 				rate1 = R.drawable.rate_star_small_on;
-				if (rate > 1.5 && rate < 2) {
+				if ((rate > 1.5) && (rate < 2)) {
 					rate2 = R.drawable.rate_star_small_half;
 				}
 			case 0:
-				if (rate > 0.5 && rate < 1) {
+				if ((rate > 0.5) && (rate < 1)) {
 					rate1 = R.drawable.rate_star_small_half;
 				}
 			default:

@@ -1,3 +1,16 @@
+/*
+ * Copyright (C) 2011 Binomed (http://blog.binomed.fr)
+ *
+ * Licensed under the Eclipse Public License - v 1.0;
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.eclipse.org/legal/epl-v10.html
+ *
+ * THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC 
+ * LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM 
+ * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
+ */
 package com.binomed.showtime.android.service;
 
 import java.util.ArrayList;
@@ -265,10 +278,10 @@ public class CineShowDBGlobalService extends IntentService {
 				// if request comes from widget, we have to refresh it
 				Integer widgetId = -1;
 				NearResp nearResp = (NearResp) action.getData();
-				if (nearResp != null && nearResp.getTheaterList() != null && nearResp.getTheaterList().size() > 0) {
+				if ((nearResp != null) && (nearResp.getTheaterList() != null) && (nearResp.getTheaterList().size() > 0)) {
 					widgetId = nearResp.getTheaterList().get(0).getWidgetId();
 				}
-				if (widgetId != null && widgetId != -1) {
+				if ((widgetId != null) && (widgetId != -1)) {
 					CineShowTimeWidgetHelper.updateWidget(getApplicationContext(), null, null, widgetId);
 				}
 				break;

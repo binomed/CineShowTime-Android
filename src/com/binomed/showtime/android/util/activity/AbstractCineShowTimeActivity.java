@@ -1,3 +1,16 @@
+/*
+ * Copyright (C) 2011 Binomed (http://blog.binomed.fr)
+ *
+ * Licensed under the Eclipse Public License - v 1.0;
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.eclipse.org/legal/epl-v10.html
+ *
+ * THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC 
+ * LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM 
+ * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
+ */
 package com.binomed.showtime.android.util.activity;
 
 import greendroid.app.ActionBarActivity;
@@ -65,6 +78,11 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		super.onCreate(savedInstanceState);
 		getTracker();
 		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, getPrefs());
+		tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
+				, CineShowtimeCst.ANALYTICS_ACTION_OPEN // Action
+				, getTrackerName() // Label
+				, 0 // Value
+		);
 		Log.i(getTAG(), "onCreate"); //$NON-NLS-1$
 
 		// Init vital informations
@@ -129,8 +147,12 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Log.i(getTAG(), "onPause"); //$NON-NLS-1$
 		if ((progressDialog != null) && progressDialog.isShowing()) {
+			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_CANCEL_SERVICE // Action
+					, getTrackerName() // Label
+					, 0 // Value
+			);
 			progressDialog.dismiss();
 		}
 	}
@@ -153,7 +175,25 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		}
 
 		if (getModelActivity().isResetTheme()) {
+			// Analytics part
+			String defaultTheme = getResources().getString(R.string.preference_gen_default_theme);
+			String theme = getPrefs().getString(getResources().getString(R.string.preference_gen_key_theme), defaultTheme);
+			if (theme.equals(defaultTheme)) {
+				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
+						, CineShowtimeCst.ANALYTICS_ACTION_CHANGE_THEME // Action
+						, getTrackerName() // Label
+						, CineShowtimeCst.ANALYTICS_VALUE_THEME_BLACK // Value
+				);
+			} else {
+				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
+						, CineShowtimeCst.ANALYTICS_ACTION_CHANGE_THEME // Action
+						, getTrackerName() // Label
+						, CineShowtimeCst.ANALYTICS_VALUE_THEME_LIGHT // Value
+				);
+			}
+
 			CineShowTimeLayoutUtils.changeToTheme(this, getIntent());
+
 		}
 	}
 
@@ -403,6 +443,12 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		public void onActionBarItemClicked(int position) {
 			if ((position == OnActionBarListener.HOME_ITEM) && !isHomeActivity()) {
 
+				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
+						, CineShowtimeCst.ANALYTICS_ACTION_RETURN_HOME // Action
+						, getTrackerName() // Label
+						, 0 // Value
+				);
+
 				final GDApplication app = getGDApplication();
 				final Class<?> klass = app.getHomeActivityClass();
 				if ((klass != null) && !klass.equals(AbstractCineShowTimeActivity.this.getClass())) {
@@ -438,13 +484,21 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 			final int MENU_ABOUT = 1;
 			final int MENU_HELP = 2;
 			if (position == MENU_PREF) {
-				tracker.trackEvent("Open", "Click", "Open preferences from " + getTAG(), 0);
+				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
+						, CineShowtimeCst.ANALYTICS_ACTION_OPEN // Action
+						, "Preferences" // Label
+						, 0 // Value
+				);
 				Intent launchPreferencesIntent = new Intent().setClass(getApplicationContext(), CineShowTimePreferencesActivity.class);
 
 				// Make it a subactivity so we know when it returns
 				startActivityForResult(launchPreferencesIntent, CineShowtimeCst.ACTIVITY_RESULT_PREFERENCES);
 			} else if (position == MENU_ABOUT) {
-				tracker.trackEvent("Open", "Click", "Open about from " + getTAG(), 0);
+				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
+						, CineShowtimeCst.ANALYTICS_ACTION_OPEN // Action
+						, "About" // Label
+						, 0 // Value
+				);
 				AlertDialog.Builder aboutDialog = new AlertDialog.Builder(AbstractCineShowTimeActivity.this);
 				try {
 					PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -463,7 +517,11 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 				// aboutDialog.create();
 				aboutDialog.show();
 			} else if (position == MENU_HELP) {
-				tracker.trackEvent("Open", "Click", "Open help from " + getTAG(), 0);
+				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
+						, CineShowtimeCst.ANALYTICS_ACTION_OPEN // Action
+						, "Help" // Label
+						, 0 // Value
+				);
 				Intent launchPreferencesIntent = IntentShowtime.createHelpAndShowTime(getApplicationContext());
 
 				// Make it a subactivity so we know when it returns
