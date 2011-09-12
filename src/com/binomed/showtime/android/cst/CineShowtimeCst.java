@@ -76,13 +76,50 @@ public final class CineShowtimeCst {
 	public static final String ACRA_FORM_KEY = "dEtLdVJ5aFNjOUFRcGI5Ym5TckhwaVE6MQ";
 
 	public static final String ANALYTICS_CATEGORY_ACTIVITY = "Activity";
+	public static final String ANALYTICS_CATEGORY_WIDGET = "Widget";
+	public static final String ANALYTICS_CATEGORY_SEARCH = "Search";
+	public static final String ANALYTICS_CATEGORY_RESULT = "Results";
+	public static final String ANALYTICS_CATEGORY_MOVIE = "Movie";
+	public static final String ANALYTICS_CATEGORY_FAV = "Favorites";
+	public static final String ANALYTICS_CATEGORY_ERROR = "Error";
 
 	public static final String ANALYTICS_ACTION_OPEN = "Open";
 	public static final String ANALYTICS_ACTION_CANCEL_SERVICE = "CancelService";
 	public static final String ANALYTICS_ACTION_CHANGE_THEME = "ChangeTheme";
 	public static final String ANALYTICS_ACTION_RETURN_HOME = "ReturnHome";
+	public static final String ANALYTICS_ACTION_CHOOSE = "Choose";
+	public static final String ANALYTICS_ACTION_INTERACTION = "Interaction";
+	public static final String ANALYTICS_ACTION_RESULTS = "Results";
 
 	public static final int ANALYTICS_VALUE_THEME_BLACK = -1;
 	public static final int ANALYTICS_VALUE_THEME_LIGHT = 1;
+
+	public static final String ANALYTICS_VALUE_WIDGET_SEARCH = "From search";
+	public static final String ANALYTICS_VALUE_WIDGET_FAV = "From fav";
+
+	public static final String ANALYTICS_VALUE_WIDGET_LEFT = "Action Left";
+	public static final String ANALYTICS_VALUE_WIDGET_RIGHT = "Action Right";
+	public static final String ANALYTICS_VALUE_WIDGET_REFRESH = "Action Refresh";
+	public static final String ANALYTICS_VALUE_WIDGET_OPEN_MOVIE = "Action Open movie";
+	public static final String ANALYTICS_VALUE_WIDGET_OPEN_THEATER = "Action Open theater";
+
+	public static final String ANALYTICS_VALUE_SEARCH_USE_VOICE_SEARCH = "Use voice search";
+
+	public static final String ANALYTICS_LABEL_SEARCH_GPS = "Gps";
+	public static final String ANALYTICS_LABEL_SEARCH_DAY = "Day";
+	public static final String ANALYTICS_LABEL_SEARCH_CITY = "City";
+	public static final String ANALYTICS_LABEL_SEARCH_MOVIE = "Movie";
+	public static final String ANALYTICS_LABEL_SEARCH_FORCE_REQUEST = "Force Request";
+	
+	public static final String ANALYTICS_LABEL_RESULTS_SORT = "Use sort";
+	public static final String ANALYTICS_LABEL_RESULTS_MORE_RESULTS = "Use more results";
+	public static final String ANALYTICS_LABEL_RESULTS_FAV = "Fav";
+
+	public static final String ANALYTICS_LABEL_MOVIE_REUSE = "ReUse movie in base";
+	public static final String ANALYTICS_LABEL_MOVIE_GOTO_TAB = "Goto tab";
+	public static final String ANALYTICS_LABEL_MOVIE_GOTO_TAB_WITH_SLIDE = "Goto tab with slide";
+
+	public static final String ANALYTICS_LABEL_FAV_REMOVE = "Remove fav";
+	public static final String ANALYTICS_LABEL_FAV_CLICK = "Click on fav";
 
 }

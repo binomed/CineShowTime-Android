@@ -22,11 +22,13 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
+import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.screen.results.CineShowTimeResultsActivity;
 import com.binomed.showtime.android.screen.results.tablet.CineShowTimeResultsTabletActivity;
 import com.binomed.showtime.android.util.activity.TestSizeHoneyComb;
 import com.binomed.showtime.android.util.activity.TestSizeOther;
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public class CineShowTimeWidgetServiceOpenResults extends Service {
 
@@ -102,6 +104,19 @@ public class CineShowTimeWidgetServiceOpenResults extends Service {
 				mDbHelper.close();
 			}
 		}
+		
+		
+		GoogleAnalyticsTracker tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, this);
+		tracker.trackPageView(TAG);
+		tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_WIDGET // Category
+				, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+				, CineShowtimeCst.ANALYTICS_VALUE_WIDGET_OPEN_THEATER // Label
+				, 0 // Value
+		);
+		tracker.dispatch();
+		tracker.stop();
+		
 		stopSelf();
 	}
 }

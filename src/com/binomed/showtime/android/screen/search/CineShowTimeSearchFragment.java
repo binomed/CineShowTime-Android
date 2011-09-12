@@ -249,8 +249,6 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	public void onItemSelected(AdapterView<?> adapter, View view, int groupPositon, long id) {
 		switch (adapter.getId()) {
 		case R.id.searchSpinner: {
-			Log.i(TAG, "change Day : " + groupPositon);
-			tracker.trackEvent("Action", "Click", "Change day", 0);
 			model.setDay(groupPositon);
 			break;
 		}
@@ -275,6 +273,11 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	 */
 
 	public boolean delegateOnResultActivity(int requestCode, int resultCode, Intent data) {
+		tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
+				, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+				, CineShowtimeCst.ANALYTICS_VALUE_SEARCH_USE_VOICE_SEARCH // Label
+				, 0 // Value
+		);
 		return fieldCityName.onVoiceRecognitionResult(data, resultCode, requestCode) //
 				|| fieldMovieName.onVoiceRecognitionResult(data, resultCode, requestCode);
 	}
@@ -321,14 +324,11 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 
 			if (canLaunch) {
 				if (btnCheck) {
-					tracker.trackEvent("Open", "Click", "Open result with gps", 0);
 					model.setCityName(null);
 					// model.setLocalisation(model.getLocalisation());
 				} else {
-					tracker.trackEvent("Open", "Click", "Open result with city name", 0);
 					model.setLocalisation(null);
 				}
-				tracker.dispatch();
 				openResultActivity();
 			}
 
@@ -387,6 +387,32 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		}
 
 		try {
+			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_GPS // Label
+					, model.getLocalisation()!= null ? 1 : 0 // Value
+					);
+			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_DAY // Label
+					, model.getDay() // Value
+					);
+			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_CITY // Label
+					, model.getCityName() != null ? 1 : 0 // Value
+					);
+			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_MOVIE // Label
+					, model.getMovieName() != null ? 1 : 0 // Value
+					);
+			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_FORCE_REQUEST // Label
+					, forceRequest ? 1 : 0 // Value
+					);
+			
 			model.setLastRequestCity(cityName);
 			model.setLastRequestMovie(movieName);
 			model.setLastRequestTheaterId(theaterId);

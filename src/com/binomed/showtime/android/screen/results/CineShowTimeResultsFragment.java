@@ -290,6 +290,12 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 						default:
 							break;
 						}
+						
+						interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ERROR // Category
+								, CineShowtimeCst.ANALYTICS_ACTION_RESULTS // Action
+								, errorTheater.getId() // Label
+								,  0 // Value
+								);
 					}
 				} else if ((theaterList == null) || (theaterList.size() == 0)) {
 					error = true;
@@ -301,6 +307,12 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 						nearResp.setTheaterList(theaterList);
 					}
 					theaterList.add(theaterZeroResp);
+
+					interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ERROR // Category
+							, CineShowtimeCst.ANALYTICS_ACTION_RESULTS // Action
+							, String.valueOf(HttpParamsCst.ERROR_NO_DATA) // Label
+							,  0 // Value
+							);
 				}
 				if (nonExpendable) {
 					adapterNonExpendable.setTheaterList(nearResp, model.getTheaterFavList(), (CineShowtimeComparator<?>) comparator);
@@ -375,9 +387,6 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		ObjectSubView subView = (ObjectSubView) v;
 		TheaterBean theater = subView.getTheaterBean();
 		MovieBean movie = subView.getMovieBean();
-		interaction.getTracker().trackEvent("Open", "Film", "Open from list", 0);
-		interaction.getTracker().dispatch();
-		// openMovieActivity(movie, theater);
 		interaction.openMovieScreen(movie, theater);
 		interaction.onChildClick();
 		return false;
@@ -397,7 +406,11 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 				if (theaterListSize == groupPosition) {
 					model.setStart(model.getStart() + 10);
 					try {
-						interaction.getTracker().trackEvent("Resultats", "Click", "Search more theaters", 0);
+						interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_RESULT // Category
+								, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+								, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_MORE_RESULTS // Label
+								,  0 // Value
+								);
 						launchNearService();
 					} catch (UnsupportedEncodingException e) {
 						// TODO
@@ -425,7 +438,11 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 				if (theaterListSize == position) {
 					model.setStart(model.getStart() + 10);
 					try {
-						interaction.getTracker().trackEvent("Resultats", "Click", "Search more theaters", 0);
+						interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_RESULT // Category
+								, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+								, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_MORE_RESULTS // Label
+								,  0 // Value
+								);
 						launchNearService();
 					} catch (UnsupportedEncodingException e) {
 						// TODO
@@ -450,7 +467,11 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 	@Override
 	public void sortSelected(int sourceID, int sortKey) {
-		interaction.getTracker().trackEvent("Sort", "Click", "Click search Btn", sortKey);
+		interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_RESULT // Category
+				, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+				, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_SORT // Label
+				,  sortKey // Value
+				);
 
 		sourceLabel: switch (sourceID) {
 		case CineShowTimeResultsFragment.ID_SORT: {
@@ -491,10 +512,18 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		boolean isFav = objectMasterView.isFav();
 		TheaterBean theaterBean = objectMasterView.getTheaterBean();
 		if (isFav) {
-			interaction.getTracker().trackEvent("Favoris", "Delete", "Delete from Results", 0);
+			interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_RESULT // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+					, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_FAV // Label
+					,  0 // Value
+					);
 			removeFavorite(theaterBean);
 		} else {
-			interaction.getTracker().trackEvent("Favoris", "Add", "Add from Results", 0);
+			interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_RESULT // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+					, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_FAV // Label
+					,  1 // Value
+					);
 			addFavorite(theaterBean);
 		}
 		objectMasterView.toggleFav();
@@ -520,7 +549,6 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		}
 		Intent intentResultService = new Intent(getActivity(), CineShowTimeResultsService.class);
 		getActivity().stopService(intentResultService);
-		// finish(); TODO
 	}
 
 	/*

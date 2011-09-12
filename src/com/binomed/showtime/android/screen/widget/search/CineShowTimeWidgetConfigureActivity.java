@@ -249,6 +249,11 @@ public class CineShowTimeWidgetConfigureActivity extends AbstractCineShowTimeAct
 
 	@Override
 	public boolean onFavClick(TheaterBean theater) {
+		getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_WIDGET // Category
+				, CineShowtimeCst.ANALYTICS_ACTION_CHOOSE // Action
+				, CineShowtimeCst.ANALYTICS_VALUE_WIDGET_FAV // Label
+				, 0 // Value
+		);
 		CineShowTimeWidgetHelper.finalizeWidget(this, theater, getModelActivity().getCityName());
 		return true;
 	}
@@ -267,6 +272,11 @@ public class CineShowTimeWidgetConfigureActivity extends AbstractCineShowTimeAct
 
 	@Override
 	public void onTheaterClick(TheaterBean theater) {
+		getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_WIDGET // Category
+				, CineShowtimeCst.ANALYTICS_ACTION_CHOOSE // Action
+				, CineShowtimeCst.ANALYTICS_VALUE_WIDGET_SEARCH // Label
+				, 0 // Value
+				);
 		CineShowTimeWidgetHelper.finalizeWidget(this, theater, getModelActivity().getCityName());
 	}
 
@@ -286,6 +296,11 @@ public class CineShowTimeWidgetConfigureActivity extends AbstractCineShowTimeAct
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if ((requestCode == CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY) && (resultCode == RESULT_OK)) {
+			getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_WIDGET // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_CHOOSE // Action
+					, CineShowtimeCst.ANALYTICS_VALUE_WIDGET_SEARCH // Label
+					, 0 // Value
+					);
 			TheaterBean theaterBean = data.getExtras().getParcelable(ParamIntent.THEATER);
 			CineShowTimeWidgetHelper.finalizeWidget(this, theaterBean, getModelActivity().getCityName());
 		}

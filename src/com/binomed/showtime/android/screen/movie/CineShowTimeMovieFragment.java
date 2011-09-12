@@ -203,10 +203,18 @@ public class CineShowTimeMovieFragment extends Fragment //
 			}
 
 			if (movie.getImdbId() == null) {
-				tracker.trackEvent("Movie", "Search", "Search data from database", 0);
+				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+						, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+						, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_REUSE // Label
+						,  0 // Value
+						);
 				searchMovieDetail(movie, near);
 			} else {
-				tracker.trackEvent("Movie", "Reuse", "Reuse data from database", 0);
+				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+						, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+						, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_REUSE // Label
+						,  1 // Value
+						);
 				moviePagedAdapter.fillViews(movie);
 			}
 		} catch (Exception e) {
@@ -331,7 +339,11 @@ public class CineShowTimeMovieFragment extends Fragment //
 			if (!desactivListener) {
 				previousTab = lastTab;
 				if (tabId.equals("Summary")) {
-					tracker.trackEvent("Action", "Click", "Go to tab Info", 0);
+					tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+							, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+							, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB // Label
+							,  0 // Value
+							);
 					// movieFlipper.setInAnimation(AnimationHelper.inFromLeftAnimation());
 					// movieFlipper.setOutAnimation(AnimationHelper.outToRightAnimation());
 					if (lastTab == 2) {
@@ -341,7 +353,11 @@ public class CineShowTimeMovieFragment extends Fragment //
 					}
 					lastTab = 0;
 				} else if (tabId.equals("Projection")) {
-					tracker.trackEvent("Action", "Click", "Go to tab projections", 0);
+					tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+							, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+							, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB // Label
+							,  1 // Value
+							);
 					if (lastTab == 0) {
 						moviePagedView.smoothScrollToNext();
 						// movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
@@ -353,7 +369,11 @@ public class CineShowTimeMovieFragment extends Fragment //
 					}
 					lastTab = 1;
 				} else if (tabId.equals("Review")) {
-					tracker.trackEvent("Action", "Click", "Go to tab reviews", 0);
+					tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+							, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+							, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB // Label
+							,  2 // Value
+							);
 					// movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
 					// movieFlipper.setOutAnimation(AnimationHelper.outToLeftAnimation());
 					if (lastTab == 0) {
@@ -379,6 +399,11 @@ public class CineShowTimeMovieFragment extends Fragment //
 			tabHost.setCurrentTab(newPage);
 			lastTab = tabHost.getCurrentTab();
 			desactivListener = false;
+			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+					, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB_WITH_SLIDE // Label
+					,  newPage // Value
+					);
 		} catch (Exception e) {
 			Log.e(TAG, "error during managing ActionUp", e);
 		}

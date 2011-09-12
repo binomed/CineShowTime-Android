@@ -72,7 +72,6 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 	/** Called when the activity is first created. */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.i("LIFECYCLE-FRAGMENT", "onCreateView");
 		View mainView = inflater.inflate(R.layout.fragment_fav, container, false);
 
 		tracker = fragmentInteraction.getTracker();
@@ -100,7 +99,6 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		Log.i(TAG, "onDestroy"); //$NON-NLS-1$
 		closeDB();
 	}
 
@@ -244,7 +242,11 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.favItemDelete: {
-			tracker.trackEvent("Favoris", "Delete", "Delete from main activity", 0);
+			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_FAV // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+					, CineShowtimeCst.ANALYTICS_LABEL_FAV_REMOVE // Label
+					,  0 // Value
+					);
 			TheaterFavView thFavView = (TheaterFavView) v.getParent().getParent();
 			TheaterBean thTmp = thFavView.getTheaterBean();
 			Intent intentRemoveTh = new Intent(mainContext, CineShowDBGlobalService.class);
@@ -269,8 +271,11 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 
 	@Override
 	public void onItemClick(AdapterView<?> adpater, View view, int groupPosition, long id) {
-		tracker.trackEvent("Open", "Favoris", "Open from main activity", 0);
-		tracker.dispatch();
+		tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_FAV // Category
+				, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
+				, CineShowtimeCst.ANALYTICS_LABEL_FAV_REMOVE // Label
+				,  0 // Value
+				);
 		// Sinon on ouvre la page résultats
 		TheaterBean theater = model.getFavList().get(groupPosition);
 		if (!fragmentInteraction.onFavClick(theater)) {

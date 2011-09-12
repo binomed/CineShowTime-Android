@@ -83,7 +83,6 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 				, getTrackerName() // Label
 				, 0 // Value
 		);
-		Log.i(getTAG(), "onCreate"); //$NON-NLS-1$
 
 		// Init vital informations
 		openDB();
@@ -138,7 +137,6 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		Log.i(getTAG(), "onDestroy"); //$NON-NLS-1$
 		closeDB();
 		getTracker().dispatch();
 		getTracker().stop();
