@@ -107,6 +107,9 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 	private boolean nonExpendable = false;
 	private Intent intent;
+	private boolean fromWidget = false;
+	private MovieBean movie;
+	private TheaterBean theater;
 
 	public CineShowTimeResultsFragment() {
 		super();
@@ -151,6 +154,12 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		}
 		intent.putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, "");
 
+		fromWidget = intent.getBooleanExtra(ParamIntent.ACTIVITY_MOVIE_FROM_WIDGET, false);
+		if (fromWidget) {
+			movie = intent.getParcelableExtra(ParamIntent.MOVIE);
+			theater = intent.getParcelableExtra(ParamIntent.THEATER);
+		}
+
 		movieView = (model.getMovieName() != null) && (model.getMovieName().length() > 0);
 
 		initComparator();
@@ -161,6 +170,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 		bindService();
 		initDB();
+
 		return mainView;
 
 	}
@@ -290,11 +300,11 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 						default:
 							break;
 						}
-						
+
 						interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ERROR // Category
 								, CineShowtimeCst.ANALYTICS_ACTION_RESULTS // Action
 								, errorTheater.getId() // Label
-								,  0 // Value
+								, 0 // Value
 								);
 					}
 				} else if ((theaterList == null) || (theaterList.size() == 0)) {
@@ -311,7 +321,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 					interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ERROR // Category
 							, CineShowtimeCst.ANALYTICS_ACTION_RESULTS // Action
 							, String.valueOf(HttpParamsCst.ERROR_NO_DATA) // Label
-							,  0 // Value
+							, 0 // Value
 							);
 				}
 				if (nonExpendable) {
@@ -330,6 +340,10 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 				}
 				if ((nearResp != null) && (nearResp.getCityName() != null) && (nearResp.getCityName().length() > 0)) {
 					model.setCityName(nearResp.getCityName());
+				}
+
+				if (fromWidget) {
+					interaction.openMovieScreen(movie, theater);
 				}
 			}
 		}
@@ -409,7 +423,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 						interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_RESULT // Category
 								, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 								, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_MORE_RESULTS // Label
-								,  0 // Value
+								, 0 // Value
 								);
 						launchNearService();
 					} catch (UnsupportedEncodingException e) {
@@ -441,7 +455,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 						interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_RESULT // Category
 								, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 								, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_MORE_RESULTS // Label
-								,  0 // Value
+								, 0 // Value
 								);
 						launchNearService();
 					} catch (UnsupportedEncodingException e) {
@@ -470,7 +484,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_RESULT // Category
 				, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 				, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_SORT // Label
-				,  sortKey // Value
+				, sortKey // Value
 				);
 
 		sourceLabel: switch (sourceID) {
@@ -515,14 +529,14 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 			interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_RESULT // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 					, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_FAV // Label
-					,  0 // Value
+					, 0 // Value
 					);
 			removeFavorite(theaterBean);
 		} else {
 			interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_RESULT // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 					, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_FAV // Label
-					,  1 // Value
+					, 1 // Value
 					);
 			addFavorite(theaterBean);
 		}

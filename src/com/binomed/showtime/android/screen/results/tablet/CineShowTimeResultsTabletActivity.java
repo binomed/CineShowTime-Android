@@ -63,6 +63,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	private CineShowTimeFrameFragment fragmentFrame;
 
 	private Intent intentStartMovieActivity;
+	private boolean openMovie = false;
 
 	// Var for portrait mode
 	private boolean portraitMode;
@@ -363,12 +364,12 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 
 	@Override
 	protected int getDialogTitle() {
-		return R.string.searchNearProgressTitle;
+		return openMovie ? R.string.searchMovieProgressTitle : R.string.searchNearProgressTitle;
 	}
 
 	@Override
 	protected int getDialogMsg() {
-		return R.string.searchNearProgressMsg;
+		return openMovie ? R.string.searchMovieProgressMsg : R.string.searchNearProgressMsg;
 	}
 
 	@Override
@@ -401,6 +402,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	@Override
 	public void openMovieScreen(MovieBean movie, TheaterBean theater) {
 		if (movie != null) {
+			openMovie = true;
 			intentStartMovieActivity = new Intent(this, CineShowTimeMovieActivity.class);
 
 			intentStartMovieActivity.putExtra(ParamIntent.MOVIE_ID, movie.getId());

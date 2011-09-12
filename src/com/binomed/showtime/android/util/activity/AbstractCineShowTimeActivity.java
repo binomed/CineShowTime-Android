@@ -37,6 +37,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.SQLException;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
@@ -76,6 +77,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Debug.startMethodTracing("CineShowtime");
 		getTracker();
 		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, getPrefs());
 		tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
@@ -140,6 +142,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		closeDB();
 		getTracker().dispatch();
 		getTracker().stop();
+		Debug.stopMethodTracing();
 	}
 
 	@Override
