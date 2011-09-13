@@ -25,7 +25,6 @@
     
     
     <style name="Layouts.background">
-        <item name="android:background">@drawable/androidshowtime_background</item>
     </style>
     <style name="Text.FavMain">
         <item name="android:textSize">14sp</item>
@@ -61,10 +60,16 @@
 	  </style>
 	  
 	  <style name="ImgLight">
-	    <item name="android:background">@drawable/cineshowtime_fond_light</item>
+	    <!-- 
+	     <item name="android:background">@drawable/cineshowtime_fond_light</item>
+	     -->
+	     <item name="android:background">@drawable/background_light</item>
 	  </style>
 	  <style name="ImgDark">
+	    <!-- 
 	    <item name="android:background">@drawable/androidshowtime_background</item>
+	     -->
+	     <item name="android:background">@drawable/background_dark</item>
 	  </style>
 	  
 		<!-- TextStyle -->

@@ -40,48 +40,6 @@ public final class CineShowTimeMenuUtil {
 		menu.addSubMenu(0, idItemPref + 2, order + 2, R.string.menuHelp).setIcon(android.R.drawable.ic_menu_help);
 	}
 
-	public static boolean onMenuItemSelect(Activity activity, GoogleAnalyticsTracker tracker, int idItemPref, int idItemSelected) {
-		final int MENU_PREF = idItemPref;
-		final int MENU_ABOUT = idItemPref + 1;
-		final int MENU_HELP = idItemPref + 2;
-
-		if (idItemSelected == MENU_PREF) {
-			tracker.trackEvent("Open", "Click", "Open preferences from " + activity.getClass().getCanonicalName(), 0);
-			Intent launchPreferencesIntent = new Intent().setClass(activity, CineShowTimePreferencesActivity.class);
-
-			// Make it a subactivity so we know when it returns
-			activity.startActivityForResult(launchPreferencesIntent, CineShowtimeCst.ACTIVITY_RESULT_PREFERENCES);
-			return true;
-		} else if (idItemSelected == MENU_ABOUT) {
-			tracker.trackEvent("Open", "Click", "Open about from " + activity.getClass().getCanonicalName(), 0);
-			AlertDialog.Builder aboutDialog = new AlertDialog.Builder(activity);
-			try {
-				PackageInfo pi = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0);
-				aboutDialog.setTitle(Html.fromHtml(new StringBuilder() //
-						.append("CineShowTime ").append(pi.versionName).append("<br>") // //$NON-NLS-1$ //$NON-NLS-2$
-						.toString()));
-			} catch (Exception e) {
-			}
-			aboutDialog.setCancelable(false);
-			aboutDialog.setIcon(R.drawable.icon);
-			aboutDialog.setNeutralButton(R.string.btnClose, null);
-
-			AboutView aboutView = new AboutView(activity);
-			aboutDialog.setView(aboutView);
-
-			// aboutDialog.create();
-			aboutDialog.show();
-			return true;
-		} else if (idItemSelected == MENU_HELP) {
-			tracker.trackEvent("Open", "Click", "Open help from " + activity.getClass().getCanonicalName(), 0);
-			Intent launchPreferencesIntent = IntentShowtime.createHelpAndShowTime(activity);
-
-			// Make it a subactivity so we know when it returns
-			activity.startActivityForResult(launchPreferencesIntent, 0);
-			return true;
-		}
-		return false;
-	}
 
 	public static boolean isMapsInstalled(PackageManager packageManager) {
 		boolean result = true;

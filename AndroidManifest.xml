@@ -26,10 +26,9 @@ version="1.0" encoding="utf-8"?>
           android:smallScreens="true"
           android:anyDensity="true" />
     <application android:label="@string/app_name" 
-     		android:icon="@drawable/icon" 
      		android:debuggable="true" 
-     		android:theme="@style/Theme.GreenDroid.NoTitleBar" android:name=".android.CineShowTimeApplication">
-        <activity android:label="@string/app_name" android:name=".android.screen.main.SplashScreen" android:icon="@drawable/icon">
+     		android:theme="@style/Theme.GreenDroid.NoTitleBar" android:name=".android.CineShowTimeApplication" android:icon="@drawable/ic_launcher">
+        <activity android:label="@string/app_name" android:name=".android.screen.main.SplashScreen" android:icon="@drawable/ic_launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
