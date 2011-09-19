@@ -19,8 +19,8 @@
 	android:shape="rectangle">
 	
 	<gradient
-		android:startColor="#f6f6f6"
-		android:endColor="#ffffff"
+		android:startColor="@color/baground_start_light"
+		android:endColor="@color/baground_end_light"
 		android:angle="90" />
 		
 </shape>

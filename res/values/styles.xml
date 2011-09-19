@@ -29,28 +29,18 @@
     <style name="Text.FavMain">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/fav_main</item>
     </style>
         
     <style name="Button.button">
-        <item name="android:textColor">#535353</item>
+        <item name="android:textColor">@color/btn</item>
         <item name="android:background">@drawable/btn_and_showtime</item>
     </style>
     <style name="Button.spinner">
-        <item name="android:textColor">#535353</item>
+        <item name="android:textColor">@color/btn_spinner</item>
         <item name="android:background">@drawable/btn_spinner_and_showtime</item>
     </style>
     
-     <style name="TabBackGround">
-	  	<item name="android:layout_marginRight">5dip</item>
-	  </style>
-	  <style name="TabBackGround.Light">
-        <item name="android:textColor">@android:color/white</item>
-	    <item name="android:background">@drawable/logo_light</item>
-	  </style>
-	  <style name="TabBackGround.Dark">
-	    <item name="android:background">@drawable/logo</item>
-	  </style>
 	  
 	  <style name="LogoLight">
 	    <item name="android:background">@drawable/logo_light</item>
@@ -128,10 +118,12 @@
         <item name="android:layout_marginRight">5dip</item>
     </style>
 	 <style name="TextLabel.SearchLabel.Light">
-        <item name="android:textColor">#990000</item>
+        <!-- <item name="android:textColor">#990000</item>-->
+        <item name="android:textColor">@color/lbl_light</item>
     </style>
 	 <style name="TextLabel.SearchLabel.Dark">
-        <item name="android:textColor">#ff0000</item>
+        <!-- <item name="android:textColor">#ff0000</item>-->
+        <item name="android:textColor">@color/lbl_dark</item>
     </style>
     
     <style name="TextLabel.MovieLabel">
@@ -139,20 +131,20 @@
         <item name="android:layout_marginRight">5dip</item>
     </style>
     <style name="TextLabel.MovieLabel.Light">
-        <item name="android:textColor">#990000</item>
+        <item name="android:textColor">@color/lbl_light</item>
     </style>
     <style name="TextLabel.MovieLabel.Dark">
-        <item name="android:textColor">#ff0000</item>
+        <item name="android:textColor">@color/lbl_dark</item>
     </style>
     <style name="TextLabel.MovieLabel.Below">
         <item name="android:layout_marginRight">0dip</item>
         <item name="android:gravity">right</item>
     </style>
     <style name="TextLabel.MovieLabel.Below.Light">
-        <item name="android:textColor">#990000</item>
+        <item name="android:textColor">@color/lbl_light</item>
     </style>
     <style name="TextLabel.MovieLabel.Below.Dark">
-        <item name="android:textColor">#ff0000</item>
+        <item name="android:textColor">@color/lbl_dark</item>
     </style>
     
     <style name="TextObjectMasterMainInfo">

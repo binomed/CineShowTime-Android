@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * Copyright (C) 2011 Binomed (http://blog.binomed.fr)
+ *
+ * Licensed under the Eclipse Public License - v 1.0;
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.eclipse.org/legal/epl-v10.html
+ *
+ * THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC 
+ * LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM 
+ * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
+ */ 
+ -->
+<resources>
+	<!-- Commons -->
+    <color  name="fav_main">@android:color/white</color>
+    <color  name="btn">#535353</color>
+    <color  name="btn_spinner">#535353</color>
+	<!-- DARK  -->	
+    <color  name="lbl_dark">#efefef</color>
+    <color  name="lbl_info_dark">@android:color/white</color>
+    <color  name="lbl_sub_main_dark">#696969</color>
+    <color  name="lbl_main_dark">@android:color/white</color>
+    <color  name="lbl_sub_dark">#aaaaaa</color>
+    <color  name="baground_start_dark">#1a1a1a</color>
+    <color  name="baground_end_dark">#4b4b4b</color>
+    
+    <!-- LIGHT -->
+    <color  name="lbl_light">#1a1a1a</color>
+    <color  name="lbl_info_light">@android:color/black</color>
+    <color  name="lbl_sub_main_light">#3C3C3C</color>
+    <color  name="lbl_main_light">@android:color/black</color>
+    <color  name="lbl_sub_light">#3C3C3C</color>
+    <color  name="baground_start_light">#efefef</color>
+    <color  name="baground_end_light">#ffffff</color>
+</resources>

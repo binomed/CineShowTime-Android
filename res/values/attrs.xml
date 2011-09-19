@@ -18,7 +18,6 @@
 
     <attr name="logoImg" format="reference"/>
     <attr name="imgBackground" format="reference"/>
-    <attr name="cstTabBackground" format="reference"/>
     <attr name="cstTextTab" format="reference"/>
     <attr name="cstTextMovieInfo" format="reference"/>
     <attr name="cstTextMovieInfoBelow" format="reference"/>

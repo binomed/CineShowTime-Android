@@ -25,10 +25,9 @@
 	  <style name="Theme.Dark_Night">
 	  	<item name="gdActionBarApplicationDrawable">@drawable/cst_application_logo</item>
 	    <item name="android:windowNoTitle">true</item>
-	  	<item name="gdActionBarBackground">@drawable/action_bar_background</item>
+	  	<item name="gdActionBarBackground">@drawable/cst_action_bar</item>
         <item name="logoImg">@style/LogoDark</item>
         <item name="imgBackground">@style/ImgDark</item>
-        <item name="cstTabBackground">@style/TabBackGround.Dark</item>
         <item name="cstTextTab">@style/TextTabDark</item>
         <item name="cstTextMovieInfo">@style/TextInfo.Dark</item>
         <item name="cstTextMovieInfoBelow">@style/TextInfoBelow.Dark</item>
@@ -50,10 +49,9 @@
 	  <style name="Theme.Shine_the_lite" parent="android:Theme.Light">
 	  	<item name="gdActionBarApplicationDrawable">@drawable/cst_application_logo</item>
 	    <item name="android:windowNoTitle">true</item>
-	  	<item name="gdActionBarBackground">@drawable/action_bar_background</item>
+	  	<item name="gdActionBarBackground">@drawable/cst_action_bar</item>
         <item name="logoImg">@style/LogoLight</item>
         <item name="imgBackground">@style/ImgLight</item>
-        <item name="cstTabBackground">@style/TabBackGround.Light</item>
         <item name="cstTextTab">@style/TextTabLight</item>
         <item name="cstTextMovieInfo">@style/TextInfo.Light</item>
         <item name="cstTextMovieInfoBelow">@style/TextInfoBelow.Light</item>
