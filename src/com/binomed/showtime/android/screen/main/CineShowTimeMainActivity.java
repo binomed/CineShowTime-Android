@@ -39,6 +39,8 @@ import com.binomed.showtime.android.service.CineShowCleanFileService;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.android.util.activity.AbstractCineShowTimeActivity;
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
 
 public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<ModelMainFragment> implements CineShowTimeFavFragment.FavFragmentInteraction<ModelMainFragment>, //
 		CineShowTimeSearchFragment.SearchFragmentInteraction<ModelMainFragment> //
@@ -53,6 +55,8 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	private CineShowTimeSearchFragment fragmentSearch;
 	private CineShowTimeFavFragment fragmentFav;
 
+	private AdView adView;
+
 	/**
 	 * Init views objects
 	 */
@@ -61,6 +65,12 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 		// Watch for button clicks.
 		fragmentSearch = (CineShowTimeSearchFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentSearch);
 		fragmentFav = (CineShowTimeFavFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentFav);
+
+		adView = (AdView) findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest();
+		adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
+		adRequest.addTestDevice("42CF7EA69605E829AFCDC915CE184CC9");
+		adView.loadAd(adRequest);
 
 		// Manage case of layout with tabs
 		tabHost = (TabHost) findViewById(android.R.id.tabhost);

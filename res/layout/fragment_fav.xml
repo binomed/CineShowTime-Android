@@ -14,31 +14,11 @@
  * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
  */ 
  -->
-<RelativeLayout
-   xmlns:android="http://schemas.android.com/apk/res/android"
-   android:id="@+id/relativeLayoutId"
-   android:layout_width="fill_parent"
-   android:layout_height="fill_parent"
-   >
-			<TextView
-				android:id="@+id/mainTextFav"
-				android:layout_width="fill_parent"
-			   	android:layout_height="wrap_content"
-				android:text="@string/btnFav"
-				android:gravity="center_horizontal"
-				style="@style/Text.FavMain"
-				android:layout_alignParentTop="true"
-				android:layout_marginLeft="10dip"  
-				android:layout_marginRight="10dip"  
-			   	android:background="@drawable/back_fav_acceuil_top"
-			/>
-		<ListView
-			android:id="@+id/mainFavList" 
-			android:layout_width="fill_parent" 
-			android:layout_height="fill_parent" 
-			android:layout_below="@+id/mainTextFav" 
-			android:layout_marginLeft="10dip"  
-			android:layout_marginRight="10dip"  
-		   	android:background="@drawable/back_fav_acceuil_bottom"
-			/>
-</RelativeLayout>
+<ListView
+ 			xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/mainFavList" 
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent" 
+	android:layout_marginLeft="10dip"  
+	android:layout_marginRight="10dip"  
+	/>

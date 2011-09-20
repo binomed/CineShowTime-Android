@@ -15,6 +15,7 @@
  */ 
  -->
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:id="@android:id/tabhost"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
@@ -29,10 +30,18 @@
                 android:layout_width="fill_parent" 
                 android:layout_height="wrap_content"
                 />
+             <com.google.ads.AdView android:id="@+id/adView"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_alignParentBottom="true"
+                         ads:adUnitId="k6cdc6281819bb6b31cc96e831f7b33b"
+                         ads:adSize="BANNER"
+                         ads:loadAdOnCreate="true"/>
             <FrameLayout 
            	   android:id="@android:id/tabcontent" 
                android:layout_width="fill_parent" 
                android:layout_height="fill_parent"
+               android:layout_above="@+id/adView"
                android:layout_below="@android:id/tabs"
 			   android:layout_marginTop="@dimen/cstPaddingTopMain"
 			   android:layout_marginLeft="@dimen/cstPaddingLeftMain"

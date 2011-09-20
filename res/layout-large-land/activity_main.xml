@@ -14,36 +14,49 @@
  * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
  */ 
  -->
-<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:orientation="horizontal" 
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-       	android:layout_marginTop="@dimen/cstPaddingTopMain"
-		android:layout_marginLeft="@dimen/cstPaddingLeftMain"
-		android:layout_marginRight="@dimen/cstPaddingRightMain"
-		android:layout_marginBottom="@dimen/cstPaddingBottomMain"
-        >
-
-    <fragment class="com.binomed.showtime.android.screen.search.CineShowTimeSearchFragment"
-            android:id="@+id/fragmentSearch" 
-            android:layout_width="0dp"
-            android:layout_height="fill_parent" 
-            android:layout_weight="40"
-            android:layout_marginRight="20dip"
-            >
-        <!-- Preview: layout=@layout/fragment_search -->
-    </fragment>
-    <fragment class="com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment"
-            android:id="@+id/fragmentFav" 
-        	android:layout_marginTop="20dip"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent" 
-            android:layout_weight="60"
-            android:layout_marginLeft="20dip"
-            >
-        <!-- Preview: layout=@layout/fragment_fav -->
-    </fragment>
-
-    
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+	android:orientation="vertical" 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+	>
+	<LinearLayout
+			android:orientation="horizontal" 
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	       	android:layout_marginTop="@dimen/cstPaddingTopMain"
+			android:layout_marginLeft="@dimen/cstPaddingLeftMain"
+			android:layout_marginRight="@dimen/cstPaddingRightMain"
+			android:layout_marginBottom="@dimen/cstPaddingBottomMain"
+	        >
+	
+	    <fragment class="com.binomed.showtime.android.screen.search.CineShowTimeSearchFragment"
+	            android:id="@+id/fragmentSearch" 
+	            android:layout_width="0dp"
+	            android:layout_height="fill_parent" 
+	            android:layout_weight="40"
+	            android:layout_marginRight="20dip"
+	            >
+	        <!-- Preview: layout=@layout/fragment_search -->
+	    </fragment>
+	    <fragment class="com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment"
+	            android:id="@+id/fragmentFav" 
+	        	android:layout_marginTop="20dip"
+	            android:layout_width="0dp"
+	            android:layout_height="fill_parent" 
+	            android:layout_weight="60"
+	            android:layout_marginLeft="20dip"
+	            >
+	        <!-- Preview: layout=@layout/fragment_fav -->
+	    </fragment>
+	
+	    
+	</LinearLayout>
+	<com.google.ads.AdView android:id="@+id/adView"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         ads:adUnitId="7hgm3y2btdqc12gx"
+                         ads:adSize="BANNER"
+                         ads:loadAdOnCreate="true"/>
 </LinearLayout>
