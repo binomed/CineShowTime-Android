@@ -21,5 +21,9 @@
 	<dimen name="cstPaddingRightMain">10dp</dimen>
 	<dimen name="cstPaddingBottomMain">10dp</dimen>
 	<dimen name="cstFavMainHeight">200dp</dimen>
+	<dimen name="cstEditText">14sp</dimen>
+	<dimen name="cstLblSearch">16sp</dimen>
+	<dimen name="cstBtnSpinner">15sp</dimen>
+	<dimen name="cstBtn">15sp</dimen>
 
 </resources>

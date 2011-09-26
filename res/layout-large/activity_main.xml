@@ -40,7 +40,7 @@
 				 <com.google.ads.AdView android:id="@+id/adView"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
-                         ads:adUnitId="7hgm3y2btdqc12gx"
+                         ads:adUnitId="a14e78e816a2a0e"
                          ads:adSize="BANNER"
                          ads:loadAdOnCreate="true"/>
 		</LinearLayout>

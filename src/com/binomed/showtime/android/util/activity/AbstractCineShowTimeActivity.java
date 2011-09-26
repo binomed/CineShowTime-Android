@@ -72,12 +72,14 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	private ActionBarHost mActionBarHost;
 	private QuickActionWidget mBar;
 	protected final int MENU_PREF = getMenuKey();
+	private long startActivityTime = System.currentTimeMillis();
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Debug.startMethodTracing("CineShowtime");
+		startActivityTime = System.currentTimeMillis();
 		getTracker();
 		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, getPrefs());
 		tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
@@ -148,6 +150,13 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	@Override
 	protected void onPause() {
 		super.onPause();
+		long currentTime = System.currentTimeMillis();
+
+		tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
+				, CineShowtimeCst.ANALYTICS_ACTION_TIME // Action
+				, getTrackerName() // Label
+				, Long.valueOf((currentTime - startActivityTime) / 1000).intValue() // Value
+		);
 		if ((progressDialog != null) && progressDialog.isShowing()) {
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_CANCEL_SERVICE // Action

@@ -20,8 +20,10 @@ import java.util.Calendar;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -61,6 +63,24 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	 * Init views objects
 	 */
 	private void initViews() {
+
+		PackageInfo pi;
+		try {
+			pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+			// Send global application informations
+			getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_APPLICATION // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_VERSION // Action
+					, pi.versionName // Label
+					, 0 // Value
+					);
+			getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_APPLICATION // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_ANDROID_VERSION // Action
+					, Build.VERSION.CODENAME // Label
+					, 0 // Value
+					);
+		} catch (NameNotFoundException e) {
+			Log.e(TAG, "Error trying getting package information");
+		}
 
 		// Watch for button clicks.
 		fragmentSearch = (CineShowTimeSearchFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentSearch);
