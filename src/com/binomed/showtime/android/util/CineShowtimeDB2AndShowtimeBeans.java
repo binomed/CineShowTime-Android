@@ -13,6 +13,8 @@
  */
 package com.binomed.showtime.android.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -30,6 +32,7 @@ import com.binomed.showtime.android.model.ProjectionBean;
 import com.binomed.showtime.android.model.ReviewBean;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.model.YoutubeBean;
+import com.binomed.showtime.cst.EncodingUtil;
 
 public abstract class CineShowtimeDB2AndShowtimeBeans {
 
@@ -299,7 +302,11 @@ public abstract class CineShowtimeDB2AndShowtimeBeans {
 
 					columnIndex = theaterFavCursor.getColumnIndex(CineShowtimeDbAdapter.KEY_FAV_TH_THEATER_PLACE);
 					location = new LocalisationBean();
-					location.setCityName(theaterFavCursor.getString(columnIndex));
+					try {
+						location.setCityName(URLDecoder.decode(theaterFavCursor.getString(columnIndex), EncodingUtil.UTF8));
+					} catch (UnsupportedEncodingException e) {
+						location.setCityName(theaterFavCursor.getString(columnIndex));
+					}
 
 					columnIndex = theaterFavCursor.getColumnIndex(CineShowtimeDbAdapter.KEY_FAV_TH_THEATER_COUNRTY_CODE);
 					location.setCountryNameCode(theaterFavCursor.getString(columnIndex));

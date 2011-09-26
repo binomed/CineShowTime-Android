@@ -23,7 +23,7 @@
 	<dimen name="cstFavMainHeight">200dp</dimen>
 	<dimen name="cstEditText">14sp</dimen>
 	<dimen name="cstLblSearch">16sp</dimen>
-	<dimen name="cstBtnSpinner">15sp</dimen>
-	<dimen name="cstBtn">15sp</dimen>
+	<dimen name="cstBtnSpinner">13sp</dimen>
+	<dimen name="cstBtn">13sp</dimen>
 
 </resources>

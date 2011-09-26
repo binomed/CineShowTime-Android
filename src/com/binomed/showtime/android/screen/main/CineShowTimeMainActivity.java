@@ -89,7 +89,8 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 		adView = (AdView) findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest();
 		adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
-		adRequest.addTestDevice("42CF7EA69605E829AFCDC915CE184CC9");
+		// adRequest.addTestDevice("42CF7EA69605E829AFCDC915CE184CC9");
+
 		adView.loadAd(adRequest);
 
 		// Manage case of layout with tabs

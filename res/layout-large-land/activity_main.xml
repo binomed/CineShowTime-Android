@@ -30,16 +30,22 @@
 			android:layout_marginRight="@dimen/cstPaddingRightMain"
 			android:layout_marginBottom="@dimen/cstPaddingBottomMain"
 	        >
-	
-	    <fragment class="com.binomed.showtime.android.screen.search.CineShowTimeSearchFragment"
-	            android:id="@+id/fragmentSearch" 
-	            android:layout_width="0dp"
-	            android:layout_height="fill_parent" 
-	            android:layout_weight="40"
-	            android:layout_marginRight="20dip"
-	            >
-	        <!-- Preview: layout=@layout/fragment_search -->
-	    </fragment>
+	  <ScrollView 
+			android:scrollbars="vertical"
+			android:orientation="vertical" 
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" 
+            android:layout_weight="40"
+            android:layout_marginRight="20dip"
+				>
+		    <fragment class="com.binomed.showtime.android.screen.search.CineShowTimeSearchFragment"
+		            android:id="@+id/fragmentSearch" 
+			        android:layout_width="fill_parent"
+			        android:layout_height="fill_parent" 
+		            >
+		        <!-- Preview: layout=@layout/fragment_search -->
+		    </fragment>
+	    </ScrollView>
 	    <fragment class="com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment"
 	            android:id="@+id/fragmentFav" 
 	        	android:layout_marginTop="20dip"

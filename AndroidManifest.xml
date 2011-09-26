@@ -34,8 +34,7 @@ version="1.0" encoding="utf-8"?>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".android.screen.main.CineShowTimeMainActivity"></activity>
-    	<activity android:name=".android.screen.search.CineShowTimeSearchActivity"></activity>
+        <activity android:name=".android.screen.main.CineShowTimeMainActivity" android:windowSoftInputMode="stateVisible|adjustResize"></activity>
     	<activity android:name=".android.screen.results.CineShowTimeResultsActivity"></activity>
     	<activity android:name=".android.screen.results.tablet.CineShowTimeResultsTabletActivity"></activity>
 		<service android:name=".android.screen.results.CineShowTimeResultsService"></service>

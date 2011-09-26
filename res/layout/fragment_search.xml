@@ -23,7 +23,7 @@
 					android:id="@+id/searchImgGps"
 					android:layout_width="wrap_content" 
 					android:layout_height="wrap_content" 
-					android:layout_marginTop="10dip"  
+					android:layout_marginTop="5dip"  
 					android:layout_alignParentRight="true"
 					/>
 				<TextView
@@ -74,7 +74,6 @@
 		        android:prompt="@string/spinnerChoseTitle"
 			    android:layout_below="@+id/searchTxtSpinner" 
 				android:layout_marginTop="10dip"  
-				android:layout_marginBottom="5dip"  
 			    style="@style/Button.spinner"
 		    />
 			<Button 
