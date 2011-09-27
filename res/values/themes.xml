@@ -39,7 +39,12 @@
         <item name="cstObjectMasterMainInfo">@style/TextObjectMasterMainInfo.Dark</item>
         <item name="cstObjectMasterSubInfo">@style/TextObjectMasterSubInfo.Dark</item>
         <item name="cstObjectSubMainInfo">@style/TextObjectSubMainInfo.Dark</item>
+        <item name="cstObjectSubMainInfoColor">@color/sub_main_info_dark</item>
         <item name="cstObjectSubMainInfoSub">@style/TextObjectSubMainInfoSub.Dark</item>
+        <item name="cstObjectSubMainInfoSubColor">@color/sub_sub_info_dark</item>
+        <item name="cstShowTimePassedColor">@color/showtime_passed_dark</item>
+        <item name="cstShowTimeNearestColor">@color/showtime_nearest_dark</item>
+        <item name="cstShowTimeNextColor">@color/showtime_next_dark</item>
         <item name="cstTextTrailer">@style/TextTrailer.Dark</item>
 	  </style>
 	
@@ -63,7 +68,12 @@
         <item name="cstObjectMasterMainInfo">@style/TextObjectMasterMainInfo.Light</item>
         <item name="cstObjectMasterSubInfo">@style/TextObjectMasterSubInfo.Light</item>
         <item name="cstObjectSubMainInfo">@style/TextObjectSubMainInfo.Light</item>
+        <item name="cstObjectSubMainInfoColor">@color/sub_main_info_light</item>
         <item name="cstObjectSubMainInfoSub">@style/TextObjectSubMainInfoSub.Light</item>
+        <item name="cstObjectSubMainInfoSubColor">@color/sub_sub_info_light</item>
+        <item name="cstShowTimePassedColor">@color/showtime_passed_light</item>
+        <item name="cstShowTimeNearestColor">@color/showtime_nearest_light</item>
+        <item name="cstShowTimeNextColor">@color/showtime_next_light</item>
         <item name="cstTextTrailer">@style/TextTrailer.Light</item>
 	  </style>
 

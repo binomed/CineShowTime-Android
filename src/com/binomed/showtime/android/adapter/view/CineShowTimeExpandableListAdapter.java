@@ -32,7 +32,7 @@ import android.widget.BaseExpandableListAdapter;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.layout.view.ObjectMasterView;
-import com.binomed.showtime.android.layout.view.ObjectSubView;
+import com.binomed.showtime.android.layout.view.ObjectSubViewNew;
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.MovieResp;
 import com.binomed.showtime.android.model.NearResp;
@@ -288,11 +288,11 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 	@Override
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-		ObjectSubView subView = null;
+		ObjectSubViewNew subView = null;
 		if (convertView == null) {
-			subView = new ObjectSubView(mainContext, kmUnit);
+			subView = new ObjectSubViewNew(mainContext, kmUnit);
 		} else {
-			subView = (ObjectSubView) convertView;
+			subView = (ObjectSubViewNew) convertView;
 		}
 		MovieBean movieBean = null;
 		TheaterBean theaterBean = null;

@@ -25,5 +25,8 @@
 	<dimen name="cstLblSearch">16sp</dimen>
 	<dimen name="cstBtnSpinner">13sp</dimen>
 	<dimen name="cstBtn">13sp</dimen>
+	<dimen name="cstSubMainInfo">13sp</dimen>
+	<dimen name="cstShowtime">13sp</dimen>
+	
 
 </resources>

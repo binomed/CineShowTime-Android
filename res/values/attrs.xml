@@ -29,6 +29,11 @@
     <attr name="cstObjectMasterMainInfo" format="reference"/>
     <attr name="cstObjectMasterSubInfo" format="reference"/>
     <attr name="cstObjectSubMainInfo" format="reference"/>
+    <attr name="cstObjectSubMainInfoColor" format="reference"/>
     <attr name="cstObjectSubMainInfoSub" format="reference"/>
+    <attr name="cstObjectSubMainInfoSubColor" format="reference"/>
+    <attr name="cstShowTimePassedColor" format="reference"/>
+    <attr name="cstShowTimeNearestColor" format="reference"/>
+    <attr name="cstShowTimeNextColor" format="reference"/>
     <attr name="cstTextTrailer" format="reference"/>
 </resources>
