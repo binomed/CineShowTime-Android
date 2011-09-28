@@ -80,6 +80,8 @@ public class CineShowtimeDbAdapter {
 	public static final String KEY_SHOWTIME_TIME = "showtime"; //$NON-NLS-1$
 	public static final String KEY_SHOWTIME_LANG = "lang"; //$NON-NLS-1$
 	public static final String KEY_SHOWTIME_RESERVATION_URL = "reservation_url"; //$NON-NLS-1$
+	public static final String KEY_SHOWTIME_FORMAT_24 = "format_24"; //$NON-NLS-1$
+	public static final String KEY_SHOWTIME_FORMAT_12 = "format_12"; //$NON-NLS-1$
 
 	public static final String KEY_NEAR_REQUEST_ID = "_id"; //$NON-NLS-1$
 	public static final String KEY_NEAR_REQUEST_LATITUDE = "latitude"; //$NON-NLS-1$
@@ -174,7 +176,7 @@ public class CineShowtimeDbAdapter {
 	private static final String DATABASE_LAST_CHANGE_TABLE = "last_change"; //$NON-NLS-1$
 	private static final String DATABASE_REVIEW_TABLE = "reviews"; //$NON-NLS-1$
 	private static final String DATABASE_VIDEO_TABLE = "videos"; //$NON-NLS-1$
-	private static final int DATABASE_VERSION = 27;
+	private static final int DATABASE_VERSION = 28;
 	/**
 	 * Database creation sql statement
 	 */
@@ -226,6 +228,8 @@ public class CineShowtimeDbAdapter {
 			+ ", " + KEY_SHOWTIME_TIME + " long not null" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_SHOWTIME_LANG + " text " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_SHOWTIME_RESERVATION_URL + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_SHOWTIME_FORMAT_24 + " text " //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_SHOWTIME_FORMAT_12 + " text " //$NON-NLS-1$ //$NON-NLS-2$
 			+ ");"//$NON-NLS-1$
 	;
 	private static final String DATABASE_CREATE_LOCATION_TABLE = " create table " + DATABASE_LOCATION_TABLE //$NON-NLS-1$
@@ -345,8 +349,8 @@ public class CineShowtimeDbAdapter {
 			+ " (" + KEY_THEATER_ID + ", " + KEY_THEATER_NAME + ", " + KEY_THEATER_PHONE + ") " //
 			+ " VALUES (?,?,?)";
 	private static final String INSERT_SHOWTIMES = "INSERT INTO " + DATABASE_SHOWTIME_TABLE //
-			+ " (" + KEY_SHOWTIME_THEATER_ID + ", " + KEY_SHOWTIME_MOVIE_ID + ", " + KEY_SHOWTIME_TIME + ", " + KEY_SHOWTIME_LANG + ", " + KEY_SHOWTIME_RESERVATION_URL + ") " //
-			+ " VALUES (?,?,?,?,?)";
+			+ " (" + KEY_SHOWTIME_THEATER_ID + ", " + KEY_SHOWTIME_MOVIE_ID + ", " + KEY_SHOWTIME_TIME + ", " + KEY_SHOWTIME_LANG + ", " + KEY_SHOWTIME_RESERVATION_URL + ", " + KEY_SHOWTIME_FORMAT_24 + ", " + KEY_SHOWTIME_FORMAT_12 + ") " //
+			+ " VALUES (?,?,?,?,?,?,?)";
 
 	private final Context mCtx;
 
@@ -425,13 +429,17 @@ public class CineShowtimeDbAdapter {
 			}
 			if (oldVersion < 26) {
 				db.execSQL(DROP_WIDGET_TABLE);
-				db.execSQL(DATABASE_WIDGET_TABLE);
+				db.execSQL(DATABASE_CREATE_WIDGET_TABLE);
 			}
 			if (oldVersion < 27) {
 				db.execSQL(DROP_WIDGET_MOVIE_TABLE);
 				db.execSQL(DROP_CURENT_MOVIE_TABLE);
-				db.execSQL(DATABASE_WIDGET_MOVIE_TABLE);
-				db.execSQL(DATABASE_CURENT_MOVIE_TABLE);
+				db.execSQL(DATABASE_CREATE_WIDGET_MOVIE_TABLE);
+				db.execSQL(DATABASE_CREATE_CURENT_MOVIE_TABLE);
+			}
+			if (oldVersion < 28) {
+				db.execSQL(DROP_SHOWTIME_TABLE);
+				db.execSQL(DATABASE_CREATE_SHOWTIME_TABLE);
 			}
 
 		}
@@ -731,6 +739,8 @@ public class CineShowtimeDbAdapter {
 					statmentShowtime.bindLong(3, projection.getShowtime());
 					statmentShowtime.bindString(4, projection.getLang() != null ? projection.getLang() : "");
 					statmentShowtime.bindString(5, projection.getReservationLink() != null ? projection.getReservationLink() : "");
+					statmentShowtime.bindString(6, projection.getFormat24() != null ? projection.getFormat24() : "");
+					statmentShowtime.bindString(7, projection.getFormat12() != null ? projection.getFormat12() : "");
 					if (Log.isLoggable(TAG, Log.DEBUG)) {
 						Log.d(TAG, new StringBuilder("Create showtime for theater: ").append(entryThMap.getKey()).append(" and movieId : ").append(entryMovList.getKey()).append(" for time : ").append(projection.getShowtime()).toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					}
@@ -764,6 +774,8 @@ public class CineShowtimeDbAdapter {
 		statmentShowtime.bindLong(3, time.getShowtime());
 		statmentShowtime.bindString(4, time.getLang() != null ? time.getLang() : "");
 		statmentShowtime.bindString(5, time.getReservationLink() != null ? time.getReservationLink() : "");
+		statmentShowtime.bindString(6, time.getFormat24() != null ? time.getFormat24() : "");
+		statmentShowtime.bindString(7, time.getFormat12() != null ? time.getFormat12() : "");
 		long result = statmentShowtime.executeInsert();
 		statmentShowtime.close();
 
@@ -1310,6 +1322,8 @@ public class CineShowtimeDbAdapter {
 						, KEY_SHOWTIME_TIME //
 						, KEY_SHOWTIME_LANG //
 						, KEY_SHOWTIME_RESERVATION_URL //
+						, KEY_SHOWTIME_FORMAT_24 //
+						, KEY_SHOWTIME_FORMAT_12 //
 				} //
 				, new StringBuilder(KEY_MOVIE_ID).append("='").append(movieId) //$NON-NLS-1$
 						.append("' AND ").append(KEY_SHOWTIME_THEATER_ID) //$NON-NLS-1$
@@ -1424,6 +1438,8 @@ public class CineShowtimeDbAdapter {
 						, KEY_SHOWTIME_TIME //
 						, KEY_SHOWTIME_LANG //
 						, KEY_SHOWTIME_RESERVATION_URL //
+						, KEY_SHOWTIME_FORMAT_24 //
+						, KEY_SHOWTIME_FORMAT_12 //
 				} //
 				, new StringBuilder(KEY_SHOWTIME_THEATER_ID).append("='") //$NON-NLS-1$
 						.append(theaterId).append("'").toString()// //$NON-NLS-1$

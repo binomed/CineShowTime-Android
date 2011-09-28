@@ -606,6 +606,10 @@ public abstract class CineShowtimeDB2AndShowtimeBeans {
 					projectionBean.setSubtitle(showtimeCursor.getString(columnIndex));
 					columnIndex = showtimeCursor.getColumnIndex(CineShowtimeDbAdapter.KEY_SHOWTIME_RESERVATION_URL);
 					projectionBean.setReservationLink(showtimeCursor.getString(columnIndex));
+					columnIndex = showtimeCursor.getColumnIndex(CineShowtimeDbAdapter.KEY_SHOWTIME_FORMAT_24);
+					projectionBean.setFormat24(showtimeCursor.getString(columnIndex));
+					columnIndex = showtimeCursor.getColumnIndex(CineShowtimeDbAdapter.KEY_SHOWTIME_FORMAT_12);
+					projectionBean.setFormat12(showtimeCursor.getString(columnIndex));
 
 					showtimeList.add(projectionBean);
 				} while (showtimeCursor.moveToNext());

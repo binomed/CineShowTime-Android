@@ -172,7 +172,7 @@ public class ObjectSubViewNew extends View {
 			if (!lightFormat && (projectionList != null)) {
 				boolean first = true;
 				for (ProjectionBean projection : projectionList) {
-					result += (int) paintNext.measureText((!first ? " | " : "") + CineShowtimeDateNumberUtil.showMovieTime(getContext(), projection.getShowtime(), format24));
+					result += (int) paintNext.measureText((!first ? " | " : "") + (format24 ? projection.getFormat24() : projection.getFormat12()));
 					first = false;
 				}
 			}
@@ -211,7 +211,7 @@ public class ObjectSubViewNew extends View {
 			if (!lightFormat && (projectionList != null)) {
 				boolean first = true;
 				for (ProjectionBean projection : projectionList) {
-					width += (int) paintNext.measureText((!first ? " | " : "") + CineShowtimeDateNumberUtil.showMovieTime(getContext(), projection.getShowtime(), format24));
+					width += (int) paintNext.measureText((!first ? " | " : "") + (format24 ? projection.getFormat24() : projection.getFormat12()));
 					first = false;
 					if (width > specSizeWidth) {
 						nbLines++;
@@ -290,7 +290,7 @@ public class ObjectSubViewNew extends View {
 			long currentTime = System.currentTimeMillis();
 			String timeStr = null;
 			for (ProjectionBean projection : projectionList) {
-				timeStr = CineShowtimeDateNumberUtil.showMovieTime(getContext(), projection.getShowtime(), format24);
+				timeStr = (format24 ? projection.getFormat24() : projection.getFormat12());
 				if (!first) {
 					width += (int) paintNext.measureText(" | ");
 					if (width > (specSizeWidth - getPaddingRight())) {
@@ -301,11 +301,13 @@ public class ObjectSubViewNew extends View {
 					canvas.drawText(" | ", posX, posY, paintNext);
 					posX += paintNext.measureText(" | ");
 				}
+				first = false;
 
 				if (currentTime > projection.getShowtime()) {
 					paintTmp = paintPassed;
 				} else if (near) {
 					paintTmp = paintNearest;
+					near = false;
 				} else {
 					paintTmp = paintNext;
 				}

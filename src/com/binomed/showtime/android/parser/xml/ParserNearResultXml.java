@@ -30,6 +30,7 @@ import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.model.ProjectionBean;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
+import com.binomed.showtime.cst.XmlGramarMovieResult;
 import com.binomed.showtime.cst.XmlGramarNearResult;
 
 public class ParserNearResultXml implements ContentHandler {
@@ -213,6 +214,15 @@ public class ParserNearResultXml implements ContentHandler {
 					String reservationLink = atts.getValue(XmlGramarNearResult.ATTR_RESERVATION_URL);
 					if (reservationLink != null) {
 						projection.setReservationLink(reservationLink);
+					}
+
+					String format24 = atts.getValue(XmlGramarMovieResult.ATTR_FORMAT_24);
+					if (format24 != null) {
+						projection.setFormat24(format24);
+					}
+					String format12 = atts.getValue(XmlGramarMovieResult.ATTR_FORMAT_12);
+					if (format12 != null) {
+						projection.setFormat12(format12);
 					}
 
 					projectionList.add(projection);

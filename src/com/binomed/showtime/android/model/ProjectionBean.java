@@ -43,6 +43,8 @@ public class ProjectionBean extends AbstractModel implements Parcelable {
 	private static final int FIELD_SHOWTIME = 0;
 	private static final int FIELD_LANG = 1;
 	private static final int FIELD_RESERVATION_LINK = 2;
+	private static final int FIELD_FORMAT_24 = 3;
+	private static final int FIELD_FORMAT_12 = 4;
 	private static final int FIELD_END = -1;
 
 	private Long showtime;
@@ -50,6 +52,9 @@ public class ProjectionBean extends AbstractModel implements Parcelable {
 	private String lang;
 
 	private String reservationLink;
+
+	private String format24;
+	private String format12;
 
 	public Long getShowtime() {
 		return showtime;
@@ -75,6 +80,22 @@ public class ProjectionBean extends AbstractModel implements Parcelable {
 		this.reservationLink = reservationLink;
 	}
 
+	public String getFormat24() {
+		return format24;
+	}
+
+	public void setFormat24(String format24) {
+		this.format24 = format24;
+	}
+
+	public String getFormat12() {
+		return format12;
+	}
+
+	public void setFormat12(String format12) {
+		this.format12 = format12;
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;
@@ -96,6 +117,14 @@ public class ProjectionBean extends AbstractModel implements Parcelable {
 			}
 			case FIELD_SHOWTIME: {
 				setShowtime(readLong(parcel));
+				break;
+			}
+			case FIELD_FORMAT_24: {
+				setFormat24(readString(parcel));
+				break;
+			}
+			case FIELD_FORMAT_12: {
+				setFormat12(readString(parcel));
 				break;
 			}
 			case FIELD_END: {
@@ -122,6 +151,14 @@ public class ProjectionBean extends AbstractModel implements Parcelable {
 		if (getLang() != null) {
 			dest.writeInt(FIELD_LANG);
 			writeString(dest, getLang());
+		}
+		if (getFormat24() != null) {
+			dest.writeInt(FIELD_FORMAT_24);
+			writeString(dest, getFormat24());
+		}
+		if (getFormat12() != null) {
+			dest.writeInt(FIELD_FORMAT_12);
+			writeString(dest, getFormat12());
 		}
 		dest.writeInt(FIELD_END);
 
