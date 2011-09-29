@@ -56,6 +56,9 @@ public class ObjectSubViewNew extends View {
 
 	private static final String PIPE = " | ";
 	private static final String EMPTY = "";
+	private static final String DB_DOT = " : ";
+	private static final String DB_DOT_SINGLE_SPACE = ": ";
+	private static final String SPACE = " ";
 
 	public MovieBean getMovieBean() {
 		return movieBean;
@@ -147,7 +150,7 @@ public class ObjectSubViewNew extends View {
 			}
 
 			if (mainInfo != null) {
-				splitMainInfo = mainInfo.split(" ");
+				splitMainInfo = mainInfo.split(SPACE);
 			}
 			projectionList = theaterBean.getMovieMap().get(movieBean.getId());
 			// Long distanceTimeLong = null;
@@ -200,7 +203,7 @@ public class ObjectSubViewNew extends View {
 				widthMainInfo = (int) paintMainInfoDark.measureText(mainInfo);
 			}
 			if (subMainInfo != null) {
-				widthMainInfo += (int) paintSubInfoDark.measureText(" : " + subMainInfo);
+				widthMainInfo += (int) paintSubInfoDark.measureText(DB_DOT + subMainInfo);
 			}
 
 			if (!lightFormat && (projectionList != null)) {
@@ -245,7 +248,7 @@ public class ObjectSubViewNew extends View {
 				boolean first = true;
 				boolean firstLine = true;
 				for (ProjectionBean projection : projectionList) {
-					if (projection.getLang() != null && !projection.getLang().equals(curLang)) {
+					if ((projection.getLang() != null) && !projection.getLang().equals(curLang)) {
 						curLang = projection.getLang();
 						if (!firstLine) {
 							nbLines++;
@@ -253,7 +256,7 @@ public class ObjectSubViewNew extends View {
 						firstLine = false;
 						width = getPaddingLeft() + getPaddingRight();
 						if (curLang != null) {
-							width += (int) paintNextDark.measureText(curLang + " ");
+							width += (int) paintNextDark.measureText(curLang + DB_DOT);
 						}
 					}
 					width += (int) paintNextDark.measureText((!first ? PIPE : EMPTY) + (format24 ? projection.getFormat24() : projection.getFormat12()));
@@ -270,14 +273,14 @@ public class ObjectSubViewNew extends View {
 				// String[] split = (mainInfo + (subMainInfo != null ? " : " + subMainInfo : "")).split(" ");
 				width = getPaddingLeft() + getPaddingRight();
 				for (String splitText : splitMainInfo) {
-					width += (int) paintMainInfoDark.measureText(splitText + " ");
+					width += (int) paintMainInfoDark.measureText(splitText + SPACE);
 					if (width > specSizeWidth) {
 						nbLinesMain++;
 						width = getPaddingLeft() + getPaddingRight();
 					}
 
 				}
-				width += (int) paintMainInfoDark.measureText(": ");
+				width += (int) paintMainInfoDark.measureText(DB_DOT_SINGLE_SPACE);
 				if (width > specSizeWidth) {
 					nbLinesMain++;
 					width = getPaddingLeft() + getPaddingRight();
@@ -319,7 +322,7 @@ public class ObjectSubViewNew extends View {
 			paintTmp = blackTheme ? paintMainInfoDark : paintMainInfoLight;
 			width = getPaddingLeft() + getPaddingRight();
 			for (String splitText : splitMainInfo) {
-				measure = (int) paintTmp.measureText(splitText + " ");
+				measure = (int) paintTmp.measureText(splitText + SPACE);
 				width += measure;
 				if (width > (specSizeWidth - getPaddingRight())) {
 					width = 0;
@@ -327,10 +330,10 @@ public class ObjectSubViewNew extends View {
 					posX = getPaddingLeft();
 					posY += (int) (-mAscentMain + paintTmp.descent());
 				}
-				canvas.drawText(splitText + " ", posX, posY, paintTmp);
+				canvas.drawText(splitText + SPACE, posX, posY, paintTmp);
 				posX += measure;
 			}
-			measure = (int) paintTmp.measureText(": ");
+			measure = (int) paintTmp.measureText(DB_DOT_SINGLE_SPACE);
 			width += measure;
 			if (width > (specSizeWidth - getPaddingRight())) {
 				width = 0;
@@ -338,7 +341,7 @@ public class ObjectSubViewNew extends View {
 				posX = getPaddingLeft();
 				posY += (int) (-mAscentMain + paintTmp.descent());
 			}
-			canvas.drawText(": ", posX, posY, paintTmp);
+			canvas.drawText(DB_DOT_SINGLE_SPACE, posX, posY, paintTmp);
 			posX += measure;
 			if (subMainInfo != null) {
 				paintTmp = blackTheme ? paintSubInfoDark : paintSubInfoLight;
@@ -366,7 +369,7 @@ public class ObjectSubViewNew extends View {
 			for (ProjectionBean projection : projectionList) {
 				paintTmp = blackTheme ? paintNearestDark : paintNearestLight;
 
-				if (projection.getLang() != null && !projection.getLang().equals(curLang)) {
+				if ((projection.getLang() != null) && !projection.getLang().equals(curLang)) {
 					curLang = projection.getLang();
 					width = 0;
 					posX = getPaddingLeft();
@@ -375,8 +378,9 @@ public class ObjectSubViewNew extends View {
 					}
 					firstLine = false;
 					if (curLang != null) {
-						width += (int) paintTmp.measureText(curLang + " ");
-						canvas.drawText(curLang + " ", posX, posY, paintTmp);
+						measure = (int) paintTmp.measureText(curLang + DB_DOT);
+						width += measure;
+						canvas.drawText(curLang + DB_DOT, posX, posY, paintTmp);
 						posX += measure;
 					}
 				}

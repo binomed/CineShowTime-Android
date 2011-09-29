@@ -157,9 +157,25 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 				}
 			}
 				break;
-			case CineShowtimeComparator.COMPARATOR_THEATER_NAME:
-			case CineShowtimeComparator.COMPARATOR_THEATER_DISTANCE:
 			case CineShowtimeComparator.COMPARATOR_THEATER_SHOWTIME: {
+				if (theatherList != null) {
+					List<Entry<String, List<ProjectionBean>>> entries = null;
+					List<TheaterBean> tempTheaterList = new ArrayList<TheaterBean>(theatherList);
+					for (TheaterBean theater : tempTheaterList) {
+						entries = projectionsThMap.get(theater.getId());
+
+						if ((entries == null) && (theater.getMovieMap() != null)) {
+
+							entries = new ArrayList<Entry<String, List<ProjectionBean>>>(theater.getMovieMap().entrySet());
+							Collections.sort(entries, CineShowtimeFactory.getTheaterShowtimeInnerListComparator());
+							projectionsThMap.put(theater.getId(), entries);
+
+						}
+					}
+				}
+			}
+			case CineShowtimeComparator.COMPARATOR_THEATER_NAME:
+			case CineShowtimeComparator.COMPARATOR_THEATER_DISTANCE: {
 				if (theatherList != null) {
 					Collections.sort(theatherList, (Comparator<TheaterBean>) comparator);
 				}
@@ -175,55 +191,55 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 				theatherMap.put(theater.getId(), theater);
 			}
 
-			Thread thread = new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					CineShowtimeDateNumberUtil.clearMaps();
-					Long distanceTimeLong = null;
-					// En fonction du type d'affichage on
-					List<Entry<String, List<ProjectionBean>>> entries = null;
-					List<TheaterBean> tempTheaterList = new ArrayList<TheaterBean>(theatherList);
-					for (TheaterBean theater : tempTheaterList) {
-						entries = projectionsThMap.get(theater.getId());
-
-						if ((entries == null) && (theater.getMovieMap() != null)) {
-
-							entries = new ArrayList<Entry<String, List<ProjectionBean>>>(theater.getMovieMap().entrySet());
-							Collections.sort(entries, CineShowtimeFactory.getTheaterShowtimeInnerListComparator());
-							projectionsThMap.put(theater.getId(), entries);
-
-							for (Entry<String, List<ProjectionBean>> entryMovieIdListProjection : theater.getMovieMap().entrySet()) {
-								if (distanceTime && (theater != null) && (theater.getPlace() != null)) {
-									distanceTimeLong = theater.getPlace().getDistanceTime();
-								}
-								CineShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, true, true);
-								CineShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, true, false);
-								CineShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, false, true);
-								CineShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, false, false);
-							}
-						}
-					}
-
-					// TheaterBean theaterTmp = null;
-					// Map<String, List<ProjectionBean>> mapThProjection = null;
-					// for (MovieBean movie : movieList) {
-					// entries = projectionsMovMap.get(movie.getId());
-					// if (entries == null) {
-					// mapThProjection = new HashMap<String, List<ProjectionBean>>();
-					// for (String theaterId : movie.getTheaterList()) {
-					// theaterTmp = theatherMap.get(theaterId);
-					// mapThProjection.put(theaterId, theaterTmp.getMovieMap().get(movie.getId()));
-					// }
-					// entries = new ArrayList<Entry<String, List<ProjectionBean>>>(mapThProjection.entrySet());
-					// Collections.sort(entries, AndShowtimeFactory.getTheaterShowtimeInnerListComparator());
-					// projectionsMovMap.put(movie.getId(), entries);
-					// }
-					// }
-
-				}
-			});
-			thread.start();
+			// Thread thread = new Thread(new Runnable() {
+			//
+			// @Override
+			// public void run() {
+			// CineShowtimeDateNumberUtil.clearMaps();
+			// Long distanceTimeLong = null;
+			// // En fonction du type d'affichage on
+			// List<Entry<String, List<ProjectionBean>>> entries = null;
+			// List<TheaterBean> tempTheaterList = new ArrayList<TheaterBean>(theatherList);
+			// for (TheaterBean theater : tempTheaterList) {
+			// entries = projectionsThMap.get(theater.getId());
+			//
+			// if ((entries == null) && (theater.getMovieMap() != null)) {
+			//
+			// entries = new ArrayList<Entry<String, List<ProjectionBean>>>(theater.getMovieMap().entrySet());
+			// Collections.sort(entries, CineShowtimeFactory.getTheaterShowtimeInnerListComparator());
+			// projectionsThMap.put(theater.getId(), entries);
+			//
+			// for (Entry<String, List<ProjectionBean>> entryMovieIdListProjection : theater.getMovieMap().entrySet()) {
+			// if (distanceTime && (theater != null) && (theater.getPlace() != null)) {
+			// distanceTimeLong = theater.getPlace().getDistanceTime();
+			// }
+			// CineShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, true, true);
+			// CineShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, true, false);
+			// CineShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, false, true);
+			// CineShowtimeDateNumberUtil.getMovieViewStr(entryMovieIdListProjection.getKey(), theater.getId(), entryMovieIdListProjection.getValue(), mainContext, distanceTimeLong, false, false);
+			// }
+			// }
+			// }
+			//
+			// // TheaterBean theaterTmp = null;
+			// // Map<String, List<ProjectionBean>> mapThProjection = null;
+			// // for (MovieBean movie : movieList) {
+			// // entries = projectionsMovMap.get(movie.getId());
+			// // if (entries == null) {
+			// // mapThProjection = new HashMap<String, List<ProjectionBean>>();
+			// // for (String theaterId : movie.getTheaterList()) {
+			// // theaterTmp = theatherMap.get(theaterId);
+			// // mapThProjection.put(theaterId, theaterTmp.getMovieMap().get(movie.getId()));
+			// // }
+			// // entries = new ArrayList<Entry<String, List<ProjectionBean>>>(mapThProjection.entrySet());
+			// // Collections.sort(entries, AndShowtimeFactory.getTheaterShowtimeInnerListComparator());
+			// // projectionsMovMap.put(movie.getId(), entries);
+			// // }
+			// // }
+			//
+			// }
+			// });
+			// thread.start();
 		}
 
 	}

@@ -129,7 +129,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		model.setForceResearch(intent.getBooleanExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, true));
 		intent.putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false);
 		model.setFavTheaterId(intent.getStringExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID));
-		if ((model.getFavTheaterId() != null) && model.getFavTheaterId().isEmpty()) {
+		if ((model.getFavTheaterId() != null) && (model.getFavTheaterId().length() == 0)) {
 			model.setFavTheaterId(null);
 		}
 		model.setLocalisation(null);

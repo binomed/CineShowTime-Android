@@ -80,7 +80,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (CineShowtimeCst.TRACE_VIEW_ENABLE) {
-			Debug.startMethodTracing(getTAG());
+			Debug.startMethodTracing("cineshowtimeTraceView" + getTAG());
 		}
 		startActivityTime = System.currentTimeMillis();
 		getTracker();
