@@ -29,11 +29,16 @@ import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 
 public class ObjectSubViewNew extends View {
 
-	private Paint paintMainInfo = new Paint();
-	private Paint paintSubInfo = new Paint();
-	private Paint paintPassed = new Paint();
-	private Paint paintNearest = new Paint();
-	private Paint paintNext = new Paint();
+	private Paint paintMainInfoDark = new Paint();
+	private Paint paintSubInfoDark = new Paint();
+	private Paint paintPassedDark = new Paint();
+	private Paint paintNearestDark = new Paint();
+	private Paint paintNextDark = new Paint();
+	private Paint paintMainInfoLight = new Paint();
+	private Paint paintSubInfoLight = new Paint();
+	private Paint paintPassedLight = new Paint();
+	private Paint paintNearestLight = new Paint();
+	private Paint paintNextLight = new Paint();
 
 	private MovieBean movieBean;
 
@@ -42,11 +47,15 @@ public class ObjectSubViewNew extends View {
 	private List<ProjectionBean> projectionList;
 
 	private String mainInfo, subMainInfo;
+	private String[] splitMainInfo;
 
 	private boolean kmUnit, lightFormat, distanceTime, movieView, blackTheme, format24;
 	private int color = -1;
 
 	private int specSizeWidth, mAscentMain, mAscentShowTime;
+
+	private static final String PIPE = " | ";
+	private static final String EMPTY = "";
 
 	public MovieBean getMovieBean() {
 		return movieBean;
@@ -59,18 +68,44 @@ public class ObjectSubViewNew extends View {
 	public ObjectSubViewNew(Context context, boolean kmUnit) {
 		super(context);
 
-		paintMainInfo.setTextSize(context.getResources().getDimension(R.dimen.cstSubMainInfo));
-		paintMainInfo.setAntiAlias(true);
-		paintSubInfo.setTextSize(context.getResources().getDimension(R.dimen.cstSubMainInfo));
-		paintSubInfo.setAntiAlias(true);
+		paintMainInfoDark.setTextSize(context.getResources().getDimension(R.dimen.cstSubMainInfo));
+		paintMainInfoDark.setColor(getContext().getResources().getColor(R.color.sub_main_info_dark));
+		paintMainInfoDark.setAntiAlias(true);
+		paintSubInfoDark.setTextSize(context.getResources().getDimension(R.dimen.cstSubMainInfo));
+		paintSubInfoDark.setColor(getContext().getResources().getColor(R.color.sub_sub_info_dark));
+		paintSubInfoDark.setAntiAlias(true);
 
-		paintPassed.setTextSize(context.getResources().getDimension(R.dimen.cstShowtime));
-		paintPassed.setAntiAlias(true);
-		paintNearest.setTextSize(context.getResources().getDimension(R.dimen.cstShowtime));
-		paintNearest.setTypeface(Typeface.DEFAULT_BOLD);
-		paintNearest.setAntiAlias(true);
-		paintNext.setTextSize(context.getResources().getDimension(R.dimen.cstShowtime));
-		paintNext.setAntiAlias(true);
+		paintPassedDark.setTextSize(context.getResources().getDimension(R.dimen.cstShowtime));
+		paintPassedDark.setColor(getContext().getResources().getColor(R.color.showtime_passed_dark));
+		paintPassedDark.setAntiAlias(true);
+		paintNearestDark.setTextSize(context.getResources().getDimension(R.dimen.cstShowtime));
+		paintNearestDark.setColor(getContext().getResources().getColor(R.color.showtime_nearest_dark));
+		paintNearestDark.setTypeface(Typeface.DEFAULT_BOLD);
+		paintNearestDark.setAntiAlias(true);
+		paintNextDark.setTextSize(context.getResources().getDimension(R.dimen.cstShowtime));
+		paintNextDark.setColor(getContext().getResources().getColor(R.color.showtime_next_dark));
+		paintNextDark.setAntiAlias(true);
+
+		paintMainInfoLight.setTextSize(context.getResources().getDimension(R.dimen.cstSubMainInfo));
+		paintMainInfoLight.setColor(getContext().getResources().getColor(R.color.sub_main_info_light));
+		paintMainInfoLight.setAntiAlias(true);
+		paintSubInfoLight.setTextSize(context.getResources().getDimension(R.dimen.cstSubMainInfo));
+		paintSubInfoLight.setColor(getContext().getResources().getColor(R.color.sub_sub_info_light));
+		paintSubInfoLight.setAntiAlias(true);
+
+		paintPassedLight.setTextSize(context.getResources().getDimension(R.dimen.cstShowtime));
+		paintPassedLight.setColor(getContext().getResources().getColor(R.color.showtime_passed_light));
+		paintPassedLight.setAntiAlias(true);
+		paintNearestLight.setTextSize(context.getResources().getDimension(R.dimen.cstShowtime));
+		paintNearestLight.setColor(getContext().getResources().getColor(R.color.showtime_nearest_light));
+		paintNearestLight.setTypeface(Typeface.DEFAULT_BOLD);
+		paintNearestLight.setAntiAlias(true);
+		paintNextLight.setTextSize(context.getResources().getDimension(R.dimen.cstShowtime));
+		paintNextLight.setColor(getContext().getResources().getColor(R.color.showtime_next_light));
+		paintNextLight.setAntiAlias(true);
+
+		mAscentMain = (int) paintMainInfoDark.ascent();
+		mAscentShowTime = (int) paintNearestDark.ascent();
 
 		// this.setOrientation(VERTICAL);
 		this.kmUnit = kmUnit;
@@ -85,11 +120,6 @@ public class ObjectSubViewNew extends View {
 		this.blackTheme = blackTheme;
 		this.format24 = format24;
 		if ((color == -1) || ((color == 1) && blackTheme) || ((color == 0) && !blackTheme)) {
-			paintMainInfo.setColor(getContext().getResources().getColor(blackTheme ? R.color.sub_main_info_dark : R.color.sub_main_info_light));
-			paintSubInfo.setColor(getContext().getResources().getColor(blackTheme ? R.color.sub_sub_info_dark : R.color.sub_sub_info_light));
-			paintPassed.setColor(getContext().getResources().getColor(blackTheme ? R.color.showtime_passed_dark : R.color.showtime_passed_light));
-			paintNearest.setColor(getContext().getResources().getColor(blackTheme ? R.color.showtime_nearest_dark : R.color.showtime_nearest_light));
-			paintNext.setColor(getContext().getResources().getColor(blackTheme ? R.color.showtime_next_dark : R.color.showtime_next_light));
 			color = blackTheme ? 1 : 0;
 		}
 		if ((movieBean != null) && (theaterBean != null)) {
@@ -99,7 +129,7 @@ public class ObjectSubViewNew extends View {
 				// .toString()//
 				// );
 				mainInfo = movieBean.getMovieName();
-				subMainInfo = CineShowtimeDateNumberUtil.showMovieTimeLength(getContext(), movieBean);
+				subMainInfo = "1h30min";// CineShowtimeDateNumberUtil.showMovieTimeLength(getContext(), movieBean);
 			} else {
 				// StringBuilder strTheater = new StringBuilder(theaterBean.getTheaterName()); //
 				// if ((theaterBean != null) && (theaterBean.getPlace() != null) && theaterBean.getPlace().getDistance() != null) {
@@ -116,14 +146,18 @@ public class ObjectSubViewNew extends View {
 
 			}
 
-			projectionList = theaterBean.getMovieMap().get(movieBean.getId());
-			Long distanceTimeLong = null;
-			if (distanceTime && (theaterBean != null) && (theaterBean.getPlace() != null)) {
-				distanceTimeLong = theaterBean.getPlace().getDistanceTime();
+			if (mainInfo != null) {
+				splitMainInfo = mainInfo.split(" ");
 			}
+			projectionList = theaterBean.getMovieMap().get(movieBean.getId());
+			// Long distanceTimeLong = null;
+			// if (distanceTime && (theaterBean != null) && (theaterBean.getPlace() != null)) {
+			// distanceTimeLong = theaterBean.getPlace().getDistanceTime();
+			// }
 			// Spanned movieListStr = CineShowtimeDateNumberUtil.getMovieViewStr(movieBean.getId(), theaterBean.getId(), projectionList, getContext(), distanceTimeLong, blackTheme, format24);
 
 		} else {
+			splitMainInfo = null;
 			mainInfo = null;
 			subMainInfo = null;
 			projectionList = null;
@@ -163,16 +197,16 @@ public class ObjectSubViewNew extends View {
 			result = 0;
 			int widthMainInfo = 0;
 			if (mainInfo != null) {
-				widthMainInfo = (int) paintMainInfo.measureText(mainInfo);
+				widthMainInfo = (int) paintMainInfoDark.measureText(mainInfo);
 			}
 			if (subMainInfo != null) {
-				widthMainInfo += (int) paintSubInfo.measureText(" : " + subMainInfo);
+				widthMainInfo += (int) paintSubInfoDark.measureText(" : " + subMainInfo);
 			}
 
 			if (!lightFormat && (projectionList != null)) {
 				boolean first = true;
 				for (ProjectionBean projection : projectionList) {
-					result += (int) paintNext.measureText((!first ? " | " : "") + (format24 ? projection.getFormat24() : projection.getFormat12()));
+					result += (int) paintNextDark.measureText((!first ? PIPE : EMPTY) + (format24 ? projection.getFormat24() : projection.getFormat12()));
 					first = false;
 				}
 			}
@@ -199,19 +233,30 @@ public class ObjectSubViewNew extends View {
 		int specMode = MeasureSpec.getMode(measureSpec);
 		int specSize = MeasureSpec.getSize(measureSpec);
 
-		mAscentMain = (int) paintMainInfo.ascent();
-		mAscentShowTime = (int) paintNearest.ascent();
 		if (specMode == MeasureSpec.EXACTLY) {
 			// We were told how big to be
 			result = specSize;
 		} else {
 
+			String curLang = null;
 			int width = getPaddingLeft() + getPaddingRight();
 			int nbLines = 1, nbLinesMain = 1;
 			if (!lightFormat && (projectionList != null)) {
 				boolean first = true;
+				boolean firstLine = true;
 				for (ProjectionBean projection : projectionList) {
-					width += (int) paintNext.measureText((!first ? " | " : "") + (format24 ? projection.getFormat24() : projection.getFormat12()));
+					if (projection.getLang() != null && !projection.getLang().equals(curLang)) {
+						curLang = projection.getLang();
+						if (!firstLine) {
+							nbLines++;
+						}
+						firstLine = false;
+						width = getPaddingLeft() + getPaddingRight();
+						if (curLang != null) {
+							width += (int) paintNextDark.measureText(curLang + " ");
+						}
+					}
+					width += (int) paintNextDark.measureText((!first ? PIPE : EMPTY) + (format24 ? projection.getFormat24() : projection.getFormat12()));
 					first = false;
 					if (width > specSizeWidth) {
 						nbLines++;
@@ -222,21 +267,33 @@ public class ObjectSubViewNew extends View {
 				nbLines = 0;
 			}
 			if (mainInfo != null) {
-				String[] split = (mainInfo + (subMainInfo != null ? " : " + subMainInfo : "")).split(" ");
+				// String[] split = (mainInfo + (subMainInfo != null ? " : " + subMainInfo : "")).split(" ");
 				width = getPaddingLeft() + getPaddingRight();
-				for (String splitText : split) {
-					width += (int) paintMainInfo.measureText(splitText + " ");
+				for (String splitText : splitMainInfo) {
+					width += (int) paintMainInfoDark.measureText(splitText + " ");
 					if (width > specSizeWidth) {
 						nbLinesMain++;
 						width = getPaddingLeft() + getPaddingRight();
 					}
 
 				}
+				width += (int) paintMainInfoDark.measureText(": ");
+				if (width > specSizeWidth) {
+					nbLinesMain++;
+					width = getPaddingLeft() + getPaddingRight();
+				}
+				if (subMainInfo != null) {
+					width += (int) paintMainInfoDark.measureText(subMainInfo);
+					if (width > specSizeWidth) {
+						nbLinesMain++;
+						width = getPaddingLeft() + getPaddingRight();
+					}
+				}
 			} else {
 				nbLinesMain = 0;
 			}
 
-			result = (nbLines * (int) (-mAscentShowTime + paintNearest.descent())) + (nbLinesMain * (int) (-mAscentMain + paintMainInfo.descent())) + 10;
+			result = (nbLines * (int) (-mAscentShowTime + paintNearestDark.descent())) + (nbLinesMain * (int) (-mAscentMain + paintMainInfoDark.descent())) + 10;
 
 			// Measure the text (beware: ascent is a negative number)
 			if (specMode == MeasureSpec.AT_MOST) {
@@ -254,75 +311,111 @@ public class ObjectSubViewNew extends View {
 		int width = 0;
 		int posY = getPaddingTop() - mAscentMain;
 		int posX = getPaddingLeft();
+		int measure = 0;
+		Paint paintTmp = null;
 		width = getPaddingLeft() + getPaddingRight();
 		if (mainInfo != null) {
-			String[] split = (mainInfo + " : ").split(" ");
+			// String[] split = (mainInfo + " : ").split(" ");
+			paintTmp = blackTheme ? paintMainInfoDark : paintMainInfoLight;
 			width = getPaddingLeft() + getPaddingRight();
-			for (String splitText : split) {
-				width += (int) paintMainInfo.measureText(splitText + " ");
+			for (String splitText : splitMainInfo) {
+				measure = (int) paintTmp.measureText(splitText + " ");
+				width += measure;
 				if (width > (specSizeWidth - getPaddingRight())) {
 					width = 0;
 					;
 					posX = getPaddingLeft();
-					posY += (int) (-mAscentMain + paintMainInfo.descent());
+					posY += (int) (-mAscentMain + paintTmp.descent());
 				}
-				canvas.drawText(splitText + " ", posX, posY, paintMainInfo);
-				posX += paintMainInfo.measureText(splitText + " ");
+				canvas.drawText(splitText + " ", posX, posY, paintTmp);
+				posX += measure;
 			}
+			measure = (int) paintTmp.measureText(": ");
+			width += measure;
+			if (width > (specSizeWidth - getPaddingRight())) {
+				width = 0;
+				;
+				posX = getPaddingLeft();
+				posY += (int) (-mAscentMain + paintTmp.descent());
+			}
+			canvas.drawText(": ", posX, posY, paintTmp);
+			posX += measure;
 			if (subMainInfo != null) {
-				width += (int) paintSubInfo.measureText(subMainInfo);
+				paintTmp = blackTheme ? paintSubInfoDark : paintSubInfoLight;
+				measure = (int) paintTmp.measureText(subMainInfo);
+				width += measure;
 				if (width > (specSizeWidth - getPaddingRight())) {
 					width = 0;
 					;
 					posX = getPaddingLeft();
-					posY += (int) (-mAscentMain + paintMainInfo.descent());
+					posY += (int) (-mAscentMain + paintTmp.descent());
 				}
-				canvas.drawText(subMainInfo, posX, posY, paintSubInfo);
+				canvas.drawText(subMainInfo, posX, posY, paintTmp);
 			}
 		}
 		posY += 10 - mAscentShowTime;
 		width = getPaddingLeft() + getPaddingRight();
 		posX = getPaddingLeft();
-		Paint paintTmp = null;
 		if (!lightFormat && (projectionList != null)) {
 			boolean first = true;
+			boolean firstLine = true;
 			boolean near = true;
+			String curLang = null;
 			long currentTime = System.currentTimeMillis();
 			String timeStr = null;
 			for (ProjectionBean projection : projectionList) {
+				paintTmp = blackTheme ? paintNearestDark : paintNearestLight;
+
+				if (projection.getLang() != null && !projection.getLang().equals(curLang)) {
+					curLang = projection.getLang();
+					width = 0;
+					posX = getPaddingLeft();
+					if (!firstLine) {
+						posY += (int) (-mAscentShowTime + paintTmp.descent());
+					}
+					firstLine = false;
+					if (curLang != null) {
+						width += (int) paintTmp.measureText(curLang + " ");
+						canvas.drawText(curLang + " ", posX, posY, paintTmp);
+						posX += measure;
+					}
+				}
+
+				paintTmp = blackTheme ? paintNextDark : paintNextLight;
 				timeStr = (format24 ? projection.getFormat24() : projection.getFormat12());
 				if (!first) {
-					width += (int) paintNext.measureText(" | ");
+					measure = (int) paintTmp.measureText(PIPE);
+					width += measure;
 					if (width > (specSizeWidth - getPaddingRight())) {
 						width = 0;
 						posX = getPaddingLeft();
-						posY += (int) (-mAscentShowTime + paintNext.descent());
+						posY += (int) (-mAscentShowTime + paintTmp.descent());
 					}
-					canvas.drawText(" | ", posX, posY, paintNext);
-					posX += paintNext.measureText(" | ");
+					canvas.drawText(PIPE, posX, posY, paintTmp);
+					posX += measure;
 				}
 				first = false;
 
 				if (currentTime > projection.getShowtime()) {
-					paintTmp = paintPassed;
+					paintTmp = blackTheme ? paintPassedDark : paintPassedLight;
 				} else if (near) {
-					paintTmp = paintNearest;
+					paintTmp = blackTheme ? paintNearestDark : paintNearestLight;
 					near = false;
 				} else {
-					paintTmp = paintNext;
+					paintTmp = blackTheme ? paintNextDark : paintNextLight;
 				}
 
-				width += (int) paintTmp.measureText(timeStr);
+				measure = (int) paintTmp.measureText(timeStr);
+				width += measure;
 				if (width > (specSizeWidth - getPaddingRight())) {
 					width = 0;
 					posX = getPaddingLeft();
 					posY += (int) (-mAscentShowTime + paintTmp.descent());
 				}
 				canvas.drawText(timeStr, posX, posY, paintTmp);
-				posX += paintTmp.measureText(timeStr);
+				posX += measure;
 			}
 		}
-
 	}
 
 }

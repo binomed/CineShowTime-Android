@@ -79,7 +79,9 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Debug.startMethodTracing("CineShowtime");
+		if (CineShowtimeCst.TRACE_VIEW_ENABLE) {
+			Debug.startMethodTracing(getTAG());
+		}
 		startActivityTime = System.currentTimeMillis();
 		getTracker();
 		CineShowTimeLayoutUtils.onActivityCreateSetTheme(this, getPrefs());
@@ -153,7 +155,9 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		closeDB();
 		getTracker().dispatch();
 		getTracker().stop();
-		Debug.stopMethodTracing();
+		if (CineShowtimeCst.TRACE_VIEW_ENABLE) {
+			Debug.stopMethodTracing();
+		}
 	}
 
 	@Override

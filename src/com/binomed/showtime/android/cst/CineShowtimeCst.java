@@ -15,6 +15,8 @@ package com.binomed.showtime.android.cst;
 
 public final class CineShowtimeCst {
 
+	public static final boolean TRACE_VIEW_ENABLE = false;
+
 	//	public static final String COLOR_GREY = "#606060"; //$NON-NLS-1$
 	//	public static final String COLOR_WHITE = "#FFFFFF"; //$NON-NLS-1$
 	public static final String COLOR_SUB_MAIN_INFO_LIGHT = "#000000"; //$NON-NLS-1$

@@ -61,7 +61,7 @@ import com.binomed.showtime.android.handler.ServiceCallBackSearch;
 import com.binomed.showtime.android.layout.dialogs.sort.ListDialog;
 import com.binomed.showtime.android.layout.dialogs.sort.ListSelectionListener;
 import com.binomed.showtime.android.layout.view.ObjectMasterView;
-import com.binomed.showtime.android.layout.view.ObjectSubView;
+import com.binomed.showtime.android.layout.view.ObjectSubViewNew;
 import com.binomed.showtime.android.model.LocalisationBean;
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.NearResp;
@@ -118,7 +118,6 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	/** Called when the activity is first created. */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 		// We init the theater id if set
 		model = interaction.getModelActivity();
 		mDbHelper = interaction.getMDbHelper();
@@ -398,7 +397,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-		ObjectSubView subView = (ObjectSubView) v;
+		ObjectSubViewNew subView = (ObjectSubViewNew) v;
 		TheaterBean theater = subView.getTheaterBean();
 		MovieBean movie = subView.getMovieBean();
 		interaction.openMovieScreen(movie, theater);
