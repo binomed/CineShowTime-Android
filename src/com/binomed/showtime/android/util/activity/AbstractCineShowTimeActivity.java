@@ -56,6 +56,8 @@ import com.binomed.showtime.android.screen.pref.CineShowTimePreferencesActivity;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.MyQuickAction;
 import com.cyrilmottier.android.greendroid.R;
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivityHelperModel> //
@@ -66,6 +68,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		ActionBarActivity {
 
 	private GoogleAnalyticsTracker tracker;
+	private AdView adView;
 	private SharedPreferences prefs;
 	private M model;
 	private ProgressDialog progressDialog;
@@ -99,6 +102,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		onPreRestoreBundle(savedInstanceState);
 		// We call the contentView
 		setContentView(R.layout.cst_action_bar_activity);
+		// Init theme background
 		Drawable d = getResources().getDrawable(R.drawable.background_dark);
 		String defaultTheme = getResources().getString(R.string.preference_gen_default_theme);
 		String theme = getPrefs().getString(getResources().getString(R.string.preference_gen_key_theme), defaultTheme);
@@ -111,6 +115,21 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		mActionBarHost.getContentView().removeAllViews();
 		LayoutInflater.from(this).inflate(getLayout(), mActionBarHost.getContentView());
 
+		// Init adds
+		adView = (AdView) findViewById(R.id.adView);
+		if (adView != null) {
+			// Handler mHandler = new Handler();
+			// mHandler.postDelayed(new Runnable() {
+			//
+			// @Override
+			// public void run() {
+			// }
+			// }, 200);
+			// adRequest.addTestDevice("42CF7EA69605E829AFCDC915CE184CC9");
+			AdRequest adRequest = new AdRequest();
+			adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
+			adView.loadAd(adRequest);
+		}
 		// We load the content
 		initContentView();
 

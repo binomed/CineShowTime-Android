@@ -14,33 +14,47 @@
  * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
  */ 
  -->
-<LinearLayout 
+<RelativeLayout 
 		xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
+		xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:paddingTop="@dimen/cstPaddingTopMain"
-		android:paddingLeft="@dimen/cstPaddingLeftMain"
-		android:paddingRight="@dimen/cstPaddingRightMain"
-		android:paddingBottom="@dimen/cstPaddingBottomMain"
-        >
-
-    <fragment class="com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment"
-            android:id="@+id/fragmentResults" 
-            android:layout_width="0dp"
-            android:layout_height="fill_parent" 
-            android:layout_weight="35"
-            android:layout_marginRight="20dip"
-            >
-        <!-- Preview: layout=@layout/fragment_results -->
-    </fragment>
+	>
+	<com.google.ads.AdView android:id="@+id/adView"
+	                         android:layout_width="wrap_content"
+	                         android:layout_height="wrap_content"
+	                         android:layout_alignParentBottom="true"
+	                         ads:adUnitId="@string/addViewId"
+	                         ads:adSize="BANNER"
+	                         ads:loadAdOnCreate="true"/>
 	<LinearLayout 
-	        android:orientation="vertical"
-            android:id="@+id/fragmentInfo" 
-            android:layout_width="0dp"
-            android:layout_height="fill_parent" 
-            android:layout_weight="75"/>
-
-    
-</LinearLayout>
+	        android:orientation="horizontal"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:paddingTop="@dimen/cstPaddingTopMain"
+			android:paddingLeft="@dimen/cstPaddingLeftMain"
+			android:paddingRight="@dimen/cstPaddingRightMain"
+			android:paddingBottom="@dimen/cstPaddingBottomMain"
+			android:layout_above="@+id/adView"
+	        >
+	
+	    <fragment class="com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment"
+	            android:id="@+id/fragmentResults" 
+	            android:layout_width="0dp"
+	            android:layout_height="fill_parent" 
+	            android:layout_weight="35"
+	            android:layout_marginRight="20dip"
+	            >
+	        <!-- Preview: layout=@layout/fragment_results -->
+	    </fragment>
+		<LinearLayout 
+		        android:orientation="vertical"
+	            android:id="@+id/fragmentInfo" 
+	            android:layout_width="0dp"
+	            android:layout_height="fill_parent" 
+	            android:layout_weight="75"/>
+	
+	    
+	</LinearLayout>
+</RelativeLayout>
 	

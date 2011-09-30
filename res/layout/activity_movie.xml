@@ -14,13 +14,27 @@
  * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
  */ 
  -->
-<fragment 
+ <RelativeLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:id="@+id/FragmentMovie" 
-		android:name="com.binomed.showtime.android.screen.movie.CineShowTimeMovieFragment" 
+		xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
 		android:layout_height="fill_parent"				
 		android:layout_width="fill_parent"
-		>
-    <!-- Preview: layout=@layout/fragment_movie -->
-</fragment>
+ >
+	<com.google.ads.AdView android:id="@+id/adView"
+	                         android:layout_width="wrap_content"
+	                         android:layout_height="wrap_content"
+	                         android:layout_alignParentBottom="true"
+	                         ads:adUnitId="@string/addViewId"
+	                         ads:adSize="BANNER"
+	                         ads:loadAdOnCreate="true"/>
+	<fragment 
+			android:id="@+id/FragmentMovie" 
+			android:name="com.binomed.showtime.android.screen.movie.CineShowTimeMovieFragment"
+			android:layout_above="@+id/adView" 
+			android:layout_height="fill_parent"				
+			android:layout_width="fill_parent"
+			>
+	    <!-- Preview: layout=@layout/fragment_movie -->
+	</fragment>
+ </RelativeLayout>
 	

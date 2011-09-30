@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
+<RelativeLayout 
 		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -15,11 +16,21 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:background="@drawable/ic_btn_find_next"
+	    android:layout_alignParentTop="true"
     />
+    <com.google.ads.AdView android:id="@+id/adView"
+	                         android:layout_width="wrap_content"
+	                         android:layout_height="wrap_content"
+	                         android:layout_alignParentBottom="true"
+	                         ads:adUnitId="@string/addViewId"
+	                         ads:adSize="BANNER"
+	                         ads:loadAdOnCreate="true"/>
 	<FrameLayout
 	    android:id="@+id/frameLayout" 
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
+	    android:layout_below="@+id/btnExpand"
+	    android:layout_above="@+id/adView"
 	    >
        <fragment class="com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment"
 	            android:id="@+id/fragmentResults" 
@@ -38,5 +49,5 @@
             android:layout_marginLeft="70dip"
             />          
    </FrameLayout>
-</LinearLayout>
+</RelativeLayout>
 	
