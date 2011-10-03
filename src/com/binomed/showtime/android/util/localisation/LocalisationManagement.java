@@ -97,8 +97,8 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		// bitmapGpsOn = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_activ);
 
 		// bitmapGpsOn = AnimationUtils.loadAnimation(context, R.drawable.gps_anim);
-		bitmapGpsOff = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_not_activ);
-		bitmapGpsDisabled = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_disable);
+		bitmapGpsOff = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_man_desactiv);
+		bitmapGpsDisabled = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_man_disable);
 		if (LocationUtils.isLocalisationEnabled(context, provider)) {
 			imageGps.setBackgroundDrawable(null);
 			imageGps.setImageBitmap(bitmapGpsOff);

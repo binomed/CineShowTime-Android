@@ -118,6 +118,8 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 
 		List<TheaterBean> favList = getFavTheater();
 
+		fragmentInteraction.hasFav(favList != null && favList.size() > 0);
+
 		if ((favList == null) || (favList.size() == 0)) {
 			favList = new ArrayList<TheaterBean>();
 			TheaterBean thTmp = new TheaterBean();
@@ -245,8 +247,8 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_FAV // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 					, CineShowtimeCst.ANALYTICS_LABEL_FAV_REMOVE // Label
-					,  0 // Value
-					);
+					, 0 // Value
+			);
 			TheaterFavView thFavView = (TheaterFavView) v.getParent().getParent();
 			TheaterBean thTmp = thFavView.getTheaterBean();
 			Intent intentRemoveTh = new Intent(mainContext, CineShowDBGlobalService.class);
@@ -274,8 +276,8 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 		tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_FAV // Category
 				, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 				, CineShowtimeCst.ANALYTICS_LABEL_FAV_REMOVE // Label
-				,  0 // Value
-				);
+				, 0 // Value
+		);
 		// Sinon on ouvre la page résultats
 		TheaterBean theater = model.getFavList().get(groupPosition);
 		if (!fragmentInteraction.onFavClick(theater)) {
@@ -354,6 +356,8 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 		Calendar getLastRequestDate();
 
 		boolean onFavClick(TheaterBean theater);
+
+		void hasFav(boolean hasFav);
 
 	}
 

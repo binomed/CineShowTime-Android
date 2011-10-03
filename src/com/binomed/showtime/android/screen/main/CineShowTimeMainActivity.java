@@ -55,6 +55,8 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	private CineShowTimeSearchFragment fragmentSearch;
 	private CineShowTimeFavFragment fragmentFav;
 
+	private boolean firstShow = true;
+
 	/**
 	 * Init views objects
 	 */
@@ -361,6 +363,14 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 	@Override
 	public boolean onFavClick(TheaterBean theater) {
 		return false;
+	}
+
+	@Override
+	public void hasFav(boolean hasFav) {
+		if (tabHost != null && hasFav && firstShow) {
+			tabHost.setCurrentTab(1);
+		}
+		firstShow = false;
 	}
 
 }

@@ -200,6 +200,12 @@ public class CineShowTimeWidgetConfigureActivity extends AbstractCineShowTimeAct
 	 */
 
 	@Override
+	public void hasFav(boolean hasFav) {
+		// nothing to do
+
+	}
+
+	@Override
 	public int getRequestCode(int itemId) {
 		return CineShowtimeCst.ACTIVITY_RESULT_CITY_SPEECH_SEARCH;
 	}
@@ -253,7 +259,7 @@ public class CineShowTimeWidgetConfigureActivity extends AbstractCineShowTimeAct
 				, CineShowtimeCst.ANALYTICS_ACTION_CHOOSE // Action
 				, CineShowtimeCst.ANALYTICS_VALUE_WIDGET_FAV // Label
 				, 0 // Value
-		);
+				);
 		CineShowTimeWidgetHelper.finalizeWidget(this, theater, getModelActivity().getCityName());
 		return true;
 	}

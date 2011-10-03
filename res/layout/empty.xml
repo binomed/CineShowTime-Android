@@ -29,6 +29,7 @@
 	                         ads:loadAdOnCreate="true"/>
 	  <LinearLayout
 		  android:id="@+id/root_container"
+		  android:layout_marginBottom="5dip"
 		  android:layout_above="@+id/adView"
 		  android:layout_width="fill_parent"
 		  android:layout_height="fill_parent">
