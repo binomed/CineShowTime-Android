@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.binomed.showtime.adsfree"
+     android:installLocation="auto"
+      android:versionCode="29" android:versionName="3.0.0 adsFree">
+      
+     <supports-screens
+          android:largeScreens="true"
+          android:normalScreens="true"
+          android:smallScreens="true"
+          android:anyDensity="true" />
+     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="11"></uses-sdk>
+    <application android:label="CineShowTime ads free" 
+     		android:debuggable="true" 
+     		android:theme="@style/Theme.GreenDroid.NoTitleBar" android:icon="@drawable/ic_launcher" android:name="com.binomed.showtime.android.CineShowTimeApplication">
+        <activity android:label="CineShowTime ads free" android:icon="@drawable/ic_launcher" android:name="com.binomed.showtime.android.screen.main.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+         </activity>
+        <activity android:windowSoftInputMode="stateVisible|adjustResize" android:name="com.binomed.showtime.android.screen.main.CineShowTimeMainActivity"></activity>
+    	<activity android:name="com.binomed.showtime.android.screen.results.CineShowTimeResultsActivity"></activity>
+    	<activity android:name="com.binomed.showtime.android.screen.results.tablet.CineShowTimeResultsTabletActivity"></activity>
+		<service android:name="com.binomed.showtime.android.screen.results.CineShowTimeResultsService"></service>
+		<!--<activity android:name="com.binomed.showtime.android.movieactivity.CineShowTimeMovieActivity" android:launchMode="singleInstance"></activity>-->
+		<activity android:name="com.binomed.showtime.android.screen.movie.CineShowTimeMovieActivity" ></activity>
+		<activity android:name="com.binomed.showtime.android.screen.moviea.EmptyActivity"></activity>
+		<service android:name="com.binomed.showtime.android.screen.movie.CineShowTimeMovieService"></service>
+		<activity android:name="com.binomed.showtime.android.screen.pref.CineShowTimePreferencesActivity"></activity>
+		<service android:name="com.binomed.showtime.android.service.CineShowCleanFileService"></service>
+		<service android:name="com.binomed.showtime.android.service.CineShowDBGlobalService"></service>
+		
+		<service android:name="com.binomed.showtime.android.widget.CineShowTimeWidgetService"/>
+		<service android:name="com.binomed.showtime.android.widget.CineShowTimeWidgetServiceLeft"/>
+		<service android:name="com.binomed.showtime.android.widget.CineShowTimeWidgetServiceRight"/>
+		<service android:name="com.binomed.showtime.android.widget.CineShowTimeWidgetServiceRefresh"/>
+		<service android:name="com.binomed.showtime.android.widget.CineShowTimeWidgetServiceOpenResults"/>
+		<service android:name="com.binomed.showtime.android.widget.CineShowTimeWidgetServiceOpenMovie"/>
+		<service android:name="com.binomed.showtime.android.widget.CineShowTimeWidgetServiceOpenMovie1"/>
+		<activity android:name="com.binomed.showtime.android.screen.widget.results.CineShowTimeResultsWidgetActivity" />
+		<activity android:name="com.binomed.showtime.android.screen.widget.search.CineShowTimeWidgetConfigureActivity">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_CONFIGURE">
+				</action>
+			</intent-filter>
+		</activity>
+		<receiver android:name="com.binomed.showtime.android.widget.CineShowtimeWidget" android:label="@string/widget_name_2x2">
+			<intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_one" />
+		</receiver>
+		
+		<!-- AddMob -->
+		<activity android:name="com.google.ads.AdActivity"
+              android:configChanges="keyboard|keyboardHidden|orientation"/>
+	</application>
+    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="11"/>
+    <!-- Write image on sd -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+	<!-- GPS Location -->
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+	<!-- Access net -->
+	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<!-- Check calendar for adding event -->
+	<uses-permission android:name="android.permission.READ_CALENDAR"></uses-permission>
+	<uses-permission android:name="android.permission.WRITE_CALENDAR"></uses-permission>
+	<!-- ShyHook needs -->
+	<!-- used to communicate with Skyhook's servers -->
+	<!-- <uses-permission android:name="android.permission.INTERNET" />-->
+	<!-- enables WiFi, if disabled, for the duration of a location request -->
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+	<!-- used to obtain information about the WiFi environment -->
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<!-- used to obtain cell tower ID -->
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<!-- used to access GPS location, for XPS functionality -->
+	<!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+</manifest>

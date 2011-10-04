@@ -1,5 +1,7 @@
 
-/bin
-/gen
-/res/drawable/Thumbs.db
-/res/drawable-hdpi/Thumbs.db
+/CineShowTime_Ads/bin/CineShowTime_Ads.apk
+/CineShowTime_Ads/bin/com/binomed/showtime/R$anim.class
+
+*.class
+*.ap_
+*.cfg
