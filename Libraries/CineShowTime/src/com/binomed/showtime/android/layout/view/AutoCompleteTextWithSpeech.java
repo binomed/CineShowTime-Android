@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.TypedArray;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.util.AttributeSet;
@@ -48,19 +49,20 @@ public class AutoCompleteTextWithSpeech extends RelativeLayout implements OnClic
 
 	public AutoCompleteTextWithSpeech(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init(context);
+		init(context, attrs);
+
 	}
 
 	public AutoCompleteTextWithSpeech(Context context) {
 		super(context);
-		init(context);
+		init(context, null);
 	}
 
 	public void setCallBack(AutoCompleteInteraction callBack) {
 		this.callBack = callBack;
 	}
 
-	private void init(Context context) {
+	private void init(Context context, AttributeSet attrs) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.view_auto_complete_with_speech, this);
 
@@ -81,6 +83,11 @@ public class AutoCompleteTextWithSpeech extends RelativeLayout implements OnClic
 			btnSpeech.setOnClickListener(this);
 		}
 
+		if (attrs != null) {
+			TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.cstTextStyle);
+			autoCompleteText.setHint(a.getString(R.styleable.cstTextStyle_cstTextHint));
+			autoCompleteText.setHintTextColor(android.R.color.darker_gray);
+		}
 		autoCompleteText.setOnEditorActionListener(this);
 	}
 

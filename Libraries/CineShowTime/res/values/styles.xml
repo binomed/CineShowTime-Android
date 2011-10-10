@@ -35,12 +35,12 @@
     <style name="Button.button">
     	<item name="android:textSize">@dimen/cstBtn</item>
         <item name="android:textColor">@color/btn</item>
-        <item name="android:background">@drawable/btn_and_showtime</item>
+        <!-- <item name="android:background">@drawable/btn_and_showtime</item>-->
     </style>
     <style name="Button.spinner">
     	<item name="android:textSize">@dimen/cstBtnSpinner</item>
         <item name="android:textColor">@color/btn_spinner</item>
-        <item name="android:background">@drawable/btn_spinner_and_showtime</item>
+        <!-- <item name="android:background">@drawable/btn_spinner_and_showtime</item>-->
     </style>
     
 	  

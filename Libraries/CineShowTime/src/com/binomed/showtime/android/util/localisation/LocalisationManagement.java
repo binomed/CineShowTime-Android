@@ -97,8 +97,8 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		// bitmapGpsOn = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_activ);
 
 		// bitmapGpsOn = AnimationUtils.loadAnimation(context, R.drawable.gps_anim);
-		bitmapGpsOff = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_man_desactiv);
-		bitmapGpsDisabled = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_man_disable);
+		bitmapGpsOff = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_desactiv);
+		bitmapGpsDisabled = BitmapFactory.decodeResource(context.getResources(), R.drawable.gps_disable);
 		if (LocationUtils.isLocalisationEnabled(context, provider)) {
 			imageGps.setBackgroundDrawable(null);
 			imageGps.setImageBitmap(bitmapGpsOff);
@@ -218,6 +218,9 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	@Override
 	public void onClick(View v) {
 		tracker.trackEvent("Action", "GPS", "Use of gps", 0);
+		if (provider != null) {
+			tracker.trackEvent("Action", "GPS", "Provider used : " + provider.getAndroidProvider(), 0);
+		}
 		checkedGps = !checkedGps;
 		textSearch.setEnabled(!checkedGps);
 		if (!checkedGps) {
