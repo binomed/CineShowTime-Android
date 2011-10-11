@@ -6,3 +6,7 @@
 *.ap_
 *.cfg
 *.dex
+/CineShowTime_Ads/bin
+/CineShowTime_AdsFree/bin
+/Libraries/CineShowTime/bin
+/Libraries/GreenDroid/bin

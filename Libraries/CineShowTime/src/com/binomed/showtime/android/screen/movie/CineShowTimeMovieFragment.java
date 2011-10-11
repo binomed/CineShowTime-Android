@@ -206,15 +206,15 @@ public class CineShowTimeMovieFragment extends Fragment //
 				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
 						, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 						, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_REUSE // Label
-						,  0 // Value
-						);
+						, 0 // Value
+				);
 				searchMovieDetail(movie, near);
 			} else {
 				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
 						, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 						, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_REUSE // Label
-						,  1 // Value
-						);
+						, 1 // Value
+				);
 				moviePagedAdapter.fillViews(movie);
 			}
 		} catch (Exception e) {
@@ -248,6 +248,9 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 			Intent intentEmptyActivity = new Intent(getActivity(), EmptyActivity.class);
 
+			// TextView txt = new TextView(getActivity());
+			// txt.setCompoundDrawables(left, top, right, bottom);
+			// txt.setBackgroundResource(resid);
 			TabHost.TabSpec tabSummary = tabHost.newTabSpec("Summary");
 			// tabSummary.setContent(intentEmptyActivity);
 			tabSummary.setContent(new TabHost.TabContentFactory() {
@@ -342,8 +345,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 					tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
 							, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 							, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB // Label
-							,  0 // Value
-							);
+							, 0 // Value
+					);
 					// movieFlipper.setInAnimation(AnimationHelper.inFromLeftAnimation());
 					// movieFlipper.setOutAnimation(AnimationHelper.outToRightAnimation());
 					if (lastTab == 2) {
@@ -356,8 +359,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 					tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
 							, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 							, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB // Label
-							,  1 // Value
-							);
+							, 1 // Value
+					);
 					if (lastTab == 0) {
 						moviePagedView.smoothScrollToNext();
 						// movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
@@ -372,8 +375,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 					tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
 							, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 							, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB // Label
-							,  2 // Value
-							);
+							, 2 // Value
+					);
 					// movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
 					// movieFlipper.setOutAnimation(AnimationHelper.outToLeftAnimation());
 					if (lastTab == 0) {
@@ -402,8 +405,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 					, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB_WITH_SLIDE // Label
-					,  newPage // Value
-					);
+					, newPage // Value
+			);
 		} catch (Exception e) {
 			Log.e(TAG, "error during managing ActionUp", e);
 		}
