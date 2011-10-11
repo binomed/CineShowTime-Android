@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: F:\\tools\\projects\\binomed-git\\CineShowTime-Android\\Libraries\\CineShowTime\\src\\com\\binomed\\showtime\\android\\screen\\movie\\ICallbackMovie.aidl
+ * Original file: D:\\tools\\projects\\CineShowTime-Android\\Libraries\\CineShowTime\\src\\com\\binomed\\showtime\\android\\screen\\movie\\ICallbackMovie.aidl
  */
 package com.binomed.showtime.android.screen.movie;
 public interface ICallbackMovie extends android.os.IInterface

@@ -46,6 +46,10 @@
 		        <!-- Preview: layout=@layout/fragment_search -->
 		    </fragment>
 	    </ScrollView>
+	    <View
+	        android:layout_width="1dp"
+	        android:background="@drawable/cst_vertical_line"
+	        android:layout_height="wrap_content"/>
 	    <fragment class="com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment"
 	            android:id="@+id/fragmentFav" 
 	        	android:layout_marginTop="20dip"
@@ -59,10 +63,4 @@
 	
 	    
 	</LinearLayout>
-	<com.google.ads.AdView android:id="@+id/adView"
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         ads:adUnitId="a14e78e816a2a0e"
-                         ads:adSize="BANNER"
-                         ads:loadAdOnCreate="true"/>
 </LinearLayout>

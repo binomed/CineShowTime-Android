@@ -16,7 +16,6 @@
  -->
    		<RelativeLayout 
 			xmlns:android="http://schemas.android.com/apk/res/android"
-			xmlns:cst="http://schemas.android.com/apk/res/com.binomed.showtime"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 		    >
@@ -42,7 +41,6 @@
 			    android:layout_height="wrap_content"
 				android:layout_marginTop="10dip"  
 			    android:layout_below="@+id/searchImgGps" 
-			    cst:cstTextHint="@string/cityName"
 			    />
 			<TextView
 				android:id="@+id/searchTxtMovieName"
@@ -58,7 +56,6 @@
 			    android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
 			    android:layout_below="@+id/searchTxtMovieName"
-			    cst:cstTextHint="@string/movieName" 
 			    />
 			<TextView
 				android:id="@+id/searchTxtSpinner"

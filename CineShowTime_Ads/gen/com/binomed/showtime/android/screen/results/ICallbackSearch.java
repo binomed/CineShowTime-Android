@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: F:\\tools\\projects\\binomed-git\\CineShowTime-Android\\Libraries\\CineShowTime\\src\\com\\binomed\\showtime\\android\\screen\\results\\ICallbackSearch.aidl
+ * Original file: D:\\tools\\projects\\CineShowTime-Android\\Libraries\\CineShowTime\\src\\com\\binomed\\showtime\\android\\screen\\results\\ICallbackSearch.aidl
  */
 package com.binomed.showtime.android.screen.results;
 public interface ICallbackSearch extends android.os.IInterface

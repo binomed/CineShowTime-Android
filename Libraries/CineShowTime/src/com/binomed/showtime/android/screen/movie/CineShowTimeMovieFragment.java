@@ -32,6 +32,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabWidget;
@@ -245,6 +246,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 			// tabHost = getTabHost();
 			// tabWidget = getTabWidget();
 			tabHost.setup();
+			tabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
 
 			Intent intentEmptyActivity = new Intent(getActivity(), EmptyActivity.class);
 
@@ -261,7 +263,13 @@ public class CineShowTimeMovieFragment extends Fragment //
 					return view;
 				}
 			});
-			tabSummary.setIndicator(getResources().getString(R.string.movieLabel).toUpperCase(), getResources().getDrawable(R.drawable.ic_tab_info));
+			View viewInfo = LayoutInflater.from(getActivity()).inflate(R.layout.view_tab_item, null);
+			TextView tvInfo = (TextView) viewInfo.findViewById(R.id.title);
+			tvInfo.setText(R.string.movieLabel);
+			ImageView ivInfo = (ImageView) viewInfo.findViewById(R.id.icon);
+			ivInfo.setBackgroundResource(R.drawable.ic_tab_info);
+			tabSummary.setIndicator(viewInfo);
+			// tabSummary.setIndicator(getResources().getString(R.string.movieLabel).toUpperCase(), getResources().getDrawable(R.drawable.ic_tab_info));
 
 			TabHost.TabSpec tabProjection = tabHost.newTabSpec("Projection");
 			// tabProjection.setContent(intentEmptyActivity);
@@ -273,7 +281,13 @@ public class CineShowTimeMovieFragment extends Fragment //
 					return view;
 				}
 			});
-			tabProjection.setIndicator(getResources().getString(R.string.showtimeLabel).toUpperCase(), getResources().getDrawable(R.drawable.ic_tab_showtimes));
+			View viewShowTimes = LayoutInflater.from(getActivity()).inflate(R.layout.view_tab_item, null);
+			TextView tvShowTimes = (TextView) viewShowTimes.findViewById(R.id.title);
+			tvShowTimes.setText(R.string.showtimeLabel);
+			ImageView ivShowTimes = (ImageView) viewShowTimes.findViewById(R.id.icon);
+			ivShowTimes.setBackgroundResource(R.drawable.ic_tab_showtimes);
+			tabProjection.setIndicator(viewShowTimes);
+			// tabProjection.setIndicator(getResources().getString(R.string.showtimeLabel).toUpperCase(), getResources().getDrawable(R.drawable.ic_tab_showtimes));
 
 			TabHost.TabSpec tabReviews = tabHost.newTabSpec("Review");
 			// tabReviews.setContent(intentEmptyActivity);
@@ -285,7 +299,13 @@ public class CineShowTimeMovieFragment extends Fragment //
 					return view;
 				}
 			});
-			tabReviews.setIndicator(getResources().getString(R.string.rateLabel).toUpperCase(), getResources().getDrawable(R.drawable.ic_tab_review));
+			View viewReviews = LayoutInflater.from(getActivity()).inflate(R.layout.view_tab_item, null);
+			TextView tvReviews = (TextView) viewReviews.findViewById(R.id.title);
+			tvReviews.setText(R.string.rateLabel);
+			ImageView ivReviews = (ImageView) viewReviews.findViewById(R.id.icon);
+			ivReviews.setBackgroundResource(R.drawable.ic_tab_review);
+			tabReviews.setIndicator(viewReviews);
+			// tabReviews.setIndicator(getResources().getString(R.string.rateLabel).toUpperCase(), getResources().getDrawable(R.drawable.ic_tab_review));
 
 			tabHost.addTab(tabSummary);
 			tabHost.addTab(tabProjection);

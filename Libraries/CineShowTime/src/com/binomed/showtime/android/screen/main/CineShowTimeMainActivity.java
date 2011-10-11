@@ -26,8 +26,12 @@ import android.database.SQLException;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
@@ -88,17 +92,33 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 		tabHost = (TabHost) findViewById(android.R.id.tabhost);
 		if (tabHost != null) {
 			tabHost.setup();
+			tabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
+
 			// We have to create the tabs*
 			TabHost.TabSpec tabSearch = tabHost.newTabSpec("Search");
 			tabSearch.setContent(R.id.FragmentLayout);
-			tabSearch.setIndicator(getResources().getString(R.string.search), getResources().getDrawable(R.drawable.ic_tab_search));
+			View viewSearch = LayoutInflater.from(getApplicationContext()).inflate(R.layout.view_tab_item, null);
+			TextView tvSearch = (TextView) viewSearch.findViewById(R.id.title);
+			tvSearch.setText(R.string.search);
+			ImageView ivSearch = (ImageView) viewSearch.findViewById(R.id.icon);
+			ivSearch.setBackgroundResource(R.drawable.ic_tab_search);
+
+			// tabSearch.setIndicator(getResources().getString(R.string.search), getResources().getDrawable(R.drawable.ic_tab_search));
+			tabSearch.setIndicator(viewSearch);
 
 			TabHost.TabSpec tabFav = tabHost.newTabSpec("Fav");
 			tabFav.setContent(R.id.fragmentFav);
-			tabFav.setIndicator(getResources().getString(R.string.btnFav), getResources().getDrawable(R.drawable.ic_tab_fav));
+			View viewFav = LayoutInflater.from(getApplicationContext()).inflate(R.layout.view_tab_item, null);
+			TextView tvFav = (TextView) viewFav.findViewById(R.id.title);
+			tvFav.setText(R.string.btnFav);
+			ImageView ivFav = (ImageView) viewFav.findViewById(R.id.icon);
+			ivFav.setBackgroundResource(R.drawable.ic_tab_fav);
+			// tabFav.setIndicator(getResources().getString(R.string.btnFav), getResources().getDrawable(R.drawable.ic_tab_fav));
+			tabFav.setIndicator(viewFav);
 
 			tabHost.addTab(tabSearch);
 			tabHost.addTab(tabFav);
+
 		}
 	}
 
@@ -367,7 +387,7 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 
 	@Override
 	public void hasFav(boolean hasFav) {
-		if (tabHost != null && hasFav && firstShow) {
+		if ((tabHost != null) && hasFav && firstShow) {
 			tabHost.setCurrentTab(1);
 		}
 		firstShow = false;

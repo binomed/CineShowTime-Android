@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.cyrilmottier.android.greendroid;
+package com.binomed.showtime.adsfree;
 
 public final class R {
     public static final class anim {
@@ -1849,11 +1849,11 @@ Widget
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #ActionBar_dividerDrawable com.binomed.showtime:dividerDrawable}</code></td><td></td></tr>
-           <tr><td><code>{@link #ActionBar_dividerWidth com.binomed.showtime:dividerWidth}</code></td><td></td></tr>
-           <tr><td><code>{@link #ActionBar_homeDrawable com.binomed.showtime:homeDrawable}</code></td><td></td></tr>
-           <tr><td><code>{@link #ActionBar_title com.binomed.showtime:title}</code></td><td></td></tr>
-           <tr><td><code>{@link #ActionBar_type com.binomed.showtime:type}</code></td><td></td></tr>
+           <tr><td><code>{@link #ActionBar_dividerDrawable com.binomed.showtime.adsfree:dividerDrawable}</code></td><td></td></tr>
+           <tr><td><code>{@link #ActionBar_dividerWidth com.binomed.showtime.adsfree:dividerWidth}</code></td><td></td></tr>
+           <tr><td><code>{@link #ActionBar_homeDrawable com.binomed.showtime.adsfree:homeDrawable}</code></td><td></td></tr>
+           <tr><td><code>{@link #ActionBar_title com.binomed.showtime.adsfree:title}</code></td><td></td></tr>
+           <tr><td><code>{@link #ActionBar_type com.binomed.showtime.adsfree:type}</code></td><td></td></tr>
            </table>
            @see #ActionBar_dividerDrawable
            @see #ActionBar_dividerWidth
@@ -1866,7 +1866,7 @@ Widget
             0x7f01004d
         };
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#dividerDrawable}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#dividerDrawable}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1876,7 +1876,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_dividerDrawable = 0;
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#dividerWidth}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#dividerWidth}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1892,7 +1892,7 @@ containing a value of this type.
         */
         public static final int ActionBar_dividerWidth = 1;
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#homeDrawable}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#homeDrawable}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1902,7 +1902,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_homeDrawable = 4;
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#title}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#title}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1916,7 +1916,7 @@ containing a value of this type.
         */
         public static final int ActionBar_title = 2;
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#type}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#type}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1939,9 +1939,9 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #AsyncImageView_defaultSrc com.binomed.showtime:defaultSrc}</code></td><td></td></tr>
-           <tr><td><code>{@link #AsyncImageView_inDensity com.binomed.showtime:inDensity}</code></td><td></td></tr>
-           <tr><td><code>{@link #AsyncImageView_url com.binomed.showtime:url}</code></td><td></td></tr>
+           <tr><td><code>{@link #AsyncImageView_defaultSrc com.binomed.showtime.adsfree:defaultSrc}</code></td><td></td></tr>
+           <tr><td><code>{@link #AsyncImageView_inDensity com.binomed.showtime.adsfree:inDensity}</code></td><td></td></tr>
+           <tr><td><code>{@link #AsyncImageView_url com.binomed.showtime.adsfree:url}</code></td><td></td></tr>
            </table>
            @see #AsyncImageView_defaultSrc
            @see #AsyncImageView_inDensity
@@ -1951,7 +1951,7 @@ containing a value of this type.
             0x7f01004e, 0x7f01004f, 0x7f010050
         };
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#defaultSrc}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#defaultSrc}
           attribute's value can be found in the {@link #AsyncImageView} array.
 
 
@@ -1961,7 +1961,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int AsyncImageView_defaultSrc = 0;
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#inDensity}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#inDensity}
           attribute's value can be found in the {@link #AsyncImageView} array.
 
 
@@ -1980,7 +1980,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int AsyncImageView_inDensity = 2;
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#url}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#url}
           attribute's value can be found in the {@link #AsyncImageView} array.
 
 
@@ -2004,7 +2004,7 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #DrawableItem_drawable com.binomed.showtime:drawable}</code></td><td></td></tr>
+           <tr><td><code>{@link #DrawableItem_drawable com.binomed.showtime.adsfree:drawable}</code></td><td></td></tr>
            </table>
            @see #DrawableItem_drawable
          */
@@ -2012,7 +2012,7 @@ containing a value of this type.
             0x7f010042
         };
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#drawable}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#drawable}
           attribute's value can be found in the {@link #DrawableItem} array.
 
 
@@ -2030,7 +2030,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #Item_enabled com.binomed.showtime:enabled}</code></td><td></td></tr>
+           <tr><td><code>{@link #Item_enabled com.binomed.showtime.adsfree:enabled}</code></td><td></td></tr>
            </table>
            @see #Item_enabled
          */
@@ -2038,7 +2038,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
             0x7f01003f
         };
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#enabled}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#enabled}
           attribute's value can be found in the {@link #Item} array.
 
 
@@ -2062,12 +2062,12 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #PageIndicator_activeDot com.binomed.showtime:activeDot}</code></td><td></td></tr>
-           <tr><td><code>{@link #PageIndicator_dotCount com.binomed.showtime:dotCount}</code></td><td></td></tr>
-           <tr><td><code>{@link #PageIndicator_dotDrawable com.binomed.showtime:dotDrawable}</code></td><td></td></tr>
-           <tr><td><code>{@link #PageIndicator_dotSpacing com.binomed.showtime:dotSpacing}</code></td><td></td></tr>
-           <tr><td><code>{@link #PageIndicator_dotType com.binomed.showtime:dotType}</code></td><td></td></tr>
-           <tr><td><code>{@link #PageIndicator_gravity com.binomed.showtime:gravity}</code></td><td></td></tr>
+           <tr><td><code>{@link #PageIndicator_activeDot com.binomed.showtime.adsfree:activeDot}</code></td><td></td></tr>
+           <tr><td><code>{@link #PageIndicator_dotCount com.binomed.showtime.adsfree:dotCount}</code></td><td></td></tr>
+           <tr><td><code>{@link #PageIndicator_dotDrawable com.binomed.showtime.adsfree:dotDrawable}</code></td><td></td></tr>
+           <tr><td><code>{@link #PageIndicator_dotSpacing com.binomed.showtime.adsfree:dotSpacing}</code></td><td></td></tr>
+           <tr><td><code>{@link #PageIndicator_dotType com.binomed.showtime.adsfree:dotType}</code></td><td></td></tr>
+           <tr><td><code>{@link #PageIndicator_gravity com.binomed.showtime.adsfree:gravity}</code></td><td></td></tr>
            </table>
            @see #PageIndicator_activeDot
            @see #PageIndicator_dotCount
@@ -2081,7 +2081,7 @@ containing a value of this type.
             0x7f010055, 0x7f010056
         };
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#activeDot}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#activeDot}
           attribute's value can be found in the {@link #PageIndicator} array.
 
 
@@ -2095,7 +2095,7 @@ containing a value of this type.
         */
         public static final int PageIndicator_activeDot = 1;
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#dotCount}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#dotCount}
           attribute's value can be found in the {@link #PageIndicator} array.
 
 
@@ -2109,7 +2109,7 @@ containing a value of this type.
         */
         public static final int PageIndicator_dotCount = 0;
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#dotDrawable}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#dotDrawable}
           attribute's value can be found in the {@link #PageIndicator} array.
 
 
@@ -2119,7 +2119,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int PageIndicator_dotDrawable = 2;
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#dotSpacing}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#dotSpacing}
           attribute's value can be found in the {@link #PageIndicator} array.
 
 
@@ -2135,7 +2135,7 @@ containing a value of this type.
         */
         public static final int PageIndicator_dotSpacing = 3;
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#dotType}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#dotType}
           attribute's value can be found in the {@link #PageIndicator} array.
 
 
@@ -2152,7 +2152,7 @@ containing a value of this type.
         */
         public static final int PageIndicator_dotType = 5;
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#gravity}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#gravity}
           attribute's value can be found in the {@link #PageIndicator} array.
 
 
@@ -2179,7 +2179,7 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #ProgressItem_isInProgress com.binomed.showtime:isInProgress}</code></td><td></td></tr>
+           <tr><td><code>{@link #ProgressItem_isInProgress com.binomed.showtime.adsfree:isInProgress}</code></td><td></td></tr>
            </table>
            @see #ProgressItem_isInProgress
          */
@@ -2187,7 +2187,7 @@ containing a value of this type.
             0x7f010041
         };
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#isInProgress}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#isInProgress}
           attribute's value can be found in the {@link #ProgressItem} array.
 
 
@@ -2206,8 +2206,8 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #SegmentedBar_dividerDrawable com.binomed.showtime:dividerDrawable}</code></td><td></td></tr>
-           <tr><td><code>{@link #SegmentedBar_dividerWidth com.binomed.showtime:dividerWidth}</code></td><td></td></tr>
+           <tr><td><code>{@link #SegmentedBar_dividerDrawable com.binomed.showtime.adsfree:dividerDrawable}</code></td><td></td></tr>
+           <tr><td><code>{@link #SegmentedBar_dividerWidth com.binomed.showtime.adsfree:dividerWidth}</code></td><td></td></tr>
            </table>
            @see #SegmentedBar_dividerDrawable
            @see #SegmentedBar_dividerWidth
@@ -2216,7 +2216,7 @@ containing a value of this type.
             0x7f010047, 0x7f010048
         };
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#dividerDrawable}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#dividerDrawable}
           attribute's value can be found in the {@link #SegmentedBar} array.
 
 
@@ -2226,7 +2226,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int SegmentedBar_dividerDrawable = 0;
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#dividerWidth}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#dividerWidth}
           attribute's value can be found in the {@link #SegmentedBar} array.
 
 
@@ -2247,8 +2247,8 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #SegmentedHost_segmentedBar com.binomed.showtime:segmentedBar}</code></td><td></td></tr>
-           <tr><td><code>{@link #SegmentedHost_segmentedContentView com.binomed.showtime:segmentedContentView}</code></td><td></td></tr>
+           <tr><td><code>{@link #SegmentedHost_segmentedBar com.binomed.showtime.adsfree:segmentedBar}</code></td><td></td></tr>
+           <tr><td><code>{@link #SegmentedHost_segmentedContentView com.binomed.showtime.adsfree:segmentedContentView}</code></td><td></td></tr>
            </table>
            @see #SegmentedHost_segmentedBar
            @see #SegmentedHost_segmentedContentView
@@ -2257,7 +2257,7 @@ containing a value of this type.
             0x7f010049, 0x7f01004a
         };
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#segmentedBar}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#segmentedBar}
           attribute's value can be found in the {@link #SegmentedHost} array.
 
 
@@ -2267,7 +2267,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int SegmentedHost_segmentedBar = 0;
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#segmentedContentView}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#segmentedContentView}
           attribute's value can be found in the {@link #SegmentedHost} array.
 
 
@@ -2287,7 +2287,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #SubtextItem_subtext com.binomed.showtime:subtext}</code></td><td></td></tr>
+           <tr><td><code>{@link #SubtextItem_subtext com.binomed.showtime.adsfree:subtext}</code></td><td></td></tr>
            </table>
            @see #SubtextItem_subtext
          */
@@ -2295,7 +2295,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
             0x7f010044
         };
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#subtext}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#subtext}
           attribute's value can be found in the {@link #SubtextItem} array.
 
 
@@ -2314,7 +2314,7 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #SubtitleItem_subtitle com.binomed.showtime:subtitle}</code></td><td></td></tr>
+           <tr><td><code>{@link #SubtitleItem_subtitle com.binomed.showtime.adsfree:subtitle}</code></td><td></td></tr>
            </table>
            @see #SubtitleItem_subtitle
          */
@@ -2322,7 +2322,7 @@ containing a value of this type.
             0x7f010043
         };
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#subtitle}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#subtitle}
           attribute's value can be found in the {@link #SubtitleItem} array.
 
 
@@ -2341,7 +2341,7 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #TextItem_text com.binomed.showtime:text}</code></td><td></td></tr>
+           <tr><td><code>{@link #TextItem_text com.binomed.showtime.adsfree:text}</code></td><td></td></tr>
            </table>
            @see #TextItem_text
          */
@@ -2349,7 +2349,7 @@ containing a value of this type.
             0x7f010040
         };
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#text}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#text}
           attribute's value can be found in the {@link #TextItem} array.
 
 
@@ -2368,8 +2368,8 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #ThumbnailItem_thumbnail com.binomed.showtime:thumbnail}</code></td><td></td></tr>
-           <tr><td><code>{@link #ThumbnailItem_thumbnailURL com.binomed.showtime:thumbnailURL}</code></td><td></td></tr>
+           <tr><td><code>{@link #ThumbnailItem_thumbnail com.binomed.showtime.adsfree:thumbnail}</code></td><td></td></tr>
+           <tr><td><code>{@link #ThumbnailItem_thumbnailURL com.binomed.showtime.adsfree:thumbnailURL}</code></td><td></td></tr>
            </table>
            @see #ThumbnailItem_thumbnail
            @see #ThumbnailItem_thumbnailURL
@@ -2378,7 +2378,7 @@ containing a value of this type.
             0x7f010045, 0x7f010046
         };
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#thumbnail}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#thumbnail}
           attribute's value can be found in the {@link #ThumbnailItem} array.
 
 
@@ -2388,7 +2388,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ThumbnailItem_thumbnail = 0;
         /**
-          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#thumbnailURL}
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#thumbnailURL}
           attribute's value can be found in the {@link #ThumbnailItem} array.
 
 
