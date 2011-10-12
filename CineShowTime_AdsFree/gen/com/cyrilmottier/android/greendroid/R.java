@@ -146,6 +146,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int cstShowTimePassedColor=0x7f010067;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int cstTextHint=0x7f01006b;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -2401,5 +2409,32 @@ containing a value of this type.
           @attr name android:thumbnailURL
         */
         public static final int ThumbnailItem_thumbnailURL = 1;
+        /** Attributes that can be used with a cstTextStyle.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #cstTextStyle_cstTextHint com.binomed.showtime.adsfree:cstTextHint}</code></td><td></td></tr>
+           </table>
+           @see #cstTextStyle_cstTextHint
+         */
+        public static final int[] cstTextStyle = {
+            0x7f01006b
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.binomed.showtime.adsfree.R.attr#cstTextHint}
+          attribute's value can be found in the {@link #cstTextStyle} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:cstTextHint
+        */
+        public static final int cstTextStyle_cstTextHint = 0;
     };
 }

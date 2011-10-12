@@ -390,29 +390,29 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_GPS // Label
-					, model.getLocalisation()!= null ? 1 : 0 // Value
-					);
+					, model.getLocalisation() != null ? 1 : 0 // Value
+			);
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_DAY // Label
 					, model.getDay() // Value
-					);
+			);
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_CITY // Label
 					, model.getCityName() != null ? 1 : 0 // Value
-					);
+			);
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_MOVIE // Label
 					, model.getMovieName() != null ? 1 : 0 // Value
-					);
+			);
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_FORCE_REQUEST // Label
 					, forceRequest ? 1 : 0 // Value
-					);
-			
+			);
+
 			model.setLastRequestCity(cityName);
 			model.setLastRequestMovie(movieName);
 			model.setLastRequestTheaterId(theaterId);
@@ -441,9 +441,11 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	}
 
 	public void hideMovieFields() {
-		lblMovieName.setVisibility(View.GONE);
+		if (lblMovieName != null) {
+			lblMovieName.setVisibility(View.GONE);
+			lblDay.setVisibility(View.GONE);
+		}
 		fieldMovieName.setVisibility(View.GONE);
-		lblDay.setVisibility(View.GONE);
 		spinnerChooseDay.setVisibility(View.GONE);
 	}
 

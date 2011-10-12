@@ -146,6 +146,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int cstShowTimePassedColor=0x7f010067;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int cstTextHint=0x7f01006b;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -895,66 +903,67 @@ containing a value of this type.
         public static final int gps_man_disable=0x7f02006d;
         public static final int ic_btn_find_next=0x7f02006e;
         public static final int ic_btn_find_prev=0x7f02006f;
-        public static final int ic_btn_speak_now=0x7f020070;
-        public static final int ic_delete=0x7f020071;
-        public static final int ic_launcher=0x7f020072;
-        public static final int ic_menu_call=0x7f020073;
-        public static final int ic_menu_directions=0x7f020074;
-        public static final int ic_menu_mapmode=0x7f020075;
-        public static final int ic_menu_moreoverflow_normal_holo_light=0x7f020076;
-        public static final int ic_tab_fav=0x7f020077;
-        public static final int ic_tab_fav_selected=0x7f020078;
-        public static final int ic_tab_fav_unselected=0x7f020079;
-        public static final int ic_tab_info=0x7f02007a;
-        public static final int ic_tab_info_selected=0x7f02007b;
-        public static final int ic_tab_info_unselected=0x7f02007c;
-        public static final int ic_tab_review=0x7f02007d;
-        public static final int ic_tab_review_selected=0x7f02007e;
-        public static final int ic_tab_review_unselected=0x7f02007f;
-        public static final int ic_tab_search=0x7f020080;
-        public static final int ic_tab_search_selected=0x7f020081;
-        public static final int ic_tab_search_unselected=0x7f020082;
-        public static final int ic_tab_showtimes=0x7f020083;
-        public static final int ic_tab_showtimes_selected=0x7f020084;
-        public static final int ic_tab_showtimes_unselected=0x7f020085;
-        public static final int icon=0x7f020086;
-        public static final int icon_action_bar=0x7f020087;
-        public static final int icon_action_bar_alt=0x7f020088;
-        public static final int left_arrow=0x7f020089;
-        public static final int loading_preview=0x7f02008a;
-        public static final int logo=0x7f02008b;
-        public static final int logo_header=0x7f02008c;
-        public static final int logo_light=0x7f02008d;
-        public static final int no_poster=0x7f02008e;
-        public static final int palm_divider_line=0x7f02008f;
-        public static final int palm_popup_fade_arrow_down_dark=0x7f020090;
-        public static final int rate_star_small_half=0x7f020091;
-        public static final int rate_star_small_off=0x7f020092;
-        public static final int rate_star_small_on=0x7f020093;
-        public static final int right_arrow=0x7f020094;
-        public static final int skyhookcolor_sm=0x7f020095;
-        public static final int sms_32x32=0x7f020096;
-        public static final int splash_front_0=0x7f020097;
-        public static final int splash_front_1=0x7f020098;
-        public static final int tab_divider=0x7f020099;
-        public static final int ticket_32x32=0x7f02009a;
-        public static final int vide=0x7f02009b;
-        public static final int wait=0x7f02009c;
-        public static final int wait_animate=0x7f02009d;
-        public static final int widget_bg_2_paysage_0_0=0x7f02009e;
-        public static final int widget_bg_2_paysage_1_0_0_0=0x7f02009f;
-        public static final int widget_bg_2_paysage_1_0_0_1=0x7f0200a0;
-        public static final int widget_bg_2_paysage_1_0_0_2=0x7f0200a1;
-        public static final int widget_bg_2_paysage_1_0_0_3=0x7f0200a2;
-        public static final int widget_bg_2_paysage_1_0_0_4=0x7f0200a3;
-        public static final int widget_bg_2_paysage_2_0=0x7f0200a4;
-        public static final int widget_bg_2_portrait_0_0=0x7f0200a5;
-        public static final int widget_bg_2_portrait_1_0_0_0=0x7f0200a6;
-        public static final int widget_bg_2_portrait_1_0_0_1=0x7f0200a7;
-        public static final int widget_bg_2_portrait_1_0_0_2=0x7f0200a8;
-        public static final int widget_bg_2_portrait_1_0_0_3=0x7f0200a9;
-        public static final int widget_bg_2_portrait_1_0_0_4=0x7f0200aa;
-        public static final int widget_bg_2_portrait_2_0=0x7f0200ab;
+        public static final int ic_btn_search=0x7f020070;
+        public static final int ic_btn_speak_now=0x7f020071;
+        public static final int ic_delete=0x7f020072;
+        public static final int ic_launcher=0x7f020073;
+        public static final int ic_menu_call=0x7f020074;
+        public static final int ic_menu_directions=0x7f020075;
+        public static final int ic_menu_mapmode=0x7f020076;
+        public static final int ic_menu_moreoverflow_normal_holo_light=0x7f020077;
+        public static final int ic_tab_fav=0x7f020078;
+        public static final int ic_tab_fav_selected=0x7f020079;
+        public static final int ic_tab_fav_unselected=0x7f02007a;
+        public static final int ic_tab_info=0x7f02007b;
+        public static final int ic_tab_info_selected=0x7f02007c;
+        public static final int ic_tab_info_unselected=0x7f02007d;
+        public static final int ic_tab_review=0x7f02007e;
+        public static final int ic_tab_review_selected=0x7f02007f;
+        public static final int ic_tab_review_unselected=0x7f020080;
+        public static final int ic_tab_search=0x7f020081;
+        public static final int ic_tab_search_selected=0x7f020082;
+        public static final int ic_tab_search_unselected=0x7f020083;
+        public static final int ic_tab_showtimes=0x7f020084;
+        public static final int ic_tab_showtimes_selected=0x7f020085;
+        public static final int ic_tab_showtimes_unselected=0x7f020086;
+        public static final int icon=0x7f020087;
+        public static final int icon_action_bar=0x7f020088;
+        public static final int icon_action_bar_alt=0x7f020089;
+        public static final int left_arrow=0x7f02008a;
+        public static final int loading_preview=0x7f02008b;
+        public static final int logo=0x7f02008c;
+        public static final int logo_header=0x7f02008d;
+        public static final int logo_light=0x7f02008e;
+        public static final int no_poster=0x7f02008f;
+        public static final int palm_divider_line=0x7f020090;
+        public static final int palm_popup_fade_arrow_down_dark=0x7f020091;
+        public static final int rate_star_small_half=0x7f020092;
+        public static final int rate_star_small_off=0x7f020093;
+        public static final int rate_star_small_on=0x7f020094;
+        public static final int right_arrow=0x7f020095;
+        public static final int skyhookcolor_sm=0x7f020096;
+        public static final int sms_32x32=0x7f020097;
+        public static final int splash_front_0=0x7f020098;
+        public static final int splash_front_1=0x7f020099;
+        public static final int tab_divider=0x7f02009a;
+        public static final int ticket_32x32=0x7f02009b;
+        public static final int vide=0x7f02009c;
+        public static final int wait=0x7f02009d;
+        public static final int wait_animate=0x7f02009e;
+        public static final int widget_bg_2_paysage_0_0=0x7f02009f;
+        public static final int widget_bg_2_paysage_1_0_0_0=0x7f0200a0;
+        public static final int widget_bg_2_paysage_1_0_0_1=0x7f0200a1;
+        public static final int widget_bg_2_paysage_1_0_0_2=0x7f0200a2;
+        public static final int widget_bg_2_paysage_1_0_0_3=0x7f0200a3;
+        public static final int widget_bg_2_paysage_1_0_0_4=0x7f0200a4;
+        public static final int widget_bg_2_paysage_2_0=0x7f0200a5;
+        public static final int widget_bg_2_portrait_0_0=0x7f0200a6;
+        public static final int widget_bg_2_portrait_1_0_0_0=0x7f0200a7;
+        public static final int widget_bg_2_portrait_1_0_0_1=0x7f0200a8;
+        public static final int widget_bg_2_portrait_1_0_0_2=0x7f0200a9;
+        public static final int widget_bg_2_portrait_1_0_0_3=0x7f0200aa;
+        public static final int widget_bg_2_portrait_1_0_0_4=0x7f0200ab;
+        public static final int widget_bg_2_portrait_2_0=0x7f0200ac;
     }
     public static final class id {
         public static final int FragmentLayout=0x7f060017;
@@ -2401,5 +2410,32 @@ containing a value of this type.
           @attr name android:thumbnailURL
         */
         public static final int ThumbnailItem_thumbnailURL = 1;
+        /** Attributes that can be used with a cstTextStyle.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #cstTextStyle_cstTextHint com.binomed.showtime:cstTextHint}</code></td><td></td></tr>
+           </table>
+           @see #cstTextStyle_cstTextHint
+         */
+        public static final int[] cstTextStyle = {
+            0x7f01006b
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#cstTextHint}
+          attribute's value can be found in the {@link #cstTextStyle} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:cstTextHint
+        */
+        public static final int cstTextStyle_cstTextHint = 0;
     };
 }

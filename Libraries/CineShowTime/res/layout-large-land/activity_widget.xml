@@ -34,6 +34,13 @@
             >
         <!-- Preview: layout=@layout/fragment_search -->
     </fragment>
+    <View
+	        android:layout_width="2dp"
+	        android:background="@drawable/cst_vertical_line"
+	        android:layout_height="fill_parent"
+	        android:layout_marginTop="50dp"
+	        android:layout_marginBottom="50dp"
+	        />
     <LinearLayout 
     		android:orientation="vertical"
            android:layout_width="0dp"

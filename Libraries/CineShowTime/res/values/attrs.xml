@@ -37,4 +37,7 @@
     <attr name="cstShowTimeNextColor" format="reference"/>
     <attr name="cstTextTrailer" format="reference"/>
     
+    <declare-styleable name="cstTextStyle">
+	    <attr name="cstTextHint" format="integer"/>
+    </declare-styleable>
 </resources>

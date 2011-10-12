@@ -30,7 +30,7 @@
 				    android:background="@drawable/ic_btn_speak_now"
 				    android:layout_alignParentRight="true"
 				    android:layout_marginLeft="-3dp" 
-				/>
+				/>				 
 				 <AutoCompleteTextView 
 				    android:id="@+id/searchWithSpeech"
 				    android:layout_width="fill_parent"
@@ -39,6 +39,7 @@
 				    android:layout_centerVertical="true"
 				    android:singleLine="true"
 				    android:imeOptions="actionSearch"
+				    android:hint="un texte"
 				    style="?attr/cstEditText" 
 				    />
 		</RelativeLayout>

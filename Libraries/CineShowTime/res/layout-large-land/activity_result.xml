@@ -24,8 +24,9 @@
 	                         android:layout_width="wrap_content"
 	                         android:layout_height="wrap_content"
 	                         android:layout_alignParentBottom="true"
+	                         android:layout_centerHorizontal="true"
 	                         ads:adUnitId="@string/addViewId"
-	                         ads:adSize="BANNER"
+	                         ads:adSize="IAB_BANNER"
 	                         ads:loadAdOnCreate="true"/>
 	<LinearLayout 
 	        android:orientation="horizontal"
@@ -47,6 +48,14 @@
 	            >
 	        <!-- Preview: layout=@layout/fragment_results -->
 	    </fragment>
+	    <View
+	        android:layout_width="2dp"
+	        android:background="@drawable/cst_vertical_line"
+	        android:layout_height="fill_parent"
+	        android:layout_marginTop="50dp"
+	        android:layout_marginBottom="50dp"
+	        android:layout_marginRight="20dp"
+	        />
 		<LinearLayout 
 		        android:orientation="vertical"
 	            android:id="@+id/fragmentInfo" 
