@@ -36,6 +36,7 @@
         <item name="cstSearchLabel">@style/TextLabel.SearchLabel.Dark</item>
         <item name="cstMovieLabel">@style/TextLabel.MovieLabel.Dark</item>
         <item name="cstMovieLabelBelow">@style/TextLabel.MovieLabel.Below.Dark</item>
+        <item name="cstMovieTitle">@style/TextLabel.MovieTitle.Dark</item>
         <item name="cstObjectMasterMainInfo">@style/TextObjectMasterMainInfo.Dark</item>
         <item name="cstObjectMasterSubInfo">@style/TextObjectMasterSubInfo.Dark</item>
         <item name="cstObjectSubMainInfo">@style/TextObjectSubMainInfo.Dark</item>
@@ -65,6 +66,7 @@
         <item name="cstSearchLabel">@style/TextLabel.SearchLabel.Light</item>
         <item name="cstMovieLabel">@style/TextLabel.MovieLabel.Light</item>
         <item name="cstMovieLabelBelow">@style/TextLabel.MovieLabel.Below.Light</item>
+        <item name="cstMovieTitle">@style/TextLabel.MovieTitle.Light</item>
         <item name="cstObjectMasterMainInfo">@style/TextObjectMasterMainInfo.Light</item>
         <item name="cstObjectMasterSubInfo">@style/TextObjectMasterSubInfo.Light</item>
         <item name="cstObjectSubMainInfo">@style/TextObjectSubMainInfo.Light</item>

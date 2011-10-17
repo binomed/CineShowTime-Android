@@ -99,7 +99,11 @@ public final class LocationUtils {
 		case GSM_PROVIDER: {
 			LocationManager locationManager = getLocationManager(context);
 			if (locationManager != null) {
-				result = locationManager.isProviderEnabled(provider.getAndroidProvider());
+				try {
+					result = locationManager.isProviderEnabled(provider.getAndroidProvider());
+				} catch (Exception e) {
+					result = false;
+				}
 			}
 			break;
 		}

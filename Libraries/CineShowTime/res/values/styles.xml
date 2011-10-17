@@ -134,6 +134,16 @@
         <item name="android:textSize">14sp</item>
         <item name="android:layout_marginRight">5dip</item>
     </style>
+    <style name="TextLabel.MovieTitle">
+        <item name="android:textSize">@dimen/cstMovieTitle</item>
+        <item name="android:layout_marginRight">5dip</item>
+    </style>
+    <style name="TextLabel.MovieTitle.Light">
+        <item name="android:textColor">@color/lbl_light</item>
+    </style>
+    <style name="TextLabel.MovieTitle.Dark">
+        <item name="android:textColor">@color/lbl_dark</item>
+    </style>
     <style name="TextLabel.MovieLabel.Light">
         <item name="android:textColor">@color/lbl_light</item>
     </style>

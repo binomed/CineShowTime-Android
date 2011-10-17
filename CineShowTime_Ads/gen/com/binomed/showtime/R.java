@@ -105,31 +105,35 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstMovieLabelBelow=0x7f010060;
+        public static final int cstMovieLabelBelow=0x7f010061;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstObjectMasterMainInfo=0x7f010061;
+        public static final int cstMovieTitle=0x7f010060;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstObjectMasterSubInfo=0x7f010062;
+        public static final int cstObjectMasterMainInfo=0x7f010062;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstObjectSubMainInfo=0x7f010063;
+        public static final int cstObjectMasterSubInfo=0x7f010063;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstObjectSubMainInfoColor=0x7f010064;
+        public static final int cstObjectSubMainInfo=0x7f010064;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstObjectSubMainInfoSub=0x7f010065;
+        public static final int cstObjectSubMainInfoColor=0x7f010065;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstObjectSubMainInfoSubColor=0x7f010066;
+        public static final int cstObjectSubMainInfoSub=0x7f010066;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int cstObjectSubMainInfoSubColor=0x7f010067;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -137,15 +141,15 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstShowTimeNearestColor=0x7f010068;
+        public static final int cstShowTimeNearestColor=0x7f010069;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstShowTimeNextColor=0x7f010069;
+        public static final int cstShowTimeNextColor=0x7f01006a;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstShowTimePassedColor=0x7f010067;
+        public static final int cstShowTimePassedColor=0x7f010068;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -153,7 +157,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int cstTextHint=0x7f01006b;
+        public static final int cstTextHint=0x7f01006c;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -173,7 +177,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstTextTrailer=0x7f01006a;
+        public static final int cstTextTrailer=0x7f01006b;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -770,6 +774,7 @@ containing a value of this type.
         public static final int cstEditText=0x7f080012;
         public static final int cstFavMainHeight=0x7f080011;
         public static final int cstLblSearch=0x7f080013;
+        public static final int cstMovieTitle=0x7f080018;
         public static final int cstPaddingBottomMain=0x7f080010;
         public static final int cstPaddingLeftMain=0x7f08000e;
         public static final int cstPaddingRightMain=0x7f08000f;
@@ -1096,14 +1101,14 @@ containing a value of this type.
         public static final int review_item=0x7f06008b;
         public static final int right=0x7f06000a;
         public static final int root_container=0x7f06002d;
-        public static final int searchBtnSearch=0x7f06003c;
-        public static final int searchCityName=0x7f060037;
+        public static final int searchBtnSearch=0x7f060039;
+        public static final int searchCityName=0x7f060036;
         public static final int searchImgGps=0x7f060035;
-        public static final int searchMovieName=0x7f060039;
-        public static final int searchSpinner=0x7f06003b;
-        public static final int searchTxtCityName=0x7f060036;
-        public static final int searchTxtMovieName=0x7f060038;
-        public static final int searchTxtSpinner=0x7f06003a;
+        public static final int searchMovieName=0x7f060037;
+        public static final int searchSpinner=0x7f060038;
+        public static final int searchTxtCityName=0x7f06003a;
+        public static final int searchTxtMovieName=0x7f06003b;
+        public static final int searchTxtSpinner=0x7f06003c;
         public static final int searchWithSpeech=0x7f060078;
         public static final int searchWithoutSpeech=0x7f060079;
         public static final int single=0x7f06000e;
@@ -1153,50 +1158,52 @@ containing a value of this type.
         public static final int fragment_movie=0x7f03000d;
         public static final int fragment_results=0x7f03000e;
         public static final int fragment_search=0x7f03000f;
-        public static final int gd_action_bar_dashboard=0x7f030010;
-        public static final int gd_action_bar_empty=0x7f030011;
-        public static final int gd_action_bar_item_base=0x7f030012;
-        public static final int gd_action_bar_item_loader=0x7f030013;
-        public static final int gd_action_bar_normal=0x7f030014;
-        public static final int gd_content_dashboard=0x7f030015;
-        public static final int gd_content_empty=0x7f030016;
-        public static final int gd_content_normal=0x7f030017;
-        public static final int gd_description_item_view=0x7f030018;
-        public static final int gd_drawable_item_view=0x7f030019;
-        public static final int gd_expandable_list_content_dashboard=0x7f03001a;
-        public static final int gd_expandable_list_content_empty=0x7f03001b;
-        public static final int gd_expandable_list_content_normal=0x7f03001c;
-        public static final int gd_list_content_dashboard=0x7f03001d;
-        public static final int gd_list_content_empty=0x7f03001e;
-        public static final int gd_list_content_normal=0x7f03001f;
-        public static final int gd_long_text_item_view=0x7f030020;
-        public static final int gd_progress_item_view=0x7f030021;
-        public static final int gd_quick_action_bar=0x7f030022;
-        public static final int gd_quick_action_bar_item=0x7f030023;
-        public static final int gd_quick_action_grid=0x7f030024;
-        public static final int gd_quick_action_grid_item=0x7f030025;
-        public static final int gd_segment=0x7f030026;
-        public static final int gd_separator_item_view=0x7f030027;
-        public static final int gd_subtext_item_view=0x7f030028;
-        public static final int gd_subtitle_item_view=0x7f030029;
-        public static final int gd_tab_content=0x7f03002a;
-        public static final int gd_tab_indicator=0x7f03002b;
-        public static final int gd_text_item_view=0x7f03002c;
-        public static final int gd_thumbnail_item_view=0x7f03002d;
-        public static final int tab_movie_info=0x7f03002e;
-        public static final int tab_movie_reviews=0x7f03002f;
-        public static final int tab_movie_showtimes=0x7f030030;
-        public static final int view_auto_complete_with_speech=0x7f030031;
-        public static final int view_expandable_child_item=0x7f030032;
-        public static final int view_expandable_group_item=0x7f030033;
-        public static final int view_fav_item=0x7f030034;
-        public static final int view_gallery_trailer_group_item=0x7f030035;
-        public static final int view_projection_group_item=0x7f030036;
-        public static final int view_review_group_item=0x7f030037;
-        public static final int view_spinner_item=0x7f030038;
-        public static final int view_tab_item=0x7f030039;
-        public static final int view_text_group_item=0x7f03003a;
-        public static final int widget_one=0x7f03003b;
+        public static final int fragment_search_mini=0x7f030010;
+        public static final int fragment_search_normal=0x7f030011;
+        public static final int gd_action_bar_dashboard=0x7f030012;
+        public static final int gd_action_bar_empty=0x7f030013;
+        public static final int gd_action_bar_item_base=0x7f030014;
+        public static final int gd_action_bar_item_loader=0x7f030015;
+        public static final int gd_action_bar_normal=0x7f030016;
+        public static final int gd_content_dashboard=0x7f030017;
+        public static final int gd_content_empty=0x7f030018;
+        public static final int gd_content_normal=0x7f030019;
+        public static final int gd_description_item_view=0x7f03001a;
+        public static final int gd_drawable_item_view=0x7f03001b;
+        public static final int gd_expandable_list_content_dashboard=0x7f03001c;
+        public static final int gd_expandable_list_content_empty=0x7f03001d;
+        public static final int gd_expandable_list_content_normal=0x7f03001e;
+        public static final int gd_list_content_dashboard=0x7f03001f;
+        public static final int gd_list_content_empty=0x7f030020;
+        public static final int gd_list_content_normal=0x7f030021;
+        public static final int gd_long_text_item_view=0x7f030022;
+        public static final int gd_progress_item_view=0x7f030023;
+        public static final int gd_quick_action_bar=0x7f030024;
+        public static final int gd_quick_action_bar_item=0x7f030025;
+        public static final int gd_quick_action_grid=0x7f030026;
+        public static final int gd_quick_action_grid_item=0x7f030027;
+        public static final int gd_segment=0x7f030028;
+        public static final int gd_separator_item_view=0x7f030029;
+        public static final int gd_subtext_item_view=0x7f03002a;
+        public static final int gd_subtitle_item_view=0x7f03002b;
+        public static final int gd_tab_content=0x7f03002c;
+        public static final int gd_tab_indicator=0x7f03002d;
+        public static final int gd_text_item_view=0x7f03002e;
+        public static final int gd_thumbnail_item_view=0x7f03002f;
+        public static final int tab_movie_info=0x7f030030;
+        public static final int tab_movie_reviews=0x7f030031;
+        public static final int tab_movie_showtimes=0x7f030032;
+        public static final int view_auto_complete_with_speech=0x7f030033;
+        public static final int view_expandable_child_item=0x7f030034;
+        public static final int view_expandable_group_item=0x7f030035;
+        public static final int view_fav_item=0x7f030036;
+        public static final int view_gallery_trailer_group_item=0x7f030037;
+        public static final int view_projection_group_item=0x7f030038;
+        public static final int view_review_group_item=0x7f030039;
+        public static final int view_spinner_item=0x7f03003a;
+        public static final int view_tab_item=0x7f03003b;
+        public static final int view_text_group_item=0x7f03003c;
+        public static final int widget_one=0x7f03003d;
     }
     public static final class string {
         /** Main acitivity 
@@ -1799,53 +1806,56 @@ Widget
         public static final int TextInfoRate_Light=0x7f0a004f;
         public static final int TextLabel=0x7f0a0054;
         public static final int TextLabel_MovieLabel=0x7f0a0058;
-        public static final int TextLabel_MovieLabel_Below=0x7f0a005b;
-        public static final int TextLabel_MovieLabel_Below_Dark=0x7f0a005d;
-        public static final int TextLabel_MovieLabel_Below_Light=0x7f0a005c;
-        public static final int TextLabel_MovieLabel_Dark=0x7f0a005a;
-        public static final int TextLabel_MovieLabel_Light=0x7f0a0059;
+        public static final int TextLabel_MovieLabel_Below=0x7f0a005e;
+        public static final int TextLabel_MovieLabel_Below_Dark=0x7f0a0060;
+        public static final int TextLabel_MovieLabel_Below_Light=0x7f0a005f;
+        public static final int TextLabel_MovieLabel_Dark=0x7f0a005d;
+        public static final int TextLabel_MovieLabel_Light=0x7f0a005c;
+        public static final int TextLabel_MovieTitle=0x7f0a0059;
+        public static final int TextLabel_MovieTitle_Dark=0x7f0a005b;
+        public static final int TextLabel_MovieTitle_Light=0x7f0a005a;
         public static final int TextLabel_SearchLabel=0x7f0a0055;
         public static final int TextLabel_SearchLabel_Dark=0x7f0a0057;
         public static final int TextLabel_SearchLabel_Light=0x7f0a0056;
-        public static final int TextObjectMasterMainInfo=0x7f0a005e;
-        public static final int TextObjectMasterMainInfo_Dark=0x7f0a0060;
-        public static final int TextObjectMasterMainInfo_Light=0x7f0a005f;
-        public static final int TextObjectMasterSubInfo=0x7f0a0061;
-        public static final int TextObjectMasterSubInfo_Dark=0x7f0a0063;
-        public static final int TextObjectMasterSubInfo_Light=0x7f0a0062;
-        public static final int TextObjectSubMainInfo=0x7f0a0064;
-        public static final int TextObjectSubMainInfo_Dark=0x7f0a0066;
-        public static final int TextObjectSubMainInfo_Light=0x7f0a0065;
-        public static final int TextObjectSubMainInfoSub=0x7f0a0067;
-        public static final int TextObjectSubMainInfoSub_Dark=0x7f0a0069;
-        public static final int TextObjectSubMainInfoSub_Light=0x7f0a0068;
+        public static final int TextObjectMasterMainInfo=0x7f0a0061;
+        public static final int TextObjectMasterMainInfo_Dark=0x7f0a0063;
+        public static final int TextObjectMasterMainInfo_Light=0x7f0a0062;
+        public static final int TextObjectMasterSubInfo=0x7f0a0064;
+        public static final int TextObjectMasterSubInfo_Dark=0x7f0a0066;
+        public static final int TextObjectMasterSubInfo_Light=0x7f0a0065;
+        public static final int TextObjectSubMainInfo=0x7f0a0067;
+        public static final int TextObjectSubMainInfo_Dark=0x7f0a0069;
+        public static final int TextObjectSubMainInfo_Light=0x7f0a0068;
+        public static final int TextObjectSubMainInfoSub=0x7f0a006a;
+        public static final int TextObjectSubMainInfoSub_Dark=0x7f0a006c;
+        public static final int TextObjectSubMainInfoSub_Light=0x7f0a006b;
         public static final int TextTabDark=0x7f0a0047;
         /**  TextStyle 
          */
         public static final int TextTabLight=0x7f0a0046;
-        public static final int TextTrailer=0x7f0a006a;
-        public static final int TextTrailer_Dark=0x7f0a006c;
-        public static final int TextTrailer_Light=0x7f0a006b;
+        public static final int TextTrailer=0x7f0a006d;
+        public static final int TextTrailer_Dark=0x7f0a006f;
+        public static final int TextTrailer_Light=0x7f0a006e;
         /**  Base application theme is the default theme. 
          */
-        public static final int Theme=0x7f0a0073;
+        public static final int Theme=0x7f0a0076;
         /**  Variation on our application theme that has a translucent
 	 background. 
          */
-        public static final int Theme_Dark_Night=0x7f0a0074;
+        public static final int Theme_Dark_Night=0x7f0a0077;
         public static final int Theme_GreenDroid=0x7f0a0035;
         public static final int Theme_GreenDroid_NoTitleBar=0x7f0a0036;
         /**  Variation on our application theme that has a transparent
 	background; this example completely removes the background,
 	allowing the activity to decide how to composite. 
          */
-        public static final int Theme_Shine_the_lite=0x7f0a0075;
-        public static final int Widget=0x7f0a006d;
-        public static final int Widget_Hour=0x7f0a0071;
-        public static final int Widget_HourOne=0x7f0a0072;
-        public static final int Widget_Movie=0x7f0a006f;
-        public static final int Widget_MovieOne=0x7f0a0070;
-        public static final int Widget_TheaterTitle=0x7f0a006e;
+        public static final int Theme_Shine_the_lite=0x7f0a0078;
+        public static final int Widget=0x7f0a0070;
+        public static final int Widget_Hour=0x7f0a0074;
+        public static final int Widget_HourOne=0x7f0a0075;
+        public static final int Widget_Movie=0x7f0a0072;
+        public static final int Widget_MovieOne=0x7f0a0073;
+        public static final int Widget_TheaterTitle=0x7f0a0071;
     }
     public static final class xml {
         public static final int and_showtime_preferences=0x7f050000;
@@ -2421,7 +2431,7 @@ containing a value of this type.
            @see #cstTextStyle_cstTextHint
          */
         public static final int[] cstTextStyle = {
-            0x7f01006b
+            0x7f01006c
         };
         /**
           <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#cstTextHint}

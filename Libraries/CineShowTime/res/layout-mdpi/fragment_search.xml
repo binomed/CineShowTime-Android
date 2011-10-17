@@ -16,54 +16,10 @@
  -->
 <RelativeLayout 
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:cst="http://schemas.android.com/apk/res/com.binomed.showtime"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     >
-	    <ImageView 
-			android:id="@+id/searchImgGps"
-			android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:layout_marginTop="15dip"  
-			android:layout_alignParentRight="true"
-			/>		
-	<com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech 
-	    android:id="@+id/searchCityName"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-		android:layout_toLeftOf="@+id/searchImgGps"
-		android:layout_marginRight="10dip"  
-		android:layout_marginTop="10dip"   
-	    cst:cstTextHint="@string/cityName"
-	    />
-	<com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech 
-	    android:id="@+id/searchMovieName"
-		android:layout_marginTop="10dip"   
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_below="@+id/searchCityName" 
-	    cst:cstTextHint="@string/movieName"
-	    />	
-    <Spinner 
-        android:id="@+id/searchSpinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:drawSelectorOnTop="true"
-        android:prompt="@string/spinnerChoseTitle"
-	    android:layout_below="@+id/searchMovieName" 
-		android:layout_marginTop="10dip"  
-	    style="@style/Button.spinner"
-    />
-	<Button 
-		android:id="@+id/searchBtnSearch" 
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content" 
-		android:layout_marginTop="10dip"  
-		android:text="@string/search" 
-		android:layout_centerHorizontal="true"
-	    android:layout_below="@id/searchSpinner" 
-	    android:drawableLeft="@drawable/ic_btn_search"
-	    android:drawablePadding="10dp"
-	    style="@style/Button.button"
-		/>
+	    <include
+	    layout="@layout/fragment_search_mini"
+	    		/>
 </RelativeLayout>

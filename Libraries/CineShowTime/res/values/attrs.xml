@@ -25,6 +25,7 @@
     <attr name="cstEditText" format="reference"/>
     <attr name="cstSearchLabel" format="reference"/>
     <attr name="cstMovieLabel" format="reference"/>
+    <attr name="cstMovieTitle" format="reference"/>
     <attr name="cstMovieLabelBelow" format="reference"/>
     <attr name="cstObjectMasterMainInfo" format="reference"/>
     <attr name="cstObjectMasterSubInfo" format="reference"/>

@@ -24,5 +24,6 @@
 	<dimen name="cstLblSearch">18sp</dimen>
 	<dimen name="cstBtnSpinner">18sp</dimen>
 	<dimen name="cstBtn">18sp</dimen>
+	<dimen name="cstMovieTitle">20sp</dimen>
 
 </resources>

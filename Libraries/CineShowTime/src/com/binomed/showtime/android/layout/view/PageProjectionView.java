@@ -180,7 +180,9 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 	}
 
 	public void changePreferences() {
-		projectionAdapter.changePreferences();
+		if (projectionAdapter != null) {
+			projectionAdapter.changePreferences();
+		}
 	}
 
 	@Override
