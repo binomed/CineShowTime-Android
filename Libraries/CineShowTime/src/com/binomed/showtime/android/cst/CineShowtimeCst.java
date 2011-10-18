@@ -88,8 +88,10 @@ public final class CineShowtimeCst {
 
 	public static final String ANALYTICS_ACTION_VERSION = "Version";
 	public static final String ANALYTICS_ACTION_ANDROID_VERSION = "AndroidVersion";
+	public static final String ANALYTICS_ACTION_TABLET = "Tablet";
 	public static final String ANALYTICS_ACTION_OPEN = "Open";
 	public static final String ANALYTICS_ACTION_TIME = "Time";
+	public static final String ANALYTICS_ACTION_GPS = "GpsAction";
 	public static final String ANALYTICS_ACTION_CANCEL_SERVICE = "CancelService";
 	public static final String ANALYTICS_ACTION_CHANGE_THEME = "ChangeTheme";
 	public static final String ANALYTICS_ACTION_RETURN_HOME = "ReturnHome";
@@ -116,6 +118,9 @@ public final class CineShowtimeCst {
 	public static final String ANALYTICS_LABEL_SEARCH_CITY = "City";
 	public static final String ANALYTICS_LABEL_SEARCH_MOVIE = "Movie";
 	public static final String ANALYTICS_LABEL_SEARCH_FORCE_REQUEST = "Force Request";
+
+	public static final String ANALYTICS_LABEL_SEARCH_GPS_USE = "Use of Gps";
+	public static final String ANALYTICS_LABEL_SEARCH_GPS_PROVIDER = "Provider";
 
 	public static final String ANALYTICS_LABEL_RESULTS_SORT = "Use sort";
 	public static final String ANALYTICS_LABEL_RESULTS_MORE_RESULTS = "Use more results";

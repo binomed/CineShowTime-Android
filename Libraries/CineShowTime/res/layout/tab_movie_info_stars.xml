@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * Copyright (C) 2011 Binomed (http://blog.binomed.fr)
+ *
+ * Licensed under the Eclipse Public License - v 1.0;
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.eclipse.org/legal/epl-v10.html
+ *
+ * THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC 
+ * LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM 
+ * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
+ */ 
+ -->
+<RelativeLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"> 
+		<ImageView 
+			android:id="@+id/movieImgRate1"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_marginLeft="10dip"
+			/>
+		<ImageView 
+			android:id="@+id/movieImgRate2"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_alignTop="@id/movieImgRate1"
+			android:layout_toRightOf="@id/movieImgRate1"
+			/>
+		<ImageView 
+			android:id="@+id/movieImgRate3"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_alignTop="@id/movieImgRate2"
+			android:layout_toRightOf="@id/movieImgRate2"
+			/>
+		<ImageView 
+			android:id="@+id/movieImgRate4"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_alignTop="@id/movieImgRate3"
+			android:layout_toRightOf="@id/movieImgRate3"
+			/>
+		<ImageView 
+			android:id="@+id/movieImgRate5"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_alignTop="@id/movieImgRate4"
+			android:layout_toRightOf="@id/movieImgRate4"
+			/>
+		<ImageView 
+			android:id="@+id/movieImgRate6"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_alignTop="@id/movieImgRate5"
+			android:layout_toRightOf="@id/movieImgRate5"
+			/>
+		<ImageView 
+			android:id="@+id/movieImgRate7"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_alignTop="@id/movieImgRate6"
+			android:layout_toRightOf="@id/movieImgRate6"
+			/>
+		<ImageView 
+			android:id="@+id/movieImgRate8"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_alignTop="@id/movieImgRate7"
+			android:layout_toRightOf="@id/movieImgRate7"
+			/>
+		<ImageView 
+			android:id="@+id/movieImgRate9"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_alignTop="@id/movieImgRate8"
+			android:layout_toRightOf="@id/movieImgRate8"
+			/>
+		<ImageView 
+			android:id="@+id/movieImgRate10"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_alignTop="@id/movieImgRate9"
+			android:layout_toRightOf="@id/movieImgRate9"
+			/>
+</RelativeLayout>

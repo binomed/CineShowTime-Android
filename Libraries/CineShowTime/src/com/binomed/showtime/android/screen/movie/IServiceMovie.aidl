@@ -24,4 +24,5 @@ interface IServiceMovie{
 	void unregisterCallback(ICallbackMovie cb);
 	boolean isServiceRunning();
 	void cancelService();
+	void error();
 }

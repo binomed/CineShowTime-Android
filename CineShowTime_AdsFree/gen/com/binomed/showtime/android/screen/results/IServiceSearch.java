@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: F:\\tools\\projects\\binomed-git\\CineShowTime-Android\\Libraries\\CineShowTime\\src\\com\\binomed\\showtime\\android\\screen\\results\\IServiceSearch.aidl
+ * Original file: D:\\tools\\projects\\CineShowTime-Android\\Libraries\\CineShowTime\\src\\com\\binomed\\showtime\\android\\screen\\results\\IServiceSearch.aidl
  */
 package com.binomed.showtime.android.screen.results;
 public interface IServiceSearch extends android.os.IInterface
@@ -118,6 +118,13 @@ case TRANSACTION_cancelService:
 {
 data.enforceInterface(DESCRIPTOR);
 this.cancelService();
+reply.writeNoException();
+return true;
+}
+case TRANSACTION_errorService:
+{
+data.enforceInterface(DESCRIPTOR);
+this.errorService();
 reply.writeNoException();
 return true;
 }
@@ -274,6 +281,20 @@ _reply.recycle();
 _data.recycle();
 }
 }
+public void errorService() throws android.os.RemoteException
+{
+android.os.Parcel _data = android.os.Parcel.obtain();
+android.os.Parcel _reply = android.os.Parcel.obtain();
+try {
+_data.writeInterfaceToken(DESCRIPTOR);
+mRemote.transact(Stub.TRANSACTION_errorService, _data, _reply, 0);
+_reply.readException();
+}
+finally {
+_reply.recycle();
+_data.recycle();
+}
+}
 }
 static final int TRANSACTION_finish = (android.os.IBinder.FIRST_CALL_TRANSACTION + 0);
 static final int TRANSACTION_finishLocation = (android.os.IBinder.FIRST_CALL_TRANSACTION + 1);
@@ -283,6 +304,7 @@ static final int TRANSACTION_getNearResp = (android.os.IBinder.FIRST_CALL_TRANSA
 static final int TRANSACTION_getLocalisation = (android.os.IBinder.FIRST_CALL_TRANSACTION + 5);
 static final int TRANSACTION_isServiceRunning = (android.os.IBinder.FIRST_CALL_TRANSACTION + 6);
 static final int TRANSACTION_cancelService = (android.os.IBinder.FIRST_CALL_TRANSACTION + 7);
+static final int TRANSACTION_errorService = (android.os.IBinder.FIRST_CALL_TRANSACTION + 8);
 }
 public void finish() throws android.os.RemoteException;
 public void finishLocation(java.lang.String theaterId) throws android.os.RemoteException;
@@ -292,4 +314,5 @@ public com.binomed.showtime.android.model.NearResp getNearResp() throws android.
 public com.binomed.showtime.android.model.LocalisationBean getLocalisation(java.lang.String theaterId) throws android.os.RemoteException;
 public boolean isServiceRunning() throws android.os.RemoteException;
 public void cancelService() throws android.os.RemoteException;
+public void errorService() throws android.os.RemoteException;
 }

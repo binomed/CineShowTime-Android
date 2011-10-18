@@ -373,6 +373,15 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 				);
 	}
 
+	public final void openErrorDialog(int errorMsg) {
+		progressDialog = ProgressDialog.show(this, //
+				getResources().getString(R.string.errorMsg)//
+				, getResources().getString(errorMsg) //
+				, false // indeterminate
+				, true // cancelable
+				);
+	}
+
 	/*
 	 * ActionBarCode
 	 */

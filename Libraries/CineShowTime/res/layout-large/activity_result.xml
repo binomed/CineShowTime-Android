@@ -23,7 +23,7 @@
 	                         android:layout_height="wrap_content"
 	                         android:layout_alignParentBottom="true"
 	                         ads:adUnitId="@string/addViewId"
-	                         ads:adSize="BANNER"
+	                         ads:adSize="IAB_BANNER"
 	                         ads:loadAdOnCreate="true"/>
 	<FrameLayout
 	    android:id="@+id/frameLayout" 

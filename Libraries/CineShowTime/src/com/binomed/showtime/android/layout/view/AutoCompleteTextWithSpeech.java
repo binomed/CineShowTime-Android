@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.content.res.TypedArray;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.util.AttributeSet;
@@ -46,6 +45,7 @@ public class AutoCompleteTextWithSpeech extends RelativeLayout implements OnClic
 	private AutoCompleteTextView autoCompleteText;
 	private AutoCompleteInteraction callBack;
 	private ArrayList<String> matches;
+	private String hint;
 
 	public AutoCompleteTextWithSpeech(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -58,8 +58,12 @@ public class AutoCompleteTextWithSpeech extends RelativeLayout implements OnClic
 		init(context, null);
 	}
 
-	public void setCallBack(AutoCompleteInteraction callBack) {
+	public void setCallBack(AutoCompleteInteraction callBack, String hint) {
 		this.callBack = callBack;
+		this.hint = hint;
+		if (hint != null) {
+			autoCompleteText.setHint(hint);
+		}
 	}
 
 	private void init(Context context, AttributeSet attrs) {
@@ -83,11 +87,10 @@ public class AutoCompleteTextWithSpeech extends RelativeLayout implements OnClic
 			btnSpeech.setOnClickListener(this);
 		}
 
-		if (attrs != null) {
-			TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.cstTextStyle);
-			autoCompleteText.setHint(a.getString(R.styleable.cstTextStyle_cstTextHint));
-			// autoCompleteText.setHint("un texte");
-		}
+		// if (attrs != null) {
+		// TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.cstTextStyle);
+		// autoCompleteText.setHint(a.getString(R.styleable.cstTextStyle_cstTextHint));
+		// }
 
 		autoCompleteText.setOnEditorActionListener(this);
 	}

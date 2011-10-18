@@ -45,6 +45,8 @@ import com.binomed.showtime.android.service.CineShowCleanFileService;
 import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.android.util.activity.AbstractCineShowTimeActivity;
+import com.binomed.showtime.android.util.activity.TestSizeHoneyComb;
+import com.binomed.showtime.android.util.activity.TestSizeOther;
 
 public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<ModelMainFragment> implements CineShowTimeFavFragment.FavFragmentInteraction<ModelMainFragment>, //
 		CineShowTimeSearchFragment.SearchFragmentInteraction<ModelMainFragment> //
@@ -79,6 +81,11 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 					, CineShowtimeCst.ANALYTICS_ACTION_ANDROID_VERSION // Action
 					, Build.VERSION.CODENAME // Label
 					, 0 // Value
+					);
+			getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_APPLICATION // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_TABLET // Action
+					, String.valueOf((Integer.valueOf(Build.VERSION.SDK) <= 10) ? TestSizeOther.checkLargeScreen(getResources().getConfiguration().screenLayout) : TestSizeHoneyComb.checkLargeScreen(getResources().getConfiguration().screenLayout)) // Label
+					, 1 // Value
 					);
 		} catch (NameNotFoundException e) {
 			Log.e(TAG, "Error trying getting package information");

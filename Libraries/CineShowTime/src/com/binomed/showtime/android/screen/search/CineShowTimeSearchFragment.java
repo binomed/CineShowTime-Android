@@ -190,8 +190,8 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 			);
 			fieldCityName.setAdapter(adapterII);
 		}
-		fieldCityName.setCallBack(fragmentInteraction);
-		fieldMovieName.setCallBack(fragmentInteraction);
+		fieldCityName.setCallBack(fragmentInteraction, getResources().getString(R.string.cityName));
+		fieldMovieName.setCallBack(fragmentInteraction, getResources().getString(R.string.movieName));
 	}
 
 	private void initListeners() {

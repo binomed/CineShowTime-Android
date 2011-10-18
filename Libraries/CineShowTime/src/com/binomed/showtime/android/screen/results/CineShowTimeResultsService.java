@@ -129,6 +129,20 @@ public class CineShowTimeResultsService extends IntentService {
 			}
 
 		}
+
+		@Override
+		public void errorService() throws RemoteException {
+			final int callbacks = m_callbacks.beginBroadcast();
+			for (int i = 0; i < callbacks; i++) {
+				try {
+					m_callbacks.getBroadcastItem(i).error();
+				} catch (RemoteException e) {
+					Log.e(TAG, "Error during call back finsih", e);
+				}
+			}
+			m_callbacks.finishBroadcast();
+
+		}
 	};
 
 	@Override

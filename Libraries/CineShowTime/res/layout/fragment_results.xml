@@ -22,7 +22,7 @@
     <ExpandableListView
        android:id="@+id/resultListResult"
        android:layout_width="fill_parent"
-       android:layout_height="fill_parent" 
+       android:layout_height="fill_parent"
        />
     <ListView
        android:id="@+id/resultListResultNonExpandable"

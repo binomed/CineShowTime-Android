@@ -889,6 +889,12 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 		}
 
+		@Override
+		public void error() throws RemoteException {
+			interaction.openErrorDialog(R.string.msgErrorOnServer);
+
+		}
+
 	};
 
 	public interface CineShowTimeResultInteraction<M extends IModelResults> extends IFragmentCineShowTimeInteraction<M> {

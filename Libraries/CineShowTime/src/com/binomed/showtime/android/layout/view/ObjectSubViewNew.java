@@ -127,19 +127,9 @@ public class ObjectSubViewNew extends View {
 		}
 		if ((movieBean != null) && (theaterBean != null)) {
 			if (!movieView) {
-				// movieTitle.setText(new StringBuilder(movieBean.getMovieName()) //
-				// .append(" : ").append(AndShowtimeDateNumberUtil.showMovieTimeLength(getContext(), movieBean))//
-				// .toString()//
-				// );
 				mainInfo = movieBean.getMovieName();
-				subMainInfo = "1h30min";// CineShowtimeDateNumberUtil.showMovieTimeLength(getContext(), movieBean);
+				subMainInfo = CineShowtimeDateNumberUtil.showMovieTimeLength(getContext(), movieBean);
 			} else {
-				// StringBuilder strTheater = new StringBuilder(theaterBean.getTheaterName()); //
-				// if ((theaterBean != null) && (theaterBean.getPlace() != null) && theaterBean.getPlace().getDistance() != null) {
-				// strTheater.append(" : ").append(AndShowtimeDateNumberUtil.showDistance(theaterBean.getPlace().getDistance(), !kmUnit));//
-				// }
-				// movieTitle.setText(strTheater.toString()//
-				// );
 				mainInfo = theaterBean.getTheaterName();
 				if ((theaterBean != null) && (theaterBean.getPlace() != null) && (theaterBean.getPlace().getDistance() != null)) {
 					subMainInfo = CineShowtimeDateNumberUtil.showDistance(theaterBean.getPlace().getDistance(), !kmUnit);
@@ -153,11 +143,6 @@ public class ObjectSubViewNew extends View {
 				splitMainInfo = mainInfo.split(SPACE);
 			}
 			projectionList = theaterBean.getMovieMap().get(movieBean.getId());
-			// Long distanceTimeLong = null;
-			// if (distanceTime && (theaterBean != null) && (theaterBean.getPlace() != null)) {
-			// distanceTimeLong = theaterBean.getPlace().getDistanceTime();
-			// }
-			// Spanned movieListStr = CineShowtimeDateNumberUtil.getMovieViewStr(movieBean.getId(), theaterBean.getId(), projectionList, getContext(), distanceTimeLong, blackTheme, format24);
 
 		} else {
 			splitMainInfo = null;
@@ -169,6 +154,11 @@ public class ObjectSubViewNew extends View {
 		requestLayout();
 		invalidate();
 
+	}
+
+	@Override
+	public int getPaddingLeft() {
+		return 7 + super.getPaddingLeft();
 	}
 
 	/**

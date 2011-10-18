@@ -32,4 +32,6 @@ public interface IFragmentCineShowTimeInteraction<M extends ICineShowTimeActivit
 
 	void openDialog();
 
+	void openErrorDialog(int errorMsg);
+
 }

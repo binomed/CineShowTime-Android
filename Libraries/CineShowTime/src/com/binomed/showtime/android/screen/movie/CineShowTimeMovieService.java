@@ -99,6 +99,22 @@ public class CineShowTimeMovieService extends IntentService {
 			}
 
 		}
+
+		@Override
+		public void error() throws RemoteException {
+			inBrodCast = true;
+			final int callbacks = m_callbacks.beginBroadcast();
+			for (int i = 0; i < callbacks; i++) {
+				try {
+					m_callbacks.getBroadcastItem(i).error();
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+			}
+			m_callbacks.finishBroadcast();
+			inBrodCast = false;
+
+		}
 	};
 
 	@Override

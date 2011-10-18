@@ -10,3 +10,6 @@
 /CineShowTime_AdsFree/bin
 /Libraries/CineShowTime/bin
 /Libraries/GreenDroid/bin
+/CineShowTime_AdsFree/gen/com/binomed/showtime/R.java
+/CineShowTime_AdsFree/gen/com/binomed/showtime/adsfree/R.java
+/CineShowTime_AdsFree/gen/com/cyrilmottier/android/greendroid/R.java

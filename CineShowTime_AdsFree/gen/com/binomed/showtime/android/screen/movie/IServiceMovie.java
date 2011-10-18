@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: F:\\tools\\projects\\binomed-git\\CineShowTime-Android\\Libraries\\CineShowTime\\src\\com\\binomed\\showtime\\android\\screen\\movie\\IServiceMovie.aidl
+ * Original file: D:\\tools\\projects\\CineShowTime-Android\\Libraries\\CineShowTime\\src\\com\\binomed\\showtime\\android\\screen\\movie\\IServiceMovie.aidl
  */
 package com.binomed.showtime.android.screen.movie;
 public interface IServiceMovie extends android.os.IInterface
@@ -97,6 +97,13 @@ case TRANSACTION_cancelService:
 {
 data.enforceInterface(DESCRIPTOR);
 this.cancelService();
+reply.writeNoException();
+return true;
+}
+case TRANSACTION_error:
+{
+data.enforceInterface(DESCRIPTOR);
+this.error();
 reply.writeNoException();
 return true;
 }
@@ -217,6 +224,20 @@ _reply.recycle();
 _data.recycle();
 }
 }
+public void error() throws android.os.RemoteException
+{
+android.os.Parcel _data = android.os.Parcel.obtain();
+android.os.Parcel _reply = android.os.Parcel.obtain();
+try {
+_data.writeInterfaceToken(DESCRIPTOR);
+mRemote.transact(Stub.TRANSACTION_error, _data, _reply, 0);
+_reply.readException();
+}
+finally {
+_reply.recycle();
+_data.recycle();
+}
+}
 }
 static final int TRANSACTION_finish = (android.os.IBinder.FIRST_CALL_TRANSACTION + 0);
 static final int TRANSACTION_getMovie = (android.os.IBinder.FIRST_CALL_TRANSACTION + 1);
@@ -224,6 +245,7 @@ static final int TRANSACTION_registerCallback = (android.os.IBinder.FIRST_CALL_T
 static final int TRANSACTION_unregisterCallback = (android.os.IBinder.FIRST_CALL_TRANSACTION + 3);
 static final int TRANSACTION_isServiceRunning = (android.os.IBinder.FIRST_CALL_TRANSACTION + 4);
 static final int TRANSACTION_cancelService = (android.os.IBinder.FIRST_CALL_TRANSACTION + 5);
+static final int TRANSACTION_error = (android.os.IBinder.FIRST_CALL_TRANSACTION + 6);
 }
 public void finish(java.lang.String movieId) throws android.os.RemoteException;
 public com.binomed.showtime.android.model.MovieBean getMovie(java.lang.String movieId) throws android.os.RemoteException;
@@ -231,4 +253,5 @@ public void registerCallback(com.binomed.showtime.android.screen.movie.ICallback
 public void unregisterCallback(com.binomed.showtime.android.screen.movie.ICallbackMovie cb) throws android.os.RemoteException;
 public boolean isServiceRunning() throws android.os.RemoteException;
 public void cancelService() throws android.os.RemoteException;
+public void error() throws android.os.RemoteException;
 }

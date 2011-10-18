@@ -562,6 +562,12 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 		}
 
+		@Override
+		public void error() throws RemoteException {
+			interaction.openErrorDialog(R.string.msgErrorOnServer);
+
+		}
+
 	};
 
 	public void searchMovieDetail(MovieBean movie, String near) throws Exception {

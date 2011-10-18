@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: F:\\tools\\projects\\binomed-git\\CineShowTime-Android\\Libraries\\CineShowTime\\src\\com\\binomed\\showtime\\android\\screen\\movie\\ICallbackMovie.aidl
+ * Original file: D:\\tools\\projects\\CineShowTime-Android\\Libraries\\CineShowTime\\src\\com\\binomed\\showtime\\android\\screen\\movie\\ICallbackMovie.aidl
  */
 package com.binomed.showtime.android.screen.movie;
 public interface ICallbackMovie extends android.os.IInterface
@@ -51,6 +51,13 @@ this.finish(_arg0);
 reply.writeNoException();
 return true;
 }
+case TRANSACTION_error:
+{
+data.enforceInterface(DESCRIPTOR);
+this.error();
+reply.writeNoException();
+return true;
+}
 }
 return super.onTransact(code, data, reply, flags);
 }
@@ -84,8 +91,24 @@ _reply.recycle();
 _data.recycle();
 }
 }
+public void error() throws android.os.RemoteException
+{
+android.os.Parcel _data = android.os.Parcel.obtain();
+android.os.Parcel _reply = android.os.Parcel.obtain();
+try {
+_data.writeInterfaceToken(DESCRIPTOR);
+mRemote.transact(Stub.TRANSACTION_error, _data, _reply, 0);
+_reply.readException();
+}
+finally {
+_reply.recycle();
+_data.recycle();
+}
+}
 }
 static final int TRANSACTION_finish = (android.os.IBinder.FIRST_CALL_TRANSACTION + 0);
+static final int TRANSACTION_error = (android.os.IBinder.FIRST_CALL_TRANSACTION + 1);
 }
 public void finish(java.lang.String idMovie) throws android.os.RemoteException;
+public void error() throws android.os.RemoteException;
 }

@@ -27,4 +27,5 @@ interface IServiceSearch{
 	LocalisationBean getLocalisation(String theaterId);
 	boolean isServiceRunning();
 	void cancelService();
+	void errorService();
 }

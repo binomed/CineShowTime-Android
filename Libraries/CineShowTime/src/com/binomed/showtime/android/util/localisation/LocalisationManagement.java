@@ -28,6 +28,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.handler.TextCallBackFromLocation;
 import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
@@ -217,9 +218,17 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	 */
 	@Override
 	public void onClick(View v) {
-		tracker.trackEvent("Action", "GPS", "Use of gps", 0);
+		tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // category
+				, CineShowtimeCst.ANALYTICS_ACTION_GPS // action
+				, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_GPS_USE // label
+				, 0 // value
+		);
 		if (provider != null) {
-			tracker.trackEvent("Action", "GPS", "Provider used : " + provider.getAndroidProvider(), 0);
+			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // category
+					, CineShowtimeCst.ANALYTICS_ACTION_GPS // action
+					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_GPS_PROVIDER + provider.getAndroidProvider() // label
+					, 0 // value
+			);
 		}
 		checkedGps = !checkedGps;
 		textSearch.setEnabled(!checkedGps);
@@ -255,9 +264,8 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	 */
 	@Override
 	public void onLocationChanged(Location arg0) {
-		tracker.trackEvent("Action", "GPS", "Gps return", 0);
-		if (Log.isLoggable(TAG, Log.DEBUG)) {
-			Log.d(TAG, "Change location : lat : " + arg0.getLatitude() + " / lon : " + arg0.getLongitude());
+		if (bitmapGpsOn != null) {
+			bitmapGpsOn.stop();
 		}
 		model.setLocalisation(arg0);
 		if (textSearch.getText().toString().length() == 0) {
@@ -378,6 +386,9 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	@Override
 	public WPSContinuation handleWPSPeriodicLocation(WPSLocation wpsLocation) {
 
+		if (bitmapGpsOn != null) {
+			bitmapGpsOn.stop();
+		}
 		Location location = model.getLocalisation();
 		if (location == null) {
 			location = new Location(ProviderEnum.GPS_PROVIDER.getAndroidProvider());
@@ -405,6 +416,9 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	@Override
 	public void handleWPSLocation(WPSLocation wpsLocation) {
 
+		if (bitmapGpsOn != null) {
+			bitmapGpsOn.stop();
+		}
 		Location location = model.getLocalisation();
 		if (location == null) {
 			location = new Location(ProviderEnum.GPS_PROVIDER.getAndroidProvider());
@@ -429,6 +443,9 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	 */
 	@Override
 	public void handleIPLocation(IPLocation ipLocation) {
+		if (bitmapGpsOn != null) {
+			bitmapGpsOn.stop();
+		}
 		Location location = model.getLocalisation();
 		if (location == null) {
 			location = new Location(ProviderEnum.GPS_PROVIDER.getAndroidProvider());
