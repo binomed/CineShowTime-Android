@@ -30,7 +30,6 @@ import com.binomed.showtime.R;
 import com.binomed.showtime.android.layout.view.ProjectionView;
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.ProjectionBean;
-import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 import com.binomed.showtime.cst.SpecialChars;
 
@@ -50,6 +49,7 @@ public class ProjectionListAdapter extends BaseAdapter {
 	private boolean blackTheme;
 	private boolean format24;
 	private OnClickListener clickListener;
+	private static String passedDark, passedLight, nearDark, nearLight, nextDark, nextLight;
 
 	public ProjectionListAdapter(Context context, MovieBean movieBean, List<ProjectionBean> projectionList, ProjectionBean minTime, OnClickListener clickListener) {
 		super();
@@ -62,6 +62,13 @@ public class ProjectionListAdapter extends BaseAdapter {
 		this.clickListener = clickListener;
 		mapMovieTime = new HashMap<Integer, Long>();
 		mapMovieStr = new HashMap<Integer, StringBuilder>();
+
+		passedDark = context.getResources().getString(R.color.showtime_passed_dark).substring(0, 1) + context.getResources().getString(R.color.showtime_passed_dark).substring(3);
+		passedLight = context.getResources().getString(R.color.showtime_passed_light).substring(0, 1) + context.getResources().getString(R.color.showtime_passed_light).substring(3);
+		nearDark = context.getResources().getString(R.color.showtime_nearest_dark).substring(0, 1) + context.getResources().getString(R.color.showtime_nearest_dark).substring(3);
+		nearLight = context.getResources().getString(R.color.showtime_nearest_light).substring(0, 1) + context.getResources().getString(R.color.showtime_nearest_light).substring(3);
+		nextDark = context.getResources().getString(R.color.showtime_next_dark).substring(0, 1) + context.getResources().getString(R.color.showtime_next_dark).substring(3);
+		nextLight = context.getResources().getString(R.color.showtime_next_light).substring(0, 1) + context.getResources().getString(R.color.showtime_next_light).substring(3);
 		changePreferences();
 	}
 
@@ -124,7 +131,8 @@ public class ProjectionListAdapter extends BaseAdapter {
 			passedShowtime = CineShowtimeDateNumberUtil.getPositionTime(projectionBean.getShowtime(), (minTime != null) ? minTime.getShowtime() : -1l);
 
 			if (projectionBean.getLang() != null) {
-				projectionBuilder.append("<FONT COLOR=\"").append(CineShowTimeLayoutUtils.getColorLang(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+				projectionBuilder.append("<FONT COLOR=\"").append(blackTheme ? nearDark : nearLight).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+						//				projectionBuilder.append("<FONT COLOR=\"").append(context.getResources().getString(R.color.showtime_passed_dark):context.getResources().getString(R.color.showtime_passed_light)CineShowTimeLayoutUtils.getColorLang(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
 						.append(projectionBean.getLang()) //$NON-NLS-1$//$NON-NLS-2$
 						.append(" : </FONT>"); //$NON-NLS-1$
 			}
@@ -136,14 +144,14 @@ public class ProjectionListAdapter extends BaseAdapter {
 
 			switch (passedShowtime) {
 			case 0:
-				projectionBuilder.append("<FONT COLOR=\"").append(CineShowTimeLayoutUtils.getColorNearestShowTime(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
+				projectionBuilder.append("<FONT COLOR=\"").append(blackTheme ? nearDark : nearLight).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
 						.append("<b>"); //$NON-NLS-1$
 				break;
 			case 1:
-				projectionBuilder.append("<FONT COLOR=\"").append(CineShowTimeLayoutUtils.getColorNextShowTime(blackTheme)).append("\">"); //$NON-NLS-1$ //$NON-NLS-2$
+				projectionBuilder.append("<FONT COLOR=\"").append(blackTheme ? nextDark : nextLight).append("\">"); //$NON-NLS-1$ //$NON-NLS-2$
 				break;
 			case -1:
-				projectionBuilder.append("<FONT COLOR=\"").append(CineShowTimeLayoutUtils.getColorPassedShowTime(blackTheme)).append("\">") //$NON-NLS-1$//$NON-NLS-2$
+				projectionBuilder.append("<FONT COLOR=\"").append(blackTheme ? passedDark : passedLight).append("\">") //$NON-NLS-1$//$NON-NLS-2$
 						.append("<i>"); //$NON-NLS-1$
 				break;
 			default:

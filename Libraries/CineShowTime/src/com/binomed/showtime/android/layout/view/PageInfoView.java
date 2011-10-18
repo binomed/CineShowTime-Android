@@ -53,6 +53,7 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 	private ImageView summaryMoviePoster;
 	private TextView moviePlot;
 	private TextView movieWebLinks;
+	private LinearLayout videoSeparator;
 	private Gallery movieGalleryTrailer;
 
 	protected GalleryTrailerAdapter trailerAdapter;
@@ -106,6 +107,7 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 		movieDuration = (TextView) findViewById(R.id.movieDuration);
 		moviePlot = (TextView) findViewById(R.id.moviePlot);
 		movieGalleryTrailer = (Gallery) findViewById(R.id.gallery_trailer);
+		videoSeparator = (LinearLayout) findViewById(R.id.videosSeparator);
 
 		movieWebLinks = (TextView) findViewById(R.id.movieWebLinks);
 		txtMovieRate = (TextView) findViewById(R.id.txtMovieRate);
@@ -265,6 +267,11 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 
 		if ((movie.getYoutubeVideos() != null) && !movie.getYoutubeVideos().isEmpty()) {
 			this.movieGalleryTrailer.setAdapter(new GalleryTrailerAdapter(getContext(), movie.getYoutubeVideos(), imageDownloader));
+			this.movieGalleryTrailer.setVisibility(View.VISIBLE);
+			this.videoSeparator.setVisibility(View.VISIBLE);
+		} else {
+			this.movieGalleryTrailer.setVisibility(View.GONE);
+			this.videoSeparator.setVisibility(View.GONE);
 		}
 	}
 

@@ -29,9 +29,9 @@
     <color  name="baground_end_dark">#4b4b4b</color>
     <color  name="sub_main_info_dark">@android:color/white</color>
     <color  name="sub_sub_info_dark">#aaaaaa</color>
-    <color  name="showtime_passed_dark">#3C3C3C</color>
+    <color  name="showtime_passed_dark">#888888</color>
     <color  name="showtime_nearest_dark">#FFFFFF</color>
-    <color  name="showtime_next_dark">#D2D2D2</color>
+    <color  name="showtime_next_dark">#f1f1f1</color>
     
     
     <!-- LIGHT -->
@@ -40,11 +40,11 @@
     <color  name="lbl_sub_main_light">#3C3C3C</color>
     <color  name="lbl_main_light">@android:color/black</color>
     <color  name="lbl_sub_light">#3C3C3C</color>
-    <color  name="baground_start_light">#efefef</color>
-    <color  name="baground_end_light">#ffffff</color>
+    <color  name="baground_start_light">#e0dede</color>
+    <color  name="baground_end_light">#f6f5f6</color>
     <color  name="sub_main_info_light">@android:color/black</color>
     <color  name="sub_sub_info_light">#3C3C3C</color>
-    <color  name="showtime_passed_light">#D2D2D2</color>
+    <color  name="showtime_passed_light">#b0b0b0</color>
     <color  name="showtime_nearest_light">#000000</color>
-    <color  name="showtime_next_light">#101010</color>
+    <color  name="showtime_next_light">#3a3a3a</color>
 </resources>
