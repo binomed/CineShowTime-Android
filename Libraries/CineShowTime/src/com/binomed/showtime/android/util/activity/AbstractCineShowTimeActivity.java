@@ -77,6 +77,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	private QuickActionWidget mBar;
 	protected final int MENU_PREF = getMenuKey();
 	private long startActivityTime = System.currentTimeMillis();
+	private boolean withAdd;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -117,17 +118,8 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 
 		// Init adds
 		adView = (AdView) findViewById(R.id.adView);
-		Log.i(getTAG(), getPackageName().toLowerCase());
+		withAdd = !getPackageName().toLowerCase().equals("com.binomed.showtime.adsfree");
 		if (adView != null) {
-			// Handler mHandler = new Handler();
-			// mHandler.postDelayed(new Runnable() {
-			//
-			// @Override
-			// public void run() {
-			// }
-			// }, 200);
-			// adRequest.addTestDevice("42CF7EA69605E829AFCDC915CE184CC9");
-			boolean withAdd = !getPackageName().toLowerCase().equals("com.binomed.showtime.adsfree");
 			AdRequest adRequest = new AdRequest();
 			adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
 			adView.loadAd(adRequest);
@@ -373,6 +365,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 				);
 	}
 
+	@Override
 	public final void openErrorDialog(int errorMsg) {
 		progressDialog = ProgressDialog.show(this, //
 				getResources().getString(R.string.errorMsg)//
@@ -380,6 +373,11 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 				, false // indeterminate
 				, true // cancelable
 				);
+	}
+
+	@Override
+	public boolean isWithAdds() {
+		return withAdd;
 	}
 
 	/*

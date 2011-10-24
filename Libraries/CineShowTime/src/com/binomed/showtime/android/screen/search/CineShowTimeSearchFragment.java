@@ -51,6 +51,7 @@ import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech;
 import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech.AutoCompleteInteraction;
 import com.binomed.showtime.android.screen.results.CineShowTimeResultsActivity;
 import com.binomed.showtime.android.screen.results.tablet.CineShowTimeResultsTabletActivity;
+import com.binomed.showtime.android.screen.results.tablet.CineShowTimeResultsTabletCalendarActivity;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
@@ -230,13 +231,8 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	 */
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.searchBtnSearch: {
+		if (v.getId() == R.id.searchBtnSearch) {
 			launchSearchWithVerif(-1, null);
-			break;
-		}
-		default:
-			break;
 		}
 	}
 
@@ -247,13 +243,8 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	 */
 	@Override
 	public void onItemSelected(AdapterView<?> adapter, View view, int groupPositon, long id) {
-		switch (adapter.getId()) {
-		case R.id.searchSpinner: {
+		if (adapter.getId() == R.id.searchSpinner) {
 			model.setDay(groupPositon);
-			break;
-		}
-		default:
-			break;
 		}
 	}
 
@@ -421,7 +412,11 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 			CineShowtimeFactory.initGeocoder(getActivity());
 			Intent intentResultActivity = null;
 			if (getActivity().getIntent().getBooleanExtra(ParamIntent.ACTIVITY_LARGE_SCREEN, false)) {
-				intentResultActivity = new Intent(getActivity(), CineShowTimeResultsTabletActivity.class);
+				if (fragmentInteraction.isWithAdds()) {
+					intentResultActivity = new Intent(getActivity(), CineShowTimeResultsTabletActivity.class);
+				} else {
+					intentResultActivity = new Intent(getActivity(), CineShowTimeResultsTabletCalendarActivity.class);
+				}
 			} else {
 				intentResultActivity = new Intent(getActivity(), CineShowTimeResultsActivity.class);
 			}

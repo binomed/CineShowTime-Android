@@ -412,8 +412,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	 */
 	@Override
 	public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-		switch (parent.getId()) {
-		case R.id.resultListResult: {
+		if (parent.getId() == R.id.resultListResult) {
 			if ((model.getNearResp() != null) && (model.getNearResp().getTheaterList() != null)) {
 				int theaterListSize = model.getNearResp().getTheaterList().size();
 				if (theaterListSize == groupPosition) {
@@ -433,19 +432,13 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 				}
 			}
 			interaction.onGroupClick();
-			break;
-		}
-
-		default:
-			break;
 		}
 		return false;
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
-		switch (arg0.getId()) {
-		case R.id.resultListResultNonExpandable: {
+		if (arg0.getId() == R.id.resultListResultNonExpandable) {
 			if ((model.getNearResp() != null) && (model.getNearResp().getTheaterList() != null)) {
 				int theaterListSize = model.getNearResp().getTheaterList().size();
 				if (theaterListSize == position) {
@@ -464,11 +457,6 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 					interaction.onTheaterClick(model.getNearResp().getTheaterList().get(position));
 				}
 			}
-			break;
-		}
-
-		default:
-			break;
 		}
 
 	}

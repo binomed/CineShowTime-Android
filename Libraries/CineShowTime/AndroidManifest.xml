@@ -36,6 +36,7 @@ version="1.0" encoding="utf-8"?>
         </activity>
         <activity android:name=".android.screen.main.CineShowTimeMainActivity" android:windowSoftInputMode="stateVisible|adjustResize"></activity>
     	<activity android:name=".android.screen.results.CineShowTimeResultsActivity"></activity>
+    	<activity android:name=".android.screen.results.tablet.CineShowTimeResultsTabletCalendarActivity"></activity>
     	<activity android:name=".android.screen.results.tablet.CineShowTimeResultsTabletActivity"></activity>
 		<service android:name=".android.screen.results.CineShowTimeResultsService"></service>
 		<!--<activity android:name=".android.movieactivity.CineShowTimeMovieActivity" android:launchMode="singleInstance"></activity>-->

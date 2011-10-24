@@ -9,7 +9,6 @@
 	<classpathentry kind="lib" path="/CineShowTime_library/libs/wpsapi.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="src" path="CineShowTime_library_src"/>
-	<classpathentry kind="src" path="GreenDroid_src"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

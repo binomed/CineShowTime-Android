@@ -242,8 +242,7 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.favItemDelete: {
+		if (v.getId() == R.id.favItemDelete) {
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_FAV // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
 					, CineShowtimeCst.ANALYTICS_LABEL_FAV_REMOVE // Label
@@ -263,10 +262,6 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 				model.getFavList().add(thEmtpy);
 			}
 			adapter.notifyDataSetChanged();
-			break;
-		}
-		default:
-			break;
 		}
 
 	}

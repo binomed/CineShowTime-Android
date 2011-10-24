@@ -30,16 +30,4 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>CineShowTime_library_src</name>
-			<type>2</type>
-			<locationURI>_android_CineShowTime_library_6645d3c3/src</locationURI>
-		</link>
-		<link>
-			<name>GreenDroid_src</name>
-			<type>2</type>
-			<locationURI>_android_GreenDroid_612cb559/src</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>

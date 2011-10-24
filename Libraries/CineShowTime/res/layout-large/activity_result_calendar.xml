@@ -14,7 +14,7 @@
  * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
  */ 
  -->
-<RelativeLayout 
+<LinearLayout 
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
         android:orientation="vertical"
@@ -26,43 +26,45 @@
 		android:paddingBottom="@dimen/cstPaddingBottomMain"
         >
         
-    <ImageButton 
-	    android:id="@+id/btnExpand"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:background="@drawable/ic_btn_find_next"
-	    android:layout_alignParentTop="true"
-    />
     <com.google.ads.AdView android:id="@+id/adView"
 	                         android:layout_width="wrap_content"
 	                         android:layout_height="wrap_content"
-	                         android:layout_alignParentBottom="true"
+	                         android:layout_alignParentTop="true"
 	                         ads:adUnitId="@string/addViewId"
 	                         ads:adSize="IAB_BANNER"
 	                         ads:loadAdOnCreate="true"/>
+     <LinearLayout 
+        android:orientation="vertical"
+           android:id="@+id/fragmentInfo" 
+           android:layout_width="fill_parent"
+           android:layout_height="0dp" 
+	       android:layout_weight="75"
+           />          
 	<FrameLayout
 	    android:id="@+id/frameLayout" 
 	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:layout_below="@+id/btnExpand"
-	    android:layout_above="@+id/adView"
+	    android:layout_height="0dp"
+	    android:layout_below="@+id/adView"
+	    android:layout_weight="25"
 	    >
        <fragment class="com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment"
 	            android:id="@+id/fragmentResults" 
-	            android:layout_width="70dip"
+	            android:layout_width="0dp"
 	            android:layout_height="fill_parent"
+	            android:layout_weight="50"
 	            android:layout_alignParentLeft="true"
 	            android:layout_marginRight="20dip"
 	            >
           <!-- Preview: layout=@layout/fragment_results -->
       </fragment>
-      <LinearLayout 
-	        android:orientation="vertical"
-            android:id="@+id/fragmentInfo" 
-            android:layout_width="150dip"
-            android:layout_height="fill_parent" 
-            android:layout_marginLeft="70dip"
-            />          
+      <ListView 
+	            android:id="@+id/showtimesResults" 
+	            android:layout_width="0dp"
+	            android:layout_height="fill_parent"
+	            android:layout_weight="50"
+	            android:layout_alignParentLeft="true"
+	            android:layout_marginRight="20dip"
+          />
    </FrameLayout>
-</RelativeLayout>
+</LinearLayout>
 	

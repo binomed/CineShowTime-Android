@@ -354,15 +354,10 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 
 	@Override
 	public int getRequestCode(int viewId) {
-		switch (viewId) {
-		case R.id.searchCityName: {
+		if (viewId == R.id.searchCityName) {
 			return CineShowtimeCst.ACTIVITY_RESULT_CITY_SPEECH_SEARCH;
-		}
-		case R.id.searchMovieName: {
+		} else if (viewId == R.id.searchMovieName) {
 			return CineShowtimeCst.ACTIVITY_RESULT_MOVIE_SPEECH_SEARCH;
-		}
-		default:
-			break;
 		}
 		return 0;
 	}

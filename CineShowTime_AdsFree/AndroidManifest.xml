@@ -22,6 +22,7 @@
         <activity android:windowSoftInputMode="stateVisible|adjustResize" android:name="com.binomed.showtime.android.screen.main.CineShowTimeMainActivity"></activity>
     	<activity android:name="com.binomed.showtime.android.screen.results.CineShowTimeResultsActivity"></activity>
     	<activity android:name="com.binomed.showtime.android.screen.results.tablet.CineShowTimeResultsTabletActivity"></activity>
+    	<activity android:name="com.binomed.showtime.android.screen.results.tablet.CineShowTimeResultsTabletCalendarActivity"></activity>
 		<service android:name="com.binomed.showtime.android.screen.results.CineShowTimeResultsService"></service>
 		<!--<activity android:name="com.binomed.showtime.android.movieactivity.CineShowTimeMovieActivity" android:launchMode="singleInstance"></activity>-->
 		<activity android:name="com.binomed.showtime.android.screen.movie.CineShowTimeMovieActivity" ></activity>

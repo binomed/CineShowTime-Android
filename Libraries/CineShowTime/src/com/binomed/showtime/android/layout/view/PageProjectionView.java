@@ -187,8 +187,7 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.item_projection_button:
+		if (v.getId() == R.id.item_projection_button) {
 			tracker.trackEvent("Action", "Click", "Use popup button", 0);
 
 			mBarProjections.clearAllQuickActions();
@@ -215,9 +214,7 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 			}
 
 			mBarProjections.show(imageBtn);
-
-			break;
-		case R.id.movieBtnMap:
+		} else if (v.getId() == R.id.movieBtnMap) {
 			tracker.trackEvent("Action", "Click", "Use map button", 0);
 			tracker.dispatch();
 			if (model.isMapInstalled()) {
@@ -226,22 +223,18 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 				getContext().startActivity(IntentShowtime.createMapsIntentBrowser(model.getTheater()));
 
 			}
-			break;
-		case R.id.movieBtnDirection:
+		} else if (v.getId() == R.id.movieBtnDirection) {
 			tracker.trackEvent("Action", "Click", "Use map navigation button", 0);
 			tracker.dispatch();
 			Intent intentDirection = IntentShowtime.createMapsWithDrivingDirectionIntent(model.getTheater(), model.getGpsLocation());
 			if (intentDirection != null) {
 				getContext().startActivity(intentDirection);
 			}
-			break;
-		case R.id.movieBtnCall:
+		} else if (v.getId() == R.id.movieBtnCall) {
 			tracker.trackEvent("Action", "Click", "Use call button", 0);
 			tracker.dispatch();
 			getContext().startActivity(IntentShowtime.createCallIntent(model.getTheater()));
-			break;
-		default:
-			break;
+
 		}
 
 	}

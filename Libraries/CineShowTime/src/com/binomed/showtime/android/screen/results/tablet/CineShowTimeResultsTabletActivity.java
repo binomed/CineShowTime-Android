@@ -50,35 +50,35 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 		, MovieFragmentInteraction<IModelResultTablet> //
 {
 
-	private static final int MENU_SORT = Menu.NONE;
-	private static final int MENU_PREF = Menu.NONE + 1;
+	protected static final int MENU_SORT = Menu.NONE;
+	protected static final int MENU_PREF = Menu.NONE + 1;
 
 	protected static final int ID_SORT = 1;
 
 	private static final String TAG = "ResultsActivity"; //$NON-NLS-1$
 	private static final String TRACKER_NAME = "/ResultActivity"; //$NON-NLS-1$
 
-	private CineShowTimeResultsFragment fragmentResult;
-	private CineShowTimeMovieFragment fragmentMovie;
-	private CineShowTimeFrameFragment fragmentFrame;
+	protected CineShowTimeResultsFragment fragmentResult;
+	protected CineShowTimeMovieFragment fragmentMovie;
+	protected CineShowTimeFrameFragment fragmentFrame;
 
-	private Intent intentStartMovieActivity;
-	private boolean openMovie = false;
+	protected Intent intentStartMovieActivity;
+	protected boolean openMovie = false;
 
 	// Var for portrait mode
-	private boolean portraitMode;
-	private ImageButton btnExpand;
-	private FrameLayout frameLayout = null;
-	private LinearLayout infoLayout = null;
-	private final Handler mHandler = new Handler();
+	protected boolean portraitMode;
+	protected ImageButton btnExpand;
+	protected FrameLayout frameLayout = null;
+	protected LinearLayout infoLayout = null;
+	protected final Handler mHandler = new Handler();
 
-	private int dist = 200;
-	private int delay = 500;
-	private int widthLeftFull, widthLeftLight, widthRight;
-	private FrameLayout.LayoutParams paramsLeft, paramsRight;
-	private Intent intentResult;
+	protected int dist = 200;
+	protected int delay = 500;
+	protected int widthLeftFull, widthLeftLight, widthRight;
+	protected FrameLayout.LayoutParams paramsLeft, paramsRight;
+	protected Intent intentResult;
 
-	private boolean hideRight;
+	protected boolean hideRight;
 
 	private void extendList() {
 

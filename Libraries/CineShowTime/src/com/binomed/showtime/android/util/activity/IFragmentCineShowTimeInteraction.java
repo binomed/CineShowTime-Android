@@ -34,4 +34,6 @@ public interface IFragmentCineShowTimeInteraction<M extends ICineShowTimeActivit
 
 	void openErrorDialog(int errorMsg);
 
+	boolean isWithAdds();
+
 }
