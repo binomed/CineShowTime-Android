@@ -34,18 +34,20 @@
 	                         ads:adSize="IAB_BANNER"
 	                         ads:loadAdOnCreate="true"/>
      <LinearLayout 
-        android:orientation="vertical"
            android:id="@+id/fragmentInfo" 
+           android:orientation="vertical"
            android:layout_width="fill_parent"
            android:layout_height="0dp" 
-	       android:layout_weight="75"
+	       android:layout_weight="60"
+	    	android:layout_marginTop="10dp"
            />          
-	<FrameLayout
-	    android:id="@+id/frameLayout" 
+	<LinearLayout
+	    android:id="@+id/frameLayout"
+	    android:orientation="horizontal" 
 	    android:layout_width="fill_parent"
 	    android:layout_height="0dp"
-	    android:layout_below="@+id/adView"
-	    android:layout_weight="25"
+	    android:layout_weight="40"
+	    android:layout_marginTop="10dp"
 	    >
        <fragment class="com.binomed.showtime.android.screen.results.CineShowTimeResultsFragment"
 	            android:id="@+id/fragmentResults" 
@@ -55,16 +57,13 @@
 	            android:layout_alignParentLeft="true"
 	            android:layout_marginRight="20dip"
 	            >
-          <!-- Preview: layout=@layout/fragment_results -->
       </fragment>
       <ListView 
 	            android:id="@+id/showtimesResults" 
 	            android:layout_width="0dp"
 	            android:layout_height="fill_parent"
 	            android:layout_weight="50"
-	            android:layout_alignParentLeft="true"
-	            android:layout_marginRight="20dip"
           />
-   </FrameLayout>
+   </LinearLayout>
 </LinearLayout>
 	

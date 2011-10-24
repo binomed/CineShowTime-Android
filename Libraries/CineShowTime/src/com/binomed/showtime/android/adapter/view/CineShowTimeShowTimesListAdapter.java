@@ -47,6 +47,10 @@ public class CineShowTimeShowTimesListAdapter extends BaseAdapter {
 
 	}
 
+	public TheaterBean getMasterTheater() {
+		return theater;
+	}
+
 	public void changePreferences() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainContext);
 		String measure = prefs.getString(mainContext.getResources().getString(R.string.preference_loc_key_measure)//
@@ -103,10 +107,10 @@ public class CineShowTimeShowTimesListAdapter extends BaseAdapter {
 		showTimeView.setMovie(movieBean//
 				, theaterBean//
 				, distanceTime//
-				, true //
+				, false // movieView
 				, blackTheme//
 				, format24//
-				, false //
+				, false // LightFormat
 				);
 		return showTimeView;
 	}

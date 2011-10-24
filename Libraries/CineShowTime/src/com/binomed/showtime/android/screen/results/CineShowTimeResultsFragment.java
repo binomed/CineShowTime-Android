@@ -559,6 +559,8 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 	public void setNonExpendable(boolean nonExpandable) {
 		this.nonExpendable = nonExpandable;
+		resultList.setVisibility(nonExpendable ? View.GONE : View.VISIBLE);
+		resultListNonExpandable.setVisibility(nonExpendable ? View.VISIBLE : View.GONE);
 	}
 
 	public void setIntentResult(Intent intent) {
