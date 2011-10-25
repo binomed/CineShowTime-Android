@@ -57,6 +57,7 @@ public class CineShowtimeDbAdapter {
 	public static final String KEY_MOVIE_DESC = "desc"; //$NON-NLS-1$
 	public static final String KEY_MOVIE_TR_DESC = "trDesc"; //$NON-NLS-1$
 	public static final String KEY_MOVIE_TIME = "movie_time"; //$NON-NLS-1$
+	public static final String KEY_MOVIE_TIME_FORMAT = "movie_time_format"; //$NON-NLS-1$
 	public static final String KEY_MOVIE_STYLE = "style"; //$NON-NLS-1$
 	public static final String KEY_MOVIE_RATE = "rate"; //$NON-NLS-1$
 	public static final String KEY_MOVIE_LANG = "lang"; //$NON-NLS-1$
@@ -176,7 +177,7 @@ public class CineShowtimeDbAdapter {
 	private static final String DATABASE_LAST_CHANGE_TABLE = "last_change"; //$NON-NLS-1$
 	private static final String DATABASE_REVIEW_TABLE = "reviews"; //$NON-NLS-1$
 	private static final String DATABASE_VIDEO_TABLE = "videos"; //$NON-NLS-1$
-	private static final int DATABASE_VERSION = 28;
+	private static final int DATABASE_VERSION = 29;
 	/**
 	 * Database creation sql statement
 	 */
@@ -218,6 +219,7 @@ public class CineShowtimeDbAdapter {
 			+ ", " + KEY_MOVIE_STYLE + " text" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_MOVIE_RATE + " double" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_MOVIE_TIME + " long" //$NON-NLS-1$ //$NON-NLS-2$
+			+ ", " + KEY_MOVIE_TIME_FORMAT + " text" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_MOVIE_ACTORS + " text" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ", " + KEY_MOVIE_DIRECTORS + " text" //$NON-NLS-1$ //$NON-NLS-2$
 			+ ");";//$NON-NLS-1$
@@ -440,6 +442,10 @@ public class CineShowtimeDbAdapter {
 			if (oldVersion < 28) {
 				db.execSQL(DROP_SHOWTIME_TABLE);
 				db.execSQL(DATABASE_CREATE_SHOWTIME_TABLE);
+			}
+			if (oldVersion < 29) {
+				db.execSQL(DROP_MOVIE_TABLE);
+				db.execSQL(DATABASE_CREATE_MOVIE_TABLE);
 			}
 
 		}
@@ -687,6 +693,7 @@ public class CineShowtimeDbAdapter {
 		initialValues.put(KEY_MOVIE_RATE, movie.getRate());
 		initialValues.put(KEY_MOVIE_STYLE, movie.getStyle());
 		initialValues.put(KEY_MOVIE_TIME, movie.getMovieTime());
+		initialValues.put(KEY_MOVIE_TIME_FORMAT, movie.getMovieTimeFormat());
 		initialValues.put(KEY_MOVIE_ACTORS, movie.getActorList());
 		initialValues.put(KEY_MOVIE_DIRECTORS, movie.getDirectorList());
 
@@ -1238,6 +1245,7 @@ public class CineShowtimeDbAdapter {
 						, KEY_MOVIE_RATE //
 						, KEY_MOVIE_STYLE //
 						, KEY_MOVIE_TIME //
+						, KEY_MOVIE_TIME_FORMAT //
 						, KEY_MOVIE_ACTORS //
 						, KEY_MOVIE_DIRECTORS //
 				} //
@@ -1285,6 +1293,7 @@ public class CineShowtimeDbAdapter {
 						, KEY_MOVIE_RATE //
 						, KEY_MOVIE_STYLE //
 						, KEY_MOVIE_TIME //
+						, KEY_MOVIE_TIME_FORMAT //
 						, KEY_MOVIE_ACTORS //
 						, KEY_MOVIE_DIRECTORS //
 				} //

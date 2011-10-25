@@ -53,7 +53,7 @@ public abstract class CineShowtimeRequestManage {
 
 	public static final String TAG = "RequestManager"; //$NON-NLS-1$
 
-	public static NearResp searchTheatersOrMovies(Double latitude, Double longitude, String cityName, String movieName, String theaterId, int day, int start, String origin) throws Exception {
+	public static NearResp searchTheatersOrMovies(Double latitude, Double longitude, String cityName, String movieName, String theaterId, int day, int start, String origin, String hourLocalized, String minutesLocalized) throws Exception {
 
 		URLBuilder andShowtimeUriBuilder = new URLBuilder(CineShowTimeEncodingUtil.convertLocaleToEncoding());
 		andShowtimeUriBuilder.setProtocol(HttpParamsCst.BINOMED_APP_PROTOCOL);
@@ -67,6 +67,8 @@ public abstract class CineShowtimeRequestManage {
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_OE, CineShowTimeEncodingUtil.getEncoding());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_CURENT_TIME, String.valueOf(Calendar.getInstance().getTimeInMillis()));
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_TIME_ZONE, TimeZone.getDefault().getID());
+		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_HOUR_LOCALIZE, hourLocalized);
+		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_MIN_LOCALIZE, minutesLocalized);
 
 		if (theaterId != null) {
 			andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_THEATER_ID //

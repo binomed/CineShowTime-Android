@@ -130,7 +130,7 @@ public class ProjectionListAdapter extends BaseAdapter {
 			int passedShowtime;
 			passedShowtime = CineShowtimeDateNumberUtil.getPositionTime(projectionBean.getShowtime(), (minTime != null) ? minTime.getShowtime() : -1l);
 
-			if (projectionBean.getLang() != null) {
+			if (projectionBean.getLang() != null && projectionBean.getLang().length() > 0) {
 				projectionBuilder.append("<FONT COLOR=\"").append(blackTheme ? nearDark : nearLight).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
 						//				projectionBuilder.append("<FONT COLOR=\"").append(context.getResources().getString(R.color.showtime_passed_dark):context.getResources().getString(R.color.showtime_passed_light)CineShowTimeLayoutUtils.getColorLang(blackTheme)).append("\">") //$NON-NLS-1$ //$NON-NLS-2$
 						.append(projectionBean.getLang()) //$NON-NLS-1$//$NON-NLS-2$

@@ -169,6 +169,9 @@ public abstract class CineShowtimeDB2AndShowtimeBeans {
 		columnIndex = movieCursor.getColumnIndex(CineShowtimeDbAdapter.KEY_MOVIE_TIME);
 		movieBean.setMovieTime(movieCursor.getLong(columnIndex));
 
+		columnIndex = movieCursor.getColumnIndex(CineShowtimeDbAdapter.KEY_MOVIE_TIME_FORMAT);
+		movieBean.setMovieTimeFormat(movieCursor.getString(columnIndex));
+
 		columnIndex = movieCursor.getColumnIndex(CineShowtimeDbAdapter.KEY_MOVIE_STYLE);
 		movieBean.setStyle(movieCursor.getString(columnIndex));
 

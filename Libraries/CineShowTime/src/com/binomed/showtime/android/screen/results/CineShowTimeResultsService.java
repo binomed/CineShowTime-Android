@@ -25,6 +25,7 @@ import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.util.Log;
 
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.model.LocalisationBean;
@@ -201,6 +202,8 @@ public class CineShowTimeResultsService extends IntentService {
 						, day //
 						, start //
 						, origin //
+						, getResources().getString(R.string.hour) //
+						, getResources().getString(R.string.min) //
 						);
 
 				// if request comes from widget, we have to refresh it

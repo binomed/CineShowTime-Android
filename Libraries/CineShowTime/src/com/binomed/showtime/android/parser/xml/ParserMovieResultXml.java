@@ -101,6 +101,13 @@ public class ParserMovieResultXml implements ContentHandler {
 				} catch (NumberFormatException e) {
 				}
 			}
+			String timeFormat = atts.getValue(XmlGramarMovieResult.ATTR_TIME_FORMAT);
+			if (timeFormat != null) {
+				try {
+					movie.setMovieTimeFormat(timeFormat);
+				} catch (NumberFormatException e) {
+				}
+			}
 			movieRespBean.setMovie(movie);
 		} else if (XmlGramarMovieResult.NODE_THEATER.equals(localName)) {
 			inTheater = true;

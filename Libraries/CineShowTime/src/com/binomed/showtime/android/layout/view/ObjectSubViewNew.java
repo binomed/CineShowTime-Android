@@ -73,6 +73,7 @@ public class ObjectSubViewNew extends View {
 
 		paintMainInfoDark.setTextSize(context.getResources().getDimension(R.dimen.cstSubMainInfo));
 		paintMainInfoDark.setColor(getContext().getResources().getColor(R.color.sub_main_info_dark));
+		paintMainInfoDark.setTypeface(Typeface.DEFAULT_BOLD);
 		paintMainInfoDark.setAntiAlias(true);
 		paintSubInfoDark.setTextSize(context.getResources().getDimension(R.dimen.cstSubMainInfo));
 		paintSubInfoDark.setColor(getContext().getResources().getColor(R.color.sub_sub_info_dark));
@@ -91,6 +92,7 @@ public class ObjectSubViewNew extends View {
 
 		paintMainInfoLight.setTextSize(context.getResources().getDimension(R.dimen.cstSubMainInfo));
 		paintMainInfoLight.setColor(getContext().getResources().getColor(R.color.sub_main_info_light));
+		paintMainInfoLight.setTypeface(Typeface.DEFAULT_BOLD);
 		paintMainInfoLight.setAntiAlias(true);
 		paintSubInfoLight.setTextSize(context.getResources().getDimension(R.dimen.cstSubMainInfo));
 		paintSubInfoLight.setColor(getContext().getResources().getColor(R.color.sub_sub_info_light));
@@ -128,7 +130,7 @@ public class ObjectSubViewNew extends View {
 		if ((movieBean != null) && (theaterBean != null)) {
 			if (!movieView) {
 				mainInfo = movieBean.getMovieName();
-				subMainInfo = CineShowtimeDateNumberUtil.showMovieTimeLength(getContext(), movieBean);
+				subMainInfo = movieBean.getMovieTimeFormat(); // CineShowtimeDateNumberUtil.showMovieTimeLength(getContext(), movieBean);
 			} else {
 				mainInfo = theaterBean.getTheaterName();
 				if ((theaterBean != null) && (theaterBean.getPlace() != null) && (theaterBean.getPlace().getDistance() != null)) {
@@ -154,6 +156,11 @@ public class ObjectSubViewNew extends View {
 		requestLayout();
 		invalidate();
 
+	}
+
+	@Override
+	public int getPaddingTop() {
+		return 7 + super.getPaddingTop();
 	}
 
 	@Override
@@ -222,7 +229,7 @@ public class ObjectSubViewNew extends View {
 	 * @return The height of the view, honoring constraints from measureSpec
 	 */
 	private int measureHeight(int measureSpec) {
-		int result = 0;
+		int result = getPaddingTop();
 		int specMode = MeasureSpec.getMode(measureSpec);
 		int specSize = MeasureSpec.getSize(measureSpec);
 
@@ -245,7 +252,7 @@ public class ObjectSubViewNew extends View {
 						}
 						firstLine = false;
 						width = getPaddingLeft() + getPaddingRight();
-						if (curLang != null) {
+						if (curLang != null && curLang.length() > 0) {
 							width += (int) paintNextDark.measureText(curLang + DB_DOT);
 						}
 					}
@@ -286,7 +293,7 @@ public class ObjectSubViewNew extends View {
 				nbLinesMain = 0;
 			}
 
-			result = (nbLines * (int) (-mAscentShowTime + paintNearestDark.descent())) + (nbLinesMain * (int) (-mAscentMain + paintMainInfoDark.descent())) + 10;
+			result = getPaddingTop() + (nbLines * (int) (-mAscentShowTime + paintNearestDark.descent())) + (nbLinesMain * (int) (-mAscentMain + paintMainInfoDark.descent())) + 10;
 
 			// Measure the text (beware: ascent is a negative number)
 			if (specMode == MeasureSpec.AT_MOST) {
@@ -367,7 +374,7 @@ public class ObjectSubViewNew extends View {
 						posY += (int) (-mAscentShowTime + paintTmp.descent());
 					}
 					firstLine = false;
-					if (curLang != null) {
+					if (curLang != null && curLang.length() > 0) {
 						measure = (int) paintTmp.measureText(curLang + DB_DOT);
 						width += measure;
 						canvas.drawText(curLang + DB_DOT, posX, posY, paintTmp);

@@ -56,6 +56,7 @@ public class MovieBean extends AbstractModel implements Parcelable {
 	private static final int FIELD_REVIEWS = 18;
 	private static final int FIELD_YOUTUBE_VIDEOS = 19;
 	private static final int FIELD_THEATER_LIST = 20;
+	private static final int FIELD_MOVIE_TIME_FORMAT = 21;
 	private static final int FIELD_END = -1;
 
 	private String id;
@@ -71,6 +72,8 @@ public class MovieBean extends AbstractModel implements Parcelable {
 	private String englishMovieName;
 
 	private Long movieTime;
+
+	private String movieTimeFormat;
 
 	private String lang;
 
@@ -157,6 +160,14 @@ public class MovieBean extends AbstractModel implements Parcelable {
 
 	public void setMovieTime(Long movieTime) {
 		this.movieTime = movieTime;
+	}
+
+	public String getMovieTimeFormat() {
+		return movieTimeFormat;
+	}
+
+	public void setMovieTimeFormat(String movieTimeFormat) {
+		this.movieTimeFormat = movieTimeFormat;
 	}
 
 	public String getLang() {
@@ -337,6 +348,10 @@ public class MovieBean extends AbstractModel implements Parcelable {
 				setMovieTime(readLong(parcel));
 				break;
 			}
+			case FIELD_MOVIE_TIME_FORMAT: {
+				setMovieTimeFormat(readString(parcel));
+				break;
+			}
 			case FIELD_RATE: {
 				setRate(readDouble(parcel));
 				break;
@@ -437,6 +452,10 @@ public class MovieBean extends AbstractModel implements Parcelable {
 		if (getMovieTime() != null) {
 			dest.writeInt(FIELD_MOVIE_TIME);
 			writeLong(dest, getMovieTime());
+		}
+		if (getMovieTimeFormat() != null) {
+			dest.writeInt(FIELD_MOVIE_TIME_FORMAT);
+			writeString(dest, getMovieTimeFormat());
 		}
 		if (getRate() != null) {
 			dest.writeInt(FIELD_RATE);

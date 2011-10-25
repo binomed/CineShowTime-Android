@@ -108,6 +108,13 @@ public class ParserNearResultXml implements ContentHandler {
 				} catch (NumberFormatException e) {
 				}
 			}
+			String timeFormat = atts.getValue(XmlGramarNearResult.ATTR_TIME_FORMAT);
+			if (timeFormat != null) {
+				try {
+					curentMovie.setMovieTimeFormat(timeFormat);
+				} catch (NumberFormatException e) {
+				}
+			}
 			nearRespBean.getMapMovies().put(curentMovie.getId(), curentMovie);
 		} else if (inMovie && XmlGramarNearResult.NODE_THEATER.equals(localName)) {
 			List<String> theaterListForMovie = curentMovie.getTheaterList();
