@@ -20,4 +20,5 @@
 			android:layout_width="fill_parent" 
 			android:layout_height="fill_parent" 
 			android:textStyle="bold" 
+			android:cacheColorHint="#00000000"
 			/>

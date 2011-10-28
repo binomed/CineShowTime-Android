@@ -44,6 +44,7 @@ import android.widget.Toast;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.view.ProjectionListAdapter;
+import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.model.LocalisationBean;
 import com.binomed.showtime.android.model.MovieBean;
@@ -188,7 +189,11 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.item_projection_button) {
-			tracker.trackEvent("Action", "Click", "Use popup button", 0);
+			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_MOVIE_ACTIONS // Action
+					, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_INVOCKE_QUICKACTIONS // Label
+					, 0 // Value
+			);
 
 			mBarProjections.clearAllQuickActions();
 
@@ -215,8 +220,11 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 
 			mBarProjections.show(imageBtn);
 		} else if (v.getId() == R.id.movieBtnMap) {
-			tracker.trackEvent("Action", "Click", "Use map button", 0);
-			tracker.dispatch();
+			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_MOVIE_ACTIONS // Action
+					, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_ACTIONS_MAP // Label
+					, 0 // Value
+			);
 			if (model.isMapInstalled()) {
 				getContext().startActivity(IntentShowtime.createMapsIntent(model.getTheater()));
 			} else {
@@ -224,15 +232,21 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 
 			}
 		} else if (v.getId() == R.id.movieBtnDirection) {
-			tracker.trackEvent("Action", "Click", "Use map navigation button", 0);
-			tracker.dispatch();
+			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_MOVIE_ACTIONS // Action
+					, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_ACTIONS_DIRECTIONS // Label
+					, 0 // Value
+			);
 			Intent intentDirection = IntentShowtime.createMapsWithDrivingDirectionIntent(model.getTheater(), model.getGpsLocation());
 			if (intentDirection != null) {
 				getContext().startActivity(intentDirection);
 			}
 		} else if (v.getId() == R.id.movieBtnCall) {
-			tracker.trackEvent("Action", "Click", "Use call button", 0);
-			tracker.dispatch();
+			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_MOVIE_ACTIONS // Action
+					, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_ACTIONS_CALL // Label
+					, 0 // Value
+			);
 			getContext().startActivity(IntentShowtime.createCallIntent(model.getTheater()));
 
 		}
@@ -251,6 +265,11 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 		switch (mapQuickAction.get(position)) {
 		case SMS: {
 			try {
+				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+						, CineShowtimeCst.ANALYTICS_ACTION_MOVIE_ACTIONS // Action
+						, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_ACTIONS_SMS // Label
+						, 0 // Value
+				);
 
 				Object[] testArgs = { new Long(3), "MyDisk" };
 
@@ -275,6 +294,11 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 		}
 		case MAIL: {
 			try {
+				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+						, CineShowtimeCst.ANALYTICS_ACTION_MOVIE_ACTIONS // Action
+						, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_ACTIONS_MAIL // Label
+						, 0 // Value
+				);
 
 				// Create a new Intent to send messages
 				Intent sendIntent = new Intent(Intent.ACTION_SEND);
@@ -297,6 +321,11 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 		}
 		case AGENDA: {
 			try {
+				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+						, CineShowtimeCst.ANALYTICS_ACTION_MOVIE_ACTIONS // Action
+						, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_ACTIONS_CALENDAR // Label
+						, 0 // Value
+				);
 
 				// Before or equel Donuts
 				Uri uri = null;
@@ -340,6 +369,11 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 			break;
 		}
 		case RESERVATION: {
+			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+					, CineShowtimeCst.ANALYTICS_ACTION_MOVIE_ACTIONS // Action
+					, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_ACTIONS_RESERVATION // Label
+					, 0 // Value
+			);
 			Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(projectionBean.getReservationLink()));
 			ctx.startActivity(myIntent);
 			break;

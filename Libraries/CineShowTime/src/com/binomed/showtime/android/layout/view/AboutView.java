@@ -50,8 +50,9 @@ public class AboutView extends LinearLayout {
 		developpedText.setMovementMethod(LinkMovementMethod.getInstance());
 
 		copyRightText.setText(Html.fromHtml(new StringBuilder() //
-				.append("© 2010 - Binomed ").append("<br>")//
-				.append("GNU General Public License v2").append("<br>")//
+				.append("© 2011 - Binomed ").append("<br>")//
+				.append("Eclipse Public License - v 1.0").append("<br>")//
+				.append("Results from Google Movies").append("<br>")//
 				.append("Use of Google Analytics Service").append("")//
 				.toString()));
 

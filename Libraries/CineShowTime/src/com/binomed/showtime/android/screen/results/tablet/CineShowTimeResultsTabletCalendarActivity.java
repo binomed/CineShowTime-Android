@@ -124,7 +124,17 @@ public class CineShowTimeResultsTabletCalendarActivity extends AbstractCineShowT
 				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME, savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
 				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_THEATER_ID));
 				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_DAY, savedInstanceState.getInt(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
-				intentResult.putIntegerArrayListExtra(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND, savedInstanceState.getIntegerArrayList(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND));
+				ArrayList<Integer> expandGroup = savedInstanceState.getIntegerArrayList(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND);
+				intentResult.putIntegerArrayListExtra(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND, expandGroup);
+				if (portraitMode && (expandGroup != null) && (expandGroup.size() > 0)) {
+					List<MovieBean> movieList = new ArrayList<MovieBean>();
+					TheaterBean theater = getModelActivity().getNearResp().getTheaterList().get(expandGroup.get(expandGroup.size() - 1));
+					for (String movieId : theater.getMovieMap().keySet()) {
+						movieList.add(getModelActivity().getNearResp().getMapMovies().get(movieId));
+					}
+					adapter.setShowTimesList(movieList, theater);
+					adapter.notifyDataSetChanged();
+				}
 				Double latitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
 				Double longitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
 				if ((latitude != 0) && (longitude != 0)) {

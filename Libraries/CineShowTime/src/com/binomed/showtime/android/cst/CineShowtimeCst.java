@@ -98,6 +98,7 @@ public final class CineShowtimeCst {
 	public static final String ANALYTICS_ACTION_CHOOSE = "Choose";
 	public static final String ANALYTICS_ACTION_INTERACTION = "Interaction";
 	public static final String ANALYTICS_ACTION_RESULTS = "Results";
+	public static final String ANALYTICS_ACTION_MOVIE_ACTIONS = "QuickActions";
 
 	public static final int ANALYTICS_VALUE_THEME_BLACK = -1;
 	public static final int ANALYTICS_VALUE_THEME_LIGHT = 1;
@@ -129,6 +130,14 @@ public final class CineShowtimeCst {
 	public static final String ANALYTICS_LABEL_MOVIE_REUSE = "ReUse movie in base";
 	public static final String ANALYTICS_LABEL_MOVIE_GOTO_TAB = "Goto tab";
 	public static final String ANALYTICS_LABEL_MOVIE_GOTO_TAB_WITH_SLIDE = "Goto tab with slide";
+	public static final String ANALYTICS_LABEL_MOVIE_INVOCKE_QUICKACTIONS = "Use Quick Actions";
+	public static final String ANALYTICS_LABEL_MOVIE_ACTIONS_RESERVATION = "Click on reservation";
+	public static final String ANALYTICS_LABEL_MOVIE_ACTIONS_CALENDAR = "Click on calendar";
+	public static final String ANALYTICS_LABEL_MOVIE_ACTIONS_SMS = "Click on sms";
+	public static final String ANALYTICS_LABEL_MOVIE_ACTIONS_MAIL = "Click on mail";
+	public static final String ANALYTICS_LABEL_MOVIE_ACTIONS_CALL = "Click on call";
+	public static final String ANALYTICS_LABEL_MOVIE_ACTIONS_MAP = "Click on map";
+	public static final String ANALYTICS_LABEL_MOVIE_ACTIONS_DIRECTIONS = "Click on directions";
 
 	public static final String ANALYTICS_LABEL_FAV_REMOVE = "Remove fav";
 	public static final String ANALYTICS_LABEL_FAV_CLICK = "Click on fav";

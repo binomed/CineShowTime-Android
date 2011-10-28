@@ -19,6 +19,7 @@
     <color  name="fav_main">@android:color/white</color>
     <color  name="btn">#535353</color>
     <color  name="btn_spinner">#535353</color>
+    <color  name="select_color">#FF6600</color>
 	<!-- DARK  -->	
     <color  name="lbl_dark">#efefef</color>
     <color  name="lbl_info_dark">@android:color/white</color>

@@ -326,6 +326,11 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 				if (nonExpendable) {
 					adapterNonExpendable.setTheaterList(nearResp, model.getTheaterFavList(), (CineShowtimeComparator<?>) comparator);
 					resultListNonExpandable.setAdapter(adapterNonExpendable);
+					if ((model.getGroupExpanded() != null) && (model.getGroupExpanded().size() > 0)) {
+						int selectPosition = (Integer) model.getGroupExpanded().toArray()[model.getGroupExpanded().size() - 1];
+						adapterNonExpendable.setSelectedPosition(selectPosition);
+						resultListNonExpandable.getChildAt(selectPosition).setBackgroundColor(R.color.select_color);
+					}
 				} else {
 					adapter.setTheaterList(nearResp, model.getTheaterFavList(), (CineShowtimeComparator<?>) comparator);
 					resultList.setAdapter(adapter);
@@ -428,6 +433,12 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 						// TODO
 					}
 				} else {
+					adapterNonExpendable.setSelectedPosition(groupPosition);
+					if (nonExpendable) {
+						v.setBackgroundColor(R.color.select_color);
+					}
+					model.getGroupExpanded().clear();
+					model.getGroupExpanded().add(groupPosition);
 					interaction.onTheaterClick(model.getNearResp().getTheaterList().get(groupPosition));
 				}
 			}
@@ -940,6 +951,10 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 	public void requestFocus() {
 		resultList.requestFocus();
+	}
+
+	public int getSelectedPositonOnNonExpandable() {
+		return adapterNonExpendable.getSelectedPosition();
 	}
 
 }

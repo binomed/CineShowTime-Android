@@ -41,6 +41,7 @@ public class CineShowTimeNonExpandableListAdapter extends BaseAdapter {
 	private boolean kmUnit;
 	private boolean distanceTime;
 	private OnClickListener onClickListener;
+	private int selectedPosition;
 
 	private static final String TAG = "CineShowTimeExpandableListAdapter";
 
@@ -50,6 +51,14 @@ public class CineShowTimeNonExpandableListAdapter extends BaseAdapter {
 		this.onClickListener = listener;
 		changePreferences();
 
+	}
+
+	public int getSelectedPosition() {
+		return selectedPosition;
+	}
+
+	public void setSelectedPosition(int selectedPosition) {
+		this.selectedPosition = selectedPosition;
 	}
 
 	public void changePreferences() {
@@ -66,6 +75,7 @@ public class CineShowTimeNonExpandableListAdapter extends BaseAdapter {
 	}
 
 	private void setNearRespList(NearResp nearRespBean, Map<String, TheaterBean> theaterFavList, CineShowtimeComparator<?> comparator) {
+		this.selectedPosition = -1;
 		this.nearRespBean = nearRespBean;
 		this.theatherFavList = theaterFavList;
 		if (this.nearRespBean != null) {
@@ -115,6 +125,13 @@ public class CineShowTimeNonExpandableListAdapter extends BaseAdapter {
 		} else if ((theater != null) && (theater.getTheaterName() != null)) {
 			objectMasterView.setTheater(theater, (theatherFavList != null) && theatherFavList.containsKey(theater.getId()), false);
 		}
+		if (position == selectedPosition) {
+			objectMasterView.setBackgroundColor(R.color.select_color);
+		} else {
+			objectMasterView.setBackgroundDrawable(null);
+
+		}
+
 		return objectMasterView;
 	}
 
