@@ -103,11 +103,14 @@ public class QuickActionGrid extends QuickActionWidget {
         int offsetY = getArrowOffsetY();
         int dyTop = anchorRect.top;
         int dyBottom = getScreenHeight() - anchorRect.bottom;
+        int dxLeft = anchorRect.left;
+        int dxRight = getScreenWidth() - anchorRect.right;
 
         boolean onTop = (dyTop > dyBottom);
         int popupY = (onTop) ? anchorRect.top - rootHeight + offsetY : anchorRect.bottom - offsetY;
 
-        setWidgetSpecs(popupY, onTop);
+        boolean alignRight = dxRight < dxLeft;
+        setWidgetSpecs(popupY, onTop, alignRight);
     }
 
     private OnItemClickListener mInternalItemClickListener = new OnItemClickListener() {

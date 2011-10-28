@@ -25,9 +25,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import com.cyrilmottier.android.greendroid.R;
 
@@ -56,7 +56,9 @@ public abstract class QuickActionWidget extends PopupWindow {
 
     private int mPopupY;
     private boolean mIsOnTop;
-
+    
+    private boolean mAlignRight;
+    
     private int mScreenHeight;
     private int mScreenWidth;
     private boolean mIsDirty;
@@ -240,8 +242,11 @@ public abstract class QuickActionWidget extends PopupWindow {
         }
 
         showArrow();
+        
         prepareAnimationStyle();
-        showAtLocation(anchor, Gravity.NO_GRAVITY, 0, mPopupY);
+        showAtLocation(anchor, 
+        	mAlignRight ? Gravity.RIGHT | Gravity.TOP :  Gravity.NO_GRAVITY,
+        	0, mPopupY);
     }
 
     protected void clearQuickActions() {
@@ -257,10 +262,10 @@ public abstract class QuickActionWidget extends PopupWindow {
 
     protected abstract void onMeasureAndLayout(Rect anchorRect, View contentView);
 
-    protected void setWidgetSpecs(int popupY, boolean isOnTop) {
+    protected void setWidgetSpecs(int popupY, boolean isOnTop, boolean alignRight) {
         mPopupY = popupY;
         mIsOnTop = isOnTop;
-
+        mAlignRight = alignRight;
         mPrivateFlags |= MEASURE_AND_LAYOUT_DONE;
     }
 
@@ -279,9 +284,24 @@ public abstract class QuickActionWidget extends PopupWindow {
             arrowUp.setVisibility(View.INVISIBLE);
             arrowDown.setVisibility(View.VISIBLE);
         }
-
-        ViewGroup.MarginLayoutParams param = (ViewGroup.MarginLayoutParams) arrow.getLayoutParams();
-        param.leftMargin = mRect.centerX() - (arrow.getMeasuredWidth()) / 2;
+        
+        RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) arrow.getLayoutParams();
+        
+        if(mAlignRight)
+        {
+        	param.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+        	arrow.setPadding(0, 
+        			0, 
+        			getScreenWidth() - mRect.centerX() - 
+        				(arrow.getMeasuredWidth()) / 2, 
+        			0);
+        	
+        }
+        else
+        {
+        	param.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+        	param.leftMargin = mRect.centerX() - (arrow.getMeasuredWidth()) / 2;
+        }
     }
 
     private void prepareAnimationStyle() {

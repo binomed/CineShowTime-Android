@@ -385,13 +385,14 @@ public class CineShowTimeResultsTabletCalendarActivity extends AbstractCineShowT
 
 	@Override
 	public void onTheaterClick(TheaterBean theater) {
-		List<MovieBean> movieList = new ArrayList<MovieBean>();
-		for (String movieId : theater.getMovieMap().keySet()) {
-			movieList.add(getModelActivity().getNearResp().getMapMovies().get(movieId));
+		if (portraitMode) {
+			List<MovieBean> movieList = new ArrayList<MovieBean>();
+			for (String movieId : theater.getMovieMap().keySet()) {
+				movieList.add(getModelActivity().getNearResp().getMapMovies().get(movieId));
+			}
+			adapter.setShowTimesList(movieList, theater);
+			adapter.notifyDataSetChanged();
 		}
-		adapter.setShowTimesList(movieList, theater);
-		adapter.notifyDataSetChanged();
-
 	}
 
 }
