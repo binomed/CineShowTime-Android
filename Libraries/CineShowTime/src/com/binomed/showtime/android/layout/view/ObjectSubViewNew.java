@@ -54,6 +54,8 @@ public class ObjectSubViewNew extends View {
 
 	private int specSizeWidth, mAscentMain, mAscentShowTime;
 
+	private final int paddingLeft, paddingTop;
+
 	private static final String PIPE = " | ";
 	private static final String EMPTY = "";
 	private static final String DB_DOT = " : ";
@@ -114,6 +116,9 @@ public class ObjectSubViewNew extends View {
 
 		// this.setOrientation(VERTICAL);
 		this.kmUnit = kmUnit;
+
+		this.paddingLeft = context.getResources().getDimensionPixelOffset(R.dimen.cstPaddingLeftSubView);
+		this.paddingTop = context.getResources().getDimensionPixelOffset(R.dimen.cstPaddingTopListItems);
 	}
 
 	public void setMovie(MovieBean movieBean, TheaterBean theaterBean, boolean distanceTime, boolean movieView, boolean blackTheme, boolean format24, boolean lightFormat) {
@@ -160,12 +165,12 @@ public class ObjectSubViewNew extends View {
 
 	@Override
 	public int getPaddingTop() {
-		return 7 + super.getPaddingTop();
+		return paddingTop + super.getPaddingTop();
 	}
 
 	@Override
 	public int getPaddingLeft() {
-		return 7 + super.getPaddingLeft();
+		return paddingLeft + super.getPaddingLeft();
 	}
 
 	/**
@@ -252,7 +257,7 @@ public class ObjectSubViewNew extends View {
 						}
 						firstLine = false;
 						width = getPaddingLeft() + getPaddingRight();
-						if (curLang != null && curLang.length() > 0) {
+						if ((curLang != null) && (curLang.length() > 0)) {
 							width += (int) paintNextDark.measureText(curLang + DB_DOT);
 						}
 					}
@@ -374,7 +379,7 @@ public class ObjectSubViewNew extends View {
 						posY += (int) (-mAscentShowTime + paintTmp.descent());
 					}
 					firstLine = false;
-					if (curLang != null && curLang.length() > 0) {
+					if ((curLang != null) && (curLang.length() > 0)) {
 						measure = (int) paintTmp.measureText(curLang + DB_DOT);
 						width += measure;
 						canvas.drawText(curLang + DB_DOT, posX, posY, paintTmp);

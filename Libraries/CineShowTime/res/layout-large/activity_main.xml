@@ -40,7 +40,6 @@
 						android:layout_height="wrap_content"				
 						android:layout_width="fill_parent"
 						>
-				    <!-- Preview: layout=@layout/fragment_search -->
 				</fragment>
 				<fragment 
 						android:id="@+id/fragmentFav" 
@@ -49,7 +48,6 @@
 						android:layout_width="fill_parent"
 						android:layout_marginTop="20dp"
 						>
-				    <!-- Preview: layout=@layout/fragment_fav -->
 				</fragment>
 		</LinearLayout>
 	</ScrollView>

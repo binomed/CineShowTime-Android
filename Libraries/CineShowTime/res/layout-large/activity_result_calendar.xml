@@ -25,22 +25,6 @@
 		android:paddingRight="@dimen/cstPaddingRightMain"
 		android:paddingBottom="@dimen/cstPaddingBottomMain"
         >
-        
-    <com.google.ads.AdView android:id="@+id/adView"
-	                         android:layout_width="wrap_content"
-	                         android:layout_height="wrap_content"
-	                         android:layout_alignParentTop="true"
-	                         ads:adUnitId="@string/addViewId"
-	                         ads:adSize="IAB_BANNER"
-	                         ads:loadAdOnCreate="true"/>
-     <LinearLayout 
-           android:id="@+id/fragmentInfo" 
-           android:orientation="vertical"
-           android:layout_width="fill_parent"
-           android:layout_height="0dp" 
-	       android:layout_weight="60"
-	    	android:layout_marginTop="10dp"
-           />          
 	<LinearLayout
 	    android:id="@+id/frameLayout"
 	    android:orientation="horizontal" 
@@ -63,7 +47,23 @@
 	            android:layout_width="0dp"
 	            android:layout_height="fill_parent"
 	            android:layout_weight="50"
+	            android:cacheColorHint="#00000000" 
           />
    </LinearLayout>
+     <LinearLayout 
+           android:id="@+id/fragmentInfo" 
+           android:orientation="vertical"
+           android:layout_width="fill_parent"
+           android:layout_height="0dp" 
+	       android:layout_weight="60"
+	    	android:layout_marginTop="10dp"
+           />
+     <com.google.ads.AdView android:id="@+id/adView"
+	                         android:layout_width="wrap_content"
+	                         android:layout_height="wrap_content"
+	                         android:layout_alignParentTop="true"
+	                         ads:adUnitId="@string/addViewId"
+	                         ads:adSize="IAB_BANNER"
+	                         ads:loadAdOnCreate="true"/>          
 </LinearLayout>
 	

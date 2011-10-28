@@ -15,22 +15,36 @@
  */ 
  -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:background="@drawable/cst_tab_bg_selector"
-android:padding="5dp">
-	<ImageView android:id="@+id/icon"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_centerHorizontal="true"
-		android:layout_alignParentTop="true"
-		android:layout_marginTop="5dp"
-		/>
-	<TextView android:id="@+id/title"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_below="@+id/icon"
-		android:layout_centerHorizontal="true"
-		android:textColor="@color/cst_tab_text_selector"
-		/>
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+>
+	<RelativeLayout android:id="@+id/content"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:background="@drawable/cst_tab_bg_selector"
+	android:paddingRight="5dp"
+	android:paddingLeft="5dp"
+	>
+		<ImageView android:id="@+id/icon"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:layout_alignParentTop="true"
+			android:layout_marginTop="5dp"
+			/>
+		<TextView android:id="@+id/title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/icon"
+			android:layout_centerHorizontal="true"
+			android:textColor="@color/cst_tab_text_selector"
+			android:paddingBottom="5dp"
+			/>
+	</RelativeLayout>
+	<View
+        android:layout_width="fill_parent"
+        android:background="@drawable/cst_vertical_line"
+        android:layout_height="2dp"
+		android:layout_below="@+id/content"
+	        />
 </RelativeLayout>

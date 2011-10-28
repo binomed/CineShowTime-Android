@@ -25,20 +25,17 @@
 				android:layout_width="fill_parent"
 			   	android:layout_height="wrap_content"
 				android:text="@string/btnFav"
-				android:gravity="center_horizontal"
-				style="@style/Text.FavMain"
 				android:layout_alignParentTop="true"
-				android:layout_marginLeft="10dip"  
-				android:layout_marginRight="10dip"  
-			   	android:background="@drawable/back_fav_acceuil_top"
+				style="?attr/cstSearchLabel"   
 			/>
 		<ListView
 			android:id="@+id/mainFavList" 
 			android:layout_width="fill_parent" 
 			android:layout_height="fill_parent" 
 			android:layout_below="@+id/mainTextFav" 
+			android:layout_marginTop="10dip"  
 			android:layout_marginLeft="10dip"  
 			android:layout_marginRight="10dip"  
-		   	android:background="@drawable/back_fav_acceuil_bottom"
+		   	android:cacheColorHint="#00000000" 
 			/>
 </RelativeLayout>

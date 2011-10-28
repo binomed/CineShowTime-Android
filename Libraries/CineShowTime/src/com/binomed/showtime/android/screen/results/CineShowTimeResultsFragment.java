@@ -209,6 +209,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 		resultList = (ExpandableListView) mainView.findViewById(R.id.resultListResult);
 		resultListNonExpandable = (ListView) mainView.findViewById(R.id.resultListResultNonExpandable);
+		resultList.setGroupIndicator(null);
 
 		resultList.setVisibility(nonExpendable ? View.GONE : View.VISIBLE);
 		resultListNonExpandable.setVisibility(nonExpendable ? View.VISIBLE : View.GONE);
@@ -435,7 +436,8 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 				} else {
 					adapterNonExpendable.setSelectedPosition(groupPosition);
 					if (nonExpendable) {
-						v.setBackgroundColor(R.color.select_color);
+						// v.setBackgroundColor(R.color.select_color);
+						v.setPressed(true);
 					}
 					model.getGroupExpanded().clear();
 					model.getGroupExpanded().add(groupPosition);
