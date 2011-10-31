@@ -28,6 +28,8 @@
     <color  name="lbl_sub_dark">#aaaaaa</color>
     <color  name="baground_start_dark">#1a1a1a</color>
     <color  name="baground_end_dark">#4b4b4b</color>
+    <color  name="main_info_dark">@android:color/white</color>
+    <color  name="main_sub_info_dark">#696969</color>
     <color  name="sub_main_info_dark">@android:color/white</color>
     <color  name="sub_sub_info_dark">#aaaaaa</color>
     <color  name="showtime_passed_dark">#888888</color>
@@ -43,6 +45,8 @@
     <color  name="lbl_sub_light">#3C3C3C</color>
     <color  name="baground_start_light">#e0dede</color>
     <color  name="baground_end_light">#f6f5f6</color>
+    <color  name="main_info_light">@android:color/black</color>
+    <color  name="main_sub_info_light">#3C3C3C</color>
     <color  name="sub_main_info_light">@android:color/black</color>
     <color  name="sub_sub_info_light">#3C3C3C</color>
     <color  name="showtime_passed_light">#b0b0b0</color>

@@ -40,6 +40,7 @@ public class CineShowTimeNonExpandableListAdapter extends BaseAdapter {
 	private Context mainContext;
 	private boolean kmUnit;
 	private boolean distanceTime;
+	private boolean blackTheme;
 	private OnClickListener onClickListener;
 	private int selectedPosition;
 
@@ -65,9 +66,12 @@ public class CineShowTimeNonExpandableListAdapter extends BaseAdapter {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainContext);
 		String measure = prefs.getString(mainContext.getResources().getString(R.string.preference_loc_key_measure)//
 				, mainContext.getResources().getString(R.string.preference_loc_default_measure));
+		String defaultTheme = prefs.getString(mainContext.getResources().getString(R.string.preference_gen_key_theme)//
+				, mainContext.getResources().getString(R.string.preference_gen_default_theme));
 		distanceTime = prefs.getBoolean(mainContext.getResources().getString(R.string.preference_loc_key_time_direction)//
 				, false);
 		kmUnit = mainContext.getResources().getString(R.string.preference_loc_default_measure).equals(measure);
+		blackTheme = mainContext.getResources().getString(R.string.preference_gen_default_theme).equals(defaultTheme);
 	}
 
 	public void setTheaterList(NearResp nearRespBean, Map<String, TheaterBean> theaterFavList, CineShowtimeComparator<?> comparator) {
@@ -121,9 +125,9 @@ public class CineShowTimeNonExpandableListAdapter extends BaseAdapter {
 
 		TheaterBean theater = (TheaterBean) getItem(position);
 		if ((nearRespBean != null) && nearRespBean.isHasMoreResults() && (theater == null)) {
-			objectMasterView.setTheater(null, false, false);
+			objectMasterView.setTheater(null, false, false, blackTheme);
 		} else if ((theater != null) && (theater.getTheaterName() != null)) {
-			objectMasterView.setTheater(theater, (theatherFavList != null) && theatherFavList.containsKey(theater.getId()), false);
+			objectMasterView.setTheater(theater, (theatherFavList != null) && theatherFavList.containsKey(theater.getId()), false, blackTheme);
 		}
 		if (position == selectedPosition) {
 			objectMasterView.setBackgroundColor(R.color.select_color);

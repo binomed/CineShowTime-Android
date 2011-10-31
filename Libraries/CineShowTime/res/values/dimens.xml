@@ -31,6 +31,8 @@
 	<dimen name="cstSubMainInfo">13sp</dimen>
 	<dimen name="cstShowtime">13sp</dimen>
 	<dimen name="cstMovieTitle">15sp</dimen>
+	<dimen name="cstFavTitle">15sp</dimen>
+	<dimen name="cstFavCity">13sp</dimen>
 	
 
 </resources>

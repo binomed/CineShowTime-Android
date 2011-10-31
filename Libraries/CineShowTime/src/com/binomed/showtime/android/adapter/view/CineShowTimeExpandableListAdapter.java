@@ -376,9 +376,9 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 		if (!movieView) {
 			TheaterBean theater = (TheaterBean) getGroup(groupPosition);
 			if ((nearRespBean != null) && nearRespBean.isHasMoreResults() && (theater == null)) {
-				objectMasterView.setTheater(null, false, lightFormat);
+				objectMasterView.setTheater(null, false, lightFormat, blackTheme);
 			} else if ((theater != null) && (theater.getTheaterName() != null)) {
-				objectMasterView.setTheater(theater, (theatherFavList != null) && theatherFavList.containsKey(theater.getId()), lightFormat);
+				objectMasterView.setTheater(theater, (theatherFavList != null) && theatherFavList.containsKey(theater.getId()), lightFormat, blackTheme);
 			}
 		} else {
 			MovieBean movie = (MovieBean) getGroup(groupPosition);

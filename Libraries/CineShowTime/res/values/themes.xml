@@ -47,6 +47,8 @@
         <item name="cstShowTimeNearestColor">@color/showtime_nearest_dark</item>
         <item name="cstShowTimeNextColor">@color/showtime_next_dark</item>
         <item name="cstTextTrailer">@style/TextTrailer.Dark</item>
+        <item name="cstFavTitle">@style/TextObjectMasterMainInfo.Fav.Dark</item>
+        <item name="cstFavCity">@style/TextObjectMasterSubInfo.Fav.Dark</item>
 	  </style>
 	
 	  <!-- Variation on our application theme that has a transparent
@@ -77,6 +79,8 @@
         <item name="cstShowTimeNearestColor">@color/showtime_nearest_light</item>
         <item name="cstShowTimeNextColor">@color/showtime_next_light</item>
         <item name="cstTextTrailer">@style/TextTrailer.Light</item>
+        <item name="cstFavTitle">@style/TextObjectMasterMainInfo.Fav.Dark</item>
+        <item name="cstFavCity">@style/TextObjectMasterSubInfo.Fav.Dark</item>
 	  </style>
 
 	  

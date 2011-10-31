@@ -19,6 +19,7 @@ import greendroid.widget.ActionBarItem;
 import greendroid.widget.NormalActionBarItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -28,12 +29,13 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.animation.TranslateAnimation;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.adapter.view.CineShowTimeShowTimesListAdapter;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.NearResp;
@@ -48,6 +50,7 @@ import com.binomed.showtime.android.util.activity.AbstractCineShowTimeActivity;
 public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActivity<IModelResultTablet> implements // OnChildClickListener //
 		CineShowTimeResultInteraction<IModelResultTablet> //
 		, MovieFragmentInteraction<IModelResultTablet> //
+		, OnItemClickListener //
 {
 
 	protected static final int MENU_SORT = Menu.NONE;
@@ -61,91 +64,18 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	protected CineShowTimeResultsFragment fragmentResult;
 	protected CineShowTimeMovieFragment fragmentMovie;
 	protected CineShowTimeFrameFragment fragmentFrame;
+	private ListView showtimeList;
+	private CineShowTimeShowTimesListAdapter adapter;
 
 	protected Intent intentStartMovieActivity;
 	protected boolean openMovie = false;
 
 	// Var for portrait mode
 	protected boolean portraitMode;
-	protected ImageButton btnExpand;
-	protected FrameLayout frameLayout = null;
 	protected LinearLayout infoLayout = null;
 	protected final Handler mHandler = new Handler();
 
-	protected int dist = 200;
-	protected int delay = 500;
-	protected int widthLeftFull, widthLeftLight, widthRight;
-	protected FrameLayout.LayoutParams paramsLeft, paramsRight;
 	protected Intent intentResult;
-
-	protected boolean hideRight;
-
-	private void extendList() {
-
-		if (hideRight) {
-			// We move the info to the right
-			TranslateAnimation animation = new TranslateAnimation(infoLayout.getLeft(), infoLayout.getLeft() + dist, 0, 0);
-			animation = new TranslateAnimation(0, dist, 0, 0);
-			animation.setStartOffset(0);// layoutRight.getLeft());
-			animation.setDuration(delay);
-			// animation.setFillAfter(true);
-			infoLayout.startAnimation(animation);
-
-			fragmentResult.changeAdapter(true);
-
-			paramsLeft.width = widthLeftFull;
-			fragmentResult.getView().setLayoutParams(paramsLeft);
-
-			paramsRight.leftMargin = widthLeftFull;
-			infoLayout.setLayoutParams(paramsRight);
-
-			mHandler.postDelayed(new Runnable() {
-
-				@Override
-				public void run() {
-
-					infoLayout.layout(widthLeftFull, infoLayout.getTop(), widthLeftFull + widthRight, infoLayout.getBottom());
-				}
-			}, delay);
-			mHandler.postDelayed(new Runnable() {
-
-				@Override
-				public void run() {
-					btnExpand.setBackgroundResource(R.drawable.ic_btn_find_prev);
-				}
-			}, delay + 200);
-		} else {
-			// We move the info to initial position
-			TranslateAnimation animation = new TranslateAnimation(infoLayout.getLeft() + dist, infoLayout.getLeft(), 0, 0);
-			animation = new TranslateAnimation(dist, 0, 0, 0);
-			animation = new TranslateAnimation(0, -dist, 0, 0);
-			animation.setStartOffset(0);// layoutRight.getLeft());
-			animation.setDuration(delay);
-			// animation.setFillAfter(true);
-			infoLayout.startAnimation(animation);
-
-			paramsRight.leftMargin = widthLeftLight;
-			infoLayout.setLayoutParams(paramsRight);
-
-			mHandler.postDelayed(new Runnable() {
-
-				@Override
-				public void run() {
-					infoLayout.layout(widthLeftLight, infoLayout.getTop(), widthLeftLight + widthRight, infoLayout.getBottom());
-				}
-			}, delay);
-			mHandler.postDelayed(new Runnable() {
-
-				@Override
-				public void run() {
-					btnExpand.setBackgroundResource(R.drawable.ic_btn_find_next);
-					paramsLeft.width = widthLeftLight;
-					fragmentResult.getView().setLayoutParams(paramsLeft);
-					fragmentResult.changeAdapter(false);
-				}
-			}, delay + 200);
-		}
-	}
 
 	/*
 	 * Override LyfeCycle
@@ -194,7 +124,17 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME, savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
 				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_THEATER_ID));
 				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_DAY, savedInstanceState.getInt(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
-				intentResult.putIntegerArrayListExtra(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND, savedInstanceState.getIntegerArrayList(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND));
+				ArrayList<Integer> expandGroup = savedInstanceState.getIntegerArrayList(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND);
+				intentResult.putIntegerArrayListExtra(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND, expandGroup);
+				if (portraitMode && (expandGroup != null) && (expandGroup.size() > 0)) {
+					List<MovieBean> movieList = new ArrayList<MovieBean>();
+					TheaterBean theater = getModelActivity().getNearResp().getTheaterList().get(expandGroup.get(expandGroup.size() - 1));
+					for (String movieId : theater.getMovieMap().keySet()) {
+						movieList.add(getModelActivity().getNearResp().getMapMovies().get(movieId));
+					}
+					adapter.setShowTimesList(movieList, theater);
+					adapter.notifyDataSetChanged();
+				}
 				Double latitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
 				Double longitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
 				if ((latitude != 0) && (longitude != 0)) {
@@ -289,7 +229,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 
 	@Override
 	protected void initContentView() {
-		Log.i(TAG, "initContentView");
+		Log.i(getTAG(), "initContentView");
 		fragmentResult = (CineShowTimeResultsFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentResults);
 		Fragment recycleFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentInfo);
 		if (recycleFragment == null) {
@@ -303,47 +243,15 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 		Configuration conf = getResources().getConfiguration();
 		portraitMode = conf.orientation == Configuration.ORIENTATION_PORTRAIT;
 		if (portraitMode) {
-			hideRight = false;
-			btnExpand = (ImageButton) findViewById(R.id.btnExpand);
-			frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
 			infoLayout = (LinearLayout) findViewById(R.id.fragmentInfo);
-			frameLayout.setVisibility(View.INVISIBLE);
 
-			mHandler.postDelayed(new Runnable() {
-
-				@Override
-				public void run() {
-					paramsLeft = (android.widget.FrameLayout.LayoutParams) fragmentResult.getView().getLayoutParams();
-					paramsRight = (android.widget.FrameLayout.LayoutParams) infoLayout.getLayoutParams();
-
-					int totalWidth = frameLayout.getWidth();
-					widthLeftFull = Double.valueOf(totalWidth * 0.50).intValue();
-					widthLeftLight = Double.valueOf(totalWidth * 0.20).intValue();
-					dist = widthLeftFull - widthLeftLight;
-					widthRight = Double.valueOf(totalWidth * 0.80).intValue();
-
-					paramsLeft.width = widthLeftLight;
-					paramsRight.width = widthRight;
-
-					fragmentResult.getView().setLayoutParams(paramsLeft);
-					infoLayout.setLayoutParams(paramsRight);
-					infoLayout.setBackgroundColor(android.R.color.darker_gray);
-					frameLayout.setVisibility(View.VISIBLE);
-				}
-			}, delay);
-
-			btnExpand.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					hideRight = !hideRight;
-					extendList();
-					fragmentResult.requestFocus();
-
-				}
-			});
-
+			fragmentResult.setNonExpendable(true);
+			showtimeList = (ListView) findViewById(R.id.showtimesResults);
+			showtimeList.setOnItemClickListener(this);
+			adapter = new CineShowTimeShowTimesListAdapter(this);
+			showtimeList.setAdapter(adapter);
 		}
+
 	}
 
 	@Override
@@ -392,6 +300,11 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	@Override
 	protected boolean isHomeActivity() {
 		return false;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		openMovieScreen((MovieBean) adapter.getItem(arg2), adapter.getMasterTheater());
 	}
 
 	/*
@@ -454,38 +367,32 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 
 	@Override
 	public void onGroupClick() {
-		if (portraitMode && !hideRight) {
-			hideRight = true;
-			extendList();
-		}
+		// nothing to do
 
 	}
 
 	@Override
 	public void onChildClick() {
-		if (portraitMode && hideRight) {
-			hideRight = false;
-			extendList();
-		}
+		// nothing to do
 
 	}
 
 	@Override
 	public void onFocusListener(boolean focus) {
-		if (portraitMode && !focus && hideRight) {
-			hideRight = false;
-			extendList();
-		} else if (portraitMode && focus && !hideRight) {
-			hideRight = true;
-			extendList();
-		}
+		// nothing to do
 
 	}
 
 	@Override
 	public void onTheaterClick(TheaterBean theater) {
-		// nothing to do
-
+		if (portraitMode) {
+			List<MovieBean> movieList = new ArrayList<MovieBean>();
+			for (String movieId : theater.getMovieMap().keySet()) {
+				movieList.add(getModelActivity().getNearResp().getMapMovies().get(movieId));
+			}
+			adapter.setShowTimesList(movieList, theater);
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 }

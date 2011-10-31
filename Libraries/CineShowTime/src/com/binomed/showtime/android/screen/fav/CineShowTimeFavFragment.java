@@ -21,12 +21,15 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -72,7 +75,18 @@ public class CineShowTimeFavFragment extends Fragment implements OnClickListener
 	/** Called when the activity is first created. */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View mainView = inflater.inflate(R.layout.fragment_fav, container, false);
+
+		// Bug fix do to pb of theme. Was forced to set manually the theme.
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		String defaultTheme = getActivity().getResources().getString(R.string.preference_gen_default_theme);
+		String theme = pref.getString(getActivity().getResources().getString(R.string.preference_gen_key_theme), defaultTheme);
+		int themeRessource = R.style.Theme_Dark_Night;
+		if (!theme.equals(defaultTheme)) {
+			themeRessource = R.style.Theme_Shine_the_lite;
+		}
+
+		LayoutInflater newInflater = inflater.cloneInContext(new ContextThemeWrapper(getActivity(), themeRessource));
+		View mainView = newInflater.inflate(R.layout.fragment_fav, container, false);
 
 		tracker = fragmentInteraction.getTracker();
 		mainContext = getActivity();

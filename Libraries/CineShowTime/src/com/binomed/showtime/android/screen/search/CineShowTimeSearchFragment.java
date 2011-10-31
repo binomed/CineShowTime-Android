@@ -51,7 +51,6 @@ import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech;
 import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech.AutoCompleteInteraction;
 import com.binomed.showtime.android.screen.results.CineShowTimeResultsActivity;
 import com.binomed.showtime.android.screen.results.tablet.CineShowTimeResultsTabletActivity;
-import com.binomed.showtime.android.screen.results.tablet.CineShowTimeResultsTabletCalendarActivity;
 import com.binomed.showtime.android.util.CineShowTimeEncodingUtil;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
@@ -412,11 +411,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 			CineShowtimeFactory.initGeocoder(getActivity());
 			Intent intentResultActivity = null;
 			if (getActivity().getIntent().getBooleanExtra(ParamIntent.ACTIVITY_LARGE_SCREEN, false)) {
-				if (fragmentInteraction.isWithAdds()) {
-					intentResultActivity = new Intent(getActivity(), CineShowTimeResultsTabletActivity.class);
-				} else {
-					intentResultActivity = new Intent(getActivity(), CineShowTimeResultsTabletCalendarActivity.class);
-				}
+				intentResultActivity = new Intent(getActivity(), CineShowTimeResultsTabletActivity.class);
 			} else {
 				intentResultActivity = new Intent(getActivity(), CineShowTimeResultsActivity.class);
 			}

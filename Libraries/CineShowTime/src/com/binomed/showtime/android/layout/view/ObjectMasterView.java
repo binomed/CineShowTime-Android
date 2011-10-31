@@ -78,7 +78,7 @@ public class ObjectMasterView extends LinearLayout {
 		objectSubContentName = (TextView) this.findViewById(R.id.object_subcontent_name);
 	}
 
-	public void setTheater(TheaterBean theaterBean, boolean isFav, boolean lightFormat) {
+	public void setTheater(TheaterBean theaterBean, boolean isFav, boolean lightFormat, boolean blackTheme) {
 		this.theaterBean = theaterBean;
 		this.isFav = isFav;
 
@@ -95,7 +95,7 @@ public class ObjectMasterView extends LinearLayout {
 					&& !String.valueOf(HttpParamsCst.ERROR_WRONG_PLACE).equals(theaterBean.getId()) //
 					&& !String.valueOf(HttpParamsCst.ERROR_CUSTOM_MESSAGE).equals(theaterBean.getId()) //
 			) {
-				expandFav.setImageDrawable(context.getResources().getDrawable(isFav ? R.drawable.btn_star_big_on : R.drawable.btn_star_big_off));
+				expandFav.setImageDrawable(context.getResources().getDrawable(isFav ? R.drawable.btn_star_big_on : blackTheme ? R.drawable.btn_star_big_off_disable : R.drawable.btn_star_big_off));
 			} else {
 				expandFav.setImageDrawable(context.getResources().getDrawable(R.drawable.vide));
 			}

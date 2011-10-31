@@ -37,6 +37,8 @@
     <attr name="cstShowTimeNearestColor" format="reference"/>
     <attr name="cstShowTimeNextColor" format="reference"/>
     <attr name="cstTextTrailer" format="reference"/>
+    <attr name="cstFavTitle" format="reference"/>
+    <attr name="cstFavCity" format="reference"/>
     
     <declare-styleable name="cstTextStyle">
 	    <attr name="cstTextHint" format="integer"/>

@@ -99,7 +99,7 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 		tabHost = (TabHost) findViewById(android.R.id.tabhost);
 		if (tabHost != null) {
 			tabHost.setup();
-			tabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
+			tabHost.getTabWidget().setDividerDrawable(R.drawable.cst_tab_divider);
 
 			// We have to create the tabs*
 			TabHost.TabSpec tabSearch = tabHost.newTabSpec("Search");

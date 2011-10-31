@@ -164,19 +164,37 @@
     <style name="TextObjectMasterMainInfo">
     </style>
     <style name="TextObjectMasterMainInfo.Light">
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@color/main_info_light</item>
     </style>
     <style name="TextObjectMasterMainInfo.Dark">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/main_info_dark</item>
+    </style>
+    <style name="TextObjectMasterMainInfo.Fav">
+        <item name="android:textSize">@dimen/cstFavTitle</item>
+    </style>
+    <style name="TextObjectMasterMainInfo.Fav.Light">
+        <item name="android:textColor">@color/main_info_light</item>
+    </style>
+    <style name="TextObjectMasterMainInfo.Fav.Dark">
+        <item name="android:textColor">@color/main_info_dark</item>
     </style>
     
     <style name="TextObjectMasterSubInfo">
     </style>
     <style name="TextObjectMasterSubInfo.Light">
-        <item name="android:textColor">#3C3C3C</item>
+        <item name="android:textColor">@color/main_sub_info_light</item>
     </style>
     <style name="TextObjectMasterSubInfo.Dark">
-        <item name="android:textColor">#696969</item>
+        <item name="android:textColor">@color/main_sub_info_dark</item>
+    </style>
+    <style name="TextObjectMasterSubInfo.Fav">
+        <item name="android:textSize">@dimen/cstFavCity</item>
+    </style>
+    <style name="TextObjectMasterSubInfo.Fav.Light">
+        <item name="android:textColor">@color/main_sub_info_light</item>
+    </style>
+    <style name="TextObjectMasterSubInfo.Fav.Dark">
+        <item name="android:textColor">@color/main_sub_info_dark</item>
     </style>
     
     <style name="TextObjectSubMainInfo">
