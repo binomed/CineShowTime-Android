@@ -27,6 +27,7 @@
 	<string name="movieName">Film adı :</string>
 	<string name="btnChkLocation">Şehir : </string>
 	<string name="spinnerToday">Bugün</string>
+	<string name="spinnerTomorow">Yarın</string>
 	<string name="spinnerMonday">Pazartesi</string>
 	<string name="spinnerTuesday">Salı</string>
 	<string name="spinnerWenesday">Çarşamba</string>
@@ -62,7 +63,7 @@
 	<string name="msgLoading">Yükleniyor...</string>
 	<!--  Main acitivity -->
 	<string name="MainTitle">Android Showtime Programına Hoşgeldiniz</string>
-	<string name="app_name">Android Showtime</string>
+	<string name="app_name">CineShowTime sinema </string>
 	<string name="btnNear">Sinema ara</string>
 	<string name="btnMovie">Seans ara</string>
 	<string name="btnFav">Favorileriniz</string>

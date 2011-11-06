@@ -13,6 +13,7 @@
  */
 package com.binomed.showtime.android.layout.view;
 
+import pl.polidea.coverflow.CoverFlow;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,12 +26,13 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Gallery;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.adapter.view.CoverFlowTrailerAdapter;
 import com.binomed.showtime.android.adapter.view.GalleryTrailerAdapter;
 import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.model.MovieBean;
@@ -40,7 +42,7 @@ import com.binomed.showtime.android.util.CineShowtimeRequestManage;
 import com.binomed.showtime.android.util.images.ImageDownloader;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
-public class PageInfoView extends LinearLayout implements OnItemClickListener, OnLongClickListener {
+public class PageInfoView extends LinearLayout implements OnItemClickListener, OnLongClickListener, OnItemSelectedListener {
 
 	private static final String TAG = "CineShowTime-PageInfoView";
 
@@ -54,7 +56,9 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 	private TextView moviePlot;
 	private TextView movieWebLinks;
 	private LinearLayout videoSeparator;
-	private Gallery movieGalleryTrailer;
+	// private Gallery movieGalleryTrailer;
+	private CoverFlow movieGalleryTrailer;
+	private TextView movieGalleryTrailerSelect;
 
 	protected GalleryTrailerAdapter trailerAdapter;
 
@@ -106,7 +110,9 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 		txtMovieDuration = (TextView) findViewById(R.id.txtMovieDuration);
 		movieDuration = (TextView) findViewById(R.id.movieDuration);
 		moviePlot = (TextView) findViewById(R.id.moviePlot);
-		movieGalleryTrailer = (Gallery) findViewById(R.id.gallery_trailer);
+		// movieGalleryTrailer = (Gallery) findViewById(R.id.gallery_trailer);
+		movieGalleryTrailer = (CoverFlow) findViewById(R.id.gallery_trailer);
+		movieGalleryTrailerSelect = (TextView) findViewById(R.id.gallery_trailer_select);
 		videoSeparator = (LinearLayout) findViewById(R.id.videosSeparator);
 
 		movieWebLinks = (TextView) findViewById(R.id.movieWebLinks);
@@ -137,6 +143,7 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 
 	private void initListeners() {
 		movieGalleryTrailer.setOnItemClickListener(this);
+		movieGalleryTrailer.setOnItemSelectedListener(this);
 		moviePlot.setOnLongClickListener(this);
 
 	}
@@ -266,12 +273,16 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 		}
 
 		if ((movie.getYoutubeVideos() != null) && !movie.getYoutubeVideos().isEmpty()) {
-			this.movieGalleryTrailer.setAdapter(new GalleryTrailerAdapter(getContext(), movie.getYoutubeVideos(), imageDownloader));
+			// this.movieGalleryTrailer.setAdapter(new GalleryTrailerAdapter(getContext(), movie.getYoutubeVideos(), imageDownloader));
+			this.movieGalleryTrailer.setAdapter(new CoverFlowTrailerAdapter(getContext(), movie.getYoutubeVideos(), imageDownloader));
+			this.movieGalleryTrailer.setSelection(movie.getYoutubeVideos().size() / 2, true);
 			this.movieGalleryTrailer.setVisibility(View.VISIBLE);
+			this.movieGalleryTrailerSelect.setVisibility(View.VISIBLE);
 			this.videoSeparator.setVisibility(View.VISIBLE);
 		} else {
 			this.movieGalleryTrailer.setVisibility(View.GONE);
 			this.videoSeparator.setVisibility(View.GONE);
+			this.movieGalleryTrailerSelect.setVisibility(View.GONE);
 		}
 	}
 
@@ -418,6 +429,17 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 		// break;
 		// }
 		return false;
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> adpater, View view, int groupPosition, long id) {
+		movieGalleryTrailerSelect.setText(model.getMovie().getYoutubeVideos().get(groupPosition).getVideoName());
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+		// TODO Auto-generated method stub
+
 	}
 
 	public interface CallBack {

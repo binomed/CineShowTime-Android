@@ -27,6 +27,7 @@
 	<string name="movieName">Film :</string>
 	<string name="btnChkLocation">Per Città : </string>
 	<string name="spinnerToday">Oggi</string>
+	<string name="spinnerTomorow">Domani</string>
 	<string name="spinnerMonday">Lunedi</string>
 	<string name="spinnerTuesday">Martedi</string>
 	<string name="spinnerWenesday">Mercoledi</string>
@@ -62,7 +63,7 @@
 	<string name="msgLoading">Si prego un po di pazienza...</string>
 	<!--  Main acitivity -->
 	<string name="MainTitle">Benvenuti sur CineShowTime </string>
-	<string name="app_name">CineShowTime</string>
+	<string name="app_name">CineShowTime Cinema</string>
 	<string name="btnNear">Cercare dei cinema</string>
 	<string name="btnMovie">Cercare dei film</string>
 	<string name="btnFav">Preferiti</string>
@@ -119,6 +120,7 @@
 	<string name="tabReviews">Critico</string>	
 	<string name="noReview">Senza critiche per questo film.</string>
 	<string name="noSummary">Nessuno riasunto trovato... </string>
+	<string name="btnImdb">Imdb</string>
 	<string name="menuTranslate">Traduzione</string>
 	<string name="menuSms">Invito per sms</string>
 	<string name="menuMail">Invito per mail</string>

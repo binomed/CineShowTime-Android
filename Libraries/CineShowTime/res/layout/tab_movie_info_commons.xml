@@ -48,12 +48,35 @@
 			android:background="@drawable/palm_divider_line"
 		/>
 	</LinearLayout>
+	<pl.polidea.coverflow.CoverFlow 
+	    	xmlns:app="http://schemas.android.com/apk/res/com.binomed.showtime"
+	    	xmlns:coverflow="com.binomed.showtime"
+			android:id="@+id/gallery_trailer"
+            coverflow:imageWidth="150dip" 
+            coverflow:imageHeight="100dip" 
+            coverflow:withReflection="false"
+            coverflow:reflectionGap="2dip" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" 
+            android:layout_marginTop="5dip" 
+			android:layout_below="@id/videosSeparator"
+            />
+	<TextView 
+			android:id="@+id/gallery_trailer_select"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" 
+            android:layout_marginTop="5dip" 
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+			android:layout_below="@id/gallery_trailer"
+	    />
+	<!-- 
 	<Gallery 
 		android:id="@+id/gallery_trailer"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:spacing="16dp"
-				android:layout_below="@id/videosSeparator"
+		android:layout_below="@id/videosSeparator"
 	/>
 	<LinearLayout
 	  	android:id="@+id/plotSeparator"
@@ -61,6 +84,14 @@
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content"
 				android:layout_below="@id/gallery_trailer"
+				>
+	 -->
+	<LinearLayout
+	  	android:id="@+id/plotSeparator"
+		android:orientation="horizontal"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+				android:layout_below="@id/gallery_trailer_select"
 				>
 	<ImageView
 		android:layout_width="20dip" 

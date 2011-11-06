@@ -81,10 +81,10 @@ public abstract class CineShowtimeDateNumberUtil {
 	public static ArrayList<String> getSpinnerDaysValues(Context context) {
 		ArrayList<String> spinnerValues = new ArrayList<String>();
 		spinnerValues.add(context.getResources().getString(R.string.spinnerToday));
+		spinnerValues.add(context.getResources().getString(R.string.spinnerTomorow));
 		Calendar dateToday = Calendar.getInstance();
 		switch (dateToday.get(Calendar.DAY_OF_WEEK)) {
 		case Calendar.SUNDAY:
-			spinnerValues.add(context.getResources().getString(R.string.spinnerMonday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerTuesday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerWenesday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerThursday));
@@ -92,7 +92,6 @@ public abstract class CineShowtimeDateNumberUtil {
 			spinnerValues.add(context.getResources().getString(R.string.spinnerSaturday));
 			break;
 		case Calendar.MONDAY:
-			spinnerValues.add(context.getResources().getString(R.string.spinnerTuesday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerWenesday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerThursday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerFriday));
@@ -100,7 +99,6 @@ public abstract class CineShowtimeDateNumberUtil {
 			spinnerValues.add(context.getResources().getString(R.string.spinnerSunday));
 			break;
 		case Calendar.TUESDAY:
-			spinnerValues.add(context.getResources().getString(R.string.spinnerWenesday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerThursday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerFriday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerSaturday));
@@ -108,7 +106,6 @@ public abstract class CineShowtimeDateNumberUtil {
 			spinnerValues.add(context.getResources().getString(R.string.spinnerMonday));
 			break;
 		case Calendar.WEDNESDAY:
-			spinnerValues.add(context.getResources().getString(R.string.spinnerThursday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerFriday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerSaturday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerSunday));
@@ -116,7 +113,6 @@ public abstract class CineShowtimeDateNumberUtil {
 			spinnerValues.add(context.getResources().getString(R.string.spinnerTuesday));
 			break;
 		case Calendar.THURSDAY:
-			spinnerValues.add(context.getResources().getString(R.string.spinnerFriday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerSaturday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerSunday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerMonday));
@@ -124,7 +120,6 @@ public abstract class CineShowtimeDateNumberUtil {
 			spinnerValues.add(context.getResources().getString(R.string.spinnerWenesday));
 			break;
 		case Calendar.FRIDAY:
-			spinnerValues.add(context.getResources().getString(R.string.spinnerSaturday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerSunday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerMonday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerTuesday));
@@ -132,7 +127,6 @@ public abstract class CineShowtimeDateNumberUtil {
 			spinnerValues.add(context.getResources().getString(R.string.spinnerThursday));
 			break;
 		case Calendar.SATURDAY:
-			spinnerValues.add(context.getResources().getString(R.string.spinnerSunday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerMonday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerTuesday));
 			spinnerValues.add(context.getResources().getString(R.string.spinnerWenesday));

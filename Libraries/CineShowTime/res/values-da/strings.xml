@@ -27,6 +27,7 @@
 	<string name="movieName">Film:</string>
 	<string name="btnChkLocation">Efter by:</string>
 	<string name="spinnerToday">I dag</string>
+	<string name="spinnerTomorow">I morgen</string>
 	<string name="spinnerMonday">Mandag</string>
 	<string name="spinnerTuesday">Tirsdag</string>
 	<string name="spinnerWenesday">Onsdag</string>
@@ -62,7 +63,7 @@
 	<string name="msgLoading">Indlæser...</string>
 	<!--  Main acitivity -->
 	<string name="MainTitle">Velkommen til CineShowTime</string>
-	<string name="app_name">CineShowTime</string>
+	<string name="app_name">CineShowTime Biograf</string>
 	<string name="btnNear">Søg efter biograf</string>
 	<string name="btnMovie">Søg efter spilletider</string>
 	<string name="btnFav">Mine Biografer</string>

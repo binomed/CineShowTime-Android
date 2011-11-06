@@ -56,9 +56,13 @@ public final class R {
  <item>por preferência usuário (mais lento)</item>
  <item>по предпочтениям пользователя (медленнее)</item>
  <item>kullanici tercihiyle (daha yavaş)</item>
+ <item>根据用户喜好(较慢)</item>
+ <item>根據使用者喜好(較慢)</item>
          */
         public static final int sort_theaters_values=0x7f0b0006;
         /** <item>USER_PREFERENCE</item>
+<item>USER_PREFERENCE</item>
+<item>USER_PREFERENCE</item>
 <item>USER_PREFERENCE</item>
 <item>USER_PREFERENCE</item>
 <item>USER_PREFERENCE</item>
@@ -636,6 +640,34 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int homeDrawable=0x7f01004d;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int imageHeight=0x7f010070;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int imageReflectionRatio=0x7f010073;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int imageWidth=0x7f01006f;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -665,6 +697,16 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int logoImg=0x7f010057;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int reflectionGap=0x7f010072;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -737,6 +779,14 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int url=0x7f01004f;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int withReflection=0x7f010071;
     }
     public static final class color {
         public static final int baground_end_dark=0x7f07000c;
@@ -994,28 +1044,28 @@ containing a value of this type.
     public static final class id {
         public static final int FragmentLayout=0x7f060017;
         public static final int FragmentMovie=0x7f06001c;
-        public static final int LinearLayoutTabShowtimes=0x7f060071;
+        public static final int LinearLayoutTabShowtimes=0x7f060072;
         public static final int SplashImage=0x7f060021;
         public static final int SplashImage2=0x7f060022;
         public static final int action_bar_menu=0x7f060015;
         public static final int adView=0x7f06001b;
         public static final int bottom=0x7f060008;
         public static final int btnAboutDialogDonate=0x7f060025;
-        public static final int btnSpeech=0x7f060079;
+        public static final int btnSpeech=0x7f06007a;
         public static final int center=0x7f06000d;
         public static final int center_horizontal=0x7f06000c;
         public static final int center_vertical=0x7f06000b;
-        public static final int content=0x7f060099;
-        public static final int customExpandableListItemGroup=0x7f06009c;
-        public static final int customSpinnerItem=0x7f060098;
+        public static final int content=0x7f06009a;
+        public static final int customExpandableListItemGroup=0x7f06009d;
+        public static final int customSpinnerItem=0x7f060099;
         public static final int dashboard=0x7f060001;
-        public static final int div1=0x7f06008e;
+        public static final int div1=0x7f06008f;
         public static final int empty=0x7f060002;
-        public static final int expand_fav=0x7f060080;
-        public static final int favItemCity=0x7f060086;
-        public static final int favItemDelete=0x7f060084;
-        public static final int favItemId=0x7f060083;
-        public static final int favItemTheater=0x7f060085;
+        public static final int expand_fav=0x7f060081;
+        public static final int favItemCity=0x7f060087;
+        public static final int favItemDelete=0x7f060085;
+        public static final int favItemId=0x7f060084;
+        public static final int favItemTheater=0x7f060086;
         public static final int favListTheaterFav=0x7f060028;
         public static final int fragmentFav=0x7f060019;
         public static final int fragmentInfo=0x7f060020;
@@ -1023,10 +1073,11 @@ containing a value of this type.
         public static final int fragmentSearch=0x7f060018;
         public static final int frame=0x7f060031;
         public static final int frameLayout=0x7f06001d;
-        public static final int galleryTrailerImg=0x7f060088;
-        public static final int galleryTrailerText=0x7f060089;
-        public static final int gallery_item=0x7f060087;
+        public static final int galleryTrailerImg=0x7f060089;
+        public static final int galleryTrailerText=0x7f06008a;
+        public static final int gallery_item=0x7f060088;
         public static final int gallery_trailer=0x7f060063;
+        public static final int gallery_trailer_select=0x7f060064;
         public static final int gd_action_bar=0x7f060012;
         public static final int gd_action_bar_content_view=0x7f060014;
         public static final int gd_action_bar_home_item=0x7f06003d;
@@ -1053,14 +1104,14 @@ containing a value of this type.
         public static final int gdi_rack=0x7f060048;
         public static final int gdi_scroll=0x7f060047;
         public static final int hdpi=0x7f060005;
-        public static final int icon=0x7f06009a;
-        public static final int item_projection_button=0x7f06008b;
-        public static final int item_projection_item=0x7f06008a;
-        public static final int item_projection_name=0x7f06008c;
+        public static final int icon=0x7f06009b;
+        public static final int item_projection_button=0x7f06008c;
+        public static final int item_projection_item=0x7f06008b;
+        public static final int item_projection_name=0x7f06008d;
         public static final int lastBtnClose=0x7f060029;
         public static final int lastChangeScroll=0x7f06002a;
         public static final int lastChangetText=0x7f06002b;
-        public static final int layoutWithSpeech=0x7f060078;
+        public static final int layoutWithSpeech=0x7f060079;
         public static final int ldpi=0x7f060003;
         public static final int left=0x7f060009;
         public static final int logoImg=0x7f06001a;
@@ -1070,58 +1121,58 @@ containing a value of this type.
         public static final int mdpi=0x7f060004;
         public static final int menuSort=0x7f060016;
         public static final int movieActor=0x7f06005e;
-        public static final int movieBtnCall=0x7f060076;
-        public static final int movieBtnDirection=0x7f060074;
-        public static final int movieBtnMap=0x7f060075;
+        public static final int movieBtnCall=0x7f060077;
+        public static final int movieBtnDirection=0x7f060075;
+        public static final int movieBtnMap=0x7f060076;
         public static final int movieCommonBottom=0x7f060061;
         public static final int movieDirector=0x7f06005c;
         public static final int movieDuration=0x7f06005a;
         public static final int movieGenre=0x7f060060;
-        public static final int movieImgRate1=0x7f060066;
-        public static final int movieImgRate10=0x7f06006f;
-        public static final int movieImgRate2=0x7f060067;
-        public static final int movieImgRate3=0x7f060068;
-        public static final int movieImgRate4=0x7f060069;
-        public static final int movieImgRate5=0x7f06006a;
-        public static final int movieImgRate6=0x7f06006b;
-        public static final int movieImgRate7=0x7f06006c;
-        public static final int movieImgRate8=0x7f06006d;
-        public static final int movieImgRate9=0x7f06006e;
+        public static final int movieImgRate1=0x7f060067;
+        public static final int movieImgRate10=0x7f060070;
+        public static final int movieImgRate2=0x7f060068;
+        public static final int movieImgRate3=0x7f060069;
+        public static final int movieImgRate4=0x7f06006a;
+        public static final int movieImgRate5=0x7f06006b;
+        public static final int movieImgRate6=0x7f06006c;
+        public static final int movieImgRate7=0x7f06006d;
+        public static final int movieImgRate8=0x7f06006e;
+        public static final int movieImgRate9=0x7f06006f;
         public static final int movieImgRates=0x7f060057;
         public static final int movieInfoBasicBloc=0x7f060052;
-        public static final int movieListProjection=0x7f060077;
-        public static final int movieListReview=0x7f060070;
-        public static final int moviePlot=0x7f060065;
+        public static final int movieListProjection=0x7f060078;
+        public static final int movieListReview=0x7f060071;
+        public static final int moviePlot=0x7f060066;
         public static final int moviePoster=0x7f060053;
         public static final int movieRate=0x7f060056;
         public static final int movieTab_summary=0x7f060051;
-        public static final int movieTheaterAddress=0x7f060073;
-        public static final int movieTheaterTitle=0x7f060072;
+        public static final int movieTheaterAddress=0x7f060074;
+        public static final int movieTheaterTitle=0x7f060073;
         public static final int movieTitle=0x7f060054;
         public static final int movieWebLinks=0x7f060058;
         public static final int multiple=0x7f06000f;
         public static final int normal=0x7f060000;
-        public static final int object_master_item=0x7f06007f;
-        public static final int object_name=0x7f060081;
-        public static final int object_sub_item=0x7f06007c;
-        public static final int object_sub_name=0x7f06007d;
-        public static final int object_sub_subcontent_name=0x7f06007e;
-        public static final int object_subcontent_name=0x7f060082;
+        public static final int object_master_item=0x7f060080;
+        public static final int object_name=0x7f060082;
+        public static final int object_sub_item=0x7f06007d;
+        public static final int object_sub_name=0x7f06007e;
+        public static final int object_sub_subcontent_name=0x7f06007f;
+        public static final int object_subcontent_name=0x7f060083;
         public static final int paged_view=0x7f060032;
-        public static final int plotSeparator=0x7f060064;
+        public static final int plotSeparator=0x7f060065;
         public static final int relativeLayoutId=0x7f06002f;
         public static final int resultListResult=0x7f060033;
         public static final int resultListResultNonExpandable=0x7f060034;
-        public static final int reviewAutor=0x7f06008f;
-        public static final int reviewImgRate1=0x7f060090;
-        public static final int reviewImgRate2=0x7f060091;
-        public static final int reviewImgRate3=0x7f060092;
-        public static final int reviewImgRate4=0x7f060093;
-        public static final int reviewImgRate5=0x7f060094;
-        public static final int reviewRateSep=0x7f060095;
-        public static final int reviewReview=0x7f060097;
-        public static final int reviewUrl=0x7f060096;
-        public static final int review_item=0x7f06008d;
+        public static final int reviewAutor=0x7f060090;
+        public static final int reviewImgRate1=0x7f060091;
+        public static final int reviewImgRate2=0x7f060092;
+        public static final int reviewImgRate3=0x7f060093;
+        public static final int reviewImgRate4=0x7f060094;
+        public static final int reviewImgRate5=0x7f060095;
+        public static final int reviewRateSep=0x7f060096;
+        public static final int reviewReview=0x7f060098;
+        public static final int reviewUrl=0x7f060097;
+        public static final int review_item=0x7f06008e;
         public static final int right=0x7f06000a;
         public static final int root_container=0x7f06002d;
         public static final int searchBtnSearch=0x7f060039;
@@ -1132,12 +1183,12 @@ containing a value of this type.
         public static final int searchTxtCityName=0x7f06003a;
         public static final int searchTxtMovieName=0x7f06003b;
         public static final int searchTxtSpinner=0x7f06003c;
-        public static final int searchWithSpeech=0x7f06007a;
-        public static final int searchWithoutSpeech=0x7f06007b;
+        public static final int searchWithSpeech=0x7f06007b;
+        public static final int searchWithoutSpeech=0x7f06007c;
         public static final int showtimesResults=0x7f06001f;
         public static final int single=0x7f06000e;
         public static final int sortListSortDialog=0x7f06002c;
-        public static final int title=0x7f06009b;
+        public static final int title=0x7f06009c;
         public static final int top=0x7f060007;
         public static final int txtAboutDialogCopyright=0x7f060026;
         public static final int txtAboutDialogDevelop=0x7f060024;
@@ -1147,21 +1198,21 @@ containing a value of this type.
         public static final int txtMovieGenre=0x7f06005f;
         public static final int txtMovieRate=0x7f060055;
         public static final int videosSeparator=0x7f060062;
-        public static final int widget_center_bottom_buttons_one=0x7f0600a3;
-        public static final int widget_center_bottom_one=0x7f0600a7;
-        public static final int widget_center_top_one=0x7f0600a2;
-        public static final int widget_left_one=0x7f06009e;
-        public static final int widget_one=0x7f06009d;
-        public static final int widget_one_button_refresh=0x7f0600a4;
-        public static final int widget_one_button_scroll_left=0x7f0600a5;
-        public static final int widget_one_button_scroll_right=0x7f0600a6;
-        public static final int widget_one_films_group=0x7f0600a8;
-        public static final int widget_one_group_movie_1=0x7f0600a9;
-        public static final int widget_one_movie_hour_1=0x7f0600ab;
-        public static final int widget_one_movie_txt_1=0x7f0600aa;
-        public static final int widget_one_theater_title=0x7f0600a1;
-        public static final int widget_right_one=0x7f06009f;
-        public static final int widget_top_one=0x7f0600a0;
+        public static final int widget_center_bottom_buttons_one=0x7f0600a4;
+        public static final int widget_center_bottom_one=0x7f0600a8;
+        public static final int widget_center_top_one=0x7f0600a3;
+        public static final int widget_left_one=0x7f06009f;
+        public static final int widget_one=0x7f06009e;
+        public static final int widget_one_button_refresh=0x7f0600a5;
+        public static final int widget_one_button_scroll_left=0x7f0600a6;
+        public static final int widget_one_button_scroll_right=0x7f0600a7;
+        public static final int widget_one_films_group=0x7f0600a9;
+        public static final int widget_one_group_movie_1=0x7f0600aa;
+        public static final int widget_one_movie_hour_1=0x7f0600ac;
+        public static final int widget_one_movie_txt_1=0x7f0600ab;
+        public static final int widget_one_theater_title=0x7f0600a2;
+        public static final int widget_right_one=0x7f0600a0;
+        public static final int widget_top_one=0x7f0600a1;
         public static final int xhdpi=0x7f060006;
         public static final int zoneWidgetResults=0x7f060023;
     }
@@ -1250,20 +1301,22 @@ Main Activity
   Main acitivity 
   Main acitivity 
   Main acitivity 
+  Main acitivity 
+  Main acitivity 
          */
-        public static final int MainTitle=0x7f090048;
-        public static final int addFav=0x7f090058;
+        public static final int MainTitle=0x7f090049;
+        public static final int addFav=0x7f090059;
         public static final int addViewId=0x7f09001b;
-        public static final int app_name=0x7f090049;
+        public static final int app_name=0x7f09004a;
         public static final int btnChkLocation=0x7f090026;
-        public static final int btnClose=0x7f090043;
-        public static final int btnFav=0x7f09004c;
-        public static final int btnImdb=0x7f09007a;
-        public static final int btnMovie=0x7f09004b;
-        public static final int btnNear=0x7f09004a;
-        public static final int btnUpComming=0x7f09004d;
-        public static final int chooseIntentMail=0x7f090085;
-        public static final int chooseIntentSms=0x7f090084;
+        public static final int btnClose=0x7f090044;
+        public static final int btnFav=0x7f09004d;
+        public static final int btnImdb=0x7f09007b;
+        public static final int btnMovie=0x7f09004c;
+        public static final int btnNear=0x7f09004b;
+        public static final int btnUpComming=0x7f09004e;
+        public static final int chooseIntentMail=0x7f090086;
+        public static final int chooseIntentSms=0x7f090085;
         public static final int cityName=0x7f090024;
         /** Bookmarks Dialog Message 
 Bookmarks Dialog Message 
@@ -1283,8 +1336,10 @@ Bookmarks dialog
  Bookmarks Dialog Message 
  Bookmarks Dialog Message 
  Bookmarks Dialog Message 
+ Bookmarks Dialog Message 
+ Bookmarks Dialog Message 
          */
-        public static final int dialogBookmarkTitle=0x7f090062;
+        public static final int dialogBookmarkTitle=0x7f090063;
         /** LastChange Dialog Message 
 LastChange Dialog Message 
  LastChange Dialog Message 
@@ -1303,11 +1358,13 @@ LastChange Dialog Message
  LastChange Dialog Message 
  LastChange Dialog Message 
  LastChange Dialog Message 
+ LastChange Dialog Message 
+ LastChange Dialog Message 
          */
-        public static final int dialogLastChangeTitle=0x7f090061;
-        public static final int dialogLastShowtimeBtnNon=0x7f090067;
-        public static final int dialogLastShowtimeBtnYes=0x7f090066;
-        public static final int dialogLastShowtimeMsg=0x7f090065;
+        public static final int dialogLastChangeTitle=0x7f090062;
+        public static final int dialogLastShowtimeBtnNon=0x7f090068;
+        public static final int dialogLastShowtimeBtnYes=0x7f090067;
+        public static final int dialogLastShowtimeMsg=0x7f090066;
         /** Last Showtime Dialog Message 
 Last Showtime Dialog Message 
  Last Showtime Dialog Message 
@@ -1326,10 +1383,12 @@ Last ShowTime dialog message
  Last Showtime Dialog Message 
  Last Showtime Dialog Message 
  Last Showtime Dialog Message 
+ Last Showtime Dialog Message 
+ Last Showtime Dialog Message 
          */
-        public static final int dialogLastShowtimeTitle=0x7f090064;
-        public static final int dialogRateMovieCancel=0x7f09008a;
-        public static final int dialogRateMovieMsg=0x7f090088;
+        public static final int dialogLastShowtimeTitle=0x7f090065;
+        public static final int dialogRateMovieCancel=0x7f09008b;
+        public static final int dialogRateMovieMsg=0x7f090089;
         /** Rate Movie Dialog Message 
 Rate Movie Dialog Message 
  Rate Movie Dialog Message 
@@ -1348,12 +1407,14 @@ Rate movie dialog message
  Rate Movie Dialog Message 
  Rate Movie Dialog Message 
  Rate Movie Dialog Message 
+ Rate Movie Dialog Message 
+ Rate Movie Dialog Message 
          */
-        public static final int dialogRateMovieTitle=0x7f090087;
-        public static final int dialogRateMovieValidate=0x7f090089;
-        public static final int endHour=0x7f09006e;
+        public static final int dialogRateMovieTitle=0x7f090088;
+        public static final int dialogRateMovieValidate=0x7f09008a;
+        public static final int endHour=0x7f09006f;
         public static final int errorMsg=0x7f090094;
-        public static final int flagLastShowtime=0x7f090057;
+        public static final int flagLastShowtime=0x7f090058;
         public static final int gd_add=0x7f09000b;
         public static final int gd_all_friends=0x7f090016;
         public static final int gd_compass=0x7f09000f;
@@ -1382,9 +1443,9 @@ Rate movie dialog message
         public static final int gd_talk=0x7f090002;
         public static final int gd_trashcan=0x7f090014;
         public static final int geolocalized=0x7f090095;
-        public static final int gpsInactiveBtnNo=0x7f090051;
-        public static final int gpsInactiveBtnYes=0x7f090050;
-        public static final int gpsInactiveMsg=0x7f09004f;
+        public static final int gpsInactiveBtnNo=0x7f090052;
+        public static final int gpsInactiveBtnYes=0x7f090051;
+        public static final int gpsInactiveMsg=0x7f090050;
         /** GPS Messages 
 GPS Messages 
  GPS Messages 
@@ -1403,8 +1464,10 @@ GPS messages
  GPS Messages 
  GPS Messages 
  GPS Messages 
+ GPS Messages 
+ GPS Messages 
          */
-        public static final int gpsInactiveTitle=0x7f09004e;
+        public static final int gpsInactiveTitle=0x7f09004f;
         public static final int gpsPrefDisable=0x7f090098;
         public static final int gpsUnauthorizedMsg=0x7f090096;
         public static final int gpsUnauthorizedMsgCineShowTime=0x7f090097;
@@ -1426,18 +1489,20 @@ Search Near Message
  Search Near Activity Message 
  Search Near Activity Message 
  Search Near Activity Message 
+ Near Activity Message 
+ Near Activity Message 
          */
-        public static final int hour=0x7f090052;
-        public static final int itemMoreTheaters=0x7f09005b;
-        public static final int mailContent=0x7f090082;
-        public static final int mailSubject=0x7f090083;
+        public static final int hour=0x7f090053;
+        public static final int itemMoreTheaters=0x7f09005c;
+        public static final int mailContent=0x7f090083;
+        public static final int mailSubject=0x7f090084;
         public static final int menuAbout=0x7f09001e;
-        public static final int menuAddEvent=0x7f09007e;
-        public static final int menuCall=0x7f090054;
-        public static final int menuFav=0x7f090055;
+        public static final int menuAddEvent=0x7f09007f;
+        public static final int menuCall=0x7f090055;
+        public static final int menuFav=0x7f090056;
         public static final int menuHelp=0x7f09001f;
-        public static final int menuLastShowtime=0x7f090056;
-        public static final int menuMail=0x7f09007d;
+        public static final int menuLastShowtime=0x7f090057;
+        public static final int menuMail=0x7f09007e;
         /** Commons 
 Commons 
  Commons 
@@ -1456,18 +1521,20 @@ COMMONS
  Commons 
  Commons 
  Commons 
+ Commons 
+COMMONS 
          */
         public static final int menuPreferences=0x7f09001d;
-        public static final int menuRate=0x7f09007f;
-        public static final int menuRemoveBookmark=0x7f090063;
+        public static final int menuRate=0x7f090080;
+        public static final int menuRemoveBookmark=0x7f090064;
         public static final int menuReservation=0x7f09009f;
-        public static final int menuSms=0x7f09007c;
-        public static final int menuSort=0x7f090030;
-        public static final int menuTranslate=0x7f09007b;
-        public static final int min=0x7f090053;
+        public static final int menuSms=0x7f09007d;
+        public static final int menuSort=0x7f090031;
+        public static final int menuTranslate=0x7f09007c;
+        public static final int min=0x7f090054;
         public static final int movieLabel=0x7f090091;
         public static final int movieName=0x7f090025;
-        public static final int movieProgressMsg=0x7f090069;
+        public static final int movieProgressMsg=0x7f09006a;
         /**  Movie Activity Message 
 Movie Activity Message 
  Movie Activity Message 
@@ -1486,11 +1553,13 @@ Movie activity message
  Movie Activity Message 
  Movie Activity Message 
  Movie Activity Message 
+ Movie Activity Message 
+ Movie Activity Message 
          */
-        public static final int movieProgressTitle=0x7f090068;
-        public static final int msgCalculating=0x7f090041;
+        public static final int movieProgressTitle=0x7f090069;
+        public static final int msgCalculating=0x7f090042;
         public static final int msgDevelopped=0x7f09009a;
-        public static final int msgDonation=0x7f09003d;
+        public static final int msgDonation=0x7f09003e;
         /**  Error messages 
 Error messages 
  Error messages 
@@ -1509,36 +1578,38 @@ Error messages
  Error messages 
  Error messages 
  Error messages 
+ Error messages 
+ Error messages 
          */
-        public static final int msgErrorNoDb=0x7f09008b;
-        public static final int msgErrorNoNetwork=0x7f09008c;
-        public static final int msgErrorOnServer=0x7f09008d;
+        public static final int msgErrorNoDb=0x7f09008c;
+        public static final int msgErrorNoNetwork=0x7f09008d;
+        public static final int msgErrorOnServer=0x7f09008e;
         public static final int msgErrorTranslate=0x7f090099;
-        public static final int msgEventAdd=0x7f090086;
-        public static final int msgLoading=0x7f090047;
-        public static final int msgNoCityName=0x7f090032;
-        public static final int msgNoDFav=0x7f090038;
-        public static final int msgNoDateMatch=0x7f090036;
-        public static final int msgNoGps=0x7f090033;
-        public static final int msgNoMovieName=0x7f090034;
-        public static final int msgNoPlaceMatch=0x7f090035;
-        public static final int msgNoResultRetryLater=0x7f090042;
-        public static final int msgNoResults=0x7f090046;
-        public static final int msgNoUpComming=0x7f090037;
-        public static final int msgRateSave=0x7f090080;
-        public static final int msgSpeecCity=0x7f09003f;
-        public static final int msgSpeecMovie=0x7f090040;
-        public static final int msgSpeecRecognition=0x7f09003e;
-        public static final int msgTraductorName=0x7f09003c;
-        public static final int msgVersionCode=0x7f09003a;
-        public static final int msgVersionName=0x7f09003b;
-        public static final int msgVersionTitle=0x7f090039;
+        public static final int msgEventAdd=0x7f090087;
+        public static final int msgLoading=0x7f090048;
+        public static final int msgNoCityName=0x7f090033;
+        public static final int msgNoDFav=0x7f090039;
+        public static final int msgNoDateMatch=0x7f090037;
+        public static final int msgNoGps=0x7f090034;
+        public static final int msgNoMovieName=0x7f090035;
+        public static final int msgNoPlaceMatch=0x7f090036;
+        public static final int msgNoResultRetryLater=0x7f090043;
+        public static final int msgNoResults=0x7f090047;
+        public static final int msgNoUpComming=0x7f090038;
+        public static final int msgRateSave=0x7f090081;
+        public static final int msgSpeecCity=0x7f090040;
+        public static final int msgSpeecMovie=0x7f090041;
+        public static final int msgSpeecRecognition=0x7f09003f;
+        public static final int msgTraductorName=0x7f09003d;
+        public static final int msgVersionCode=0x7f09003b;
+        public static final int msgVersionName=0x7f09003c;
+        public static final int msgVersionTitle=0x7f09003a;
         public static final int noReview=0x7f09009b;
-        public static final int noSummary=0x7f090079;
+        public static final int noSummary=0x7f09007a;
         public static final int openMapsDriveMenuItem=0x7f090021;
         public static final int openMapsMenuItem=0x7f090020;
         public static final int openYoutubeMenuItem=0x7f090022;
-        public static final int plot=0x7f09006a;
+        public static final int plot=0x7f09006b;
         public static final int preference_gen_auto_reload=0x7f0900a8;
         public static final int preference_gen_auto_reload_summary=0x7f0900a9;
         public static final int preference_gen_cat=0x7f0900a6;
@@ -1567,6 +1638,8 @@ Preferences Messages
  Preferences Messages 
 Preferences Messages 
 Preferences messages
+ Preferences Messages 
+ Preferences Messages 
  Preferences Messages 
  Preferences Messages 
  Preferences Messages 
@@ -1603,12 +1676,12 @@ Preferences messages
         public static final int preference_user_agenda=0x7f0900cd;
         public static final int preference_user_agenda_summary=0x7f0900ce;
         public static final int preference_user_cat=0x7f0900cc;
-        public static final int projectionList=0x7f09006c;
-        public static final int projectionTime=0x7f09006d;
+        public static final int projectionList=0x7f09006d;
+        public static final int projectionTime=0x7f09006e;
         public static final int rateLabel=0x7f090093;
         public static final int readMore=0x7f09009e;
         public static final int search=0x7f090023;
-        public static final int searchMovieProgressMsg=0x7f09005d;
+        public static final int searchMovieProgressMsg=0x7f09005e;
         /** Search Movie Activity Message 
 Search Movie Activity Message 
  Search Movie Activity Message 
@@ -1627,26 +1700,28 @@ Serach Movie message
  Search Movie Activity Message 
  Search Movie Activity Message 
  Search Movie Activity Message 
+ Search Movie Activity Message 
+ Search Movie Activity Message 
          */
-        public static final int searchMovieProgressTitle=0x7f09005c;
-        public static final int searchNearProgressMsg=0x7f09005a;
-        public static final int searchNearProgressTitle=0x7f090059;
+        public static final int searchMovieProgressTitle=0x7f09005d;
+        public static final int searchNearProgressMsg=0x7f09005b;
+        public static final int searchNearProgressTitle=0x7f09005a;
         public static final int showtimeLabel=0x7f090092;
-        public static final int smsContent=0x7f090081;
-        public static final int sortDialogTitle=0x7f090031;
-        public static final int spinnerChoseTitle=0x7f09002f;
-        public static final int spinnerFriday=0x7f09002c;
-        public static final int spinnerMonday=0x7f090028;
-        public static final int spinnerSaturday=0x7f09002d;
-        public static final int spinnerSunday=0x7f09002e;
-        public static final int spinnerThursday=0x7f09002b;
+        public static final int smsContent=0x7f090082;
+        public static final int sortDialogTitle=0x7f090032;
+        public static final int spinnerChoseTitle=0x7f090030;
+        public static final int spinnerFriday=0x7f09002d;
+        public static final int spinnerMonday=0x7f090029;
+        public static final int spinnerSaturday=0x7f09002e;
+        public static final int spinnerSunday=0x7f09002f;
+        public static final int spinnerThursday=0x7f09002c;
         public static final int spinnerToday=0x7f090027;
-        public static final int spinnerTomorow=0x7f090090;
-        public static final int spinnerTuesday=0x7f090029;
-        public static final int spinnerWenesday=0x7f09002a;
-        public static final int tabProjection=0x7f090077;
-        public static final int tabReviews=0x7f090078;
-        public static final int tabSummary=0x7f090076;
+        public static final int spinnerTomorow=0x7f090028;
+        public static final int spinnerTuesday=0x7f09002a;
+        public static final int spinnerWenesday=0x7f09002b;
+        public static final int tabProjection=0x7f090078;
+        public static final int tabReviews=0x7f090079;
+        public static final int tabSummary=0x7f090077;
         /**  THEMES 
 THEMES
  THEMES 
@@ -1665,13 +1740,15 @@ THEMES
 THEMES
 THEMES
 THEMES
+THEMES
+THEMES
          */
         public static final int theme_dark=0x7f0900a0;
         public static final int theme_light=0x7f0900a1;
-        public static final int trailer=0x7f09006b;
-        public static final int txtActor=0x7f090074;
-        public static final int txtDirector=0x7f090073;
-        public static final int txtDuration=0x7f090072;
+        public static final int trailer=0x7f09006c;
+        public static final int txtActor=0x7f090075;
+        public static final int txtDirector=0x7f090074;
+        public static final int txtDuration=0x7f090073;
         /**  ADDED STRINGS
 ADDED STRINGS
 ADDED STRINGS
@@ -1690,16 +1767,18 @@ ADDED STRINGS
 ADDED STRINGS
 ADDED STRINGS
 ADDED STRINGS
+ ADDED STRINGS 
+ ADDED STRINGS 
          */
-        public static final int txtEnterCity=0x7f09008e;
-        public static final int txtEnterMovie=0x7f09008f;
-        public static final int txtGenre=0x7f090075;
-        public static final int txtMovieFind=0x7f09005e;
-        public static final int txtMovieFindDuration=0x7f09005f;
-        public static final int txtMovieFindValueNotFound=0x7f090060;
-        public static final int txtRate=0x7f090070;
-        public static final int txtTitle=0x7f09006f;
-        public static final int txtUserRate=0x7f090071;
+        public static final int txtEnterCity=0x7f09008f;
+        public static final int txtEnterMovie=0x7f090090;
+        public static final int txtGenre=0x7f090076;
+        public static final int txtMovieFind=0x7f09005f;
+        public static final int txtMovieFindDuration=0x7f090060;
+        public static final int txtMovieFindValueNotFound=0x7f090061;
+        public static final int txtRate=0x7f090071;
+        public static final int txtTitle=0x7f090070;
+        public static final int txtUserRate=0x7f090072;
         public static final int unknownSource=0x7f09009c;
         public static final int urlHelp=0x7f09009d;
         /** Widget 
@@ -1720,9 +1799,11 @@ Widget
   Widget 
   Widget 
   Widget 
+  Widget 
+  Widget 
          */
-        public static final int widget_name_2x2=0x7f090044;
-        public static final int widget_name_2x2_cupcake=0x7f090045;
+        public static final int widget_name_2x2=0x7f090045;
+        public static final int widget_name_2x2_cupcake=0x7f090046;
         public static final int withAdd=0x7f09001c;
     }
     public static final class style {
@@ -2044,6 +2125,104 @@ containing a value of this type.
           @attr name android:url
         */
         public static final int AsyncImageView_url = 1;
+        /** Attributes that can be used with a CoverFlow.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #CoverFlow_imageHeight com.binomed.showtime:imageHeight}</code></td><td></td></tr>
+           <tr><td><code>{@link #CoverFlow_imageReflectionRatio com.binomed.showtime:imageReflectionRatio}</code></td><td></td></tr>
+           <tr><td><code>{@link #CoverFlow_imageWidth com.binomed.showtime:imageWidth}</code></td><td></td></tr>
+           <tr><td><code>{@link #CoverFlow_reflectionGap com.binomed.showtime:reflectionGap}</code></td><td></td></tr>
+           <tr><td><code>{@link #CoverFlow_withReflection com.binomed.showtime:withReflection}</code></td><td></td></tr>
+           </table>
+           @see #CoverFlow_imageHeight
+           @see #CoverFlow_imageReflectionRatio
+           @see #CoverFlow_imageWidth
+           @see #CoverFlow_reflectionGap
+           @see #CoverFlow_withReflection
+         */
+        public static final int[] CoverFlow = {
+            0x7f01006f, 0x7f010070, 0x7f010071, 0x7f010072,
+            0x7f010073
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#imageHeight}
+          attribute's value can be found in the {@link #CoverFlow} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:imageHeight
+        */
+        public static final int CoverFlow_imageHeight = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#imageReflectionRatio}
+          attribute's value can be found in the {@link #CoverFlow} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:imageReflectionRatio
+        */
+        public static final int CoverFlow_imageReflectionRatio = 4;
+        /**
+          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#imageWidth}
+          attribute's value can be found in the {@link #CoverFlow} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:imageWidth
+        */
+        public static final int CoverFlow_imageWidth = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#reflectionGap}
+          attribute's value can be found in the {@link #CoverFlow} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:reflectionGap
+        */
+        public static final int CoverFlow_reflectionGap = 3;
+        /**
+          <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#withReflection}
+          attribute's value can be found in the {@link #CoverFlow} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:withReflection
+        */
+        public static final int CoverFlow_withReflection = 2;
         /** Attributes that can be used with a DescriptionItem.
          */
         public static final int[] DescriptionItem = {

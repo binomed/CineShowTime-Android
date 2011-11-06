@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * Copyright (C) 2011 Binomed (http://blog.binomed.fr)
+ *
+ * Licensed under the Eclipse Public License - v 1.0;
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.eclipse.org/legal/epl-v10.html
+ *
+ * THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC 
+ * LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM 
+ * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
+ */ 
+ -->
+<resources>
+	<!--COMMONS -->
+	<string name="menuPreferences">選項</string>
+	<string name="menuAbout">關於</string>
+	<string name="menuHelp">說明</string>
+	<string name="openMapsMenuItem">搜尋影院</string>
+	<string name="openMapsDriveMenuItem">導航到影院</string>
+	<string name="openYoutubeMenuItem">搜索預告片</string>
+	<string name="search">搜索</string>
+	<string name="cityName">城市:</string>
+	<string name="movieName">電影:</string>
+	<string name="btnChkLocation">根據城市:</string>
+	<string name="spinnerToday">今天</string>
+	<string name="spinnerTomorow">明天</string>
+	<string name="spinnerMonday">星期一</string>
+	<string name="spinnerTuesday">星期二</string>
+	<string name="spinnerWenesday">星期三</string>
+	<string name="spinnerThursday">星期四</string>
+	<string name="spinnerFriday">星期五</string>
+	<string name="spinnerSaturday">星期六</string>
+	<string name="spinnerSunday">星期天</string>
+	<string name="spinnerChoseTitle">選取一天</string>
+	<string name="menuSort">結果排序</string>
+	<string name="sortDialogTitle">選取排序模式</string>
+	<string name="msgNoCityName">城市名稱是必需的</string>
+	<string name="msgNoGps">沒有找到坐標... 請移動捕捉到信號或再試一次</string>
+	<string name="msgNoMovieName">電影名稱是必需的</string>
+	<string name="msgNoPlaceMatch">沒有符合您的查詢可供顯示。請選取一個不同的城市。</string>
+	<string name="msgNoDateMatch"> 沒有符合您的查詢可供顯示。請選取一個不同的日期。</string>
+	<string name="msgNoUpComming">此訊息暫時不可用。請明天重試。</string>
+	<string name="msgNoDFav">我的影院中無收藏影院</string>
+	<string name="msgVersionTitle">CineShowTime版本:</string>
+	<string name="msgVersionCode">代碼版本:</string>
+	<string name="msgVersionName">版本號:</string>
+	<string name="msgTraductorName">中文化: www.GOAPK.com</string>
+	<string name="msgDonation">如果你想捐贈我們，請拜訪我們的網站: http://code.google.com/p/binomed-project/</string>
+	<string name="msgSpeecRecognition">語音辨識:</string>
+	<string name="msgSpeecCity">語音辨識: 城市搜索</string>
+	<string name="msgSpeecMovie">語音辨識: 電影搜索</string>
+	<string name="msgCalculating">處理中...</string>
+	<string name="msgNoResultRetryLater">未找到正在上映的，但是也可能是伺服器錯誤。請重試。</string>
+	<string name="btnClose">關閉</string>
+	<!--  Widget -->
+	<string name="widget_name_2x2">CineShowTime 2x2</string>
+	<string name="widget_name_2x2_cupcake">CineShowTime 2x2 Cupcake</string>
+	<string name="msgNoResults">未找到電影</string>
+	<string name="msgLoading">載入中...</string>
+	<!--  Main acitivity -->
+	<string name="MainTitle">歡迎使用CineShowTime</string>
+	<string name="app_name">CineShowTime 電影院</string>
+	<string name="btnNear">搜索影院</string>
+	<string name="btnMovie">搜索播放時間</string>
+	<string name="btnFav">我的影院</string>
+	<string name="btnUpComming">即將推出</string>
+	<!-- GPS Messages -->
+	<string name="gpsInactiveTitle">GPS已關閉！</string>
+	<string name="gpsInactiveMsg">是否需要開啟GPS？</string>
+	<string name="gpsInactiveBtnYes">是</string>
+	<string name="gpsInactiveBtnNo">否</string>
+	<!-- Near Activity Message -->
+	<string name="hour">小時</string>
+	<string name="min">分鐘</string>
+	<string name="menuCall">聯繫影院</string>
+	<string name="menuFav">我的影院</string>
+	<string name="menuLastShowtime">最後放映</string>
+	<string name="flagLastShowtime">最後放映</string>
+	<string name="addFav">新增到我的影院</string>
+	<string name="searchNearProgressTitle">搜索正在放映的</string>
+	<string name="searchNearProgressMsg">載入中...</string>
+	<string name="itemMoreTheaters">更多的影院</string>
+	<!-- Search Movie Activity Message -->
+	<string name="searchMovieProgressTitle">搜索正在放映的</string>
+	<string name="searchMovieProgressMsg">載入中...</string>
+	<string name="txtMovieFind">電影:</string>
+	<string name="txtMovieFindDuration">片長:</string>
+	<string name="txtMovieFindValueNotFound">您所要求搜尋的電影並無放映</string>
+	<!-- LastChange Dialog Message -->
+	<string name="dialogLastChangeTitle">最後變更</string>
+	<!-- Bookmarks Dialog Message -->
+	<string name="dialogBookmarkTitle">我的影院</string>
+	<string name="menuRemoveBookmark">從我的影院中移除</string>
+	<!-- Last Showtime Dialog Message -->
+	<string name="dialogLastShowtimeTitle">最後放映</string>
+	<string name="dialogLastShowtimeMsg">你是否要搜索下周便不再上映的電影？\n此功能正在開發中，可能不能使用</string>
+	<string name="dialogLastShowtimeBtnYes">是</string>
+	<string name="dialogLastShowtimeBtnNon">否</string>
+	<!-- Movie Activity Message -->
+	<string name="movieProgressTitle">搜索電影訊息</string>
+	<string name="movieProgressMsg">載入中...</string>
+	<string name="plot">情節</string>
+	<string name="trailer">預告片</string>
+	<string name="projectionList">在這些影院上映:</string>
+	<string name="projectionTime">上映時間:</string>
+	<string name="endHour">結束時間:</string>
+	<string name="txtTitle">片名:</string>
+	<string name="txtRate">評分:</string>
+	<string name="txtUserRate">您的評分:</string>
+	<string name="txtDuration">片長:</string>
+	<string name="txtDirector">導演:</string>
+	<string name="txtActor">主演:</string>
+	<string name="txtGenre">類型:</string>
+	<string name="tabSummary">電影訊息</string>
+	<string name="tabProjection">上映清單</string>
+	<string name="tabReviews">評論</string>
+	<string name="noSummary">未找到劇情...</string>
+	<string name="btnImdb">IMDB</string>
+	<string name="menuTranslate">翻譯</string>
+	<string name="menuSms">通過短信邀請</string>
+	<string name="menuMail">通過Email邀請</string>
+	<string name="menuAddEvent">新增到日程表</string>
+	<string name="menuRate">電影評分</string>
+	<string name="msgRateSave">已儲存評分</string>
+	<string name="smsContent">我邀請您去看電影 \'{0}\' {1} 時間是 {2}影院是\'{3}\' \n\n 由CineShowTime產生傳送的訊息</string>
+	<string name="mailContent">我邀請您與我一同去看電影 <i>\'{0}\'</i> {1} 時間是 <b>{2}</b> 影院是 \'{3}\' \n\n 由CineShowTime產生傳送的Email</string>
+	<string name="mailSubject">邀請觀看電影 #{movie}</string>
+	<string name="chooseIntentSms">邀請文字</string>
+	<string name="chooseIntentMail">Email邀請</string>
+	<string name="msgEventAdd">將上映的新增到日程表中</string>
+	<!-- Rate Movie Dialog Message -->
+	<string name="dialogRateMovieTitle">電影評分</string>
+	<string name="dialogRateMovieMsg">請從0到10中選一個作為評分</string>
+	<string name="dialogRateMovieValidate">評分</string>
+	<string name="dialogRateMovieCancel">取消</string>
+	<!-- Error messages -->
+	<string name="msgErrorNoDb">連接資料庫錯誤。請檢查您的SD卡。</string>
+	<string name="msgErrorNoNetwork">連接錯誤。請檢查您的網路連接。</string>
+	<string name="msgErrorOnServer">伺服器遇到一個錯誤。請稍後重試。</string>
+	<!-- ADDED STRINGS -->
+	<string name="txtEnterCity">城市名字...</string>
+	<string name="txtEnterMovie">電影名字 ...</string>
+	<string name="spinnerTomorow">明天</string>
+	<string name="movieLabel">電影</string>
+	<string name="showtimeLabel">上映</string>
+	<string name="rateLabel">評分</string>
+	<string name="errorMsg">錯誤</string>
+	<string name="geolocalized">地理位置搜索</string>
+	<string name="gpsUnauthorizedMsg">你需要啟用Google的定位權限。</string>
+	<string name="gpsUnauthorizedMsgCineShowTime">您需要啟用CineShowTime的定位權限。</string>
+	<string name="gpsPrefDisable">您需要在選項中啟用GPS定位。</string>
+	<string name="msgErrorTranslate">翻譯是出現了一個錯誤。</string>
+	<string name="msgDevelopped">開發者:</string>
+	<string name="noReview">沒有評分</string>	
+	<string name="unknownSource">未知</string>
+	<string name="urlHelp">http://m.blog.binomed.fr/help-cineshowtime-palm-en</string>
+	<string name="readMore">檢視更多</string>
+	<string name="menuReservation">保留</string>
+	<!--THEMES-->
+	<string name="theme_dark">黑暗騎士</string>
+	<string name="theme_light">電光滾石</string>
+	<!-- Preferences Messages -->
+	<string name="preference_lang_cat">語言選項</string>
+	<string name="preference_lang_key_auto_translate">check_preference</string>
+	<string name="preference_lang_auto_translate">自動翻譯</string>
+	<string name="preference_lang_auto_translate_summary">翻譯電影情節</string>
+	<string name="preference_gen_cat">主要選項</string>
+	<string name="preference_gen_key_auto_reload">auto_reload_preference</string>
+	<string name="preference_gen_auto_reload">自動更新</string>
+	<string name="preference_gen_auto_reload_summary">如果資料有變動則自動更新</string>
+	<string name="preference_gen_key_time_adds">time_adds_preference</string>
+	<string name="preference_gen_time_adds">廣告及預告片時間</string>
+	<string name="preference_gen_time_adds_summary">放映時間與實際播放時間之間的間隔(廣告及預告片)</string>
+	<string name="preference_gen_default_time_adds">20</string>
+	<string name="preference_gen_key_time_format">time_format_preference</string>
+	<string name="preference_gen_time_format">時間格式</string>
+	<string name="preference_gen_default_time_format">24</string>
+	<string name="preference_gen_theme">顯示主題</string>
+	<string name="preference_gen_key_theme">theme_preference</string>
+	<string name="preference_gen_default_theme">DARK</string>
+	<string name="preference_loc_cat">定位選項</string>
+	<string name="preference_loc_key_measure">measure_preference</string>
+	<string name="preference_loc_default_measure">ML</string>
+	<string name="preference_loc_measure">預設單位</string>
+	<string name="preference_loc_measure_summary">選取預設的度量單位</string>
+	<string name="preference_loc_key_time_direction">time_direction_preference</string>
+	<string name="preference_loc_time_direction">距離影院</string>
+	<string name="preference_loc_time_direction_summary">顯示臨近上映電影的同時獲取到影院的距離</string>
+	<string name="preference_loc_key_enable_localisation">enable_localisation_preference</string>
+	<string name="preference_loc_enable_localisation">使用定位</string>
+	<string name="preference_loc_enable_localisation_summary">如果您手機有GPS或網路可用，使用它們定位</string>
+	<string name="preference_loc_key_localisation_provider">localisation_provider_preference</string>
+	<string name="preference_loc_localisation_provider">定位模式</string>
+	<string name="preference_loc_localisation_provider_summary">選取您的定位模式(GPS, 網路, Wifi)</string>
+	<string name="preference_loc_default_localisation_provider">GPS</string>
+	<string name="preference_sort_cat">排序選項</string>
+	<string name="preference_sort_key_sort_movie">sort_movie</string>
+	<string name="preference_sort_default_sort_movie">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_movie">電影排序模式</string>
+	<string name="preference_sort_sort_movie_summary">選取以電影作為搜索時的預設排序模式</string>
+	<string name="preference_sort_key_sort_theater">sort_theater</string>
+	<string name="preference_sort_default_sort_theater">THEATER_DISTANCE</string>
+	<string name="preference_sort_sort_theater">影院排序模式</string>
+	<string name="preference_sort_sort_theater_summary">選取以影院作為搜索時的預設排序模式</string>
+	<string name="preference_user_cat">使用者選項</string>
+	<string name="preference_user_agenda">日程表</string>
+	<string name="preference_user_agenda_summary">選取CineShowTime使用的日程表</string>
+</resources>

@@ -60,6 +60,7 @@ public class LastChangeDialog extends Dialog {
 						" * Tablet screen support<br>" + //
 						" * Improve UI<br>" + //
 						" * Fix some crash problems<br>" + //
+						" * Integration of Chinese langages<br>" + //
 						"<b>v2.1.1</b><br><br>" + //
 						" * Fix some crash problems<br>" + //
 						"<b>v2.1.0</b><br><br>" + //

@@ -27,6 +27,7 @@
 	<string name="movieName">Filmtitel :</string>
 	<string name="btnChkLocation">Nach Ort sortiert : </string>
 	<string name="spinnerToday">Heute</string>
+	<string name="spinnerTomorow">Morgen</string>
 	<string name="spinnerMonday">Montag</string>
 	<string name="spinnerTuesday">Dienstag</string>
 	<string name="spinnerWenesday">Mittwoch</string>
@@ -62,7 +63,7 @@
 	<string name="msgLoading">Daten werden geladen...</string>
 	<!--  Main acitivity -->
 	<string name="MainTitle">Willkommen bei CineShowTime</string>
-	<string name="app_name">CineShowTime</string>
+	<string name="app_name">CineShowTime Kino</string>
 	<string name="btnNear">Kino suchen</string>
 	<string name="btnMovie">Vorstellung suchen</string>
 	<string name="btnFav">Favoriten</string>

@@ -27,6 +27,7 @@
 	<string name="movieName">Movie:</string>
 	<string name="btnChkLocation">By city:</string>
 	<string name="spinnerToday">Today</string>
+	<string name="spinnerTomorow">Tomorrow</string>
 	<string name="spinnerMonday">Monday</string>
 	<string name="spinnerTuesday">Tuesday</string>
 	<string name="spinnerWenesday">Wednesday</string>
@@ -62,7 +63,7 @@
 	<string name="msgLoading">Loading...</string>
 	<!--  Main acitivity -->
 	<string name="MainTitle">Welcome on CineShowTime Application</string>
-	<string name="app_name">CineShowTime</string>
+	<string name="app_name">CineShowTime Cinema</string>
 	<string name="btnNear">Search cinema</string>
 	<string name="btnMovie">Search showtimes</string>
 	<string name="btnFav">My Cinemas</string>

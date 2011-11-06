@@ -27,6 +27,7 @@
 	<string name="movieName">Název filmu :</string> 
 	<string name="btnChkLocation">Dle názvu města : </string> 
 	<string name="spinnerToday">Dnes</string> 
+	<string name="spinnerTomorow">Zítra</string> 
 	<string name="spinnerMonday">Pondělí</string> 
 	<string name="spinnerTuesday">Úterý</string> 
 	<string name="spinnerWenesday">Středa</string> 
@@ -62,7 +63,7 @@
 	<string name="msgLoading">Nahrávám ...</string> 
 	<!-- Main acitivity --> 
 	<string name="MainTitle">Vítá Vás aplikace CineShowTime</string> 
-	<string name="app_name">CineShowTime</string> 
+	<string name="app_name">CineShowTime Kino</string> 
 	<string name="btnNear">Hledej kina</string> 
 	<string name="btnMovie">Hledej nejbližšího</string> 
 	<string name="btnFav">Záložky</string> 

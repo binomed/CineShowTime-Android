@@ -27,6 +27,7 @@
 	<string name="movieName">Название фильма :</string>
 	<string name="btnChkLocation">По местоположению : </string>
 	<string name="spinnerToday">Сегодня</string>
+	<string name="spinnerTomorow">завтра</string>
 	<string name="spinnerMonday">Понедельник</string>
 	<string name="spinnerTuesday">Вторник</string>
 	<string name="spinnerWenesday">Среда</string>
@@ -49,6 +50,7 @@
 	<string name="msgVersionName">Название версии : </string>
 	<string name="msgTraductorName">Перевод : Stanislav Emelin</string>
 	<string name="msgDonation">Если вы хотите поддержать проект, посетите мой сайт : http://code.google.com/p/binomed-project/ </string>
+	<string name="msgSpeecRecognition">Распознавание голоса : </string>
 	<string name="msgSpeecCity">Распознавание голоса : запрашиваемый город</string>
 	<string name="msgSpeecMovie">Распознавание голоса : запрашиваемый фильм</string>
 	<string name="msgCalculating">Обрабатывается...</string>
@@ -61,7 +63,7 @@
 	<string name="msgLoading">Загрузка...</string>
 	<!--  Main acitivity -->
 	<string name="MainTitle">Добро пожаловать в CineShowTime Application</string>
-	<string name="app_name">CineShowtime</string>
+	<string name="app_name">CineShowtime кино </string>
 	<string name="btnNear">Искать кинотеатр</string>
 	<string name="btnMovie">Искать сессий</string>
 	<string name="btnFav">Избранное</string>

@@ -27,6 +27,7 @@
 	<string name="movieName">映画のタイトル :</string>
 	<string name="btnChkLocation">市・町名で絞り込む : </string>
 	<string name="spinnerToday">本日</string>
+	<string name="spinnerTomorow">明日</string>
 	<string name="spinnerMonday">月曜日</string>
 	<string name="spinnerTuesday">火曜日</string>
 	<string name="spinnerWenesday">水曜日</string>
@@ -62,7 +63,7 @@
 	<string name="msgLoading">しばらくお待ちください...。</string>
 	<!--  Main acitivity -->
 	<string name="MainTitle">CineShowTimeアプリケーションにようこそ</string>
-	<string name="app_name">CineShowTime</string>
+	<string name="app_name">CineShowTime シネマ</string>
 	<string name="btnNear">映画館検索</string>
 	<string name="btnMovie">検索セッション</string>
 	<string name="btnFav">お気に入り</string>

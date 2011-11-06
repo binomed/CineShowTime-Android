@@ -27,6 +27,7 @@
 	<string name="movieName">Film </string>
 	<string name="btnChkLocation">Par ville : </string>
 	<string name="spinnerToday">Aujourd\'hui</string>
+	<string name="spinnerTomorow">Demain</string>
 	<string name="spinnerMonday">Lundi</string>
 	<string name="spinnerTuesday">Mardi</string>
 	<string name="spinnerWenesday">Mercredi</string>
@@ -62,7 +63,7 @@
 	<string name="msgLoading">Veuillez patienter...</string>
 	<!--Main Activity -->
 	<string name="MainTitle">Bienvenue sur CineShowTime Application</string>
-	<string name="app_name">CineShowTime</string>
+	<string name="app_name">CineShowTime Cinéma</string>
 	<string name="btnNear">Chercher des cinémas</string>
 	<string name="btnMovie">Recherche de séances</string>
 	<string name="btnFav">Favoris</string>
@@ -89,6 +90,8 @@
 	<string name="txtMovieFind">Film : </string>
 	<string name="txtMovieFindDuration">Durée : </string>
 	<string name="txtMovieFindValueNotFound">Aucun film ne correspond à la recherche</string>
+	<!-- LastChange Dialog Message -->
+	<string name="dialogLastChangeTitle">Derniers Changements</string>
 	<!--Bookmarks dialog-->
 	<string name="dialogBookmarkTitle">Favoris </string>
 	<string name="menuRemoveBookmark">Supprimer favori</string>
@@ -157,8 +160,7 @@
 	<string name="urlHelp">http://m.blog.binomed.fr/help-cineshowtime-android-fr</string>
 	<string name="readMore">lire la suite</string>
 	<string name="menuReservation">Réservation</string>
-	<!-- LastChange Dialog Message -->
-	<string name="dialogLastChangeTitle">Derniers Changements</string>
+	
 	<!--THEMES-->
 	<string name="theme_dark">Dark knight</string>
 	<string name="theme_light">Shine a light</string>
@@ -207,4 +209,5 @@
 	<string name="preference_sort_sort_theater_summary">Choisissez le tri à utiliser par défaut pour le résultat des recherches de proximité</string>
 	<string name="preference_user_cat">Préférences de l\'utilisateur</string>
 	<string name="preference_user_agenda">Choix de l\'agenda</string>
+	<string name="preference_user_agenda_summary">Choisissez le calendrier à utiliser avec CineShowTime</string>
 </resources>

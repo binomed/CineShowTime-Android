@@ -27,6 +27,7 @@
 	<string name="movieName">Nome do filme :</string>
 	<string name="btnChkLocation">Por cidade : </string>
 	<string name="spinnerToday">Hoje</string>
+	<string name="spinnerTomorow">Amanhã</string>
 	<string name="spinnerMonday">Segunda feira</string>
 	<string name="spinnerTuesday">Terça feira</string>
 	<string name="spinnerWenesday">Quarta feira</string>
@@ -56,12 +57,13 @@
 	<string name="msgNoResultRetryLater">Nenhuma sessão foi encontrado, no momento, provavelmente existe um problema no servidor. Muito obrigado a reiniciar a busca.</string>
 	<string name="btnClose">Fechar</string>
 	<!--  Widget -->
-	<string name="widget_name_2x2">Android Show Time 2x2</string>
+	<string name="widget_name_2x2">CineShowTime 2x2</string>
+	<string name="widget_name_2x2_cupcake">CineShowTime 2x2</string>
 	<string name="msgNoResults">Nenhum filme encontrado</string>
 	<string name="msgLoading">Carregando...</string>
 	<!--  Main acitivity -->
 	<string name="MainTitle">Bem vinso ao Android Showtime Application</string>
-	<string name="app_name">Android Showtime</string>
+	<string name="app_name">CineShowtime cinema </string>
 	<string name="btnNear">Procurar cinemas</string>
 	<string name="btnMovie">Procurar seções</string>
 	<string name="btnFav">Favoritos</string>

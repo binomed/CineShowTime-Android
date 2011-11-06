@@ -1,0 +1,101 @@
+<!--
+/*
+ * Copyright (C) 2011 Binomed (http://blog.binomed.fr)
+ *
+ * Licensed under the Eclipse Public License - v 1.0;
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.eclipse.org/legal/epl-v10.html
+ *
+ * THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC 
+ * LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM 
+ * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
+ */ 
+ -->
+<resources>
+	<string-array name="measure">
+		<item>千米</item>
+		<item>英里</item>
+	</string-array>
+	<string-array name="measure_code">
+		<item>KM</item>
+		<item>ML</item>
+	</string-array>
+	<string-array name="mode_localisation">
+		<item>GPS</item>
+		<item>网络</item>
+		<item>Wifi</item>
+		<item>IP</item>
+		<item>XPS</item>
+	</string-array>
+	<string-array name="mode_localisation_code">
+		<item>GPS</item>
+		<item>GSM</item>
+		<item>WIFI</item>
+		<item>IP</item>
+		<item>XPS</item>
+	</string-array>
+	<string-array name="time_adds">
+		<item>5 分</item>
+		<item>10 分</item>
+		<item>15 分</item>
+		<item>20 分</item>
+		<item>25 分</item>
+		<item>30 分</item>
+		<item>35 分</item>
+		<item>40 分</item>
+	</string-array>
+	<string-array name="time_adds_code">
+		<item>5</item>
+		<item>10</item>
+		<item>15</item>
+		<item>20</item>
+		<item>25</item>
+		<item>30</item>
+		<item>35</item>
+		<item>40</item>
+	</string-array>
+	<string-array name="sort_theaters_values">
+		<item>根据影院名字</item>
+		<item>根据影院距离</item>
+		<item>根据播放时间</item>
+		<item>根据电影名字</item>
+		<!-- <item>根据用户喜好(较慢)</item>-->
+	</string-array>
+	<string-array name="sort_movies_values">
+		<item>根据影院名字</item>
+		<item>根据影院距离</item>
+		<item>根据播放时间</item>
+	</string-array>
+	<string-array name="sort_theaters_values_code">
+		<item>THEATER_NAME</item>
+		<item>THEATER_DISTANCE</item>
+		<item>SHOWTIME_HOUR</item>
+		<item>MOVIE_NAME</item>
+		<!--<item>USER_PREFERENCE</item>-->
+	</string-array>
+	<string-array name="sort_movies_values_code">
+		<item>THEATER_NAME</item>
+		<item>THEATER_DISTANCE</item>
+		<item>SHOWTIME_HOUR</item>
+	</string-array>
+	<string-array name="themes_code">
+		<item>DARK</item>
+		<item>LIGHT</item>
+	</string-array>
+	<string-array name="themes_values">
+		<item>黑暗骑士</item>
+		<item>电光滚石</item>
+	</string-array>
+		<string-array name="time_format_code">
+		<item>12</item>
+		<item>24</item>
+		<item>DEFAULT</item>
+	</string-array>
+	<string-array name="time_format_values">
+		<item>12</item>
+		<item>24</item>
+		<item>默认</item>
+	</string-array>
+</resources>
