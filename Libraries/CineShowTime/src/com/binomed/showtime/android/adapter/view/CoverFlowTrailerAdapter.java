@@ -60,6 +60,7 @@ public class CoverFlowTrailerAdapter extends AbstractCoverFlowImageAdapter {
 		if (convertView == null) {
 			final Context context = parent.getContext();
 			Log.v(TAG, "Creating Image view at position: " + position + ":" + this);
+			Log.v(TAG, "Width: " + width + ": Height:" + height);
 			imageView = new ImageView(context);
 			imageView.setLayoutParams(new CoverFlow.LayoutParams((int) width, (int) height));
 		} else {

@@ -847,8 +847,12 @@ containing a value of this type.
         public static final int cstPaddingRightMain=0x7f08000f;
         public static final int cstPaddingTopListItems=0x7f080013;
         public static final int cstPaddingTopMain=0x7f08000d;
+        public static final int cstPosterHeight=0x7f08001e;
+        public static final int cstPosterWidth=0x7f08001f;
         public static final int cstShowtime=0x7f08001a;
         public static final int cstSubMainInfo=0x7f080019;
+        public static final int cstTrailerHeight=0x7f080020;
+        public static final int cstTrailerWidth=0x7f080021;
         public static final int gd_action_bar_height=0x7f08000b;
         public static final int gd_arrow_offset=0x7f08000c;
         public static final int gd_drawable_height=0x7f080006;

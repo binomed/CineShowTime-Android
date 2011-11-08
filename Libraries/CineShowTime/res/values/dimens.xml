@@ -33,6 +33,10 @@
 	<dimen name="cstMovieTitle">15sp</dimen>
 	<dimen name="cstFavTitle">15sp</dimen>
 	<dimen name="cstFavCity">13sp</dimen>
+	<dimen name="cstPosterHeight">140dp</dimen>
+	<dimen name="cstPosterWidth">100dp</dimen>
+	<dimen name="cstTrailerHeight">100dp</dimen>
+	<dimen name="cstTrailerWidth">140dp</dimen>
 	
 
 </resources>

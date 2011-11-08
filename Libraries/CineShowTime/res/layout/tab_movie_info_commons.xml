@@ -49,13 +49,11 @@
 		/>
 	</LinearLayout>
 	<pl.polidea.coverflow.CoverFlow 
-	    	xmlns:app="http://schemas.android.com/apk/res/com.binomed.showtime"
-	    	xmlns:coverflow="com.binomed.showtime"
+	    	xmlns:coverflow="http://schemas.android.com/apk/res/com.binomed.showtime"
 			android:id="@+id/gallery_trailer"
-            coverflow:imageWidth="150dip" 
-            coverflow:imageHeight="100dip" 
+            coverflow:imageWidth="@dimen/cstTrailerWidth" 
+            coverflow:imageHeight="@dimen/cstTrailerHeight" 
             coverflow:withReflection="false"
-            coverflow:reflectionGap="2dip" 
             android:layout_width="fill_parent" 
             android:layout_height="wrap_content" 
             android:layout_marginTop="5dip" 

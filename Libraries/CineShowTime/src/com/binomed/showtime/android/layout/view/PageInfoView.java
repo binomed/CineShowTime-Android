@@ -112,6 +112,8 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 		moviePlot = (TextView) findViewById(R.id.moviePlot);
 		// movieGalleryTrailer = (Gallery) findViewById(R.id.gallery_trailer);
 		movieGalleryTrailer = (CoverFlow) findViewById(R.id.gallery_trailer);
+		movieGalleryTrailer.setImageWidth(getContext().getResources().getDimension(R.dimen.cstTrailerWidth));
+		movieGalleryTrailer.setImageHeight(getContext().getResources().getDimension(R.dimen.cstTrailerHeight));
 		movieGalleryTrailerSelect = (TextView) findViewById(R.id.gallery_trailer_select);
 		videoSeparator = (LinearLayout) findViewById(R.id.videosSeparator);
 
