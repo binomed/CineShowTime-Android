@@ -35,11 +35,10 @@
 		/>
 		<TextView 
 			android:text="@string/trailer" 
-			android:layout_marginRight="5dp"
 			android:layout_gravity="center_vertical"
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content"
-			android:textStyle="bold"  
+			style="?attr/cstSeparator"
 			/>
 		<ImageView
 			android:layout_width="fill_parent" 
@@ -63,7 +62,7 @@
 			android:id="@+id/gallery_trailer_select"
             android:layout_width="fill_parent" 
             android:layout_height="wrap_content" 
-            android:layout_marginTop="5dip" 
+            android:layout_marginTop="10dip" 
             android:gravity="center_horizontal"
             android:singleLine="true"
 			android:layout_below="@id/gallery_trailer"
@@ -100,11 +99,10 @@
 	/>
 	<TextView 
 		android:text="@string/plot" 
-		android:layout_marginRight="5dp"
 		android:layout_gravity="center_vertical"
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content"
-		android:textStyle="bold"  
+		style="?attr/cstSeparator"
 		/>
 	<ImageView
 		android:layout_width="fill_parent" 
@@ -117,7 +115,7 @@
 		android:id="@+id/moviePlot" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
-		style="?attr/cstTextMovieInfo"
-				android:layout_below="@id/plotSeparator"
+		android:layout_below="@id/plotSeparator"		
+		style="?attr/cstMoviePlot"
 		/>						
 </RelativeLayout>

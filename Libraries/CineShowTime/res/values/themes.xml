@@ -37,6 +37,7 @@
         <item name="cstMovieLabel">@style/TextLabel.MovieLabel.Dark</item>
         <item name="cstMovieLabelBelow">@style/TextLabel.MovieLabel.Below.Dark</item>
         <item name="cstMovieTitle">@style/TextLabel.MovieTitle.Dark</item>
+        <item name="cstMoviePlot">@style/TextLabel.MoviePlot.Dark</item>
         <item name="cstObjectMasterMainInfo">@style/TextObjectMasterMainInfo.Dark</item>
         <item name="cstObjectMasterSubInfo">@style/TextObjectMasterSubInfo.Dark</item>
         <item name="cstObjectSubMainInfo">@style/TextObjectSubMainInfo.Dark</item>
@@ -49,6 +50,7 @@
         <item name="cstTextTrailer">@style/TextTrailer.Dark</item>
         <item name="cstFavTitle">@style/TextObjectMasterMainInfo.Fav.Dark</item>
         <item name="cstFavCity">@style/TextObjectMasterSubInfo.Fav.Dark</item>
+        <item name="cstSeparator">@style/MovieSeparator.Dark</item>
 	  </style>
 	
 	  <!-- Variation on our application theme that has a transparent
@@ -69,6 +71,7 @@
         <item name="cstMovieLabel">@style/TextLabel.MovieLabel.Light</item>
         <item name="cstMovieLabelBelow">@style/TextLabel.MovieLabel.Below.Light</item>
         <item name="cstMovieTitle">@style/TextLabel.MovieTitle.Light</item>
+        <item name="cstMoviePlot">@style/TextLabel.MoviePlot.Light</item>
         <item name="cstObjectMasterMainInfo">@style/TextObjectMasterMainInfo.Light</item>
         <item name="cstObjectMasterSubInfo">@style/TextObjectMasterSubInfo.Light</item>
         <item name="cstObjectSubMainInfo">@style/TextObjectSubMainInfo.Light</item>
@@ -79,8 +82,9 @@
         <item name="cstShowTimeNearestColor">@color/showtime_nearest_light</item>
         <item name="cstShowTimeNextColor">@color/showtime_next_light</item>
         <item name="cstTextTrailer">@style/TextTrailer.Light</item>
-        <item name="cstFavTitle">@style/TextObjectMasterMainInfo.Fav.Dark</item>
-        <item name="cstFavCity">@style/TextObjectMasterSubInfo.Fav.Dark</item>
+        <item name="cstFavTitle">@style/TextObjectMasterMainInfo.Fav.Light</item>
+        <item name="cstFavCity">@style/TextObjectMasterSubInfo.Fav.Light</item>
+        <item name="cstSeparator">@style/MovieSeparator.Light</item>
 	  </style>
 
 	  

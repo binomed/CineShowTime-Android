@@ -105,11 +105,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstFavCity=0x7f01006d;
+        public static final int cstFavCity=0x7f01006e;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstFavTitle=0x7f01006c;
+        public static final int cstFavTitle=0x7f01006d;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -117,7 +117,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstMovieLabelBelow=0x7f010061;
+        public static final int cstMovieLabelBelow=0x7f010062;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int cstMoviePlot=0x7f010061;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -125,27 +129,27 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstObjectMasterMainInfo=0x7f010062;
+        public static final int cstObjectMasterMainInfo=0x7f010063;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstObjectMasterSubInfo=0x7f010063;
+        public static final int cstObjectMasterSubInfo=0x7f010064;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstObjectSubMainInfo=0x7f010064;
+        public static final int cstObjectSubMainInfo=0x7f010065;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstObjectSubMainInfoColor=0x7f010065;
+        public static final int cstObjectSubMainInfoColor=0x7f010066;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstObjectSubMainInfoSub=0x7f010066;
+        public static final int cstObjectSubMainInfoSub=0x7f010067;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstObjectSubMainInfoSubColor=0x7f010067;
+        public static final int cstObjectSubMainInfoSubColor=0x7f010068;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -153,15 +157,19 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstShowTimeNearestColor=0x7f010069;
+        public static final int cstSeparator=0x7f01006f;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstShowTimeNextColor=0x7f01006a;
+        public static final int cstShowTimeNearestColor=0x7f01006a;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstShowTimePassedColor=0x7f010068;
+        public static final int cstShowTimeNextColor=0x7f01006b;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int cstShowTimePassedColor=0x7f010069;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -169,7 +177,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int cstTextHint=0x7f01006e;
+        public static final int cstTextHint=0x7f010070;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -189,7 +197,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int cstTextTrailer=0x7f01006b;
+        public static final int cstTextTrailer=0x7f01006c;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -649,7 +657,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int imageHeight=0x7f010070;
+        public static final int imageHeight=0x7f010072;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -657,7 +665,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int imageReflectionRatio=0x7f010073;
+        public static final int imageReflectionRatio=0x7f010075;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -667,7 +675,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int imageWidth=0x7f01006f;
+        public static final int imageWidth=0x7f010071;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -706,7 +714,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int reflectionGap=0x7f010072;
+        public static final int reflectionGap=0x7f010074;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -786,7 +794,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int withReflection=0x7f010071;
+        public static final int withReflection=0x7f010073;
     }
     public static final class color {
         public static final int baground_end_dark=0x7f07000c;
@@ -832,27 +840,39 @@ containing a value of this type.
         public static final int sub_sub_info_light=0x7f07001e;
     }
     public static final class dimen {
-        public static final int cstBtn=0x7f080018;
-        public static final int cstBtnSpinner=0x7f080017;
-        public static final int cstEditText=0x7f080015;
-        public static final int cstFavCity=0x7f08001d;
-        public static final int cstFavMainHeight=0x7f080011;
-        public static final int cstFavTitle=0x7f08001c;
-        public static final int cstLblSearch=0x7f080016;
-        public static final int cstMovieTitle=0x7f08001b;
+        public static final int cstBtn=0x7f08001c;
+        public static final int cstBtnSpinner=0x7f08001b;
+        /**  Fonts 
+ Fonts 
+         */
+        public static final int cstEditText=0x7f080019;
+        public static final int cstFavCity=0x7f080021;
+        /**  Width and Height 
+         */
+        public static final int cstFavMainHeight=0x7f080014;
+        public static final int cstFavTitle=0x7f080020;
+        public static final int cstLblSearch=0x7f08001a;
+        public static final int cstMovieTitle=0x7f08001f;
         public static final int cstPaddingBottomMain=0x7f080010;
-        public static final int cstPaddingLefListItems=0x7f080014;
+        public static final int cstPaddingLefListItems=0x7f080013;
         public static final int cstPaddingLeftMain=0x7f08000e;
-        public static final int cstPaddingLeftSubView=0x7f080012;
+        public static final int cstPaddingLeftSubView=0x7f080011;
         public static final int cstPaddingRightMain=0x7f08000f;
-        public static final int cstPaddingTopListItems=0x7f080013;
+        public static final int cstPaddingTopListItems=0x7f080012;
+        /**  Padding 
+ Padding 
+         */
         public static final int cstPaddingTopMain=0x7f08000d;
-        public static final int cstPosterHeight=0x7f08001e;
-        public static final int cstPosterWidth=0x7f08001f;
-        public static final int cstShowtime=0x7f08001a;
-        public static final int cstSubMainInfo=0x7f080019;
-        public static final int cstTrailerHeight=0x7f080020;
-        public static final int cstTrailerWidth=0x7f080021;
+        public static final int cstPlotSize=0x7f080022;
+        /**  Width and Height 
+         */
+        public static final int cstPosterHeight=0x7f080015;
+        public static final int cstPosterWidth=0x7f080016;
+        public static final int cstSeparator=0x7f080023;
+        public static final int cstShowtime=0x7f08001e;
+        public static final int cstSubMainInfo=0x7f08001d;
+        public static final int cstTrailerHeight=0x7f080017;
+        public static final int cstTrailerWidth=0x7f080018;
         public static final int gd_action_bar_height=0x7f08000b;
         public static final int gd_arrow_offset=0x7f08000c;
         public static final int gd_drawable_height=0x7f080006;
@@ -1898,6 +1918,9 @@ Widget
         public static final int Layouts_background=0x7f0a003e;
         public static final int LogoDark=0x7f0a0043;
         public static final int LogoLight=0x7f0a0042;
+        public static final int MovieSeparator=0x7f0a0064;
+        public static final int MovieSeparator_Dark=0x7f0a0065;
+        public static final int MovieSeparator_Light=0x7f0a0066;
         public static final int Text=0x7f0a003c;
         public static final int Text_FavMain=0x7f0a003f;
         public static final int TextAppearance=0x7f0a0000;
@@ -1916,63 +1939,66 @@ Widget
         public static final int TextInfoRate_Dark=0x7f0a0050;
         public static final int TextInfoRate_Light=0x7f0a004f;
         public static final int TextLabel=0x7f0a0054;
-        public static final int TextLabel_MovieLabel=0x7f0a0058;
+        public static final int TextLabel_MovieLabel=0x7f0a005b;
         public static final int TextLabel_MovieLabel_Below=0x7f0a005e;
         public static final int TextLabel_MovieLabel_Below_Dark=0x7f0a0060;
         public static final int TextLabel_MovieLabel_Below_Light=0x7f0a005f;
         public static final int TextLabel_MovieLabel_Dark=0x7f0a005d;
         public static final int TextLabel_MovieLabel_Light=0x7f0a005c;
-        public static final int TextLabel_MovieTitle=0x7f0a0059;
-        public static final int TextLabel_MovieTitle_Dark=0x7f0a005b;
-        public static final int TextLabel_MovieTitle_Light=0x7f0a005a;
+        public static final int TextLabel_MoviePlot=0x7f0a0061;
+        public static final int TextLabel_MoviePlot_Dark=0x7f0a0063;
+        public static final int TextLabel_MoviePlot_Light=0x7f0a0062;
+        public static final int TextLabel_MovieTitle=0x7f0a0058;
+        public static final int TextLabel_MovieTitle_Dark=0x7f0a005a;
+        public static final int TextLabel_MovieTitle_Light=0x7f0a0059;
         public static final int TextLabel_SearchLabel=0x7f0a0055;
         public static final int TextLabel_SearchLabel_Dark=0x7f0a0057;
         public static final int TextLabel_SearchLabel_Light=0x7f0a0056;
-        public static final int TextObjectMasterMainInfo=0x7f0a0061;
-        public static final int TextObjectMasterMainInfo_Dark=0x7f0a0063;
-        public static final int TextObjectMasterMainInfo_Fav=0x7f0a0064;
-        public static final int TextObjectMasterMainInfo_Fav_Dark=0x7f0a0066;
-        public static final int TextObjectMasterMainInfo_Fav_Light=0x7f0a0065;
-        public static final int TextObjectMasterMainInfo_Light=0x7f0a0062;
-        public static final int TextObjectMasterSubInfo=0x7f0a0067;
-        public static final int TextObjectMasterSubInfo_Dark=0x7f0a0069;
-        public static final int TextObjectMasterSubInfo_Fav=0x7f0a006a;
-        public static final int TextObjectMasterSubInfo_Fav_Dark=0x7f0a006c;
-        public static final int TextObjectMasterSubInfo_Fav_Light=0x7f0a006b;
-        public static final int TextObjectMasterSubInfo_Light=0x7f0a0068;
-        public static final int TextObjectSubMainInfo=0x7f0a006d;
-        public static final int TextObjectSubMainInfo_Dark=0x7f0a006f;
-        public static final int TextObjectSubMainInfo_Light=0x7f0a006e;
-        public static final int TextObjectSubMainInfoSub=0x7f0a0070;
-        public static final int TextObjectSubMainInfoSub_Dark=0x7f0a0072;
-        public static final int TextObjectSubMainInfoSub_Light=0x7f0a0071;
+        public static final int TextObjectMasterMainInfo=0x7f0a0067;
+        public static final int TextObjectMasterMainInfo_Dark=0x7f0a0069;
+        public static final int TextObjectMasterMainInfo_Fav=0x7f0a006a;
+        public static final int TextObjectMasterMainInfo_Fav_Dark=0x7f0a006c;
+        public static final int TextObjectMasterMainInfo_Fav_Light=0x7f0a006b;
+        public static final int TextObjectMasterMainInfo_Light=0x7f0a0068;
+        public static final int TextObjectMasterSubInfo=0x7f0a006d;
+        public static final int TextObjectMasterSubInfo_Dark=0x7f0a006f;
+        public static final int TextObjectMasterSubInfo_Fav=0x7f0a0070;
+        public static final int TextObjectMasterSubInfo_Fav_Dark=0x7f0a0072;
+        public static final int TextObjectMasterSubInfo_Fav_Light=0x7f0a0071;
+        public static final int TextObjectMasterSubInfo_Light=0x7f0a006e;
+        public static final int TextObjectSubMainInfo=0x7f0a0073;
+        public static final int TextObjectSubMainInfo_Dark=0x7f0a0075;
+        public static final int TextObjectSubMainInfo_Light=0x7f0a0074;
+        public static final int TextObjectSubMainInfoSub=0x7f0a0076;
+        public static final int TextObjectSubMainInfoSub_Dark=0x7f0a0078;
+        public static final int TextObjectSubMainInfoSub_Light=0x7f0a0077;
         public static final int TextTabDark=0x7f0a0047;
         /**  TextStyle 
          */
         public static final int TextTabLight=0x7f0a0046;
-        public static final int TextTrailer=0x7f0a0073;
-        public static final int TextTrailer_Dark=0x7f0a0075;
-        public static final int TextTrailer_Light=0x7f0a0074;
+        public static final int TextTrailer=0x7f0a0079;
+        public static final int TextTrailer_Dark=0x7f0a007b;
+        public static final int TextTrailer_Light=0x7f0a007a;
         /**  Base application theme is the default theme. 
          */
-        public static final int Theme=0x7f0a007c;
+        public static final int Theme=0x7f0a0082;
         /**  Variation on our application theme that has a translucent
 	 background. 
          */
-        public static final int Theme_Dark_Night=0x7f0a007d;
+        public static final int Theme_Dark_Night=0x7f0a0083;
         public static final int Theme_GreenDroid=0x7f0a0035;
         public static final int Theme_GreenDroid_NoTitleBar=0x7f0a0036;
         /**  Variation on our application theme that has a transparent
 	background; this example completely removes the background,
 	allowing the activity to decide how to composite. 
          */
-        public static final int Theme_Shine_the_lite=0x7f0a007e;
-        public static final int Widget=0x7f0a0076;
-        public static final int Widget_Hour=0x7f0a007a;
-        public static final int Widget_HourOne=0x7f0a007b;
-        public static final int Widget_Movie=0x7f0a0078;
-        public static final int Widget_MovieOne=0x7f0a0079;
-        public static final int Widget_TheaterTitle=0x7f0a0077;
+        public static final int Theme_Shine_the_lite=0x7f0a0084;
+        public static final int Widget=0x7f0a007c;
+        public static final int Widget_Hour=0x7f0a0080;
+        public static final int Widget_HourOne=0x7f0a0081;
+        public static final int Widget_Movie=0x7f0a007e;
+        public static final int Widget_MovieOne=0x7f0a007f;
+        public static final int Widget_TheaterTitle=0x7f0a007d;
     }
     public static final class xml {
         public static final int and_showtime_preferences=0x7f050000;
@@ -2148,8 +2174,8 @@ containing a value of this type.
            @see #CoverFlow_withReflection
          */
         public static final int[] CoverFlow = {
-            0x7f01006f, 0x7f010070, 0x7f010071, 0x7f010072,
-            0x7f010073
+            0x7f010071, 0x7f010072, 0x7f010073, 0x7f010074,
+            0x7f010075
         };
         /**
           <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#imageHeight}
@@ -2646,7 +2672,7 @@ containing a value of this type.
            @see #cstTextStyle_cstTextHint
          */
         public static final int[] cstTextStyle = {
-            0x7f01006e
+            0x7f010070
         };
         /**
           <p>This symbol is the offset where the {@link com.binomed.showtime.R.attr#cstTextHint}

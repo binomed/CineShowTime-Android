@@ -143,6 +143,7 @@ public class CineShowTimeMovieService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		mapCancel.put(compt, false);
+		Exception error = null;
 		movieId = intent.getExtras().getString(ParamIntent.SERVICE_MOVIE_ID);
 		movie = intent.getExtras().getParcelable(ParamIntent.SERVICE_MOVIE);
 		near = intent.getExtras().getString(ParamIntent.SERVICE_MOVIE_NEAR);
@@ -153,13 +154,18 @@ public class CineShowTimeMovieService extends IntentService {
 
 		} catch (Exception e) {
 			Log.e(TAG, "error searching movie", e);
+			error = e;
+			try {
+				binder.error();
+			} catch (RemoteException e1) {
+			}
 		} finally {
 			try {
 				serviceRunning = false;
 				while (inBrodCast) {
 					Thread.sleep(100);
 				}
-				if (!mapCancel.get(compt)) {
+				if (!mapCancel.get(compt) || error != null) {
 					binder.finish(movieId);
 				}
 			} catch (Exception e) {

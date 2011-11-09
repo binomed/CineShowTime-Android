@@ -34,13 +34,6 @@
             >
         <!-- Preview: layout=@layout/fragment_search -->
     </fragment>
-    <View
-	        android:layout_width="2dp"
-	        android:background="@drawable/cst_vertical_line"
-	        android:layout_height="fill_parent"
-	        android:layout_marginTop="50dp"
-	        android:layout_marginBottom="50dp"
-	        />
     <LinearLayout 
     		android:orientation="vertical"
            android:layout_width="0dp"
@@ -50,7 +43,7 @@
     	>
 	    <fragment class="com.binomed.showtime.android.screen.fav.CineShowTimeFavFragment"
 	            android:id="@+id/fragmentFav" 
-	        	android:layout_marginTop="20dip"
+	        	android:layout_marginTop="17dip"
 	            android:layout_width="fill_parent"
 	            android:layout_height="@dimen/cstFavMainHeight" 
 	            >

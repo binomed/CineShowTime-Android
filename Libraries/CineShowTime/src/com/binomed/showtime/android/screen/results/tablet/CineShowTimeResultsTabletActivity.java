@@ -70,6 +70,9 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	protected Intent intentStartMovieActivity;
 	protected boolean openMovie = false;
 
+	private List<MovieBean> movieList = null;
+	private TheaterBean theater = null;
+
 	// Var for portrait mode
 	protected boolean portraitMode;
 	protected LinearLayout infoLayout = null;
@@ -82,7 +85,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	 */
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		if ((getModel().getNearResp() != null) || (fragmentMovie != null)) {
+		if ((getModelActivity().getNearResp() != null) || (fragmentMovie != null)) {
 			outState.putBoolean(ParamIntent.BUNDLE_SAVE, true);
 			// Save results state
 			if (getModelActivity().getNearResp() != null) {
@@ -126,14 +129,12 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_DAY, savedInstanceState.getInt(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
 				ArrayList<Integer> expandGroup = savedInstanceState.getIntegerArrayList(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND);
 				intentResult.putIntegerArrayListExtra(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND, expandGroup);
-				if (portraitMode && (expandGroup != null) && (expandGroup.size() > 0)) {
-					List<MovieBean> movieList = new ArrayList<MovieBean>();
-					TheaterBean theater = getModelActivity().getNearResp().getTheaterList().get(expandGroup.get(expandGroup.size() - 1));
+				if ((expandGroup != null) && (expandGroup.size() > 0)) {
+					movieList = new ArrayList<MovieBean>();
+					theater = getModelActivity().getNearResp().getTheaterList().get(expandGroup.get(expandGroup.size() - 1));
 					for (String movieId : theater.getMovieMap().keySet()) {
 						movieList.add(getModelActivity().getNearResp().getMapMovies().get(movieId));
 					}
-					adapter.setShowTimesList(movieList, theater);
-					adapter.notifyDataSetChanged();
 				}
 				Double latitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
 				Double longitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
@@ -249,6 +250,10 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 			showtimeList = (ListView) findViewById(R.id.showtimesResults);
 			showtimeList.setOnItemClickListener(this);
 			adapter = new CineShowTimeShowTimesListAdapter(this);
+			if (movieList != null && movieList.size() > 0 && theater != null) {
+				adapter.setShowTimesList(movieList, theater);
+				getModelActivity().getGroupExpanded().add(getModelActivity().getNearResp().getTheaterList().indexOf(theater));
+			}
 			showtimeList.setAdapter(adapter);
 		}
 

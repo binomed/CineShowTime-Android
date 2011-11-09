@@ -16,17 +16,28 @@
  -->
 <resources>
 
+    <!-- Padding -->
 	<dimen name="cstPaddingTopMain">30dp</dimen>
 	<dimen name="cstPaddingLeftMain">30dp</dimen>
 	<dimen name="cstPaddingRightMain">30dp</dimen>
 	<dimen name="cstPaddingBottomMain">30dp</dimen>
 	<dimen name="cstPaddingLefListItems">5dp</dimen>
+	
+	<!-- Width and Height -->
+	<dimen name="cstPosterHeight">210dp</dimen>
+	<dimen name="cstPosterWidth">150dp</dimen>
+	<dimen name="cstTrailerHeight">150dp</dimen>
+	<dimen name="cstTrailerWidth">210dp</dimen>
+	
+	<!-- Fonts -->	
 	<dimen name="cstEditText">14sp</dimen>
 	<dimen name="cstLblSearch">18sp</dimen>
 	<dimen name="cstBtnSpinner">18sp</dimen>
 	<dimen name="cstBtn">18sp</dimen>
-	<dimen name="cstMovieTitle">20sp</dimen>
+	<dimen name="cstMovieTitle">23sp</dimen>
 	<dimen name="cstFavTitle">20sp</dimen>
 	<dimen name="cstFavCity">17sp</dimen>
+	<dimen name="cstPlotSize">15sp</dimen>
+	<dimen name="cstSeparator">16sp</dimen>
 
 </resources>

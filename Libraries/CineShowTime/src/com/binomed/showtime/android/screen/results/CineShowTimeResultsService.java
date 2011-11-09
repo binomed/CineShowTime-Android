@@ -177,6 +177,7 @@ public class CineShowTimeResultsService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		mapCancel.put(compt, false);
+		Exception error = null;
 		if (intent != null) {
 
 			Bundle extras = intent.getExtras();
@@ -219,10 +220,15 @@ public class CineShowTimeResultsService extends IntentService {
 			} catch (Exception e) {
 				Log.e(TAG, "error searching theaters", e);
 				nearResp = null;
+				error = e;
+				try {
+					binder.errorService();
+				} catch (RemoteException e1) {
+				}
 			} finally {
 				try {
 					serviceStarted = false;
-					if (!mapCancel.get(compt)) {
+					if (!mapCancel.get(compt) || error != null) {
 						binder.finish();
 					}
 				} catch (RemoteException e) {

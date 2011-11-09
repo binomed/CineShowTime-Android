@@ -88,6 +88,9 @@ public final class CineShowtimeCst {
 
 	public static final String ANALYTICS_ACTION_VERSION = "Version";
 	public static final String ANALYTICS_ACTION_ANDROID_VERSION = "AndroidVersion";
+	public static final String ANALYTICS_ACTION_ANDROID_RELEASE = "AndroidVersionRelease";
+	public static final String ANALYTICS_ACTION_ANDROID_SDK = "AndroidSDK";
+	public static final String ANALYTICS_ACTION_APP_ENGINE_VERSION = "AppEngineVersion";
 	public static final String ANALYTICS_ACTION_TABLET = "Tablet";
 	public static final String ANALYTICS_ACTION_OPEN = "Open";
 	public static final String ANALYTICS_ACTION_TIME = "Time";

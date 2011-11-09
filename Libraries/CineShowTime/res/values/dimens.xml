@@ -16,14 +16,23 @@
  -->
 <resources>
 
+    <!-- Padding -->
 	<dimen name="cstPaddingTopMain">10dp</dimen>
 	<dimen name="cstPaddingLeftMain">10dp</dimen>
 	<dimen name="cstPaddingRightMain">10dp</dimen>
 	<dimen name="cstPaddingBottomMain">10dp</dimen>
-	<dimen name="cstFavMainHeight">200dp</dimen>
 	<dimen name="cstPaddingLeftSubView">40dp</dimen>
 	<dimen name="cstPaddingTopListItems">7dp</dimen>
 	<dimen name="cstPaddingLefListItems">7dp</dimen>
+	
+	<!-- Width and Height -->
+	<dimen name="cstFavMainHeight">200dp</dimen>
+	<dimen name="cstPosterHeight">140dp</dimen>
+	<dimen name="cstPosterWidth">100dp</dimen>
+	<dimen name="cstTrailerHeight">100dp</dimen>
+	<dimen name="cstTrailerWidth">140dp</dimen>
+	
+	<!-- Fonts -->
 	<dimen name="cstEditText">14sp</dimen>
 	<dimen name="cstLblSearch">16sp</dimen>
 	<dimen name="cstBtnSpinner">13sp</dimen>
@@ -33,10 +42,8 @@
 	<dimen name="cstMovieTitle">15sp</dimen>
 	<dimen name="cstFavTitle">15sp</dimen>
 	<dimen name="cstFavCity">13sp</dimen>
-	<dimen name="cstPosterHeight">140dp</dimen>
-	<dimen name="cstPosterWidth">100dp</dimen>
-	<dimen name="cstTrailerHeight">100dp</dimen>
-	<dimen name="cstTrailerWidth">140dp</dimen>
+	<dimen name="cstPlotSize">12sp</dimen>
+	<dimen name="cstSeparator">13sp</dimen>
 	
 
 </resources>
