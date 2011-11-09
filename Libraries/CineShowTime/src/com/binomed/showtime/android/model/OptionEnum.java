@@ -17,10 +17,10 @@ import com.binomed.showtime.R;
 
 public enum OptionEnum {
 
-	SMS(R.string.menuSms, R.drawable.sms_32x32) //
-	, AGENDA(R.string.menuAddEvent, R.drawable.calendar_32x32) //
-	, MAIL(R.string.menuMail, R.drawable.envelope_closed_32x32) //
-	, RESERVATION(R.string.menuReservation, R.drawable.ticket_32x32) //
+	SMS(R.string.menuSms, R.drawable.ic_menu_sms) //
+	, AGENDA(R.string.menuAddEvent, R.drawable.ic_menu_calendar) //
+	, MAIL(R.string.menuMail, R.drawable.ic_menu_mail) //
+	, RESERVATION(R.string.menuReservation, R.drawable.ic_menu_ticket) //
 	;
 
 	private int ressourceText;
