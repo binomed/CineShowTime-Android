@@ -190,4 +190,10 @@ public class CineShowTimeResultsWidgetActivity extends AbstractSimpleCineShowTim
 	public void onFocusListener(boolean focus) {
 		// nothing to do
 	}
+
+	@Override
+	public void onMovieClick(MovieBean movie) {
+		// nothing to do
+
+	}
 }

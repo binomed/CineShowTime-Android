@@ -309,7 +309,12 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		openMovieScreen((MovieBean) adapter.getItem(arg2), adapter.getMasterTheater());
+		if (adapter.isMovieView()) {
+			openMovieScreen(adapter.getMasterMovie(), (TheaterBean) adapter.getItem(arg2));
+		} else {
+			openMovieScreen((MovieBean) adapter.getItem(arg2), adapter.getMasterTheater());
+
+		}
 	}
 
 	/*
@@ -391,13 +396,36 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 	@Override
 	public void onTheaterClick(TheaterBean theater) {
 		if (portraitMode) {
+
 			List<MovieBean> movieList = new ArrayList<MovieBean>();
-			for (String movieId : theater.getMovieMap().keySet()) {
-				movieList.add(getModelActivity().getNearResp().getMapMovies().get(movieId));
+			if (theater != null) {
+				for (String movieId : theater.getMovieMap().keySet()) {
+					movieList.add(getModelActivity().getNearResp().getMapMovies().get(movieId));
+				}
 			}
 			adapter.setShowTimesList(movieList, theater);
 			adapter.notifyDataSetChanged();
 		}
+	}
+
+	@Override
+	public void onMovieClick(MovieBean movie) {
+		if (portraitMode) {
+			List<TheaterBean> theaterList = new ArrayList<TheaterBean>();
+			if (movie != null) {
+				for (String theaterId : movie.getTheaterList()) {
+					thLbl: for (TheaterBean theater : getModelActivity().getNearResp().getTheaterList()) {
+						if (theaterId != null && theaterId.equals(theater.getId())) {
+							theaterList.add(theater);
+							break thLbl;
+						}
+					}
+				}
+			}
+			adapter.setShowTimesList(theaterList, movie);
+			adapter.notifyDataSetChanged();
+		}
+
 	}
 
 }

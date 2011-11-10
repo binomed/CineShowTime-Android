@@ -31,12 +31,15 @@ import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 public class CineShowTimeShowTimesListAdapter extends BaseAdapter {
 
 	private List<MovieBean> movieList;
+	private List<TheaterBean> theaterList;
 	private TheaterBean theater;
+	private MovieBean movie;
 	private Context mainContext;
 	private boolean kmUnit;
 	private boolean distanceTime;
 	private boolean blackTheme;
 	private boolean format24;
+	private boolean movieView;
 
 	private static final String TAG = "CineShowTimeExpandableListAdapter";
 
@@ -49,6 +52,14 @@ public class CineShowTimeShowTimesListAdapter extends BaseAdapter {
 
 	public TheaterBean getMasterTheater() {
 		return theater;
+	}
+
+	public MovieBean getMasterMovie() {
+		return movie;
+	}
+
+	public boolean isMovieView() {
+		return movieView;
 	}
 
 	public void changePreferences() {
@@ -65,21 +76,35 @@ public class CineShowTimeShowTimesListAdapter extends BaseAdapter {
 	}
 
 	public void setShowTimesList(List<MovieBean> movieList, TheaterBean theater) {
+		this.movieView = false;
 		this.movieList = movieList;
 		this.theater = theater;
 	}
 
+	public void setShowTimesList(List<TheaterBean> theaterList, MovieBean movie) {
+		this.movieView = true;
+		this.theaterList = theaterList;
+		this.movie = movie;
+	}
+
 	@Override
 	public int getCount() {
-		int result = (movieList != null) ? movieList.size() : 0;
+		int result = movieView ? ((theaterList != null) ? theaterList.size() : 0) : ((movieList != null) ? movieList.size() : 0);
 		return result;
 	}
 
 	@Override
 	public Object getItem(int position) {
 		Object result = null;
-		if ((movieList != null) && (position < movieList.size())) {
-			result = movieList.get(position);
+		if (movieView) {
+			if ((theaterList != null) && (position < theaterList.size())) {
+				result = theaterList.get(position);
+			}
+		} else {
+			if ((movieList != null) && (position < movieList.size())) {
+				result = movieList.get(position);
+			}
+
 		}
 		return result;
 	}
@@ -101,13 +126,19 @@ public class CineShowTimeShowTimesListAdapter extends BaseAdapter {
 		MovieBean movieBean = null;
 		TheaterBean theaterBean = null;
 
-		movieBean = (MovieBean) getItem(position);
-		theaterBean = this.theater;
+		if (!movieView) {
+			movieBean = (MovieBean) getItem(position);
+			theaterBean = this.theater;
+		} else {
+			theaterBean = (TheaterBean) getItem(position);
+			movieBean = this.movie;
+
+		}
 
 		showTimeView.setMovie(movieBean//
 				, theaterBean//
 				, distanceTime//
-				, false // movieView
+				, movieView // movieView
 				, blackTheme//
 				, format24//
 				, false // LightFormat

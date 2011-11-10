@@ -242,4 +242,10 @@ public class CineShowTimeResultsActivity extends AbstractSimpleCineShowTimeActiv
 		// nothing to do
 	}
 
+	@Override
+	public void onMovieClick(MovieBean movie) {
+		// nothing to do
+
+	}
+
 }

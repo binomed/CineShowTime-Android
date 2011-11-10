@@ -330,7 +330,9 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 					if ((model.getGroupExpanded() != null) && (model.getGroupExpanded().size() > 0)) {
 						int selectPosition = (Integer) model.getGroupExpanded().toArray()[model.getGroupExpanded().size() - 1];
 						adapterNonExpendable.setSelectedPosition(selectPosition);
-						resultListNonExpandable.getChildAt(selectPosition).setBackgroundColor(R.color.select_color);
+						if (resultListNonExpandable.getChildAt(selectPosition) != null) {
+							resultListNonExpandable.getChildAt(selectPosition).setBackgroundColor(R.color.select_color);
+						}
 					}
 				} else {
 					adapter.setTheaterList(nearResp, model.getTheaterFavList(), (CineShowtimeComparator<?>) comparator);
@@ -358,9 +360,14 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	protected void changeComparator(CineShowtimeComparator<?> comparator) {
 		this.comparator = comparator;
 		movieView = comparator.getType() == comparator.COMPARATOR_MOVIE_NAME;
-		adapter.changeSort(comparator);
 		if (!nonExpendable) {
+			adapter.changeSort(comparator);
 			resultList.setAdapter(adapter);
+		} else {
+			adapterNonExpendable.changeSort(comparator);
+			resultListNonExpandable.setAdapter(adapterNonExpendable);
+			interaction.onMovieClick(null);
+			interaction.onTheaterClick(null);
 		}
 	}
 
@@ -467,7 +474,11 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 						// TODO
 					}
 				} else {
-					interaction.onTheaterClick(model.getNearResp().getTheaterList().get(position));
+					if (!movieView) {
+						interaction.onTheaterClick(model.getNearResp().getTheaterList().get(position));
+					} else if (nonExpendable) {
+						interaction.onMovieClick(adapterNonExpendable.getMovieList().get(position));
+					}
 				}
 			}
 		}
@@ -907,6 +918,8 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		void onGroupClick();
 
 		void onTheaterClick(TheaterBean theater);
+
+		void onMovieClick(MovieBean movie);
 
 		void onChildClick();
 

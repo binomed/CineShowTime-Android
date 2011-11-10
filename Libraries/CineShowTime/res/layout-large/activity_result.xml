@@ -61,7 +61,7 @@
      <com.google.ads.AdView android:id="@+id/adView"
 	                         android:layout_width="wrap_content"
 	                         android:layout_height="wrap_content"
-	                         android:layout_alignParentTop="true"
+	                         android:layout_gravity="center_horizontal"
 	                         ads:adUnitId="@string/addViewId"
 	                         ads:adSize="IAB_BANNER"
 	                         ads:loadAdOnCreate="true"/>          

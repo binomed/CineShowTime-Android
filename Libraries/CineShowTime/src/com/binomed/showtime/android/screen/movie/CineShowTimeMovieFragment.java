@@ -246,7 +246,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 			// tabHost = getTabHost();
 			// tabWidget = getTabWidget();
 			tabHost.setup();
-			tabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
+			tabHost.getTabWidget().setDividerDrawable(R.drawable.cst_tab_divider);
 
 			Intent intentEmptyActivity = new Intent(getActivity(), EmptyActivity.class);
 

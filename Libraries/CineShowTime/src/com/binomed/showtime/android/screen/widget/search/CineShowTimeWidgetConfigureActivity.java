@@ -312,4 +312,10 @@ public class CineShowTimeWidgetConfigureActivity extends AbstractCineShowTimeAct
 		}
 	}
 
+	@Override
+	public void onMovieClick(MovieBean movie) {
+		// nothing to do
+
+	}
+
 }
