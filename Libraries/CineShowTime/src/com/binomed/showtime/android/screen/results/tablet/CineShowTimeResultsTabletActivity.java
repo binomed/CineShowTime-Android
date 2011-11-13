@@ -19,6 +19,7 @@ import greendroid.widget.ActionBarItem;
 import greendroid.widget.NormalActionBarItem;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import android.content.Intent;
@@ -122,12 +123,17 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 				// Restore results
 				getModelActivity().setNearResp((NearResp) savedInstanceState.getParcelable(ParamIntent.NEAR_RESP));
 				intentResult = new Intent();
-				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, savedInstanceState.getBoolean(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false));
-				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_CITY, savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_CITY));
-				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME, savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
+				getModelActivity().setForceResearch(savedInstanceState.getBoolean(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false));
+				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, getModelActivity().isForceResearch());
+				getModelActivity().setCityName(savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_CITY));
+				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_CITY, getModelActivity().getCityName());
+				getModelActivity().setMovieName(savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
+				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME, getModelActivity().getMovieName());
 				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_THEATER_ID, savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_THEATER_ID));
-				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_DAY, savedInstanceState.getInt(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
+				getModelActivity().setDay(savedInstanceState.getInt(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
+				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_DAY, getModelActivity().getDay());
 				ArrayList<Integer> expandGroup = savedInstanceState.getIntegerArrayList(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND);
+				getModelActivity().setGroupExpanded(new HashSet<Integer>(expandGroup));
 				intentResult.putIntegerArrayListExtra(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND, expandGroup);
 				if ((expandGroup != null) && (expandGroup.size() > 0)) {
 					movieList = new ArrayList<MovieBean>();
@@ -250,7 +256,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 			showtimeList = (ListView) findViewById(R.id.showtimesResults);
 			showtimeList.setOnItemClickListener(this);
 			adapter = new CineShowTimeShowTimesListAdapter(this);
-			if (movieList != null && movieList.size() > 0 && theater != null) {
+			if ((movieList != null) && (movieList.size() > 0) && (theater != null)) {
 				adapter.setShowTimesList(movieList, theater);
 				getModelActivity().getGroupExpanded().add(getModelActivity().getNearResp().getTheaterList().indexOf(theater));
 			}
@@ -415,7 +421,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 			if (movie != null) {
 				for (String theaterId : movie.getTheaterList()) {
 					thLbl: for (TheaterBean theater : getModelActivity().getNearResp().getTheaterList()) {
-						if (theaterId != null && theaterId.equals(theater.getId())) {
+						if ((theaterId != null) && theaterId.equals(theater.getId())) {
 							theaterList.add(theater);
 							break thLbl;
 						}

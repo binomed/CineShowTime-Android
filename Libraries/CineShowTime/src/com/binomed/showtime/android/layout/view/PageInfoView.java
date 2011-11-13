@@ -34,8 +34,10 @@ import android.widget.TextView;
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.view.CoverFlowTrailerAdapter;
 import com.binomed.showtime.android.adapter.view.GalleryTrailerAdapter;
+import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.model.MovieBean;
+import com.binomed.showtime.android.model.YoutubeBean;
 import com.binomed.showtime.android.screen.movie.IModelMovie;
 import com.binomed.showtime.android.util.CineShowtimeDateNumberUtil;
 import com.binomed.showtime.android.util.CineShowtimeRequestManage;
@@ -390,12 +392,13 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 
 	@Override
 	public void onItemClick(AdapterView<?> adpater, View view, int groupPosition, long id) {
-		if (view instanceof GalleryTrailerView) {
-			GalleryTrailerView trailer = (GalleryTrailerView) view;
-			tracker.trackEvent("Open", "Click", "Open trailer", 0);
-			tracker.dispatch();
-			getContext().startActivity(IntentShowtime.createTrailerIntent(trailer.getYoutubeBean()));
-		}
+		YoutubeBean trailer = model.getMovie().getYoutubeVideos().get(groupPosition);
+		tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
+				, CineShowtimeCst.ANALYTICS_ACTION_OPEN // Action
+				, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_ACTIONS_TRAILER // Label
+				, 0 // Value
+		);
+		getContext().startActivity(IntentShowtime.createTrailerIntent(trailer));
 
 	}
 

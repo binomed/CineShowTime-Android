@@ -35,8 +35,8 @@
 	<dimen name="cstBtnSpinner">18sp</dimen>
 	<dimen name="cstBtn">18sp</dimen>
 	<dimen name="cstMovieTitle">23sp</dimen>
-	<dimen name="cstFavTitle">20sp</dimen>
-	<dimen name="cstFavCity">17sp</dimen>
+	<dimen name="cstFavTitle">17sp</dimen>
+	<dimen name="cstFavCity">16sp</dimen>
 	<dimen name="cstPlotSize">15sp</dimen>
 	<dimen name="cstSeparator">16sp</dimen>
 

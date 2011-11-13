@@ -75,34 +75,36 @@ public abstract class CineShowtimeDB2AndShowtimeBeans {
 			if (movieCursor.moveToFirst()) {
 				do {
 					movieBean = extractMovie(movieCursor);
-					movieBean.setTheaterList(mapMovieIdThList.get(movieBean.getId()));
-					reviewsCursor = mDbHelper.fetchReviews(movieBean.getId());
-					try {
-						if (reviewsCursor.moveToFirst()) {
-							movieBean.setReviews(new ArrayList<ReviewBean>());
-							do {
-								movieBean.getReviews().add(extractReview(reviewsCursor));
-							} while (reviewsCursor.moveToNext());
+					if ((mapMovieIdThList.get(movieBean.getId()) != null) && (mapMovieIdThList.get(movieBean.getId()).size() > 0)) {
+						movieBean.setTheaterList(mapMovieIdThList.get(movieBean.getId()));
+						reviewsCursor = mDbHelper.fetchReviews(movieBean.getId());
+						try {
+							if (reviewsCursor.moveToFirst()) {
+								movieBean.setReviews(new ArrayList<ReviewBean>());
+								do {
+									movieBean.getReviews().add(extractReview(reviewsCursor));
+								} while (reviewsCursor.moveToNext());
+							}
+						} finally {
+							if (reviewsCursor != null) {
+								reviewsCursor.close();
+							}
 						}
-					} finally {
-						if (reviewsCursor != null) {
-							reviewsCursor.close();
+						videosCursor = mDbHelper.fetchVideos(movieBean.getId());
+						try {
+							if (videosCursor.moveToFirst()) {
+								movieBean.setYoutubeVideos(new ArrayList<YoutubeBean>());
+								do {
+									movieBean.getYoutubeVideos().add(extractVideo(videosCursor));
+								} while (videosCursor.moveToNext());
+							}
+						} finally {
+							if (videosCursor != null) {
+								videosCursor.close();
+							}
 						}
+						movieMap.put(movieBean.getId(), movieBean);
 					}
-					videosCursor = mDbHelper.fetchVideos(movieBean.getId());
-					try {
-						if (videosCursor.moveToFirst()) {
-							movieBean.setYoutubeVideos(new ArrayList<YoutubeBean>());
-							do {
-								movieBean.getYoutubeVideos().add(extractVideo(videosCursor));
-							} while (videosCursor.moveToNext());
-						}
-					} finally {
-						if (videosCursor != null) {
-							videosCursor.close();
-						}
-					}
-					movieMap.put(movieBean.getId(), movieBean);
 				} while (movieCursor.moveToNext());
 				if (Log.isLoggable(TAG, Log.DEBUG)) {
 					Log.d(TAG, movieMap.size() + " movies extract"); //$NON-NLS-1$

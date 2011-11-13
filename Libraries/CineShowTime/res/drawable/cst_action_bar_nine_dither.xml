@@ -14,28 +14,9 @@
  * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
  */ 
  -->
- <layer-list
+<nine-patch
 	xmlns:android="http://schemas.android.com/apk/res/android"
-     >
-	<item
-	    android:width="50dp"
-	    >
-		<shape
-			android:shape="rectangle">
-			<soldi
-				android:color="#000000"/>
-		</shape>
-	</item>     
-	<item
-	    android:left="50dp"
-	    >
-		<shape
-			android:shape="rectangle">
-			<gradient
-				android:startColor="#b6302f"
-				android:endColor="#691f20"
-				android:angle="90" />
-				
-		</shape>
-	</item>     
- </layer-list>
+	android:src="@drawable/cst_action_bar"
+	android:dither="true"
+	>
+</nine-patch>

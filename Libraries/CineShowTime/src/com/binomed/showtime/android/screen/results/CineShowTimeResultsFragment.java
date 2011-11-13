@@ -332,6 +332,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 						adapterNonExpendable.setSelectedPosition(selectPosition);
 						if (resultListNonExpandable.getChildAt(selectPosition) != null) {
 							resultListNonExpandable.getChildAt(selectPosition).setBackgroundColor(R.color.select_color);
+							adapterNonExpendable.setSelectedPosition(selectPosition);
 						}
 					}
 				} else {
@@ -441,11 +442,6 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 						// TODO
 					}
 				} else {
-					adapterNonExpendable.setSelectedPosition(groupPosition);
-					if (nonExpendable) {
-						// v.setBackgroundColor(R.color.select_color);
-						v.setPressed(true);
-					}
 					model.getGroupExpanded().clear();
 					model.getGroupExpanded().add(groupPosition);
 					interaction.onTheaterClick(model.getNearResp().getTheaterList().get(groupPosition));
@@ -456,6 +452,11 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+	 */
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
 		if (arg0.getId() == R.id.resultListResultNonExpandable) {
@@ -474,6 +475,15 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 						// TODO
 					}
 				} else {
+					if (nonExpendable) {
+						if (resultListNonExpandable.getChildAt(adapterNonExpendable.getSelectedPosition()) != null) {
+							resultListNonExpandable.getChildAt(adapterNonExpendable.getSelectedPosition()).setBackgroundDrawable(null);
+						}
+						adapterNonExpendable.setSelectedPosition(position);
+						view.setBackgroundColor(R.color.select_color);
+					}
+					model.getGroupExpanded().clear();
+					model.getGroupExpanded().add(position);
 					if (!movieView) {
 						interaction.onTheaterClick(model.getNearResp().getTheaterList().get(position));
 					} else if (nonExpendable) {

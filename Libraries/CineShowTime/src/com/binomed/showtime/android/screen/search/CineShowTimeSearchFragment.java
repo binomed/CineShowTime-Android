@@ -313,10 +313,10 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 			}
 
 			if (canLaunch) {
-				if (btnCheck) {
-					model.setCityName(null);
+				if (!btnCheck) {
+					// model.setCityName(null);
 					// model.setLocalisation(model.getLocalisation());
-				} else {
+					// } else {
 					model.setLocalisation(null);
 				}
 				openResultActivity();

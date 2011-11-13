@@ -62,6 +62,7 @@
 	    <item name="android:background">@drawable/androidshowtime_background</item>
 	     -->
 	     <item name="android:background">@drawable/background_dark</item>
+	     <item name="android:dither">true</item>
 	  </style>
 	  
 		<!-- TextStyle -->

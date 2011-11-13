@@ -117,6 +117,10 @@ public final class CineShowtimeCst {
 
 	public static final String ANALYTICS_VALUE_SEARCH_USE_VOICE_SEARCH = "Use voice search";
 
+	public static final String ANALYTICS_LABEL_PREFERENCE = "Preferences";
+	public static final String ANALYTICS_LABEL_ABOUT = "About";
+	public static final String ANALYTICS_LABEL_HELP = "Help";
+
 	public static final String ANALYTICS_LABEL_SEARCH_GPS = "Gps";
 	public static final String ANALYTICS_LABEL_SEARCH_DAY = "Day";
 	public static final String ANALYTICS_LABEL_SEARCH_CITY = "City";
@@ -141,6 +145,7 @@ public final class CineShowtimeCst {
 	public static final String ANALYTICS_LABEL_MOVIE_ACTIONS_CALL = "Click on call";
 	public static final String ANALYTICS_LABEL_MOVIE_ACTIONS_MAP = "Click on map";
 	public static final String ANALYTICS_LABEL_MOVIE_ACTIONS_DIRECTIONS = "Click on directions";
+	public static final String ANALYTICS_LABEL_MOVIE_ACTIONS_TRAILER = "Click on trailer";
 
 	public static final String ANALYTICS_LABEL_FAV_REMOVE = "Remove fav";
 	public static final String ANALYTICS_LABEL_FAV_CLICK = "Click on fav";

@@ -35,6 +35,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.SQLException;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,6 +46,8 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
@@ -112,9 +115,15 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		}
 		d.setDither(true);
 		mActionBarHost = (ActionBarHost) findViewById(R.id.gd_action_bar_host);
-		mActionBarHost.setBackgroundDrawable(d);
+		// mActionBarHost.setBackgroundDrawable(d);
 		mActionBarHost.getContentView().removeAllViews();
 		LayoutInflater.from(this).inflate(getLayout(), mActionBarHost.getContentView());
+		d = mActionBarHost.getBackground();
+		d.setDither(true);
+		mActionBarHost.setBackgroundDrawable(d);
+		Drawable backActionBar = mActionBarHost.getActionBar().getBackground();
+		backActionBar.setDither(true);
+		mActionBarHost.getActionBar().setBackgroundDrawable(backActionBar);
 
 		// Init adds
 		adView = (AdView) findViewById(R.id.adView);
@@ -140,6 +149,14 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 
 		// try to restore information after
 		onPostRestoreBundle(savedInstanceState);
+	}
+
+	@Override
+	public void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		Window window = getWindow();
+		window.setFormat(PixelFormat.RGBA_8888);
+		window.addFlags(WindowManager.LayoutParams.FLAG_DITHER);
 	}
 
 	/**
@@ -540,7 +557,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 			if (position == MENU_PREF) {
 				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
 						, CineShowtimeCst.ANALYTICS_ACTION_OPEN // Action
-						, "Preferences" // Label
+						, CineShowtimeCst.ANALYTICS_LABEL_PREFERENCE // Label
 						, 0 // Value
 				);
 				Intent launchPreferencesIntent = new Intent().setClass(getApplicationContext(), CineShowTimePreferencesActivity.class);
@@ -550,7 +567,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 			} else if (position == MENU_ABOUT) {
 				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
 						, CineShowtimeCst.ANALYTICS_ACTION_OPEN // Action
-						, "About" // Label
+						, CineShowtimeCst.ANALYTICS_LABEL_ABOUT // Label
 						, 0 // Value
 				);
 				AlertDialog.Builder aboutDialog = new AlertDialog.Builder(AbstractCineShowTimeActivity.this);
@@ -573,7 +590,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 			} else if (position == MENU_HELP) {
 				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
 						, CineShowtimeCst.ANALYTICS_ACTION_OPEN // Action
-						, "Help" // Label
+						, CineShowtimeCst.ANALYTICS_LABEL_HELP // Label
 						, 0 // Value
 				);
 				Intent launchPreferencesIntent = IntentShowtime.createHelpAndShowTime(getApplicationContext());
