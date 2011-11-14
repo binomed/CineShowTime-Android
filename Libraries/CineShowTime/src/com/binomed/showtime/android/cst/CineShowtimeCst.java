@@ -59,6 +59,7 @@ public final class CineShowtimeCst {
 	public static final int DB_TYPE_SKYHOOK_REGISTRATION = 8;
 	public static final int DB_TYPE_LAST_CHANGE_WRITE = 9;
 	public static final int DB_TYPE_WIDGET_DELETE = 10;
+	public static final int DB_TYPE_LOCATION_WRITE = 11;
 
 	public static final int RESULT_PREF_WITH_NEW_THEME = 1;
 

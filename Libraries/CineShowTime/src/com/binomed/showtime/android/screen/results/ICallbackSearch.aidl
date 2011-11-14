@@ -19,4 +19,5 @@ interface ICallbackSearch{
 	void finish();
 	void error();
 	void finishLocation(String theaterId);
+	void couldUnRegister();
 }

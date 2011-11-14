@@ -384,15 +384,36 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	public ServiceCallBackSearch m_callbackHandler = new ServiceCallBackSearch() {
 
 		@Override
-		public void handleInputRecived() {
+		public void handleInputRecived(String theaterId) {
 
 			try {
-				unregisterCallBack();
-				display();
+				if (theaterId == null) {
+					display();
+				} else {
+					for (TheaterBean theaterBean : model.getNearResp().getTheaterList()) {
+						if (theaterId.equals(theaterBean.getId())) {
+							LocalisationBean localisation = serviceResult.getLocalisation(theaterId);
+							theaterBean.setPlace(localisation);
+							adapter.refreshTheater(theaterId);
+							adapterNonExpendable.refreshTheater(theaterId);
+							break;
+						}
+					}
+				}
 			} catch (Exception e) {
 				Log.e(TAG, "Error during display", e);
 			}
 			interaction.closeDialog();
+
+		}
+
+		@Override
+		public void unRegister() {
+			try {
+				unregisterCallBack();
+			} catch (Exception e) {
+				Log.e(TAG, "Error during unregister", e);
+			}
 
 		}
 
@@ -893,7 +914,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 			}
 
 			model.setNullResult(nearResp == null);
-			m_callbackHandler.sendInputRecieved();
+			m_callbackHandler.sendInputRecieved(null);
 
 		}
 
@@ -903,9 +924,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 			if ((model.getNearResp() != null) && (model.getNearResp().getTheaterList() != null)) {
 				for (TheaterBean theaterBean : model.getNearResp().getTheaterList()) {
 					if (theaterId.equals(theaterBean.getId())) {
-						LocalisationBean localisation = serviceResult.getLocalisation(theaterId);
-						theaterBean.setPlace(localisation);
-						// TODO
+						m_callbackHandler.sendInputRecieved(theaterBean.getId());
 						break;
 					}
 				}
@@ -916,6 +935,12 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		@Override
 		public void error() throws RemoteException {
 			interaction.openErrorDialog(R.string.msgErrorOnServer);
+
+		}
+
+		@Override
+		public void couldUnRegister() throws RemoteException {
+			m_callbackHandler.couldUnRegister();
 
 		}
 
@@ -967,11 +992,6 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		}
 		Intent intentResultService = new Intent(getActivity(), CineShowTimeResultsService.class);
 		getActivity().stopService(intentResultService);
-	}
-
-	public void changeAdapter(boolean full) {
-		adapter.setLightFormat(!full);
-		adapter.notifyDataSetChanged();
 	}
 
 	public void requestFocus() {

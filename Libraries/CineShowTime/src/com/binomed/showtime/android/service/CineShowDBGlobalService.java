@@ -31,6 +31,7 @@ import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.model.DBActionObject;
+import com.binomed.showtime.android.model.LocalisationBean;
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.MovieResp;
 import com.binomed.showtime.android.model.NearResp;
@@ -189,6 +190,12 @@ public class CineShowDBGlobalService extends IntentService {
 			data = intent.getParcelableExtra(ParamIntent.SERVICE_DB_DATA);
 			break;
 		}
+		case CineShowtimeCst.DB_TYPE_LOCATION_WRITE: {
+			data = new Object[] { intent.getParcelableExtra(ParamIntent.SERVICE_DB_DATA)//
+					, intent.getParcelableExtra(ParamIntent.THEATER_ID) //
+			};
+			break;
+		}
 		case CineShowtimeCst.DB_TYPE_MOVIE_WRITE: {
 			data = intent.getParcelableExtra(ParamIntent.SERVICE_DB_DATA);
 			break;
@@ -236,6 +243,13 @@ public class CineShowDBGlobalService extends IntentService {
 			switch (action.getType()) {
 			case CineShowtimeCst.DB_TYPE_NEAR_RESP_WRITE: {
 				writeNearResp((NearResp) action.getData());
+				break;
+			}
+			case CineShowtimeCst.DB_TYPE_LOCATION_WRITE: {
+				mDbHelper.createLocation( //
+						(LocalisationBean) ((Object[]) action.getData())[0]//
+						, (String) ((Object[]) action.getData())[1]//
+						);
 				break;
 			}
 			case CineShowtimeCst.DB_TYPE_MOVIE_RESP_WRITE: {

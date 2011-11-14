@@ -38,13 +38,10 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.binomed.showtime.android.cst.CineShowtimeCst;
-import com.binomed.showtime.android.model.LocalisationBean;
 import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.NearResp;
-import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.parser.xml.ParserImdbResultXml;
 import com.binomed.showtime.android.parser.xml.ParserNearResultXml;
-import com.binomed.showtime.android.util.localisation.LocationUtils;
 import com.binomed.showtime.cst.HttpParamsCst;
 import com.binomed.showtime.cst.SpecialChars;
 import com.binomed.showtime.util.AndShowtimeNumberFormat;
@@ -195,45 +192,7 @@ public abstract class CineShowtimeRequestManage {
 		reader.parse(inputSource);
 
 		NearResp resultBean = parser.getNearRespBean();
-
-		List<Address> addressList = null;
-		Address addressTheater = null;
-		if ((geocoder != null)) {// && (originalPlace != null)) {
-			for (TheaterBean theater : resultBean.getTheaterList()) {
-				LocalisationBean localisation = theater.getPlace();
-				// if (localisation != null && localisation.getLatitude() !=
-				// null && localisation.getLongitude() != null) {
-				// Location locaTheater = new Location("GPS");
-				// locaTheater.setLatitude(localisation.getLatitude());
-				// locaTheater.setLongitude(localisation.getLongitude());
-				// theater.getPlace().setDistance(originalPlace.distanceTo(locaTheater)
-				// / 1000);
-				// } else
-				if ((localisation != null) && (localisation.getSearchQuery() != null) && (localisation.getSearchQuery().length() > 0)) {
-					try {
-						LocationUtils.completeLocalisationBean(cityName, localisation);
-						addressList = geocoder.getFromLocationName(localisation.getSearchQuery(), 1);
-					} catch (Exception e) {
-						Log.e(TAG, "error Searching cityName :" + localisation.getSearchQuery(), e);
-					}
-					if ((addressList != null) && (addressList.size() > 0)) {
-						addressTheater = addressList.get(0);
-						localisation.setCityName(addressTheater.getLocality());
-						localisation.setCountryName(addressTheater.getCountryName());
-						localisation.setCountryNameCode(addressTheater.getCountryCode());
-						localisation.setPostalCityNumber(addressTheater.getPostalCode());
-						localisation.setLatitude(addressTheater.getLatitude());
-						localisation.setLongitude(addressTheater.getLongitude());
-						Location locaTheater = new Location("GPS");
-						locaTheater.setLatitude(localisation.getLatitude());
-						locaTheater.setLongitude(localisation.getLongitude());
-						if (originalPlace != null) {
-							theater.getPlace().setDistance(originalPlace.distanceTo(locaTheater) / 1000);
-						}
-					}
-				}
-			}
-		}
+		resultBean.setCityName(cityName);
 
 		return resultBean;
 	}

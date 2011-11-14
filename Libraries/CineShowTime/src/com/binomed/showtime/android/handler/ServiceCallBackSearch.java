@@ -22,12 +22,20 @@ public abstract class ServiceCallBackSearch extends Handler {
 	 * Message handler for a input recived
 	 */
 	private static final int INPUT_RECIVED = 0;
+	private static final int UNREGISTER = 1;
 
 	/**
 	 * Sends a message when an input was recived by the service
 	 */
-	public void sendInputRecieved() {
-		sendEmptyMessage(INPUT_RECIVED);
+	public void sendInputRecieved(String theaterId) {
+		Message msg = obtainMessage();
+		msg.obj = theaterId;
+		msg.what = INPUT_RECIVED;
+		sendMessage(msg);
+	}
+
+	public void couldUnRegister() {
+		sendEmptyMessage(UNREGISTER);
 	}
 
 	/**
@@ -41,7 +49,11 @@ public abstract class ServiceCallBackSearch extends Handler {
 	public void handleMessage(Message msg) {
 		switch (msg.what) {
 		case INPUT_RECIVED:
-			handleInputRecived();
+			handleInputRecived((String) msg.obj);
+			break;
+		case UNREGISTER:
+			unRegister();
+			break;
 		default:
 			super.handleMessage(msg);
 		}
@@ -52,6 +64,8 @@ public abstract class ServiceCallBackSearch extends Handler {
 	 * handles when a new input is received
 	 * 
 	 */
-	public abstract void handleInputRecived();
+	public abstract void handleInputRecived(String theaterId);
+
+	public abstract void unRegister();
 
 }

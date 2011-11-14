@@ -21,6 +21,7 @@ interface IServiceSearch{
 
 	void finish();
 	void finishLocation(String theaterId);
+	void couldUnRegister();
 	void registerCallback(ICallbackSearch cb);
 	void unregisterCallback(ICallbackSearch cb);
 	NearResp getNearResp();

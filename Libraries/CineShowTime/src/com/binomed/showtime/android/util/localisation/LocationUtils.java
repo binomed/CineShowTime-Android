@@ -401,7 +401,7 @@ public final class LocationUtils {
 	public static void completeLocalisationBean(String source, LocalisationBean localisationBean) {
 		String uri = MessageFormat.format(mapRequestDist //
 				, source.replaceAll(" ", "+") //
-				, localisationBean.getSearchQuery() //
+				, localisationBean.getSearchQuery().replace(" ", "+") //
 				, GoogleKeys.GOOGLE_MAPS_KEY //
 				);
 
