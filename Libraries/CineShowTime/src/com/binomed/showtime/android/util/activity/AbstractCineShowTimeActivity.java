@@ -36,7 +36,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.SQLException;
 import android.graphics.PixelFormat;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
@@ -107,23 +106,23 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		// We call the contentView
 		setContentView(R.layout.cst_action_bar_activity);
 		// Init theme background
-		Drawable d = getResources().getDrawable(R.drawable.background_dark);
-		String defaultTheme = getResources().getString(R.string.preference_gen_default_theme);
-		String theme = getPrefs().getString(getResources().getString(R.string.preference_gen_key_theme), defaultTheme);
-		if (!theme.equals(defaultTheme)) {
-			d = getResources().getDrawable(R.drawable.background_light);
-		}
-		d.setDither(true);
+		// Drawable d = getResources().getDrawable(R.drawable.background_dark);
+		// String defaultTheme = getResources().getString(R.string.preference_gen_default_theme);
+		// String theme = getPrefs().getString(getResources().getString(R.string.preference_gen_key_theme), defaultTheme);
+		// if (!theme.equals(defaultTheme)) {
+		// d = getResources().getDrawable(R.drawable.background_light);
+		// }
+		// d.setDither(true);
 		mActionBarHost = (ActionBarHost) findViewById(R.id.gd_action_bar_host);
 		// mActionBarHost.setBackgroundDrawable(d);
 		mActionBarHost.getContentView().removeAllViews();
 		LayoutInflater.from(this).inflate(getLayout(), mActionBarHost.getContentView());
-		d = mActionBarHost.getBackground();
-		d.setDither(true);
-		mActionBarHost.setBackgroundDrawable(d);
-		Drawable backActionBar = mActionBarHost.getActionBar().getBackground();
-		backActionBar.setDither(true);
-		mActionBarHost.getActionBar().setBackgroundDrawable(backActionBar);
+		// d = mActionBarHost.getBackground();
+		// d.setDither(true);
+		// mActionBarHost.setBackgroundDrawable(d);
+		// Drawable backActionBar = mActionBarHost.getActionBar().getBackground();
+		// backActionBar.setDither(true);
+		// mActionBarHost.getActionBar().setBackgroundDrawable(backActionBar);
 
 		// Init adds
 		adView = (AdView) findViewById(R.id.adView);

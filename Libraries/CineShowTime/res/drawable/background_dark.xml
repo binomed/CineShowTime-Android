@@ -20,7 +20,9 @@
 	
 	<gradient
 		android:startColor="@color/baground_start_dark"
+		android:centerColor="@color/baground_center_dark"
 		android:endColor="@color/baground_end_dark"
+		android:type="linear"
 		android:angle="90" />
 		
 </shape>

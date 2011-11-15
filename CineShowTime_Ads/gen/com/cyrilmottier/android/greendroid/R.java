@@ -797,13 +797,15 @@ containing a value of this type.
         public static final int withReflection=0x7f010073;
     }
     public static final class color {
-        public static final int baground_end_dark=0x7f07000c;
-        public static final int baground_end_light=0x7f07001a;
+        public static final int baground_center_dark=0x7f07000c;
+        public static final int baground_center_light=0x7f07001b;
+        public static final int baground_end_dark=0x7f07000d;
+        public static final int baground_end_light=0x7f07001c;
         public static final int baground_start_dark=0x7f07000b;
-        public static final int baground_start_light=0x7f070019;
+        public static final int baground_start_light=0x7f07001a;
         public static final int btn=0x7f070003;
         public static final int btn_spinner=0x7f070004;
-        public static final int cst_tab_text_selector=0x7f070022;
+        public static final int cst_tab_text_selector=0x7f070024;
         /**  Commons 
          */
         public static final int fav_main=0x7f070002;
@@ -813,31 +815,31 @@ containing a value of this type.
          */
         public static final int lbl_dark=0x7f070006;
         public static final int lbl_info_dark=0x7f070007;
-        public static final int lbl_info_light=0x7f070015;
+        public static final int lbl_info_light=0x7f070016;
         /**  LIGHT 
          */
-        public static final int lbl_light=0x7f070014;
+        public static final int lbl_light=0x7f070015;
         public static final int lbl_main_dark=0x7f070009;
-        public static final int lbl_main_light=0x7f070017;
+        public static final int lbl_main_light=0x7f070018;
         public static final int lbl_sub_dark=0x7f07000a;
-        public static final int lbl_sub_light=0x7f070018;
+        public static final int lbl_sub_light=0x7f070019;
         public static final int lbl_sub_main_dark=0x7f070008;
-        public static final int lbl_sub_main_light=0x7f070016;
-        public static final int main_info_dark=0x7f07000d;
-        public static final int main_info_light=0x7f07001b;
-        public static final int main_sub_info_dark=0x7f07000e;
-        public static final int main_sub_info_light=0x7f07001c;
+        public static final int lbl_sub_main_light=0x7f070017;
+        public static final int main_info_dark=0x7f07000e;
+        public static final int main_info_light=0x7f07001d;
+        public static final int main_sub_info_dark=0x7f07000f;
+        public static final int main_sub_info_light=0x7f07001e;
         public static final int select_color=0x7f070005;
-        public static final int showtime_nearest_dark=0x7f070012;
-        public static final int showtime_nearest_light=0x7f070020;
-        public static final int showtime_next_dark=0x7f070013;
-        public static final int showtime_next_light=0x7f070021;
-        public static final int showtime_passed_dark=0x7f070011;
-        public static final int showtime_passed_light=0x7f07001f;
-        public static final int sub_main_info_dark=0x7f07000f;
-        public static final int sub_main_info_light=0x7f07001d;
-        public static final int sub_sub_info_dark=0x7f070010;
-        public static final int sub_sub_info_light=0x7f07001e;
+        public static final int showtime_nearest_dark=0x7f070013;
+        public static final int showtime_nearest_light=0x7f070022;
+        public static final int showtime_next_dark=0x7f070014;
+        public static final int showtime_next_light=0x7f070023;
+        public static final int showtime_passed_dark=0x7f070012;
+        public static final int showtime_passed_light=0x7f070021;
+        public static final int sub_main_info_dark=0x7f070010;
+        public static final int sub_main_info_light=0x7f07001f;
+        public static final int sub_sub_info_dark=0x7f070011;
+        public static final int sub_sub_info_light=0x7f070020;
     }
     public static final class dimen {
         public static final int cstBtn=0x7f08001c;
