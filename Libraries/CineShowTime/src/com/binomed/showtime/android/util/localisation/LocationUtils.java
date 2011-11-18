@@ -38,17 +38,10 @@ import android.util.Log;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
-import com.binomed.showtime.android.cst.CineShowtimeCst;
-import com.binomed.showtime.android.cst.ParamIntent;
 import com.binomed.showtime.android.model.LocalisationBean;
-import com.binomed.showtime.android.service.CineShowDBGlobalService;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.cst.GoogleKeys;
-import com.skyhookwireless.wps.RegistrationCallback;
-import com.skyhookwireless.wps.WPS;
 import com.skyhookwireless.wps.WPSAuthentication;
-import com.skyhookwireless.wps.WPSContinuation;
-import com.skyhookwireless.wps.WPSReturnCode;
 import com.skyhookwireless.wps.WPSStreetAddressLookup;
 import com.skyhookwireless.wps.XPS;
 
@@ -176,60 +169,64 @@ public final class LocationUtils {
 				listener.setXps(xps);
 			}
 
-			WPSAuthentication auth = new WPSAuthentication(GoogleKeys.SKYHOOK_USER_NAME, GoogleKeys.SKYHOOK_REALM);
-			if (!checkSkyHookRegistration(context)) {
-				WPSAuthentication authRegister = new WPSAuthentication(GoogleKeys.SKYHOOK_USER_NAME_REGISTER, GoogleKeys.SKYHOOK_REALM);
-				WPS wps = new WPS(context);
-				wps.registerUser(authRegister, auth, new RegistrationCallback() {
-
-					@Override
-					public WPSContinuation handleError(WPSReturnCode error) {
-						switch (error) {
-						case WPS_ERROR_LOCATION_CANNOT_BE_DETERMINED: {
-							Log.e(TAG, error.toString());
-							break;
-						}
-						case WPS_ERROR_WIFI_NOT_AVAILABLE: {
-							Log.e(TAG, error.toString());
-							break;
-						}
-						case WPS_ERROR_SERVER_UNAVAILABLE: {
-							Log.e(TAG, error.toString());
-							break;
-						}
-						case WPS_ERROR_NO_WIFI_IN_RANGE: {
-							Log.e(TAG, error.toString());
-
-							break;
-						}
-						case WPS_ERROR: {
-							Log.e(TAG, error.name());
-
-							break;
-						}
-						default:
-							Log.e(TAG, error.name());
-							break;
-						}
-						// TODO gérer les cas d'erreur
-						// in all case, we'll stop
-						return WPSContinuation.WPS_STOP;
-					}
-
-					@Override
-					public void done() {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void handleSuccess() {
-						Intent intentNearFillDBService = new Intent(context, CineShowDBGlobalService.class);
-						intentNearFillDBService.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_SKYHOOK_REGISTRATION);
-						context.startService(intentNearFillDBService);
-					}
-				});
+			WPSAuthentication auth = listener.getWpsAuth();
+			if (auth == null) {
+				auth = new WPSAuthentication(GoogleKeys.SKYHOOK_USER_NAME_REGISTER, GoogleKeys.SKYHOOK_REALM);
+				listener.setWpsAuth(auth);
 			}
+			// if (!checkSkyHookRegistration(context)) {
+			// WPSAuthentication authRegister = new WPSAuthentication(GoogleKeys.SKYHOOK_USER_NAME_REGISTER, GoogleKeys.SKYHOOK_REALM);
+			// WPS wps = new WPS(context);
+			// wps.registerUser(authRegister, auth, new RegistrationCallback() {
+			//
+			// @Override
+			// public WPSContinuation handleError(WPSReturnCode error) {
+			// switch (error) {
+			// case WPS_ERROR_LOCATION_CANNOT_BE_DETERMINED: {
+			// Log.e(TAG, error.toString());
+			// break;
+			// }
+			// case WPS_ERROR_WIFI_NOT_AVAILABLE: {
+			// Log.e(TAG, error.toString());
+			// break;
+			// }
+			// case WPS_ERROR_SERVER_UNAVAILABLE: {
+			// Log.e(TAG, error.toString());
+			// break;
+			// }
+			// case WPS_ERROR_NO_WIFI_IN_RANGE: {
+			// Log.e(TAG, error.toString());
+			//
+			// break;
+			// }
+			// case WPS_ERROR: {
+			// Log.e(TAG, error.name());
+			//
+			// break;
+			// }
+			// default:
+			// Log.e(TAG, error.name());
+			// break;
+			// }
+			// // TODO gérer les cas d'erreur
+			// // in all case, we'll stop
+			// return WPSContinuation.WPS_STOP;
+			// }
+			//
+			// @Override
+			// public void done() {
+			// // TODO Auto-generated method stub
+			//
+			// }
+			//
+			// @Override
+			// public void handleSuccess() {
+			// Intent intentNearFillDBService = new Intent(context, CineShowDBGlobalService.class);
+			// intentNearFillDBService.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_SKYHOOK_REGISTRATION);
+			// context.startService(intentNearFillDBService);
+			// }
+			// });
+			// }
 			switch (provider) {
 			case IP_PROVIDER: {
 				xps.getIPLocation(auth //

@@ -37,6 +37,7 @@ import com.binomed.showtime.android.util.localisation.LocationUtils.ProviderEnum
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.skyhookwireless.wps.IPLocation;
 import com.skyhookwireless.wps.IPLocationCallback;
+import com.skyhookwireless.wps.WPSAuthentication;
 import com.skyhookwireless.wps.WPSContinuation;
 import com.skyhookwireless.wps.WPSLocation;
 import com.skyhookwireless.wps.WPSLocationCallback;
@@ -67,7 +68,9 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	private boolean locationListener, checkedGps;
 	private TextCallBackFromLocation handlerTextSearch;
 	private GoogleAnalyticsTracker tracker;
+	// private XPS xps;
 	private XPS xps;
+	private WPSAuthentication wpsAuth;
 
 	protected XPS getXps() {
 		return xps;
@@ -75,6 +78,14 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 
 	protected void setXps(XPS xps) {
 		this.xps = xps;
+	}
+
+	public WPSAuthentication getWpsAuth() {
+		return wpsAuth;
+	}
+
+	public void setWpsAuth(WPSAuthentication wpsAuth) {
+		this.wpsAuth = wpsAuth;
 	}
 
 	public LocalisationManagement(Context context, GoogleAnalyticsTracker tracker, ImageView imageGps, AutoCompleteTextWithSpeech textSearch, IModelLocalisation model) {
