@@ -31,6 +31,7 @@
 	<dimen name="cstPosterWidth">100dp</dimen>
 	<dimen name="cstTrailerHeight">100dp</dimen>
 	<dimen name="cstTrailerWidth">140dp</dimen>
+	<dimen name="cstWidgetHeaderHeight">32dp</dimen>
 	
 	<!-- Fonts -->
 	<dimen name="cstEditText">14sp</dimen>
@@ -44,6 +45,7 @@
 	<dimen name="cstFavCity">13sp</dimen>
 	<dimen name="cstPlotSize">12sp</dimen>
 	<dimen name="cstSeparator">13sp</dimen>
+    <dimen name="cstWidgetHeaderFontHeight">14sp</dimen>
 	
 
 </resources>

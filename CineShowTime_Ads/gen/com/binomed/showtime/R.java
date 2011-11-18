@@ -842,19 +842,19 @@ containing a value of this type.
         public static final int sub_sub_info_light=0x7f070020;
     }
     public static final class dimen {
-        public static final int cstBtn=0x7f08001c;
-        public static final int cstBtnSpinner=0x7f08001b;
+        public static final int cstBtn=0x7f08001d;
+        public static final int cstBtnSpinner=0x7f08001c;
         /**  Fonts 
  Fonts 
          */
-        public static final int cstEditText=0x7f080019;
-        public static final int cstFavCity=0x7f080021;
+        public static final int cstEditText=0x7f08001a;
+        public static final int cstFavCity=0x7f080022;
         /**  Width and Height 
          */
         public static final int cstFavMainHeight=0x7f080014;
-        public static final int cstFavTitle=0x7f080020;
-        public static final int cstLblSearch=0x7f08001a;
-        public static final int cstMovieTitle=0x7f08001f;
+        public static final int cstFavTitle=0x7f080021;
+        public static final int cstLblSearch=0x7f08001b;
+        public static final int cstMovieTitle=0x7f080020;
         public static final int cstPaddingBottomMain=0x7f080010;
         public static final int cstPaddingLefListItems=0x7f080013;
         public static final int cstPaddingLeftMain=0x7f08000e;
@@ -865,16 +865,18 @@ containing a value of this type.
  Padding 
          */
         public static final int cstPaddingTopMain=0x7f08000d;
-        public static final int cstPlotSize=0x7f080022;
+        public static final int cstPlotSize=0x7f080023;
         /**  Width and Height 
          */
         public static final int cstPosterHeight=0x7f080015;
         public static final int cstPosterWidth=0x7f080016;
-        public static final int cstSeparator=0x7f080023;
-        public static final int cstShowtime=0x7f08001e;
-        public static final int cstSubMainInfo=0x7f08001d;
+        public static final int cstSeparator=0x7f080024;
+        public static final int cstShowtime=0x7f08001f;
+        public static final int cstSubMainInfo=0x7f08001e;
         public static final int cstTrailerHeight=0x7f080017;
         public static final int cstTrailerWidth=0x7f080018;
+        public static final int cstWidgetHeaderFontHeight=0x7f080025;
+        public static final int cstWidgetHeaderHeight=0x7f080019;
         public static final int gd_action_bar_height=0x7f08000b;
         public static final int gd_arrow_offset=0x7f08000c;
         public static final int gd_drawable_height=0x7f080006;
