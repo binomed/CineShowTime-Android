@@ -22,7 +22,7 @@
 	<LinearLayout
 	        android:id="@+id/widget_top_one"
 	        android:layout_width="fill_parent" 
-	        android:layout_height="32dip"
+	        android:layout_height="@dimen/cstWidgetHeaderHeight"
 			android:layout_toRightOf="@+id/widget_left_one"
 			android:layout_toLeftOf="@+id/widget_right_one"
 			android:background="@drawable/widget_bg_2_paysage_1_0_0_0"
@@ -53,7 +53,7 @@
 	<RelativeLayout 
 			android:id="@+id/widget_center_bottom_buttons_one" 
 			android:layout_width="fill_parent"
-			android:layout_height="40dip"
+			android:layout_height="@dimen/cstWidgetFooterHeight"
 			android:layout_toRightOf="@+id/widget_left_one"
 			android:layout_toLeftOf="@+id/widget_right_one"
 			android:background="@drawable/widget_bg_2_paysage_1_0_0_4"
@@ -61,24 +61,24 @@
 			>
 		<ImageButton  
 			android:id="@+id/widget_one_button_refresh"
-			android:layout_width="40dip"
-			android:layout_height="40dip"
+			android:layout_width="@dimen/cstWidgetFooterBtnCenterWidth"
+			android:layout_height="@dimen/cstWidgetFooterBtnCenterHeight"
 	        android:layout_centerHorizontal="true"
 			android:layout_alignParentBottom="true"
 			android:paddingBottom="5dip" 
 			android:background="@drawable/wait"/>
 	    <ImageButton  
 	        android:id="@+id/widget_one_button_scroll_right"
-	        android:layout_width="55dip"
-	        android:layout_height="40dip"
+	        android:layout_width="@dimen/cstWidgetFooterBtnRightWidth"
+	        android:layout_height="@dimen/cstWidgetFooterBtnRightHeight"
 	        android:layout_alignParentRight="true"   
 	        android:layout_alignParentBottom="true"   
 	        android:paddingBottom="5dip" 
 	        android:background="@drawable/right_arrow"/>
 		<ImageButton  
 	        android:id="@+id/widget_one_button_scroll_left"
-	        android:layout_width="55dip"
-	        android:layout_height="40dip"
+	        android:layout_width="@dimen/cstWidgetFooterBtnLeftWidth"
+	        android:layout_height="@dimen/cstWidgetFooterBtnLeftHeight"
 	        android:layout_alignParentLeft="true"
 	        android:layout_alignParentBottom="true"
 	        android:paddingBottom="5dip"        
@@ -117,9 +117,7 @@
 		       	android:layout_width="fill_parent" 
 		        android:layout_height="wrap_content"
 		        android:includeFontPadding="false"
-		        android:lineSpacingMultiplier="1.1"
 		        android:fadingEdge="vertical"
-		        android:maxLines="2"
 		        style="@style/Widget.MovieOne"  
 		        />
 		    <TextView

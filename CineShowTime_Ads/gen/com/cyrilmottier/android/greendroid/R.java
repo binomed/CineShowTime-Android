@@ -842,19 +842,21 @@ containing a value of this type.
         public static final int sub_sub_info_light=0x7f070020;
     }
     public static final class dimen {
-        public static final int cstBtn=0x7f08001d;
-        public static final int cstBtnSpinner=0x7f08001c;
+        public static final int cstBtn=0x7f080024;
+        public static final int cstBtnSpinner=0x7f080023;
         /**  Fonts 
  Fonts 
+ Fonts 
          */
-        public static final int cstEditText=0x7f08001a;
-        public static final int cstFavCity=0x7f080022;
+        public static final int cstEditText=0x7f080021;
+        public static final int cstFavCity=0x7f080029;
         /**  Width and Height 
+ Width and Height 
          */
         public static final int cstFavMainHeight=0x7f080014;
-        public static final int cstFavTitle=0x7f080021;
-        public static final int cstLblSearch=0x7f08001b;
-        public static final int cstMovieTitle=0x7f080020;
+        public static final int cstFavTitle=0x7f080028;
+        public static final int cstLblSearch=0x7f080022;
+        public static final int cstMovieTitle=0x7f080027;
         public static final int cstPaddingBottomMain=0x7f080010;
         public static final int cstPaddingLefListItems=0x7f080013;
         public static final int cstPaddingLeftMain=0x7f08000e;
@@ -863,20 +865,35 @@ containing a value of this type.
         public static final int cstPaddingTopListItems=0x7f080012;
         /**  Padding 
  Padding 
+ Padding 
          */
         public static final int cstPaddingTopMain=0x7f08000d;
-        public static final int cstPlotSize=0x7f080023;
+        public static final int cstPlotSize=0x7f08002a;
         /**  Width and Height 
          */
         public static final int cstPosterHeight=0x7f080015;
         public static final int cstPosterWidth=0x7f080016;
-        public static final int cstSeparator=0x7f080024;
-        public static final int cstShowtime=0x7f08001f;
-        public static final int cstSubMainInfo=0x7f08001e;
+        public static final int cstSeparator=0x7f08002b;
+        public static final int cstShowtime=0x7f080026;
+        public static final int cstSubMainInfo=0x7f080025;
         public static final int cstTrailerHeight=0x7f080017;
         public static final int cstTrailerWidth=0x7f080018;
-        public static final int cstWidgetHeaderFontHeight=0x7f080025;
+        public static final int cstWidgetFooterBtnCenterHeight=0x7f080020;
+        public static final int cstWidgetFooterBtnCenterWidth=0x7f08001f;
+        public static final int cstWidgetFooterBtnLeftHeight=0x7f08001c;
+        public static final int cstWidgetFooterBtnLeftWidth=0x7f08001b;
+        public static final int cstWidgetFooterBtnRightHeight=0x7f08001e;
+        public static final int cstWidgetFooterBtnRightWidth=0x7f08001d;
+        public static final int cstWidgetFooterHeight=0x7f08001a;
+        /**  Padding 
+ Width and Height 
+         */
         public static final int cstWidgetHeaderHeight=0x7f080019;
+        public static final int cstWidgetHourFont=0x7f08002e;
+        public static final int cstWidgetMovieFont=0x7f08002d;
+        /**  Fonts 
+         */
+        public static final int cstWidgetTheaterFont=0x7f08002c;
         public static final int gd_action_bar_height=0x7f08000b;
         public static final int gd_arrow_offset=0x7f08000c;
         public static final int gd_drawable_height=0x7f080006;
@@ -1987,23 +2004,21 @@ Widget
         public static final int TextTrailer_Light=0x7f0a007a;
         /**  Base application theme is the default theme. 
          */
-        public static final int Theme=0x7f0a0082;
+        public static final int Theme=0x7f0a0080;
         /**  Variation on our application theme that has a translucent
 	 background. 
          */
-        public static final int Theme_Dark_Night=0x7f0a0083;
+        public static final int Theme_Dark_Night=0x7f0a0081;
         public static final int Theme_GreenDroid=0x7f0a0035;
         public static final int Theme_GreenDroid_NoTitleBar=0x7f0a0036;
         /**  Variation on our application theme that has a transparent
 	background; this example completely removes the background,
 	allowing the activity to decide how to composite. 
          */
-        public static final int Theme_Shine_the_lite=0x7f0a0084;
+        public static final int Theme_Shine_the_lite=0x7f0a0082;
         public static final int Widget=0x7f0a007c;
-        public static final int Widget_Hour=0x7f0a0080;
-        public static final int Widget_HourOne=0x7f0a0081;
-        public static final int Widget_Movie=0x7f0a007e;
-        public static final int Widget_MovieOne=0x7f0a007f;
+        public static final int Widget_HourOne=0x7f0a007f;
+        public static final int Widget_MovieOne=0x7f0a007e;
         public static final int Widget_TheaterTitle=0x7f0a007d;
     }
     public static final class xml {

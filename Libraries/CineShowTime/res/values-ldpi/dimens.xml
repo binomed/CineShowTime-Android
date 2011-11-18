@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * Copyright (C) 2011 Binomed (http://blog.binomed.fr)
+ *
+ * Licensed under the Eclipse Public License - v 1.0;
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.eclipse.org/legal/epl-v10.html
+ *
+ * THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC 
+ * LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM 
+ * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
+ */ 
+ -->
+<resources>
+
+    <!-- Padding -->
+	
+	<!-- Width and Height -->
+	<dimen name="cstWidgetHeaderHeight">32dp</dimen>
+	<dimen name="cstWidgetFooterHeight">35dp</dimen>
+	<dimen name="cstWidgetFooterBtnLeftWidth">45dp</dimen>
+	<dimen name="cstWidgetFooterBtnLeftHeight">33dp</dimen>
+	<dimen name="cstWidgetFooterBtnRightWidth">45dp</dimen>
+	<dimen name="cstWidgetFooterBtnRightHeight">33dp</dimen>
+	<dimen name="cstWidgetFooterBtnCenterWidth">35dp</dimen>
+	<dimen name="cstWidgetFooterBtnCenterHeight">35dp</dimen>
+		
+	<!-- Fonts -->
+	<dimen name="cstWidgetTheaterFont">14sp</dimen>
+    <dimen name="cstWidgetMovieFont">14sp</dimen>
+    <dimen name="cstWidgetHourFont">12sp</dimen>
+	
+
+</resources>

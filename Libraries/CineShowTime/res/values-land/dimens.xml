@@ -32,14 +32,14 @@
 	<dimen name="cstPosterWidth">100dp</dimen>
 	<dimen name="cstTrailerHeight">100dp</dimen>
 	<dimen name="cstTrailerWidth">140dp</dimen>
-	<dimen name="cstWidgetHeaderHeight">37dp</dimen>
-	<dimen name="cstWidgetFooterHeight">35dp</dimen>
-	<dimen name="cstWidgetFooterBtnLeftWidth">45dp</dimen>
-	<dimen name="cstWidgetFooterBtnLeftHeight">33dp</dimen>
-	<dimen name="cstWidgetFooterBtnRightWidth">45dp</dimen>
-	<dimen name="cstWidgetFooterBtnRightHeight">33dp</dimen>
-	<dimen name="cstWidgetFooterBtnCenterWidth">35dp</dimen>
-	<dimen name="cstWidgetFooterBtnCenterHeight">35dp</dimen>
+	<dimen name="cstWidgetHeaderHeight">38dp</dimen>
+	<dimen name="cstWidgetFooterHeight">40dp</dimen>
+	<dimen name="cstWidgetFooterBtnLeftWidth">55dp</dimen>
+	<dimen name="cstWidgetFooterBtnLeftHeight">40dp</dimen>
+	<dimen name="cstWidgetFooterBtnRightWidth">55dp</dimen>
+	<dimen name="cstWidgetFooterBtnRightHeight">40dp</dimen>
+	<dimen name="cstWidgetFooterBtnCenterWidth">40dp</dimen>
+	<dimen name="cstWidgetFooterBtnCenterHeight">40dp</dimen>
 	
 	<!-- Fonts -->
 	<dimen name="cstEditText">14sp</dimen>
