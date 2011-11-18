@@ -31,10 +31,13 @@ import org.apache.http.client.methods.HttpGet;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.binomed.showtime.android.cst.CineShowtimeCst;
@@ -42,6 +45,7 @@ import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.parser.xml.ParserImdbResultXml;
 import com.binomed.showtime.android.parser.xml.ParserNearResultXml;
+import com.binomed.showtime.android.parser.xml.ParserSimpleResultXml;
 import com.binomed.showtime.cst.HttpParamsCst;
 import com.binomed.showtime.cst.SpecialChars;
 import com.binomed.showtime.util.AndShowtimeNumberFormat;
@@ -50,11 +54,11 @@ public abstract class CineShowtimeRequestManage {
 
 	public static final String TAG = "RequestManager"; //$NON-NLS-1$
 
-	public static NearResp searchTheatersOrMovies(Double latitude, Double longitude, String cityName, String movieName, String theaterId, int day, int start, String origin, String hourLocalized, String minutesLocalized) throws Exception {
+	public static NearResp searchTheatersOrMovies(Context context, Double latitude, Double longitude, String cityName, String movieName, String theaterId, int day, int start, String origin, String hourLocalized, String minutesLocalized) throws Exception {
 
 		URLBuilder andShowtimeUriBuilder = new URLBuilder(CineShowTimeEncodingUtil.convertLocaleToEncoding());
 		andShowtimeUriBuilder.setProtocol(HttpParamsCst.BINOMED_APP_PROTOCOL);
-		andShowtimeUriBuilder.setAdress(HttpParamsCst.BINOMED_APP_URL);
+		andShowtimeUriBuilder.setAdress(getAppEngineUrl(context));
 		andShowtimeUriBuilder.completePath(HttpParamsCst.BINOMED_APP_PATH);
 		andShowtimeUriBuilder.completePath(((movieName != null) && (movieName.length() > 0)) ? HttpParamsCst.MOVIE_GET_METHODE : HttpParamsCst.NEAR_GET_METHODE);
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LANG, Locale.getDefault().getLanguage());
@@ -197,6 +201,43 @@ public abstract class CineShowtimeRequestManage {
 		return resultBean;
 	}
 
+	private static String getAppEngineUrl(Context context) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		String appEngineUrl = prefs.getString(CineShowtimeCst.PREF_KEY_APP_ENGINE, null);
+		if (appEngineUrl == null) {
+			try {
+				URLBuilder andShowtimeUriBuilder = new URLBuilder(CineShowTimeEncodingUtil.convertLocaleToEncoding());
+				andShowtimeUriBuilder.setProtocol(HttpParamsCst.BINOMED_APP_PROTOCOL);
+				andShowtimeUriBuilder.setAdress(HttpParamsCst.BINOMED_APP_URL);
+				andShowtimeUriBuilder.completePath(HttpParamsCst.BINOMED_APP_PATH);
+				andShowtimeUriBuilder.completePath(HttpParamsCst.MOVIE_GET_METHODE);
+				String uri = andShowtimeUriBuilder.toUri();
+				Log.i(TAG, "send request : " + uri); //$NON-NLS-1$
+				HttpGet getMethod = CineShowtimeFactory.getHttpGet();
+				getMethod.setURI(new URI(uri));
+				HttpResponse res = CineShowtimeFactory.getHttpClient().execute(getMethod);
+				XMLReader reader = CineShowtimeFactory.getXmlReader();
+				ParserSimpleResultXml parser = CineShowtimeFactory.getParserSimpleResultXml();
+				reader.setContentHandler(parser);
+				InputSource inputSource = CineShowtimeFactory.getInputSource();
+				inputSource.setByteStream(res.getEntity().getContent());
+
+				reader.parse(inputSource);
+
+				appEngineUrl = parser.getUrl();
+				if ((appEngineUrl == null) || (appEngineUrl.length() == 0)) {
+					appEngineUrl = HttpParamsCst.BINOMED_APP_URL;
+				}
+			} catch (Exception e) {
+				appEngineUrl = HttpParamsCst.BINOMED_APP_URL;
+			}
+			Log.i(TAG, "result : " + appEngineUrl); //$NON-NLS-1$
+		}
+
+		return appEngineUrl;
+
+	}
+
 	private static Location manageLocation(Geocoder geocoder, String cityName, URLBuilder andShowtimeUriBuilder, Double latitude, Double longitude) throws IOException {
 		Location originalPlace = null;
 		if (geocoder != null) {
@@ -264,10 +305,10 @@ public abstract class CineShowtimeRequestManage {
 		return originalPlace;
 	}
 
-	public static void completeMovieDetail(MovieBean movie, String near) throws Exception {
+	public static void completeMovieDetail(Context context, MovieBean movie, String near) throws Exception {
 		URLBuilder andShowtimeUriBuilder = new URLBuilder(CineShowTimeEncodingUtil.convertLocaleToEncoding());
 		andShowtimeUriBuilder.setProtocol(HttpParamsCst.BINOMED_APP_PROTOCOL);
-		andShowtimeUriBuilder.setAdress(HttpParamsCst.BINOMED_APP_URL);
+		andShowtimeUriBuilder.setAdress(getAppEngineUrl(context));
 		andShowtimeUriBuilder.completePath(HttpParamsCst.IMDB_GET_METHODE);
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_LANG, Locale.getDefault().getLanguage());
 		andShowtimeUriBuilder.addQueryParameter(HttpParamsCst.PARAM_OUTPUT, HttpParamsCst.VALUE_XML);

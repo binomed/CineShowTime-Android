@@ -217,7 +217,8 @@ public class CineShowTimeResultsService extends IntentService {
 					serviceStarted = true;
 					localisationMap = new HashMap<String, LocalisationBean>();
 					nearResp = CineShowtimeRequestManage.searchTheatersOrMovies( //
-							latitude //
+							getApplicationContext() // context
+							, latitude //
 							, longitude //
 							, cityName //
 							, movieName //
@@ -348,5 +349,4 @@ public class CineShowTimeResultsService extends IntentService {
 		compt++;
 
 	}
-
 }

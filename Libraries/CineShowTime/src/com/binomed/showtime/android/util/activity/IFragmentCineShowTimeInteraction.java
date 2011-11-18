@@ -36,4 +36,6 @@ public interface IFragmentCineShowTimeInteraction<M extends ICineShowTimeActivit
 
 	boolean isWithAdds();
 
+	void refreshResultsIntent();
+
 }

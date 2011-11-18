@@ -23,6 +23,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -98,9 +99,13 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 					, String.valueOf((Integer.valueOf(Build.VERSION.SDK) <= 10) ? TestSizeOther.checkLargeScreen(getResources().getConfiguration().screenLayout) : TestSizeHoneyComb.checkLargeScreen(getResources().getConfiguration().screenLayout)) // Label
 					, 1 // Value
 					);
+			String appEngineUrl = getPrefs().getString(CineShowtimeCst.PREF_KEY_APP_ENGINE, null);
+			if (appEngineUrl == null) {
+				appEngineUrl = HttpParamsCst.BINOMED_APP_URL;
+			}
 			getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_APPLICATION // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_APP_ENGINE_VERSION // Action
-					, HttpParamsCst.BINOMED_APP_URL// Label
+					, appEngineUrl// Label
 					, 0 // Value
 					);
 		} catch (NameNotFoundException e) {
@@ -269,6 +274,10 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 		outState.putString(ParamIntent.ACTIVITY_SEARCH_CITY, getModelActivity().getCityName());
 		outState.putString(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME, getModelActivity().getMovieName());
 		outState.putInt(ParamIntent.ACTIVITY_SEARCH_DAY, getModelActivity().getDay());
+		outState.putDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, getModelActivity().getLocalisation() != null ? getModelActivity().getLocalisation().getLatitude() : 0);
+		outState.putDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, getModelActivity().getLocalisation() != null ? getModelActivity().getLocalisation().getLongitude() : 0);
+		Log.i(TAG, "Latitude : " + (getModelActivity().getLocalisation() != null ? getModelActivity().getLocalisation().getLatitude() : 0));
+		Log.i(TAG, "Longitude : " + (getModelActivity().getLocalisation() != null ? getModelActivity().getLocalisation().getLongitude() : 0));
 		super.onSaveInstanceState(outState);
 	}
 
@@ -280,6 +289,16 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 				getModelActivity().setLastRequestCity(savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_CITY));
 				getModelActivity().setLastRequestMovie(savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_MOVIE_NAME));
 				getModelActivity().setDay(savedInstanceState.getInt(ParamIntent.ACTIVITY_SEARCH_DAY, 0));
+				double latitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
+				double longitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
+				if ((latitude != 0) && (longitude != 0)) {
+					Location location = new Location("GPS");
+					location.setLatitude(latitude);
+					location.setLongitude(longitude);
+					getModelActivity().setLocalisation(location);
+				}
+				Log.i(TAG, "Latitude : " + latitude);
+				Log.i(TAG, "Longitude : " + longitude);
 				fragmentSearch.refreshAfterSavedBundle();
 
 			}

@@ -349,7 +349,7 @@ public final class LocationUtils {
 				);
 	}
 
-	public static String getLocationString(Location coordiante) {
+	public static String getLocationString(Location coordiante) throws Exception {
 		String cityName = "";
 		Geocoder geocoder = CineShowtimeFactory.getGeocoder();
 		Double latitude = coordiante != null ? coordiante.getLatitude() : 0;
@@ -361,6 +361,7 @@ public final class LocationUtils {
 					addressList = geocoder.getFromLocation(latitude, longitude, 1);
 				} catch (Exception e) {
 					Log.e(TAG, "error Searching latitude, longitude :" + latitude + "," + longitude, e);
+					throw new Exception("error Searching latitude, longitude :" + latitude + "," + longitude, e);
 				}
 				if ((addressList != null) && !addressList.isEmpty()) {
 					if (addressList.get(0).getLocality() != null) {

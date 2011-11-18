@@ -13,6 +13,7 @@
  */
 package com.binomed.showtime.android.util.localisation;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -192,7 +193,9 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	@Override
 	public void onResume() {
 		initProvider();
-		model.setLocalisation(checkboxPreference ? LocationUtils.getLastLocation(context, provider) : null);
+		if (model.getLocalisation() == null) {
+			model.setLocalisation(checkboxPreference ? LocationUtils.getLastLocation(context, provider) : null);
+		}
 
 	}
 
@@ -270,7 +273,16 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		model.setLocalisation(arg0);
 		if (textSearch.getText().toString().length() == 0) {
 			CineShowtimeFactory.initGeocoder(context);
-			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(arg0));
+			try {
+				handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(arg0));
+			} catch (Exception e) {
+				AlertDialog.Builder errorDialog = new AlertDialog.Builder(context);
+				errorDialog.setTitle(R.string.msgErrorOnServer);
+				errorDialog.setCancelable(false);
+				errorDialog.setIcon(R.drawable.icon);
+				errorDialog.setNeutralButton(R.string.btnClose, null);
+				errorDialog.show();
+			}
 		}
 
 	}
@@ -341,6 +353,12 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	 */
 	@Override
 	public WPSContinuation handleError(WPSReturnCode error) {
+		AlertDialog.Builder errorDialog = new AlertDialog.Builder(context);
+		errorDialog.setTitle(R.string.msgErrorOnServer);
+		errorDialog.setCancelable(false);
+		errorDialog.setIcon(R.drawable.icon);
+		errorDialog.setNeutralButton(R.string.btnClose, null);
+		errorDialog.show();
 		switch (error) {
 		case WPS_ERROR_LOCATION_CANNOT_BE_DETERMINED: {
 			Log.e(TAG, error.toString());
@@ -398,7 +416,18 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		location.setLongitude(wpsLocation.getLongitude());
 		if (textSearch.getText().toString().length() == 0) {
 			CineShowtimeFactory.initGeocoder(context);
-			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
+			// handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
+			String cityName = "";
+			if (wpsLocation.getStreetAddress().getCity() != null) {
+				cityName = wpsLocation.getStreetAddress().getCity();
+			}
+			if ((wpsLocation.getStreetAddress().getCity() != null) && (wpsLocation.getStreetAddress().getPostalCode() != null)) {
+				cityName += " " + wpsLocation.getStreetAddress().getPostalCode();
+			}
+			if ((wpsLocation.getStreetAddress().getCity() != null) && (wpsLocation.getStreetAddress().getCountryCode() != null)) {
+				cityName += ", " + wpsLocation.getStreetAddress().getCountryCode();
+			}
+			handlerTextSearch.sendInputRecieved(cityName);
 		}
 		// In all case we'ill continue after getting location only user would stop
 		return WPSContinuation.WPS_CONTINUE;
@@ -428,7 +457,18 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		location.setLongitude(wpsLocation.getLongitude());
 		if (textSearch.getText().toString().length() == 0) {
 			CineShowtimeFactory.initGeocoder(context);
-			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
+			// handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
+			String cityName = "";
+			if (wpsLocation.getStreetAddress().getCity() != null) {
+				cityName = wpsLocation.getStreetAddress().getCity();
+			}
+			if ((wpsLocation.getStreetAddress().getCity() != null) && (wpsLocation.getStreetAddress().getPostalCode() != null)) {
+				cityName += " " + wpsLocation.getStreetAddress().getPostalCode();
+			}
+			if ((wpsLocation.getStreetAddress().getCity() != null) && (wpsLocation.getStreetAddress().getCountryCode() != null)) {
+				cityName += ", " + wpsLocation.getStreetAddress().getCountryCode();
+			}
+			handlerTextSearch.sendInputRecieved(cityName);
 		}
 	}
 
@@ -455,7 +495,18 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		location.setLatitude(ipLocation.getLatitude());
 		if (textSearch.getText().toString().length() == 0) {
 			CineShowtimeFactory.initGeocoder(context);
-			handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
+			// handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
+			String cityName = "";
+			if (ipLocation.getStreetAddress().getCity() != null) {
+				cityName = ipLocation.getStreetAddress().getCity();
+			}
+			if ((ipLocation.getStreetAddress().getCity() != null) && (ipLocation.getStreetAddress().getPostalCode() != null)) {
+				cityName += " " + ipLocation.getStreetAddress().getPostalCode();
+			}
+			if ((ipLocation.getStreetAddress().getCity() != null) && (ipLocation.getStreetAddress().getCountryCode() != null)) {
+				cityName += ", " + ipLocation.getStreetAddress().getCountryCode();
+			}
+			handlerTextSearch.sendInputRecieved(cityName);
 		}
 
 	}

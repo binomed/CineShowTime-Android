@@ -31,6 +31,7 @@ import android.location.Geocoder;
 import com.binomed.showtime.android.parser.xml.ParserImdbResultXml;
 import com.binomed.showtime.android.parser.xml.ParserMovieResultXml;
 import com.binomed.showtime.android.parser.xml.ParserNearResultXml;
+import com.binomed.showtime.android.parser.xml.ParserSimpleResultXml;
 import com.binomed.showtime.android.util.comparator.MovieNameComparator;
 import com.binomed.showtime.android.util.comparator.MovieNameComparatorFromId;
 import com.binomed.showtime.android.util.comparator.TheaterDistanceComparator;
@@ -43,6 +44,7 @@ public final class CineShowtimeFactory {
 	private static CineShowtimeFactory instance;
 
 	private ParserNearResultXml parserNearResultXml;
+	private ParserSimpleResultXml parserSimpleResultXml;
 	private ParserMovieResultXml parserMovieResultXml;
 	private ParserImdbResultXml parserImdbResultXml;
 
@@ -80,6 +82,13 @@ public final class CineShowtimeFactory {
 			parserNearResultXml = new ParserNearResultXml();
 		}
 		return parserNearResultXml;
+	}
+
+	private ParserSimpleResultXml getPrivateParserSimpleResultXml() {
+		if (parserSimpleResultXml == null) {
+			parserSimpleResultXml = new ParserSimpleResultXml();
+		}
+		return parserSimpleResultXml;
 	}
 
 	private ParserMovieResultXml getPrivateParserMovieResultXml() {
@@ -171,6 +180,10 @@ public final class CineShowtimeFactory {
 
 	public static ParserNearResultXml getParserNearResultXml() {
 		return CineShowtimeFactory.getInstance().getPrivateParserNearResultXml();
+	}
+
+	public static ParserSimpleResultXml getParserSimpleResultXml() {
+		return CineShowtimeFactory.getInstance().getPrivateParserSimpleResultXml();
 	}
 
 	public static ParserMovieResultXml getParserMovieResultXml() {

@@ -150,7 +150,7 @@ public class CineShowTimeMovieService extends IntentService {
 
 		try {
 			serviceRunning = true;
-			CineShowtimeRequestManage.completeMovieDetail(movie, near);
+			CineShowtimeRequestManage.completeMovieDetail(getApplicationContext(), movie, near);
 
 		} catch (Exception e) {
 			Log.e(TAG, "error searching movie", e);
@@ -165,7 +165,7 @@ public class CineShowTimeMovieService extends IntentService {
 				while (inBrodCast) {
 					Thread.sleep(100);
 				}
-				if (!mapCancel.get(compt) || error != null) {
+				if (!mapCancel.get(compt) || (error != null)) {
 					binder.finish(movieId);
 				}
 			} catch (Exception e) {

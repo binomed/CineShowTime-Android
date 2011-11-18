@@ -449,6 +449,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		fieldCityName.setText(model.getLastRequestCity());
 		fieldMovieName.setText(model.getLastRequestMovie());
 		spinnerChooseDay.setSelection(model.getDay());
+
 	}
 
 	/*

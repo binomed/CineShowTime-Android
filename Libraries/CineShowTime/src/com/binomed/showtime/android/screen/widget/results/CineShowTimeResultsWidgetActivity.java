@@ -17,6 +17,7 @@ import greendroid.widget.ActionBar;
 import greendroid.widget.ActionBarItem;
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
@@ -133,14 +134,21 @@ public class CineShowTimeResultsWidgetActivity extends AbstractSimpleCineShowTim
 			boolean saved = savedInstanceState.getBoolean(ParamIntent.BUNDLE_SAVE, false);
 			if (saved) {
 				getModelActivity().setNearResp((NearResp) savedInstanceState.getParcelable(ParamIntent.NEAR_RESP));
+				getModelActivity().setForceResearch(savedInstanceState.getBoolean(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false));
 				intentResult = new Intent();
 				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_FORCE_REQUEST, false);
-				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_CITY, savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_CITY));
+				String cityName = savedInstanceState.getString(ParamIntent.ACTIVITY_SEARCH_CITY);
+				intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_CITY, cityName);
+				getModelActivity().setCityName(cityName);
 				Double latitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LATITUDE, 0);
 				Double longitude = savedInstanceState.getDouble(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, 0);
 				if ((latitude != 0) && (longitude != 0)) {
 					intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, latitude);
 					intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_LONGITUDE, longitude);
+					Location location = new Location("GPS");
+					location.setLatitude(latitude);
+					location.setLongitude(longitude);
+					getModelActivity().setLocalisation(location);
 				}
 			}
 

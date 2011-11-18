@@ -209,24 +209,29 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 		resultList = (ExpandableListView) mainView.findViewById(R.id.resultListResult);
 		resultListNonExpandable = (ListView) mainView.findViewById(R.id.resultListResultNonExpandable);
-		resultList.setGroupIndicator(null);
-
-		resultList.setVisibility(nonExpendable ? View.GONE : View.VISIBLE);
-		resultListNonExpandable.setVisibility(nonExpendable ? View.VISIBLE : View.GONE);
-
+		if (resultList != null) {
+			resultList.setGroupIndicator(null);
+			resultList.setVisibility(nonExpendable ? View.GONE : View.VISIBLE);
+		}
+		if (resultListNonExpandable != null) {
+			resultListNonExpandable.setVisibility(nonExpendable ? View.VISIBLE : View.GONE);
+		}
 		// Manage Adapter
 		adapter = new CineShowTimeExpandableListAdapter(getActivity(), this);
 		adapterNonExpendable = new CineShowTimeNonExpandableListAdapter(getActivity(), this);
 	}
 
 	private void initListeners() {
-		resultListNonExpandable.setOnItemClickListener(this);
-		resultList.setOnChildClickListener(this);
-		resultList.setOnGroupClickListener(this);
-		resultList.setOnGroupExpandListener(this);
-		resultList.setOnGroupCollapseListener(this);
-		resultList.setOnFocusChangeListener(this);
-
+		if (resultListNonExpandable != null) {
+			resultListNonExpandable.setOnItemClickListener(this);
+		}
+		if (resultList != null) {
+			resultList.setOnChildClickListener(this);
+			resultList.setOnGroupClickListener(this);
+			resultList.setOnGroupExpandListener(this);
+			resultList.setOnGroupCollapseListener(this);
+			resultList.setOnFocusChangeListener(this);
+		}
 	}
 
 	private void initMenus() {
@@ -614,8 +619,12 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 	public void setNonExpendable(boolean nonExpandable) {
 		this.nonExpendable = nonExpandable;
-		resultList.setVisibility(nonExpendable ? View.GONE : View.VISIBLE);
-		resultListNonExpandable.setVisibility(nonExpendable ? View.VISIBLE : View.GONE);
+		if (resultList != null) {
+			resultList.setVisibility(nonExpendable ? View.GONE : View.VISIBLE);
+		}
+		if (resultListNonExpandable != null) {
+			resultListNonExpandable.setVisibility(nonExpendable ? View.VISIBLE : View.GONE);
+		}
 	}
 
 	public void setIntentResult(Intent intent) {
@@ -915,7 +924,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 			model.setNullResult(nearResp == null);
 			m_callbackHandler.sendInputRecieved(null);
-
+			interaction.refreshResultsIntent();
 		}
 
 		@Override

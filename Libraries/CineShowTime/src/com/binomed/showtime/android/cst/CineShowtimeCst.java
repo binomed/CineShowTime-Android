@@ -75,6 +75,7 @@ public final class CineShowtimeCst {
 	public static final String GOOGLE_ANALYTICS_ID = "UA-21310883-2";
 
 	public static final String PREF_KEY_ANALYTICS = "com.binomed.showtime.analytics";
+	public static final String PREF_KEY_APP_ENGINE = "com.binomed.showtime.appengine";
 
 	public static final String ACRA_FORM_KEY = "dEtLdVJ5aFNjOUFRcGI5Ym5TckhwaVE6MQ";
 

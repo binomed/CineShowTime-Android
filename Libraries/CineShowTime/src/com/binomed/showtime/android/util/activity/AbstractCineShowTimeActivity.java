@@ -144,7 +144,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		prepareQuickActionBar();
 
 		// We manage the results for other activity
-		initResults();
+		refreshResultsIntent();
 
 		// try to restore information after
 		onPostRestoreBundle(savedInstanceState);
@@ -223,7 +223,7 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 			getModelActivity().setNullResult(false);
 		}
 
-		initResults();
+		refreshResultsIntent();
 
 		if (requestCode == CineShowtimeCst.ACTIVITY_RESULT_PREFERENCES) {
 			doChangeFromPref();
@@ -256,13 +256,6 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	public void onCancel(DialogInterface dialog) {
 		doOnCancel();
 		finish();
-	}
-
-	private void initResults() {
-		Intent intentResult = new Intent();
-		intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, getModelActivity().isResetTheme());
-		intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, getModelActivity().isNullResult());
-		setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
 	}
 
 	/*
@@ -359,6 +352,15 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		return mDbHelper;
 	}
 
+	@Override
+	public void refreshResultsIntent() {
+		Intent intentResult = new Intent();
+		intentResult.putExtra(ParamIntent.PREFERENCE_RESULT_THEME, getModelActivity().isResetTheme());
+		intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, getModelActivity().isNullResult());
+		setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
+
+	}
+
 	/*
 	 * Dialogs methods
 	 */
@@ -383,12 +385,13 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 
 	@Override
 	public final void openErrorDialog(int errorMsg) {
-		progressDialog = ProgressDialog.show(this, //
-				getResources().getString(R.string.errorMsg)//
-				, getResources().getString(errorMsg) //
-				, false // indeterminate
-				, true // cancelable
-				);
+		closeDialog();
+		AlertDialog.Builder errorDialog = new AlertDialog.Builder(this);
+		errorDialog.setTitle(R.string.errorMsg);
+		errorDialog.setMessage(getResources().getString(errorMsg));
+		errorDialog.setCancelable(false);
+		errorDialog.setNeutralButton(R.string.btnClose, null);
+		errorDialog.show();
 	}
 
 	@Override
