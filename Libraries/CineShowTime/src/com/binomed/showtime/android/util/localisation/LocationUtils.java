@@ -41,6 +41,7 @@ import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.model.LocalisationBean;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.cst.GoogleKeys;
+import com.skyhookwireless.wps.WPS;
 import com.skyhookwireless.wps.WPSAuthentication;
 import com.skyhookwireless.wps.WPSStreetAddressLookup;
 import com.skyhookwireless.wps.XPS;
@@ -168,6 +169,11 @@ public final class LocationUtils {
 				xps = new XPS(context);
 				listener.setXps(xps);
 			}
+			WPS wps = listener.getWps();
+			if (wps == null) {
+				wps = new WPS(context);
+				listener.setWps(wps);
+			}
 
 			WPSAuthentication auth = listener.getWpsAuth();
 			if (auth == null) {
@@ -176,7 +182,7 @@ public final class LocationUtils {
 			}
 			// if (!checkSkyHookRegistration(context)) {
 			// WPSAuthentication authRegister = new WPSAuthentication(GoogleKeys.SKYHOOK_USER_NAME_REGISTER, GoogleKeys.SKYHOOK_REALM);
-			// WPS wps = new WPS(context);
+			// // WPS wps = new WPS(context);
 			// wps.registerUser(authRegister, auth, new RegistrationCallback() {
 			//
 			// @Override
@@ -236,7 +242,7 @@ public final class LocationUtils {
 				break;
 			}
 			case WIFI_PROVIDER: {
-				xps.getLocation(auth //
+				wps.getLocation(auth //
 						, WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP //
 						, listener//
 				);

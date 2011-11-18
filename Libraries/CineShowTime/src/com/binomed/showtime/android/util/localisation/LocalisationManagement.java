@@ -37,6 +37,7 @@ import com.binomed.showtime.android.util.localisation.LocationUtils.ProviderEnum
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.skyhookwireless.wps.IPLocation;
 import com.skyhookwireless.wps.IPLocationCallback;
+import com.skyhookwireless.wps.WPS;
 import com.skyhookwireless.wps.WPSAuthentication;
 import com.skyhookwireless.wps.WPSContinuation;
 import com.skyhookwireless.wps.WPSLocation;
@@ -68,7 +69,7 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	private boolean locationListener, checkedGps;
 	private TextCallBackFromLocation handlerTextSearch;
 	private GoogleAnalyticsTracker tracker;
-	// private XPS xps;
+	private WPS wps;
 	private XPS xps;
 	private WPSAuthentication wpsAuth;
 
@@ -78,6 +79,14 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 
 	protected void setXps(XPS xps) {
 		this.xps = xps;
+	}
+
+	public WPS getWps() {
+		return wps;
+	}
+
+	public void setWps(WPS wps) {
+		this.wps = wps;
 	}
 
 	public WPSAuthentication getWpsAuth() {
@@ -364,12 +373,15 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	 */
 	@Override
 	public WPSContinuation handleError(WPSReturnCode error) {
-		AlertDialog.Builder errorDialog = new AlertDialog.Builder(context);
-		errorDialog.setTitle(R.string.msgErrorOnServer);
-		errorDialog.setCancelable(false);
-		errorDialog.setIcon(R.drawable.icon);
-		errorDialog.setNeutralButton(R.string.btnClose, null);
-		errorDialog.show();
+		if (bitmapGpsOn != null) {
+			bitmapGpsOn.stop();
+		}
+		// AlertDialog.Builder errorDialog = new AlertDialog.Builder(context);
+		// errorDialog.setTitle(R.string.msgErrorOnServer);
+		// errorDialog.setCancelable(false);
+		// errorDialog.setIcon(R.drawable.icon);
+		// errorDialog.setNeutralButton(R.string.btnClose, null);
+		// errorDialog.show();
 		switch (error) {
 		case WPS_ERROR_LOCATION_CANNOT_BE_DETERMINED: {
 			Log.e(TAG, error.toString());
