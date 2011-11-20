@@ -74,6 +74,9 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	private WPSAuthentication wpsAuth;
 
 	protected XPS getXps() {
+		if (xps == null) {
+			xps = new XPS(context);
+		}
 		return xps;
 	}
 
