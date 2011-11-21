@@ -13,14 +13,18 @@
  */
 package com.binomed.showtime.android.handler;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech;
 
 public class TextCallBackFromLocation extends Handler {
 
 	private AutoCompleteTextWithSpeech autoCompleteText;
+	private Context context;
 
 	private String cityName;
 
@@ -33,6 +37,7 @@ public class TextCallBackFromLocation extends Handler {
 	 * Message handler for a input recived
 	 */
 	private static final int INPUT_RECIVED = 0;
+	private static final int ERROR = 1;
 
 	/**
 	 * Sends a message when an input was recived by the service
@@ -40,6 +45,14 @@ public class TextCallBackFromLocation extends Handler {
 	public void sendInputRecieved(String cityName) {
 		this.cityName = cityName;
 		sendEmptyMessage(INPUT_RECIVED);
+	}
+
+	/**
+	 * Sends a message when an input was recived by the service
+	 */
+	public void sendError(Context context) {
+		this.context = context;
+		sendEmptyMessage(ERROR);
 	}
 
 	/**
@@ -54,6 +67,16 @@ public class TextCallBackFromLocation extends Handler {
 		switch (msg.what) {
 		case INPUT_RECIVED:
 			handleInputRecived();
+			break;
+		case ERROR:
+			AlertDialog.Builder errorDialog = new AlertDialog.Builder(context);
+			errorDialog.setTitle(R.string.errorMsg);
+			errorDialog.setMessage(R.string.msgErrorOnServer);
+			errorDialog.setCancelable(false);
+			errorDialog.setIcon(R.drawable.icon);
+			errorDialog.setNeutralButton(R.string.btnClose, null);
+			errorDialog.show();
+			break;
 		default:
 			super.handleMessage(msg);
 		}

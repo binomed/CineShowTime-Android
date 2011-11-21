@@ -34,10 +34,10 @@ import com.binomed.showtime.android.handler.TextCallBackFromLocation;
 import com.binomed.showtime.android.layout.view.AutoCompleteTextWithSpeech;
 import com.binomed.showtime.android.util.CineShowtimeFactory;
 import com.binomed.showtime.android.util.localisation.LocationUtils.ProviderEnum;
+import com.binomed.showtime.cst.GoogleKeys;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.skyhookwireless.wps.IPLocation;
 import com.skyhookwireless.wps.IPLocationCallback;
-import com.skyhookwireless.wps.WPS;
 import com.skyhookwireless.wps.WPSAuthentication;
 import com.skyhookwireless.wps.WPSContinuation;
 import com.skyhookwireless.wps.WPSLocation;
@@ -69,7 +69,6 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 	private boolean locationListener, checkedGps;
 	private TextCallBackFromLocation handlerTextSearch;
 	private GoogleAnalyticsTracker tracker;
-	private WPS wps;
 	private XPS xps;
 	private WPSAuthentication wpsAuth;
 
@@ -84,15 +83,10 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		this.xps = xps;
 	}
 
-	public WPS getWps() {
-		return wps;
-	}
-
-	public void setWps(WPS wps) {
-		this.wps = wps;
-	}
-
 	public WPSAuthentication getWpsAuth() {
+		if (wpsAuth == null) {
+			wpsAuth = new WPSAuthentication(GoogleKeys.SKYHOOK_USER_NAME_REGISTER, GoogleKeys.SKYHOOK_REALM);
+		}
 		return wpsAuth;
 	}
 
@@ -300,7 +294,8 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 				handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(arg0));
 			} catch (Exception e) {
 				AlertDialog.Builder errorDialog = new AlertDialog.Builder(context);
-				errorDialog.setTitle(R.string.msgErrorOnServer);
+				errorDialog.setTitle(R.string.errorMsg);
+				errorDialog.setMessage(R.string.msgErrorOnServer);
 				errorDialog.setCancelable(false);
 				errorDialog.setIcon(R.drawable.icon);
 				errorDialog.setNeutralButton(R.string.btnClose, null);
@@ -379,12 +374,7 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		if (bitmapGpsOn != null) {
 			bitmapGpsOn.stop();
 		}
-		// AlertDialog.Builder errorDialog = new AlertDialog.Builder(context);
-		// errorDialog.setTitle(R.string.msgErrorOnServer);
-		// errorDialog.setCancelable(false);
-		// errorDialog.setIcon(R.drawable.icon);
-		// errorDialog.setNeutralButton(R.string.btnClose, null);
-		// errorDialog.show();
+		handlerTextSearch.sendError(context);
 		switch (error) {
 		case WPS_ERROR_LOCATION_CANNOT_BE_DETERMINED: {
 			Log.e(TAG, error.toString());
@@ -442,18 +432,26 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		location.setLongitude(wpsLocation.getLongitude());
 		if (textSearch.getText().toString().length() == 0) {
 			CineShowtimeFactory.initGeocoder(context);
-			// handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
-			String cityName = "";
-			if (wpsLocation.getStreetAddress().getCity() != null) {
-				cityName = wpsLocation.getStreetAddress().getCity();
+			if ((wpsLocation.getStreetAddress().getCity() == null || wpsLocation.getStreetAddress().getCity().length() == 0)//
+					&& (location.getLatitude() != 0 && location.getLongitude() != 0)) {
+
+				try {
+					handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
+				} catch (Exception e) {
+				}
+			} else {
+				String cityName = "";
+				if (wpsLocation.getStreetAddress().getCity() != null) {
+					cityName = wpsLocation.getStreetAddress().getCity();
+				}
+				if ((wpsLocation.getStreetAddress().getCity() != null) && (wpsLocation.getStreetAddress().getPostalCode() != null)) {
+					cityName += " " + wpsLocation.getStreetAddress().getPostalCode();
+				}
+				if ((wpsLocation.getStreetAddress().getCity() != null) && (wpsLocation.getStreetAddress().getCountryCode() != null)) {
+					cityName += ", " + wpsLocation.getStreetAddress().getCountryCode();
+				}
+				handlerTextSearch.sendInputRecieved(cityName);
 			}
-			if ((wpsLocation.getStreetAddress().getCity() != null) && (wpsLocation.getStreetAddress().getPostalCode() != null)) {
-				cityName += " " + wpsLocation.getStreetAddress().getPostalCode();
-			}
-			if ((wpsLocation.getStreetAddress().getCity() != null) && (wpsLocation.getStreetAddress().getCountryCode() != null)) {
-				cityName += ", " + wpsLocation.getStreetAddress().getCountryCode();
-			}
-			handlerTextSearch.sendInputRecieved(cityName);
 		}
 		// In all case we'ill continue after getting location only user would stop
 		return WPSContinuation.WPS_CONTINUE;
@@ -483,18 +481,26 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		location.setLongitude(wpsLocation.getLongitude());
 		if (textSearch.getText().toString().length() == 0) {
 			CineShowtimeFactory.initGeocoder(context);
-			// handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
-			String cityName = "";
-			if (wpsLocation.getStreetAddress().getCity() != null) {
-				cityName = wpsLocation.getStreetAddress().getCity();
+			if ((wpsLocation.getStreetAddress().getCity() == null || wpsLocation.getStreetAddress().getCity().length() == 0)//
+					&& (location.getLatitude() != 0 && location.getLongitude() != 0)) {
+
+				try {
+					handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
+				} catch (Exception e) {
+				}
+			} else {
+				String cityName = "";
+				if (wpsLocation.getStreetAddress().getCity() != null) {
+					cityName = wpsLocation.getStreetAddress().getCity();
+				}
+				if ((wpsLocation.getStreetAddress().getCity() != null) && (wpsLocation.getStreetAddress().getPostalCode() != null)) {
+					cityName += " " + wpsLocation.getStreetAddress().getPostalCode();
+				}
+				if ((wpsLocation.getStreetAddress().getCity() != null) && (wpsLocation.getStreetAddress().getCountryCode() != null)) {
+					cityName += ", " + wpsLocation.getStreetAddress().getCountryCode();
+				}
+				handlerTextSearch.sendInputRecieved(cityName);
 			}
-			if ((wpsLocation.getStreetAddress().getCity() != null) && (wpsLocation.getStreetAddress().getPostalCode() != null)) {
-				cityName += " " + wpsLocation.getStreetAddress().getPostalCode();
-			}
-			if ((wpsLocation.getStreetAddress().getCity() != null) && (wpsLocation.getStreetAddress().getCountryCode() != null)) {
-				cityName += ", " + wpsLocation.getStreetAddress().getCountryCode();
-			}
-			handlerTextSearch.sendInputRecieved(cityName);
 		}
 	}
 
@@ -521,18 +527,26 @@ public class LocalisationManagement implements IListenerLocalisationUtilCallBack
 		location.setLatitude(ipLocation.getLatitude());
 		if (textSearch.getText().toString().length() == 0) {
 			CineShowtimeFactory.initGeocoder(context);
-			// handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
-			String cityName = "";
-			if (ipLocation.getStreetAddress().getCity() != null) {
-				cityName = ipLocation.getStreetAddress().getCity();
+			if ((ipLocation.getStreetAddress().getCity() == null || ipLocation.getStreetAddress().getCity().length() == 0)//
+					&& (location.getLatitude() != 0 && location.getLongitude() != 0)) {
+
+				try {
+					handlerTextSearch.sendInputRecieved(LocationUtils.getLocationString(location));
+				} catch (Exception e) {
+				}
+			} else {
+				String cityName = "";
+				if (ipLocation.getStreetAddress().getCity() != null) {
+					cityName = ipLocation.getStreetAddress().getCity();
+				}
+				if ((ipLocation.getStreetAddress().getCity() != null) && (ipLocation.getStreetAddress().getPostalCode() != null)) {
+					cityName += " " + ipLocation.getStreetAddress().getPostalCode();
+				}
+				if ((ipLocation.getStreetAddress().getCity() != null) && (ipLocation.getStreetAddress().getCountryCode() != null)) {
+					cityName += ", " + ipLocation.getStreetAddress().getCountryCode();
+				}
+				handlerTextSearch.sendInputRecieved(cityName);
 			}
-			if ((ipLocation.getStreetAddress().getCity() != null) && (ipLocation.getStreetAddress().getPostalCode() != null)) {
-				cityName += " " + ipLocation.getStreetAddress().getPostalCode();
-			}
-			if ((ipLocation.getStreetAddress().getCity() != null) && (ipLocation.getStreetAddress().getCountryCode() != null)) {
-				cityName += ", " + ipLocation.getStreetAddress().getCountryCode();
-			}
-			handlerTextSearch.sendInputRecieved(cityName);
 		}
 
 	}

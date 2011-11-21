@@ -167,25 +167,7 @@ public final class LocationUtils {
 		case WIFI_PROVIDER:
 		case XPS_PROVIDER: {
 			final XPS xps = listener.getXps();
-			// if (xps == null) {
-			// xps = new XPS(context);
-			// listener.setXps(xps);
-			// }
-			// WPS wps = listener.getWps();
-			// if (wps == null) {
-			// wps = new WPS(context);
-			// listener.setWps(wps);
-			// }
-
-			// WPSAuthentication auth = listener.getWpsAuth();
-			// if (auth == null) {
-			// auth = new WPSAuthentication(GoogleKeys.SKYHOOK_USER_NAME_REGISTER, GoogleKeys.SKYHOOK_REALM);
-			// listener.setWpsAuth(auth);
-			// }
-			final WPSAuthentication auth = new WPSAuthentication(GoogleKeys.SKYHOOK_USER_NAME_REGISTER, GoogleKeys.SKYHOOK_REALM);
-			// if (!checkSkyHookRegistration(context)) {
-			// WPSAuthentication authRegister = new WPSAuthentication(GoogleKeys.SKYHOOK_USER_NAME_REGISTER, GoogleKeys.SKYHOOK_REALM);
-			// WPS wps = new WPS(context);
+			final WPSAuthentication auth = listener.getWpsAuth();
 			xps.registerUser(auth, null, new RegistrationCallback() {
 
 				@Override
@@ -224,16 +206,12 @@ public final class LocationUtils {
 
 				@Override
 				public void done() {
-					// TODO Auto-generated method stub
 					Log.i(TAG, "Registration Done ! ");
 
 				}
 
 				@Override
 				public void handleSuccess() {
-					// Intent intentNearFillDBService = new Intent(context, CineShowDBGlobalService.class);
-					// intentNearFillDBService.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_SKYHOOK_REGISTRATION);
-					// context.startService(intentNearFillDBService);
 
 					switch (provider) {
 					case IP_PROVIDER: {
@@ -251,7 +229,8 @@ public final class LocationUtils {
 						break;
 					}
 					case XPS_PROVIDER: {
-						xps.getXPSLocation(auth, (5000 / 1000) //
+						xps.getXPSLocation(auth //
+								, (5000 / 1000) //
 								, 30 //
 								, listener//
 						);
@@ -262,32 +241,6 @@ public final class LocationUtils {
 					}
 				}
 			});
-			// }
-			// switch (provider) {
-			// case IP_PROVIDER: {
-			// xps.getIPLocation(auth //
-			// , WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP //
-			// , listener//
-			// );
-			// break;
-			// }
-			// case WIFI_PROVIDER: {
-			// xps.getLocation(auth //
-			// , WPSStreetAddressLookup.WPS_LIMITED_STREET_ADDRESS_LOOKUP //
-			// , listener//
-			// );
-			// break;
-			// }
-			// case XPS_PROVIDER: {
-			// xps.getXPSLocation(auth, (5000 / 1000) //
-			// , 30 //
-			// , listener//
-			// );
-			//
-			// }
-			// default:
-			// break;
-			// }
 			break;
 		}
 		default:
