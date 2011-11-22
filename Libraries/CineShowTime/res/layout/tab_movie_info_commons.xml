@@ -48,11 +48,7 @@
 		/>
 	</LinearLayout>
 	<pl.polidea.coverflow.CoverFlow 
-	    	xmlns:coverflow="http://schemas.android.com/apk/res/com.binomed.showtime"
 			android:id="@+id/gallery_trailer"
-            coverflow:imageWidth="@dimen/cstTrailerWidth" 
-            coverflow:imageHeight="@dimen/cstTrailerHeight" 
-            coverflow:withReflection="false"
             android:layout_width="fill_parent" 
             android:layout_height="wrap_content" 
             android:layout_marginTop="5dip" 
