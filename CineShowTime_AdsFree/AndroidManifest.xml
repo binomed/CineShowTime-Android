@@ -11,7 +11,7 @@
           android:anyDensity="true" />
      <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="11"></uses-sdk>
     <application android:label="CineShowTime ads free" 
-     		android:debuggable="true" 
+     		android:debuggable="false" 
      		android:theme="@style/Theme.GreenDroid.NoTitleBar" android:icon="@drawable/ic_launcher" android:name="com.binomed.showtime.android.CineShowTimeApplication">
         <activity android:label="CineShowTime ads free" android:icon="@drawable/ic_launcher" android:name="com.binomed.showtime.android.screen.main.SplashScreen">
             <intent-filter>
