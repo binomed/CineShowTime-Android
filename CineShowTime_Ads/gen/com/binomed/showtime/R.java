@@ -50,7 +50,7 @@ public final class R {
  <item>by user preferences (slower)</item>
  <item>por preferencias del usuario (más lento)</item>
  <item>par préférence utilisateur (plus lent)</item>
- <item>per scelte del utente (piu lento)</item>
+ <item>per scelte dell'utente (pi lento)</item>
  <item>ユーザーの設定から(時間がかかります)</item>
  <item>por preferência usuário (mais lento)</item>
  <item>por preferência usuário (mais lento)</item>

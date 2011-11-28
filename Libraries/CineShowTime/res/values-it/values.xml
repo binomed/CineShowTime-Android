@@ -57,16 +57,16 @@
 		<item>40</item>
 	</string-array>
 	<string-array name="sort_theaters_values">
-		<item>per none dei cinema</item>
-		<item>per distanza dei cinéma</item>
-		<item>per l’ora di principio piu vicino</item>
+		<item>per nome del cinema</item>
+		<item>per distanza del cinema</item>
+		<item>per orario di inizio dello spettacolo</item>
 		<item>per nome di film</item>
-		<!-- <item>per scelte del utente (piu lento)</item>-->
+		<!-- <item>per scelte dell'utente (pi lento)</item>-->
 	</string-array>
 	<string-array name="sort_movies_values">
-		<item>per none dei cinema</item>
-		<item>per distanza dei cinéma</item>
-		<item>per l’ora di principio piu vicino</item>
+		<item>per nome del cinema</item>
+		<item>per distanza del cinema</item>
+		<item>per la prossima ora di inizio dello spettacolo</item>
 	</string-array>
 	<string-array name="sort_theaters_values_code">
 		<item>THEATER_NAME</item>
@@ -96,6 +96,6 @@
 	<string-array name="time_format_values">
 		<item>12</item>
 		<item>24</item>
-		<item>difetto</item>
+		<item>Default</item>
 	</string-array>
 </resources>

@@ -15,7 +15,10 @@ package com.binomed.showtime.android.layout.dialogs.last;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
@@ -23,6 +26,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.binomed.showtime.R;
+import com.binomed.showtime.android.cst.CineShowtimeCst;
 
 public class LastChangeDialog extends Dialog {
 
@@ -41,6 +45,14 @@ public class LastChangeDialog extends Dialog {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_last);
 
+		try {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mainContext);
+			Editor editor = prefs.edit();
+			editor.remove(CineShowtimeCst.PREF_KEY_APP_ENGINE);
+			editor.commit();
+		} catch (Exception e) {
+		}
+
 		Button btnClose = (Button) findViewById(R.id.lastBtnClose);
 		btnClose.setOnClickListener(new View.OnClickListener() {
 
@@ -53,7 +65,12 @@ public class LastChangeDialog extends Dialog {
 		setTitle(mainContext.getResources().getString(R.string.dialogLastChangeTitle));
 		TextView contentLastChange = (TextView) findViewById(R.id.lastChangetText);
 		Spanned spanned = Html.fromHtml( //
-				"<b>v3.0.0</b><br><br>" + //
+				"<b>v3.0.2</b><br><br>" + //
+						" * Fix starting crash<br>" + //
+						"<b>v3.0.1</b><br><br>" + //
+						" * Fix some server bug<br>" + //
+						" * New translation for italian<br>" + //
+						"<b>v3.0.0</b><br><br>" + //
 						" * Reset Widgets<br>" + //
 						" * Multi Widgets support<br>" + //
 						" * Add of Action bar<br>" + //

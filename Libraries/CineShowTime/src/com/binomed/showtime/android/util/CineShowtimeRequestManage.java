@@ -33,6 +33,7 @@ import org.xml.sax.XMLReader;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -210,7 +211,7 @@ public abstract class CineShowtimeRequestManage {
 				andShowtimeUriBuilder.setProtocol(HttpParamsCst.BINOMED_APP_PROTOCOL);
 				andShowtimeUriBuilder.setAdress(HttpParamsCst.BINOMED_APP_URL);
 				andShowtimeUriBuilder.completePath(HttpParamsCst.BINOMED_APP_PATH);
-				andShowtimeUriBuilder.completePath(HttpParamsCst.MOVIE_GET_METHODE);
+				andShowtimeUriBuilder.completePath(HttpParamsCst.SEVER_GET_METHODE);
 				String uri = andShowtimeUriBuilder.toUri();
 				Log.i(TAG, "send request : " + uri); //$NON-NLS-1$
 				HttpGet getMethod = CineShowtimeFactory.getHttpGet();
@@ -227,6 +228,13 @@ public abstract class CineShowtimeRequestManage {
 				appEngineUrl = parser.getUrl();
 				if ((appEngineUrl == null) || (appEngineUrl.length() == 0)) {
 					appEngineUrl = HttpParamsCst.BINOMED_APP_URL;
+				}
+
+				try {
+					Editor editor = prefs.edit();
+					editor.putString(CineShowtimeCst.PREF_KEY_APP_ENGINE, appEngineUrl);
+					editor.commit();
+				} catch (Exception e) {
 				}
 			} catch (Exception e) {
 				appEngineUrl = HttpParamsCst.BINOMED_APP_URL;
