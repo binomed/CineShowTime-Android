@@ -35,7 +35,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.SQLException;
-import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
@@ -45,8 +44,6 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
@@ -148,14 +145,6 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 
 		// try to restore information after
 		onPostRestoreBundle(savedInstanceState);
-	}
-
-	@Override
-	public void onAttachedToWindow() {
-		super.onAttachedToWindow();
-		Window window = getWindow();
-		window.setFormat(PixelFormat.RGBA_8888);
-		window.addFlags(WindowManager.LayoutParams.FLAG_DITHER);
 	}
 
 	/**
