@@ -82,6 +82,9 @@ public class ParserNearResultXml implements ContentHandler {
 			if (atts.getValue(XmlGramarNearResult.ATTR_MORE_RESULTS) != null) {
 				nearRespBean.setHasMoreResults(Boolean.valueOf(atts.getValue(XmlGramarNearResult.ATTR_MORE_RESULTS)));
 			}
+			if (atts.getValue(XmlGramarNearResult.ATTR_NEAR_RESP) != null) {
+				nearRespBean.setNearResp(Boolean.valueOf(atts.getValue(XmlGramarNearResult.ATTR_NEAR_RESP)));
+			}
 		} else if (XmlGramarNearResult.NODE_MOVIE_LIST.equals(localName)) {
 			inMovieList = true;
 		} else if (inMovieList && XmlGramarNearResult.NODE_MOVIE.equals(localName)) {
