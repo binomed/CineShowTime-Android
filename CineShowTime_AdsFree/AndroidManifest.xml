@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.binomed.showtime.adsfree"
      android:installLocation="auto"
-      android:versionCode="34" android:versionName="3.0.3 adsFree">
+      android:versionCode="35" android:versionName="3.0.4 adsFree">
       
      <supports-screens
           android:largeScreens="true"
@@ -57,7 +57,6 @@
 		<activity android:name="com.google.ads.AdActivity"
               android:configChanges="keyboard|keyboardHidden|orientation"/>
 	</application>
-    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="11"/>
     <!-- Write image on sd -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 	<!-- GPS Location -->

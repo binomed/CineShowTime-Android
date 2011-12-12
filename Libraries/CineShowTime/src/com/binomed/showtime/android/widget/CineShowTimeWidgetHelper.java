@@ -59,6 +59,18 @@ public class CineShowTimeWidgetHelper {
 	/**
 	 * Build a widget update to show the current Wiktionary "Word of the day." Will block until the online API returns.
 	 */
+	public static RemoteViews showError(Context context) {
+		RemoteViews updateViews = null;
+		updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_one);
+		updateViews.setTextViewText(R.id.widget_one_theater_title, context.getText(R.string.errorMsg)); //$NON-NLS-1$
+		updateViews.setTextViewText(R.id.widget_one_movie_txt_1, "Widget Error, please remove the widget and re-add it");
+		updateViews.setTextViewText(R.id.widget_one_movie_hour_1, ""); //$NON-NLS-1$
+		return updateViews;
+	}
+
+	/**
+	 * Build a widget update to show the current Wiktionary "Word of the day." Will block until the online API returns.
+	 */
 	public static RemoteViews buildUpdate(Context context, Intent intent, TheaterBean theater, Map<MovieBean, List<ProjectionBean>> movieBeanShowtimes, int widgetId) {
 		RemoteViews updateViews = null;
 		updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_one);

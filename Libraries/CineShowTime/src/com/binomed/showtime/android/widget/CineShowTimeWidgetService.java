@@ -25,7 +25,7 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 public class CineShowTimeWidgetService extends Service {
 
 	private static final String TAG = "ServiceWidget"; //$NON-NLS-1$
-	
+
 	protected GoogleAnalyticsTracker tracker;
 
 	@Override
@@ -51,12 +51,15 @@ public class CineShowTimeWidgetService extends Service {
 	@Override
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
-		
+
 		tracker = GoogleAnalyticsTracker.getInstance();
 		tracker.start(CineShowtimeCst.GOOGLE_ANALYTICS_ID, this);
 		tracker.trackPageView(TAG);
-
-		CineShowTimeWidgetHelper.updateWidget(this, intent, null, intent.getIntExtra(ParamIntent.WIDGET_ID, 0));
+		try {
+			CineShowTimeWidgetHelper.updateWidget(this, intent, null, intent.getIntExtra(ParamIntent.WIDGET_ID, 0));
+		} catch (Exception e) {
+			CineShowTimeWidgetHelper.showError(this);
+		}
 	}
 
 }

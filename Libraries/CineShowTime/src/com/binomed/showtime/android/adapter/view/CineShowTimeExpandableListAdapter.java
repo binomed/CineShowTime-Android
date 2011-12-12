@@ -13,6 +13,7 @@
  */
 package com.binomed.showtime.android.adapter.view;
 
+import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
@@ -21,6 +22,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 
+import com.binomed.showtime.android.model.MovieBean;
 import com.binomed.showtime.android.model.NearResp;
 import com.binomed.showtime.android.model.TheaterBean;
 import com.binomed.showtime.android.util.comparator.CineShowtimeComparator;
@@ -49,6 +51,10 @@ public class CineShowTimeExpandableListAdapter extends BaseExpandableListAdapter
 
 	public void refreshTheater(String theaterId) {
 		adapter.refreshTheater(theaterId);
+	}
+
+	public List<MovieBean> getMovieList() {
+		return adapter.getMovieList();
 	}
 
 	@Override

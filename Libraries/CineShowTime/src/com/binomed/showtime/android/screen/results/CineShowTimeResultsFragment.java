@@ -329,6 +329,37 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 							, 0 // Value
 							);
 				}
+
+				// We recheck the comparator in order to manage case of return in NearResp mode
+				if (nearResp.isNearResp() && movieView) {
+					String sort = interaction.getPrefs().getString(this.getResources().getString(R.string.preference_sort_key_sort_theater) //
+							, this.getResources().getString(R.string.preference_sort_default_sort_theater));
+					String[] values = getResources().getStringArray(R.array.sort_theaters_values_code);
+					int code = 0;
+					for (int i = 0; i < values.length; i++) {
+						if (values[i].equals(sort)) {
+							code = i;
+							break;
+						}
+					}
+					if (code != 4) {
+						switch (code) {
+						case 0:
+							comparator = CineShowtimeFactory.getTheaterNameComparator();
+							break;
+						case 1:
+							comparator = CineShowtimeFactory.getTheaterDistanceComparator();
+							break;
+						case 2:
+							comparator = CineShowtimeFactory.getTheaterShowtimeComparator();
+							break;
+						default:
+							comparator = null;
+							break;
+						}
+					}
+				}
+
 				if (nonExpendable) {
 					adapterNonExpendable.setTheaterList(nearResp, model.getTheaterFavList(), (CineShowtimeComparator<?>) comparator);
 					resultListNonExpandable.setAdapter(adapterNonExpendable);
@@ -453,7 +484,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	@Override
 	public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 		if (parent.getId() == R.id.resultListResult) {
-			if ((model.getNearResp() != null) && (model.getNearResp().getTheaterList() != null)) {
+			if (!movieView && (model.getNearResp() != null) && (model.getNearResp().getTheaterList() != null)) {
 				int theaterListSize = model.getNearResp().getTheaterList().size();
 				if (theaterListSize == groupPosition) {
 					model.setStart(model.getStart() + 10);

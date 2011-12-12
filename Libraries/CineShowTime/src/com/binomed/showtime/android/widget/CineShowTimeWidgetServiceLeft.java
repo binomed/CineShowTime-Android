@@ -13,9 +13,9 @@
  */
 package com.binomed.showtime.android.widget;
 
-import com.binomed.showtime.android.cst.CineShowtimeCst;
-
 import android.content.Intent;
+
+import com.binomed.showtime.android.cst.CineShowtimeCst;
 
 public class CineShowTimeWidgetServiceLeft extends CineShowTimeWidgetService {
 
@@ -24,13 +24,11 @@ public class CineShowTimeWidgetServiceLeft extends CineShowTimeWidgetService {
 		super.onStart(intent, startId);
 		tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_WIDGET // Category
 				, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-				, CineShowtimeCst.ANALYTICS_VALUE_WIDGET_REFRESH // Label
+				, CineShowtimeCst.ANALYTICS_VALUE_WIDGET_LEFT // Label
 				, 0 // Value
 		);
 		tracker.dispatch();
 		tracker.stop();
 	}
 
-	
-	
 }
