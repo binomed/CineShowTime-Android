@@ -438,7 +438,9 @@ public class PageInfoView extends LinearLayout implements OnItemClickListener, O
 
 	@Override
 	public void onItemSelected(AdapterView<?> adpater, View view, int groupPosition, long id) {
-		movieGalleryTrailerSelect.setText(model.getMovie().getYoutubeVideos().get(groupPosition).getVideoName());
+		if (model.getMovie() != null && model.getMovie().getYoutubeVideos() != null && model.getMovie().getYoutubeVideos().get(groupPosition) != null) {
+			movieGalleryTrailerSelect.setText(model.getMovie().getYoutubeVideos().get(groupPosition).getVideoName());
+		}
 	}
 
 	@Override

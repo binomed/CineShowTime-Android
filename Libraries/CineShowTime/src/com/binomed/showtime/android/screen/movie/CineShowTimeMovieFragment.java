@@ -121,9 +121,9 @@ public class CineShowTimeMovieFragment extends Fragment //
 		model = interaction.getModelActivity();
 		tracker = interaction.getTracker();
 
-		model.setMapInstalled(CineShowTimeMenuUtil.isMapsInstalled(getActivity().getPackageManager()));
-		model.setDialerInstalled(CineShowTimeMenuUtil.isDialerInstalled(getActivity().getPackageManager()));
-		model.setCalendarInstalled(CineShowTimeMenuUtil.isCalendarInstalled(getActivity().getPackageManager()));
+		model.setMapInstalled(CineShowTimeMenuUtil.isMapsInstalled(interaction.getMainContext().getPackageManager()));
+		model.setDialerInstalled(CineShowTimeMenuUtil.isDialerInstalled(interaction.getMainContext().getPackageManager()));
+		model.setCalendarInstalled(CineShowTimeMenuUtil.isCalendarInstalled(interaction.getMainContext().getPackageManager()));
 
 		createTabs(mainView);
 		initViews(mainView);
@@ -187,7 +187,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 		Log.i(TAG, "Movie ID : " + movieId);
 
 		model.setMovie(movie);
-		moviePagedAdapter.changeData(movie, getActivity(), model, tracker, this);
+		moviePagedAdapter.changeData(movie, interaction.getMainContext(), model, tracker, this);
 		moviePagedAdapter.notifyDataSetChanged();
 
 		if (theaterId != null) {
@@ -248,7 +248,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 			tabHost.setup();
 			tabHost.getTabWidget().setDividerDrawable(R.drawable.cst_tab_divider);
 
-			Intent intentEmptyActivity = new Intent(getActivity(), EmptyActivity.class);
+			Intent intentEmptyActivity = new Intent(interaction.getMainContext(), EmptyActivity.class);
 
 			// TextView txt = new TextView(getActivity());
 			// txt.setCompoundDrawables(left, top, right, bottom);
@@ -259,11 +259,11 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 				@Override
 				public View createTabContent(String arg0) {
-					TextView view = new TextView(getActivity());
+					TextView view = new TextView(interaction.getMainContext());
 					return view;
 				}
 			});
-			View viewInfo = LayoutInflater.from(getActivity()).inflate(R.layout.view_tab_item, null);
+			View viewInfo = LayoutInflater.from(interaction.getMainContext()).inflate(R.layout.view_tab_item, null);
 			TextView tvInfo = (TextView) viewInfo.findViewById(R.id.title);
 			tvInfo.setText(R.string.movieLabel);
 			ImageView ivInfo = (ImageView) viewInfo.findViewById(R.id.icon);
@@ -277,11 +277,11 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 				@Override
 				public View createTabContent(String arg0) {
-					TextView view = new TextView(getActivity());
+					TextView view = new TextView(interaction.getMainContext());
 					return view;
 				}
 			});
-			View viewShowTimes = LayoutInflater.from(getActivity()).inflate(R.layout.view_tab_item, null);
+			View viewShowTimes = LayoutInflater.from(interaction.getMainContext()).inflate(R.layout.view_tab_item, null);
 			TextView tvShowTimes = (TextView) viewShowTimes.findViewById(R.id.title);
 			tvShowTimes.setText(R.string.showtimeLabel);
 			ImageView ivShowTimes = (ImageView) viewShowTimes.findViewById(R.id.icon);
@@ -295,11 +295,11 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 				@Override
 				public View createTabContent(String arg0) {
-					TextView view = new TextView(getActivity());
+					TextView view = new TextView(interaction.getMainContext());
 					return view;
 				}
 			});
-			View viewReviews = LayoutInflater.from(getActivity()).inflate(R.layout.view_tab_item, null);
+			View viewReviews = LayoutInflater.from(interaction.getMainContext()).inflate(R.layout.view_tab_item, null);
 			TextView tvReviews = (TextView) viewReviews.findViewById(R.id.title);
 			tvReviews.setText(R.string.rateLabel);
 			ImageView ivReviews = (ImageView) viewReviews.findViewById(R.id.icon);
@@ -451,8 +451,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 		} catch (RemoteException e) {
 			Log.e(TAG, "Error cancel service", e);
 		}
-		Intent intentMovieService = new Intent(getActivity(), CineShowTimeMovieService.class);
-		getActivity().stopService(intentMovieService);
+		Intent intentMovieService = new Intent(interaction.getMainContext(), CineShowTimeMovieService.class);
+		interaction.getMainContext().stopService(intentMovieService);
 		// finish(); TODO
 	}
 
@@ -464,7 +464,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 	public void initDB() {
 
 		try {
-			mDbHelper = new CineShowtimeDbAdapter(getActivity());
+			mDbHelper = new CineShowtimeDbAdapter(interaction.getMainContext());
 			mDbHelper.open();
 
 		} catch (SQLException e) {
@@ -484,10 +484,10 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 	@Override
 	public void fillDB() {
-		Intent intentUpdateMovie = new Intent(getActivity(), CineShowDBGlobalService.class);
+		Intent intentUpdateMovie = new Intent(interaction.getMainContext(), CineShowDBGlobalService.class);
 		intentUpdateMovie.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_MOVIE_WRITE);
 		intentUpdateMovie.putExtra(ParamIntent.SERVICE_DB_DATA, model.getMovie());
-		getActivity().startService(intentUpdateMovie);
+		interaction.getMainContext().startService(intentUpdateMovie);
 
 	}
 
@@ -503,13 +503,13 @@ public class CineShowTimeMovieFragment extends Fragment //
 	 */
 
 	public void bindService() {
-		getActivity().bindService(new Intent(getActivity(), CineShowTimeMovieService.class), mConnection, Context.BIND_AUTO_CREATE);
+		interaction.getMainContext().bindService(new Intent(interaction.getMainContext(), CineShowTimeMovieService.class), mConnection, Context.BIND_AUTO_CREATE);
 	}
 
 	public void unbindService() {
 		try {
 			serviceMovie.unregisterCallback(m_callback);
-			getActivity().unbindService(mConnection);
+			interaction.getMainContext().unbindService(mConnection);
 		} catch (Exception e) {
 			Log.e(TAG, "error while unbinding service", e);
 		}
@@ -576,17 +576,17 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 		boolean checkboxPreference;
 		// Get the xml/preferences.xml preferences
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(interaction.getMainContext());
 		checkboxPreference = prefs.getBoolean("checkbox_preference", false);
 
-		Intent intentMovieService = new Intent(getActivity(), CineShowTimeMovieService.class);
+		Intent intentMovieService = new Intent(interaction.getMainContext(), CineShowTimeMovieService.class);
 
 		intentMovieService.putExtra(ParamIntent.SERVICE_MOVIE_ID, movie.getId());
 		intentMovieService.putExtra(ParamIntent.SERVICE_MOVIE, movie);
 		intentMovieService.putExtra(ParamIntent.SERVICE_MOVIE_NEAR, near);
 		intentMovieService.putExtra(ParamIntent.SERVICE_MOVIE_TRANSLATE, checkboxPreference);
 
-		getActivity().startService(intentMovieService);
+		interaction.getMainContext().startService(intentMovieService);
 
 	}
 

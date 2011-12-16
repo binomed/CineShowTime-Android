@@ -217,8 +217,8 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 			resultListNonExpandable.setVisibility(nonExpendable ? View.VISIBLE : View.GONE);
 		}
 		// Manage Adapter
-		adapter = new CineShowTimeExpandableListAdapter(getActivity(), this);
-		adapterNonExpendable = new CineShowTimeNonExpandableListAdapter(getActivity(), this);
+		adapter = new CineShowTimeExpandableListAdapter(interaction.getMainContext(), this);
+		adapterNonExpendable = new CineShowTimeNonExpandableListAdapter(interaction.getMainContext(), this);
 	}
 
 	private void initListeners() {
@@ -639,8 +639,8 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		} catch (RemoteException e) {
 			Log.e(TAG, "Error cancel service", e);
 		}
-		Intent intentResultService = new Intent(getActivity(), CineShowTimeResultsService.class);
-		getActivity().stopService(intentResultService);
+		Intent intentResultService = new Intent(interaction.getMainContext(), CineShowTimeResultsService.class);
+		interaction.getMainContext().stopService(intentResultService);
 	}
 
 	/*
@@ -682,8 +682,8 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 			model.getRequestList().add(cityName);
 		}
 
-		CineShowtimeFactory.initGeocoder(getActivity());
-		Intent intentResultService = new Intent(getActivity(), CineShowTimeResultsService.class);
+		CineShowtimeFactory.initGeocoder(interaction.getMainContext());
+		Intent intentResultService = new Intent(interaction.getMainContext(), CineShowTimeResultsService.class);
 
 		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_LATITUDE, (gpsLocation != null) ? gpsLocation.getLatitude() : null);
 		intentResultService.putExtra(ParamIntent.SERVICE_SEARCH_LONGITUDE, (gpsLocation != null) ? gpsLocation.getLongitude() : null);
@@ -700,7 +700,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 				Log.e(TAG, "Error of callBack", e);
 			}
 		}
-		getActivity().startService(intentResultService);
+		interaction.getMainContext().startService(intentResultService);
 	}
 
 	/*
@@ -712,7 +712,7 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 		try {
 			Log.i(TAG, "openDB"); //$NON-NLS-1$
-			mDbHelper = new CineShowtimeDbAdapter(getActivity());
+			mDbHelper = new CineShowtimeDbAdapter(interaction.getMainContext());
 			mDbHelper.open();
 		} catch (SQLException e) {
 			Log.e(TAG, "error during getting fetching informations", e); //$NON-NLS-1$
@@ -819,12 +819,16 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 					theaterBean.setPlace(place);
 				}
 				place.setCityName(model.getCityName());
+				if (model.getLocalisation() != null && model.getLocalisation().getLatitude() != -1 && model.getLocalisation().getLongitude() != -1) {
+					place.setLatitude(model.getLocalisation().getLatitude());
+					place.setLongitude(model.getLocalisation().getLongitude());
+				}
 			}
 			model.getTheaterFavList().put(theaterBean.getId(), theaterBean);
-			Intent service = new Intent(getActivity(), CineShowDBGlobalService.class);
+			Intent service = new Intent(interaction.getMainContext(), CineShowDBGlobalService.class);
 			service.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_FAV_WRITE);
 			service.putExtra(ParamIntent.SERVICE_DB_DATA, theaterBean);
-			getActivity().startService(service);
+			interaction.getMainContext().startService(service);
 		} catch (Exception e) {
 			Log.e(TAG, "error putting data into data base", e);
 		}
@@ -834,10 +838,10 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	public void removeFavorite(TheaterBean theaterBean) {
 		try {
 			model.getTheaterFavList().remove(theaterBean);
-			Intent service = new Intent(getActivity(), CineShowDBGlobalService.class);
+			Intent service = new Intent(interaction.getMainContext(), CineShowDBGlobalService.class);
 			service.putExtra(ParamIntent.SERVICE_DB_TYPE, CineShowtimeCst.DB_TYPE_FAV_DELETE);
 			service.putExtra(ParamIntent.SERVICE_DB_DATA, theaterBean);
-			getActivity().startService(service);
+			interaction.getMainContext().startService(service);
 		} catch (Exception e) {
 			Log.e(TAG, "error removing theater from fav", e);
 		}
@@ -856,13 +860,13 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	 */
 
 	private void bindService() {
-		getActivity().bindService(new Intent(getActivity(), CineShowTimeResultsService.class), mConnection, Context.BIND_AUTO_CREATE);
+		interaction.getMainContext().bindService(new Intent(interaction.getMainContext(), CineShowTimeResultsService.class), mConnection, Context.BIND_AUTO_CREATE);
 	}
 
 	private void unbindService() {
 		try {
 			unregisterCallBack();
-			getActivity().unbindService(mConnection);
+			interaction.getMainContext().unbindService(mConnection);
 		} catch (Exception e) {
 			Log.e(TAG, "error while unbinding service", e);
 		}
@@ -1013,12 +1017,12 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 	public void openSortDialog() {
 		ListDialog dialog = new ListDialog(//
-				getActivity() // Context
+				interaction.getMainContext() // Context
 				, this // ListSelectionListener
 				, R.array.sort_theaters_values //
 				, ID_SORT //
 		);
-		dialog.setTitle(getActivity().getResources().getString(R.string.sortDialogTitle));
+		dialog.setTitle(interaction.getMainContext().getResources().getString(R.string.sortDialogTitle));
 		dialog.setFeatureDrawableResource(0, android.R.drawable.ic_menu_sort_by_size);
 		dialog.show();
 
@@ -1030,8 +1034,8 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		} catch (RemoteException e) {
 			Log.e(TAG, "Error cancel service", e);
 		}
-		Intent intentResultService = new Intent(getActivity(), CineShowTimeResultsService.class);
-		getActivity().stopService(intentResultService);
+		Intent intentResultService = new Intent(interaction.getMainContext(), CineShowTimeResultsService.class);
+		interaction.getMainContext().stopService(intentResultService);
 	}
 
 	public void requestFocus() {

@@ -27,6 +27,7 @@ import greendroid.widget.QuickActionWidget;
 import greendroid.widget.QuickActionWidget.OnQuickActionClickListener;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
@@ -78,10 +79,13 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 	private long startActivityTime = System.currentTimeMillis();
 	private boolean withAdd;
 
+	// private Context mContext;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// mContext = getApplicationContext();
 		if (CineShowtimeCst.TRACE_VIEW_ENABLE) {
 			Debug.startMethodTracing("cineshowtimeTraceView" + getTAG());
 		}
@@ -348,6 +352,11 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 		intentResult.putExtra(ParamIntent.ACTIVITY_SEARCH_NULL_RESULT, getModelActivity().isNullResult());
 		setResult(CineShowtimeCst.ACTIVITY_RESULT_RESULT_ACTIVITY, intentResult);
 
+	}
+
+	@Override
+	public Context getMainContext() {
+		return this;
 	}
 
 	/*

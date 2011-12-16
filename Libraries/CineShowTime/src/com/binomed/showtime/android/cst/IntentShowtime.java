@@ -13,7 +13,6 @@
  */
 package com.binomed.showtime.android.cst;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -117,7 +116,7 @@ public class IntentShowtime {
 					mapsUri.append(")"); //$NON-NLS-1$
 					Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(mapsUri.toString()));
 					return myIntent;
-				} catch (UnsupportedEncodingException e) {
+				} catch (Exception e) {
 					Log.e(TAG, "error encoding :" + theater.getPlace().getSearchQuery(), e);
 				}
 			}

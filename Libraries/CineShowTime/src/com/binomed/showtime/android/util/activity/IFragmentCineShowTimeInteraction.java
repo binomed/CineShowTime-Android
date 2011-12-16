@@ -13,6 +13,7 @@
  */
 package com.binomed.showtime.android.util.activity;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
@@ -37,5 +38,7 @@ public interface IFragmentCineShowTimeInteraction<M extends ICineShowTimeActivit
 	boolean isWithAdds();
 
 	void refreshResultsIntent();
+
+	Context getMainContext();
 
 }

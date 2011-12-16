@@ -153,13 +153,18 @@ public final class LocationUtils {
 		switch (provider) {
 		case GPS_PROVIDER:
 		case GSM_PROVIDER: {
-			LocationManager locationManager = getLocationManager(context);
-			if (locationManager != null) {
-				locationManager.requestLocationUpdates(provider.getAndroidProvider(), 10000, 10, listener);
-			} else {
-				if (Log.isLoggable(TAG, Log.DEBUG)) {
-					Log.d(TAG, "No listener Put"); //$NON-NLS-1$
+			if (isLocalisationEnabled(context, provider)) {
+				LocationManager locationManager = getLocationManager(context);
+				if (locationManager != null) {
+					locationManager.requestLocationUpdates(provider.getAndroidProvider(), 10000, 10, listener);
+				} else {
+					if (Log.isLoggable(TAG, Log.DEBUG)) {
+						Log.d(TAG, "No listener Put"); //$NON-NLS-1$
+						listener.onProviderDisabled(null);
+					}
 				}
+			} else {
+				listener.onProviderDisabled(null);
 			}
 			break;
 		}
@@ -280,9 +285,11 @@ public final class LocationUtils {
 		switch (provider) {
 		case GPS_PROVIDER:
 		case GSM_PROVIDER: {
-			LocationManager locationManager = getLocationManager(context);
-			if (locationManager != null) {
-				result = locationManager.getLastKnownLocation(provider.getAndroidProvider());
+			if (isLocalisationEnabled(context, provider)) {
+				LocationManager locationManager = getLocationManager(context);
+				if (locationManager != null) {
+					result = locationManager.getLastKnownLocation(provider.getAndroidProvider());
+				}
 			}
 			break;
 		}

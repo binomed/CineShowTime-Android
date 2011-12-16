@@ -94,15 +94,15 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		tracker = fragmentInteraction.getTracker();
 
 		// Bug fix do to pb of theme. Was forced to set manually the theme.
-		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		String defaultTheme = getActivity().getResources().getString(R.string.preference_gen_default_theme);
-		String theme = pref.getString(getActivity().getResources().getString(R.string.preference_gen_key_theme), defaultTheme);
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(fragmentInteraction.getMainContext());
+		String defaultTheme = fragmentInteraction.getMainContext().getResources().getString(R.string.preference_gen_default_theme);
+		String theme = pref.getString(fragmentInteraction.getMainContext().getResources().getString(R.string.preference_gen_key_theme), defaultTheme);
 		int themeRessource = R.style.Theme_Dark_Night;
 		if (!theme.equals(defaultTheme)) {
 			themeRessource = R.style.Theme_Shine_the_lite;
 		}
 
-		LayoutInflater newInflater = inflater.cloneInContext(new ContextThemeWrapper(getActivity(), themeRessource));
+		LayoutInflater newInflater = inflater.cloneInContext(new ContextThemeWrapper(fragmentInteraction.getMainContext(), themeRessource));
 		View mainView = newInflater.inflate(R.layout.fragment_search, container, false);
 
 		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -166,15 +166,15 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		spinnerChooseDay = (Spinner) mainView.findViewById(R.id.searchSpinner);
 
 		// manageCallBack
-		localisationCallBack = CineShowTimeLayoutUtils.manageLocationManagement(getActivity(), tracker, gpsImgView, fieldCityName, model);
+		localisationCallBack = CineShowTimeLayoutUtils.manageLocationManagement(fragmentInteraction.getMainContext(), tracker, gpsImgView, fieldCityName, model);
 	}
 
 	private void initViewsState() {
 
 		fillAutoField();
-		ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(getActivity() //
+		ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(fragmentInteraction.getMainContext() //
 				, R.layout.view_spinner_item//
-				, CineShowtimeDateNumberUtil.getSpinnerDaysValues(getActivity())//
+				, CineShowtimeDateNumberUtil.getSpinnerDaysValues(fragmentInteraction.getMainContext())//
 		);
 		adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerChooseDay.setAdapter(adapterSpinner);
@@ -184,7 +184,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 	protected void fillAutoField() {
 		if (fieldCityName != null) {
 			ArrayAdapter<String> adapterII = new ArrayAdapter<String>( //
-					getActivity() //
+					fragmentInteraction.getMainContext() //
 					, android.R.layout.simple_dropdown_item_1line //
 					, new ArrayList<String>(model.getRequestList()) //
 			);
@@ -299,13 +299,13 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 			boolean canLaunch = true;
 			boolean btnCheck = localisationCallBack.isGPSCheck();
 			if (btnCheck && (model.getLocalisation() == null)) {
-				Toast.makeText(getActivity() //
+				Toast.makeText(fragmentInteraction.getMainContext() //
 						, R.string.msgNoGps //
 						, Toast.LENGTH_LONG) //
 						.show();
 				canLaunch = false;
 			} else if (!btnCheck && (cityName == null)) {
-				Toast.makeText(getActivity() //
+				Toast.makeText(fragmentInteraction.getMainContext() //
 						, R.string.msgNoCityName //
 						, Toast.LENGTH_LONG) //
 						.show();
@@ -408,12 +408,12 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 			model.setLastRequestTheaterId(theaterId);
 			fragmentInteraction.setLastRequestDate(today);
 
-			CineShowtimeFactory.initGeocoder(getActivity());
+			CineShowtimeFactory.initGeocoder(fragmentInteraction.getMainContext());
 			Intent intentResultActivity = null;
 			if (getActivity().getIntent().getBooleanExtra(ParamIntent.ACTIVITY_LARGE_SCREEN, false)) {
-				intentResultActivity = new Intent(getActivity(), CineShowTimeResultsTabletActivity.class);
+				intentResultActivity = new Intent(fragmentInteraction.getMainContext(), CineShowTimeResultsTabletActivity.class);
 			} else {
-				intentResultActivity = new Intent(getActivity(), CineShowTimeResultsActivity.class);
+				intentResultActivity = new Intent(fragmentInteraction.getMainContext(), CineShowTimeResultsActivity.class);
 			}
 
 			intentResultActivity.putExtra(ParamIntent.ACTIVITY_SEARCH_LATITUDE, (gpsLocation != null) ? gpsLocation.getLatitude() : null);
@@ -461,7 +461,7 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 
 		try {
 			Log.i(TAG, "openDB"); //$NON-NLS-1$
-			mDbHelper = new CineShowtimeDbAdapter(getActivity());
+			mDbHelper = new CineShowtimeDbAdapter(fragmentInteraction.getMainContext());
 			mDbHelper.open();
 		} catch (SQLException e) {
 			Log.e(TAG, "error during getting fetching informations", e); //$NON-NLS-1$

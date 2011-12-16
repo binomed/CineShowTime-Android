@@ -13,7 +13,6 @@
  */
 package com.binomed.showtime.android.util;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -309,7 +308,7 @@ public abstract class CineShowtimeDB2AndShowtimeBeans {
 					location = new LocalisationBean();
 					try {
 						location.setCityName(URLDecoder.decode(theaterFavCursor.getString(columnIndex), EncodingUtil.UTF8));
-					} catch (UnsupportedEncodingException e) {
+					} catch (Exception e) {
 						location.setCityName(theaterFavCursor.getString(columnIndex));
 					}
 
