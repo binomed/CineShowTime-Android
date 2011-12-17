@@ -107,9 +107,13 @@ public final class LocationUtils {
 			LocationManager locationManager = getLocationManager(context);
 			WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 			if ((locationManager != null) && (wm != null)) {
-				result = (locationManager.isProviderEnabled(ProviderEnum.GPS_PROVIDER.getAndroidProvider()) //
-						|| locationManager.isProviderEnabled(ProviderEnum.GSM_PROVIDER.getAndroidProvider())) //
-						&& wm.isWifiEnabled();
+				try {
+					result = (locationManager.isProviderEnabled(ProviderEnum.GPS_PROVIDER.getAndroidProvider()) //
+							|| locationManager.isProviderEnabled(ProviderEnum.GSM_PROVIDER.getAndroidProvider())) //
+							&& wm.isWifiEnabled();
+				} catch (Exception e) {
+					result = false;
+				}
 			}
 			break;
 		}
