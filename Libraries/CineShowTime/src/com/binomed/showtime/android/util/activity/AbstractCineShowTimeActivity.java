@@ -229,14 +229,14 @@ public abstract class AbstractCineShowTimeActivity<M extends ICineShowTimeActivi
 			if (theme.equals(defaultTheme)) {
 				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
 						, CineShowtimeCst.ANALYTICS_ACTION_CHANGE_THEME // Action
-						, getTrackerName() // Label
-						, CineShowtimeCst.ANALYTICS_VALUE_THEME_BLACK // Value
+						, getTrackerName() + " : " + CineShowtimeCst.ANALYTICS_VALUE_THEME_BLACK // Label
+						, 0 // Value
 				);
 			} else {
 				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_ACTIVITY // Category
 						, CineShowtimeCst.ANALYTICS_ACTION_CHANGE_THEME // Action
-						, getTrackerName() // Label
-						, CineShowtimeCst.ANALYTICS_VALUE_THEME_LIGHT // Value
+						, getTrackerName() + " : " + CineShowtimeCst.ANALYTICS_VALUE_THEME_LIGHT // Label
+						, 0 // Value
 				);
 			}
 

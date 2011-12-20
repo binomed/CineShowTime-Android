@@ -72,8 +72,19 @@ public class CineShowTimeResultsService extends IntentService {
 
 	private final IServiceSearch.Stub binder = new IServiceSearch.Stub() {
 
+		private boolean inBroadCast = false;
+
 		@Override
 		public void finish() throws RemoteException {
+			if (inBroadCast) {
+				do {
+					try {
+						Thread.sleep(100);
+					} catch (Exception e) {
+					}
+				} while (inBroadCast);
+			}
+			inBroadCast = true;
 			final int callbacks = m_callbacks.beginBroadcast();
 			for (int i = 0; i < callbacks; i++) {
 				try {
@@ -83,6 +94,7 @@ public class CineShowTimeResultsService extends IntentService {
 				}
 			}
 			m_callbacks.finishBroadcast();
+			inBroadCast = false;
 		}
 
 		@Override
@@ -113,6 +125,15 @@ public class CineShowTimeResultsService extends IntentService {
 
 		@Override
 		public void finishLocation(String theaterId) throws RemoteException {
+			if (inBroadCast) {
+				do {
+					try {
+						Thread.sleep(100);
+					} catch (Exception e) {
+					}
+				} while (inBroadCast);
+			}
+			inBroadCast = true;
 			final int callbacks = m_callbacks.beginBroadcast();
 			for (int i = 0; i < callbacks; i++) {
 				try {
@@ -122,6 +143,7 @@ public class CineShowTimeResultsService extends IntentService {
 				}
 			}
 			m_callbacks.finishBroadcast();
+			inBroadCast = false;
 
 		}
 
@@ -140,6 +162,15 @@ public class CineShowTimeResultsService extends IntentService {
 
 		@Override
 		public void errorService() throws RemoteException {
+			if (inBroadCast) {
+				do {
+					try {
+						Thread.sleep(100);
+					} catch (Exception e) {
+					}
+				} while (inBroadCast);
+			}
+			inBroadCast = true;
 			final int callbacks = m_callbacks.beginBroadcast();
 			for (int i = 0; i < callbacks; i++) {
 				try {
@@ -149,11 +180,21 @@ public class CineShowTimeResultsService extends IntentService {
 				}
 			}
 			m_callbacks.finishBroadcast();
+			inBroadCast = false;
 
 		}
 
 		@Override
 		public void couldUnRegister() throws RemoteException {
+			if (inBroadCast) {
+				do {
+					try {
+						Thread.sleep(100);
+					} catch (Exception e) {
+					}
+				} while (inBroadCast);
+			}
+			inBroadCast = true;
 			final int callbacks = m_callbacks.beginBroadcast();
 			for (int i = 0; i < callbacks; i++) {
 				try {
@@ -163,6 +204,7 @@ public class CineShowTimeResultsService extends IntentService {
 				}
 			}
 			m_callbacks.finishBroadcast();
+			inBroadCast = false;
 
 		}
 	};

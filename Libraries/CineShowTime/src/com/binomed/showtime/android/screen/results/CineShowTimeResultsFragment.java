@@ -561,8 +561,8 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	public void sortSelected(int sourceID, int sortKey) {
 		interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_RESULT // Category
 				, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-				, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_SORT // Label
-				, sortKey // Value
+				, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_SORT + sortKey // Label
+				, 0 // Value
 				);
 
 		sourceLabel: switch (sourceID) {
@@ -606,15 +606,15 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 		if (isFav) {
 			interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_RESULT // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-					, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_FAV // Label
+					, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_FAV + 0 // Label
 					, 0 // Value
 					);
 			removeFavorite(theaterBean);
 		} else {
 			interaction.getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_RESULT // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-					, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_FAV // Label
-					, 1 // Value
+					, CineShowtimeCst.ANALYTICS_LABEL_RESULTS_FAV + 1 // Label
+					, 0 // Value
 					);
 			addFavorite(theaterBean);
 		}

@@ -16,21 +16,15 @@ package com.binomed.showtime.android.util;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.text.Html;
+import android.net.Uri;
 import android.view.Menu;
 
 import com.binomed.showtime.R;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
-import com.binomed.showtime.android.cst.IntentShowtime;
 import com.binomed.showtime.android.cst.ParamIntent;
-import com.binomed.showtime.android.layout.view.AboutView;
-import com.binomed.showtime.android.screen.pref.CineShowTimePreferencesActivity;
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 public final class CineShowTimeMenuUtil {
 
@@ -39,7 +33,6 @@ public final class CineShowTimeMenuUtil {
 		menu.addSubMenu(0, idItemPref + 1, order + 1, R.string.menuAbout).setIcon(android.R.drawable.ic_menu_info_details);
 		menu.addSubMenu(0, idItemPref + 2, order + 2, R.string.menuHelp).setIcon(android.R.drawable.ic_menu_help);
 	}
-
 
 	public static boolean isMapsInstalled(PackageManager packageManager) {
 		boolean result = true;
@@ -68,6 +61,11 @@ public final class CineShowTimeMenuUtil {
 			if (result) {
 				break;
 			}
+		}
+		if (result) {
+			intent = new Intent(Intent.ACTION_VIEW, Uri.parse("tel:00000000"));
+			infos = packageManager.queryIntentActivities(intent, 0);
+			result = infos.size() > 0;
 		}
 
 		return result;

@@ -404,7 +404,7 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 		if (portraitMode) {
 
 			List<MovieBean> movieList = new ArrayList<MovieBean>();
-			if (theater != null) {
+			if (theater != null && theater.getMovieMap() != null) {
 				for (String movieId : theater.getMovieMap().keySet()) {
 					movieList.add(getModelActivity().getNearResp().getMapMovies().get(movieId));
 				}

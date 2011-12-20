@@ -97,7 +97,7 @@ public class CineShowTimeMainActivity extends AbstractCineShowTimeActivity<Model
 			getTracker().trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_APPLICATION // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_TABLET // Action
 					, String.valueOf((Integer.valueOf(Build.VERSION.SDK) <= 10) ? TestSizeOther.checkLargeScreen(getResources().getConfiguration().screenLayout) : TestSizeHoneyComb.checkLargeScreen(getResources().getConfiguration().screenLayout)) // Label
-					, 1 // Value
+					, 0 // Value
 					);
 			String appEngineUrl = getPrefs().getString(CineShowtimeCst.PREF_KEY_APP_ENGINE, null);
 			if (appEngineUrl == null) {

@@ -206,15 +206,15 @@ public class CineShowTimeMovieFragment extends Fragment //
 			if (movie.getImdbId() == null) {
 				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
 						, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-						, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_REUSE // Label
+						, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_REUSE + 0 // Label
 						, 0 // Value
 				);
 				searchMovieDetail(movie, near);
 			} else {
 				tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
 						, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-						, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_REUSE // Label
-						, 1 // Value
+						, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_REUSE + 1 // Label
+						, 0 // Value
 				);
 				moviePagedAdapter.fillViews(movie);
 			}
@@ -364,7 +364,7 @@ public class CineShowTimeMovieFragment extends Fragment //
 				if (tabId.equals("Summary")) {
 					tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
 							, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-							, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB // Label
+							, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB + 0 // Label
 							, 0 // Value
 					);
 					// movieFlipper.setInAnimation(AnimationHelper.inFromLeftAnimation());
@@ -378,8 +378,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 				} else if (tabId.equals("Projection")) {
 					tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
 							, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-							, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB // Label
-							, 1 // Value
+							, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB + 1 // Label
+							, 0 // Value
 					);
 					if (lastTab == 0) {
 						moviePagedView.smoothScrollToNext();
@@ -394,8 +394,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 				} else if (tabId.equals("Review")) {
 					tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
 							, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-							, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB // Label
-							, 2 // Value
+							, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB + 2 // Label
+							, 0 // Value
 					);
 					// movieFlipper.setInAnimation(AnimationHelper.inFromRightAnimation());
 					// movieFlipper.setOutAnimation(AnimationHelper.outToLeftAnimation());
@@ -424,8 +424,8 @@ public class CineShowTimeMovieFragment extends Fragment //
 			desactivListener = false;
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_MOVIE // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-					, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB_WITH_SLIDE // Label
-					, newPage // Value
+					, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_GOTO_TAB_WITH_SLIDE + newPage // Label
+					, 0 // Value
 			);
 		} catch (Exception e) {
 			Log.e(TAG, "error during managing ActionUp", e);

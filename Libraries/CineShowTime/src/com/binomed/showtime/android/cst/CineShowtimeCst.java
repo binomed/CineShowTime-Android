@@ -123,22 +123,22 @@ public final class CineShowtimeCst {
 	public static final String ANALYTICS_LABEL_ABOUT = "About";
 	public static final String ANALYTICS_LABEL_HELP = "Help";
 
-	public static final String ANALYTICS_LABEL_SEARCH_GPS = "Gps";
-	public static final String ANALYTICS_LABEL_SEARCH_DAY = "Day";
-	public static final String ANALYTICS_LABEL_SEARCH_CITY = "City";
-	public static final String ANALYTICS_LABEL_SEARCH_MOVIE = "Movie";
-	public static final String ANALYTICS_LABEL_SEARCH_FORCE_REQUEST = "Force Request";
+	public static final String ANALYTICS_LABEL_SEARCH_GPS = "Gps : ";
+	public static final String ANALYTICS_LABEL_SEARCH_DAY = "Day : ";
+	public static final String ANALYTICS_LABEL_SEARCH_CITY = "City : ";
+	public static final String ANALYTICS_LABEL_SEARCH_MOVIE = "Movie : ";
+	public static final String ANALYTICS_LABEL_SEARCH_FORCE_REQUEST = "Force Request : ";
 
 	public static final String ANALYTICS_LABEL_SEARCH_GPS_USE = "Use of Gps";
 	public static final String ANALYTICS_LABEL_SEARCH_GPS_PROVIDER = "Provider";
 
-	public static final String ANALYTICS_LABEL_RESULTS_SORT = "Use sort";
+	public static final String ANALYTICS_LABEL_RESULTS_SORT = "Use sort : ";
 	public static final String ANALYTICS_LABEL_RESULTS_MORE_RESULTS = "Use more results";
-	public static final String ANALYTICS_LABEL_RESULTS_FAV = "Fav";
+	public static final String ANALYTICS_LABEL_RESULTS_FAV = "Fav : ";
 
-	public static final String ANALYTICS_LABEL_MOVIE_REUSE = "ReUse movie in base";
-	public static final String ANALYTICS_LABEL_MOVIE_GOTO_TAB = "Goto tab";
-	public static final String ANALYTICS_LABEL_MOVIE_GOTO_TAB_WITH_SLIDE = "Goto tab with slide";
+	public static final String ANALYTICS_LABEL_MOVIE_REUSE = "ReUse movie in base : ";
+	public static final String ANALYTICS_LABEL_MOVIE_GOTO_TAB = "Goto tab : ";
+	public static final String ANALYTICS_LABEL_MOVIE_GOTO_TAB_WITH_SLIDE = "Goto tab with slide : ";
 	public static final String ANALYTICS_LABEL_MOVIE_INVOCKE_QUICKACTIONS = "Use Quick Actions";
 	public static final String ANALYTICS_LABEL_MOVIE_ACTIONS_RESERVATION = "Click on reservation";
 	public static final String ANALYTICS_LABEL_MOVIE_ACTIONS_CALENDAR = "Click on calendar";

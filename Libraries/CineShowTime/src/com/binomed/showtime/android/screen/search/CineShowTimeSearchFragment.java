@@ -379,28 +379,28 @@ public class CineShowTimeSearchFragment extends Fragment implements OnClickListe
 		try {
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_GPS // Label
-					, model.getLocalisation() != null ? 1 : 0 // Value
+					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_GPS + (model.getLocalisation() != null ? 1 : 0) // Label
+					, 0 // Value
 			);
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_DAY // Label
-					, model.getDay() // Value
+					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_DAY + model.getDay()// Label
+					, 0 // Value
 			);
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_CITY // Label
-					, model.getCityName() != null ? 1 : 0 // Value
+					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_CITY + (model.getCityName() != null ? 1 : 0)// Label
+					, 0 // Value
 			);
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_MOVIE // Label
-					, model.getMovieName() != null ? 1 : 0 // Value
+					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_MOVIE + (model.getMovieName() != null ? 1 : 0) // Label
+					, 0 // Value
 			);
 			tracker.trackEvent(CineShowtimeCst.ANALYTICS_CATEGORY_SEARCH // Category
 					, CineShowtimeCst.ANALYTICS_ACTION_INTERACTION // Action
-					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_FORCE_REQUEST // Label
-					, forceRequest ? 1 : 0 // Value
+					, CineShowtimeCst.ANALYTICS_LABEL_SEARCH_FORCE_REQUEST + (forceRequest ? 1 : 0)// Label
+					, 0 // Value
 			);
 
 			model.setLastRequestCity(cityName);
