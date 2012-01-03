@@ -247,7 +247,11 @@ public class PageProjectionView extends LinearLayout implements View.OnClickList
 					, CineShowtimeCst.ANALYTICS_LABEL_MOVIE_ACTIONS_CALL // Label
 					, 0 // Value
 			);
-			getContext().startActivity(IntentShowtime.createCallIntent(model.getTheater()));
+			try {
+				getContext().startActivity(IntentShowtime.createCallIntent(model.getTheater()));
+			} catch (Exception e) {
+				movieBtnCall.setEnabled(false);
+			}
 
 		}
 

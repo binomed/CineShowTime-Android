@@ -447,7 +447,9 @@ public class CineShowTimeMovieFragment extends Fragment //
 
 	public void onCancel() {
 		try {
-			serviceMovie.cancelService();
+			if (serviceMovie != null) {
+				serviceMovie.cancelService();
+			}
 		} catch (RemoteException e) {
 			Log.e(TAG, "Error cancel service", e);
 		}

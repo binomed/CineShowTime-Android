@@ -135,7 +135,8 @@ public class CineShowTimeResultsTabletActivity extends AbstractCineShowTimeActiv
 				ArrayList<Integer> expandGroup = savedInstanceState.getIntegerArrayList(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND);
 				getModelActivity().setGroupExpanded(new HashSet<Integer>(expandGroup));
 				intentResult.putIntegerArrayListExtra(ParamIntent.ACTIVITY_SEARCH_GROUP_EXPAND, expandGroup);
-				if ((expandGroup != null) && (expandGroup.size() > 0)) {
+				// We manage expand Groups
+				if ((expandGroup != null) && (expandGroup.size() > 0) && (getModelActivity().getNearResp().getTheaterList().size() < expandGroup.get(expandGroup.size() - 1))) {
 					movieList = new ArrayList<MovieBean>();
 					theater = getModelActivity().getNearResp().getTheaterList().get(expandGroup.get(expandGroup.size() - 1));
 					for (String movieId : theater.getMovieMap().keySet()) {

@@ -117,10 +117,16 @@ public class MoviePagedAdapter extends PagedAdapter {
 				break;
 			}
 			default:
+				if (pageInfoView == null) {
+					pageInfoView = new PageInfoView(context);
+					pageInfoView.changeData(model, tracker, callBack);
+					pageInfoView.fillViews(movie);
+				}
+				view = pageInfoView;
 				break;
 			}
 		} catch (Exception e) {
-			Log.e("MoviePagedAdapter", "error during getView", e);
+			throw new RuntimeException("error during getView", e);
 		}
 		parent.removeView(view);
 		return view;

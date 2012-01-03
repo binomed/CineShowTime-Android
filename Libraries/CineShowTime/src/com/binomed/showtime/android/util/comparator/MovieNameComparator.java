@@ -26,7 +26,13 @@ public class MovieNameComparator implements CineShowtimeComparator<MovieBean> {
 	public int compare(MovieBean movie0, MovieBean movie1) {
 		int result = 0;
 		if ((movie0 != null) && (movie1 != null)) {
-			result = movie0.getMovieName().compareTo(movie1.getMovieName());
+			if ((movie0.getMovieName() != null) && (movie1.getMovieName() != null)) {
+				result = movie0.getMovieName().compareTo(movie1.getMovieName());
+			} else if (movie0.getMovieName() != null) {
+				result = 1;
+			} else {
+				result = -1;
+			}
 		} else if (movie0 != null) {
 			result = 1;
 		} else {

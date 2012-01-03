@@ -63,7 +63,7 @@ public final class CineShowTimeMenuUtil {
 			}
 		}
 		if (result) {
-			intent = new Intent(Intent.ACTION_VIEW, Uri.parse("tel:00000000"));
+			intent = new Intent(Intent.ACTION_VIEW, Uri.parse("tel:0000000000"));
 			infos = packageManager.queryIntentActivities(intent, 0);
 			result = infos.size() > 0;
 		}

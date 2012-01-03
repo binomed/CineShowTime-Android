@@ -136,7 +136,11 @@ public class AutoCompleteTextWithSpeech extends RelativeLayout implements OnClic
 
 	@Override
 	public void sortSelected(int viewId, int selectKey) {
-		autoCompleteText.setText(matches.get(selectKey));
+		if (matches.size() > selectKey) {
+			autoCompleteText.setText(matches.get(selectKey));
+		} else if (matches.size() > 0) {
+			autoCompleteText.setText(matches.get(0));
+		}
 
 	}
 
