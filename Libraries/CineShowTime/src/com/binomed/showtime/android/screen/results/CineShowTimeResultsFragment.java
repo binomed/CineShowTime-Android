@@ -635,7 +635,9 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		try {
-			serviceResult.cancelService();
+			if (serviceResult != null) {
+				serviceResult.cancelService();
+			}
 		} catch (RemoteException e) {
 			Log.e(TAG, "Error cancel service", e);
 		}
@@ -1030,7 +1032,9 @@ public class CineShowTimeResultsFragment extends Fragment implements OnChildClic
 
 	public void onCancel() {
 		try {
-			serviceResult.cancelService();
+			if (serviceResult != null) {
+				serviceResult.cancelService();
+			}
 		} catch (RemoteException e) {
 			Log.e(TAG, "Error cancel service", e);
 		}
