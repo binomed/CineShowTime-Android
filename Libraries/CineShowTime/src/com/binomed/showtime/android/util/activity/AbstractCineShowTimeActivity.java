@@ -47,6 +47,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.binomed.showtime.R;
 import com.binomed.showtime.android.adapter.db.CineShowtimeDbAdapter;
 import com.binomed.showtime.android.cst.CineShowtimeCst;
 import com.binomed.showtime.android.cst.IntentShowtime;
@@ -55,7 +56,6 @@ import com.binomed.showtime.android.layout.view.AboutView;
 import com.binomed.showtime.android.screen.pref.CineShowTimePreferencesActivity;
 import com.binomed.showtime.android.util.CineShowTimeLayoutUtils;
 import com.binomed.showtime.android.util.MyQuickAction;
-import com.cyrilmottier.android.greendroid.R;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
