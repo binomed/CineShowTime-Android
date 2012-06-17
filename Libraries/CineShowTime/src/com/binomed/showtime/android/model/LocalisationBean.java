@@ -52,6 +52,9 @@ public class LocalisationBean extends AbstractModel implements Parcelable {
 	private String cityName;
 	private String postalCityNumber;
 
+	private transient String distanceKm;
+	private transient String distanceMl;
+
 	public LocalisationBean() {
 		super();
 	}
@@ -131,6 +134,22 @@ public class LocalisationBean extends AbstractModel implements Parcelable {
 
 	public void setPostalCityNumber(String postalCityNumber) {
 		this.postalCityNumber = postalCityNumber;
+	}
+
+	public String getDistanceKm() {
+		return distanceKm;
+	}
+
+	public void setDistanceKm(String distanceKm) {
+		this.distanceKm = distanceKm;
+	}
+
+	public String getDistanceMl() {
+		return distanceMl;
+	}
+
+	public void setDistanceMl(String distanceMl) {
+		this.distanceMl = distanceMl;
 	}
 
 	@Override

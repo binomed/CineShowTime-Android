@@ -105,6 +105,8 @@ public class MovieBean extends AbstractModel implements Parcelable {
 
 	private List<String> theaterList;
 
+	private transient String[] decomposedName;
+
 	public MovieBean() {
 		super();
 	}
@@ -143,6 +145,7 @@ public class MovieBean extends AbstractModel implements Parcelable {
 	}
 
 	public void setMovieName(String movieName) {
+		this.decomposedName = movieName.split(" ");
 		this.movieName = movieName;
 	}
 
@@ -296,6 +299,10 @@ public class MovieBean extends AbstractModel implements Parcelable {
 
 	public void setTheaterList(List<String> theaterList) {
 		this.theaterList = theaterList;
+	}
+
+	public String[] getDecomposedName() {
+		return decomposedName;
 	}
 
 	private void readFromParcel(Parcel parcel) {

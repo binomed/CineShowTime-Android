@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedSet;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -36,6 +37,7 @@ public class AbstractResultAdapter {
 	private Map<String, TheaterBean> theatherFavList;
 	private Map<String, TheaterBean> theatherMap;
 	private HashMap<String, List<Entry<String, List<ProjectionBean>>>> projectionsThMap;
+	private HashMap<String, List<String>> moviesForTheater;
 	private List<TheaterBean> theatherList;
 	private List<MovieBean> movieList;
 	private Context mainContext;
@@ -128,6 +130,7 @@ public class AbstractResultAdapter {
 		this.nearRespBean = nearRespBean;
 		this.theatherFavList = theaterFavList;
 		this.projectionsThMap = new HashMap<String, List<Entry<String, List<ProjectionBean>>>>();
+		this.moviesForTheater = new HashMap<String, List<String>>();
 		this.theaterMapMasterView.clear();
 		this.theaterMapSubView.clear();
 		// this.projectionsMovMap = new HashMap<String, List<Entry<String, List<ProjectionBean>>>>();
@@ -135,6 +138,9 @@ public class AbstractResultAdapter {
 		if (this.nearRespBean != null) {
 			this.theatherList = this.nearRespBean.getTheaterList();
 			this.movieList = this.nearRespBean.getMapMovies() != null ? new ArrayList<MovieBean>(this.nearRespBean.getMapMovies().values()) : null;
+			for (TheaterBean theaterTmp : this.nearRespBean.getTheaterList()) {
+				this.moviesForTheater.put(theaterTmp.getId(), new ArrayList<String>(theaterTmp.getMovieMap().keySet()));
+			}
 		}
 		if (comparator != null) {
 			switch (comparator.getType()) {
@@ -200,7 +206,8 @@ public class AbstractResultAdapter {
 						}
 						result = nearRespBean.getMapMovies().get(entries.get(childPosition).getKey());
 					} else {
-						String movieId = theater.getMovieMap().keySet().toArray()[childPosition].toString();
+						SortedSet<String> test;
+						String movieId = moviesForTheater.get(theater.getId()).get(childPosition);
 						result = nearRespBean.getMapMovies().get(movieId);
 					}
 				}

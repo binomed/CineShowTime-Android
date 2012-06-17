@@ -55,6 +55,8 @@ public class TheaterBean extends AbstractModel implements Parcelable {
 
 	private Map<String, List<ProjectionBean>> movieMap;
 
+	private transient String[] decomposedName;
+
 	public TheaterBean() {
 		super();
 	}
@@ -85,6 +87,7 @@ public class TheaterBean extends AbstractModel implements Parcelable {
 	}
 
 	public void setTheaterName(String theaterName) {
+		this.decomposedName = theaterName.split(" ");
 		this.theaterName = theaterName;
 	}
 
@@ -110,6 +113,10 @@ public class TheaterBean extends AbstractModel implements Parcelable {
 
 	public void setPlace(LocalisationBean place) {
 		this.place = place;
+	}
+
+	public String[] getDecomposedName() {
+		return decomposedName;
 	}
 
 	private void readFromParcel(Parcel parcel) {

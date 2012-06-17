@@ -40,6 +40,7 @@ public class ObjectMasterView extends LinearLayout {
 	private boolean kmUnit;
 	private boolean distanceTime;
 	private boolean isFav;
+	private StringBuilder strTheater = new StringBuilder();
 
 	public TheaterBean getTheaterBean() {
 		return theaterBean;
@@ -82,11 +83,26 @@ public class ObjectMasterView extends LinearLayout {
 		this.theaterBean = theaterBean;
 		this.isFav = isFav;
 
-		StringBuilder strTheater = new StringBuilder();
+		// strTheater.delete(0, strTheater.length());
+		String str = null;
 		if ((theaterBean != null) && (theaterBean.getPlace() != null) && (theaterBean.getPlace().getDistance() != null)) {
-			strTheater.append(" (");
-			strTheater.append(CineShowtimeDateNumberUtil.showDistance(theaterBean.getPlace().getDistance(), !kmUnit));
-			strTheater.append(")");
+			if (theaterBean.getPlace().getDistanceKm() == null) {
+				strTheater.setLength(0);
+				strTheater.append(" (");
+				strTheater.append(CineShowtimeDateNumberUtil.showDistance(theaterBean.getPlace().getDistance(), false));
+				strTheater.append(")");
+				theaterBean.getPlace().setDistanceKm(strTheater.toString());
+
+			}
+			if (theaterBean.getPlace().getDistanceMl() == null) {
+				strTheater.setLength(0);
+				strTheater.append(" (");
+				strTheater.append(CineShowtimeDateNumberUtil.showDistance(theaterBean.getPlace().getDistance(), true));
+				strTheater.append(")");
+				theaterBean.getPlace().setDistanceMl(strTheater.toString());
+
+			}
+			str = kmUnit ? theaterBean.getPlace().getDistanceKm() : theaterBean.getPlace().getDistanceMl();
 		}
 		if (theaterBean != null) {
 			objectName.setText(theaterBean.getTheaterName());
@@ -104,7 +120,7 @@ public class ObjectMasterView extends LinearLayout {
 			expandFav.setImageDrawable(context.getResources().getDrawable(R.drawable.vide));
 		}
 
-		objectSubContentName.setText(strTheater.toString());
+		objectSubContentName.setText(str);
 
 		objectSubContentName.setVisibility(lightFormat ? View.GONE : View.VISIBLE);
 	}
