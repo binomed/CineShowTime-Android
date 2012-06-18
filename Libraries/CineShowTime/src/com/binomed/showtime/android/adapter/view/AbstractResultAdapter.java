@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.SortedSet;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -37,7 +36,8 @@ public class AbstractResultAdapter {
 	private Map<String, TheaterBean> theatherFavList;
 	private Map<String, TheaterBean> theatherMap;
 	private HashMap<String, List<Entry<String, List<ProjectionBean>>>> projectionsThMap;
-	private HashMap<String, List<String>> moviesForTheater;
+	// private HashMap<String, List<String>> moviesForTheater;
+	private List<String>[] moviesForTheater;
 	private List<TheaterBean> theatherList;
 	private List<MovieBean> movieList;
 	private Context mainContext;
@@ -130,7 +130,7 @@ public class AbstractResultAdapter {
 		this.nearRespBean = nearRespBean;
 		this.theatherFavList = theaterFavList;
 		this.projectionsThMap = new HashMap<String, List<Entry<String, List<ProjectionBean>>>>();
-		this.moviesForTheater = new HashMap<String, List<String>>();
+		this.moviesForTheater = new List[nearRespBean.getTheaterList().size()];
 		this.theaterMapMasterView.clear();
 		this.theaterMapSubView.clear();
 		// this.projectionsMovMap = new HashMap<String, List<Entry<String, List<ProjectionBean>>>>();
@@ -138,8 +138,11 @@ public class AbstractResultAdapter {
 		if (this.nearRespBean != null) {
 			this.theatherList = this.nearRespBean.getTheaterList();
 			this.movieList = this.nearRespBean.getMapMovies() != null ? new ArrayList<MovieBean>(this.nearRespBean.getMapMovies().values()) : null;
+			int i = 0;
 			for (TheaterBean theaterTmp : this.nearRespBean.getTheaterList()) {
-				this.moviesForTheater.put(theaterTmp.getId(), new ArrayList<String>(theaterTmp.getMovieMap().keySet()));
+				// this.moviesForTheater.put(theaterTmp.getId(), new ArrayList<String>(theaterTmp.getMovieMap().keySet()));
+				this.moviesForTheater[i] = new ArrayList<String>(theaterTmp.getMovieMap().keySet());
+				i++;
 			}
 		}
 		if (comparator != null) {
@@ -206,8 +209,8 @@ public class AbstractResultAdapter {
 						}
 						result = nearRespBean.getMapMovies().get(entries.get(childPosition).getKey());
 					} else {
-						SortedSet<String> test;
-						String movieId = moviesForTheater.get(theater.getId()).get(childPosition);
+						// String movieId = moviesForTheater.get(theater.getId()).get(childPosition);
+						String movieId = moviesForTheater[groupPosition].get(childPosition);
 						result = nearRespBean.getMapMovies().get(movieId);
 					}
 				}
@@ -255,7 +258,9 @@ public class AbstractResultAdapter {
 		if (!movieView) {
 			movieBean = (MovieBean) getChild(groupPosition, childPosition);
 			theaterBean = (TheaterBean) getGroup(groupPosition);
-			theaterMapSubView.put(theaterBean.getId(), subView);
+			if (!theaterMapSubView.containsKey(theaterBean.getId())) {
+				theaterMapSubView.put(theaterBean.getId(), subView);
+			}
 		} else {
 			movieBean = (MovieBean) getGroup(groupPosition);
 			theaterBean = (TheaterBean) getChild(groupPosition, childPosition);
@@ -310,7 +315,9 @@ public class AbstractResultAdapter {
 			if ((nearRespBean != null) && nearRespBean.isHasMoreResults() && (theater == null)) {
 				objectMasterView.setTheater(null, false, false, blackTheme);
 			} else if ((theater != null) && (theater.getTheaterName() != null)) {
-				theaterMapMasterView.put(theater.getId(), objectMasterView);
+				if (!theaterMapMasterView.containsKey(theater.getId())) {
+					theaterMapMasterView.put(theater.getId(), objectMasterView);
+				}
 				objectMasterView.setTheater(theater, (theatherFavList != null) && theatherFavList.containsKey(theater.getId()), false, blackTheme);
 			}
 		} else {

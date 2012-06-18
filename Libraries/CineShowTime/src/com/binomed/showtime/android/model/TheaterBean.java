@@ -57,6 +57,8 @@ public class TheaterBean extends AbstractModel implements Parcelable {
 
 	private transient String[] decomposedName;
 
+	private transient int[] decomposedMeasure;
+
 	public TheaterBean() {
 		super();
 	}
@@ -117,6 +119,14 @@ public class TheaterBean extends AbstractModel implements Parcelable {
 
 	public String[] getDecomposedName() {
 		return decomposedName;
+	}
+
+	public int[] getDecomposedMeasure() {
+		return decomposedMeasure;
+	}
+
+	public void setDecomposedMeasure(int[] decomposedMeasure) {
+		this.decomposedMeasure = decomposedMeasure;
 	}
 
 	private void readFromParcel(Parcel parcel) {

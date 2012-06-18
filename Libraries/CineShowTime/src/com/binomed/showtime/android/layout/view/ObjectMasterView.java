@@ -15,6 +15,7 @@ package com.binomed.showtime.android.layout.view;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,10 @@ public class ObjectMasterView extends LinearLayout {
 	private boolean kmUnit;
 	private boolean distanceTime;
 	private boolean isFav;
+	private boolean blackTheme;
 	private StringBuilder strTheater = new StringBuilder();
+
+	private Drawable favOn, favOff, favDisable, vide;
 
 	public TheaterBean getTheaterBean() {
 		return theaterBean;
@@ -77,11 +81,17 @@ public class ObjectMasterView extends LinearLayout {
 		expandFav.setOnClickListener(listener);
 		objectName = (TextView) this.findViewById(R.id.object_name);
 		objectSubContentName = (TextView) this.findViewById(R.id.object_subcontent_name);
+
+		favOn = context.getResources().getDrawable(R.drawable.btn_star_big_on);
+		favOff = context.getResources().getDrawable(R.drawable.btn_star_big_off);
+		favDisable = context.getResources().getDrawable(R.drawable.btn_star_big_off_disable);
+		vide = context.getResources().getDrawable(R.drawable.vide);
 	}
 
 	public void setTheater(TheaterBean theaterBean, boolean isFav, boolean lightFormat, boolean blackTheme) {
 		this.theaterBean = theaterBean;
 		this.isFav = isFav;
+		this.blackTheme = blackTheme;
 
 		// strTheater.delete(0, strTheater.length());
 		String str = null;
@@ -111,13 +121,13 @@ public class ObjectMasterView extends LinearLayout {
 					&& !String.valueOf(HttpParamsCst.ERROR_WRONG_PLACE).equals(theaterBean.getId()) //
 					&& !String.valueOf(HttpParamsCst.ERROR_CUSTOM_MESSAGE).equals(theaterBean.getId()) //
 			) {
-				expandFav.setImageDrawable(context.getResources().getDrawable(isFav ? R.drawable.btn_star_big_on : blackTheme ? R.drawable.btn_star_big_off_disable : R.drawable.btn_star_big_off));
+				expandFav.setImageDrawable(isFav ? favOn : blackTheme ? favDisable : favOff);
 			} else {
-				expandFav.setImageDrawable(context.getResources().getDrawable(R.drawable.vide));
+				expandFav.setImageDrawable(vide);
 			}
 		} else {
 			objectName.setText(context.getResources().getString(R.string.itemMoreTheaters));
-			expandFav.setImageDrawable(context.getResources().getDrawable(R.drawable.vide));
+			expandFav.setImageDrawable(vide);
 		}
 
 		objectSubContentName.setText(str);
@@ -136,14 +146,14 @@ public class ObjectMasterView extends LinearLayout {
 			objectSubContentName.setText("");
 
 		}
-		expandFav.setImageDrawable(context.getResources().getDrawable(R.drawable.vide));
+		expandFav.setImageDrawable(vide);
 
 		objectSubContentName.setVisibility(lightFormat ? View.GONE : View.VISIBLE);
 	}
 
 	public void toggleFav() {
 		isFav = !isFav;
-		expandFav.setImageDrawable(context.getResources().getDrawable(isFav ? R.drawable.btn_star_big_on : R.drawable.btn_star_big_off));
+		expandFav.setImageDrawable(isFav ? favOn : blackTheme ? favDisable : favOff);
 	}
 
 	@Override
