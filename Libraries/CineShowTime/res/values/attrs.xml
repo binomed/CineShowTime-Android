@@ -41,6 +41,7 @@
     <attr name="cstFavTitle" format="reference"/>
     <attr name="cstFavCity" format="reference"/>
     <attr name="cstSeparator" format="reference"/>
+    <attr name="cstBgColor" format="reference"/>
     
     <declare-styleable name="cstTextStyle">
 	    <attr name="cstTextHint" format="integer"/>
