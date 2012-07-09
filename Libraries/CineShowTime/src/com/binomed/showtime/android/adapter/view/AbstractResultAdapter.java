@@ -141,7 +141,7 @@ public class AbstractResultAdapter {
 			int i = 0;
 			for (TheaterBean theaterTmp : this.nearRespBean.getTheaterList()) {
 				// this.moviesForTheater.put(theaterTmp.getId(), new ArrayList<String>(theaterTmp.getMovieMap().keySet()));
-				this.moviesForTheater[i] = new ArrayList<String>(theaterTmp.getMovieMap().keySet());
+				this.moviesForTheater[i] = new ArrayList<String>((theaterTmp != null && theaterTmp.getMovieMap() != null) ? theaterTmp.getMovieMap().keySet() : null);
 				i++;
 			}
 		}
@@ -198,7 +198,7 @@ public class AbstractResultAdapter {
 		if (theatherList != null) {
 			if (!movieView) {
 				TheaterBean theater = theatherList.get(groupPosition);
-				if (theater.getMovieMap().size() >= childPosition) {
+				if (theater.getMovieMap().size() > childPosition) {
 					if ((comparator != null) && (comparator.getClass().equals(TheaterShowtimeComparator.class))) {
 
 						List<Entry<String, List<ProjectionBean>>> entries = projectionsThMap.get(theater.getId());
@@ -207,18 +207,24 @@ public class AbstractResultAdapter {
 							Collections.sort(entries, CineShowtimeFactory.getTheaterShowtimeInnerListComparator());
 							projectionsThMap.put(theater.getId(), entries);
 						}
-						result = nearRespBean.getMapMovies().get(entries.get(childPosition).getKey());
+						if (childPosition < entries.size()) {
+							result = nearRespBean.getMapMovies().get(entries.get(childPosition).getKey());
+						}
 					} else {
 						// String movieId = moviesForTheater.get(theater.getId()).get(childPosition);
-						String movieId = moviesForTheater[groupPosition].get(childPosition);
-						result = nearRespBean.getMapMovies().get(movieId);
+						if (groupPosition < moviesForTheater.length && childPosition < moviesForTheater[groupPosition].size()) {
+							String movieId = moviesForTheater[groupPosition].get(childPosition);
+							result = nearRespBean.getMapMovies().get(movieId);
+						}
 					}
 				}
 			} else {
-				MovieBean movie = movieList.get(groupPosition);
-				if (movie.getTheaterList().size() >= childPosition) {
-					String theaterId = movie.getTheaterList().get(childPosition);
-					result = theatherMap.get(theaterId);
+				if (groupPosition < movieList.size()) {
+					MovieBean movie = movieList.get(groupPosition);
+					if (movie.getTheaterList().size() > childPosition) {
+						String theaterId = movie.getTheaterList().get(childPosition);
+						result = theatherMap.get(theaterId);
+					}
 				}
 			}
 		}
