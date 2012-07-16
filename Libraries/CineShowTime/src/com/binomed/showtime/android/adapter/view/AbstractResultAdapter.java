@@ -141,7 +141,11 @@ public class AbstractResultAdapter {
 			int i = 0;
 			for (TheaterBean theaterTmp : this.nearRespBean.getTheaterList()) {
 				// this.moviesForTheater.put(theaterTmp.getId(), new ArrayList<String>(theaterTmp.getMovieMap().keySet()));
-				this.moviesForTheater[i] = new ArrayList<String>((theaterTmp != null && theaterTmp.getMovieMap() != null) ? theaterTmp.getMovieMap().keySet() : null);
+				if (theaterTmp != null && theaterTmp.getMovieMap() != null) {
+					this.moviesForTheater[i] = new ArrayList<String>(theaterTmp.getMovieMap().keySet());
+				} else {
+					this.moviesForTheater[i] = new ArrayList<String>();
+				}
 				i++;
 			}
 		}
