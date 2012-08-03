@@ -1944,6 +1944,11 @@ Widget
         public static final int ImgLight=0x7f0a0044;
         public static final int Layouts=0x7f0a003b;
         public static final int Layouts_background=0x7f0a003e;
+        /**  Style des listes déroulantes 
+         */
+        public static final int ListBackGround=0x7f0a007c;
+        public static final int ListBackGround_Dark=0x7f0a007e;
+        public static final int ListBackGround_Light=0x7f0a007d;
         public static final int LogoDark=0x7f0a0043;
         public static final int LogoLight=0x7f0a0042;
         public static final int MovieSeparator=0x7f0a0064;
@@ -2009,22 +2014,22 @@ Widget
         public static final int TextTrailer_Light=0x7f0a007a;
         /**  Base application theme is the default theme. 
          */
-        public static final int Theme=0x7f0a0080;
+        public static final int Theme=0x7f0a0083;
         /**  Variation on our application theme that has a translucent
 	 background. 
          */
-        public static final int Theme_Dark_Night=0x7f0a0081;
+        public static final int Theme_Dark_Night=0x7f0a0084;
         public static final int Theme_GreenDroid=0x7f0a0035;
         public static final int Theme_GreenDroid_NoTitleBar=0x7f0a0036;
         /**  Variation on our application theme that has a transparent
 	background; this example completely removes the background,
 	allowing the activity to decide how to composite. 
          */
-        public static final int Theme_Shine_the_lite=0x7f0a0082;
-        public static final int Widget=0x7f0a007c;
-        public static final int Widget_HourOne=0x7f0a007f;
-        public static final int Widget_MovieOne=0x7f0a007e;
-        public static final int Widget_TheaterTitle=0x7f0a007d;
+        public static final int Theme_Shine_the_lite=0x7f0a0085;
+        public static final int Widget=0x7f0a007f;
+        public static final int Widget_HourOne=0x7f0a0082;
+        public static final int Widget_MovieOne=0x7f0a0081;
+        public static final int Widget_TheaterTitle=0x7f0a0080;
     }
     public static final class xml {
         public static final int and_showtime_preferences=0x7f050000;

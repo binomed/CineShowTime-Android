@@ -65,6 +65,9 @@ public class LastChangeDialog extends Dialog {
 		setTitle(mainContext.getResources().getString(R.string.dialogLastChangeTitle));
 		TextView contentLastChange = (TextView) findViewById(R.id.lastChangetText);
 		Spanned spanned = Html.fromHtml( //
+				"<b>v3.0.12</b><br><br>" + //
+				" * * Fix crash for tablet when change portrait to landscape <br>" + //
+				"<br>" + //
 				"<b>v3.0.11</b><br><br>" + //
 						" * * Fix somes crash bug <br>" + //
 						"<br>" + //

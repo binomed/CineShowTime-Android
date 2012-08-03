@@ -51,7 +51,8 @@
         <item name="cstFavTitle">@style/TextObjectMasterMainInfo.Fav.Dark</item>
         <item name="cstFavCity">@style/TextObjectMasterSubInfo.Fav.Dark</item>
         <item name="cstSeparator">@style/MovieSeparator.Dark</item>
-        <item name="cstBgColor">@color/baground_center_dark</item>
+        <!-- <item name="cstBgColor">@color/baground_center_dark</item>-->
+        <item name="cstBgColor">@style/ListBackGround.Dark</item>
 	  </style>
 	
 	  <!-- Variation on our application theme that has a transparent
@@ -86,7 +87,8 @@
         <item name="cstFavTitle">@style/TextObjectMasterMainInfo.Fav.Light</item>
         <item name="cstFavCity">@style/TextObjectMasterSubInfo.Fav.Light</item>
         <item name="cstSeparator">@style/MovieSeparator.Light</item>
-        <item name="cstBgColor">@color/baground_center_light</item>
+        <!-- <item name="cstBgColor">@color/baground_center_light</item>-->
+        <item name="cstBgColor">@style/ListBackGround.Light</item>
 	  </style>
 
 	  

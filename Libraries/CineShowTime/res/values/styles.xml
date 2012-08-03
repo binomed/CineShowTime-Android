@@ -14,7 +14,7 @@
  * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
  */ 
  -->
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Layouts">
     </style>
@@ -243,6 +243,17 @@
     </style>
     <style name="TextTrailer.Dark">
         <item name="android:textColor">@android:color/white</item>
+    </style>
+    
+    <!-- Style des listes déroulantes -->
+    
+    <style name="ListBackGround">
+    </style>
+    <style name="ListBackGround.Light">
+        <item name="android:cacheColorHint">@color/baground_center_light</item>
+    </style>
+    <style name="ListBackGround.Dark">
+        <item name="android:cacheColorHint">@color/baground_center_dark</item>
     </style>
     
     
